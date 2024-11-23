@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
-  <add sel="//BankingclanFactionLogic_Manager/param[@name='Faction']">
+  <add sel="//cue[@name='BankingclanFactionLogic_Manager']/param[@name='Faction']">
     <param name="PreferredHQSpaceMacro" value="macro.swi_clusterscipio_sector001_macro" comment="" />
     <param
       name="PreferredHQTypes"
