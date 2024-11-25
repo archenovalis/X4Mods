@@ -320,52 +320,64 @@
 					</cues>
 				</cue>
 
-				<cue name="Relation_Change">
+				<cue name="BankingClan_Relation_Change">
 					<conditions>
 						<event_player_relation_changed faction="faction.bankingclan" />
-						<check_value value="event.object == null and event.param != null" />
+						<check_value
+							value="event.object == null and event.param != null" />
 					</conditions>
 					<actions>
 						<set_value name="$faction" exact="event.param" />
-						<set_value name="$relation" exact="$faction.relationto.{faction.player}" />
+						<set_value name="$newRelation" exact="$faction.relationto.{faction.player}" />
 						<set_value name="$changeAmount" exact="event.param2.{1} - event.param2.{2}" />
-						<do_if value="$relation ge 1">
+						<set_value name="$change" exact="false" />
+						<do_if value="$newRelation ge 1 and $relation lt 1">
 							<set_value name="$fee" exact="$fee30" />
 							<set_value name="$rate" exact="$rate30" />
 							<set_value name="$period" exact="$period30" />
 							<set_value name="$change" exact="true" />
 						</do_if>
-						<do_elseif value="$relation ge 0.1">
+						<do_elseif
+							value="($newRelation ge 0.1 and $relation lt 0.1) or ($newRelation lt 1 and $relation ge 1)">
 							<set_value name="$fee" exact="$fee20" />
 							<set_value name="$rate" exact="$rate20" />
 							<set_value name="$period" exact="$period20" />
 							<set_value name="$change" exact="true" />
 						</do_elseif>
-						<do_elseif value="$relation ge 0.01">
+						<do_elseif
+							value="($newRelation ge 0.01 and $relation lt 0.01) or ($newRelation lt 0.1 and $relation ge 0.1)">
 							<set_value name="$fee" exact="$fee10" />
 							<set_value name="$rate" exact="$rate10" />
 							<set_value name="$period" exact="$period10" />
 							<set_value name="$change" exact="true" />
 						</do_elseif>
-						<do_elseif value="$relation ge 0">
+						<do_elseif
+							value="($newRelation ge 0 and $relation lt 0) or ($newRelation lt 0.01 and $relation ge 0.01)">
 							<set_value name="$fee" exact="$fee0" />
 							<set_value name="$rate" exact="$rate0" />
 							<set_value name="$period" exact="$period0" />
 							<set_value name="$change" exact="true" />
 						</do_elseif>
-						<do_elseif value="$relation gt -0.01">
+						<do_elseif
+							value="($newRelation gt -0.01 and $relation le -0.01) or ($newRelation lt 0 and $relation ge 0)">
 							<set_value name="$fee" exact="$fee9" />
 							<set_value name="$rate" exact="$rate9" />
 							<set_value name="$period" exact="$period9" />
 							<set_value name="$change" exact="true" />
+							<do_if value="$newRelation gt -0.01 and $relation le -0.01">
+								<set_value name="$open" exact="true" />
+							</do_if>
 						</do_elseif>
-						<do_else>
-							<set_value name="$fee" exact="1" />
+						<do_elseif
+							value="($newRelation le -0.01 and $relation gt -0.01)">
+							<set_value name="$fee" exact="0" />
 							<set_value name="$rate" exact="0" />
-							<set_value name="$period" exact="1h" />
+							<set_value name="$period" exact="0h" />
+							<set_value name="$balance" exact="0" />
 							<set_value name="$change" exact="true" />
 							<set_value name="$closed" exact="true" />
-						</do_else>
+						</do_elseif>
+						<set_value name="$relation" exact="$newRelation" />
 						<do_if value="$change and $balance gt 0">
 							<set_value name="$opening"
 								exact="'This is a Priority Message from the InterGalactic Banking Clan.'" />
@@ -376,10 +388,17 @@
 							</do_if>
 							<do_else>
 								<set_value name="$data"
-									exact="'Rate: '+$rate*100+'%\nPeriod: '+$period+'\n\n{20777, 1006} Withdrawal Fee: '+$stationFee+'%'" />
+									exact="'Rate: '+$rate*100+'%\nPeriod: '+$period/3600+'hr\n\n'+{20777, 1006}+' Withdrawal Fee: '+$fee*100+'%'" />
 								<do_if value="$changeAmount gt 0">
+									<do_if value="$open">
+										<set_value name="$statusText"
+											exact="'We are proud to announce a once in a lifetime, hurry now before it is too late, very special, just for you, opportunity to open an account with us.\n\n'" />
+									</do_if>
+									<do_else>
+										<set_value name="$statusText" exact="'Your account status has improved!\n\n'" />
+									</do_else>
 									<set_value name="$text"
-										exact="$opening+'\n\n!! Congratulations !!\n\nYour account status has improved!\n\n'+$data+'\n\nWe wish you well.'" />
+										exact="$opening+'\n\n!! Congratulations !!\n\n'+$statusText+$data+'\n\nWe wish you well.'" />
 								</do_if>
 								<do_else>
 									<set_value name="$text"
@@ -391,14 +410,15 @@
 								source="'The InterGalactic Banking Clan'"
 								title="'Account Status'"
 								text="$text" />
-							<show_help duration="8s"
+							<show_help force="true" duration="8s"
 								custom="'You have received a Priority Message from the Banking Clan'" position="20" />
 							<show_notification
 								text="'You have received a Priority Message from the Banking Clan'"
-								timeout="1s" sound="ui_mon_eve_money_up" />
+								timeout="8s" sound="ui_mon_eve_money_up" />
 							<remove_value name="$change" />
 							<remove_value name="$text" />
 						</do_if>
+						<reset_cue cue="this" />
 					</actions>
 				</cue>
 
@@ -508,6 +528,13 @@
 								<do_else>
 									<do_if value="$convoOption_Banker_Account">
 										<add_player_choice text="'Access Bank Account'" section="Banker_Account" />
+
+
+										<add_faction_relation faction="faction.bankingclan"
+											otherfaction="faction.player"
+											value="0.01" reason="relationchangereason.missioncompleted" />
+
+
 									</do_if>
 								</do_else>
 								<reset_cue cue="this" />
