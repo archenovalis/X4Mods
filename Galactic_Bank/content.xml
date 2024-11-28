@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content id="galactic_bank"
+	name="Galactic Bank" description="Invest with the InterGalactic Banking Clan" version="1.11"
+	date="2024-11-22"
+	save="0" enabled="1"
+	author="Archie">
+
+	<dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" />
+	<dependency id="SW Interworlds" optional="false" name="SW Interworlds" />
+
+</content>

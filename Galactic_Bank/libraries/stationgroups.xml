@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  <add sel="//groups">
+    <group name="bankingclan_vault">
+      <select constructionplan="vault_bankingclan" />
+    </group>
+    <group name="bankingclan_vaulthq">
+      <select constructionplan="vault_bankingclan" />
+    </group>
+  </add>
+</diff>

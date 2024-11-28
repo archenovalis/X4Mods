@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<macros>
+  <macro name="station_bankingclan_branchvault_macro" class="station">
+    <component ref="station_bankingclan_vault" />
+    <properties>
+      <identification name="'{20777,1006} {20777,1004}'"
+        icon="mapob_bankingclan_vault"
+        factionhqicon="mapob_bankingclan_vaulthq" hudicon="si_bankingclan_vault"
+        race="bankingclan" type="tradestation" />
+      <build>
+        <sets>
+          <set ref="factory" />
+        </sets>
+      </build>
+    </properties>
+    <connections>
+      <connection ref="controlroom">
+        <macro ref="control_room_macro" connection="Connection01" />
+      </connection>
+    </connections>
+  </macro>
+</macros>

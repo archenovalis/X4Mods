@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  <remove sel="//faction[@id='bankingclan']/relations/@locked" />
+
+  <!-- <replace sel="//faction[@id='bankingclan']/relations/@locked">0</replace> -->
+</diff>
