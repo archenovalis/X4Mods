@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<macros>
+  <macro name="bank_wares_macro" class="collectablewares">
+    <component ref="sm_gen_wares_common_01" />
+    <properties>
+      <identification name="{20777,1009}" unique="0" />
+      <hull max="256" />
+    </properties>
+  </macro>
+</macros>

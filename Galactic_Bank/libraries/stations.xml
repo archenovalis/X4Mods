@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <stations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/libraries.xsd"> -->
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  <add sel="//stations">
+    <station id="bankingclan_vault" group="bankingclan_vault" race="bankingclan">
+      <category tags="[tradestation, branchvault]" faction="[bankingclan]" />
+    </station>
+    <station
+      id="bankingclan_vaulthq" group="bankingclan_vaulthq" race="bankingclanhq">
+      <category tags="[tradestation, mainvault]" faction="[bankingclan]" />
+    </station>
+  </add>
+</diff>
+<!-- </stations> -->

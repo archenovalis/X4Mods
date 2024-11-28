@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aiscript name="order.sw.bank.transport"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="1">
+  <order id="SWBankTransport" name="{20777, 1011}" description="{20777, 1012}"
+    category="internal" />
+
+  <attention min="unknown">
+    <actions>
+      <label name="newRoute" />
+
+      <find_station_by_true_owner faction="faction.bankingclan" space="swi.galaxy.macro"
+        name="$stations" functional="true" multiple="true" append="true" />
+      <set_value name="$stationA" exact="$stations.random" />
+      <find_station_by_true_owner faction="faction.bankingclan" space="swi.galaxy.macro"
+        name="$stations" excluded="$stationA" functional="true" multiple="true" append="true" />
+      <set_value name="$stationB" exact="$stations.random" />
+      <set_value name="$currentStation" exact="$stationA" />
+
+      <label name="continueRoute" />
+
+      <!-- Travel to the station -->
+      <set_value name="$wait" min="15m" max="60m" />
+      <create_order id="'DockAndWait'" object="this.ship" immediate="true">
+        <param name="destination" value="$currentStation" />
+        <param name="waittime" value="$wait" />
+        <param name="callerid" value="this.assignedcontrolled.order" />
+        <param name="internalorder" value="$internalorder" />
+        <param name="debugchance" value="$debugchance" />
+      </create_order>
+
+      <wait min="60s" max="300s" />
+
+      <!-- Change Route? -->
+      <set_value name="$new" exact="true" chance="10" />
+      <do_if value="$new">
+        <set_value name="$new" exact="false" />
+        <resume label="newRoute" />
+      </do_if>
+
+      <do_else>
+        <!-- Toggle destination -->
+        <do_if value="$currentStation == $stationA">
+          <set_value name="$currentStation" exact="$stationB" />
+        </do_if>
+        <do_else>
+          <set_value name="$currentStation" exact="$stationA" />
+        </do_else>
+
+        <!-- Verify destination -->
+        <find_station_by_true_owner name="$check" faction="faction.bankingclan"
+          space="$currentStation.sector" checkoperational="true" />
+        <do_if value="$check.count gt 0">
+          <resume label="continueRoute" />
+        </do_if>
+        <do_else>
+          <resume label="newRoute" />
+        </do_else>
+      </do_else>
+    </actions>
+  </attention>
+</aiscript>
