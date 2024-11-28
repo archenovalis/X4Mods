@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  <add sel="//icons">
+    <icon name="mapob_bankingclan_vaulthq"
+      texture="extensions\galactic_bank\assets\fx\gui\textures\map_objects\mapob_bankingclan_vaulthq.tga"
+      height="128" width="128"></icon>
+    <icon name="mapob_bankingclan_vault"
+      texture="extensions\galactic_bank\assets\fx\gui\textures\map_objects\mapob_bankingclan_vault.tga"
+      height="128" width="128"></icon>
+    <icon name="si_bankingclan_vault"
+      texture="extensions\galactic_bank\assets\fx\gui\textures\stationicon\si_bankingclan_vault.tga"
+      height="128" width="128"></icon>
+  </add>
+</diff>

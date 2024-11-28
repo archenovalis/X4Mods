@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  <add sel="/index">
+    <entry
+      name="station_bankingclan_branchvault_macro"
+      value="extensions\galactic_bank\assets\structures\macros\station_bankingclan_branchvault_macro" />
+    <entry
+      name="station_bankingclan_mainvault_macro"
+      value="extensions\galactic_bank\assets\structures\macros\station_bankingclan_mainvault_macro" />
+    <entry
+      name="bank_wares_macro"
+      value="extensions\galactic_bank\assets\props\StorageModules\macros\bank_wares_macro" />
+  </add>
+</diff>
