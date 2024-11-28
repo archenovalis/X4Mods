@@ -1,82 +1,99 @@
 <?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
-  <replace sel="//people[@id='bankingclan_freighter_crew']/@id">thebankingclan_freighter_crew</replace>
-  <replace
-    sel="//people[@id='thebankingclan_freighter_crew']/person[@role='service'][@weight='30'][1]/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_freighter_crew']/person[@role='service'][@weight='30'][2]/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_freighter_crew']/person[@role='marine'][@weight='10'][1]/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_freighter_crew']/person[@role='marine'][@weight='10'][2]/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_freighter_crew']/person[@role='passenger']/select/@faction">
-    thebankingclan</replace>
-
-  <replace sel="//people[@id='bankingclan_military_crew']/@id">thebankingclan_military_crew</replace>
-  <replace
-    sel="//people[@id='thebankingclan_military_crew']/person[@role='service'][@weight='30']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_military_crew']/person[@role='service'][@weight='60']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_military_crew']/person[@role='marine'][@weight='25']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_military_crew']/person[@role='marine'][@weight='60']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_military_crew']/person[@role='prisoner']/select/@faction">
-    thebankingclan</replace>
-
-  <replace sel="//people[@id='bankingclan_veteran_freighter_crew']/@id">
-    thebankingclan_veteran_freighter_crew</replace>
-  <replace
-    sel="//people[@id='thebankingclan_veteran_freighter_crew']/person[@role='service']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_veteran_freighter_crew']/person[@role='marine']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_veteran_freighter_crew']/person[@role='passenger']/select/@faction">
-    thebankingclan</replace>
-
-  <replace sel="//people[@id='bankingclan_veteran_military_crew']/@id">
-    thebankingclan_veteran_military_crew</replace>
-  <replace
-    sel="//people[@id='thebankingclan_veteran_military_crew']/person[@role='service']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_veteran_military_crew']/person[@role='marine']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_veteran_military_crew']/person[@role='prisoner']/select/@faction">
-    thebankingclan</replace>
-
-  <replace sel="//people[@id='bankingclan_elite_freighter_crew']/@id">
-    thebankingclan_elite_freighter_crew</replace>
-  <replace
-    sel="//people[@id='thebankingclan_elite_freighter_crew']/person[@role='service']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_elite_freighter_crew']/person[@role='marine']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_elite_freighter_crew']/person[@role='passenger']/select/@faction">
-    thebankingclan</replace>
-
-  <replace sel="//people[@id='bankingclan_elite_military_crew']/@id">
-    thebankingclan_elite_military_crew</replace>
-  <replace
-    sel="//people[@id='thebankingclan_elite_military_crew']/person[@role='service']/select/@faction">
-    thebankingclan</replace>
-  <replace
-    sel="//people[@id='thebankingclan_elite_military_crew']/person[@role='marine']/select/@faction">
-    thebankingclan</replace>
+  <add pos="before" sel="//people[@id='bankingclan_freighter_crew']">
+    <people id="thebankingclan_freighter_crew">
+      <fillpercent min="50" max="95" />
+      <person role="service" weight="30">
+        <select faction="thebankingclan" tags="[service, rookie]" />
+      </person>
+      <person role="service" weight="30">
+        <select faction="thebankingclan" tags="[service, regular]" />
+      </person>
+      <person role="marine" weight="10">
+        <select faction="thebankingclan" tags="[marine, rookie]" />
+      </person>
+      <person role="marine" weight="10">
+        <select faction="thebankingclan" tags="[marine, regular]" />
+      </person>
+      <person role="passenger" weight="2">
+        <select faction="thebankingclan" tags="passenger" />
+      </person>
+    </people>
+	
+    <people id="thebankingclan_military_crew">
+      <fillpercent min="70" max="90" />
+      <person role="service" weight="30">
+        <select faction="thebankingclan" tags="[service, rookie]" />
+      </person>
+      <person role="service" weight="60">
+        <select faction="thebankingclan" tags="[service, regular]" />
+      </person>
+      <person role="marine" weight="25">
+        <select faction="thebankingclan" tags="[marine, rookie]" />
+      </person>
+      <person role="marine" weight="60">
+        <select faction="thebankingclan" tags="[marine, regular]" />
+      </person>
+      <person role="prisoner" weight="1">
+        <select faction="thebankingclan" tags="prisoner" />
+      </person>
+    </people>
+	
+    <people id="thebankingclan_veteran_freighter_crew">
+      <fillpercent min="70" max="90" />
+      <person role="service" weight="60">
+        <select faction="thebankingclan" tags="[service, veteran]" />
+      </person>
+      <person role="marine" weight="20">
+        <select faction="thebankingclan" tags="[marine, veteran]" />
+      </person>
+      <person role="passenger" weight="2">
+        <select faction="thebankingclan" tags="passenger" />
+      </person>
+    </people>
+	
+    <people id="thebankingclan_veteran_military_crew">
+      <fillpercent min="80" max="95" />
+      <person role="service" weight="60">
+        <select faction="thebankingclan" tags="[service, veteran]" />
+      </person>
+      <person role="marine" weight="45">
+        <select faction="thebankingclan" tags="[marine, veteran]" />
+      </person>
+      <person role="prisoner" weight="1">
+        <select faction="thebankingclan" tags="prisoner" />
+      </person>
+    </people>
+	
+    <people id="thebankingclan_elite_freighter_crew">
+      <fillpercent min="60" max="90" />
+      <person role="service" weight="60">
+        <select faction="thebankingclan" tags="[service, elite]" />
+      </person>
+      <person role="marine" weight="20">
+        <select faction="thebankingclan" tags="[marine, elite]" />
+      </person>
+      <person role="passenger" weight="2">
+        <select faction="thebankingclan" tags="passenger" />
+      </person>
+    </people>
+	
+    <people id="thebankingclan_elite_military_crew">
+      <fillpercent min="85" max="100" />
+      <person role="service" weight="60">
+        <select faction="thebankingclan" tags="[service, elite]" />
+      </person>
+      <person role="marine" weight="40">
+        <select faction="thebankingclan" tags="[marine, elite]" />
+      </person>
+    </people>
+  </add>
+  
+  <remove sel="//people[@id='bankingclan_freighter_crew']"/>
+  <remove sel="//people[@id='bankingclan_military_crew']"/>
+  <remove sel="//people[@id='bankingclan_veteran_freighter_crew']"/>
+  <remove sel="//people[@id='bankingclan_veteran_military_crew']"/>
+  <remove sel="//people[@id='bankingclan_elite_freighter_crew']"/>
+  <remove sel="//people[@id='bankingclan_elite_military_crew']"/>
 </diff>
