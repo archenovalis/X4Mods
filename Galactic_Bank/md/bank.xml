@@ -354,6 +354,10 @@
 								<remove_value name="$sector" />
 								<remove_value name="$station" />
 
+								<!-- disable kuertee_npc_reactions npc loans -->
+								<set_value name="md.kuertee_npc_reactions.NPCReactions.$userIsBankLoan"
+									exact="false" />
+
 								<!-- set faction relations -->
 								<set_faction_relation faction="faction.thebankingclan"
 									otherfaction="faction.anoat"
@@ -662,13 +666,6 @@
 								<do_else>
 									<do_if value="$convoOption_Banker_Account">
 										<add_player_choice text="'Access Bank Account'" section="Banker_Account" />
-
-
-										<add_faction_relation faction="faction.thebankingclan"
-											otherfaction="faction.player"
-											value="0.01" reason="relationchangereason.missioncompleted" />
-
-
 									</do_if>
 								</do_else>
 								<reset_cue cue="this" />

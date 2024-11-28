@@ -1,40 +1,39 @@
 <?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
-  <replace sel="//ships/ship[@id='bankingclan_builder_l']/@id">thebankingclan_builder_l</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_builder_l']/category/@faction">thebankingclan</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_builder_l']/pilot/select/@faction">thebankingclan</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_builder_l']/people/@ref">
-    thebankingclan_freighter_crew</replace>
-  <replace sel="//ships/ship[@id='bankingclan_trader_container_l']/@id">thebankingclan_transport_l</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_l']/@group">thebankingclan_transport_l</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_l']/category/@tags">[banking]</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_l']/category/@faction">thebankingclan</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_l']/pilot/select/@faction">thebankingclan</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_l']/pilot/select/@tags">elitepilot</replace>
-  <remove sel="//ships/ship[@id='thebankingclan_transport_l']/basket" />
-  <replace sel="//ships/ship[@id='thebankingclan_transport_l']/drop[@ref='ship_large_civilian']">
-    <drop ref="ship_large_banker" />
-  </replace>
-  <replace
-    sel="//ships/ship[@id='thebankingclan_transport_l']/people[@ref='bankingclan_freighter_crew']">
-    <people ref="thebankingclan_elite_military_crew" />
-  </replace>
-  <replace sel="//ships/ship[@id='bankingclan_trader_container_m']/@id">thebankingclan_transport_m</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_m']/@group">thebankingclan_transport_m</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_m']/category/@tags">[banking]</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_m']/category/@faction">thebankingclan</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_m']/pilot/select/@faction">thebankingclan</replace>
-  <replace sel="//ships/ship[@id='thebankingclan_transport_m']/pilot/select/@tags">elitepilot</replace>
-  <remove sel="//ships/ship[@id='thebankingclan_transport_m']/basket" />
-  <replace sel="//ships/ship[@id='thebankingclan_transport_m']/drop[@ref='ship_medium_civilian']">
-    <drop ref="ship_medium_banker" />
-  </replace>
-  <replace
-    sel="//ships/ship[@id='thebankingclan_transport_m']/people[@ref='bankingclan_freighter_crew']">
-    <people ref="thebankingclan_elite_military_crew" />
-  </replace>
-  <remove sel="//ships/comment()[4]" />
+  <add sel="//ships/ship[@id='bankingclan_builder_l']" pos="before">
+    <ship id="thebankingclan_builder_l" group="civilian_builder_l">
+      <category tags="[builder, mission]" faction="thebankingclan" size="ship_l" />
+      <pilot>
+        <select faction="thebankingclan" tags="elitepilot" />
+      </pilot>
+      <drop ref="ship_large_civilian" />
+      <people ref="thebankingclan_elite_freighter_crew" />
+    </ship>
+
+    <ship id="thebankingclan_transport_l" group="thebankingclan_transport_l">
+      <category tags="[banking]" faction="thebankingclan" size="ship_l" />
+      <pilot>
+        <select faction="thebankingclan" tags="elitepilot" />
+      </pilot>
+      <drop ref="ship_large_banker" />
+      <people ref="thebankingclan_elite_military_crew" />
+    </ship>
+
+    <ship id="thebankingclan_transport_m" group="thebankingclan_transport_m">
+      <category tags="[banking]" faction="thebankingclan" size="ship_m" />
+      <pilot>
+        <select faction="thebankingclan" tags="elitepilot" />
+      </pilot>
+      <drop ref="ship_medium_banker" />
+      <people ref="thebankingclan_elite_military_crew" />
+    </ship>
+  </add>
+  
+  
+  <remove sel="//ships/ship[@id='bankingclan_builder_l']"/>  
+  <remove sel="//ships/ship[@id='bankingclan_trader_container_l']"/>
+  <remove sel="//ships/ship[@id='bankingclan_trader_container_m']"/>  
   <remove sel="//ships/ship[@id='bankingclan_miner_solid_l']" />
   <remove sel="//ships/ship[@id='bankingclan_miner_liquid_l']" />
   <remove sel="//ships/ship[@id='bankingclan_miner_solid_m']" />

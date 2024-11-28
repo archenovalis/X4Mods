@@ -1,26 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
-  <replace
-    sel="//cue[@name='SetupStarWarsMod']/actions/set_value[@name='md.$FactionData.{faction.bankingclan}']/@name">
-    md.$FactionData.{faction.thebankingclan}</replace>
-  <replace sel="//cue[@name='BankingclanFactionLogic']/@name">TheBankingclanFactionLogic</replace>
-  <replace sel="//cue[@name='TheBankingclanFactionLogic']/cues/cue/@name">
-    TheBankingclanFactionLogic_Manager</replace>
-  <replace sel="//cue[@name='TheBankingclanFactionLogic']/cues/cue/param[@name='Faction']/@value">
-    faction.thebankingclan</replace>
-  <replace
-    sel="//cue[@name='TheBankingclanFactionLogic']/cues/cue/param[@name='BaseAvariceLevel']/@value">
-    moodlevel.high</replace>
-  <replace
-    sel="//cue[@name='TheBankingclanFactionLogic']/cues/cue/param[@name='BaseLawfulness']/@value">
-    0.9</replace>
-  <add sel="//cue[@name='TheBankingclanFactionLogic']/cues/cue/param[@name='SatelliteNetworkGoal']"
-    pos="before">
-    <param name="PreferredHQSpaceMacro" value="macro.swi_clusterscipio_sector001_macro" comment="" />
-  </add>
-  <add sel="//cue[@name='TheBankingclanFactionLogic']/cues/cue/param[@name='SatelliteNetworkGoal']"
-    pos="before">
-    <param name="PreferredHQTypes" value="['tradestation', 'any']" />
-  </add>
+  <replace sel="//cue[@name='SetupStarWarsMod']/actions/set_value[@name='md.$FactionData.{faction.bankingclan}']/@name">md.$FactionData.{faction.thebankingclan}</replace>
+  <replace sel="//cue[@name='BankingclanFactionLogic']">
+    <cue name="TheBankingclanFactionLogic">
+      <cues>
+        <cue name="TheBankingclanFactionLogic_Manager" ref="Manager">
+          <param name="Faction" value="faction.thebankingclan" />
+          <param name="BaseAggressionLevel" value="moodlevel.low" />
+          <param name="BaseAvariceLevel" value="moodlevel.high" />
+          <param name="BaseLawfulness" value="0.9" />
+          <param name="PreferredHQSpaceMacro" value="macro.swi_clusterscipio_sector001_macro" comment=" " />		  
+		  <param name="PreferredHQTypes" value="['any']" />
+          <param name="SatelliteNetworkGoal" value="0" />
+          <param name="LasertowerNetworkGoal" value="0" />
+          <param name="MinefieldGoalPerSector" value="0" comment="[MGPS * Sectors, 12].min is the maximum amount of Minefields for this faction" />
+          <param name="DebugChance" value="0" />
+          <param name="DebugChance2" value="0" />
+        </cue>
+      </cues>
+    </cue>
+  </replace>
 </diff>
