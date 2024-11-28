@@ -5,11 +5,11 @@
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="//stations">
     <station id="bankingclan_vault" group="bankingclan_vault" race="bankingclan">
-      <category tags="[tradestation, branchvault]" faction="[bankingclan]" />
+      <category tags="[tradestation, branchvault]" faction="[thebankingclan]" />
     </station>
     <station
       id="bankingclan_vaulthq" group="bankingclan_vaulthq" race="bankingclanhq">
-      <category tags="[tradestation, mainvault]" faction="[bankingclan]" />
+      <category tags="[tradestation, mainvault]" faction="[thebankingclan]" />
     </station>
   </add>
 </diff>
