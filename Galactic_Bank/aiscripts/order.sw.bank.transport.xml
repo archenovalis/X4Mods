@@ -9,10 +9,10 @@
     <actions>
       <label name="newRoute" />
 
-      <find_station_by_true_owner faction="faction.bankingclan" space="swi.galaxy.macro"
+      <find_station_by_true_owner faction="faction.thebankingclan" space="swi.galaxy.macro"
         name="$stations" functional="true" multiple="true" append="true" />
       <set_value name="$stationA" exact="$stations.random" />
-      <find_station_by_true_owner faction="faction.bankingclan" space="swi.galaxy.macro"
+      <find_station_by_true_owner faction="faction.thebankingclan" space="swi.galaxy.macro"
         name="$stations" excluded="$stationA" functional="true" multiple="true" append="true" />
       <set_value name="$stationB" exact="$stations.random" />
       <set_value name="$currentStation" exact="$stationA" />
@@ -48,7 +48,7 @@
         </do_else>
 
         <!-- Verify destination -->
-        <find_station_by_true_owner name="$check" faction="faction.bankingclan"
+        <find_station_by_true_owner name="$check" faction="faction.thebankingclan"
           space="$currentStation.sector" checkoperational="true" />
         <do_if value="$check.count gt 0">
           <resume label="continueRoute" />
