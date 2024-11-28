@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  <add sel="/characters">
+    <character id="factionrepresentative_thebankingclan" group="argon.factionrepresentative.male">
+      <category tags="[factionrepresentative]" faction="thebankingclan" race="argon" />
+      <skills>
+        <skill type="management" min="10" max="15" />
+        <skill type="morale" max="15" />
+
+        <skill type="boarding" min="6" max="15" />
+        <skill type="engineering" min="5" max="15" />
+        <skill type="piloting" min="11" max="15" />
+      </skills>
+      <page exact="10101" />
+      <owner exact="thebankingclan" />
+    </character>
+  </add>
+  <remove sel="//character[@id='factionrepresentative_bankingclan']" />
+</diff>

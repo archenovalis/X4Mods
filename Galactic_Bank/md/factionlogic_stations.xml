@@ -6,7 +6,7 @@
   <add
     sel="/mdscript/cues/library[@name='Manage_Stations']/cues/cue[@name='Process']/cues/cue[@name='Analyse_Stations']/actions/do_elseif[@value='@$DesiredTradeStationPatchMarker']"
     pos="after">
-    <do_elseif value="$Faction == faction.bankingclan">
+    <do_elseif value="$Faction == faction.thebankingclan">
       <set_value name="$DesiredTradeStation" exact="0" />
     </do_elseif>
   </add>
@@ -28,7 +28,8 @@ $RelevantSectors.count"
 
   <add sel="//set_value[@name='$PreferredSectors']">
     <!-- BEGIN Banking Clan's Vault -->
-    <do_if value="$Faction == faction.bankingclan">
+    <do_if
+      value="$Faction == faction.thebankingclan">
 
       <set_value name="$DesiredTradeStation" exact="9" />
       <do_if value="$TradeStationCount lt $DesiredTradeStation">
