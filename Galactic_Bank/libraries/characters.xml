@@ -1,6 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  <replace sel="//character[@id='trader_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='trader_scum_random']/owner/@list">[huttcartel, anoat, huttpirates,
+    valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg]</replace>
+  <replace sel="//character[@id='fighter_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='fighter_scum_random']/owner/@list">[huttcartel, anoat, huttpirates,
+    valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg]</replace>
+  <replace sel="//character[@id='manager_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='manager_scum_random']/owner/@list">[huttcartel, anoat, huttpirates,
+    valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg]</replace>
+  <replace sel="//character[@id='service_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='service_scum_random']/owner/@list">[huttcartel, anoat, huttpirates,
+    valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg]</replace>
+  <replace sel="//character[@id='marine_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='marine_scum_random']/owner/@list">[huttcartel, anoat, huttpirates,
+    valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg]</replace>
+  <replace sel="//character[@id='fighter_scum_regular_random']/category/@faction">[huttcartel,
+    anoat, huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge,
+    miningguild, transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='fighter_scum_regular_random']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='manager_scum_regular_random']/category/@faction">[huttcartel,
+    anoat, huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge,
+    miningguild, transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='manager_scum_regular_random']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='passenger_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='passenger_scum_random']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='prisoner_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='prisoner_scum_random']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='service_scum_random_rookie']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='service_scum_random_rookie']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='marine_scum_random_rookie']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='marine_scum_random_rookie']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='fighter_scum_random_rookie']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='fighter_scum_random_rookie']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='service_scum_random_veteran']/category/@faction">[huttcartel,
+    anoat, huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge,
+    miningguild, transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='service_scum_random_veteran']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='marine_scum_random_veteran']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='marine_scum_random_veteran']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='service_scum_random_elite']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='service_scum_random_elite']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='marine_scum_random_elite']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='marine_scum_random_elite']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='fighter_scum_random_elite']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='fighter_scum_random_elite']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='platform_trader_scum_random']/category/@faction">[huttcartel,
+    anoat, huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge,
+    miningguild, transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='platform_trader_scum_random']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='ship_trader_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='ship_trader_scum_random']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='shadyguy_scum_random']/category/@faction">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg, faction.player]</replace>
+  <replace sel="//character[@id='shadyguy_scum_random']/owner/@list">[huttcartel, anoat,
+    huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild,
+    transgalmeg]</replace>
+  <replace sel="//character[@id='scum_casual']/category/@faction">[huttcartel, anoat, huttpirates,
+    valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg,
+    faction.player]</replace>
+  <replace sel="//character[@id='scum_casual']/owner/@list">[huttcartel, anoat, huttpirates,
+    valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg]</replace>
+
+  <!-- make bankingclan save compatible -->
   <add sel="/characters">
     <character id="factionrepresentative_thebankingclan" group="argon.factionrepresentative.male">
       <category tags="[factionrepresentative]" faction="thebankingclan" race="argon" />
