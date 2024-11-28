@@ -41,3 +41,6 @@ Banking Clan has ships that transport credits between vaults
 cleaned up
 removed 2 (lag causing?) docks from vault station
 should now be save compatible (faction relations updated upon install)
+
+1.12
+should now be save compatible
