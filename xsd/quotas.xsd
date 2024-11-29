@@ -1,24 +1,21 @@
-<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
   <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="diff.xsd" />
 
   <!-- ===== Simple types ==== -->
 
   <xs:simpleType name="quota_macro">
     <xs:annotation>
-      <xs:documentation>
-        Macro
-      </xs:documentation>
+      <xs:documentation> Macro </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string" />
   </xs:simpleType>
 
   <xs:simpleType name="quota_missiontype">
     <xs:annotation>
-      <xs:documentation>
-        Mission type
-      </xs:documentation>
+      <xs:documentation> Mission type </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="plot" />
@@ -65,9 +62,7 @@
 
   <xs:simpleType name="quota_actortype">
     <xs:annotation>
-      <xs:documentation>
-        Actor (entity) type
-      </xs:documentation>
+      <xs:documentation> Actor (entity) type </xs:documentation>
     </xs:annotation>
     <xs:restriction base="entitytypelookup" />
   </xs:simpleType>
@@ -84,9 +79,7 @@
 
   <xs:simpleType name="quota_docktype">
     <xs:annotation>
-      <xs:documentation>
-        Dock population type
-      </xs:documentation>
+      <xs:documentation> Dock population type </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="build" />
@@ -101,9 +94,7 @@
 
   <xs:simpleType name="quota_cratetype">
     <xs:annotation>
-      <xs:documentation>
-        Crate visibility type
-      </xs:documentation>
+      <xs:documentation> Crate visibility type </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="exposed" />
@@ -129,9 +120,8 @@
     <xs:attribute name="max" type="xs:nonNegativeInteger" />
     <xs:attribute name="chance">
       <xs:annotation>
-        <xs:documentation>
-          Chance percentage of this item being part of the content, if evaluated amount is nonzero (defaults to 100)
-        </xs:documentation>
+        <xs:documentation> Chance percentage of this item being part of the content, if evaluated
+          amount is nonzero (defaults to 100) </xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:restriction base="xs:float">
@@ -146,9 +136,7 @@
 
   <xs:complexType name="quota_offer">
     <xs:annotation>
-      <xs:documentation>
-        Quota definition for mission type
-      </xs:documentation>
+      <xs:documentation> Quota definition for mission type </xs:documentation>
     </xs:annotation>
     <xs:attribute name="type" type="quota_missiontype" use="required" />
     <xs:attribute name="weight" type="xs:nonNegativeInteger" />
@@ -157,9 +145,7 @@
 
   <xs:complexType name="quota_offers">
     <xs:annotation>
-      <xs:documentation>
-        Mission offer quota definition
-      </xs:documentation>
+      <xs:documentation> Mission offer quota definition </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="offer" type="quota_offer" minOccurs="0" maxOccurs="unbounded" />
@@ -177,9 +163,7 @@
 
   <xs:complexType name="quota_actor_base">
     <xs:annotation>
-      <xs:documentation>
-        Quota definition for actor type
-      </xs:documentation>
+      <xs:documentation> Quota definition for actor type </xs:documentation>
     </xs:annotation>
     <xs:attribute name="type" type="quota_actortype" use="required" />
     <xs:attribute name="weight" type="xs:nonNegativeInteger" />
@@ -191,9 +175,7 @@
 
   <xs:complexType name="quota_actors_base">
     <xs:annotation>
-      <xs:documentation>
-        Actor quota definition
-      </xs:documentation>
+      <xs:documentation> Actor quota definition </xs:documentation>
     </xs:annotation>
     <xs:attribute name="zonelimit" type="quota_limit" />
     <xs:attribute name="stationlimit" type="quota_limit" />
@@ -203,9 +185,7 @@
 
   <xs:complexType name="quota_dock">
     <xs:annotation>
-      <xs:documentation>
-        Overrides the general actor weight for the specified dock population type
-      </xs:documentation>
+      <xs:documentation> Overrides the general actor weight for the specified dock population type </xs:documentation>
     </xs:annotation>
     <xs:attribute name="type" type="quota_docktype" use="required" />
     <xs:attribute name="weight" type="xs:nonNegativeInteger" use="required" />
@@ -267,24 +247,18 @@
 
   <xs:complexType name="quota_crate">
     <xs:annotation>
-      <xs:documentation>
-        Quota definition for crate type
-      </xs:documentation>
+      <xs:documentation> Quota definition for crate type </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="content" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
-          <xs:documentation>
-            Candidate for crate content
-          </xs:documentation>
+          <xs:documentation> Candidate for crate content </xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
             <xs:element name="ware" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
-                <xs:documentation>
-                  Ware amount definition
-                </xs:documentation>
+                <xs:documentation> Ware amount definition </xs:documentation>
               </xs:annotation>
               <xs:complexType>
                 <xs:attribute name="ware" type="xs:string" use="required" />
@@ -293,9 +267,7 @@
             </xs:element>
             <xs:element name="money" minOccurs="0" maxOccurs="1">
               <xs:annotation>
-                <xs:documentation>
-                  Money
-                </xs:documentation>
+                <xs:documentation> Money </xs:documentation>
               </xs:annotation>
               <xs:complexType>
                 <xs:attributeGroup ref="quota_wareamount" />
@@ -304,9 +276,7 @@
           </xs:sequence>
           <xs:attribute name="tags">
             <xs:annotation>
-              <xs:documentation>
-                Crate connection tag restrictions for this content
-              </xs:documentation>
+              <xs:documentation> Crate connection tag restrictions for this content </xs:documentation>
             </xs:annotation>
             <xs:simpleType>
               <xs:list itemType="quota_cratetag" />
@@ -316,16 +286,14 @@
         </xs:complexType>
       </xs:element>
     </xs:sequence>
-    <xs:attribute name="type" type="quota_cratetype" use="required"/>
+    <xs:attribute name="type" type="quota_cratetype" use="required" />
     <xs:attribute name="weight" type="xs:nonNegativeInteger" use="required" />
-    <xs:attribute name="roomlimit" type="quota_limit"/>
+    <xs:attribute name="roomlimit" type="quota_limit" />
   </xs:complexType>
 
   <xs:complexType name="quota_crates">
     <xs:annotation>
-      <xs:documentation>
-        Crate quota definition
-      </xs:documentation>
+      <xs:documentation> Crate quota definition </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="crate" type="quota_crate" minOccurs="0" maxOccurs="unbounded" />
@@ -337,33 +305,25 @@
 
   <xs:complexType name="quota_crafting">
     <xs:annotation>
-      <xs:documentation>
-        Crafting crate quota definition
-      </xs:documentation>
+      <xs:documentation> Crafting crate quota definition </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="ware" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
-          <xs:documentation>
-            Crafting ware definition
-          </xs:documentation>
+          <xs:documentation> Crafting ware definition </xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
             <xs:element name="crate" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
-                <xs:documentation>
-                  Crate candidate for a crafting resource
-                </xs:documentation>
+                <xs:documentation> Crate candidate for a crafting resource </xs:documentation>
               </xs:annotation>
               <xs:complexType>
                 <xs:attribute name="weight" type="xs:nonNegativeInteger" use="required" />
-                <xs:attribute name="type" type="quota_cratetype" use="required"/>
+                <xs:attribute name="type" type="quota_cratetype" use="required" />
                 <xs:attribute name="tags">
                   <xs:annotation>
-                    <xs:documentation>
-                      Crate connection tag restrictions for this crate
-                    </xs:documentation>
+                    <xs:documentation> Crate connection tag restrictions for this crate </xs:documentation>
                   </xs:annotation>
                   <xs:simpleType>
                     <xs:list itemType="quota_cratetag" />
@@ -371,9 +331,8 @@
                 </xs:attribute>
                 <xs:attribute name="ware" type="xs:string">
                   <xs:annotation>
-                    <xs:documentation>
-                      Crafting resource ware (optional - if present, only crate definitions with this ware will be considered for placing the resource)
-                    </xs:documentation>
+                    <xs:documentation> Crafting resource ware (optional - if present, only crate
+                      definitions with this ware will be considered for placing the resource) </xs:documentation>
                   </xs:annotation>
                 </xs:attribute>
               </xs:complexType>
@@ -386,9 +345,8 @@
     </xs:sequence>
     <xs:attribute name="chance">
       <xs:annotation>
-        <xs:documentation>
-          Chance percentage of crates with crafting items being spawned for a station (defaults to 100)
-        </xs:documentation>
+        <xs:documentation> Chance percentage of crates with crafting items being spawned for a
+          station (defaults to 100) </xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:restriction base="xs:float">
@@ -403,9 +361,7 @@
 
   <xs:complexType name="quota_zone">
     <xs:annotation>
-      <xs:documentation>
-        Zone
-      </xs:documentation>
+      <xs:documentation> Zone </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="offers" type="quota_offers" minOccurs="0" maxOccurs="1" />
@@ -418,9 +374,7 @@
 
   <xs:complexType name="quota_sector">
     <xs:annotation>
-      <xs:documentation>
-        Sector
-      </xs:documentation>
+      <xs:documentation> Sector </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="offers" type="quota_offers" minOccurs="0" maxOccurs="1" />
@@ -436,9 +390,7 @@
 
   <xs:complexType name="quota_cluster">
     <xs:annotation>
-      <xs:documentation>
-        Cluster
-      </xs:documentation>
+      <xs:documentation> Cluster </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="offers" type="quota_offers" minOccurs="0" maxOccurs="1" />
@@ -457,9 +409,7 @@
 
   <xs:element name="quotas">
     <xs:annotation>
-      <xs:documentation>
-        Mission quota definitions
-      </xs:documentation>
+      <xs:documentation> Mission quota definitions </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
@@ -475,9 +425,8 @@
       </xs:sequence>
       <xs:attribute name="loadmacros" type="xs:boolean">
         <xs:annotation>
-          <xs:documentation>
-            Load macros even if they are not used in the universe map? May be useful to detect typos. (default is false)
-          </xs:documentation>
+          <xs:documentation> Load macros even if they are not used in the universe map? May be
+            useful to detect typos. (default is false) </xs:documentation>
         </xs:annotation>
       </xs:attribute>
     </xs:complexType>

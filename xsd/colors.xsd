@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
   <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="diff.xsd" />
 
   <xs:simpleType name="idstring">
     <xs:restriction base="xs:string">
@@ -15,7 +16,7 @@
       <xs:maxInclusive value="255" />
     </xs:restriction>
   </xs:simpleType>
-  
+
   <xs:simpleType name="glowvalue">
     <xs:restriction base="xs:float">
       <xs:minInclusive value="0.0" />
@@ -32,59 +33,43 @@
 
   <xs:complexType name="transformationrow">
     <xs:annotation>
-      <xs:documentation>
-        A transformation row definition
-      </xs:documentation>
+      <xs:documentation> A transformation row definition </xs:documentation>
     </xs:annotation>
     <xs:attribute name="red" type="transformationvalue">
       <xs:annotation>
-        <xs:documentation>
-          Coefficient that multiplies red component to get this row's component
-        </xs:documentation>
+        <xs:documentation> Coefficient that multiplies red component to get this row's component </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="green" type="transformationvalue">
       <xs:annotation>
-        <xs:documentation>
-          Coefficient that multiplies green component to get this row's component
-        </xs:documentation>
+        <xs:documentation> Coefficient that multiplies green component to get this row's component </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="blue" type="transformationvalue">
       <xs:annotation>
-        <xs:documentation>
-          Coefficient that multiplies blue component to get this row's component
-        </xs:documentation>
+        <xs:documentation> Coefficient that multiplies blue component to get this row's component </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="long" type="transformationvalue">
       <xs:annotation>
-        <xs:documentation>
-          Coefficient that multiplies long component to get this row's component
-        </xs:documentation>
+        <xs:documentation> Coefficient that multiplies long component to get this row's component </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="middle" type="transformationvalue">
       <xs:annotation>
-        <xs:documentation>
-          Coefficient that multiplies middle component to get this row's component
-        </xs:documentation>
+        <xs:documentation> Coefficient that multiplies middle component to get this row's component </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="short" type="transformationvalue">
       <xs:annotation>
-        <xs:documentation>
-          Coefficient that multiplies short component to get this row's component
-        </xs:documentation>
+        <xs:documentation> Coefficient that multiplies short component to get this row's component </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="transformation">
     <xs:annotation>
-      <xs:documentation>
-        A colorspace transformation definition
-      </xs:documentation>
+      <xs:documentation> A colorspace transformation definition </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="red" type="transformationrow" minOccurs="0" maxOccurs="1" />
@@ -96,97 +81,71 @@
     </xs:sequence>
     <xs:attribute name="name" type="idstring" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Transformation name
-        </xs:documentation>
+        <xs:documentation> Transformation name </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="type" type="idstring" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Tranformation type
-        </xs:documentation>
+        <xs:documentation> Tranformation type </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="color">
     <xs:annotation>
-      <xs:documentation>
-        A color definition
-      </xs:documentation>
+      <xs:documentation> A color definition </xs:documentation>
     </xs:annotation>
     <xs:attribute name="id" type="idstring" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Color ID
-        </xs:documentation>
+        <xs:documentation> Color ID </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="r" type="colorvalue" default="0">
       <xs:annotation>
-        <xs:documentation>
-          Red value (default = 0)
-        </xs:documentation>
+        <xs:documentation> Red value (default = 0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="g" type="colorvalue" default="0">
       <xs:annotation>
-        <xs:documentation>
-          Green value (default = 0)
-        </xs:documentation>
+        <xs:documentation> Green value (default = 0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="b" type="colorvalue" default="0">
       <xs:annotation>
-        <xs:documentation>
-          Blue value (default = 0)
-        </xs:documentation>
+        <xs:documentation> Blue value (default = 0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="a" type="colorvalue" default="255">
       <xs:annotation>
-        <xs:documentation>
-          Alpha value (default = 255)
-        </xs:documentation>
+        <xs:documentation> Alpha value (default = 255) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="glow" type="glowvalue" default="0">
       <xs:annotation>
-        <xs:documentation>
-          Glow value (default = 0.0)
-        </xs:documentation>
+        <xs:documentation> Glow value (default = 0.0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="mapping">
     <xs:annotation>
-      <xs:documentation>
-        A mapping for using a color
-      </xs:documentation>
+      <xs:documentation> A mapping for using a color </xs:documentation>
     </xs:annotation>
     <xs:attribute name="id" type="idstring" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Reference ID
-        </xs:documentation>
+        <xs:documentation> Reference ID </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="ref" type="idstring" use="required">
       <xs:annotation>
-        <xs:documentation>
-          The color reference
-        </xs:documentation>
+        <xs:documentation> The color reference </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="daltonization">
     <xs:annotation>
-      <xs:documentation>
-        Daltonization definitions
-      </xs:documentation>
+      <xs:documentation> Daltonization definitions </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="transformation" type="transformation" minOccurs="0" maxOccurs="unbounded" />
@@ -195,9 +154,7 @@
 
   <xs:complexType name="colors">
     <xs:annotation>
-      <xs:documentation>
-        Color definitions
-      </xs:documentation>
+      <xs:documentation> Color definitions </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="color" type="color" minOccurs="0" maxOccurs="unbounded" />
@@ -206,9 +163,7 @@
 
   <xs:complexType name="mappings">
     <xs:annotation>
-      <xs:documentation>
-        Color mappings
-      </xs:documentation>
+      <xs:documentation> Color mappings </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="mapping" type="mapping" minOccurs="0" maxOccurs="unbounded" />
@@ -217,9 +172,7 @@
 
   <xs:element name="colormap">
     <xs:annotation>
-      <xs:documentation>
-        Document element of colors.xml
-      </xs:documentation>
+      <xs:documentation> Document element of colors.xml </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>

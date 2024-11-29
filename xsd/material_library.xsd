@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="diff.xsd" />
 
   <xs:simpleType name="blendmodelookup">
     <xs:restriction base="xs:string">
@@ -60,12 +62,10 @@
       <xs:enumeration value="noenvmap" />
     </xs:restriction>
   </xs:simpleType>
-  
+
   <xs:element name="materiallibrary">
     <xs:annotation>
-      <xs:documentation>
-        Root element of material_library.xml
-      </xs:documentation>
+      <xs:documentation> Root element of material_library.xml </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -109,9 +109,7 @@
                   </xs:sequence>
                   <xs:attribute name="name" use="required">
                     <xs:annotation>
-                      <xs:documentation>
-                        Name
-                      </xs:documentation>
+                      <xs:documentation> Name </xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="shader" use="required" />
@@ -119,9 +117,7 @@
                   <xs:attribute name="priority" type="xs:integer" />
                   <xs:attribute name="tags">
                     <xs:annotation>
-                      <xs:documentation>
-                        Tags
-                      </xs:documentation>
+                      <xs:documentation> Tags </xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                       <xs:list itemType="materialtaglookup" />
@@ -130,9 +126,7 @@
                   <xs:attribute name="preview" />
                   <xs:attribute name="ref" use="optional">
                     <xs:annotation>
-                      <xs:documentation>
-                        Source material (must appear earlier in the file)
-                      </xs:documentation>
+                      <xs:documentation> Source material (must appear earlier in the file) </xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                 </xs:complexType>
@@ -140,12 +134,10 @@
             </xs:sequence>
             <xs:attribute name="name" use="required">
               <xs:annotation>
-                <xs:documentation>
-                  Name
-                </xs:documentation>
+                <xs:documentation> Name </xs:documentation>
               </xs:annotation>
             </xs:attribute>
-           </xs:complexType>
+          </xs:complexType>
           <xs:key name="material_name">
             <xs:selector xpath="material" />
             <xs:field xpath="@name" />

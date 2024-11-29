@@ -63,7 +63,14 @@ const addFilesToZip = async (projectFolder: string, zip: JSZip, dir: string, bas
       let relativePath = `${projectFolder}/${relative(baseDir, itemPath)}`;
       if (itemPath.endsWith('.xml')) {
         // Clean schema location
-        const xml = readFileSync(itemPath, 'utf8').replace(/SchemaLocation\=\"\.\.\/.*xsd\//g, 'SchemaLocation="');
+        let xml = readFileSync(itemPath, 'utf8');
+        // check xml second line for <type>
+        function type(xml: string) {
+          xml.replace('\r', '')
+          return xml.match(/\s*?<diff>\s*?$/)
+        }
+        if (type(xml)) xml.replace(/SchemaLocation\=\"\.\.\/.*xsd\/.*\.xsd/g, 'SchemaLocation="diff.xsd');
+        else  xml.replace(/SchemaLocation\=\"\.\.\/.*xsd\//g, 'SchemaLocation="');
         zip.file(relativePath, xml);
       } else if (itemPath.endsWith('.tga')) {
         // Gzip and add .tga files

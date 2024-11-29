@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
   <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="diff.xsd" />
 
   <xs:simpleType name="iconid">
     <xs:restriction base="idname" />
@@ -10,16 +11,12 @@
   <xs:complexType name="icon">
     <xs:attribute name="active" type="iconid" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Active icon id for faction
-        </xs:documentation>
+        <xs:documentation> Active icon id for faction </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="inactive" type="iconid" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Inactive icon id for faction
-        </xs:documentation>
+        <xs:documentation> Inactive icon id for faction </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -34,30 +31,22 @@
 
   <xs:simpleType name="relationvalue">
     <xs:annotation>
-      <xs:documentation>
-        Relationship value
-      </xs:documentation>
+      <xs:documentation> Relationship value </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
       <xs:enumeration value="-1">
         <xs:annotation>
-          <xs:documentation>
-            I do not like you
-          </xs:documentation>
+          <xs:documentation> I do not like you </xs:documentation>
         </xs:annotation>
       </xs:enumeration>
       <xs:enumeration value="1">
         <xs:annotation>
-          <xs:documentation>
-            I like you
-          </xs:documentation>
+          <xs:documentation> I like you </xs:documentation>
         </xs:annotation>
       </xs:enumeration>
       <xs:enumeration value="0">
         <xs:annotation>
-          <xs:documentation>
-            I am neutral towards you
-          </xs:documentation>
+          <xs:documentation> I am neutral towards you </xs:documentation>
         </xs:annotation>
       </xs:enumeration>
     </xs:restriction>
@@ -70,16 +59,12 @@
   <xs:complexType name="relation">
     <xs:attribute name="race" type="racelookup">
       <xs:annotation>
-        <xs:documentation>
-          Faction id for relationship
-        </xs:documentation>
+        <xs:documentation> Faction id for relationship </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="relation" type="relationvalue">
       <xs:annotation>
-        <xs:documentation>
-          Relation value for relationship
-        </xs:documentation>
+        <xs:documentation> Relation value for relationship </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -88,9 +73,7 @@
     <xs:sequence>
       <xs:element name="relation" type="relation" minOccurs="1" maxOccurs="unbounded">
         <xs:annotation>
-          <xs:documentation>
-            Relation for one faction to another
-          </xs:documentation>
+          <xs:documentation> Relation for one faction to another </xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -99,30 +82,22 @@
   <xs:complexType name="characterspeed">
     <xs:attribute name="acceleration" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Default acceleration (in meters/s^2) for a character of this race
-        </xs:documentation>
+        <xs:documentation> Default acceleration (in meters/s^2) for a character of this race </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="slowwalk" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Default slowwalk speed (in meters/s) for a character of this race
-        </xs:documentation>
+        <xs:documentation> Default slowwalk speed (in meters/s) for a character of this race </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="walk" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Default walk speed (in meters/s) for a character of this race
-        </xs:documentation>
+        <xs:documentation> Default walk speed (in meters/s) for a character of this race </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="run" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Default run speed (in meters/s) for a character of this race
-        </xs:documentation>
+        <xs:documentation> Default run speed (in meters/s) for a character of this race </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -130,23 +105,17 @@
   <xs:complexType name="charactereventmonitor">
     <xs:attribute name="adjusty" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Height adjustment for character sitting in event monitor
-        </xs:documentation>
+        <xs:documentation> Height adjustment for character sitting in event monitor </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="adjustz" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Depth adjustment for character sitting in event monitor
-        </xs:documentation>
+        <xs:documentation> Depth adjustment for character sitting in event monitor </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="facecutscenekey" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Key for character in-universe face cutscenes (defaults to 'ShowNPCFace')
-        </xs:documentation>
+        <xs:documentation> Key for character in-universe face cutscenes (defaults to 'ShowNPCFace') </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -154,9 +123,7 @@
   <xs:complexType name="characterspacesuit">
     <xs:attribute name="ref" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Spacesuit macro ID
-        </xs:documentation>
+        <xs:documentation> Spacesuit macro ID </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -165,38 +132,28 @@
     <xs:sequence>
       <xs:element name="speed" type="characterspeed" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Character speed definition
-          </xs:documentation>
+          <xs:documentation> Character speed definition </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="eventmonitor" type="charactereventmonitor" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Position adjustment when sitting in event monitor
-          </xs:documentation>
+          <xs:documentation> Position adjustment when sitting in event monitor </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="spacesuit" type="characterspacesuit" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Character spacesuit defaults
-          </xs:documentation>
+          <xs:documentation> Character spacesuit defaults </xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
     <xs:attribute name="height" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Default height (in meters) for a character of this race
-        </xs:documentation>
+        <xs:documentation> Default height (in meters) for a character of this race </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="width" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Default width (in meters) for a character of this race
-        </xs:documentation>
+        <xs:documentation> Default width (in meters) for a character of this race </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -204,16 +161,14 @@
   <xs:complexType name="chairsteering">
     <xs:attribute name="trigger" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Chair steering trigger used for members of this race (default: activate_chair_steering)
-        </xs:documentation>
+        <xs:documentation> Chair steering trigger used for members of this race (default:
+          activate_chair_steering) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="animation" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Chair steering animation used for members of this race (default: chair_steering_active)
-        </xs:documentation>
+        <xs:documentation> Chair steering animation used for members of this race (default:
+          chair_steering_active) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -222,24 +177,20 @@
     <xs:sequence>
       <xs:element name="steering" type="chairsteering" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Chair steering animation
-          </xs:documentation>
+          <xs:documentation> Chair steering animation </xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
     <xs:attribute name="config" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Chair configuration used for members of this race (default: chairconfig_default)
-        </xs:documentation>
+        <xs:documentation> Chair configuration used for members of this race (default:
+          chairconfig_default) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="animation" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Chair animation used for members of this race (default: chair_default_active)
-        </xs:documentation>
+        <xs:documentation> Chair animation used for members of this race (default:
+          chair_default_active) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -247,30 +198,22 @@
   <xs:complexType name="trail">
     <xs:attribute name="brightness" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Brightness shift value (default is 1.0)
-        </xs:documentation>
+        <xs:documentation> Brightness shift value (default is 1.0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="contrast" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Contrast shift value (default is 1.0)
-        </xs:documentation>
+        <xs:documentation> Contrast shift value (default is 1.0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="saturation" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Saturation shift value (default is 1.0)
-        </xs:documentation>
+        <xs:documentation> Saturation shift value (default is 1.0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="hue" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Hue shift value (default is 0.0)
-        </xs:documentation>
+        <xs:documentation> Hue shift value (default is 0.0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
@@ -279,101 +222,75 @@
     <xs:sequence>
       <xs:element name="chair" type="chair" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Chair definitions
-          </xs:documentation>
+          <xs:documentation> Chair definitions </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="character" type="character" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Character definitions
-          </xs:documentation>
+          <xs:documentation> Character definitions </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="icon" type="icon" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Icons for a faction
-          </xs:documentation>
+          <xs:documentation> Icons for a faction </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="relations" type="relations" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Relations for a race
-          </xs:documentation>
+          <xs:documentation> Relations for a race </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="trail" type="trail" minOccurs="0" maxOccurs="1">
         <xs:annotation>
-          <xs:documentation>
-            Trail parameters
-          </xs:documentation>
+          <xs:documentation> Trail parameters </xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
     <xs:attribute name="id" type="raceid">
       <xs:annotation>
-        <xs:documentation>
-          Race id
-        </xs:documentation>
+        <xs:documentation> Race id </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Race name
-        </xs:documentation>
+        <xs:documentation> Race name </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="description" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Race description
-        </xs:documentation>
+        <xs:documentation> Race description </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="shortname" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Short race name (i.e. abbreviation)
-        </xs:documentation>
+        <xs:documentation> Short race name (i.e. abbreviation) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="spacename" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Race space name
-        </xs:documentation>
+        <xs:documentation> Race space name </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="homespacename" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Race home space name
-        </xs:documentation>
+        <xs:documentation> Race home space name </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="names" type="xs:string">
       <xs:annotation>
-        <xs:documentation>
-          Text page ID for names of members of this race
-        </xs:documentation>
+        <xs:documentation> Text page ID for names of members of this race </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="constructionbias" type="xs:float">
       <xs:annotation>
-        <xs:documentation>
-          Construction direction bias (use range 0.1 to 10.0 where less than 1.0 prefers vertical connections, 1.0 is balanced, and greater than 1.0 prefers horizontal connections, default is 1.0)
-        </xs:documentation>
+        <xs:documentation> Construction direction bias (use range 0.1 to 10.0 where less than 1.0
+          prefers vertical connections, 1.0 is balanced, and greater than 1.0 prefers horizontal
+          connections, default is 1.0) </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="tags">
       <xs:annotation>
-        <xs:documentation>
-          Tags
-        </xs:documentation>
+        <xs:documentation> Tags </xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:list itemType="racetaglookup" />
@@ -385,9 +302,7 @@
     <xs:sequence>
       <xs:element name="race" type="racedef" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
-          <xs:documentation>
-            Definition of a single race
-          </xs:documentation>
+          <xs:documentation> Definition of a single race </xs:documentation>
         </xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -395,9 +310,7 @@
 
   <xs:element name="races" type="races">
     <xs:annotation>
-      <xs:documentation>
-        Race DB
-      </xs:documentation>
+      <xs:documentation> Race DB </xs:documentation>
     </xs:annotation>
   </xs:element>
 

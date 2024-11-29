@@ -1,43 +1,34 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
   <xs:include schemaLocation="common.xsd" />
+  <xs:include schemaLocation="diff.xsd" />
 
   <xs:complexType name="macroentry">
     <xs:annotation>
-      <xs:documentation>
-        A macro reference
-      </xs:documentation>
+      <xs:documentation> A macro reference </xs:documentation>
     </xs:annotation>
     <xs:attribute name="name" type="namestring" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Macro Name
-        </xs:documentation>
+        <xs:documentation> Macro Name </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="templateentry">
     <xs:annotation>
-      <xs:documentation>
-        A template reference
-      </xs:documentation>
+      <xs:documentation> A template reference </xs:documentation>
     </xs:annotation>
     <xs:attribute name="name" type="namestring" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Template Name
-        </xs:documentation>
+        <xs:documentation> Template Name </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="catalog">
     <xs:annotation>
-      <xs:documentation>
-        Catalog definition
-      </xs:documentation>
+      <xs:documentation> Catalog definition </xs:documentation>
     </xs:annotation>
     <xs:sequence>
       <xs:element name="macro" type="macroentry" minOccurs="0" maxOccurs="unbounded" />
@@ -45,18 +36,14 @@
     </xs:sequence>
     <xs:attribute name="class" type="namestring" use="required">
       <xs:annotation>
-        <xs:documentation>
-          Macro Name
-        </xs:documentation>
+        <xs:documentation> Macro Name </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:element name="catalogs">
     <xs:annotation>
-      <xs:documentation>
-        Document element of macrocatalog.xml
-      </xs:documentation>
+      <xs:documentation> Document element of macrocatalog.xml </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
