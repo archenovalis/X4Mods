@@ -1,10 +1,24 @@
-Bank Todo:
+Getting a Job:
 
-period by status: standard 20hr; 1 defense station 15hr, 3 defense stations 12hr, 4 defense stations 10hr (branch defense stations count as half)
-limit offices to stations owned by factions that have a branch vault station
+- Main Feature
+mdconverstation, message: Get a job working for a faction's government, available at (10/15/20)? relationship.
+mdpaydelay: Receive a paycheck deposited direct to player, or InterGalactic Bank account every (6/10/15/20/30/60)? minutes.
+  Basic paycheck for joining, plus additonal tiers based on Combat and Support performance.
+  mdjob eachmission (checks for mission.completed or called when receiving reward..add to all missions): Combat pay based on completing raid/defend mission, getting patrol kills (not station civilian criminal).
 
-add credit loot boxes for destroyed vaults (solid storage modules)
-add opening lootboxes with risk
+  (per player.ship sell or only missions?): Support pay for trading with faction stations (buying and selling) and completing support missions.
 
-add player relation decrease with banking clan for (if seen) picking up looted credit boxes
-add player relation increase with banking clan for returning picked up looted credit boxes to banking clan office
+- Retirement
+mdconverstation (pension level variable check): Quit at any time or Retire after reaching pension levels.
+mdpaydelay (total mission rewards variable): Multiple pension levels, based on total pay received (basic/combat/support).
+
+- New Statuses --
+  mddelay2 mdjob (variables: last mission completed, deserter): Deserter, not completing any military or support missions within last (60/120/240)? minutes. Consequence: Paycheck paused until next mission is completed.
+
+  mdtraitor (radar check, active mission check): Traitor, while working for or after quitting/retiring, being seen by a military ship after joining and while participating in an enemy factions military or support mission. Consequence: No more paycheck or pension. Relation set to -25.
+
+  mdpaydelay mdconversation (spy variable): Spy, (requires relationship 25 and first? pension level), allows joining other factions (will still become a traitor if participating in a military mission against your primary faction, and traitor status by the other faction as normal). Consequence: Spy bonus added to paycheck from main faction plus paycheck from other faction.
+
+-- Player Economy Changes --
+
+- Research costs increased to 2x module's and 10x ship's sell price (same as buying blueprint from factionrep).
