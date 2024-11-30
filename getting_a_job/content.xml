@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <content id="getting_a_job"
-	name="Super Slow Start; Getting A Job"
-	description="You've realized that life isn't a game after your cat kicked you out of her house after playing games too much. You now need to find a job. Go talk to your faction's representative."
+	name="Getting A Job"
+	description="Due to a terrible legal loophole, your cat received the majority of your inheritance. And now even worse the trustee representing your cat has kicked you out of her house. Now you need to find a job. Go talk to your faction's representative. Well, you could get hired by more than one, but that might be dangerous."
 	version="0.1"
-	date="2024-11-27"
+	date="2024-11-28"
 	save="0" enabled="1"
 	author="Archie">
 
 	<dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" />
 	<dependency id="SW Interworlds" optional="false" name="SW Interworlds" />
-
+	<dependency id="sov_dreadnaughts" optional="true" name="Dreadnaughts and Battlecruisers" />
+	<dependency id="swi_heroes_plus" optional=" true" name="Heroes for SWI with Extras" />
+	<dependency id="swi_heroes" optional="true" name="Heroes for SWI" />
 </content>
