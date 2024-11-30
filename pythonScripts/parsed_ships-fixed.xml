@@ -1,0 +1,1302 @@
+<ware id="sov_eclipse_ware" name="{1423010003,1}" description="{1423010003,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="750000000" average="800000000" max="850000000" />
+<component ref="eclipse_macro" amount="1" />
+<ware id="sov_viscount_ware" name="{1423010004,1}" description="{1423010004,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="750000000" average="800000000" max="850000000" />
+<component ref="viscount_macro" amount="1" />
+<ware id="sov_lusankya" name="{1423010014,1}" description="{1423010014,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="190102000" average="237627500" max="308915750" />
+<component ref="lusankya_macro" amount="1" />
+<ware id="mandalorian_mandator_2_ware" name="{1423010325,1}" description="{1423010325,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="500000000" average="550000000" max="600000000" />
+<component ref="mandalorian_mandator_2_macro" amount="1" />
+<ware id="sov_mandator_2_ware" name="{1423010011,1}" description="{1423010011,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="168000800" average="210001000" max="273001300" />
+<component ref="mandator_2_macro" amount="1" />
+<ware id="mandatoriii" name="{1423010015,1}" description="{1423010015,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly">
+<price min="294668000" average="368335000" max="478835500" />
+<component ref="mandatoriii_macro" amount="1" />
+<ware id="sov_annihilator_ware" name="{1423010001,1}" description="{1423010001,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="450000000" average="500000000" max="550000000" />
+<component ref="annihilator_macro" amount="1" />
+<ware id="sov_strident_ware" name="{1423010005,1}" description="{1423010005,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="350000000" average="400000000" max="450000000" />
+<component ref="strident_macro" amount="1" />
+<ware id="sov_titan_ware" name="{1423010002,1}" description="{1423010002,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="175000000" average="200000000" max="225000000" />
+<component ref="titan_macro" amount="1" />
+<ware id="sov_procurator_ware" name="{1423010009,1}" description="{1423010009,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="150000000" average="175000000" max="200000000" />
+<component ref="procurator_macro" amount="1" />
+<ware id="sov_harrower_bc_ware" name="{1423010010,1}" description="{1423010010,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="140000000" average="165000000" max="190000000" />
+<component ref="harrower_bc_macro" amount="1" />
+<ware id="sov_allegiance_ware" name="{1423010006,1}" description="{1423010006,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="95000000" average="120000000" max="145000000" />
+<component ref="allegiance_macro" amount="1" />
+<ware id="sov_republic_secutor_ware" name="{1423010008,1}" description="{1423010008,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="70738308" average="87450950" max="114463593" />
+<component ref="republic_secutor_macro" amount="1" />
+<ware id="imperial_secutor_ware" name="{1423010013,1}" description="{1423010013,2}" group="ships_sw" transport="ship" volume="1" tags="ship ">
+<price min="87812138" average="115815649" max="148500940" />
+<component ref="imperial_secutor_macro" amount="1" />
+<ware id="ship_providence_dreadnaught_01" name="{1423010112,1}" description="{1423010112,3}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="146479226" average="178667654" max="234299836" />
+<component ref="ship_providence_dreadnaught_01_macro" amount="1" />
+<ware id="sov_resurgent_ware" name="{1421010102,1}" description="{1421010102,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="118250000" average="147812500 " max="177375000" />
+<component ref="resurgent_macro" amount="1" />
+<ware id="sov_grey_bellator_ware" name="{1423010327,1}" description="{1423010327,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="425000000" average="475000000" max="525000000" />
+<component ref="grey_bellator_macro" amount="1" />
+<ware id="sov_bellator_ware" name="{1423010012,1}" description="{1423010012,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="425000000" average="475000000" max="525000000" />
+<component ref="p_bellator_macro" amount="1" />
+<ware id="lucrehulk_t" name="{1423010016,1}" description="{1423010016,2}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly nocustomgamestart">
+<price min="200000000" average="225000000" max="250000000" />
+<component ref="lucrehulk_t_macro" amount="1" />
+<ware id="lucrehulk_b" name="{999840,131711}" description="{999840,131711}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="79638308" average="99350950" max="129635930" />
+<component ref="lucrehulk_b_macro" amount="1" />
+<ware id="mc80_homeone" name="{999840,131410}" description="{999840,131430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="70738308" average="87450950" max="114463593" />
+<component ref="mc80_homeone_macro" amount="1" />
+<ware id="ship_imperial_xxl_executer" name="{999840,130710}" description="{999840,130730}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="294668000" average="368335000" max="478835500" />
+<component ref="ship_imperial_xxl_executer_01_macro" amount="1" />
+<ware id="ship_arg_l_destroyer_01_a" name="{20101,11002}" description="{20101,11012}" transport="ship" volume="1" tags="ship">
+<price min="4006156" average="4713125" max="5420094" />
+<component ref="ship_arg_l_destroyer_01_a_macro" />
+<ware id="ship_arg_l_destroyer_01_b" name="{20101,11003}" description="{20101,11013}" transport="ship" volume="1" tags="ship">
+<price min="4795063" average="5641250" max="6487438" />
+<component ref="ship_arg_l_destroyer_01_b_macro" />
+<ware id="ship_arg_l_destroyer_02_a" name="{20101,11004}" description="{20101,11014}" transport="ship" volume="1" tags="ship">
+<price min="5000664" average="6250830" max="7500996" />
+<component ref="ship_arg_l_destroyer_02_a_macro" />
+<ware id="ship_arg_l_miner_liquid_01_a" name="{20101,11104}" description="{20101,11114}" transport="ship" volume="1" tags="ship">
+<price min="1111460" average="1307600" max="1503740" />
+<component ref="ship_arg_l_miner_liquid_01_a_macro" />
+<ware id="ship_arg_l_miner_liquid_01_b" name="{20101,11105}" description="{20101,11115}" transport="ship" volume="1" tags="ship">
+<price min="1350914" average="1589310" max="1827707" />
+<component ref="ship_arg_l_miner_liquid_01_b_macro" />
+<ware id="ship_arg_l_miner_solid_01_a" name="{20101,11102}" description="{20101,11112}" transport="ship" volume="1" tags="ship">
+<price min="1108727" average="1304385" max="1500043" />
+<component ref="ship_arg_l_miner_solid_01_a_macro" />
+<ware id="ship_arg_l_miner_solid_01_b" name="{20101,11103}" description="{20101,11113}" transport="ship" volume="1" tags="ship">
+<price min="1348181" average="1586095" max="1824009" />
+<component ref="ship_arg_l_miner_solid_01_b_macro" />
+<ware id="ship_arg_l_trans_container_01_a" name="{20101,11202}" description="{20101,11212}" transport="ship" volume="1" tags="ship">
+<price min="2605841" average="3065695" max="3525549" />
+<component ref="ship_arg_l_trans_container_01_a_macro" />
+<ware id="ship_arg_l_trans_container_01_b" name="{20101,11203}" description="{20101,11213}" transport="ship" volume="1" tags="ship">
+<price min="3140563" average="3694780" max="4248997" />
+<component ref="ship_arg_l_trans_container_01_b_macro" />
+<ware id="ship_arg_l_trans_container_02_a" name="{20101,11802}" description="{20101,11812}" transport="ship" volume="1" tags="ship">
+<price min="2705448" average="3182880" max="3660312" />
+<component ref="ship_arg_l_trans_container_02_a_macro" />
+<ware id="ship_arg_l_trans_container_02_b" name="{20101,11803}" description="{20101,11813}" transport="ship" volume="1" tags="ship">
+<price min="3251101" average="3824825" max="4398549" />
+<component ref="ship_arg_l_trans_container_02_b_macro" />
+<ware id="ship_arg_l_trans_container_03_a" name="{20101,12302}" description="{20101,12312}" transport="ship" volume="1" tags="ship">
+<price min="2632348" average="3096880" max="3561412" />
+<component ref="ship_arg_l_trans_container_03_a_macro" />
+<ware id="ship_arg_l_trans_container_03_b" name="{20101,12303}" description="{20101,12313}" transport="ship" volume="1" tags="ship">
+<price min="4249222" average="4999085" max="5748948" />
+<component ref="ship_arg_l_trans_container_03_b_macro" />
+<ware id="ship_arg_l_trans_container_04_a" name="{20101,12402}" description="{20101,12412}" transport="ship" volume="1" tags="ship">
+<price min="3842459" average="4520540" max="5198621" />
+<component ref="ship_arg_l_trans_container_04_a_macro" />
+<ware id="ship_arg_l_trans_container_04_b" name="{20101,12403}" description="{20101,12413}" transport="ship" volume="1" tags="ship">
+<price min="4614858" average="5429245" max="6243632" />
+<component ref="ship_arg_l_trans_container_04_b_macro" />
+<ware id="ship_arg_l_trans_container_05_a" name="{20101,12502}" description="{20101,12512}" transport="ship" volume="1" tags="ship">
+<price min="3049154" average="3587240" max="4125326" />
+<component ref="ship_arg_l_trans_container_05_a_macro" />
+<ware id="ship_arg_l_trans_container_05_b" name="{20101,12503}" description="{20101,12513}" transport="ship" volume="1" tags="ship">
+<price min="3650555" average="4294770" max="4938986" />
+<component ref="ship_arg_l_trans_container_05_b_macro" />
+<ware id="ship_arg_m_bomber_01_a" name="{20101,10503}" description="{20101,10513}" transport="ship" volume="1" tags="ship">
+<price min="637993" average="750580" max="863167" />
+<component ref="ship_arg_m_bomber_01_a_macro" />
+<ware id="ship_arg_m_bomber_01_b" name="{20101,10504}" description="{20101,10514}" transport="ship" volume="1" tags="ship">
+<price min="755166" average="888430" max="1021695" />
+<component ref="ship_arg_m_bomber_01_b_macro" />
+<ware id="ship_arg_m_bomber_02_a" name="{20101,10502}" description="{20101,10512}" transport="ship" volume="1" tags="ship">
+<price min="629863" average="741015" max="852167" />
+<component ref="ship_arg_m_bomber_02_a_macro" />
+<ware id="ship_arg_m_frigate_01_a" name="{20101,10602}" description="{20101,10612}" transport="ship" volume="1" tags="ship">
+<price min="819115" average="963665" max="1108215" />
+<component ref="ship_arg_m_frigate_01_a_macro" />
+<ware id="ship_arg_m_frigate_01_b" name="{20101,10603}" description="{20101,10613}" transport="ship" volume="1" tags="ship">
+<price min="973250" average="1145000" max="1316750" />
+<component ref="ship_arg_m_frigate_01_b_macro" />
+<ware id="ship_arg_m_miner_liquid_01_a" name="{20101,10902}" description="{20101,10912}" transport="ship" volume="1" tags="ship">
+<price min="108413" average="127545" max="146677" />
+<component ref="ship_arg_m_miner_liquid_01_a_macro" />
+<ware id="ship_arg_m_miner_liquid_01_b" name="{20101,10903}" description="{20101,10913}" transport="ship" volume="1" tags="ship">
+<price min="137173" average="161380" max="185587" />
+<component ref="ship_arg_m_miner_liquid_01_b_macro" />
+<ware id="ship_arg_m_miner_solid_01_a" name="{20101,10802}" description="{20101,10812}" transport="ship" volume="1" tags="ship">
+<price min="112170" average="131965" max="151760" />
+<component ref="ship_arg_m_miner_solid_01_a_macro" />
+<ware id="ship_arg_m_miner_solid_01_b" name="{20101,10803}" description="{20101,10813}" transport="ship" volume="1" tags="ship">
+<price min="132528" average="155915" max="179302" />
+<component ref="ship_arg_m_miner_solid_01_b_macro" />
+<ware id="ship_arg_m_trans_container_01_a" name="{20101,10702}" description="{20101,10712}" transport="ship" volume="1" tags="ship">
+<price min="147352" average="173355" max="199358" />
+<component ref="ship_arg_m_trans_container_01_a_macro" />
+<ware id="ship_arg_m_trans_container_01_b" name="{20101,10703}" description="{20101,10713}" transport="ship" volume="1" tags="ship">
+<price min="177000" average="208235" max="239470" />
+<component ref="ship_arg_m_trans_container_01_b_macro" />
+<ware id="ship_arg_m_trans_container_02_a" name="{20101,11702}" description="{20101,11712}" transport="ship" volume="1" tags="ship">
+<price min="147352" average="173355" max="199358" />
+<component ref="ship_arg_m_trans_container_02_a_macro" />
+<ware id="ship_arg_m_trans_container_02_b" name="{20101,11703}" description="{20101,11713}" transport="ship" volume="1" tags="ship">
+<price min="177000" average="208235" max="239470" />
+<component ref="ship_arg_m_trans_container_02_b_macro" />
+<ware id="ship_arg_s_fighter_01_a" name="{20101,10302}" description="{20101,10312}" transport="ship" volume="1" tags="ship">
+<price min="112175" average="131970" max="151766" />
+<component ref="ship_arg_s_fighter_01_a_macro" />
+<ware id="ship_arg_s_fighter_01_b" name="{20101,10303}" description="{20101,10313}" transport="ship" volume="1" tags="ship">
+<price min="136085" average="160100" max="184115" />
+<component ref="ship_arg_s_fighter_01_b_macro" />
+<ware id="ship_arg_s_fighter_02_a" name="{20101,11902}" description="{20101,11912}" transport="ship" volume="1" tags="ship">
+<price min="65242" average="76755" max="88268" />
+<component ref="ship_arg_s_fighter_02_a_macro" />
+<ware id="ship_arg_s_fighter_02_b" name="{20101,11903}" description="{20101,11913}" transport="ship" volume="1" tags="ship">
+<price min="79042" average="92990" max="106939" />
+<component ref="ship_arg_s_fighter_02_b_macro" />
+<ware id="ship_arg_s_fighter_03_a" name="{20101,12602}" description="{20101,12612}" transport="ship" volume="1" tags="ship">
+<price min="96530" average="113565" max="130600" />
+<component ref="ship_arg_s_fighter_03_a_macro" />
+<ware id="ship_arg_s_fighter_04_a" name="{20101,12702}" description="{20101,12712}" transport="ship" volume="1" tags="ship">
+<price min="85463" average="100545" max="115627" />
+<component ref="ship_arg_s_fighter_04_a_macro" />
+<ware id="ship_arg_s_heavyfighter_01_a" name="{20101,10402}" description="{20101,10412}" transport="ship" volume="1">
+<price min="159039" average="187105" max="215171" />
+<component ref="ship_arg_s_heavyfighter_01_a_macro" />
+<ware id="ship_arg_s_heavyfighter_01_b" name="{20101,10403}" description="{20101,10413}" transport="ship" volume="1">
+<price min="192104" average="226005" max="259906" />
+<component ref="ship_arg_s_heavyfighter_01_b_macro" />
+<ware id="ship_arg_s_heavyfighter_02_a" name="{20101,10402}" description="{20101,10412}" transport="ship" volume="1" tags="ship">
+<price min="144283" average="169745" max="195207" />
+<component ref="ship_arg_s_heavyfighter_02_a_macro" />
+<ware id="ship_arg_s_miner_solid_01_a" name="{20101,11604}" description="{20101,11614}" transport="ship" volume="1" tags="ship">
+<price min="70775" average="83265" max="95755" />
+<component ref="ship_arg_s_miner_solid_01_a_macro" />
+<ware id="ship_arg_s_scout_01_a" name="{20101,10102}" description="{20101,10112}" transport="ship" volume="1" tags="ship">
+<price min="74464" average="87605" max="100746" />
+<component ref="ship_arg_s_scout_01_a_macro" />
+<ware id="ship_arg_s_scout_01_b" name="{20101,10103}" description="{20101,10113}" transport="ship" volume="1" tags="ship">
+<price min="90041" average="105930" max="121820" />
+<component ref="ship_arg_s_scout_01_b_macro" />
+<ware id="ship_arg_s_trans_container_01_a" name="{20101,11602}" description="{20101,11612}" transport="ship" volume="1" tags="ship">
+<price min="132396" average="155760" max="179124" />
+<component ref="ship_arg_s_trans_container_01_a_macro" />
+<ware id="ship_arg_s_trans_container_01_b" name="{20101,11603}" description="{20101,11613}" transport="ship" volume="1" tags="ship">
+<price min="158083" average="185980" max="213877" />
+<component ref="ship_arg_s_trans_container_01_b_macro" />
+<ware id="ship_arg_s_trans_container_02_a" name="{20101,12902}" description="{20101,12912}" transport="ship" volume="1" tags="ship">
+<price min="68043" average="80050" max="92058" />
+<component ref="ship_arg_s_trans_container_02_a_macro" />
+<ware id="ship_arg_s_trans_container_02_b" name="{20101,12903}" description="{20101,12913}" transport="ship" volume="1" tags="ship">
+<price min="83687" average="98455" max="113223" />
+<component ref="ship_arg_s_trans_container_02_b_macro" />
+<ware id="ship_arg_xl_builder_01_a" name="{20101,11402}" description="{20101,11412}" transport="ship" volume="1" tags="ship">
+<price min="7755200" average="9123765" max="10492330" />
+<component ref="ship_arg_xl_builder_01_a_macro" />
+<ware id="ship_arg_xl_builder_01_b" name="{20101,11403}" description="{20101,11413}" transport="ship" volume="1" tags="ship">
+<price min="9306200" average="10948470" max="12590741" />
+<component ref="ship_arg_xl_builder_01_b_macro" />
+<ware id="ship_arg_xl_carrier_01_a" name="{20101,11302}" description="{20101,11312}" transport="ship" volume="1" tags="ship">
+<price min="8576543" average="10090050" max="11603558" />
+<component ref="ship_arg_xl_carrier_01_a_macro" />
+<ware id="ship_arg_xl_carrier_01_b" name="{20101,11303}" description="{20101,11313}" transport="ship" volume="1" tags="ship">
+<price min="10287274" average="12102675" max="13918076" />
+<component ref="ship_arg_xl_carrier_01_b_macro" />
+<ware id="ship_arg_xl_carrier_02_a" name="{20101,11304}" description="{20101,11314}" transport="ship" volume="1" tags="ship">
+<price min="12287713" average="15359641" max="18431569" />
+<component ref="ship_arg_xl_carrier_02_a_macro" />
+<ware id="ship_arg_xl_resupplier_01_a" name="{20101,11502}" description="{20101,11512}" transport="ship" volume="1" tags="ship">
+<price min="7310438" average="8600515" max="9890592" />
+<component ref="ship_arg_xl_resupplier_01_a_macro" />
+<ware id="ship_arg_xl_resupplier_01_b" name="{20101,11503}" description="{20101,11513}" transport="ship" volume="1" tags="ship">
+<price min="8766199" average="10313175" max="11860151" />
+<component ref="ship_arg_xl_resupplier_01_b_macro" />
+<ware id="ship_gen_m_transdrone_container_01_a" name="{20101,101601}" description="{20101,101611}" group="drones" transport="ship" volume="1" tags="noplayerbuild ship">
+<price min="39610" average="46600" max="53590" />
+<component ref="ship_gen_m_transdrone_container_01_a_macro" />
+<ware id="ship_gen_m_tugboat_01_a" name="{20101,13601}" description="{20101,13611}" transport="ship" volume="1" tags="ship">
+<price min="342342" average="402755" max="463168" />
+<component ref="ship_gen_m_tugboat_01_a_macro" />
+<ware id="ship_gen_s_fighter_01_a" name="{20101,120302}" description="{20101,120312}" transport="ship" volume="1" tags="ship">
+<price min="65986" average="77630" max="89275" />
+<component ref="ship_gen_s_fighter_01_a_macro" />
+<ware id="ship_gen_s_fighter_01_b" name="{20101,120303}" description="{20101,120313}" transport="ship" volume="1" tags="ship">
+<price min="81082" average="95390" max="109699" />
+<component ref="ship_gen_s_fighter_01_b_macro" />
+<ware id="ship_gen_s_transdrone_container_01_a" name="{20101,101501}" description="{20101,101511}" group="drones" transport="ship" volume="1" tags="noplayerbuild ship">
+<price min="19805" average="23300" max="26795" />
+<component ref="ship_gen_s_transdrone_container_01_a_macro" />
+<ware id="ship_kha_l_destroyer_01_a" name="{20101,90701}" description="{20101,90711}" transport="ship" volume="1" tags="noblueprint noplayerblueprint ship">
+<price min="0" average="0" max="0" />
+<component ref="ship_kha_l_destroyer_01_a_macro" />
+<ware id="ship_kha_m_fighter_01_a" name="{20101,90401}" description="{20101,90411}" transport="ship" volume="1" tags="noblueprint noplayerblueprint ship">
+<price min="0" average="0" max="0" />
+<component ref="ship_kha_m_fighter_01_a_macro" />
+<ware id="ship_kha_m_fighter_02_a" name="{20101,90301}" description="{20101,90311}" transport="ship" volume="1" tags="noblueprint noplayerblueprint ship">
+<price min="0" average="0" max="0" />
+<component ref="ship_kha_m_fighter_02_a_macro" />
+<ware id="ship_kha_s_fighter_01_a" name="{20101,90201}" description="{20101,90211}" transport="ship" volume="1" tags="noblueprint noplayerblueprint ship">
+<price min="0" average="0" max="0" />
+<component ref="ship_kha_s_fighter_01_a_macro" />
+<ware id="ship_kha_s_fighter_02_a" name="{20101,90101}" description="{20101,90111}" transport="ship" volume="1" tags="noblueprint noplayerblueprint ship">
+<price min="0" average="0" max="0" />
+<component ref="ship_kha_s_fighter_02_a_macro" />
+<ware id="ship_kha_xl_battleship_01_a" name="{20101,90801}" description="{20101,90811}" transport="ship" volume="1" tags="noblueprint noplayerblueprint ship">
+<price min="0" average="0" max="0" />
+<component ref="ship_kha_xl_battleship_01_a_macro" />
+<ware id="ship_par_l_destroyer_01_a" name="{20101,30702}" description="{20101,30712}" transport="ship" volume="1" tags="ship">
+<price min="4276299" average="5030940" max="5785581" />
+<component ref="ship_par_l_destroyer_01_a_macro" />
+<ware id="ship_par_l_destroyer_01_b" name="{20101,30703}" description="{20101,30713}" transport="ship" volume="1" tags="ship">
+<price min="5135781" average="6042095" max="6948409" />
+<component ref="ship_par_l_destroyer_01_b_macro" />
+<ware id="ship_par_l_destroyer_02_a" name="{20101,30704}" description="{20101,30714}" transport="ship" volume="1" tags="ship">
+<price min="4412478" average="5191150" max="5969823" />
+<component ref="ship_par_l_destroyer_02_a_macro" />
+<ware id="ship_par_l_miner_liquid_01_a" name="{20101,30904}" description="{20101,30914}" transport="ship" volume="1" tags="ship">
+<price min="981657" average="1154890" max="1328124" />
+<component ref="ship_par_l_miner_liquid_01_a_macro" />
+<ware id="ship_par_l_miner_liquid_01_b" name="{20101,30905}" description="{20101,30915}" transport="ship" volume="1" tags="ship">
+<price min="1186405" average="1395770" max="1605136" />
+<component ref="ship_par_l_miner_liquid_01_b_macro" />
+<ware id="ship_par_l_miner_liquid_02_a" name="{20101,30907}" description="{20101,30917}" transport="ship" volume="1" tags="ship">
+<price min="1352877" average="1591620" max="1830363" />
+<component ref="ship_par_l_miner_liquid_02_a_macro" />
+<ware id="ship_par_l_miner_solid_01_a" name="{20101,30902}" description="{20101,30912}" transport="ship" volume="1" tags="ship">
+<price min="981657" average="1154890" max="1328124" />
+<component ref="ship_par_l_miner_solid_01_a_macro" />
+<ware id="ship_par_l_miner_solid_01_b" name="{20101,30903}" description="{20101,30913}" transport="ship" volume="1" tags="ship">
+<price min="1186405" average="1395770" max="1605136" />
+<component ref="ship_par_l_miner_solid_01_b_macro" />
+<ware id="ship_par_l_miner_solid_02_a" name="{20101,30906}" description="{20101,30916}" transport="ship" volume="1" tags="ship">
+<price min="1352881" average="1591625" max="1830369" />
+<component ref="ship_par_l_miner_solid_02_a_macro" />
+<ware id="ship_par_l_trans_container_01_a" name="{20101,30802}" description="{20101,30812}" transport="ship" volume="1" tags="ship">
+<price min="1696396" average="1995760" max="2295124" />
+<component ref="ship_par_l_trans_container_01_a_macro" />
+<ware id="ship_par_l_trans_container_01_b" name="{20101,30803}" description="{20101,30813}" transport="ship" volume="1" tags="ship">
+<price min="2049189" average="2410810" max="2772432" />
+<component ref="ship_par_l_trans_container_01_b_macro" />
+<ware id="ship_par_l_trans_container_02_a" name="{20101,31402}" description="{20101,31412}" transport="ship" volume="1" tags="ship">
+<price min="1696396" average="1995760" max="2295124" />
+<component ref="ship_par_l_trans_container_02_a_macro" />
+<ware id="ship_par_l_trans_container_02_b" name="{20101,31403}" description="{20101,31413}" transport="ship" volume="1" tags="ship">
+<price min="2049189" average="2410810" max="2772432" />
+<component ref="ship_par_l_trans_container_02_b_macro" />
+<ware id="ship_par_l_trans_container_03_a" name="{20101,30804}" description="{20101,30814}" transport="ship" volume="1" tags="ship">
+<price min="2949500" average="3470000" max="3990500" />
+<component ref="ship_par_l_trans_container_03_a_macro" />
+<ware id="ship_par_m_corvette_01_a" name="{20101,30302}" description="{20101,30312}" transport="ship" volume="1" tags="ship">
+<price min="528951" average="622295" max="715639" />
+<component ref="ship_par_m_corvette_01_a_macro" />
+<ware id="ship_par_m_corvette_01_b" name="{20101,30303}" description="{20101,30313}" transport="ship" volume="1" tags="ship">
+<price min="634372" average="746320" max="858268" />
+<component ref="ship_par_m_corvette_01_b_macro" />
+<ware id="ship_par_m_frigate_01_a" name="{20101,30402}" description="{20101,30412}" transport="ship" volume="1" tags="ship">
+<price min="933555" average="1098300" max="1263045" />
+<component ref="ship_par_m_frigate_01_a_macro" />
+<ware id="ship_par_m_frigate_01_b" name="{20101,30403}" description="{20101,30413}" transport="ship" volume="1" tags="ship">
+<price min="1124584" average="1323040" max="1521496" />
+<component ref="ship_par_m_frigate_01_b_macro" />
+<ware id="ship_par_m_miner_liquid_01_a" name="{20101,30604}" description="{20101,30614}" transport="ship" volume="1" tags="ship">
+<price min="113059" average="133010" max="152962" />
+<component ref="ship_par_m_miner_liquid_01_a_macro" />
+<ware id="ship_par_m_miner_liquid_01_b" name="{20101,30605}" description="{20101,30615}" transport="ship" volume="1" tags="ship">
+<price min="138129" average="162505" max="186881" />
+<component ref="ship_par_m_miner_liquid_01_b_macro" />
+<ware id="ship_par_m_miner_solid_01_a" name="{20101,30602}" description="{20101,30612}" transport="ship" volume="1" tags="ship">
+<price min="113059" average="133010" max="152962" />
+<component ref="ship_par_m_miner_solid_01_a_macro" />
+<ware id="ship_par_m_miner_solid_01_b" name="{20101,30603}" description="{20101,30613}" transport="ship" volume="1" tags="ship">
+<price min="138129" average="162505" max="186881" />
+<component ref="ship_par_m_miner_solid_01_b_macro" />
+<ware id="ship_par_m_trans_container_01_a" name="{20101,30502}" description="{20101,30512}" transport="ship" volume="1" tags="ship">
+<price min="150153" average="176650" max="203148" />
+<component ref="ship_par_m_trans_container_01_a_macro" />
+<ware id="ship_par_m_trans_container_01_b" name="{20101,30503}" description="{20101,30513}" transport="ship" volume="1" tags="ship">
+<price min="194693" average="229050" max="263408" />
+<component ref="ship_par_m_trans_container_01_b_macro" />
+<ware id="ship_par_m_trans_container_02_a" name="{20101,31302}" description="{20101,31312}" transport="ship" volume="1" tags="ship">
+<price min="150153" average="176650" max="203148" />
+<component ref="ship_par_m_trans_container_02_a_macro" />
+<ware id="ship_par_m_trans_container_02_b" name="{20101,31303}" description="{20101,31313}" transport="ship" volume="1" tags="ship">
+<price min="194693" average="229050" max="263408" />
+<component ref="ship_par_m_trans_container_02_b_macro" />
+<ware id="ship_par_m_trans_container_03_a" name="{20101,32601}" description="{20101,32611}" transport="ship" volume="1" tags="ship">
+<price min="203460" average="292080" max="380700" />
+<component ref="ship_par_m_trans_container_03_a_macro" />
+<ware id="ship_par_s_fighter_01_a" name="{20101,30202}" description="{20101,30212}" transport="ship" volume="1" tags="ship">
+<price min="133284" average="156805" max="180326" />
+<component ref="ship_par_s_fighter_01_a_macro" />
+<ware id="ship_par_s_fighter_01_b" name="{20101,30203}" description="{20101,30213}" transport="ship" volume="1" tags="ship">
+<price min="159928" average="188150" max="216373" />
+<component ref="ship_par_s_fighter_01_b_macro" />
+<ware id="ship_par_s_fighter_02_a" name="{20101,31502}" description="{20101,31512}" transport="ship" volume="1" tags="ship">
+<price min="150773" average="177380" max="203987" />
+<component ref="ship_par_s_fighter_02_a_macro" />
+<ware id="ship_par_s_fighter_02_b" name="{20101,31503}" description="{20101,31513}" transport="ship" volume="1" tags="ship">
+<price min="180149" average="211940" max="243731" />
+<component ref="ship_par_s_fighter_02_b_macro" />
+<ware id="ship_par_s_heavyfighter_01_a" name="{20101,31801}" description="{20101,31811}" transport="ship" volume="1" tags="ship">
+<price min="207009" average="243540" max="280071" />
+<component ref="ship_par_s_heavyfighter_01_a_macro" />
+<ware id="ship_par_s_miner_solid_01_a" name="{20101, 32504}" description="{20101, 32514}" transport="ship" volume="1" tags="ship">
+<price min="70775" average="83265" max="95755" />
+<component ref="ship_par_s_miner_solid_01_a_macro" />
+<ware id="ship_par_s_scout_01_a" name="{20101,30102}" description="{20101,30112}" transport="ship" volume="1" tags="ship">
+<price min="68043" average="80050" max="92058" />
+<component ref="ship_par_s_scout_01_a_macro" />
+<ware id="ship_par_s_scout_01_b" name="{20101,30103}" description="{20101,30113}" transport="ship" volume="1" tags="ship">
+<price min="82731" average="97330" max="111930" />
+<component ref="ship_par_s_scout_01_b_macro" />
+<ware id="ship_par_s_trans_container_01_a" name="{20101, 32502}" description="{20101, 32512}" transport="ship" volume="1" tags="ship">
+<price min="127751" average="150295" max="172839" />
+<component ref="ship_par_s_trans_container_01_a_macro" />
+<ware id="ship_par_s_trans_container_01_b" name="{20101, 32503}" description="{20101, 32513}" transport="ship" volume="1" tags="ship">
+<price min="156239" average="183810" max="211382" />
+<component ref="ship_par_s_trans_container_01_b_macro" />
+<ware id="ship_par_xl_builder_01_a" name="{20101,31102}" description="{20101,31112}" transport="ship" volume="1" tags="ship">
+<price min="7755200" average="9123765" max="10492330" />
+<component ref="ship_par_xl_builder_01_a_macro" />
+<ware id="ship_par_xl_builder_01_b" name="{20101,31103}" description="{20101,31113}" transport="ship" volume="1" tags="ship">
+<price min="9306200" average="10948470" max="12590741" />
+<component ref="ship_par_xl_builder_01_b_macro" />
+<ware id="ship_par_xl_carrier_01_a" name="{20101,31002}" description="{20101,31012}" transport="ship" volume="1" tags="ship">
+<price min="11158558" average="13127715" max="15096872" />
+<component ref="ship_par_xl_carrier_01_a_macro" />
+<ware id="ship_par_xl_carrier_01_b" name="{20101,31003}" description="{20101,31013}" transport="ship" volume="1" tags="ship">
+<price min="13385719" average="15747905" max="18110091" />
+<component ref="ship_par_xl_carrier_01_b_macro" />
+<ware id="ship_par_xl_carrier_02_a" name="{20101,31004}" description="{20101,31014}" transport="ship" volume="1" tags="ship">
+<price min="14909536" average="17540630" max="20171725" />
+<component ref="ship_par_xl_carrier_02_a_macro" />
+<ware id="ship_par_xl_resupplier_01_a" name="{20101,31202}" description="{20101,31212}" transport="ship" volume="1" tags="ship">
+<price min="8194429" average="9640505" max="11086581" />
+<component ref="ship_par_xl_resupplier_01_a_macro" />
+<ware id="ship_par_xl_resupplier_01_b" name="{20101,31203}" description="{20101,31213}" transport="ship" volume="1" tags="ship">
+<price min="9833493" average="11568815" max="13304137" />
+<component ref="ship_par_xl_resupplier_01_b_macro" />
+<ware id="ship_par_xl_resupplier_02_a" name="{20101,31204}" description="{20101,31214}" transport="ship" volume="1" tags="ship">
+<price min="13138973" average="15457615" max="17776257" />
+<component ref="ship_par_xl_resupplier_02_a_macro" />
+<ware id="ship_tel_l_destroyer_01_a" name="{20101,20702}" description="{20101,20712}" transport="ship" volume="1" tags="ship">
+<price min="4482356" average="5273360" max="6064364" />
+<component ref="ship_tel_l_destroyer_01_a_macro" />
+<ware id="ship_tel_l_destroyer_01_b" name="{20101,20703}" description="{20101,20713}" transport="ship" volume="1" tags="ship">
+<price min="5361719" average="6307905" max="7254091" />
+<component ref="ship_tel_l_destroyer_01_b_macro" />
+<ware id="ship_tel_l_destroyer_02_a" name="{20101,20704}" description="{20101,20714}" transport="ship" volume="1" tags="ship">
+<price min="5627892" average="7034866" max="8441839" />
+<component ref="ship_tel_l_destroyer_02_a_macro" />
+<ware id="ship_tel_l_miner_liquid_01_a" name="{20101,20904}" description="{20101,20914}" transport="ship" volume="1" tags="ship">
+<price min="1277814" average="1503310" max="1728807" />
+<component ref="ship_tel_l_miner_liquid_01_a_macro" />
+<ware id="ship_tel_l_miner_liquid_01_b" name="{20101,20905}" description="{20101,20915}" transport="ship" volume="1" tags="ship">
+<price min="1533732" average="1804390" max="2075049" />
+<component ref="ship_tel_l_miner_liquid_01_b_macro" />
+<ware id="ship_tel_l_miner_liquid_02_a" name="{20101,20907}" description="{20101,20917}" transport="ship" volume="1" tags="ship">
+<price min="1537750" average="1922187" max="2306625" />
+<component ref="ship_tel_l_miner_liquid_02_a_macro" />
+<ware id="ship_tel_l_miner_solid_01_a" name="{20101,20902}" description="{20101,20912}" transport="ship" volume="1" tags="ship">
+<price min="1277814" average="1503310" max="1728807" />
+<component ref="ship_tel_l_miner_solid_01_a_macro" />
+<ware id="ship_tel_l_miner_solid_01_b" name="{20101,20903}" description="{20101,20913}" transport="ship" volume="1" tags="ship">
+<price min="1533732" average="1804390" max="2075049" />
+<component ref="ship_tel_l_miner_solid_01_b_macro" />
+<ware id="ship_tel_l_miner_solid_02_a" name="{20101,20906}" description="{20101,20916}" transport="ship" volume="1" tags="ship">
+<price min="1537750" average="1922187" max="2306625" />
+<component ref="ship_tel_l_miner_solid_02_a_macro" />
+<ware id="ship_tel_l_trans_container_01_a" name="{20101,20802}" description="{20101,20812}" transport="ship" volume="1" tags="ship">
+<price min="2254893" average="2652815" max="3050737" />
+<component ref="ship_tel_l_trans_container_01_a_macro" />
+<ware id="ship_tel_l_trans_container_01_b" name="{20101,20803}" description="{20101,20813}" transport="ship" volume="1" tags="ship">
+<price min="2719180" average="3199035" max="3678890" />
+<component ref="ship_tel_l_trans_container_01_b_macro" />
+<ware id="ship_tel_l_trans_container_02_a" name="{20101,21402}" description="{20101,21412}" transport="ship" volume="1" tags="ship">
+<price min="2071119" average="2436610" max="2802102" />
+<component ref="ship_tel_l_trans_container_02_a_macro" />
+<ware id="ship_tel_l_trans_container_02_b" name="{20101,21403}" description="{20101,21413}" transport="ship" volume="1" tags="ship">
+<price min="2472416" average="2908725" max="3345034" />
+<component ref="ship_tel_l_trans_container_02_b_macro" />
+<ware id="ship_tel_l_trans_container_03_a" name="{20101,21404}" description="{20101,21414}" transport="ship" volume="1" tags="ship">
+<price min="2840826" average="3551033" max="4261239" />
+<component ref="ship_tel_l_trans_container_03_a_macro" />
+<ware id="ship_tel_m_bomber_01_a" name="{20101,20302}" description="{20101,20312}" transport="ship" volume="1" tags="ship">
+<price min="625354" average="735710" max="846067" />
+<component ref="ship_tel_m_bomber_01_a_macro" />
+<ware id="ship_tel_m_bomber_01_b" name="{20101,20303}" description="{20101,20313}" transport="ship" volume="1" tags="ship">
+<price min="739861" average="870425" max="1000989" />
+<component ref="ship_tel_m_bomber_01_b_macro" />
+<ware id="ship_tel_m_frigate_01_a" name="{20101,20402}" description="{20101,20412}" transport="ship" volume="1" tags="ship">
+<price min="887574" average="1044205" max="1200836" />
+<component ref="ship_tel_m_frigate_01_a_macro" />
+<ware id="ship_tel_m_frigate_01_b" name="{20101,20403}" description="{20101,20413}" transport="ship" volume="1" tags="ship">
+<price min="1074162" average="1263720" max="1453278" />
+<component ref="ship_tel_m_frigate_01_b_macro" />
+<ware id="ship_tel_m_miner_liquid_01_a" name="{20101,20604}" description="{20101,20614}" transport="ship" volume="1" tags="ship">
+<price min="101035" average="118865" max="136695" />
+<component ref="ship_tel_m_miner_liquid_01_a_macro" />
+<ware id="ship_tel_m_miner_liquid_01_b" name="{20101,20605}" description="{20101,20615}" transport="ship" volume="1" tags="ship">
+<price min="122349" average="143940" max="165531" />
+<component ref="ship_tel_m_miner_liquid_01_b_macro" />
+<ware id="ship_tel_m_miner_solid_01_a" name="{20101,20602}" description="{20101,20612}" transport="ship" volume="1" tags="ship">
+<price min="101035" average="118865" max="136695" />
+<component ref="ship_tel_m_miner_solid_01_a_macro" />
+<ware id="ship_tel_m_miner_solid_01_b" name="{20101,20603}" description="{20101,20613}" transport="ship" volume="1" tags="ship">
+<price min="122349" average="143940" max="165531" />
+<component ref="ship_tel_m_miner_solid_01_b_macro" />
+<ware id="ship_tel_m_trans_container_01_a" name="{20101,20502}" description="{20101,20512}" transport="ship" volume="1" tags="ship">
+<price min="226117" average="266020" max="305923" />
+<component ref="ship_tel_m_trans_container_01_a_macro" />
+<ware id="ship_tel_m_trans_container_01_b" name="{20101,20503}" description="{20101,20513}" transport="ship" volume="1" tags="ship">
+<price min="262323" average="308615" max="354907" />
+<component ref="ship_tel_m_trans_container_01_b_macro" />
+<ware id="ship_tel_m_trans_container_02_a" name="{20101,21302}" description="{20101,21312}" transport="ship" volume="1" tags="ship">
+<price min="226117" average="266020" max="305923" />
+<component ref="ship_tel_m_trans_container_02_a_macro" />
+<ware id="ship_tel_m_trans_container_02_b" name="{20101,21303}" description="{20101,21313}" transport="ship" volume="1" tags="ship">
+<price min="262323" average="308615" max="354907" />
+<component ref="ship_tel_m_trans_container_02_b_macro" />
+<ware id="ship_tel_m_trans_container_03_a" name="{20101,21802}" description="{20101,21812}" transport="ship" volume="1" tags="ship">
+<price min="356006" average="418830" max="481655" />
+<component ref="ship_tel_m_trans_container_03_a_macro" />
+<ware id="ship_tel_s_fighter_01_a" name="{20101,20202}" description="{20101,20212}" transport="ship" volume="1" tags="ship">
+<price min="139706" average="164360" max="189014" />
+<component ref="ship_tel_s_fighter_01_a_macro" />
+<ware id="ship_tel_s_fighter_01_b" name="{20101,20203}" description="{20101,20213}" transport="ship" volume="1" tags="ship">
+<price min="166349" average="195705" max="225061" />
+<component ref="ship_tel_s_fighter_01_b_macro" />
+<ware id="ship_tel_s_fighter_02_a" name="{20101, 21602}" description="{20101, 21612}" transport="ship" volume="1" tags="ship">
+<price min="134173" average="157850" max="181528" />
+<component ref="ship_tel_s_fighter_02_a_macro" />
+<ware id="ship_tel_s_fighter_02_b" name="{20101, 21603}" description="{20101, 21613}" transport="ship" volume="1" tags="ship">
+<price min="161772" average="190320" max="218868" />
+<component ref="ship_tel_s_fighter_02_b_macro" />
+<ware id="ship_tel_s_miner_solid_01_a" name="{20101, 22604}" description="{20101, 22614}" transport="ship" volume="1" tags="ship">
+<price min="77197" average="90820" max="104443" />
+<component ref="ship_tel_s_miner_solid_01_a_macro" />
+<ware id="ship_tel_s_scout_01_a" name="{20101,20102}" description="{20101,20112}" transport="ship" volume="1" tags="ship">
+<price min="78153" average="91945" max="105737" />
+<component ref="ship_tel_s_scout_01_a_macro" />
+<ware id="ship_tel_s_scout_01_b" name="{20101,20103}" description="{20101,20113}" transport="ship" volume="1" tags="ship">
+<price min="93798" average="110350" max="126903" />
+<component ref="ship_tel_s_scout_01_b_macro" />
+<ware id="ship_tel_s_scout_02_a" name="{20101,22202}" description="{20101,22212}" transport="ship" volume="1" tags="ship">
+<price min="118596" average="139525" max="160454" />
+<component ref="ship_tel_s_scout_02_a_macro" />
+<ware id="ship_tel_s_scout_02_b" name="{20101,22203}" description="{20101,22213}" transport="ship" volume="1" tags="ship">
+<price min="141551" average="166530" max="191510" />
+<component ref="ship_tel_s_scout_02_b_macro" />
+<ware id="ship_tel_s_trans_container_01_a" name="{20101, 22602}" description="{20101, 22612}" transport="ship" volume="1" tags="ship">
+<price min="143395" average="168700" max="194005" />
+<component ref="ship_tel_s_trans_container_01_a_macro" />
+<ware id="ship_tel_s_trans_container_01_b" name="{20101, 22603}" description="{20101, 22613}" transport="ship" volume="1" tags="ship">
+<price min="170038" average="200045" max="230052" />
+<component ref="ship_tel_s_trans_container_01_b_macro" />
+<ware id="ship_tel_s_trans_container_02_a" name="{20101,22501}" description="{20101,22511}" transport="ship" volume="1" tags="noblueprint nocustomgamestart noplayerbuild ship">
+<price min="481177" average="566090" max="651004" />
+<component ref="ship_tel_s_trans_container_02_a_macro" />
+<ware id="ship_tel_xl_builder_01_a" name="{20101,21102}" description="{20101,21112}" transport="ship" volume="1" tags="ship">
+<price min="7755200" average="9123765" max="10492330" />
+<component ref="ship_tel_xl_builder_01_a_macro" />
+<ware id="ship_tel_xl_builder_01_b" name="{20101,21103}" description="{20101,21113}" transport="ship" volume="1" tags="ship">
+<price min="9306200" average="10948470" max="12590741" />
+<component ref="ship_tel_xl_builder_01_b_macro" />
+<ware id="ship_tel_xl_carrier_01_a" name="{20101,21002}" description="{20101,21012}" transport="ship" volume="1" tags="ship">
+<price min="9494968" average="11170550" max="12846133" />
+<component ref="ship_tel_xl_carrier_01_a_macro" />
+<ware id="ship_tel_xl_carrier_01_b" name="{20101,21003}" description="{20101,21013}" transport="ship" volume="1" tags="ship">
+<price min="11398156" average="13409595" max="15421034" />
+<component ref="ship_tel_xl_carrier_01_b_macro" />
+<ware id="ship_tel_xl_resupplier_01_a" name="{20101,21202}" description="{20101,21212}" transport="ship" volume="1" tags="ship">
+<price min="6617127" average="7784855" max="8952583" />
+<component ref="ship_tel_xl_resupplier_01_a_macro" />
+<ware id="ship_tel_xl_resupplier_01_b" name="{20101,21203}" description="{20101,21213}" transport="ship" volume="1" tags="ship">
+<price min="7941236" average="9342630" max="10744025" />
+<component ref="ship_tel_xl_resupplier_01_b_macro" />
+<ware id="ship_xen_l_terraformer_01_a" name="{20101,72001}" description="{20101,72011}" transport="ship" volume="1" tags="nocustomgamestart ship">
+<price min="1424804" average="1676240" max="1927676" />
+<component ref="ship_xen_l_terraformer_01_a_macro" />
+<ware id="ship_xen_m_corvette_01_a" name="{20101,71601}" description="{20101,71611}" transport="ship" volume="1" tags="nocustomgamestart ship">
+<price min="84660" average="99600" max="114540" />
+<component ref="ship_xen_m_corvette_01_a_macro" />
+<ware id="ship_xen_m_corvette_02_a" name="{20101,70302}" description="{20101,70312}" transport="ship" volume="1" tags="nocustomgamestart ship">
+<price min="72505" average="85300" max="98095" />
+<component ref="ship_xen_m_corvette_02_a_macro" />
+<ware id="ship_xen_m_fighter_01_a" name="{20101,70301}" description="{20101,70311}" transport="ship" volume="1" tags="noplayerblueprint ship">
+<price min="66827" average="78620" max="90413" />
+<component ref="ship_xen_m_fighter_01_a_macro" />
+<ware id="ship_xen_m_miner_01_a" name="{20101,70401}" description="{20101,70411}" transport="ship" volume="1" tags="noplayerblueprint ship">
+<price min="60648" average="71350" max="82053" />
+<component ref="ship_xen_m_miner_01_a_macro" />
+<ware id="ship_xen_m_miner_solid_01_a" name="{20101,70402}" description="{20101,70412}" transport="ship" volume="1" tags="nocustomgamestart ship">
+<price min="60648" average="71350" max="82053" />
+<component ref="ship_xen_m_miner_solid_01_a_macro" />
+<ware id="ship_xen_s_fighter_01_a" name="{20101,70101}" description="{20101,70111}" transport="ship" volume="1" tags="noplayerblueprint ship">
+<price min="29351" average="34530" max="39710" />
+<component ref="ship_xen_s_fighter_01_a_macro" />
+<ware id="ship_xen_s_fighter_02_a" name="{20101,70201}" description="{20101,70211}" transport="ship" volume="1" tags="noplayerblueprint ship">
+<price min="33864" average="39840" max="45816" />
+<component ref="ship_xen_s_fighter_02_a_macro" />
+<ware id="ship_xen_s_heavyfighter_01_a" name="{20101,71801}" description="{20101,71811}" transport="ship" volume="1" tags="nocustomgamestart ship">
+<price min="57630" average="67800" max="77970" />
+<component ref="ship_xen_s_heavyfighter_01_a_macro" />
+<ware id="ship_xen_s_scout_01_a" name="{20101,71301}" description="{20101,71311}" transport="ship" volume="1" tags="noplayerblueprint ship">
+<price min="21998" average="25880" max="29762" />
+<component ref="ship_xen_s_scout_01_a_macro" />
+<ware id="ship_xen_xl_carrier_01_a" name="{20101,70601}" description="{20101,70611}" transport="ship" volume="1" tags="noplayerblueprint ship">
+<price min="4300932" average="5059920" max="5818908" />
+<component ref="ship_xen_xl_carrier_01_a_macro" />
+<ware id="ship_xen_xl_destroyer_01_a" name="{20101,70501}" description="{20101,70511}" transport="ship" volume="1" tags="noplayerblueprint ship">
+<price min="2067574" average="2432440" max="2797306" />
+<component ref="ship_xen_xl_destroyer_01_a_macro" />
+<ware id="tie_fighter" name="{999840,100810}" description="{999840,100830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="36000" average="45100" max="59000" />
+<component ref="tie_fighter_macro" amount="1" />
+<ware id="tie_brute" name="{999840,103510}" description="{999840,103530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="105000" average="132100" max="171000" />
+<component ref="tie_brute_macro" amount="1" />
+<ware id="tie_fighter_van" name="{999840,100811}" description="{999840,100831}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="104000" average="130100" max="169000" />
+<component ref="tie_fighter_van_macro" amount="1" />
+<ware id="tie_fighter_mg" name="{999840,100812}" description="{999840,100832}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="102000" average="128100" max="167000" />
+<component ref="tie_fighter_mg_macro" amount="1" />
+<ware id="tie_interceptor" name="{999840,100910}" description="{999840,100930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="100000" average="125000" max="165000" />
+<component ref="tie_interceptor_macro" amount="1" />
+<ware id="tie_interceptor_rg" name="{999840,102610}" description="{999840,102630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="189000" average="236000" max="305000" />
+<component ref="tie_interceptor_rg_macro" amount="1" />
+<ware id="tie_advanced" name="{999840,101010}" description="{999840,101030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="179085" average="224100" max="291105" />
+<component ref="tie_advanced_macro" amount="1" />
+<ware id="tie_phantom" name="{999840,103610}" description="{999840,103630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="199085" average="244100" max="321105" />
+<component ref="tie_phantom_macro" amount="1" />
+<ware id="tie_defender" name="{999840,101110}" description="{999840,101130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="442085" average="555100" max="719105" />
+<component ref="tie_defender_macro" amount="1" />
+<ware id="tie_scimitar" name="{999840,104610}" description="{999840,104630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="482085" average="602100" max="783105" />
+<component ref="tie_scimitar_macro" amount="1" />
+<ware id="tie_silencer" name="{999840,105410}" description="{999840,105430}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="796800" average="996000" max="1294800" />
+<component ref="tie_silencer_macro" amount="1" />
+<ware id="tie_striker" name="{999840,104510}" description="{999840,104530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="177085" average="221100" max="288105" />
+<component ref="tie_striker_macro" amount="1" />
+<ware id="tie_fury_e" name="{999840,103710}" description="{999840,103730}" group="ships_sw" transport="ship" volume="1" tags="ship nocustomgamestart">
+<price min="382085" average="445100" max="539105" />
+<component ref="tie_fury_e_macro" amount="1" />
+<ware id="sith_supremacy" name="{999840,104310}" description="{999840,104330}" group="ships_sw" transport="ship" volume="1" tags="ship nocustomgamestart">
+<price min="582085" average="665100" max="839105" />
+<component ref="sith_supremacy_macro" amount="1" />
+<ware id="tie_bomber" name="{999840,101310}" description="{999840,101330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="68085" average="85100" max="110105" />
+<component ref="tie_bomber_macro" amount="1" />
+<ware id="tie_shuttle" name="{999840,101311}" description="{999840,101331}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="70000" average="88000" max="115000" />
+<component ref="tie_shuttle_macro" amount="1" />
+<ware id="z95" name="{999840,100110}" description="{999840,100130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="63085" average="79100" max="103115" />
+<component ref="z95_macro" amount="1" />
+<ware id="rz1awing" name="{999840,100210}" description="{999840,100230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="166085" average="205100" max="266115" />
+<component ref="rz1awing_macro" amount="1" />
+<ware id="firespray" name="{999840,100710}" description="{999840,100730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1194085" average="1490100" max="1940100" />
+<component ref="firespray_macro" amount="1" />
+<ware id="ewing" name="{999840,100510}" description="{999840,100530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="201852" average="252315" max="328009" />
+<component ref="ewing_macro" amount="1" />
+<ware id="bwing" name="{999840,100410}" description="{999840,100430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="279085" average="349100" max="454115" />
+<component ref="bwing_macro" amount="1" />
+<ware id="t65b_xwing" name="{999840,100610}" description="{999840,100630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="204085" average="255100" max="332115" />
+<component ref="t65b_xwing_macro" amount="1" />
+<ware id="t65b_xwing_01" name="{999840,100611}" description="{999840,100630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="204085" average="255100" max="332115" />
+<component ref="t65b_xwing_01_macro" amount="1" />
+<ware id="t65xj3_xwing" name="{999840,103810}" description="{999840,103830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="246085" average="308100" max="400115" />
+<component ref="t65xj3_xwing_macro" amount="1" />
+<ware id="t70_xwing_blue" name="{999840,105010}" description="{999840,105030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="257312" average="321640" max="418132" />
+<component ref="t70_xwing_blue_macro" amount="1" />
+<ware id="t70_xwing_orange" name="{999840,105011}" description="{999840,105030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="257312" average="321640" max="418132" />
+<component ref="t70_xwing_orange_macro" amount="1" />
+<ware id="t70_xwing_red" name="{999840,105012}" description="{999840,105030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="257312" average="321640" max="418132" />
+<component ref="t70_xwing_red_macro" amount="1" />
+<ware id="ywing_btla4" name="{999840,100310}" description="{999840,100330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="181085" average="226100" max="294115" />
+<component ref="ywing_btla4_macro" amount="1" />
+<ware id="ywing_btla4long" name="{999840,100311}" description="{999840,100331}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="91085" average="114000" max="148115" />
+<component ref="ywing_btla4long_macro" amount="1" />
+<ware id="ywing_btlnr2" name="{999840,102510}" description="{999840,102530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="191085" average="246100" max="314115" />
+<component ref="ywing_btlnr2_macro" amount="1" />
+<ware id="ywing_btlb" name="{999840,104010}" description="{999840,104030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="188085" average="235100" max="308115" />
+<component ref="ywing_btlb_macro" amount="1" />
+<ware id="ywing_btlbp" name="{999840,104011}" description="{999840,104031}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="161085" average="206100" max="264115" />
+<component ref="ywing_btlbp_macro" amount="1" />
+<ware id="ywing_btlbpm" name="{999840,104012}" description="{999840,104032}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="171085" average="216100" max="274115" />
+<component ref="ywing_btlbpm_macro" amount="1" />
+<ware id="uwing" name="{999840,101210}" description="{999840,101230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="215085" average="269100" max="349115" />
+<component ref="uwing_macro" amount="1" />
+<ware id="sheathipede" name="{999840,101410}" description="{999840,101430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="147085" average="184100" max="239115" />
+<component ref="sheathipede_macro" amount="1" />
+<ware id="quad_jumper" name="{999840,101510}" description="{999840,101530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="104085" average="139100" max="176115" />
+<component ref="quad_jumper_macro" amount="1" />
+<ware id="quad_jumper_miner" name="{999840,101511}" description="{999840,101530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="104085" average="139100" max="176115" />
+<component ref="quad_jumper_miner_macro" amount="1" />
+<ware id="b22" name="{999840,101610}" description="{999840,101630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="162085" average="205100" max="264115" />
+<component ref="b22_macro" amount="1" />
+<ware id="b22s" name="{999840,101611}" description="{999840,101631}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="108085" average="136100" max="176115" />
+<component ref="b22s_macro" amount="1" />
+<ware id="scarab_bomber" name="{999840,104810}" description="{999840,104830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="135085" average="169100" max="220115" />
+<component ref="scarab_bomber_macro" amount="1" />
+<ware id="porax_38" name="{999840,103910}" description="{999840,103930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="212085" average="265100" max="346115" />
+<component ref="porax_38_macro" amount="1" />
+<ware id="m4_dune" name="{999840,101710}" description="{999840,101730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="132085" average="165100" max="215115" />
+<component ref="m4_dune_macro" amount="1" />
+<ware id="kihraxz" name="{999840,103410}" description="{999840,103430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="169085" average="212100" max="276115" />
+<component ref="kihraxz_macro" amount="1" />
+<ware id="porax_38b" name="{999840,103911}" description="{999840,103931}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="214085" average="267100" max="347115" />
+<component ref="porax_38b_macro" amount="1" />
+<ware id="fang" name="{999840,104110}" description="{999840,104130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="179085" average="224100" max="300115" />
+<component ref="fang_macro" amount="1" />
+<ware id="m12" name="{999840,102010}" description="{999840,102030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="215085" average="269100" max="350115" />
+<component ref="m12_macro" amount="1" />
+<ware id="vulture_droid" name="{999840,101810}" description="{999840,101830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="22385" average="27900" max="36315" />
+<component ref="vulture_droid_macro" amount="1" />
+<ware id="tri_droid" name="{999840,103210}" description="{999840,103230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="88760" average="110950" max="143235" />
+<component ref="tri_droid_macro" amount="1" />
+<ware id="hyena" name="{999840,102210}" description="{999840,102230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="86085" average="108100" max="140115" />
+<component ref="hyena_macro" amount="1" />
+<ware id="imp_probe_droid" name="{999840,101910}" description="{999840,101930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="17085" average="22100" max="29115" />
+<component ref="imp_probe_droid_macro" amount="1" />
+<ware id="scurrg_h6" name="{999840,102110}" description="{999840,102130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="230085" average="288100" max="374115" />
+<component ref="scurrg_h6_macro" amount="1" />
+<ware id="r41" name="{999840,102910}" description="{999840,102930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="175085" average="219100" max="285115" />
+<component ref="r41_macro" amount="1" />
+<ware id="razorcrest" name="{999840,111510}" description="{999840,111530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="852085" average="1065000" max="1365000" />
+<component ref="razorcrest_macro" amount="1" />
+<ware id="hwk_290_01" name="{999840,102310}" description="{999840,102330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="796085" average="992100" max="1294115" />
+<component ref="hwk_290_01_macro" amount="1" />
+<ware id="laat" name="{999840,104910}" description="{999840,104930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="164480" average="205600" max="267280" />
+<component ref="laat_macro" amount="1" />
+<ware id="laat_com" name="{999840,104911}" description="{999840,104931}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="427920" average="534900" max="695370" />
+<component ref="laat_com_macro" amount="1" />
+<ware id="t6shuttle" name="{999840,113310}" description="{999840,113330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="727760" average="909700" max="1182610" />
+<component ref="t6shuttle_macro" amount="1" />
+<ware id="eta2_actis_yellow" name="{999840,102710}" description="{999840,102730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="125085" average="156100" max="198115" />
+<component ref="eta2_actis_yellow_macro" amount="1" />
+<ware id="delta7_red" name="{999840,102810}" description="{999840,102830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="134085" average="167100" max="217115" />
+<component ref="delta7_red_macro" amount="1" />
+<ware id="n1" name="{999840,104210}" description="{999840,104230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="124085" average="159100" max="200115" />
+<component ref="n1_macro" amount="1" />
+<ware id="ship_mando_s_n1" name="{999840,104211}" description="{999840,104231}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="154085" average="189100" max="230115" />
+<component ref="ship_mando_s_n1_macro" amount="1" />
+<ware id="tie_echelon" name="{999840,103310}" description="{999840,103330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="512115" average="640665" max="832000" />
+<component ref="tie_echelon_macro" amount="1" />
+<ware id="arc170" name="{999840,103110}" description="{999840,103130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="184085" average="220100" max="334115" />
+<component ref="arc170_macro" amount="1" />
+<ware id="victor_wing" name="{999840,104710}" description="{999840,104730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="219366" average="274208" max="356469" />
+<component ref="victor_wing_macro" amount="1" />
+<ware id="vwing" name="{999840,105110}" description="{999840,105130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="146304" average="182880" max="237744" />
+<component ref="vwing_macro" amount="1" />
+<ware id="v19" name="{999840,105210}" description="{999840,105230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="101808" average="127260" max="165438" />
+<component ref="v19_macro" amount="1" />
+<ware id="hapan_s" name="{999840,105310}" description="{999840,105330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="175085" average="219100" max="285115" />
+<component ref="hapan_s_macro" amount="1" />
+<ware id="fortitude" name="{999840,102410}" description="{999840,102430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="393085" average="499500" max="639115" />
+<component ref="fortitude_macro" amount="1" />
+<ware id="g9" name="{999840,110210}" description="{999840,110230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="258000" average="322235" max="419470" />
+<component ref="g9_macro" amount="1" />
+<ware id="theta" name="{999840,103010}" description="{999840,103030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="455115" average="560665" max="730000" />
+<component ref="theta_macro" amount="1" />
+<ware id="gr75a" name="{999840,110010}" description="{999840,110030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="577000" average="728235" max="939470" />
+<component ref="gr75a_macro" amount="1" />
+<ware id="gr75b" name="{999840,110011}" description="{999840,110031}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="777000" average="928235" max="1139470" />
+<component ref="gr75b_macro" amount="1" />
+<ware id="mantis" name="{999840,110110}" description="{999840,110130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="904640" average="1130800" max="1470040" />
+<component ref="mantis_macro" amount="1" />
+<ware id="yt1300m" name="{999840,110110}" description="{999840,110130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="832000" average="1095235" max="1345470" />
+<component ref="yt1300_01_a_macro" amount="1" />
+<ware id="yt1300_02_a" name="{999840,110111}" description="{999840,110131}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="710000" average="888235" max="1175470" />
+<component ref="yt1300_02_a_macro" amount="1" />
+<ware id="dynamic_class_freighter" name="{999840,112810}" description="{999840,112830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="710000" average="888235" max="1175470" />
+<component ref="dynamic_class_freighter_macro" amount="1" />
+<ware id="lambda_shuttle" name="{999840,110610}" description="{999840,110630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="505115" average="630665" max="820000" />
+<component ref="lambda_shuttle_macro" amount="1" />
+<ware id="berea_shuttle" name="{999840,112410}" description="{999840,112430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="303115" average="503665" max="654000" />
+<component ref="berea_shuttle_macro" amount="1" />
+<ware id="berea_shuttle_gas" name="{999840,112411}" description="{999840,112431}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="303115" average="503665" max="654000" />
+<component ref="berea_shuttle_gas_macro" amount="1" />
+<ware id="cr70_01a" name="{999840,110710}" description="{999840,110730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2080000" average="2600200" max="3308215" />
+<component ref="cr70_01a_macro" amount="1" />
+<ware id="cr70_01con" name="{999840,110810}" description="{999840,110830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="736000" average="921000" max="1188215" />
+<component ref="cr70_01con_macro" amount="1" />
+<ware id="jtype_transport" name="{999840,112510}" description="{999840,112530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="916000" average="1131000" max="1488215" />
+<component ref="jtype_transport_macro" amount="1" />
+<ware id="customs_corvette" name="{999840,110910}" description="{999840,110930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1319115" average="1763665" max="2208215" />
+<component ref="customs_corvette_macro" amount="1" />
+<ware id="hammerhead_corvette" name="{999840,111710}" description="{999840,111730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2219115" average="2763665" max="3590821" />
+<component ref="hammerhead_corvette_macro" amount="1" />
+<ware id="gs80" name="{999840,112710}" description="{999840,112730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2379115" average="2983665" max="3890821" />
+<component ref="gs80_macro" amount="1" />
+<ware id="cr90_01a" name="{999840,110310}" description="{999840,110330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2019115" average="2563665" max="3210821" />
+<component ref="cr90_01a_macro" amount="1" />
+<ware id="cr90_01as" name="{999840,110312}" description="{999840,110332}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2119115" average="2663665" max="3310821" />
+<component ref="cr90_01as_macro" amount="1" />
+<ware id="cr90_01b" name="{999840,110311}" description="{999840,110331}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2119115" average="2663665" max="3508215" />
+<component ref="cr90_01b_macro" amount="1" />
+<ware id="dorean_corvette" name="{999840,112110}" description="{999840,112130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1949115" average="2473665" max="3188215" />
+<component ref="dorean_corvette_macro" amount="1" />
+<ware id="actioniv" name="{999840,110410}" description="{999840,110430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="579349" average="724940" max="925531" />
+<component ref="actioniv_macro" amount="1" />
+<ware id="actioniv_solid" name="{999840,110411}" description="{999840,110431}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="432349" average="540940" max="703531" />
+<component ref="actioniv_solid_macro" amount="1" />
+<ware id="actioniv_gas" name="{999840,110412}" description="{999840,110432}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="432349" average="540940" max="703531" />
+<component ref="actioniv_gas_macro" amount="1" />
+<ware id="rebel_tanker_liquid" name="{999840,113011}" description="{999840,113031}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="461780" average="577225" max="750392" />
+<component ref="rebel_tanker_liquid_macro" amount="1" />
+<ware id="rebel_tanker_solid" name="{999840,113010}" description="{999840,113030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="461780" average="577225" max="750392" />
+<component ref="rebel_tanker_solid_macro" amount="1" />
+<ware id="gozanti_civ_01" name="{999840,110512}" description="{999840,110532}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="656117" average="856020" max="1055923" />
+<component ref="gozanti_civ_01_macro" amount="1" />
+<ware id="gozanti_civ_miner" name="{999840,110513}" description="{999840,110533}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="656117" average="856020" max="1055923" />
+<component ref="gozanti_civ_miner_macro" amount="1" />
+<ware id="impgozanti_at" name="{999840,110510}" description="{999840,110530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="716117" average="896020" max="1165923" />
+<component ref="impgozanti_at_macro" amount="1" />
+<ware id="impgozanti_cr" name="{999840,110511}" description="{999840,110531}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="969115" average="1213665" max="1578215" />
+<component ref="impgozanti_cr_macro" amount="1" />
+<ware id="gozanti_croc" name="{999840,110514}" description="{999840,110534}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="736117" average="926020" max="1205923" />
+<component ref="gozanti_croc_macro" amount="1" />
+<ware id="gozanti_croc_raider" name="{999840,110515}" description="{999840,110535}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1056117" average="1256020" max="1655923" />
+<component ref="gozanti_croc_raider_macro" amount="1" />
+<ware id="weequay" name="{999840,113410}" description="{999840,113430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1056117" average="1256020" max="1655923" />
+<component ref="weequay_macro" amount="1" />
+<ware id="sorosub3000" name="{999840,113210}" description="{999840,113230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="763400" average="954250" max="1240525" />
+<component ref="sorosub3000_macro" amount="1" />
+<ware id="defender_corvette" name="{999840,111010}" description="{999840,111030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="999115" average="1243665" max="1678215" />
+<component ref="defender_corvette_macro" amount="1" />
+<ware id="css1" name="{999840,111110}" description="{999840,111130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="489115" average="613665" max="788215" />
+<component ref="css1_macro" amount="1" />
+<ware id="cis_repair" name="{999840,111210}" description="{999840,111230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="579115" average="723665" max="938215" />
+<component ref="cis_repair_macro" amount="1" />
+<ware id="aeg77" name="{999840,111610}" description="{999840,111630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2389115" average="2733665" max="3258215" />
+<component ref="aeg77_macro" amount="1" />
+<ware id="aeg77t" name="{999840,111611}" description="{999840,111631}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="739115" average="923665" max="1238215" />
+<component ref="aeg77t_macro" amount="1" />
+<ware id="crusader" name="{999840,111310}" description="{999840,111330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2211115" average="2273665" max="3608215" />
+<component ref="crusader_macro" amount="1" />
+<ware id="mando_solid" name="{999840,111411}" description="{999840,111431}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="445349" average="556940" max="723531" />
+<component ref="mando_solid_macro" amount="1" />
+<ware id="mando_gas" name="{999840,111412}" description="{999840,111432}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="445349" average="556940" max="723531" />
+<component ref="mando_gas_macro" amount="1" />
+<ware id="mando_transport" name="{999840,111410}" description="{999840,111430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="575349" average="719940" max="935531" />
+<component ref="mando_transport_macro" amount="1" />
+<ware id="raider" name="{999840,111810}" description="{999840,111830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2469115" average="3013665" max="3978215" />
+<component ref="raider_macro" amount="1" />
+<ware id="lancer_pursuit" name="{999840,112210}" description="{999840,112230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1092000" average="1265235" max="1625470" />
+<component ref="lancer_pursuit_macro" amount="1" />
+<ware id="gauntlet" name="{999840,112910}" description="{999840,112930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1666720" average="2083400" max="2708420" />
+<component ref="gauntlet_macro" amount="1" />
+<ware id="vcx100" name="{999840,112010}" description="{999840,112030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="738000" average="923235" max="1200070" />
+<component ref="vcx100_macro" amount="1" />
+<ware id="yv666" name="{999840,112310}" description="{999840,112330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="683000" average="856235" max="1100470" />
+<component ref="yv666_macro" amount="1" />
+<ware id="bff_01" name="{999840,111910}" description="{999840,111930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="441117" average="552020" max="718923" />
+<component ref="bff_01_macro" amount="1" />
+<ware id="zh40" name="{999840,112610}" description="{999840,112630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="661117" average="832020" max="1088923" />
+<component ref="zh40_macro" amount="1" />
+<ware id="hapan_m" name="{999840,113510}" description="{999840,113530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1242560" average="1553200" max="2019160" />
+<component ref="hapan_m_macro" amount="1" />
+<ware id="cor_scrapper" name="{999840,124010}" description="{999840,124030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="3134156" average="3983125" max="5170094" />
+<component ref="cor_scrapper_macro" amount="1" />
+<ware id="nebulonb_01e" name="{999840,120110}" description="{999840,120130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4134156" average="5183125" max="6770094" />
+<component ref="nebulonb_01e_macro" amount="1" />
+<ware id="nebulonc" name="{999840,122010}" description="{999840,122030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4934156" average="6183125" max="8070094" />
+<component ref="nebulonc_macro" amount="1" />
+<ware id="nebulonb_01p" name="{999840,120111}" description="{999840,120131}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4456156" average="5523125" max="7260094" />
+<component ref="nebulonb_01p_macro" amount="1" />
+<ware id="terminus" name="{999840,123010}" description="{999840,123030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="10686156" average="13603125" max="17420094" />
+<component ref="terminus_macro" amount="1" />
+<ware id="acclamator1" name="{999840,120210}" description="{999840,120230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="5855057" average="7348890" max="9572724" />
+<component ref="acclamator1_macro" amount="1" />
+<ware id="acclamator2" name="{999840,120211}" description="{999840,120231}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="9186156" average="11603125" max="14420094" />
+<component ref="acclamator2_macro" amount="1" />
+<ware id="valor_01" name="{999840,122211}" description="{999840,122231}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="6955057" average="8748890" max="11672724" />
+<component ref="valor_01_macro" amount="1" />
+<ware id="valor_02" name="{999840,122210}" description="{999840,122230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="14955057" average="17448890" max="22672724" />
+<component ref="valor_02_macro" amount="1" />
+<ware id="praetorian_01" name="{999840,120610}" description="{999840,120630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2365057" average="2968890" max="3862724" />
+<component ref="praetorian_01_macro" amount="1" />
+<ware id="praetorian_02" name="{999840,120710}" description="{999840,120730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4005057" average="5005889" max="6522724" />
+<component ref="praetorian_02_macro" amount="1" />
+<ware id="quasar_imp" name="{999840,120411}" description="{999840,120431}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4121062" average="5151328" max="6696725" />
+<component ref="quasar_imp_macro" amount="1" />
+<ware id="quasar_reb" name="{999840,120410}" description="{999840,120430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="3826680" average="4783350" max="6218355" />
+<component ref="quasar_reb_macro" amount="1" />
+<ware id="aa9_liquid" name="{999840,120311}" description="{999840,120331}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1531460" average="1977600" max="2573740" />
+<component ref="aa9_liquid_macro" amount="1" />
+<ware id="aa9_solid" name="{999840,120312}" description="{999840,120332}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1531460" average="1977600" max="2573740" />
+<component ref="aa9_solid_macro" amount="1" />
+<ware id="responder_frigate_solid" name="{999840,123711}" description="{999840,123731}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1531460" average="1977600" max="2573740" />
+<component ref="responder_frigate_solid_macro" amount="1" />
+<ware id="responder_frigate_liquid" name="{999840,123712}" description="{999840,123732}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1531460" average="1977600" max="2573740" />
+<component ref="responder_frigate_liquid_macro" amount="1" />
+<ware id="responder_frigate_trade" name="{999840,123710}" description="{999840,123730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1531460" average="1977600" max="2573740" />
+<component ref="responder_frigate_trade_macro" amount="1" />
+<ware id="heraklon_solid" name="{999840,122310}" description="{999840,122330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2231460" average="2877600" max="3773740" />
+<component ref="heraklon_solid_macro" amount="1" />
+<ware id="heraklon_liquid" name="{999840,122311}" description="{999840,122331}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2231460" average="2877600" max="3773740" />
+<component ref="heraklon_liquid_macro" amount="1" />
+<ware id="pelta_01" name="{999840,120510}" description="{999840,120530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="3495057" average="4358890" max="5522724" />
+<component ref="pelta_01_macro" amount="1" />
+<ware id="pelta_02" name="{999840,120511}" description="{999840,120531}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="5125057" average="6468890" max="8322724" />
+<component ref="pelta_02_macro" amount="1" />
+<ware id="interceptor_frigate" name="{999840,126010}" description="{999840,126030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4125057" average="5268890" max="6722724" />
+<component ref="interceptor_frigate_macro" amount="1" />
+<ware id="vsd2" name="{999840,120810}" description="{999840,120830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="15289000" average="19860000" max="25200000" />
+<component ref="vsd2_macro" amount="1" />
+<ware id="vindicator" name="{999840,121210}" description="{999840,121230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="11289000" average="14860000" max="19600000" />
+<component ref="vindicator_macro" amount="1" />
+<ware id="enforcer" name="{999840,121810}" description="{999840,121830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="12989000" average="15760000" max="20800000" />
+<component ref="enforcer_macro" amount="1" />
+<ware id="kontos" name="{999840,127010}" description="{999840,127030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="11689000" average="14560000" max="18900000" />
+<component ref="kontos_macro" amount="1" />
+<ware id="immobilizer_418" name="{999840,121310}" description="{999840,121330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="12209000" average="15810000" max="19000000" />
+<component ref="immobilizer_418_macro" amount="1" />
+<ware id="neutronstar" name="{999840,120910}" description="{999840,120930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4695057" average="5758890" max="7522724" />
+<component ref="neutronstar_macro" amount="1" />
+<ware id="neutronstar_trade" name="{999840,120911}" description="{999840,120931}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2695057" average="3358890" max="4322724" />
+<component ref="neutronstar_trade_macro" amount="1" />
+<ware id="civ_l_transport" name="{999840,125010}" description="{999840,125030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1795057" average="2158890" max="2722724" />
+<component ref="civ_l_transport_macro" amount="1" />
+<ware id="hardcell_trade" name="{999840,121010}" description="{999840,121030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2095057" average="2558890" max="3322724" />
+<component ref="hardcell_trade_macro" amount="1" />
+<ware id="hardcell_frigate" name="{999840,121011}" description="{999840,121031}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4277000" average="5358890" max="6822724" />
+<component ref="hardcell_frigate_macro" amount="1" />
+<ware id="cis_cruiser" name="{999840,123410}" description="{999840,123430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="15024680" average="18780850" max="24415105" />
+<component ref="cis_cruiser_macro" amount="1" />
+<ware id="hardcell_solid" name="{999840,121012}" description="{999840,121032}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1495057" average="1758890" max="2222724" />
+<component ref="hardcell_solid_macro" amount="1" />
+<ware id="hardcell_liquid" name="{999840,121013}" description="{999840,121033}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1495057" average="1758890" max="2222724" />
+<component ref="hardcell_liquid_macro" amount="1" />
+<ware id="genosian_cruiser" name="{999840,121910}" description="{999840,121930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="6477000" average="8158890" max="10522724" />
+<component ref="genosian_cruiser_macro" amount="1" />
+<ware id="overseer" name="{999840,123310}" description="{999840,123330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="6477000" average="8158890" max="10522724" />
+<component ref="overseer_macro" amount="1" />
+<ware id="cis_refractory" name="{999840,123610}" description="{999840,123630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="6477000" average="8158890" max="10522724" />
+<component ref="cis_refractory_macro" amount="1" />
+<ware id="diamond_cruiser_civ" name="{999840,123511}" description="{999840,123531}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="2274800" average="2843500" max="3696550" />
+<component ref="diamond_cruiser_civ_macro" amount="1" />
+<ware id="diamond_cruiser" name="{999840,123510}" description="{999840,123530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="6971140" average="8713925" max="11328102" />
+<component ref="diamond_cruiser_macro" amount="1" />
+<ware id="c9979" name="{999840,121110}" description="{999840,121130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1777000" average="2258890" max="2822724" />
+<component ref="c9979_macro" amount="1" />
+<ware id="dreadnaught_alliance" name="{999840,121410}" description="{999840,121430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="8115057" average="10228890" max="13322724" />
+<component ref="dreadnaught_alliance_macro" amount="1" />
+<ware id="dreadnaught_katana" name="{999840,121411}" description="{999840,121431}" group="ships_sw" transport="ship" volume="1" tags="ship nocustomgamestart">
+<price min="9115057" average="11228890" max="14322724" />
+<component ref="dreadnaught_katana_macro" amount="1" />
+<ware id="mc40a" name="{999840,122110}" description="{999840,122130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="10715057" average="13428890" max="17522724" />
+<component ref="mc40a_macro" amount="1" />
+<ware id="mc40b" name="{999840,122111}" description="{999840,122131}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="11015057" average="13898890" max="17972724" />
+<component ref="mc40b_macro" amount="1" />
+<ware id="arquitens" name="{999840,121510}" description="{999840,121530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="495615" average="618031" max="808009" />
+<component ref="arquitens_macro" amount="1" />
+<ware id="imp_light_cruiser" name="{999840,121610}" description="{999840,121630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="525615" average="658031" max="848009" />
+<component ref="imp_light_cruiser_macro" amount="1" />
+<ware id="imp_cruiser_546" name="{999840,121710}" description="{999840,121730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="1144615" average="14280312" max="18508009" />
+<component ref="imp_cruiser_546_macro" amount="1" />
+<ware id="arrestor_cruiser" name="{999840,128010}" description="{999840,128030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="5181220" average="6476525" max="8419482" />
+<component ref="arrestor_cruiser_macro" amount="1" />
+<ware id="neutronstar_builder" name="{999840,130610}" description="{999840,130630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="5238308" average="6550950" max="8500000" />
+<component ref="neutronstar_builder_macro" amount="1" />
+<ware id="hapan_l" name="{999840,122410}" description="{999840,122430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="7610240" average="9512800" max="12366640" />
+<component ref="hapan_l_macro" amount="1" />
+<ware id="hapan_nova" name="{999840,122510}" description="{999840,122530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="9613560" average="12016950" max="15622035" />
+<component ref="hapan_nova_macro" amount="1" />
+<ware id="vigilfinal" name="{999840,122610}" description="{999840,122630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4151752" average="5189690" max="6746597" />
+<component ref="vigilfinal_macro" amount="1" />
+<ware id="fulgor" name="{999840,122710}" description="{999840,122730}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="12710280" average="15887850" max="20654205" />
+<component ref="fulgor_macro" amount="1" />
+<ware id="velox" name="{999840,122810}" description="{999840,122830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="5932520" average="7415650" max="9640345" />
+<component ref="velox_macro" amount="1" />
+<ware id="teroch" name="{999840,122910}" description="{999840,122930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="5813940" average="7267425" max="9447652" />
+<component ref="teroch_macro" amount="1" />
+<ware id="proclamator" name="{999840,123110}" description="{999840,123130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="9783488" average="12229360" max="15898168" />
+<component ref="proclamator_macro" amount="1" />
+<ware id="lancerfrigate" name="{999840,123210}" description="{999840,123230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="4552900" average="5691125" max="7398462" />
+<component ref="lancerfrigate_macro" amount="1" />
+<ware id="storm" name="{999840,123810}" description="{999840,123830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="6501752" average="7189690" max="8746597" />
+<component ref="storm_macro" amount="1" />
+<ware id="mc80" name="{999840,130210}" description="{999840,130230}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="41145600" average="51182000" max="67236600" />
+<component ref="mc80_macro" amount="1" />
+<ware id="mc80carrier" name="{999840,130810}" description="{999840,130830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="37307700" average="46384625" max="60000012" />
+<component ref="mc80carrier_macro" amount="1" />
+<ware id="mc80r" name="{999840,131110}" description="{999840,131130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="24555200" average="30294675" max="39702200" />
+<component ref="mc80r_macro" amount="1" />
+<ware id="mc80liner" name="{999840,131111}" description="{999840,131131}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="13555200" average="16294675" max="21702200" />
+<component ref="mc80liner_macro" amount="1" />
+<ware id="mc80crain" name="{999840,131112}" description="{999840,131132}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="17327200" average="21659000" max="28156700" />
+<component ref="mc80crain_macro" amount="1" />
+<ware id="mc80_homeone" name="{999840,131410}" description="{999840,131430}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly nocustomgamestart">
+<price min="70738308" average="87450950" max="114463593" />
+<component ref="mc80_homeone_macro" amount="1" />
+<ware id="mc75" name="{999840,131610}" description="{999840,131630}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="28555200" average="35294675" max="46702200" />
+<component ref="mc75_macro" amount="1" />
+<ware id="isd_1_bls" name="{999840,130110}" description="{999840,130130}" group="ships_sw" transport="ship" volume="1" tags="ship noplayerblueprint noblueprint blueprintsaleonly nocustomgamestart">
+<price min="47938308" average="59450950" max="77163593" />
+<component ref="isd_1_bls_macro" amount="1" />
+<ware id="isd_1" name="{999840,130110}" description="{999840,130130}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="47938308" average="59450950" max="77163593" />
+<component ref="isd_1_macro" amount="1" />
+<ware id="isd_2" name="{999840,130111}" description="{999840,130131}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="55738308" average="69450950" max="90463593" />
+<component ref="isd_2_macro" amount="1" />
+<ware id="procursator" name="{999840,131310}" description="{999840,131330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="34938308" average="43950950" max="56963593" />
+<component ref="procursator_macro" amount="1" />
+<ware id="ship_providence_carrier_01" name="{999840,130410}" description="{999840,130430}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="38738308" average="47250950" max="61963593" />
+<component ref="ship_providence_carrier_01_macro" amount="1" />
+<ware id="lucrehulk_a" name="{999840,131710}" description="{999840,131710}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="41538308" average="51550950" max="66563593" />
+<component ref="lucrehulk_a_macro" amount="1" />
+<ware id="lucrehulk_b" name="{999840,131711}" description="{999840,131711}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly nocustomgamestart">
+<price min="77866800" average="97333500" max="126533550" />
+<component ref="lucrehulk_b_macro" amount="1" />
+<ware id="lucrehulk_f" name="{999840,131712}" description="{999840,131712}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="27038308" average="34050950" max="45063593" />
+<component ref="lucrehulk_f_macro" amount="1" />
+<ware id="venator_01" name="{999840,130310}" description="{999840,130330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="35638308" average="44550950" max="57463593" />
+<component ref="venator_01_macro" amount="1" />
+<ware id="venator_ce" name="{999840,130311}" description="{999840,130331}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="31638308" average="39550950" max="51463593" />
+<component ref="venator_ce_macro" amount="1" />
+<ware id="venator_hutt" name="{999840,130312}" description="{999840,130332}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="33638308" average="42550950" max="54463593" />
+<component ref="venator_hutt_macro" amount="1" />
+<ware id="keldabe" name="{999840,130910}" description="{999840,130930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="42638308" average="53550950" max="69463593" />
+<component ref="keldabe_macro" amount="1" />
+<ware id="kandosii" name="{999840,131910}" description="{999840,131930}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="45524600" average="56905750" max="73977475" />
+<component ref="ship_mando_xl_kandosii_01_macro" amount="1" />
+<ware id="munificent_01" name="{999840,130510}" description="{999840,130530}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="19042100" average="23802625" max="30943412" />
+<component ref="munificent_01_macro" amount="1" />
+<ware id="recusant" name="{999840,131810}" description="{999840,131830}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="28444680" average="35555850" max="46222605" />
+<component ref="recusant_macro" amount="1" />
+<ware id="allocator" name="{999840,132310}" description="{999840,132330}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="28444680" average="35555850" max="46222605" />
+<component ref="allocator_macro" amount="1" />
+<ware id="ship_gen_resupplier_01" name="{999840,131010}" description="{999840,131030}" group="ships_sw" transport="ship" volume="1" tags="ship">
+<price min="10544000" average="13944000" max="17144000" />
+<component ref="ship_gen_resupplier_01_macro" amount="1" />
+<ware id="harrower" name="{999840,131210}" description="{999840,131230}" group="ships_sw" transport="ship" volume="1" tags="ship nocustomgamestart">
+<price min="42590308" average="53496950" max="69330593" />
+<component ref="harrower_macro" amount="1" />
+<ware id="harrower_i" name="{999840,131211}" description="{999840,131231}" group="ships_sw" transport="ship" volume="1" tags="ship ">
+<price min="55590308" average="65496950" max="80330593" />
+<component ref="harrower_i_macro" amount="1" />
+<ware id="ship_imperial_xxl_executer_proto" name="{999840,132110}" description="{999840,132130}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="190102000" average="237627500" max="308915750" />
+<component ref="ship_imperial_xxl_executer_proto_macro" amount="1" />
+<ware id="ship_imperial_xxl_executer" name="{999840,130710}" description="{999840,130730}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="294668000" average="368335000" max="478835500" />
+<component ref="ship_imperial_xxl_executer_01_macro" amount="1" />
+<ware id="praetor" name="{999840,132210}" description="{999840,132230}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="129672400" average="162090500" max="210717650" />
+<component ref="praetor_macro" amount="1" />
+<ware id="bellator" name="{999840,132010}" description="{999840,132030}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="168000800" average="210001000" max="273001300" />
+<component ref="bellator_macro" amount="1" />
+<ware id="yv_fighter" name="{999840,104410}" description="{999840,104430}" transport="ship" volume="1" tags="noblueprint noplayerblueprint ship">
+<price min="0" average="0" max="0" />
+<component ref="yv_fighter_macro" amount="1" />
+<ware id="chimaera" name="{343001, 5}" description="{343001, 6}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="chimaera_macro" amount="1" />
+<ware id="infinity" name="{343001, 47}" description="{343001, 48}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="500000000" average="500000000" max="500000000" />
+<component ref="infinity_macro" amount="1" />
+<ware id="orthavan" name="{343001, 7}" description="{343001, 8}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="orthavan_macro" amount="1" />
+<ware id="hand" name="{343001,11}" description="{343001,12}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="hand_macro" amount="1" />
+<ware id="oppressor" name="{343001,15}" description="{343001,16}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="oppressor_macro" amount="1" />
+<ware id="ambition" name="{343001,19}" description="{343001,20}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly ">
+<price min="1600000000" average="1800000000" max="2000000000" />
+<component ref="ambition_macro" amount="1" />
+<ware id="endurance" name="{343001, 27}" description="{343001, 28}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="endurance_macro" amount="1" />
+<ware id="resolute" name="{343001, 37}" description="{343001, 38}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="resolute_macro" amount="1" />
+<ware id="negotiator" name="{343001, 41}" description="{343001, 42}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="negotiator_macro" amount="1" />
+<ware id="quaestor" name="{343001,29}" description="{343001,30}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+<price min="500000000" average="500000000" max="500000000" />
+<component ref="quaestor_macro" amount="1" />
+<ware id="endofdays" name="{343001,31}" description="{343001,32}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="endofdays_macro" amount="1" />
+<ware id="umbra" name="{343001,49}" description="{343001,50}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+<price min="500000000" average="500000000" max="500000000" />
+<component ref="umbra_macro" amount="1" />
+<ware id="saakak" name="{343001,51}" description="{343001,52}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+<price min="500000000" average="500000000" max="500000000" />
+<component ref="saakak_macro" amount="1" />
+<ware id="heroexecutor" name="{343001,57}" description="{343001,58}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+<price min="100000000000" average="100000000000" max="100000000000" />
+<component ref="executor_macro" amount="1" />
+<ware id="profundity" name="{343001, 77}" description="{343001, 78}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="profundity_macro" amount="1" />
+<ware id="mythosaur" name="{343001,23}" description="{343001,24}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="mythosaur_macro" amount="1" />
+<ware id="salvation" name="{343001,53}" description="{343001,54}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="salvation_macro" amount="1" />
+<ware id="phoenix" name="{343001,55}" description="{343001,56}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="phoenix_macro" amount="1" />
+<ware id="katana" name="{343001,61}" description="{343001,62}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="katana_macro" amount="1" />
+<ware id="protector" name="{343001,69}" description="{343001,70}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="protector_macro" amount="1" />
+<ware id="battleforged" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="battleforged_macro" amount="1" />
+<ware id="tantive" name="{343001, 1}" description="{343001, 2}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="tantive_macro" amount="1" />
+<ware id="ebon" name="{343001,13}" description="{343001,14}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="ebon_macro" amount="1" />
+<ware id="falcon" name="{343001,35}" description="{343001,36}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="falcon_macro" amount="1" />
+<ware id="lightmaker" name="{343001,63}" description="{343001,64}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="lightmaker_macro" amount="1" />
+<ware id="sterdicstar" name="{343001,65}" description="{343001,66}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="sterdicstar_macro" amount="1" />
+<ware id="corvus" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="corvus_macro" amount="1" />
+<ware id="anakin" name="{343001, 3}" description="{343001, 4}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="anakin_macro" amount="1" />
+<ware id="vader" name="{343001,9}" description="{343001,10}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="vader_macro" amount="1" />
+<ware id="djarin" name="{343001,17}" description="{343001,18}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="djarin_macro" amount="1" />
+<ware id="red_squadron" name="{343001,21}" description="{343001,22}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="red_squadron_macro" amount="1" />
+<ware id="fett" name="{343001,25}" description="{343001,26}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="fett_macro" amount="1" />
+<ware id="soulless" name="{343001,33}" description="{343001,34}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="soulless_macro" amount="1" />
+<ware id="galaxysedge" name="{343001,59}" description="{343001,60}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="galaxysedge_macro" amount="1" />
+<ware id="lootbug" name="{343001,67}" description="{343001,68}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="200000" average="200000" max="200000" />
+<component ref="lootbug_macro" amount="1" />
+<ware id="inferno" name="{343001,75}" description="{343001,76}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="inferno_macro" amount="1" />
