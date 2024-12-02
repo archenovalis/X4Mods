@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="Banking_Clan_Bank_Config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mdscript name="GalacticBank_Config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
 		<cue name="StartSMO" instantiate="true">
@@ -34,9 +34,9 @@
 						$id = 'fee30',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$fee30 * 100,
+						$start = md.TheBankingClan.GalacticBank.$fee30 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$fee30 * 100,
+						$default = md.TheBankingClan.GalacticBank.$fee30 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -48,9 +48,9 @@
 						$id = 'rate30',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$rate30 * 100,
+						$start = md.TheBankingClan.GalacticBank.$rate30 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$rate30 * 100,
+						$default = md.TheBankingClan.GalacticBank.$rate30 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -62,9 +62,9 @@
 						$id = 'period30',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$period30 / 3600,
+						$start = md.TheBankingClan.GalacticBank.$period30 / 3600,
 						$min=0, $max=720, $step=0.1, $suffix='hr',
-						$default = md.Banking_Clan_Bank.GalacticBank.$period30 / 3600,
+						$default = md.TheBankingClan.GalacticBank.$period30 / 3600,
 						$onSliderCellChanged = OnPeriodChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -81,9 +81,9 @@
 						$id = 'fee20',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$fee20 * 100,
+						$start = md.TheBankingClan.GalacticBank.$fee20 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$fee20 * 100,
+						$default = md.TheBankingClan.GalacticBank.$fee20 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -95,9 +95,9 @@
 						$id = 'rate20',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$rate20 * 100,
+						$start = md.TheBankingClan.GalacticBank.$rate20 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$rate20 * 100,
+						$default = md.TheBankingClan.GalacticBank.$rate20 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -109,9 +109,9 @@
 						$id = 'period20',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$period20 / 3600,
+						$start = md.TheBankingClan.GalacticBank.$period20 / 3600,
 						$min=0, $max=720, $step=0.1, $suffix='hr',
-						$default = md.Banking_Clan_Bank.GalacticBank.$period20 / 3600,
+						$default = md.TheBankingClan.GalacticBank.$period20 / 3600,
 						$onSliderCellChanged = OnPeriodChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -128,9 +128,9 @@
 						$id = 'fee10',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$fee10 * 100,
+						$start = md.TheBankingClan.GalacticBank.$fee10 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$fee10 * 100,
+						$default = md.TheBankingClan.GalacticBank.$fee10 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -142,9 +142,9 @@
 						$id = 'rate10',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$rate10 * 100,
+						$start = md.TheBankingClan.GalacticBank.$rate10 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$rate10 * 100,
+						$default = md.TheBankingClan.GalacticBank.$rate10 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -156,9 +156,9 @@
 						$id = 'period10',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$period10 / 3600,
+						$start = md.TheBankingClan.GalacticBank.$period10 / 3600,
 						$min=0, $max=720, $step=0.1, $suffix='hr',
-						$default = md.Banking_Clan_Bank.GalacticBank.$period10 / 3600,
+						$default = md.TheBankingClan.GalacticBank.$period10 / 3600,
 						$onSliderCellChanged = OnPeriodChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -175,9 +175,9 @@
 						$id = 'fee0',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$fee0 * 100,
+						$start = md.TheBankingClan.GalacticBank.$fee0 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$fee0 * 100,
+						$default = md.TheBankingClan.GalacticBank.$fee0 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -189,9 +189,9 @@
 						$id = 'rate0',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$rate0 * 100,
+						$start = md.TheBankingClan.GalacticBank.$rate0 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$rate0 * 100,
+						$default = md.TheBankingClan.GalacticBank.$rate0 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -203,9 +203,9 @@
 						$id = 'period0',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$period0 / 3600,
+						$start = md.TheBankingClan.GalacticBank.$period0 / 3600,
 						$min=0, $max=720, $step=0.1, $suffix='hr',
-						$default = md.Banking_Clan_Bank.GalacticBank.$period0 / 3600,
+						$default = md.TheBankingClan.GalacticBank.$period0 / 3600,
 						$onSliderCellChanged = OnPeriodChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -222,9 +222,9 @@
 						$id = 'fee9',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$fee9 * 100,
+						$start = md.TheBankingClan.GalacticBank.$fee9 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$fee9 * 100,
+						$default = md.TheBankingClan.GalacticBank.$fee9 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -236,9 +236,9 @@
 						$id = 'rate9',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$rate9 * 100,
+						$start = md.TheBankingClan.GalacticBank.$rate9 * 100,
 						$min=0, $max=100, $step=0.1, $suffix='%',
-						$default = md.Banking_Clan_Bank.GalacticBank.$rate9 * 100,
+						$default = md.TheBankingClan.GalacticBank.$rate9 * 100,
 						$onSliderCellChanged = OnPercentChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
@@ -250,9 +250,9 @@
 						$id = 'period9',
 						$col = 2,
 						$text = table[$text=''],
-						$start = md.Banking_Clan_Bank.GalacticBank.$period9 / 3600,
+						$start = md.TheBankingClan.GalacticBank.$period9 / 3600,
 						$min=0, $max=720, $step=0.1, $suffix='hr',
-						$default = md.Banking_Clan_Bank.GalacticBank.$period9 / 3600,
+						$default = md.TheBankingClan.GalacticBank.$period9 / 3600,
 						$onSliderCellChanged = OnPeriodChange
 					]" />
 			</actions>
@@ -262,7 +262,7 @@
 				<event_cue_signalled />
 			</conditions>
 			<actions>
-				<set_value name="md.Banking_Clan_Bank.GalacticBank.{'$' + event.param.$id}"
+				<set_value name="md.TheBankingClan.GalacticBank.{'$' + event.param.$id}"
 					exact="event.param.$value / 100" />
 				<cancel_cue cue="this" />
 			</actions>
@@ -272,7 +272,7 @@
 				<event_cue_signalled />
 			</conditions>
 			<actions>
-				<set_value name="md.Banking_Clan_Bank.GalacticBank.{'$' + event.param.$id}"
+				<set_value name="md.TheBankingClan.GalacticBank.{'$' + event.param.$id}"
 					exact="(event.param.$value * 3600)s" />
 				<cancel_cue cue="this" />
 			</actions>
