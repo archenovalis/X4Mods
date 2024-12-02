@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="Banking_Clan_Bank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+  <cues>
+    <cue name="GettingAJob" namespace="this" version="1">
+      <conditions>
+        <check_any>
+          <event_game_loaded />
+          <event_game_started />
+          <event_player_created />
+          <event_cue_signalled cue="md.Setup.Start" />
+        </check_any>
+      </conditions>
+      <actions>
+        <set_value name="$Paycheck" exact="0" />
+        <set_value name="$PayInterval" exact="900s" />
+        <set_value name="$Factions" exact="table[]" />
+        <!--
+          GettingAJob.$Factions = table[
+            {$faction} = table[
+              $pay = an int,
+              $lastMission = a player.age,
+              $totalCombatRewards = an int,
+              $totalSupportRewards = an int,
+              $pensionTier = an int,
+              $spyOffer = bool,
+              $status = a string { hired || quit || retired || traitor || spy }
+            ]
+          ]
+        -->
+
+        <set_value name="$RateTags" exact="table[
+          {tag.peaceful} = 15000,
+          {tag.police} = 10000
+          {tag.plunder} = 5000,
+        ]" />
+
+        <set_value name="$SetupComplete" exact="false" />
+      </actions>
+      <cues>
+        <cue name="Init">
+          <conditions>
+            <check_any>
+              <event_game_loaded />
+              <event_game_started />
+              <event_player_created />
+              <event_cue_signalled />
+            </check_any>
+          </conditions>
+          <delay exact="2s" />
+          <actions>
+            <do_if value="not $SetupComplete">
+              <signal_cue_instantly cue="InitSetup" />
+            </do_if>
+            <reset_cue cue="Init" />
+          </actions>
+          <cues>
+            <cue name="InitSetup">
+              <conditions>
+                <event_cue_signalled />
+              </conditions>
+              <delay exact="1ms" />
+              <actions>
+                <!-- find factions with ge 12 relation -->
+                <do_all counter="$i" exact="md.$FactionData.keys.count">
+                  <set_value name="$faction" exact="md.$FactionData.keys.{$i}" />
+                  <do_if value="$faction.relationto.{faction.player} ge 0.01585">
+                    <set_value name="$Factions.{$faction}" exact="table[]" />
+                    <set_value name="$Factions.{$faction}.$message15" exact="true" />
+                    <write_incoming_message highpriority="true" source="''+$faction" title="Job Offer" text="'We are please to inform you that we are offering a job to you. Please see one of our station managers to accept the position.'" />
+                  </do_if>
+                </do_all>
+
+                <!-- Complete -->
+                <set_value name="$SetupComplete" exact="true" />
+                <reset_cue cue="InitSetup" />
+              </actions>
+            </cue>
+          </cues>
+        </cue>
+
+        <!-- Paycheck -->
+        <cue name="IssuePaycheck">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <delay exact="$PayInterval" />
+          <actions>
+            <show_notification text="'paycheck'" />
+            <signal_cue_instantly cue="md.TheBankingClan.GalacticBank.Transfer" param="$Paycheck" />
+            <!--  <cue name="Transfer" instantiate="true" comment="param: int = deposit positive, withdraw negative">
+                    <conditions>
+                      <event_cue_signalled />
+                    </conditions>
+                    <actions>
+                      <do_if value="GalacticBank.$balance == 0">
+                        <set_value name="GalacticBank.$interest_time" exact="player.age" />
+                      </do_if>
+                      <do_else>
+                        <set_value name="$timeSinceInterest" exact="player.age - GalacticBank.$interest_time" />
+                        <set_value name="GalacticBank.$interest_time" exact="player.age" />
+                        <set_value name="$interest_amount"
+                          exact="$balance * ((1 + $rate)^($timeSinceInterest / $period) - 1)" />
+                        <set_value name="GalacticBank.$balance" operation="add" exact="$interest_amount" />
+                      </do_else>
+                      <set_value name="GalacticBank.$balance" operation="add" exact="event.param" />
+                    </actions>
+                  </cue> -->
+            <signal_cue_instantly cue="this" />
+          </actions>
+        </cue>
+
+        <!-- Manager Conversation -->
+        <cue name="Convo_Start">
+          <conditions>
+            <check_any>
+              <event_cue_signalled />
+              <check_all>
+                <event_conversation_started conversation="default" />
+                <check_value value="not @event.object.hasrelation.enemy.{faction.player}" />
+                <check_value value="event.object == @player.container.tradenpc" />
+                <check_value value="event.object.trueowner != faction.player" />
+                <check_value value="event.object.owner.relationto.{faction.player} ge 0.01585" />
+              </check_all>
+            </check_any>
+            <check_value value="player.container.isclass.station" />
+          </conditions>
+          <actions>
+            <do_if value="event.name == 'event_cue_signalled'">
+              <set_value name="$manager" exact="@event.param.$manager" />
+              <set_value name="$convoOption_isGetHired" exact="@event.param.$convoOption_isGetHired" />
+              <set_value name="$convoOption_isBecomeSpy" exact="@event.param.$convoOption_isBecomeSpy" />
+            </do_if>
+            <do_else>
+              <set_value name="$manager" exact="event.object" />
+              <set_value name="$faction" exact="$manager.trueowner" />
+              <set_value name="$convoOption_isGetHired" exact="false" />
+              <set_value name="$convoOption_isBecomeSpy" exact="false" />
+              <do_if value="not @$Factions.{$faction}.$status">
+                <set_value name="$convoOption_isGetHired" exact="true" />
+              </do_if>
+              <do_elseif value="$Factions.{$faction}.$spyOffer">
+                <set_value name="$convoOption_isBecomeSpy" exact="true" />
+              </do_elseif>
+            </do_else>
+            <do_if value="
+                  event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists
+                  and
+                  (@$convoOption_isGetHired or @$convoOption_isBecomeSpy)
+                ">
+              <set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kNPCBankLoans" exact="table[
+                    $signalCue = Convo_Start,
+                    $params = table[$manager = $manager, $convoOption_isGetHired = @$convoOption_isGetHired, $convoOption_isBecomeSpy = @$convoOption_isBecomeSpy]
+                  ]" />
+            </do_if>
+            <do_else>
+              <do_if value="$convoOption_isGetHired">
+                <do_for_each name="$tag" in="$RateTags.keys">
+                  <get_factions_by_tag tag="$tag" result="$taggedFactions" />
+                  <do_if value="$taggedFactions.indexof.{faction}">
+                    <set_value name="$rate" exact="$RateTags.{$tag}" />
+                  </do_if>
+                  <do_if value="$rate">
+                    <break />
+                  </do_if>
+                </do_for_each>
+                <add_player_choice text="'Job Offer'" section="GAJ_get_hired" choiceparam="$rate" />
+              </do_if>
+              <do_if value="$convoOption_isBecomeSpy">
+                <!-- spy pay logic goes here-->
+                <add_player_choice text="'Become a Spy'" section="GAJ_become_spy" />
+              </do_if>
+            </do_else>
+            <reset_cue cue="this" />
+          </actions>
+        </cue>
+        <cue name="Convo_Continue">
+          <conditions>
+            <event_conversation_next_section sectionprefix="GAJ_" />
+          </conditions>
+          <actions>
+            <set_value name="$faction" exact="event.object.trueowner" />
+            <set_value name="$pay" exact="event.param2" />
+            <do_if value="event.param == 'GAJ_get_hired'">
+              <set_value name="$Factions.{$faction}.$status" exact="'hired'" />
+              <set_value name="$Factions.{$faction}.$pay" exact="$pay" />
+              <do_if value="$Paycheck" exact="0">
+                <signal_cue_instantly cue="IssuePaycheck" />
+              </do_if>
+              <set_value name="$Paycheck" operation="add" exact="$pay" />
+              <!-- <write_incoming_message source="" title="" text=""/> -->
+            </do_if>
+            <do_elseif value="event.param == 'GAJ_become_spy'">
+              <!-- spy acceptance logic goes here -->
+            </do_elseif>
+            <reset_cue cue="this" />
+          </actions>
+        </cue>
+      </cues>
+    </cue>
+  </cues>
+</mdscript>
