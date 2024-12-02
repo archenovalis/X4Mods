@@ -6,7 +6,7 @@ Life isn't easy. It's a grind. The rich get richer and the poor...slowly get ric
 * Work for a faction's government, available at 12+ relationship. Receive a paycheck deposited direct to your InterGalactic Bank account every 15 minutes. Basic paycheck for joining based on faction type (major=10k, peaceful=25k, pirate=4k).
 
 * **Ship Prices**
-The cost of purchasing ships has been increased to match their hull, and scale with their size.
+The cost of purchasing ships has been increased to match their hull, and scale with their size. Selling prices of used ships reduced.
 ```
 S: no changes
 M: ~3-7x
@@ -46,10 +46,13 @@ Inventory price spreads reduced by 8 to 12.5% of normal.
     * Spy missions: Occasional mission to return home (every (2,4,8)? hours; don't get spotted), and station sabotage (ie: before raids). 
     * Consequence: Spy bonus added to paycheck from main faction plus paycheck from other faction. Benefits your faction, harms the spied upon faction.
 * **Player Economy Changes**
+  * Only sell stolen ships to the prior owners enemies or pirates. Different factions pay different amounts depending upon type of ship (military or industry)
   * Research costs increased to 2x module's and 10x ship's sell price (same as buying blueprint from faction rep).
   * Contraband pays much more when working for a faction that produces it.
+  * Reverse engineer ships to get blueprints.
 
 
 ## Changelog
 - v0.1: Early player economy changes are complete.
 - v0.2: Basic Paycheck implemented
+- v0.21: Sell ships mechanic replaces, reduced ship sell price -- divide by ship class max ratio m=7x, l=13x xl=9, xxl=9x
