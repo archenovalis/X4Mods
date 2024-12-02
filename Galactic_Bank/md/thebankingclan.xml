@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="Banking_Clan_Bank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mdscript name="TheBankingClan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="GalacticBank" namespace="this" version="4">
+		<cue name="GalacticBank" namespace="this" version="1">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -51,160 +51,6 @@
 				<set_value name="$factionList"
 					exact="[faction.thebankingclan, faction.galempire, faction.ascendancy, faction.newrepublic, faction.commerceguild, faction.corporate, faction.huttcartel, faction.anoat, faction.mandodw]" />
 			</actions>
-			<patch sinceversion="2">
-				<set_value name="$fee20" exact="0.0025" />
-				<set_value name="$fee10" exact="0.0025" />
-				<set_value name="$fee0" exact="0.005" />
-				<set_value name="$fee9" exact="0.005" />
-				<set_value name="$setupComplete" exact="false" />
-				<set_value name="$factionList"
-					exact="[faction.thebankingclan, faction.galempire, faction.ascendancy, faction.newrepublic, faction.commerceguild, faction.corporate, faction.huttcartel, faction.anoat, faction.mandodw]" />
-			</patch>
-			<patch sinceversion="4">
-				<find_station_by_true_owner macro="macro.station_bankingclan_branchvault_macro"
-					faction="faction.bankingclan" space="player.galaxy" name="$stations" />
-				<set_value name="$rawname"
-					exact="'{20777,1001} {20777,1005} - {20777,1003} {20777,1004}'" />
-				<set_value name="$macro" exact="macro.station_bankingclan_mainvault_macro" />
-				<do_for_each name="$station" in="$stations">
-					<do_if value="not $station.iswreck">
-						<set_value name="$sector" exact="$station.sector" />
-						<set_value name="$position" exact="$station.position" />
-						<set_value name="$rotation" exact="$station.rotation" />
-						<destroy_object explosion="false" object="$station" />
-						<create_station rawname="$rawname"
-							state="componentstate.operational"
-							encyclopedia="false"
-							name="$stationNew"
-							sector="$sector"
-							owner="faction.thebankingclan" macro="$macro"
-							constructionplan="'vault_bankingclan'">
-							<position value="$position" />
-						</create_station>
-						<set_loadout_level object="$stationNew" exact="1" />
-						<signal_objects object="player.galaxy" param="'init station'" param2="$stationNew"
-							param3="false" />
-					</do_if>
-				</do_for_each>
-				<find_station_by_true_owner macro="macro.station_bankingclan_branchvault_macro"
-					faction="faction.bankingclan" space="player.galaxy" name="$stations" />
-				<set_value name="$rawname" exact="'{20777,1001} {20777,1005} - {20777,1006} {20777,1004}'" />
-				<set_value name="$macro" exact="macro.station_bankingclan_branchvault_macro" />
-				<do_for_each name="$station" in="$stations">
-					<do_if value="not $station.iswreck">
-						<set_value name="$sector" exact="$station.sector" />
-						<set_value name="$position" exact="$station.position" />
-						<set_value name="$rotation" exact="$station.rotation" />
-						<destroy_object explosion="false" object="$station" />
-						<create_station rawname="$rawname"
-							state="componentstate.operational"
-							encyclopedia="false"
-							name="$stationNew"
-							sector="$sector"
-							owner="faction.thebankingclan" macro="$macro"
-							constructionplan="'vault_bankingclan'">
-							<position value="$position" />
-						</create_station>
-						<set_loadout_level object="$stationNew" exact="0.9" />
-						<signal_objects object="player.galaxy" param="'init station'" param2="$stationNew"
-							param3="false" />
-					</do_if>
-				</do_for_each>
-
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.anoat"
-					value="0.2" />
-				<set_faction_relation faction="faction.anoat"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.mandodw"
-					value="0.2" />
-				<set_faction_relation faction="faction.mandodw"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.huttcartel"
-					value="0.2" />
-				<set_faction_relation faction="faction.huttcartel"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.corporate"
-					value="0.2" />
-				<set_faction_relation faction="faction.corporate"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.commerceguild"
-					value="0.2" />
-				<set_faction_relation faction="faction.commerceguild"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.rebelalliance"
-					value="0.2" />
-				<set_faction_relation faction="faction.rebelalliance"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.newrepublic"
-					value="0.2" />
-				<set_faction_relation faction="faction.newrepublic"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.ascendancy"
-					value="0.2" />
-				<set_faction_relation faction="faction.ascendancy"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.sith"
-					value="0.2" />
-				<set_faction_relation faction="faction.sith"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.galempire"
-					value="0.2" />
-				<set_faction_relation faction="faction.galempire"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.sienar"
-					value="0.2" />
-				<set_faction_relation faction="faction.sienar"
-					otherfaction="faction.thebankingclan"
-					value="0.2" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.blacksun"
-					value="-0.1" />
-				<set_faction_relation faction="faction.blacksun"
-					otherfaction="faction.thebankingclan"
-					value="-0.1" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.valarian"
-					value="-0.1" />
-				<set_faction_relation faction="faction.valarian"
-					otherfaction="faction.thebankingclan"
-					value="-0.1" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.mandoraiders"
-					value="-0.1" />
-				<set_faction_relation faction="faction.mandoraiders"
-					otherfaction="faction.thebankingclan"
-					value="-0.1" />
-				<set_faction_relation faction="faction.thebankingclan"
-					otherfaction="faction.huttpirates"
-					value="-0.1" />
-				<set_faction_relation faction="faction.huttpirates"
-					otherfaction="faction.thebankingclan"
-					value="-0.1" />
-
-				<set_value name="$factionList"
-					exact="[faction.thebankingclan, faction.galempire, faction.ascendancy, faction.newrepublic, faction.commerceguild, faction.corporate, faction.huttcartel, faction.anoat, faction.mandodw]" />
-			</patch>
 			<cues>
 				<cue name="Init">
 					<conditions>
@@ -803,89 +649,112 @@
 									]" />
 						</do_if>
 					</actions>
+					<cues>
+						<!-- sliders -->
+						<cue name="Bank_Menu_Update" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+								<signal_cue_instantly cue="Bank_Menu_Open" />
+							</actions>
+						</cue>
+						<cue name="Bank_Menu_Deposit_Amount" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$deposit_amount" exact="event.param.$value" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="Bank_Menu_Withdraw_Amount" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$withdraw_amount" exact="event.param.$value" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+
+						<!-- actions -->
+						<cue name="Bank_Menu_Deposit" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="player.money ge $deposit_amount">
+									<do_if value="$balance == 0">
+										<set_value name="$interest_time" exact="player.age" />
+									</do_if>
+									<do_else>
+										<set_value name="$timeSinceInterest" exact="player.age - $interest_time" />
+										<set_value name="$interest_time" exact="player.age" />
+										<set_value name="$interest_amount"
+											exact="$balance * ((1 + $rate)^($timeSinceInterest / $period) - 1)" />
+									</do_else>
+									<reward_player money="($deposit_amount)Cr * -1" />
+									<set_value name="$balance" exact="$balance + $deposit_amount + $interest_amount" />
+									<set_value name="$newBalance" exact="$balance" />
+									<set_value name="$deposit_amount" exact="0" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+									<signal_cue_instantly cue="Bank_Menu_Open" param="$interest_amount" />
+								</do_if>
+								<do_else>
+									<cancel_cue cue="this" />
+								</do_else>
+							</actions>
+						</cue>
+						<cue name="Bank_Menu_Withdraw" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="$balance ge $withdraw_amount">
+									<set_value name="$timeSinceInterest" exact="player.age - $interest_time" />
+									<set_value name="$interest_time" exact="player.age" />
+									<set_value name="$interest_amount"
+										exact="$balance * ((1 + $rate)^($timeSinceInterest / $period) - 1)" />
+									<do_if value="$balance - $withdraw_amount * (1+$stationFee/100) lt 1">
+										<reward_player money="($withdraw_amount)Cr + $interest_amount" />
+										<set_value name="$balance" exact="0" />
+									</do_if>
+									<do_else>
+										<reward_player money="($withdraw_amount)Cr * 1" />
+										<set_value name="$balance" exact="$balance + $interest_amount" />
+										<set_value name="$balance" exact="$balance - $withdraw_amount * (1+$stationFee/100)" />
+									</do_else>
+									<set_value name="$newBalance" exact="$balance" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+									<signal_cue_instantly cue="Bank_Menu_Open" param="$interest_amount" />
+								</do_if>
+								<do_else>
+									<cancel_cue cue="this" />
+								</do_else>
+							</actions>
+						</cue>
+					</cues>
 				</cue>
 
-				<cue name="Bank_Menu_Update" instantiate="true">
+				<!-- api -->
+				<cue name="Transfer" instantiate="true" comment="param: int = deposit positive, withdraw negative">
 					<conditions>
 						<event_cue_signalled />
 					</conditions>
 					<actions>
-						<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-						<signal_cue_instantly cue="Bank_Menu_Open" />
-					</actions>
-				</cue>
-				<cue name="Bank_Menu_Deposit_Amount" instantiate="true">
-					<conditions>
-						<event_cue_signalled />
-					</conditions>
-					<actions>
-						<set_value name="$deposit_amount" exact="event.param.$value" />
-						<cancel_cue cue="this" />
-					</actions>
-				</cue>
-				<cue name="Bank_Menu_Withdraw_Amount" instantiate="true">
-					<conditions>
-						<event_cue_signalled />
-					</conditions>
-					<actions>
-						<set_value name="$withdraw_amount" exact="event.param.$value" />
-						<cancel_cue cue="this" />
-					</actions>
-				</cue>
-				<cue name="Bank_Menu_Deposit" instantiate="true">
-					<conditions>
-						<event_cue_signalled />
-					</conditions>
-					<actions>
-						<do_if value="player.money ge $deposit_amount">
-							<do_if value="$balance == 0">
-								<set_value name="$interest_time" exact="player.age" />
-							</do_if>
-							<do_else>
-								<set_value name="$timeSinceInterest" exact="player.age - $interest_time" />
-								<set_value name="$interest_time" exact="player.age" />
-								<set_value name="$interest_amount"
-									exact="$balance * ((1 + $rate)^($timeSinceInterest / $period) - 1)" />
-							</do_else>
-							<reward_player money="($deposit_amount)Cr * -1" />
-							<set_value name="$balance" exact="$balance + $deposit_amount + $interest_amount" />
-							<set_value name="$newBalance" exact="$balance" />
-							<set_value name="$deposit_amount" exact="0" />
-							<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-							<signal_cue_instantly cue="Bank_Menu_Open" param="$interest_amount" />
+						<do_if value="$balance == 0">
+							<set_value name="$interest_time" exact="player.age" />
 						</do_if>
 						<do_else>
-							<cancel_cue cue="this" />
-						</do_else>
-					</actions>
-				</cue>
-
-				<cue name="Bank_Menu_Withdraw" instantiate="true">
-					<conditions>
-						<event_cue_signalled />
-					</conditions>
-					<actions>
-						<do_if value="$balance ge $withdraw_amount">
 							<set_value name="$timeSinceInterest" exact="player.age - $interest_time" />
 							<set_value name="$interest_time" exact="player.age" />
 							<set_value name="$interest_amount"
 								exact="$balance * ((1 + $rate)^($timeSinceInterest / $period) - 1)" />
-							<do_if value="$balance - $withdraw_amount * (1+$stationFee/100) lt 1">
-								<reward_player money="($withdraw_amount)Cr + $interest_amount" />
-								<set_value name="$balance" exact="0" />
-							</do_if>
-							<do_else>
-								<reward_player money="($withdraw_amount)Cr * 1" />
-								<set_value name="$balance" exact="$balance + $interest_amount" />
-								<set_value name="$balance" exact="$balance - $withdraw_amount * (1+$stationFee/100)" />
-							</do_else>
-							<set_value name="$newBalance" exact="$balance" />
-							<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-							<signal_cue_instantly cue="Bank_Menu_Open" param="$interest_amount" />
-						</do_if>
-						<do_else>
-							<cancel_cue cue="this" />
+							<set_value name="$balance" operation="add" exact="$interest_amount" />
 						</do_else>
+						<set_value name="$balance" operation="add" exact="event.param" />
 					</actions>
 				</cue>
 			</cues>
