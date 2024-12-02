@@ -27,8 +27,6 @@ Getting a Job:
 
 - increase contraband profitability when working for a pirate faction
 
-- stolen ships are stolen, use them away from the faction (and their allies) they were stolen from or recycle them at your shipyard to try to reverse engineer them. can't sell them to non-pirate factions (legit salvaged ships are not stolen)
+- stolen ships are stolen, use them away from the faction (and their non-enemies) that they were stolen from or recycle them at your shipyard to try to reverse engineer them. can't sell them to non-pirate factions (legit salvaged ships are not stolen)
 -- would need to mark a ship as stolen when attacked (and pilot bails) and when boarded. but if the player didn't attack the ship before the pilot bailed, then it'd be legitimate salvage, and it wouldn't be stolen. and and if the pilot bails but the player attacked in self-defense, then it wouldn't be considered stolen (not sure when that'd happen but self-defense is in the crime has consequences mod). ah, can only give variables to the ai pilot, not the ship... so hmm
 kuertee creates a criminal ship database. so i guess i'll just use the same database for it
-
-- reduce ship sell price -- divide by ship class max ratio m=7x, l=13x xl=9, xxl=5.5x
