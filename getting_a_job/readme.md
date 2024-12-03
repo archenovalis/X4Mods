@@ -20,13 +20,14 @@ Missions, trading inventory items, selling craftables, trading software and depl
 Average inventory prices reduced by 5 to 20% of normal.
 Inventory price spreads reduced by 8 to 12.5% of normal.
 ```
-## Requirements
+## Requirements (some not yet required)
 [Star Wars Interworlds](https://sites.google.com/view/swinterworlds/Home)
 [InterGalactic Bank](https://discord.com/channels/614576717008207901/1309028894937972747/1309028897274466374)
-[Crime has consequences](https://www.nexusmods.com/x4foundations/mods/566) (v7.1.10: Disable crimes towards subordinates are reassigned to their commanders)
-[Alternatives to death](https://www.nexusmods.com/x4foundations/mods/551)
+[Kuertee: Crime Has Consequences](https://www.nexusmods.com/x4foundations/mods/566) (v7.1.10: Disable crimes towards subordinates are reassigned to their commanders)
+[Kuertee: Alternatives to death](https://www.nexusmods.com/x4foundations/mods/551)
+[Kuertee: NPC Reactions](https://www.nexusmods.com/x4foundations/mods/497)
+[Kuertee: UI Extensions and HUD](https://github.com/kuertee/x4-mod-ui-extensions/releases)
 [Mod Support APIs](https://www.nexusmods.com/x4foundations/mods/503)
-[UI Extensions and HUD](https://github.com/kuertee/x4-mod-ui-extensions/releases)
 
 
 ## Installation
@@ -55,4 +56,4 @@ Inventory price spreads reduced by 8 to 12.5% of normal.
 ## Changelog
 - v0.1: Early player economy changes are complete.
 - v0.2: Basic Paycheck implemented
-- v0.21: Sell ships mechanic replaces, reduced ship sell price -- divide by ship class max ratio m=7x, l=13x xl=9, xxl=9x
+- v0.21: Sell ships mechanic replaced, reduced ship sell price -- divide by ship class max ratio m=7x, l=13x xl=9, xxl=9x
