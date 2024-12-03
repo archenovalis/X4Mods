@@ -1,24 +1,34 @@
 Getting a Job:
 
-- Main Feature
-mdconverstation, message: Get a job working for a faction's government, available at (10/15/20)? relationship.
-mdpaydelay: Receive a paycheck deposited direct to player, or InterGalactic Bank account every (6/10/15/20/30/60)? minutes.
-  Basic paycheck for joining, plus additonal tiers based on Combat and Support performance.
-  mdjob eachmission (checks for mission.completed or called when receiving reward..add to all missions): Combat pay based on completing raid/defend mission, getting patrol kills (not station civilian criminal).
+-- Features
+- mdjob eachmission (checks for mission.completed or called when receiving reward..add to all missions): Combat pay based on completing raid/defend mission, getting patrol kills (not station civilian criminal).
 
-  (per player.ship sell or only missions?): Support pay for trading with faction stations (buying and selling) and completing support missions.
+- Only missions: Support pay for trading with faction stations (buying and selling) and completing support missions.
 
-- Retirement
-mdconverstation (pension level variable check): Quit at any time or Retire after reaching pension levels.
-mdpaydelay (total mission rewards variable): Multiple pension levels, based on total pay received (basic/combat/support).
+-- Retirement
+- mdconverstation (pension level variable check): Quit at any time or Retire after reaching pension levels.
+- mdpaydelay (total mission rewards variable): Pension based on total pay received.
 
-- New Statuses --
-  mddelay2 mdjob (variables: last mission completed, deserter): Deserter, not completing any military or support missions within last (60/120/240)? minutes. Consequence: Paycheck paused until next mission is completed.
+-- New Statuses --
+-  mddelay2 mdjob (variables: last mission completed, deserter): Deserter, not completing any military or support missions within last (60/120/240)? minutes.
+-  Consequence: Paycheck paused until next mission is completed.
 
-  mdtraitor (radar check, active mission check): Traitor, while working for or after quitting/retiring, being seen by a military ship after joining and while participating in an enemy factions military or support mission. Consequence: No more paycheck or pension. Relation set to -25.
+-  mdtraitor (radar check, active mission check): Traitor, while working for or after quitting/retiring, being seen by a military ship after joining and while participating in an enemy factions military or support mission. 
+-  Consequence: No more paycheck or pension. Relation set to -25.
+-  Receive bribes to switch allegiance, become a spy for another faction.
 
-  mdpaydelay mdconversation (spy variable): Spy, (requires relationship 25 and first? pension level), allows joining other factions (will still become a traitor if participating in a military mission against your primary faction, and traitor status by the other faction as normal). Consequence: Spy bonus added to paycheck from main faction plus paycheck from other faction.
+-  mdpaydelay mdconversation (spy variable): Spy, (requires relationship 25 and first? pension level), allows joining enemy factions (will still become a traitor if participating in a military mission against your primary faction, and traitor status by the other faction as normal). Consequence: Spy bonus added to paycheck from main faction plus paycheck from other faction.
+-  sabotage missions (disable turrets, shields, etc)
+-  disable teleport
 
 -- Player Economy Changes --
 
 - Research costs increased to 2x module's and 10x ship's sell price (same as buying blueprint from factionrep).
+
+- increase contraband profitability when working for a pirate faction
+
+- stolen ships are stolen, use them away from the faction (and their allies) they were stolen from or recycle them at your shipyard to try to reverse engineer them. can't sell them to non-pirate factions (legit salvaged ships are not stolen)
+-- would need to mark a ship as stolen when attacked (and pilot bails) and when boarded. but if the player didn't attack the ship before the pilot bailed, then it'd be legitimate salvage, and it wouldn't be stolen. and and if the pilot bails but the player attacked in self-defense, then it wouldn't be considered stolen (not sure when that'd happen but self-defense is in the crime has consequences mod). ah, can only give variables to the ai pilot, not the ship... so hmm
+kuertee creates a criminal ship database. so i guess i'll just use the same database for it
+
+- reduce ship sell price -- divide by ship class max ratio m=7x, l=13x xl=9, xxl=5.5x
