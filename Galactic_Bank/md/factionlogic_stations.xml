@@ -2,7 +2,7 @@
 
 <!-- remove banking clan from normal tradestation faction logic-->
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
   <add
     sel="/mdscript/cues/library[@name='Manage_Stations']/cues/cue[@name='Process']/cues/cue[@name='Analyse_Stations']/actions/do_elseif[@value='@$DesiredTradeStationPatchMarker']"
     pos="after">

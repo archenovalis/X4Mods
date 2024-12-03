@@ -7,5 +7,6 @@
 
 	<dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" />
 	<dependency id="SW Interworlds" optional="false" name="SW Interworlds" />
+	<dependency id="kuerteeNPCReactions" optional="false" name="kuertee: NPC reactions" />
 
 </content>

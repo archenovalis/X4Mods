@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  xsi:noNamespaceSchemaLocation="../../xsd/factionsdiff.xsd">
   <add sel="//faction[@id='sith']/relations">
     <relation faction="thebankingclan" relation="0.2" />
   </add>
@@ -20,7 +20,7 @@
     <relation faction="thebankingclan" relation="0.2" />
   </add>
   <add sel="//faction[@id='tradefederation']" pos="before">
-    <faction id="thebankingclan" name="{999840,529110}" description="{999840,529130}" shortname="{999840,529120}" primaryrace="argon" behaviourset="default" known="1" tags="economic privateloadout publicloadout privateship peaceful">
+    <faction id="thebankingclan" name="{999840,529110}" description="{999840,529130}" shortname="{999840,529120}" primaryrace="argon" behaviourset="default" known="1" tags="economic protective watchdoguser privateloadout publicloadout privateship peaceful">
       <color r="153" g="204" b="0" />
       <icon active="faction_thebankingclan" inactive="faction_thebankingclan" />
       <relations>
@@ -40,7 +40,7 @@
         <relation faction="mandoraiders" relation="-0.1" />
         <relation faction="valarian" relation="-0.1" />
         <relation faction="blacksun" relation="-0.1" />
-        <relation faction="naboo" relation="0.2" />
+        <relation faction="naboo" relation="-0.1" />
         <relation faction="hapes" relation="0.2" />
         <relation faction="kamino" relation="0.2" />
         <relation faction="kuat" relation="0.2" />

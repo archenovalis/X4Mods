@@ -10,9 +10,11 @@
 					<event_player_created />
 					<event_cue_signalled cue="md.Setup.Start" />
 				</check_any>
+				<check_value value="not @player.allmodules.{player.module}.isscenario" />
 			</conditions>
 			<actions>
 				<debug_text text="'event.name: ' + event.name" />
+				<set_value name="md.$FactionData.{faction.thebankingclan}" exact="table[]" />
 				<set_value name="global.$Bank" exact="this" />
 				<set_value name="$relation" exact="0" />
 				<set_value name="$balance" exact="0" />
@@ -60,6 +62,7 @@
 							<event_player_created />
 							<event_cue_signalled />
 						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
 					</conditions>
 					<delay exact="2s" />
 					<actions>
@@ -295,6 +298,96 @@
 								<set_faction_relation faction="faction.huttpirates"
 									otherfaction="faction.thebankingclan"
 									value="-0.1" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.hapes"
+									value="-0.1" />
+								<set_faction_relation faction="faction.hapes"
+									otherfaction="faction.thebankingclan"
+									value="-0.1" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.transgalmeg"
+									value="0.2" />
+								<set_faction_relation faction="faction.transgalmeg"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.rendili"
+									value="0.2" />
+								<set_faction_relation faction="faction.rendili"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.naboo"
+									value="0.2" />
+								<set_faction_relation faction="faction.naboo"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.moncal"
+									value="0.2" />
+								<set_faction_relation faction="faction.moncal"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.kuat"
+									value="0.2" />
+								<set_faction_relation faction="faction.kuat"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.kamino"
+									value="0.2" />
+								<set_faction_relation faction="faction.kamino"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.incom"
+									value="0.2" />
+								<set_faction_relation faction="faction.incom"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.tagge"
+									value="0.2" />
+								<set_faction_relation faction="faction.tagge"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.tradefederation"
+									value="0.2" />
+								<set_faction_relation faction="faction.tradefederation"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.baobab"
+									value="0.2" />
+								<set_faction_relation faction="faction.baobab"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.twinsuns"
+									value="0.2" />
+								<set_faction_relation faction="faction.twinsuns"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.indibhg"
+									value="0.2" />
+								<set_faction_relation faction="faction.indibhg"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.corellia"
+									value="0.2" />
+								<set_faction_relation faction="faction.corellia"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
+								<set_faction_relation faction="faction.thebankingclan"
+									otherfaction="faction.hoersh"
+									value="0.2" />
+								<set_faction_relation faction="faction.hoersh"
+									otherfaction="faction.thebankingclan"
+									value="0.2" />
 
 								<!-- Complete -->
 								<set_value name="$setupComplete" exact="true" />
