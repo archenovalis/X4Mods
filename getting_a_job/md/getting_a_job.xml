@@ -24,7 +24,8 @@
               $totalSupportRewards = an int,
               $pensionTier = an int,
               $spyOffer = bool,
-              $status = a string { hired || quit || retired || traitor || spy }
+              $status = a string { hired || quit || retired || traitor || spy },
+              $active = bool
             ]
           ]
         -->
@@ -87,6 +88,20 @@
               </actions>
             </cue>
           </cues>
+        </cue>
+
+        <cue name="MissionReward">
+          <conditions>
+            <check_all>
+              <check_any>
+                <event_cue_completed cue="" />
+                <mission
+              </check_any>
+              <
+            </check_all>
+          </conditions>
+          <actions>
+          </actions>
         </cue>
 
         <!-- Paycheck -->

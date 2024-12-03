@@ -1,7 +1,7 @@
 Getting a Job:
 
 -- Features
-- mdjob eachmission (checks for mission.completed or called when receiving reward..add to all missions): Combat pay based on completing raid/defend mission, getting patrol kills (not station civilian criminal).
+- eachmission (checks for mission.completed or called when receiving reward..add to all missions): Combat pay based on completing raid/defend mission, getting patrol kills (not station civilian criminal).
 
 - Only missions: Support pay for trading with faction stations (buying and selling) and completing support missions.
 
