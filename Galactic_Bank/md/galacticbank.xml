@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="TheBankingClan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mdscript name="GalacticBank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="GalacticBank" namespace="this" version="1">
+		<cue name="Vault" namespace="this" version="1">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -14,23 +14,9 @@
 			</conditions>
 			<actions>
 				<set_value name="md.$FactionData.{faction.thebankingclan}" exact="table[]" />
-				<set_value name="$Relation" exact="0" />
-				<set_value name="$Balance" exact="0" />
-				<set_value name="$NewBalance" exact="0" />
-				<set_value name="$Fee" exact="0.0025" />
-				<set_value name="$Rate" exact="0.0075" />
-				<set_value name="$Period" exact="20h" />
-				<set_value name="$WithdrawText" exact="null" />
-				<set_value name="$Interest_time" exact="null" />
-				<set_value name="$Interior" exact="null" />
-				<set_value name="$Corridor" exact="null" />
-				<set_value name="$Room" exact="null" />
-				<set_value name="$Banker" exact="null" />
-				<set_value name="$StationTable" exact="null" />
-				<set_value name="$StationInterior" exact="null" />
-				<set_value name="$StationFee" exact="null" />
-				<set_value name="$Deposit_amount" exact="0" />
-				<set_value name="$Withdraw_amount" exact="0" />
+				<set_value name="$SetupComplete" exact="false" />
+
+				<!-- settings affecting all accounts -->
 				<set_value name="$Fee30" exact="0" />
 				<set_value name="$Rate30" exact="0.015" />
 				<set_value name="$Period30" exact="10h" />
@@ -46,20 +32,100 @@
 				<set_value name="$Fee9" exact="0.005" />
 				<set_value name="$Rate9" exact="0.005" />
 				<set_value name="$Period9" exact="24h" />
-				<set_value name="$SetupComplete" exact="false" />
-				<set_value name="$SoloList" exact="[
-					faction.hapes,
-					faction.huttpirates,
-					faction.mandoraiders,
-					faction.valarian,
-					faction.blacksun,
-					faction.naboo,
-					faction.sith,
-					faction.kamino,
-					faction.rebelalliance
+				<!--
+          Vault.$Accounts = table[
+            {$faction} = table[
+							$balance = (float)ct,
+							$fee = float,
+							$rate = float,
+							$period = time,
+							$interest_time = time
+            ]
+          ]
+        -->
+				<set_value name="$Accounts" exact="table[
+					{faction.thebankingclan} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.hapes} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.huttpirates} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.mandoraiders} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.valarian} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.blacksun} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.naboo} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.sith} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.kamino} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					],
+					{faction.rebelalliance} = table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 20h,
+						$interest_time = null,
+						undockedFeeMult = 2
+					]
 				]" />
-				<set_value name="$FactionList" exact="[
-					faction.thebankingclan,
+				<set_value name="$MajorFactionList" exact="[
 					faction.galempire,
 					faction.ascendancy,
 					faction.newrepublic,
@@ -69,6 +135,19 @@
 					faction.anoat,
 					faction.mandodw
 				]" />
+
+				<!-- temp variables -->
+				<set_value name="$Relation" exact="0" />
+				<set_value name="$NewBalance" exact="0" />
+				<set_value name="$WithdrawText" exact="null" />
+				<set_value name="$Interior" exact="null" />
+				<set_value name="$Corridor" exact="null" />
+				<set_value name="$Room" exact="null" />
+				<set_value name="$Banker" exact="null" />
+				<set_value name="$StationTable" exact="null" />
+				<set_value name="$StationInterior" exact="null" />
+				<set_value name="$Deposit_amount" exact="0" />
+				<set_value name="$Withdraw_amount" exact="0" />
 			</actions>
 			<cues>
 				<cue name="Init">
@@ -416,47 +495,48 @@
 
 				<cue name="BankingClan_Relation_Change">
 					<conditions>
-						<event_player_relation_changed faction="faction.thebankingclan" />
-						<check_value
-							value="event.object == null and event.param != null" />
+						<event_player_relation_changed />
+						<check_value value="event.object == null and event.param != null" />
+						<check_value value="$Accounts.keys.list.indexof.{event.param}" />
 					</conditions>
 					<actions>
 						<set_value name="$faction" exact="event.param" />
+						<set_value name="$account" exact="Accounts.{$faction}" />
 						<set_value name="$newRelation" exact="$faction.relationto.{faction.player}" />
 						<set_value name="$changeAmount" exact="event.param2.{1} - event.param2.{2}" />
 						<set_value name="$change" exact="false" />
 						<do_if value="$newRelation ge 1 and $Relation lt 1">
-							<set_value name="$Fee" exact="$Fee30" />
-							<set_value name="$Rate" exact="$Rate30" />
-							<set_value name="$Period" exact="$Period30" />
+							<set_value name="$account.$fee" exact="$Fee30" />
+							<set_value name="$account.$rate" exact="$Rate30" />
+							<set_value name="$account.$period" exact="$Period30" />
 							<set_value name="$change" exact="true" />
 						</do_if>
 						<do_elseif
 							value="($newRelation ge 0.1 and $Relation lt 0.1) or ($newRelation lt 1 and $Relation ge 1)">
-							<set_value name="$Fee" exact="$Fee20" />
-							<set_value name="$Rate" exact="$Rate20" />
-							<set_value name="$Period" exact="$Period20" />
+							<set_value name="$account.$fee" exact="$Fee20" />
+							<set_value name="$account.$rate" exact="$Rate20" />
+							<set_value name="$account.$period" exact="$Period20" />
 							<set_value name="$change" exact="true" />
 						</do_elseif>
 						<do_elseif
 							value="($newRelation ge 0.01 and $Relation lt 0.01) or ($newRelation lt 0.1 and $Relation ge 0.1)">
-							<set_value name="$Fee" exact="$Fee10" />
-							<set_value name="$Rate" exact="$Rate10" />
-							<set_value name="$Period" exact="$Period10" />
+							<set_value name="$account.$fee" exact="$Fee10" />
+							<set_value name="$account.$rate" exact="$Rate10" />
+							<set_value name="$account.$period" exact="$Period10" />
 							<set_value name="$change" exact="true" />
 						</do_elseif>
 						<do_elseif
 							value="($newRelation ge 0 and $Relation lt 0) or ($newRelation lt 0.01 and $Relation ge 0.01)">
-							<set_value name="$Fee" exact="$Fee0" />
-							<set_value name="$Rate" exact="$Rate0" />
-							<set_value name="$Period" exact="$Period0" />
+							<set_value name="$account.$fee" exact="$Fee0" />
+							<set_value name="$account.$rate" exact="$Rate0" />
+							<set_value name="$account.$period" exact="$Period0" />
 							<set_value name="$change" exact="true" />
 						</do_elseif>
 						<do_elseif
 							value="($newRelation gt -0.01 and $Relation le -0.01) or ($newRelation lt 0 and $Relation ge 0)">
-							<set_value name="$Fee" exact="$Fee9" />
-							<set_value name="$Rate" exact="$Rate9" />
-							<set_value name="$Period" exact="$Period9" />
+							<set_value name="$account.$fee" exact="$Fee9" />
+							<set_value name="$account.$rate" exact="$Rate9" />
+							<set_value name="$account.$period" exact="$Period9" />
 							<set_value name="$change" exact="true" />
 							<do_if value="$newRelation gt -0.01 and $Relation le -0.01">
 								<set_value name="$open" exact="true" />
@@ -464,15 +544,15 @@
 						</do_elseif>
 						<do_elseif
 							value="($newRelation le -0.01 and $Relation gt -0.01)">
-							<set_value name="$Fee" exact="0" />
-							<set_value name="$Rate" exact="0" />
-							<set_value name="$Period" exact="0h" />
-							<set_value name="$Balance" exact="0" />
+							<set_value name="$account.$fee" exact="0" />
+							<set_value name="$account.$rate" exact="0" />
+							<set_value name="$account.$period" exact="0h" />
+							<set_value name="$account.$balance" exact="0" />
 							<set_value name="$change" exact="true" />
 							<set_value name="$closed" exact="true" />
 						</do_elseif>
 						<set_value name="$Relation" exact="$newRelation" />
-						<do_if value="$change and $Balance gt 0">
+						<do_if value="$change and $account.$balance gt 0">
 							<set_value name="$opening"
 								exact="'This is a Priority Message from the InterGalactic Banking Clan.'" />
 							<do_if value="$closed">
@@ -482,7 +562,7 @@
 							</do_if>
 							<do_else>
 								<set_value name="$data"
-									exact="'Rate: '+$Rate*100+'%\nPeriod: '+$Period/3600+'hr\n\n'+{20777, 1006}+' Withdrawal Fee: '+$Fee*100+'%'" />
+									exact="'Rate: '+$account.$rate*100+'%\nPeriod: '+$account.$period/3600+'hr\n\n'+{20777, 1006}+' Withdrawal Fee: '+$Fee*100+'%'" />
 								<do_if value="$changeAmount gt 0">
 									<do_if value="$open">
 										<set_value name="$statusText"
@@ -516,8 +596,7 @@
 					</actions>
 				</cue>
 
-				<!-- mmm, the clone lab cleans this up better... and maybe we could assign an actor to the
-				station so it isn't always different? -->
+				<!-- todo: the clone lab creates and cleans up office better -->
 				<cue name="Bank_Remove" instantiate="true">
 					<conditions>
 						<event_cue_signalled />
@@ -544,55 +623,62 @@
 						<check_value value="player.station" />
 					</conditions>
 					<actions>
-
 						<set_value name="$station" exact="player.station" />
-						<do_if value="$station and $FactionList.indexof.{$station.sector.owner}">
+						<do_if value="$MajorFactionList.indexof.{$station.sector.owner} or $Accounts.keys.list.indexof.{$station.sector.owner}">
+							<set_value name="$stationFaction" exact="$station.owner" />
+
+							<!-- clean old office -->
 							<do_if value="$StationInterior">
 								<signal_cue_instantly cue="Bank_Remove" param="[$StationTable, $StationInterior]" />
 							</do_if>
 
-							<do_if value="$station.owner == faction.thebankingclan">
-								<set_value name="$StationFee" exact="0" />
-								<set_value name="$name"
-									exact="'{20777, 1001} {20777, 1005} - {20777, 1004} {20777, 1007} '" />
+							<!-- vault office -->
+							<do_if value="$stationFaction == faction.thebankingclan">
+								<set_value name="$faction" exact="faction.thebankingclan" />
+								<set_value name="$officeName" exact="'{20777, 1001} {20777, 1005} - {20777, 1004} {20777, 1007} '" />
 							</do_if>
+							<!-- branch office -->
+							<do_elseif value="not $Accounts.keys.list.indexof.{$stationFaction}">
+								<set_value name="$faction" exact="faction.thebankingclan" />
+								<set_value name="$officeName" exact="'{20777, 1001} {20777, 1005} - {20777, 1006} {20777, 1007} '" />
+							</do_elseif>
+							<!-- use station manager -->
 							<do_else>
-								<set_value name="$StationFee" exact="$Fee * 100" />
-								<set_value name="$name"
-									exact="'{20777, 1001} {20777, 1005} - {20777, 1006} {20777, 1007} '" />
+								<set_value name="$faction" exact="$stationFaction" />
 							</do_else>
-							<create_cue_actor name="$Banker" cue="this">
-								<select faction="faction.thebankingclan" />
-								<owner exact="faction.thebankingclan" />
-							</create_cue_actor>
-							<set_entity_traits entity="$Banker" missionactor="true" />
-							<set_entity_overrides entity="$Banker" icon="'specialist'" />
 
-							<get_room_definition macro="$CorridorMacro" race="$station.owner.primaryrace"
-								tags="tag.corridor" />
-							<do_if value="not $CorridorMacro">
-								<get_room_definition macro="$CorridorMacro" race="faction.argon.primaryrace"
+							<!-- setup office -->
+							<do_if value="@$officeName">
+								<create_cue_actor name="$Banker" cue="this">
+									<select faction="faction.thebankingclan" />
+									<owner exact="faction.thebankingclan" />
+								</create_cue_actor>
+								<set_entity_traits entity="$Banker" missionactor="true" />
+								<set_entity_overrides entity="$Banker" icon="'specialist'" />
+								<get_room_definition macro="$CorridorMacro" race="$station.owner.primaryrace"
 									tags="tag.corridor" />
-							</do_if>
-							<get_room_definition macro="$roomMacro" race="faction.argon.primaryrace"
-								tags="tag.office" />
-							<create_dynamic_interior object="$station"
-								corridor="$CorridorMacro" room="$roomMacro"
-								name="$name"
-								interiorname="$Interior" corridorname="$Corridor" roomname="$Room"
-								roomtype="roomtype.office"
-								seed="$station.seed + lookup.roomtype.list.indexof.{roomtype.office}" />
-
-							<do_if value="$Interior and $Corridor and $Room">
-								<find_npc_slot name="$roomSlot" object="$Room" tags="tag.control" />
-								<do_if value="$roomSlot">
-									<add_actor_to_room actor="$Banker" slot="$roomSlot" />
+								<do_if value="not $CorridorMacro">
+									<get_room_definition macro="$CorridorMacro" race="faction.argon.primaryrace"
+										tags="tag.corridor" />
 								</do_if>
+								<get_room_definition macro="$roomMacro" race="faction.argon.primaryrace"
+									tags="tag.office" />
+								<create_dynamic_interior object="$station"
+									corridor="$CorridorMacro" room="$roomMacro"
+									name="$officeName"
+									interiorname="$Interior" corridorname="$Corridor" roomname="$Room"
+									roomtype="roomtype.office"
+									seed="$station.seed + lookup.roomtype.list.indexof.{roomtype.office}" />
+								<do_if value="$Interior and $Corridor and $Room">
+									<find_npc_slot name="$roomSlot" object="$Room" tags="tag.control" />
+									<do_if value="$roomSlot">
+										<add_actor_to_room actor="$Banker" slot="$roomSlot" />
+									</do_if>
+								</do_if>
+								<set_value name="$StationTable" exact="$station" />
+								<set_value name="$StationInterior" exact="$Interior" />
+								<set_value name="$Interior" exact="null" />
 							</do_if>
-
-							<set_value name="$StationTable" exact="$station" />
-							<set_value name="$StationInterior" exact="$Interior" />
-							<set_value name="$Interior" exact="null" />
 						</do_if>
 					</actions>
 					<cues>
@@ -600,10 +686,13 @@
 							<conditions>
 								<check_any>
 									<event_cue_signalled />
-									<event_conversation_started actor="$Banker" conversation="default" />
+									<event_conversation_started conversation="default" />
+									<check_value value="event.object == @player.container.tradenpc" />
+									<check_value value="event.object == @$Banker" />
 								</check_any>
 							</conditions>
 							<actions>
+								<set_value name="$Banker" exact="event.object" />
 								<do_if value="event.name == 'event_cue_signalled'">
 									<set_value name="$convoOption_Banker_Account"
 										exact="@event.param.$convoOption_Banker_Account" />
@@ -633,17 +722,18 @@
 							</conditions>
 							<actions>
 								<do_if value="event.param == 'Banker_Account'">
-									<set_value name="$timeSinceInterest" exact="player.age - $Interest_time" />
+									<set_value name="$account" exact="$Accounts.{$faction}" />
+									<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
 									<do_if value="$timeSinceInterest > 1">
 										<set_value name="$NewBalance"
-											exact="$Balance * ((1 + $Rate)^($timeSinceInterest / $Period))" />
-										<set_value name="$interest_amount" exact="$NewBalance - $Balance" />
-										<set_value name="$Balance" exact="$Balance + $interest_amount" />
+											exact="$account.$balance * ((1 + $account.$rate)^($timeSinceInterest / $account.$period))" />
+										<set_value name="$interest_amount" exact="$NewBalance - $account.$balance" />
+										<set_value name="$account.$balance" exact="$account.$balance + $interest_amount" />
 										<set_value name="$Withdraw_amount" exact="0" />
-										<set_value name="$NewBalance" exact="$Balance" />
-										<set_value name="$Interest_time" exact="player.age" />
+										<set_value name="$NewBalance" exact="$account.$balance" />
+										<set_value name="$account.$interest_time" exact="player.age" />
 									</do_if>
-									<signal_cue_instantly cue="Bank_Menu_Open" param="$interest_amount" />
+									<signal_cue_instantly cue="Bank_Menu_Open" param="table[$interest_amount = $interest_amount]" />
 								</do_if>
 								<reset_cue cue="this" />
 							</actions>
@@ -651,31 +741,65 @@
 					</cues>
 				</cue>
 
+				<!-- todo: add ui button for remote opening -->
 				<cue name="Bank_Menu_Open" instantiate="true">
 					<conditions>
 						<event_cue_signalled />
 					</conditions>
 					<actions>
+						<set_value name="$faction" exact="event.object.trueowner" />
+						<do_if value="$faction == faction.thebankingclan">
+							<set_value name="$title" exact="'InterGalactic Bank Account'" />
+						</do_if>
+						<do_elseif value="$Accounts.keys.list.indexof.{$faction}">
+							<set_value name="$title" exact="$faction+': Account'" />
+						</do_elseif>
+						<do_else>
+							<set_value name="$faction" exact="faction.thebankingclan" />
+							<set_value name="$title" exact="'InterGalactic Bank Account'" />
+						</do_else>
+						<set_value name="$account" exact="$Accounts.{$faction}" />
+						<!-- no need to reapply after deposit/withdraw -->
+						<do_if value="not @event.param.$stationFee">
+							<set_value name="$stationFee" exact="$account.$fee * 100" />
+						</do_if>
+						<!-- undocked -->
+						<do_if value="not @event.param.$interest_amount">
+							<set_value name="$stationFee" exact="$stationFee * $account.$undockedFeeMult" />
+							<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
+							<do_if value="$timeSinceInterest> 1">
+								<set_value name="$NewBalance" exact="$account.$balance * ((1 + $account.$rate)^($timeSinceInterest / $account.$period))" />
+								<set_value name="$interest_amount" exact="$NewBalance - $account.$balance" />
+								<set_value name="$account.$balance" exact="$account.$balance + $interest_amount" />
+								<set_value name="$Withdraw_amount" exact="0" />
+								<set_value name="$NewBalance" exact="$account.$balance" />
+								<set_value name="$account.$interest_time" exact="player.age" />
+							</do_if>
+						</do_if>
+						<!-- docked or reloaded after deposit/withdraw -->
+						<do_else>
+							<set_value name="$interest_amount" exact="event.param.$interest_amount" />
+						</do_else>
+
 						<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu"
 							param="table[
 								$id = 'bank_menu',
 								$columns = 1,
-								$title = 'InterGalactic Bank',
+								$title = $title,
 								$height = 400,
 								$width = 300
 							]" />
-						<set_value name="$interest_amount" exact="event.param" />
 						<signal_cue_instantly
 							cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 						<signal_cue_instantly
 							cue="md.Simple_Menu_API.Make_Text"
-							param="table[$col=1, $halign='center', $text='Account Status']" />
-						<do_if value="$StationFee gt 0">
+							param="table[$col=1, $halign='center', $text='Status']" />
+						<do_if value="$stationFee gt 0">
 							<signal_cue_instantly
 								cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 							<signal_cue_instantly
 								cue="md.Simple_Menu_API.Make_Text"
-								param="table[$col=1, $halign='center', $color='Helper.color.red', $text='('+{20777, 1006}+' Fee: '+ $StationFee + '%)']" />
+								param="table[$col=1, $halign='center', $color='Helper.color.red', $text='('+{20777, 1006}+' Fee: '+ $stationFee + '%)']" />
 						</do_if>
 						<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
 							param="table[$interactive=false]" />
@@ -687,8 +811,8 @@
 							cue="md.Simple_Menu_API.Make_Text"
 							param="table[
 								$col=1, $halign='center',
-								$text=$Rate * 100 + '% interest per ' + $Period / 60 / 60 + ' hours.']" />
-						<do_if value="$Balance gt 0">
+								$text=$account.$rate * 100 + '% interest per ' + $account.$period / 60 / 60 + ' hours.']" />
+						<do_if value="$account.$balance gt 0">
 							<signal_cue_instantly
 								cue="md.Simple_Menu_API.Add_Row"
 								param="table[$interactive=false]" />
@@ -725,16 +849,17 @@
 						<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 						<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button"
 							param="table[
+								$id = $faction,
 								$col = 1,
 								$text = table[$text='Deposit'],
 								$onClick = Bank_Menu_Deposit
 							]" />
-						<do_if value="$Balance gt 0">
+						<do_if value="$account.$balance gt 0">
 							<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
 								param="table[$interactive=false]" />
 							<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
 								param="table[$col=1, $text='']" />
-							<do_if value="$StationFee gt 0">
+							<do_if value="$stationFee gt 0">
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
 									param="table[$interactive=false]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
@@ -746,13 +871,14 @@
 									$start = 0,
 									$col = 1,
 									$text = table[$text=''],
-									$min = 0, $max = $Balance / (1+$StationFee/100), $step = 1, $suffix='Cr',
+									$min = 0, $max = $account.$balance / (1+$stationFee/100), $step = 1, $suffix='Cr',
 									$default = 0,
 									$onSliderCellChanged = Bank_Menu_Withdraw_Amount
 								]" />
 							<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 							<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button"
 								param="table[
+										$id = $faction,
 										$col = 1,
 										$text = table[$text='Withdraw'],
 										$onClick = Bank_Menu_Withdraw
@@ -761,15 +887,6 @@
 					</actions>
 					<cues>
 						<!-- sliders -->
-						<cue name="Bank_Menu_Update" instantiate="true">
-							<conditions>
-								<event_cue_signalled />
-							</conditions>
-							<actions>
-								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-								<signal_cue_instantly cue="Bank_Menu_Open" />
-							</actions>
-						</cue>
 						<cue name="Bank_Menu_Deposit_Amount" instantiate="true">
 							<conditions>
 								<event_cue_signalled />
@@ -796,21 +913,21 @@
 							</conditions>
 							<actions>
 								<do_if value="player.money ge $Deposit_amount">
-									<do_if value="$Balance == 0">
-										<set_value name="$Interest_time" exact="player.age" />
+									<do_if value="$account.$balance == 0">
+										<set_value name="$account.$interest_time" exact="player.age" />
 									</do_if>
 									<do_else>
-										<set_value name="$timeSinceInterest" exact="player.age - $Interest_time" />
-										<set_value name="$Interest_time" exact="player.age" />
+										<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
+										<set_value name="$account.$interest_time" exact="player.age" />
 										<set_value name="$interest_amount"
-											exact="$Balance * ((1 + $Rate)^($timeSinceInterest / $Period) - 1)" />
+											exact="$account.$balance * ((1 + $account.$rate)^($timeSinceInterest / $account.$period) - 1)" />
 									</do_else>
 									<reward_player money="($Deposit_amount)Cr * -1" />
-									<set_value name="$Balance" exact="$Balance + $Deposit_amount + $interest_amount" />
-									<set_value name="$NewBalance" exact="$Balance" />
+									<set_value name="$account.$balance" operation="add" exact="$Deposit_amount + $interest_amount" />
+									<set_value name="$NewBalance" exact="$account.$balance" />
 									<set_value name="$Deposit_amount" exact="0" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-									<signal_cue_instantly cue="Bank_Menu_Open" param="$interest_amount" />
+									<signal_cue_instantly cue="Bank_Menu_Open" param="[$interest_amount = $interest_amount, $stationFee = $stationFee]" />
 								</do_if>
 								<do_else>
 									<cancel_cue cue="this" />
@@ -822,23 +939,22 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
-								<do_if value="$Balance ge $Withdraw_amount">
-									<set_value name="$timeSinceInterest" exact="player.age - $Interest_time" />
-									<set_value name="$Interest_time" exact="player.age" />
+								<do_if value="$account.$balance ge $Withdraw_amount">
+									<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
+									<set_value name="$account.$interest_time" exact="player.age" />
 									<set_value name="$interest_amount"
-										exact="$Balance * ((1 + $Rate)^($timeSinceInterest / $Period) - 1)" />
-									<do_if value="$Balance - $Withdraw_amount * (1+$StationFee/100) lt 1">
+										exact="$account.$balance * ((1 + $account.$rate)^($timeSinceInterest / $account.$period) - 1)" />
+									<do_if value="$account.$balance - $Withdraw_amount * (1+$stationFee/100) lt 1">
 										<reward_player money="($Withdraw_amount * 100)ct + $interest_amount" />
-										<set_value name="$Balance" exact="0" />
+										<set_value name="$account.$balance" exact="0" />
 									</do_if>
 									<do_else>
 										<reward_player money="($Withdraw_amount)Cr" />
-										<set_value name="$Balance" exact="$Balance + $interest_amount" />
-										<set_value name="$Balance" exact="$Balance - $Withdraw_amount * (1+$StationFee/100)" />
+										<set_value name="$account.$balance" operation="add" exact="$interest_amount - $Withdraw_amount * (1+$stationFee/100)" />
 									</do_else>
-									<set_value name="$NewBalance" exact="$Balance" />
+									<set_value name="$NewBalance" exact="$account.$balance" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-									<signal_cue_instantly cue="Bank_Menu_Open" param="$interest_amount" />
+									<signal_cue_instantly cue="Bank_Menu_Open" param="[$interest_amount = $interest_amount, $stationFee = $stationFee]" />
 								</do_if>
 								<do_else>
 									<cancel_cue cue="this" />
@@ -849,25 +965,32 @@
 				</cue>
 
 				<!-- api -->
-				<!-- param: int/float (money goes to+ or from- bankingclan office account) -->
-				<!-- todo: param: [$faction, int/float] (money goes to+ or from- faction manager account) -->
-				<!-- apply interest to appropriate balance-->
+				<!-- param: $money (money goes to from bankingclan office account) -->
+				<!-- param: table[$faction = $faction, $money = $money] (money to from faction manager account) -->
+				<!-- positive money is deposit, negative is withdrawal -->
 				<cue name="Transfer" instantiate="true">
 					<conditions>
 						<event_cue_signalled />
 					</conditions>
 					<actions>
-						<do_if value="$accountBalance == 0">
-							<set_value name="$Interest_time" exact="player.age" />
+						<do_if value="@event.param.$faction and $Accounts.keys.list.indexof.{@event.param.$faction}">
+							<set_value name="$faction" exact="event.param.$faction" />
 						</do_if>
 						<do_else>
-							<set_value name="$timeSinceInterest" exact="player.age - $Interest_time" />
-							<set_value name="$Interest_time" exact="player.age" />
-							<set_value name="$interest_amount"
-								exact="$accountBalance * ((1 + $Rate)^($timeSinceInterest / $Period) - 1)" />
-							<set_value name="$accountBalance" operation="add" exact="$interest_amount" />
+							<set_value name="$faction" exact="faction.thebankingclan" />
 						</do_else>
-						<set_value name="$accountBalance" operation="add" exact="event.param" />
+						<set_value name="$account" exact="$Accounts.{$faction}" />
+						<set_value name="$accountBalance" exact="$account.$balance" />
+						<do_if value="$accountBalance == 0">
+							<set_value name="$account.$interest_time" exact="player.age" />
+						</do_if>
+						<do_else>
+							<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
+							<set_value name="$account.$interest_time" exact="player.age" />
+							<set_value name="$interest_amount" exact="$accountBalance * ((1 + $account.$rate)^($timeSinceInterest / $account.$period) - 1)" />
+							<set_value name="$account.$balance" operation="add" exact="$interest_amount" />
+						</do_else>
+						<set_value name="$account.$balance" operation="add" exact="event.param" />
 					</actions>
 				</cue>
 			</cues>
