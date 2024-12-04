@@ -1,4 +1,4 @@
-Bank Todo:
+Todo:
 
 - period by status: standard 20hr; 1 defense station 15hr, 3 defense stations 12hr, 4 defense stations 10hr (branch defense stations count as half)
 - limit offices to stations owned by factions that have a branch vault station
@@ -10,3 +10,7 @@ Bank Todo:
 - add player relation increase with banking clan for returning picked up looted credit boxes to banking clan office
 
 - disable npc reactions bank loans
+
+- ui access account button
+
+- implement cloning lab style office
