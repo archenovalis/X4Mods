@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<diff>
+  <replace sel="/mdscript/cues/cue/actions/set_value/@exact">100</replace>
+  <replace sel="/mdscript/cues/cue/conditions/check_value/@value">player.galaxy.macro == macro.swi_galaxy_macro</replace>
+  <replace sel="/mdscript/cues/cue/cues/cue[@name='GMC_MadScientist_Ref']/param[@name='StationOwner']/@value">[faction.galempire, faction.ascendancy, faction.kamino, faction.kuat]</replace>
+  <replace sel="/mdscript/cues/cue/cues/cue[@name='GMC_MadArtist_Ref']/param[@name='StationOwner']/@value">[faction.commerceguild, faction.anoat, faction.huttcartel]</replace>
+  <replace sel="/mdscript/cues/cue/cues/cue[@name='GMC_MadProducer_Ref']/param[@name='StationOwner']/@value">[faction.newrepublic, faction.corporate, faction.mandodw]</replace>
+  <replace sel="/mdscript/cues/cue/cues/cue[@name='GMC_MadScientist_Ref']/param[@name='StationSpace']/@value">player.galaxy</replace>
+  <replace sel="/mdscript/cues/cue/cues/cue[@name='GMC_MadArtist_Ref']/param[@name='StationSpace']/@value">player.galaxy</replace>
+  <replace sel="/mdscript/cues/cue/cues/cue[@name='GMC_MadProducer_Ref']/param[@name='StationSpace']/@value">player.galaxy</replace>
+
+  <!-- kuertee: RAP -->
+  <!--
+	<library name="GenerateTextTable">
+		<actions>
+-->
+  <add pos="prepend" sel="//library[@name=&quot;GenerateTextTable&quot;]/actions">
+    <include_actions ref="md.kuertee_professions_guilds.GuildMissionContainer_Description" />
+  </add>
+  <!-- ADD:
+	<library name="Start">
+		<params>
+-->
+  <add sel="//library[@name=&quot;Start&quot;]/params">
+    <param name="MissionGroup" default="null" />
+  </add>
+  <!-- ADD property group:
+	<create_offer cue="$MissionCue" ... >
+-->
+  <add sel="//create_offer[@cue=&quot;$MissionCue&quot;]" type="@group">$MissionGroup</add>
+
+</diff>
