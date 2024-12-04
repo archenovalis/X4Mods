@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+	<replace  sel="//library[@name='Start']/params/param[@name='OfferDistance']/@default">350km</replace>
+    <replace sel="/mdscript/cues/library[@name='FindStationFriendlyNonPirate']/actions/do_if/find_station/match/@owner">[faction.player, faction.ownerless, faction.blacksun, faction.valarian, faction.huttpirates]</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_3']/actions/do_all/do_any/do_all[1]/set_value[@name='$ExplosiveOwner']/@exact">[faction.blacksun, faction.valarian].random</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_3']/actions/do_all/do_any/do_all[2]/set_value[@name='$ExplosiveOwner']/@exact">[faction.blacksun, faction.valarian].random</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_3']/actions/do_all/do_any/do_all[3]/set_value[@name='$ExplosiveOwner']/@exact">faction.blacksun</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_3']/actions/do_all/do_any/do_all[4]/set_value[@name='$ExplosiveOwner']/@exact">faction.blacksun</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_4']/actions/do_all[@counter='$StationCounter']/do_if/@value">($OfferStations.{$StationCounter}.owner   != faction.blacksun     )                          and ($OfferStations.{$StationCounter}.owner  != faction.valarian       )                          and ($OfferStations.{$StationCounter}.owner  != faction.huttpirates       )                          and (not md.$SplitPatriarchyFactions.indexof.{$OfferStations.{$StationCounter}.owner})                           and (not md.$DLCPirateFactions.indexof.{$OfferStations.{$StationCounter}.owner})</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_4']/actions/do_all[@counter='$s']/set_value[@name='$OtherPirateTargetFaction']/@exact">faction.blacksun</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_4']/actions/do_all[@counter='$s']/do_if[@value='$Station.owner == faction.scaleplate']/@value">$Station.owner == faction.blacksun</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_4']/actions/do_all[@counter='$s']/do_if[@value='$Station.owner == faction.blacksun']/set_value/@exact">faction.valarian</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateGenericMission']/cues/cue[@name='GenerateGenericMission_Variant_5']/actions/do_all[@counter='$StationCounter']/do_if/@value">($OfferStations.{$StationCounter}.owner   != faction.blacksun     )                          and ($OfferStations.{$StationCounter}.owner  != faction.valarian       )                          and ($OfferStations.{$StationCounter}.owner  != faction.huttpirates       )                          and (not md.$SplitFactions.indexof.{$OfferStations.{$StationCounter}.owner})                          and (not md.$DLCPirateFactions.indexof.{$OfferStations.{$StationCounter}.owner})</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateNPCMission']/cues/cue[@name='GenerateNPCMission_Variant_1']/actions/do_if[@value='not $Location.isplayerowned']/do_if/do_any/do_all[1]/set_value[@name='$ExplosiveOwner']/@exact">[faction.blacksun, faction.valarian].random</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateNPCMission']/cues/cue[@name='GenerateNPCMission_Variant_1']/actions/do_if[@value='not $Location.isplayerowned']/do_if/do_any/do_all[2]/set_value[@name='$ExplosiveOwner']/@exact">[faction.blacksun, faction.valarian].random</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateNPCMission']/cues/cue[@name='GenerateNPCMission_Variant_1']/actions/do_if[@value='not $Location.isplayerowned']/do_if/do_any/do_all[3]/set_value[@name='$ExplosiveOwner']/@exact">faction.blacksun</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateNPCMission']/cues/cue[@name='GenerateNPCMission_Variant_1']/actions/do_if[@value='not $Location.isplayerowned']/do_if/do_any/do_all[4]/set_value[@name='$ExplosiveOwner']/@exact">faction.blacksun</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateNPCMission']/cues/cue[@name='GenerateNPCMission_Variant_1']/actions/do_if[@value='not $Location.isplayerowned']/do_elseif/@value">$Faction == faction.blacksun or $Faction == faction.valarian</replace>
+    <replace sel="/mdscript/cues/cue[@name='GenerateNPCMission']/cues/cue[@name='GenerateNPCMission_Variant_1']/actions/do_if[@value='not $Location.isplayerowned']/do_elseif/do_all/find_ship/match/@owner">[faction.newrepublic, faction.galempire, faction.ascendancy, faction.anoat, faction.huttcartel, faction.mandodw, faction.corporate, faction.kamino, faction.commerceguild]</replace>
+
+<!-- kuertee mod: RAP -->
+<!--
+    <library name="GenerateTextTable">
+        <actions>
+-->
+    <add pos="prepend" sel="//library[@name=&quot;GenerateTextTable&quot;]/actions">
+        <include_actions ref="md.kuertee_professions_guilds.GuildMissionContainer_Description" />
+    </add>
+<!-- ADD:
+    <library name="Start">
+        <params>
+-->
+    <add sel="//library[@name=&quot;Start&quot;]/params">
+        <param name="MissionGroup" default="null" />
+    </add>
+<!-- ADD property group:
+    <create_offer cue="$MissionCue" ... >
+-->
+    <add sel="//create_offer[@cue=&quot;$MissionCue&quot;]" type="@group">$MissionGroup</add>
+<!--
+    <signal_cue_instantly cue="md.GenericMissions.GenericAcceptLogbookEntry" param="[$TextTable.$missionname, $Client, $ClientOwner]"/>
+-->
+    <add pos="after" sel="//signal_cue_instantly[@cue=&quot;md.GenericMissions.GenericAcceptLogbookEntry&quot;]">
+		<set_value name="$DebugChance" exact="md.kuertee_professions_guilds.UserSettings.$debugChance3" />
+		<set_value name="namespace.$kProfs_timeStart" exact="player.age" />
+    </add>
+<!--
+    <param name="ObjectiveText" value="readtext.{$Page}.{$TextOffset + 3}" />
+-->
+    <replace sel="//param[@name=&quot;ObjectiveText&quot;][@value=&quot;readtext.{$Page}.{$TextOffset + 3}&quot;]">
+        <param name="ObjectiveText" value="if $TextTable.$objective then $TextTable.$objective else readtext.{$Page}.{$TextOffset + 3}" />
+    </replace>
+<!--
+    <cue name="MissionEnded">
+        <set_value name="stat.missions_completed" operation="add"/>
+-->
+    <add pos="after" sel="//cue[@name=&quot;MissionEnded&quot;]//set_value[@name=&quot;stat.missions_completed&quot;][@operation=&quot;add&quot;]">
+        <set_value name="namespace.$kProfs_isSuccess" exact="true" />
+        <set_value name="namespace.$kProfs_rewardCr" exact="$RewardCr" />
+        <set_value name="namespace.$kProfs_rewardObj" exact="$RewardObj" />
+    </add>
+<!--
+    <cue name="CleanUp">
+        <actions>
+-->
+    <add pos="prepend" sel="//cue[@name=&quot;CleanUp&quot;]/actions">
+        <do_if value="@namespace.$kProfs_timeStart">
+            <signal_cue_instantly cue="md.kuertee_professions.GMMissionEnd" param="table[
+                $profRepu = md.kuertee_professions.kProfs.$repu_Defender,
+                $activityId = if @namespace.$kProfs_isSuccess then md.kuertee_professions.kProfs.$activity_full_mission_success else md.kuertee_professions.kProfs.$activity_full_mission_failure,
+                $missionLib = namespace,
+                $rewardCr = @namespace.$kProfs_rewardCr,
+                $rewardObj = @namespace.$kProfs_rewardObj
+            ]" />
+        </do_if>
+    </add>
+</diff>

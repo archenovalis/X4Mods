@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  <!-- rewards / 8 -->
-  <replace sel="//library[@name='Apply_RewardMultiplier']/actions/set_value[@exact='1.0f']">
-    <set_value name="$RewardMultiplier" exact="0.125f" />
-  </replace>
-  <replace
-    sel="//library[@name='Apply_RewardMultiplier']/actions//do_elseif/set_value[@exact='1.5f']">
-    <set_value name="$RewardMultiplier" exact="0.1875f" />
-  </replace>
+  <!-- rewards / 16 -->
+  <add pos="before" sel="//set_value[@name='event.param.{1}.$Reward_Money__Result']">
+    <set_value name="$Value" exact="$Value / md.GettingAJob.GAJ.$MissionRewardReducer" />
+  </add>
 </diff>

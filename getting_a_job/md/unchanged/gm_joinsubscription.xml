@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+
+	<!-- kuertee: RAP -->
+	<!--
+	<library name="GenerateTextTable">
+		<actions>
+-->
+	<add pos="prepend" sel="//library[@name=&quot;GenerateTextTable&quot;]/actions">
+		<include_actions ref="md.kuertee_professions_guilds.GuildMissionContainer_Description" />
+	</add>
+	<!-- ADD:
+	<library name="Start">
+		<params>
+-->
+	<add sel="//library[@name=&quot;Start&quot;]/params">
+		<param name="MissionGroup" default="null" />
+	</add>
+	<!-- ADD property group:
+	<create_offer cue="$MissionCue" ... >
+-->
+	<add sel="//create_offer[@cue=&quot;$MissionCue&quot;]" type="@group">$MissionGroup</add>
+
+</diff>
