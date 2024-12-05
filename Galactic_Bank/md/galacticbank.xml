@@ -12,6 +12,7 @@
 				</check_any>
 				<check_value value="not @player.allmodules.{player.module}.isscenario" />
 			</conditions>
+			<delay exact="1ms" />
 			<actions>
 				<set_value name="md.$FactionData.{faction.thebankingclan}" exact="table[]" />
 				<set_value name="$SetupComplete" exact="false" />
@@ -125,15 +126,15 @@
 						undockedFeeMult = 2
 					]
 				]" />
-				<set_value name="$MajorFactionList" exact="[
-					faction.galempire,
-					faction.ascendancy,
-					faction.newrepublic,
-					faction.commerceguild,
-					faction.corporate,
-					faction.huttcartel,
-					faction.anoat,
-					faction.mandodw
+				<set_value name="$MajorFactionList" exact="table[
+					{faction.galempire} = true,
+					{faction.ascendancy} = true,
+					{faction.newrepublic} = true,
+					{faction.commerceguild} = true,
+					{faction.corporate} = true,
+					{faction.huttcartel} = true,
+					{faction.anoat} = true,
+					{faction.mandodw} = true
 				]" />
 
 				<!-- temp variables -->
@@ -164,6 +165,9 @@
 					<actions>
 						<do_if value="not $SetupComplete">
 							<signal_cue_instantly cue="InitSetup" />
+						</do_if>
+						<do_if value="md.kuertee_npc_reactions.NPCReactions.{$userIsBankLoans}?">
+							<set_value name="md.kuertee_npc_reactions.NPCReactions.{$userIsBankLoans}" exact="false" />
 						</do_if>
 						<reset_cue cue="Init" />
 					</actions>
@@ -624,7 +628,7 @@
 					</conditions>
 					<actions>
 						<set_value name="$station" exact="player.station" />
-						<do_if value="$MajorFactionList.indexof.{$station.sector.owner} or $Accounts.keys.list.indexof.{$station.sector.owner}">
+						<do_if value="$MajorFactionList.{$station.sector.owner} or $Accounts.keys.list.indexof.{$station.owner}">
 							<set_value name="$stationFaction" exact="$station.owner" />
 
 							<!-- clean old office -->
@@ -741,7 +745,26 @@
 					</cues>
 				</cue>
 
-				<!-- todo: add ui button for remote opening -->
+				<!-- ui menu button -->
+				<cue name="Vault_AccountMenu">
+					<conditions>
+						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
+						<check_value value="@event.param.$object.isclass.{class.station}" />
+						<check_value value="@event.param.$object.owner.relationto.{faction.player} gt -0.01" />
+						<check_value value="$Accounts.keys.list.indexof.{@event.param.$object.owner} or $MajorFactionList.{@event.param.$object.sector.owner}" />
+					</conditions>
+					<actions>
+						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
+							$id = 'Vault_AccountMenu',
+							$section = 'main',
+							$text = 'Access Account',
+							$icon = 'ware_money',
+							$callback = Bank_Menu_Open
+						]" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+
 				<cue name="Bank_Menu_Open" instantiate="true">
 					<conditions>
 						<event_cue_signalled />
