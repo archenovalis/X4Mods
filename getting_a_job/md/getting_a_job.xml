@@ -242,6 +242,8 @@
         </cue>
       </cues>
     </cue>
+
+    <!-- ui menu button -->
     <cue name="GAJ_InteractMenu">
       <conditions>
         <event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />

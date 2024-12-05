@@ -1,9 +1,6 @@
 Getting a Job:
 
--- Features
-- eachmission (checks for mission.completed or called when receiving reward..add to all missions): Combat pay based on completing raid/defend mission, getting patrol kills (not station civilian criminal).
-
-- Only missions: Support pay for trading with faction stations (buying and selling) and completing support missions.
+# Features
 
 -- Retirement
 - mdconverstation (pension level variable check): Quit at any time or Retire after reaching pension levels.
