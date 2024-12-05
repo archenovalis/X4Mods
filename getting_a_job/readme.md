@@ -4,6 +4,8 @@ Life isn't easy. It's a grind. The rich get richer and the poor...slowly get ric
 ## Features
 * **Get A Job**
 * Work for a faction's government, available at 12+ relationship. Receive a paycheck deposited direct to your InterGalactic Bank account every 15 minutes. Basic paycheck for joining based on faction type (major=10k, peaceful=25k, pirate=4k).
+* Paycheck increases by a 1% of all work missions while employed for a faction.
+* Work missions pay more: 40-250% bonus (major=100%, peaceful=40%, pirate=250%).
 
 * **Ship Prices**
 The cost of purchasing ships has been increased to match their hull, and scale with their size. Selling prices of used ships reduced.
@@ -16,7 +18,7 @@ XXL: ~5.5x
 ```
 * **Rewards Decreased**
 Missions, trading inventory items, selling craftables, trading software and deployables. Gone. Not really gone, but it's not how you'll get rich. Maybe missions, but not really trading the small stuff. Go become a pirate and loot lots of stuff, that's the easy way to become rich, or dead.
-```Rewards reduced by 8 to 12.5% of normal.
+```Rewards reduced by 16 to 6.25% of normal.
 Average inventory prices reduced by 5 to 20% of normal.
 Inventory price spreads reduced by 8 to 12.5% of normal.
 ```
@@ -35,15 +37,14 @@ Inventory price spreads reduced by 8 to 12.5% of normal.
 * Extract to extensions directory.
 ## Planned Features
 * **Get A Job**
-  * Paycheck increases by a (1%, 0.1%, x%)? of all qualified missions completed while employed for the faction.
-  * Missions pay more: Qualified missions receive a bonus 10% bonus.
   * Retire or Quit at any time. Retire after reaching pension levels. Multiple pension levels, based on total pay received.
 * **New Statuses**
-  * Deserter: not completing any military or support missions within last 120 minutes.
+  * Deserter: not completing any work missions within last 120 minutes.
     * Consequence: Paycheck paused until next mission is completed.
-  * Traitor: while working for or after quitting/retiring, being seen by a military ship after joining and while participating in an enemy faction's mission. Receive bribes to switch allegiance, become a spy for another faction.
+  * Traitor: while working for or after retiring from a faction, and being seen by one of their military ships while participating in a non-ally faction's mission.
     * Consequence: No more paycheck or pension. Relation set to -25 (spy: -30)
   * Spy: (requires relationship 25), allows joining enemy factions (will still become a traitor if participating in a military mission against your primary faction, and traitor status by the other faction as normal).
+    * Receive bribes to switch allegiance, become a spy for an enemy faction.
     * Spy missions: Occasional mission to return home (every (2,4,8)? hours; don't get spotted), and station sabotage (ie: before raids). 
     * Consequence: Spy bonus added to paycheck from main faction plus paycheck from other faction. Benefits your faction, harms the spied upon faction.
 * **Player Economy Changes**
@@ -57,3 +58,4 @@ Inventory price spreads reduced by 8 to 12.5% of normal.
 - v0.1: Early player economy changes are complete.
 - v0.2: Basic Paycheck implemented
 - v0.21: Sell ships mechanic replaced, reduced ship sell price -- divide by ship class max ratio m=7x, l=13x xl=9, xxl=9x
+- v0.5: Work Missions implemented. Mission pay cut in half. Work misison bonus pay increased by 40-250%.

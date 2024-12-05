@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
+<!-- ADD:
+	<library name="Start">
+		<params>
+-->
+	<add sel="//library[@name=&quot;Start&quot;]/params">
+		<param name="MissionGroup" default="null" />
+	</add>
+<!-- ADD property group:
+	<create_offer cue="$MissionCue" ... >
+-->
+	<add sel="//create_offer[@cue=&quot;$MissionCue&quot;]" type="@group">$MissionGroup</add>
+	
+	<!-- Getting a Job -->
+  <add pos="before" sel="//create_offer[@cue=&quot;$MissionCue&quot;]">
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active">
+      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$missionGroup" />
+    </do_if>
+  </add>
+
+  <replace sel="//reward_player[@money='$RewardCr']">
+    <do_if value="not @player.allmodules.{player.module}.isscenario">
+      <set_value name="$GAJ_isWork" exact="false" />
+      <do_if value="[
+        missiongroup.gaj_anoat,
+        missiongroup.gaj_ascendancy,
+        missiongroup.gaj_baobab,
+        missiongroup.gaj_blacksun,
+        missiongroup.gaj_bountyhunters,
+        missiongroup.gaj_commerceguild,
+        missiongroup.gaj_corellia,
+        missiongroup.gaj_corporate,
+        missiongroup.gaj_galempire,
+        missiongroup.gaj_hapes,
+        missiongroup.gaj_hoersh,
+        missiongroup.gaj_huttcartel,
+        missiongroup.gaj_huttpirates,
+        missiongroup.gaj_incom,
+        missiongroup.gaj_kamino,
+        missiongroup.gaj_kuat,
+        missiongroup.gaj_mandodw,
+        missiongroup.gaj_mandoraiders,
+        missiongroup.gaj_miningguild,
+        missiongroup.gaj_moncal,
+        missiongroup.gaj_naboo,
+        missiongroup.gaj_newrepublic,
+        missiongroup.gaj_rebelalliance,
+        missiongroup.gaj_rendili,
+        missiongroup.gaj_sienar,
+        missiongroup.gaj_sith,
+        missiongroup.gaj_tagge,
+        missiongroup.gaj_thebankingclan,
+        missiongroup.gaj_tradefederation,
+        missiongroup.gaj_transgalmeg,
+        missiongroup.gaj_twinsuns,
+        missiongroup.gaj_valarian
+      ].indexof.{@$MissionGroup}">
+        <set_value name="$GAJ_isWork" exact="true" />
+      </do_if>
+      <do_if value="$GAJ_isWork">
+        <set_value name="$workBonus" exact="$RewardCr * md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$bonusMultiplier" />
+        <set_value name="$RewardCr" exact="$RewardCr + $workBonus" />
+        <set_value name="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$totalRewards" exact="$RewardCr" />
+        <set_value name="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$pay" operation="add" exact="$RewardCr * md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$payMultipler" />
+      </do_if>
+      <get_factions_by_tag tag="tag.economic" result="$economic" />
+      <!-- non-bankingclan accounts -->
+      <do_if value="@md.GalacticBank.Vault.$Accounts.keys.list.indexof.{$faction}">
+        <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $RewardCr]" />
+      </do_if>
+      <!-- major faction bankingclan account -->
+      <do_elseif value="$economic.indexof.{$faction}">
+        <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="$RewardCr" />
+      </do_elseif>
+      <!-- catch exception -->
+      <do_else>
+        <reward_player money="$RewardCr" />
+      </do_else>
+    </do_if>
+  </replace>  
+</diff>
