@@ -45,87 +45,99 @@
           ]
         -->
 				<set_value name="$Accounts" exact="table[
-					{faction.thebankingclan} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.hapes} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.huttpirates} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.mandoraiders} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.valarian} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.blacksun} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.naboo} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.sith} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.kamino} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					],
-					{faction.rebelalliance} = table[
-						$balance = 0,
-						$fee = 0.0025,
-						$rate = 0.0075,
-						$period = 20h,
-						$interest_time = null,
-						undockedFeeMult = 2
-					]
+					{faction.thebankingclan} = table[],
+					{faction.hapes} = table[],
+					{faction.huttpirates} = table[],
+					{faction.mandoraiders} = table[],
+					{faction.valarian} = table[],
+					{faction.blacksun} = table[],
+					{faction.naboo} = table[],
+					{faction.sith} = table[],
+					{faction.kamino} = table[],
+					{faction.rebelalliance} = table[]
 				]" />
+				<set_value name="$Accounts.{faction.thebankingclan}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.hapes}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.huttpirates}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.mandoraiders}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.valarian}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.blacksun}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.naboo}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.kamino}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.rebelalliance}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+				<set_value name="$Accounts.{faction.sith}" exact="table[
+					{$balance} = 0,
+					{$fee} = 0.0025,
+					{$rate} = 0.0075,
+					{$period} = 20h,
+					{$interest_time} = null,
+					{$undockedFeeMult} = 2
+				]" />
+
+				<!-- factions with branch vaults and offices -->
 				<set_value name="$MajorFactionList" exact="table[
 					{faction.galempire} = true,
 					{faction.ascendancy} = true,
@@ -166,7 +178,7 @@
 						<do_if value="not $SetupComplete">
 							<signal_cue_instantly cue="InitSetup" />
 						</do_if>
-						<do_if value="md.kuertee_npc_reactions.NPCReactions.{$userIsBankLoans}?">
+						<do_if value="md.kuertee_npc_reactions.NPCReactions.{$userIsBankLoans?}">
 							<set_value name="md.kuertee_npc_reactions.NPCReactions.{$userIsBankLoans}" exact="false" />
 						</do_if>
 						<reset_cue cue="Init" />
@@ -691,8 +703,10 @@
 								<check_any>
 									<event_cue_signalled />
 									<event_conversation_started conversation="default" />
-									<check_value value="event.object == @player.container.tradenpc" />
-									<check_value value="event.object == @$Banker" />
+									<check_any>
+										<check_value value="event.object == @player.container.tradenpc" />
+										<check_value value="event.object == @$Banker" />
+									</check_any>
 								</check_any>
 							</conditions>
 							<actions>
@@ -950,7 +964,7 @@
 									<set_value name="$NewBalance" exact="$account.$balance" />
 									<set_value name="$Deposit_amount" exact="0" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-									<signal_cue_instantly cue="Bank_Menu_Open" param="[$interest_amount = $interest_amount, $stationFee = $stationFee]" />
+									<signal_cue_instantly cue="Bank_Menu_Open" param="table[$interest_amount = $interest_amount, $stationFee = $stationFee]" />
 								</do_if>
 								<do_else>
 									<cancel_cue cue="this" />
@@ -977,7 +991,7 @@
 									</do_else>
 									<set_value name="$NewBalance" exact="$account.$balance" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-									<signal_cue_instantly cue="Bank_Menu_Open" param="[$interest_amount = $interest_amount, $stationFee = $stationFee]" />
+									<signal_cue_instantly cue="Bank_Menu_Open" param="table[$interest_amount = $interest_amount, $stationFee = $stationFee]" />
 								</do_if>
 								<do_else>
 									<cancel_cue cue="this" />
