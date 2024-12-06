@@ -262,7 +262,7 @@
           <do_if value="$dockSizes">
             <do_for_each name="$ship" in="$interact_ships">
               <do_if value="$ship.isclass.ship">
-                <do_if value="$ship.isclass.$dockSizes">
+                <do_if value="$ship.docksize.indexof.{$dockSizes}">
                   <set_value name="$display" exact="true" />
                   <break />
                 </do_if>
@@ -331,7 +331,7 @@
           <set_value name="$Ships" exact="table[]" />
           <do_for_each name="$ship" in="$interact_ships">
             <do_if value="$ship.isclass.ship">
-              <do_if value="$ship.docksize.indexof.$dockSizes">
+              <do_if value="$ship.docksize.indexof.{$dockSizes}">
                 <set_value name="$Ships.{$ship}" exact="true" />
                 <set_value name="$factor" exact="$Docktags.{$ship.docksize}" />
                 <set_value name="$shipPrice" exact="$ship.averagePrice / $factor" />

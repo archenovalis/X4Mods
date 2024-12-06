@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-<!-- ADD:
+  <!-- ADD:
 	<library name="Start">
 		<params>
 -->
-	<add sel="//library[@name=&quot;Start&quot;]/params">
-		<param name="MissionGroup" default="null" />
-	</add>
-<!-- ADD property group:
+  <add sel="//library[@name=&quot;Start&quot;]/params">
+    <param name="MissionGroup" default="null" />
+  </add>
+  <!-- ADD property group:
 	<create_offer cue="$MissionCue" ... >
 -->
-	<add sel="//create_offer[@cue=&quot;$MissionCue&quot;]" type="@group">$MissionGroup</add>
-	
-	<!-- Getting a Job -->
+  <add sel="//create_offer[@cue=&quot;$MissionCue&quot;]" type="@group">$MissionGroup</add>
+
+  <!-- Getting a Job -->
   <add pos="before" sel="//create_offer[@cue=&quot;$MissionCue&quot;]">
-    <do_if value="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active">
+    <do_if value="md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$missionGroup" />
     </do_if>
   </add>
@@ -79,5 +79,5 @@
         <reward_player money="$RewardCr" />
       </do_else>
     </do_if>
-  </replace>  
+  </replace>
 </diff>

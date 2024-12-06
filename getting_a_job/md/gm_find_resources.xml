@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  
+
   <add pos="before" sel="//create_offer[@cue=&quot;$MissionCue&quot;]">
-    <do_if value="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active">
+    <do_if value="md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$missionGroup" />
     </do_if>
   </add>

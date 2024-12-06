@@ -2,19 +2,19 @@
 <content id="getting_a_job"
 	name="Getting A Job"
 	description="Due to a terrible legal loophole, your cat received the majority of your inheritance. And now even worse the trustee representing your cat has kicked you out of her house. Now you need to find a job. Go talk to your faction's representative. Well, you could get hired by more than one, but that might be dangerous."
-	version="0.5"
+	version="50"
 	date="2024-12-04"
 	save="0" enabled="1"
 	author="Archie">
 
 	<dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" />
 	<dependency id="SW Interworlds" optional="false" name="SW Interworlds" />
-	<dependency id="galactic_bank" optional="false" name="Galactic Bank" />
+	<dependency id="intergalactic_bank" optional="false" name="InterGalactic Bank" />
 	<dependency id="kuerteeAlternativesToDeath" optional="false" name="kuertee: Alternatives to death" />
 	<dependency id="kuerteeUIExtensionsAndHUD" optional="false" name="kuertee UI Extensions and HUD" />
 	<dependency id="kuerteeCrimeHasConsequences" optional="false" name="kuertee: Crime has consequences" />
 	<dependency id="kuerteeNPCReactions" optional="false" name="kuertee: NPC reactions" />
 	<dependency id="sov_dreadnaughts" optional="true" name="Dreadnaughts and Battlecruisers" />
-	<dependency id="swi_heroes_plus" optional=" true" name="Heroes for SWI with Extras" />
+	<dependency id="swi_heroes_plus" optional="true" name="Heroes for SWI with Extras" />
 	<dependency id="swi_heroes" optional="true" name="Heroes for SWI" />
 </content>
