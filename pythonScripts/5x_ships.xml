@@ -1,0 +1,915 @@
+<diff>
+
+  <replace sel="//ware[@id='sov_eclipse_ware']/price">
+    <price min="119062500" average="120000000" max="120937500" />
+  </replace>
+  <replace sel="//ware[@id='sov_lusankya']/price">
+    <price min="73125000" average="75000000" max="77812500" />
+  </replace>
+  <replace sel="//ware[@id='mandalorian_mandator_2_ware']/price">
+    <price min="65497159" average="66250000" max="67002840" />
+  </replace>
+  <replace sel="//ware[@id='sov_mandator_2_ware']/price">
+    <price min="64593750" average="66250000" max="68734375" />
+  </replace>
+  <replace sel="//ware[@id='mandatoriii']/price">
+    <price min="68250000" average="70000000" max="72625000" />
+  </replace>
+  <replace sel="//ware[@id='sov_annihilator_ware']/price">
+    <price min="59250000" average="60000000" max="60750000" />
+  </replace>
+  <replace sel="//ware[@id='sov_strident_ware']/price">
+    <price min="49218750" average="50000000" max="50781250" />
+  </replace>
+  <replace sel="//ware[@id='sov_titan_ware']/price">
+    <price min="31992187" average="32500000" max="33007812" />
+  </replace>
+  <replace sel="//ware[@id='sov_procurator_ware']/price">
+    <price min="19642857" average="20000000" max="20357142" />
+  </replace>
+  <replace sel="//ware[@id='sov_harrower_bc_ware']/price">
+    <price min="17168560" average="17500000" max="17831439" />
+  </replace>
+  <replace sel="//ware[@id='sov_allegiance_ware']/price">
+    <price min="14609375" average="15000000" max="15390625" />
+  </replace>
+  <replace sel="//ware[@id='sov_republic_secutor_ware']/price">
+    <price min="13421531" average="13750000" max="14280903" />
+  </replace>
+  <replace sel="//ware[@id='imperial_secutor_ware']/price">
+    <price min="13334416" average="13750000" max="14235062" />
+  </replace>
+  <replace sel="//ware[@id='ship_providence_dreadnaught_01']/price">
+    <price min="20832547" average="21312500" max="22142015" />
+  </replace>
+  <replace sel="//ware[@id='sov_resurgent_ware']/price">
+    <price min="20475000" average="21000000" max="21524999" />
+  </replace>
+  <replace sel="//ware[@id='sov_grey_bellator_ware']/price">
+    <price min="54276315" average="55000000" max="55723684" />
+  </replace>
+  <replace sel="//ware[@id='sov_bellator_ware']/price">
+    <price min="54276315" average="55000000" max="55723684" />
+  </replace>
+  <replace sel="//ware[@id='lucrehulk_t']/price">
+    <price min="30322916" average="30750000" max="31177083" />
+  </replace>
+  <replace sel="//ware[@id='lucrehulk_b']/price">
+    <price min="21161801" average="21700000" max="22526846" />
+  </replace>
+  <replace sel="//ware[@id='mc80_homeone']/price">
+    <price min="19546630" average="20025000" max="20798187" />
+  </replace>
+  <replace sel="//ware[@id='ship_imperial_xxl_executer']/price">
+    <price min="73125000" average="75000000" max="77812500" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_destroyer_01_a']/price">
+    <price min="456281" average="465000" max="473718" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_destroyer_01_b']/price">
+    <price min="544593" average="555000" max="565406" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_destroyer_02_a']/price">
+    <price min="497250" average="510000" max="522749" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_miner_liquid_01_a']/price">
+    <price min="127562" average="130000" max="132437" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_miner_liquid_01_b']/price">
+    <price min="157000" average="160000" max="163000" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_miner_solid_01_a']/price">
+    <price min="127562" average="130000" max="132437" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_miner_solid_01_b']/price">
+    <price min="157000" average="160000" max="162999" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_01_a']/price">
+    <price min="279656" average="285000" max="290343" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_01_b']/price">
+    <price min="338531" average="345000" max="351468" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_02_a']/price">
+    <price min="260031" average="265000" max="269968" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_02_b']/price">
+    <price min="313999" average="320000" max="326000" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_03_a']/price">
+    <price min="382687" average="390000" max="397312" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_03_b']/price">
+    <price min="456281" average="465000" max="473718" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_04_a']/price">
+    <price min="412125" average="420000" max="427875" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_04_b']/price">
+    <price min="495531" average="505000" max="514468" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_05_a']/price">
+    <price min="328718" average="335000" max="341281" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_l_trans_container_05_b']/price">
+    <price min="392500" average="400000" max="407500" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_bomber_01_a']/price">
+    <price min="58875" average="60000" max="61125" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_bomber_01_b']/price">
+    <price min="68687" average="70000" max="71312" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_bomber_02_a']/price">
+    <price min="63781" average="65000" max="66218" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_frigate_01_a']/price">
+    <price min="83406" average="85000" max="86593" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_frigate_01_b']/price">
+    <price min="98125" average="100000" max="101875" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_miner_liquid_01_a']/price">
+    <price min="19624" average="20000" max="20375" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_miner_liquid_01_b']/price">
+    <price min="24531" average="25000" max="25468" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_miner_solid_01_a']/price">
+    <price min="19624" average="20000" max="20375" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_miner_solid_01_b']/price">
+    <price min="24531" average="25000" max="25468" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_trans_container_01_a']/price">
+    <price min="24531" average="25000" max="25468" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_trans_container_01_b']/price">
+    <price min="29437" average="30000" max="30562" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_trans_container_02_a']/price">
+    <price min="24531" average="25000" max="25468" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_m_trans_container_02_b']/price">
+    <price min="29437" average="30000" max="30562" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_xl_builder_01_a']/price">
+    <price min="564218" average="575000" max="585781" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_xl_builder_01_b']/price">
+    <price min="677062" average="690000" max="702937" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_xl_carrier_01_a']/price">
+    <price min="1059750" average="1080000" max="1100250" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_xl_carrier_01_b']/price">
+    <price min="1270718" average="1295000" max="1319281" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_xl_carrier_02_a']/price">
+    <price min="1350375" average="1385000" max="1419624" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_xl_resupplier_01_a']/price">
+    <price min="569125" average="580000" max="590874" />
+  </replace>
+  <replace sel="//ware[@id='ship_arg_xl_resupplier_01_b']/price">
+    <price min="681968" average="695000" max="708031" />
+  </replace>
+  <replace sel="//ware[@id='ship_gen_m_transdrone_container_01_a']/price">
+    <price min="49062" average="50000" max="50937" />
+  </replace>
+  <replace sel="//ware[@id='ship_gen_m_tugboat_01_a']/price">
+    <price min="39250" average="40000" max="40749" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_destroyer_01_a']/price">
+    <price min="485718" average="495000" max="504281" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_destroyer_01_b']/price">
+    <price min="583843" average="595000" max="606156" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_destroyer_02_a']/price">
+    <price min="628000" average="640000" max="652000" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_miner_liquid_01_a']/price">
+    <price min="112843" average="115000" max="117156" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_miner_liquid_01_b']/price">
+    <price min="137375" average="140000" max="142625" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_miner_liquid_02_a']/price">
+    <price min="142281" average="145000" max="147718" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_miner_solid_01_a']/price">
+    <price min="112843" average="115000" max="117156" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_miner_solid_01_b']/price">
+    <price min="137375" average="140000" max="142625" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_miner_solid_02_a']/price">
+    <price min="142281" average="145000" max="147718" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_trans_container_01_a']/price">
+    <price min="181531" average="185000" max="188468" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_trans_container_01_b']/price">
+    <price min="220781" average="225000" max="229218" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_trans_container_02_a']/price">
+    <price min="161906" average="165000" max="168093" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_trans_container_02_b']/price">
+    <price min="196250" average="200000" max="203750" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_l_trans_container_03_a']/price">
+    <price min="269843" average="275000" max="280156" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_corvette_01_a']/price">
+    <price min="49062" average="50000" max="50937" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_corvette_01_b']/price">
+    <price min="58875" average="60000" max="61125" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_frigate_01_a']/price">
+    <price min="93218" average="95000" max="96781" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_frigate_01_b']/price">
+    <price min="112843" average="115000" max="117156" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_miner_liquid_01_a']/price">
+    <price min="19625" average="20000" max="20375" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_miner_liquid_01_b']/price">
+    <price min="24531" average="25000" max="25468" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_miner_solid_01_a']/price">
+    <price min="19625" average="20000" max="20375" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_miner_solid_01_b']/price">
+    <price min="24531" average="25000" max="25468" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_trans_container_01_a']/price">
+    <price min="24531" average="25000" max="25468" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_trans_container_01_b']/price">
+    <price min="34343" average="35000" max="35656" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_trans_container_02_a']/price">
+    <price min="24531" average="25000" max="25468" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_trans_container_02_b']/price">
+    <price min="29437" average="30000" max="30562" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_m_trans_container_03_a']/price">
+    <price min="52914" average="55000" max="57085" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_xl_builder_01_a']/price">
+    <price min="731031" average="745000" max="758968" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_xl_builder_01_b']/price">
+    <price min="873312" average="890000" max="906687" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_xl_carrier_01_a']/price">
+    <price min="1378656" average="1405000" max="1431343" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_xl_carrier_01_b']/price">
+    <price min="1653406" average="1685000" max="1716593" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_xl_carrier_02_a']/price">
+    <price min="1486593" average="1515000" max="1543406" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_xl_resupplier_01_a']/price">
+    <price min="637812" average="650000" max="662187" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_xl_resupplier_01_b']/price">
+    <price min="765375" average="780000" max="794624" />
+  </replace>
+  <replace sel="//ware[@id='ship_par_xl_resupplier_02_a']/price">
+    <price min="804625" average="820000" max="835374" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_destroyer_01_a']/price">
+    <price min="510250" average="520000" max="529750" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_destroyer_01_b']/price">
+    <price min="608374" average="620000" max="631625" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_destroyer_02_a']/price">
+    <price min="545999" average="560000" max="573999" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_miner_liquid_01_a']/price">
+    <price min="147187" average="150000" max="152812" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_miner_liquid_01_b']/price">
+    <price min="176625" average="180000" max="183375" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_miner_liquid_02_a']/price">
+    <price min="169650" average="174000" max="178350" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_miner_solid_01_a']/price">
+    <price min="147187" average="150000" max="152812" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_miner_solid_01_b']/price">
+    <price min="176625" average="180000" max="183375" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_miner_solid_02_a']/price">
+    <price min="170625" average="175000" max="179375" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_trans_container_01_a']/price">
+    <price min="255125" average="260000" max="264874" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_trans_container_01_b']/price">
+    <price min="309093" average="315000" max="320906" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_trans_container_02_a']/price">
+    <price min="235500" average="240000" max="244500" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_trans_container_02_b']/price">
+    <price min="279656" average="285000" max="290343" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_l_trans_container_03_a']/price">
+    <price min="311999" average="320000" max="327999" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_bomber_01_a']/price">
+    <price min="58875" average="60000" max="61125" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_bomber_01_b']/price">
+    <price min="68687" average="70000" max="71312" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_frigate_01_a']/price">
+    <price min="161906" average="165000" max="168093" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_frigate_01_b']/price">
+    <price min="191343" average="195000" max="198656" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_miner_liquid_01_a']/price">
+    <price min="18153" average="18500" max="18846" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_miner_liquid_01_b']/price">
+    <price min="22078" average="22500" max="22921" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_miner_solid_01_a']/price">
+    <price min="18153" average="18500" max="18846" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_miner_solid_01_b']/price">
+    <price min="22078" average="22500" max="22921" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_trans_container_01_a']/price">
+    <price min="39250" average="40000" max="40750" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_trans_container_01_b']/price">
+    <price min="44156" average="45000" max="45843" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_trans_container_02_a']/price">
+    <price min="34343" average="35000" max="35656" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_trans_container_02_b']/price">
+    <price min="39250" average="40000" max="40749" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_m_trans_container_03_a']/price">
+    <price min="49062" average="50000" max="50937" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_xl_builder_01_a']/price">
+    <price min="627999" average="640000" max="652000" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_xl_builder_01_b']/price">
+    <price min="755562" average="770000" max="784437" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_xl_carrier_01_a']/price">
+    <price min="1172593" average="1195000" max="1217406" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_xl_carrier_01_b']/price">
+    <price min="1408093" average="1435000" max="1461906" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_xl_resupplier_01_a']/price">
+    <price min="515156" average="525000" max="534843" />
+  </replace>
+  <replace sel="//ware[@id='ship_tel_xl_resupplier_01_b']/price">
+    <price min="618187" average="630000" max="641812" />
+  </replace>
+  <replace sel="//ware[@id='ship_xen_l_terraformer_01_a']/price">
+    <price min="549500" average="560000" max="570500" />
+  </replace>
+  <replace sel="//ware[@id='ship_xen_m_corvette_01_a']/price">
+    <price min="41212" average="42000" max="42787" />
+  </replace>
+  <replace sel="//ware[@id='ship_xen_m_corvette_02_a']/price">
+    <price min="58875" average="60000" max="61125" />
+  </replace>
+  <replace sel="//ware[@id='ship_xen_m_fighter_01_a']/price">
+    <price min="441562" average="450000" max="458437" />
+  </replace>
+  <replace sel="//ware[@id='ship_xen_m_miner_01_a']/price">
+    <price min="298300" average="304000" max="309700" />
+  </replace>
+  <replace sel="//ware[@id='ship_xen_m_miner_solid_01_a']/price">
+    <price min="29928" average="30500" max="31071" />
+  </replace>
+  <replace sel="//ware[@id='ship_xen_xl_carrier_01_a']/price">
+    <price min="1668125" average="1700000" max="1731875" />
+  </replace>
+  <replace sel="//ware[@id='ship_xen_xl_destroyer_01_a']/price">
+    <price min="7153312" average="7290000" max="7426687" />
+  </replace>
+  <replace sel="//ware[@id='firespray']/price">
+    <price min="204785" average="210000" max="217927" />
+  </replace>
+  <replace sel="//ware[@id='t6shuttle']/price">
+    <price min="292500" average="300000" max="311250" />
+  </replace>
+  <replace sel="//ware[@id='fortitude']/price">
+    <price min="126538" average="130000" max="134542" />
+  </replace>
+  <replace sel="//ware[@id='g9']/price">
+    <price min="165763" average="170000" max="176412" />
+  </replace>
+  <replace sel="//ware[@id='theta']/price">
+    <price min="165999" average="170000" max="176418" />
+  </replace>
+  <replace sel="//ware[@id='gr75a']/price">
+    <price min="487020" average="500000" max="518129" />
+  </replace>
+  <replace sel="//ware[@id='gr75b']/price">
+    <price min="661252" average="675000" max="694200" />
+  </replace>
+  <replace sel="//ware[@id='mantis']/price">
+    <price min="273000" average="280000" max="290500" />
+  </replace>
+  <replace sel="//ware[@id='yt1300m']/price">
+    <price min="290987" average="300000" max="308567" />
+  </replace>
+  <replace sel="//ware[@id='yt1300_02_a']/price">
+    <price min="243729" average="250000" max="260105" />
+  </replace>
+  <replace sel="//ware[@id='dynamic_class_freighter']/price">
+    <price min="389966" average="400000" max="416168" />
+  </replace>
+  <replace sel="//ware[@id='lambda_shuttle']/price">
+    <price min="277907" average="285000" max="295695" />
+  </replace>
+  <replace sel="//ware[@id='berea_shuttle']/price">
+    <price min="251810" average="265000" max="274887" />
+  </replace>
+  <replace sel="//ware[@id='berea_shuttle_gas']/price">
+    <price min="261312" average="275000" max="285260" />
+  </replace>
+  <replace sel="//ware[@id='cr70_01a']/price">
+    <price min="784868" average="805000" max="832399" />
+  </replace>
+  <replace sel="//ware[@id='cr70_01con']/price">
+    <price min="682423" average="700000" max="725386" />
+  </replace>
+  <replace sel="//ware[@id='jtype_transport']/price">
+    <price min="302633" average="310000" max="322238" />
+  </replace>
+  <replace sel="//ware[@id='customs_corvette']/price">
+    <price min="532670" average="550000" max="567329" />
+  </replace>
+  <replace sel="//ware[@id='hammerhead_corvette']/price">
+    <price min="832478" average="853500" max="885431" />
+  </replace>
+  <replace sel="//ware[@id='gs80']/price">
+    <price min="589676" average="605000" max="627993" />
+  </replace>
+  <replace sel="//ware[@id='cr90_01a']/price">
+    <price min="803095" average="825000" max="851032" />
+  </replace>
+  <replace sel="//ware[@id='cr90_01as']/price">
+    <price min="769811" average="790000" max="813992" />
+  </replace>
+  <replace sel="//ware[@id='cr90_01b']/price">
+    <price min="877000" average="900000" max="935669" />
+  </replace>
+  <replace sel="//ware[@id='dorean_corvette']/price">
+    <price min="705782" average="725000" max="751178" />
+  </replace>
+  <replace sel="//ware[@id='actioniv']/price">
+    <price min="402144" average="412500" max="426767" />
+  </replace>
+  <replace sel="//ware[@id='actioniv_solid']/price">
+    <price min="364371" average="373750" max="387792" />
+  </replace>
+  <replace sel="//ware[@id='actioniv_gas']/price">
+    <price min="364371" average="373750" max="387792" />
+  </replace>
+  <replace sel="//ware[@id='rebel_tanker_liquid']/price">
+    <price min="424125" average="435000" max="451312" />
+  </replace>
+  <replace sel="//ware[@id='rebel_tanker_solid']/price">
+    <price min="424125" average="435000" max="451312" />
+  </replace>
+  <replace sel="//ware[@id='gozanti_civ_01']/price">
+    <price min="475696" average="490000" max="504303" />
+  </replace>
+  <replace sel="//ware[@id='gozanti_civ_miner']/price">
+    <price min="509674" average="525000" max="540325" />
+  </replace>
+  <replace sel="//ware[@id='impgozanti_at']/price">
+    <price min="624425" average="640500" max="664616" />
+  </replace>
+  <replace sel="//ware[@id='impgozanti_cr']/price">
+    <price min="701865" average="720000" max="747033" />
+  </replace>
+  <replace sel="//ware[@id='gozanti_croc']/price">
+    <price min="511541" average="525000" max="544836" />
+  </replace>
+  <replace sel="//ware[@id='gozanti_croc_raider']/price">
+    <price min="514555" average="525000" max="545894" />
+  </replace>
+  <replace sel="//ware[@id='weequay']/price">
+    <price min="563560" average="575000" max="597884" />
+  </replace>
+  <replace sel="//ware[@id='sorosub3000']/price">
+    <price min="219375" average="225000" max="233437" />
+  </replace>
+  <replace sel="//ware[@id='defender_corvette']/price">
+    <price min="575498" average="590000" max="615769" />
+  </replace>
+  <replace sel="//ware[@id='css1']/price">
+    <price min="331374" average="340000" max="352088" />
+  </replace>
+  <replace sel="//ware[@id='cis_repair']/price">
+    <price min="414388" average="425000" max="440750" />
+  </replace>
+  <replace sel="//ware[@id='aeg77']/price">
+    <price min="481049" average="488750" max="500472" />
+  </replace>
+  <replace sel="//ware[@id='aeg77t']/price">
+    <price min="463136" average="475000" max="495219" />
+  </replace>
+  <replace sel="//ware[@id='crusader']/price">
+    <price min="685135" average="687500" max="737941" />
+  </replace>
+  <replace sel="//ware[@id='mando_solid']/price">
+    <price min="463103" average="475000" max="492760" />
+  </replace>
+  <replace sel="//ware[@id='mando_gas']/price">
+    <price min="463103" average="475000" max="492760" />
+  </replace>
+  <replace sel="//ware[@id='mando_transport']/price">
+    <price min="511820" average="525000" max="544651" />
+  </replace>
+  <replace sel="//ware[@id='raider']/price">
+    <price min="904107" average="925000" max="962006" />
+  </replace>
+  <replace sel="//ware[@id='lancer_pursuit']/price">
+    <price min="368581" average="375000" max="388346" />
+  </replace>
+  <replace sel="//ware[@id='gauntlet']/price">
+    <price min="438750" average="450000" max="466875" />
+  </replace>
+  <replace sel="//ware[@id='vcx100']/price">
+    <price min="365595" average="375000" max="389055" />
+  </replace>
+  <replace sel="//ware[@id='yv666']/price">
+    <price min="355769" average="365000" max="378014" />
+  </replace>
+  <replace sel="//ware[@id='bff_01']/price">
+    <price min="355833" average="365000" max="378794" />
+  </replace>
+  <replace sel="//ware[@id='zh40']/price">
+    <price min="267939" average="275000" max="285613" />
+  </replace>
+  <replace sel="//ware[@id='hapan_m']/price">
+    <price min="390000" average="400000" max="415000" />
+  </replace>
+  <replace sel="//ware[@id='cor_scrapper']/price">
+    <price min="1362700" average="1400000" max="1452149" />
+  </replace>
+  <replace sel="//ware[@id='nebulonb_01e']/price">
+    <price min="1289043" average="1322500" max="1373115" />
+  </replace>
+  <replace sel="//ware[@id='nebulonc']/price">
+    <price min="1510863" average="1550000" max="1609128" />
+  </replace>
+  <replace sel="//ware[@id='nebulonb_01p']/price">
+    <price min="1466217" average="1502500" max="1561565" />
+  </replace>
+  <replace sel="//ware[@id='terminus']/price">
+    <price min="2384329" average="2450000" max="2535932" />
+  </replace>
+  <replace sel="//ware[@id='acclamator1']/price">
+    <price min="2295161" average="2355000" max="2444080" />
+  </replace>
+  <replace sel="//ware[@id='acclamator2']/price">
+    <price min="3360169" average="3450000" max="3554697" />
+  </replace>
+  <replace sel="//ware[@id='valor_01']/price">
+    <price min="2728237" average="2800000" max="2916968" />
+  </replace>
+  <replace sel="//ware[@id='valor_02']/price">
+    <price min="3732111" average="3800000" max="3942205" />
+  </replace>
+  <replace sel="//ware[@id='praetorian_01']/price">
+    <price min="1344915" average="1380000" max="1431934" />
+  </replace>
+  <replace sel="//ware[@id='praetorian_02']/price">
+    <price min="1847641" average="1895000" max="1966775" />
+  </replace>
+  <replace sel="//ware[@id='quasar_imp']/price">
+    <price min="2788499" average="2860000" max="2967249" />
+  </replace>
+  <replace sel="//ware[@id='quasar_reb']/price">
+    <price min="2193750" average="2250000" max="2334375" />
+  </replace>
+  <replace sel="//ware[@id='aa9_liquid']/price">
+    <price min="1409110" average="1450000" max="1504637" />
+  </replace>
+  <replace sel="//ware[@id='aa9_solid']/price">
+    <price min="1409110" average="1450000" max="1504637" />
+  </replace>
+  <replace sel="//ware[@id='responder_frigate_solid']/price">
+    <price min="1457700" average="1500000" max="1556521" />
+  </replace>
+  <replace sel="//ware[@id='responder_frigate_liquid']/price">
+    <price min="1457700" average="1500000" max="1556521" />
+  </replace>
+  <replace sel="//ware[@id='responder_frigate_trade']/price">
+    <price min="1506290" average="1550000" max="1608405" />
+  </replace>
+  <replace sel="//ware[@id='heraklon_solid']/price">
+    <price min="1530793" average="1575000" max="1636310" />
+  </replace>
+  <replace sel="//ware[@id='heraklon_liquid']/price">
+    <price min="1530793" average="1575000" max="1636310" />
+  </replace>
+  <replace sel="//ware[@id='pelta_01']/price">
+    <price min="1682268" average="1725000" max="1782572" />
+  </replace>
+  <replace sel="//ware[@id='pelta_02']/price">
+    <price min="2128261" average="2185000" max="2263271" />
+  </replace>
+  <replace sel="//ware[@id='interceptor_frigate']/price">
+    <price min="1726832" average="1775000" max="1836221" />
+  </replace>
+  <replace sel="//ware[@id='vsd2']/price">
+    <price min="3787796" average="3900000" max="4031080" />
+  </replace>
+  <replace sel="//ware[@id='vindicator']/price">
+    <price min="2861385" average="2950000" max="3067622" />
+  </replace>
+  <replace sel="//ware[@id='enforcer']/price">
+    <price min="3277351" average="3351000" max="3484954" />
+  </replace>
+  <replace sel="//ware[@id='kontos']/price">
+    <price min="3169893" average="3250000" max="3371093" />
+  </replace>
+  <replace sel="//ware[@id='immobilizer_418']/price">
+    <price min="2654703" average="2732500" max="2801417" />
+  </replace>
+  <replace sel="//ware[@id='neutronstar']/price">
+    <price min="2696268" average="2760000" max="2865666" />
+  </replace>
+  <replace sel="//ware[@id='neutronstar_trade']/price">
+    <price min="2691816" average="2760000" max="2858997" />
+  </replace>
+  <replace sel="//ware[@id='civ_l_transport']/price">
+    <price min="1135563" average="1160000" max="1197869" />
+  </replace>
+  <replace sel="//ware[@id='hardcell_trade']/price">
+    <price min="1622387" average="1660000" max="1721939" />
+  </replace>
+  <replace sel="//ware[@id='hardcell_frigate']/price">
+    <price min="1569370" average="1610000" max="1664973" />
+  </replace>
+  <replace sel="//ware[@id='cis_cruiser']/price">
+    <price min="3120000" average="3200000" max="3320000" />
+  </replace>
+  <replace sel="//ware[@id='hardcell_solid']/price">
+    <price min="1182406" average="1205000" max="1244721" />
+  </replace>
+  <replace sel="//ware[@id='hardcell_liquid']/price">
+    <price min="1182406" average="1205000" max="1244721" />
+  </replace>
+  <replace sel="//ware[@id='genosian_cruiser']/price">
+    <price min="2045887" average="2100000" max="2176052" />
+  </replace>
+  <replace sel="//ware[@id='overseer']/price">
+    <price min="1461348" average="1500000" max="1554323" />
+  </replace>
+  <replace sel="//ware[@id='diamond_cruiser_civ']/price">
+    <price min="1521000" average="1560000" max="1618500" />
+  </replace>
+  <replace sel="//ware[@id='diamond_cruiser']/price">
+    <price min="1950000" average="2000000" max="2074999" />
+  </replace>
+  <replace sel="//ware[@id='c9979']/price">
+    <price min="1399167" average="1437500" max="1482351" />
+  </replace>
+  <replace sel="//ware[@id='dreadnaught_alliance']/price">
+    <price min="3550843" average="3645000" max="3782808" />
+  </replace>
+  <replace sel="//ware[@id='dreadnaught_katana']/price">
+    <price min="4149992" average="4250000" max="4396372" />
+  </replace>
+  <replace sel="//ware[@id='mc40a']/price">
+    <price min="2558689" average="2625000" max="2725029" />
+  </replace>
+  <replace sel="//ware[@id='mc40b']/price">
+    <price min="2666500" average="2737500" max="2837796" />
+  </replace>
+  <replace sel="//ware[@id='arquitens']/price">
+    <price min="1750557" average="1795000" max="1863971" />
+  </replace>
+  <replace sel="//ware[@id='imp_light_cruiser']/price">
+    <price min="1822962" average="1870000" max="1937485" />
+  </replace>
+  <replace sel="//ware[@id='imp_cruiser_546']/price">
+    <price min="2287774" average="2585000" max="2680661" />
+  </replace>
+  <replace sel="//ware[@id='arrestor_cruiser']/price">
+    <price min="1974375" average="2025000" max="2100937" />
+  </replace>
+  <replace sel="//ware[@id='neutronstar_builder']/price">
+    <price min="3314840" average="3400000" max="3526446" />
+  </replace>
+  <replace sel="//ware[@id='hapan_l']/price">
+    <price min="3193125" average="3275000" max="3397812" />
+  </replace>
+  <replace sel="//ware[@id='hapan_nova']/price">
+    <price min="2461875" average="2525000" max="2619687" />
+  </replace>
+  <replace sel="//ware[@id='vigilfinal']/price">
+    <price min="1121250" average="1150000" max="1193125" />
+  </replace>
+  <replace sel="//ware[@id='fulgor']/price">
+    <price min="3656250" average="3750000" max="3890625" />
+  </replace>
+  <replace sel="//ware[@id='velox']/price">
+    <price min="1389375" average="1425000" max="1478437" />
+  </replace>
+  <replace sel="//ware[@id='teroch']/price">
+    <price min="2535000" average="2600000" max="2697499" />
+  </replace>
+  <replace sel="//ware[@id='proclamator']/price">
+    <price min="3510000" average="3600000" max="3735000" />
+  </replace>
+  <replace sel="//ware[@id='lancerfrigate']/price">
+    <price min="1365000" average="1400000" max="1452499" />
+  </replace>
+  <replace sel="//ware[@id='mc80']/price">
+    <price min="7779520" average="7975000" max="8287696" />
+  </replace>
+  <replace sel="//ware[@id='mc80carrier']/price">
+    <price min="6706830" average="6875000" max="7127254" />
+  </replace>
+  <replace sel="//ware[@id='mc80r']/price">
+    <price min="5906724" average="6050000" max="6284841" />
+  </replace>
+  <replace sel="//ware[@id='mc80liner']/price">
+    <price min="3132751" average="3200000" max="3332743" />
+  </replace>
+  <replace sel="//ware[@id='mc80crain']/price">
+    <price min="3802500" average="3900000" max="4046250" />
+  </replace>
+  <replace sel="//ware[@id='mc80_homeone']/price">
+    <price min="19546630" average="20025000" max="20798187" />
+  </replace>
+  <replace sel="//ware[@id='mc75']/price">
+    <price min="8541149" average="8750000" max="9103508" />
+  </replace>
+  <replace sel="//ware[@id='isd_1_bls']/price">
+    <price min="9757938" average="10000000" max="10372421" />
+  </replace>
+  <replace sel="//ware[@id='isd_1']/price">
+    <price min="9757938" average="10000000" max="10372421" />
+  </replace>
+  <replace sel="//ware[@id='isd_2']/price">
+    <price min="10728515" average="11000000" max="11416011" />
+  </replace>
+  <replace sel="//ware[@id='procursator']/price">
+    <price min="8769305" average="9000000" max="9333080" />
+  </replace>
+  <replace sel="//ware[@id='ship_providence_carrier_01']/price">
+    <price min="8333019" average="8525000" max="8856806" />
+  </replace>
+  <replace sel="//ware[@id='lucrehulk_a']/price">
+    <price min="13660100" average="14000000" max="14509634" />
+  </replace>
+  <replace sel="//ware[@id='lucrehulk_b']/price">
+    <price min="21157500" average="21700000" max="22513750" />
+  </replace>
+  <replace sel="//ware[@id='lucrehulk_f']/price">
+    <price min="10716824" average="11000000" max="11444697" />
+  </replace>
+  <replace sel="//ware[@id='venator_01']/price">
+    <price min="7507447" average="7700000" max="7978970" />
+  </replace>
+  <replace sel="//ware[@id='venator_ce']/price">
+    <price min="6824945" average="7000000" max="7263547" />
+  </replace>
+  <replace sel="//ware[@id='venator_hutt']/price">
+    <price min="8033996" average="8250000" max="8538710" />
+  </replace>
+  <replace sel="//ware[@id='keldabe']/price">
+    <price min="9647821" average="9900000" max="10267722" />
+  </replace>
+  <replace sel="//ware[@id='kandosii']/price">
+    <price min="8775000" average="9000000" max="9337500" />
+  </replace>
+  <replace sel="//ware[@id='munificent_01']/price">
+    <price min="4370437" average="4482500" max="4650593" />
+  </replace>
+  <replace sel="//ware[@id='recusant']/price">
+    <price min="6047437" average="6202500" max="6435093" />
+  </replace>
+  <replace sel="//ware[@id='allocator']/price">
+    <price min="9774375" average="10025000" max="10400937" />
+  </replace>
+  <replace sel="//ware[@id='ship_gen_resupplier_01']/price">
+    <price min="4508272" average="4650000" max="4783390" />
+  </replace>
+  <replace sel="//ware[@id='harrower']/price">
+    <price min="10402955" average="10675000" max="11069938" />
+  </replace>
+  <replace sel="//ware[@id='harrower_i']/price">
+    <price min="14716399" average="15000000" max="15424646" />
+  </replace>
+  <replace sel="//ware[@id='ship_imperial_xxl_executer_proto']/price">
+    <price min="63375000" average="65000000" max="67437500" />
+  </replace>
+  <replace sel="//ware[@id='ship_imperial_xxl_executer']/price">
+    <price min="73125000" average="75000000" max="77812500" />
+  </replace>
+  <replace sel="//ware[@id='praetor']/price">
+    <price min="34125000" average="35000000" max="36312500" />
+  </replace>
+  <replace sel="//ware[@id='bellator']/price">
+    <price min="53625000" average="55000000" max="57062500" />
+  </replace>
+  <replace sel="//ware[@id='chimaera']/price">
+    <price min="30000000" average="30000000" max="30000000" />
+  </replace>
+  <replace sel="//ware[@id='infinity']/price">
+    <price min="37500000" average="37500000" max="37500000" />
+  </replace>
+  <replace sel="//ware[@id='orthavan']/price">
+    <price min="21000000" average="21000000" max="21000000" />
+  </replace>
+  <replace sel="//ware[@id='hand']/price">
+    <price min="27500000" average="27500000" max="27500000" />
+  </replace>
+  <replace sel="//ware[@id='oppressor']/price">
+    <price min="45000000" average="45000000" max="45000000" />
+  </replace>
+  <replace sel="//ware[@id='endurance']/price">
+    <price min="17500000" average="17500000" max="17500000" />
+  </replace>
+  <replace sel="//ware[@id='resolute']/price">
+    <price min="17500000" average="17500000" max="17500000" />
+  </replace>
+  <replace sel="//ware[@id='negotiator']/price">
+    <price min="17500000" average="17500000" max="17500000" />
+  </replace>
+  <replace sel="//ware[@id='quaestor']/price">
+    <price min="105000000" average="105000000" max="105000000" />
+  </replace>
+  <replace sel="//ware[@id='endofdays']/price">
+    <price min="20000000" average="20000000" max="20000000" />
+  </replace>
+  <replace sel="//ware[@id='umbra']/price">
+    <price min="40000000" average="40000000" max="40000000" />
+  </replace>
+  <replace sel="//ware[@id='saakak']/price">
+    <price min="35000000" average="35000000" max="35000000" />
+  </replace>
+  <replace sel="//ware[@id='heroexecutor']/price">
+    <price min="100000000" average="100000000" max="100000000" />
+  </replace>
+  <replace sel="//ware[@id='profundity']/price">
+    <price min="30000000" average="30000000" max="30000000" />
+  </replace>
+  <replace sel="//ware[@id='mythosaur']/price">
+    <price min="7585000" average="7585000" max="7585000" />
+  </replace>
+  <replace sel="//ware[@id='salvation']/price">
+    <price min="6502500" average="6502500" max="6502500" />
+  </replace>
+  <replace sel="//ware[@id='phoenix']/price">
+    <price min="3750000" average="3750000" max="3750000" />
+  </replace>
+  <replace sel="//ware[@id='katana']/price">
+    <price min="12500000" average="12500000" max="12500000" />
+  </replace>
+  <replace sel="//ware[@id='protector']/price">
+    <price min="10500000" average="10500000" max="10500000" />
+  </replace>
+  <replace sel="//ware[@id='battleforged']/price">
+    <price min="8000000" average="8000000" max="8000000" />
+  </replace>
+  <replace sel="//ware[@id='tantive']/price">
+    <price min="2475000" average="2475000" max="2475000" />
+  </replace>
+  <replace sel="//ware[@id='ebon']/price">
+    <price min="2000000" average="2000000" max="2000000" />
+  </replace>
+  <replace sel="//ware[@id='falcon']/price">
+    <price min="3000000" average="3000000" max="3000000" />
+  </replace>
+  <replace sel="//ware[@id='lightmaker']/price">
+    <price min="2500000" average="2500000" max="2500000" />
+  </replace>
+  <replace sel="//ware[@id='sterdicstar']/price">
+    <price min="2500000" average="2500000" max="2500000" />
+  </replace>
+  <replace sel="//ware[@id='corvus']/price">
+    <price min="2500000" average="2500000" max="2500000" />
+  </replace>
+</diff>

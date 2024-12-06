@@ -1,9 +1,6 @@
 <ware id="sov_eclipse_ware" name="{1423010003,1}" description="{1423010003,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
 <price min="750000000" average="800000000" max="850000000" />
 <component ref="eclipse_macro" amount="1" />
-<ware id="sov_viscount_ware" name="{1423010004,1}" description="{1423010004,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
-<price min="750000000" average="800000000" max="850000000" />
-<component ref="viscount_macro" amount="1" />
 <ware id="sov_lusankya" name="{1423010014,1}" description="{1423010014,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
 <price min="190102000" average="237627500" max="308915750" />
 <component ref="lusankya_macro" amount="1" />
@@ -1033,9 +1030,6 @@
 <ware id="overseer" name="{999840,123310}" description="{999840,123330}" group="ships_sw" transport="ship" volume="1" tags="ship">
 <price min="6477000" average="8158890" max="10522724" />
 <component ref="overseer_macro" amount="1" />
-<ware id="cis_refractory" name="{999840,123610}" description="{999840,123630}" group="ships_sw" transport="ship" volume="1" tags="ship">
-<price min="6477000" average="8158890" max="10522724" />
-<component ref="cis_refractory_macro" amount="1" />
 <ware id="diamond_cruiser_civ" name="{999840,123511}" description="{999840,123531}" group="ships_sw" transport="ship" volume="1" tags="ship">
 <price min="2274800" average="2843500" max="3696550" />
 <component ref="diamond_cruiser_civ_macro" amount="1" />
@@ -1096,9 +1090,6 @@
 <ware id="lancerfrigate" name="{999840,123210}" description="{999840,123230}" group="ships_sw" transport="ship" volume="1" tags="ship">
 <price min="4552900" average="5691125" max="7398462" />
 <component ref="lancerfrigate_macro" amount="1" />
-<ware id="storm" name="{999840,123810}" description="{999840,123830}" group="ships_sw" transport="ship" volume="1" tags="ship">
-<price min="6501752" average="7189690" max="8746597" />
-<component ref="storm_macro" amount="1" />
 <ware id="mc80" name="{999840,130210}" description="{999840,130230}" group="ships_sw" transport="ship" volume="1" tags="ship">
 <price min="41145600" average="51182000" max="67236600" />
 <component ref="mc80_macro" amount="1" />
@@ -1207,9 +1198,6 @@
 <ware id="oppressor" name="{343001,15}" description="{343001,16}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="100000000" average="100000000" max="100000000" />
 <component ref="oppressor_macro" amount="1" />
-<ware id="ambition" name="{343001,19}" description="{343001,20}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly ">
-<price min="1600000000" average="1800000000" max="2000000000" />
-<component ref="ambition_macro" amount="1" />
 <ware id="endurance" name="{343001, 27}" description="{343001, 28}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="100000000" average="100000000" max="100000000" />
 <component ref="endurance_macro" amount="1" />
