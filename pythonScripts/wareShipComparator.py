@@ -1,49 +1,38 @@
 import re
 
 # Function to modify lines matching the price pattern
-def modify_line(i, lines, line, macroDirectories, priceMult, reduce_spread_by):
+def modify_line(i, lines, line, macroDirectories, priceMult):
     # Regex pattern to match the price line
+    if '//ware[@id=' in line:
+        idMatch = re.match(r'.*id=\'([a-zA-Z0-9_-]*)\'\s*', line).group(1)
+        if idMatch:
+            priceMatch = re.match(r'.*"\d+\s*".*"(\d+)\s*".*"\d+\s*".*"(.*)"', lines[i+1])
+            return f'{idMatch}\t{priceMatch.group(1)}\t{priceMatch.group(2)}\n'
     if '<ware id=' in line:
-      idMatch = re.match(r'<ware id="([a-zA-Z0-9_-]*)\s*"', line).group(1)
-      priceMatch = re.match(r'.*"(\d+)\s*".*"(\d+)\s*".*"(\d+)\s*".*', lines[i+1])
-      if not int(priceMatch.group(3)) > 1: 
-        print('-- ', idMatch)
-        print('??? no price')
-        return ''
-      average_price = int(priceMatch.group(2))
-      min_ratio = (1 - (int(priceMatch.group(1)) / average_price))
-      if min_ratio < 0:
-        print('-- ', idMatch)
-        print('!!! invalid min_ratio: ', min_ratio)
-        return ''
-      else: min_ratio /= reduce_spread_by
-      max_ratio = ((int(priceMatch.group(3)) / average_price) - 1)
-      if max_ratio < 0:
-        print('-- ', idMatch)
-        print('!!! invalid max_ratio: ', max_ratio)
-        return ''
-      else: max_ratio /= reduce_spread_by
-
-      macro = re.match(r'<component ref="([a-zA-Z0-9_-]*)\s*"', lines[i+2]).group(1)
-      hull, docksize = obtain_macro_data(macro, macroDirectories)
-      if hull == '' or docksize == '':
-        print('-- ', idMatch)
-        print(f'hull: {hull}  |  docksize: {docksize}')
-        return ''
-      try:
-        mult = priceMult[docksize]
-      except: 
-        print('-- ', idMatch)
-        print('!!! invalid docksize: ', docksize)
-        return ''
-      if mult == 0:
-        return ''
-      #average_price = int(hull) * mult
-      average_price = int(average_price * mult)
-      min_price = int(average_price * (1 - min_ratio))
-      max_price = int(average_price * (1 + max_ratio))
-      
-      return f'\n  <replace sel="//ware[@id=\'{idMatch}\']/price">\n    <price min="{min_price}" average="{average_price}" max="{max_price}" comment="{docksize}"/>\n  </replace>'
+        idMatch = re.match(r'<ware id="([a-zA-Z0-9_-]*)\s*"', line).group(1)
+        priceMatch = re.match(r'.*"(\d+)\s*".*"(\d+)\s*".*"(\d+)\s*".*', lines[i+1])
+        if not int(priceMatch.group(3)) > 1: 
+            print('-- ', idMatch)
+            print('??? no price')
+            return ''
+        average_price = int(priceMatch.group(2))
+        macro = re.match(r'<component ref="([a-zA-Z0-9_-]*)\s*"', lines[i+2]).group(1)
+        hull, docksize = obtain_macro_data(macro, macroDirectories)
+        if hull == '' or docksize == '':
+            print('-- ', idMatch)
+            print(f'hull: {hull}  |  docksize: {docksize}')
+            return ''
+        try:
+            mult = priceMult[docksize]
+        except: 
+            print('-- ', idMatch)
+            print('!!! invalid docksize: ', docksize)
+            return ''
+        if mult == 0:
+            return ''
+        #average_price = int(hull) * mult
+        
+        return f'{idMatch}\t{average_price}\t{hull}\t{docksize}\n'
     return ''
 
 def obtain_macro_data(macro, macroDirectories):
@@ -69,7 +58,7 @@ def obtain_macro_data(macro, macroDirectories):
     return hull, docksize
 
 # Function to read, modify, and write to the file
-def process_file(input_file, output_file, macroDirectories, priceMult, reduce_spread_by):
+def process_file(input_file, output_file, macroDirectories, priceMult):
     with open(input_file, 'r') as file:
         lines = file.readlines()
 
@@ -77,33 +66,30 @@ def process_file(input_file, output_file, macroDirectories, priceMult, reduce_sp
 
     i = 0
     for line in lines:
-        modified_line = modify_line(i, lines, line, macroDirectories, priceMult, reduce_spread_by)
+        modified_line = modify_line(i, lines, line, macroDirectories, priceMult)
         if modified_line: modified_lines.append(modified_line)
         i += 1
 
     with open(output_file, 'w') as file:
-        modified_lines.insert(0, '<diff>\n')
-        modified_lines.append('\n</diff>')
         file.writelines(modified_lines)
 
     print(f"File processed and saved as {output_file}")
 
 # Example usage
-input_file = 'parsed_ships-fixed.xml'
-output_file = 'spread-only_ships.xml'
+input_file = '12-9-12-18_ships.xml'
+output_file = 'compared_'+input_file
 # S M L XL XXL (0 = no changes)
 rate = 1
 priceMult = dict(
-    ship_s = 0,
-    ship_m = 1,
-    ship_l = 1,
-    ship_xl = 1,
-    dock_xl = 1,
-    dock_xxl = 1,
-    dock_dxxl = 1,
-    dock_l_mandator_2 = 1
+    ship_s = 1,
+    ship_m = rate,
+    ship_l = rate,
+    ship_xl = rate,
+    dock_xl = rate,
+    dock_xxl = rate,
+    dock_dxxl = rate,
+    dock_l_mandator_2 = rate
     )
-reduce_spread_by = 8
 macroDirectories = [
     'D:\\Games\\Steam\\steamapps\\common\\X4 Foundations\\extensions\\sov_dreadnaughts\\assets\\units\\size_xl\\macros\\',
     'D:\\Games\\Steam\\steamapps\\common\\X4 Foundations\\extensions\\swi_heroes\\assets\\units\\size_l\\macros\\',
@@ -121,4 +107,4 @@ macroDirectories = [
     'D:\\Games\\Steam\\steamapps\\common\\X4 Foundations\\extracted_xsd_xml_all\\assets\\units\\size_m\\macros\\',
     'D:\\Games\\Steam\\steamapps\\common\\X4 Foundations\\extracted_xsd_xml_all\\assets\\units\\size_xl\\macros\\'
     ]
-process_file(input_file, output_file, macroDirectories, priceMult, reduce_spread_by)
+process_file(input_file, output_file, macroDirectories, priceMult)

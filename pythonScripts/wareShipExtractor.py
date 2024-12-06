@@ -1,4 +1,4 @@
-file_path = 'wares.xml'
+file_path = 'wares-combined.xml'
 output_file = 'parsed_ships.xml'
 
 with open(file_path, 'r') as file:

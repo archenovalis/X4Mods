@@ -244,19 +244,6 @@
       </research>
     </ware>
     <!-- Ships -->
-    <!-- <ware id="sov_eclipse_ware" name="{1423010003,1}" description="{1423010003,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
-			<price min="1" average="1" max="1" />
-			<production time="30" amount="1" method="default" name="{20206,101}">
-			<primary>
-				<ware ware="energycells" amount="1" />
-				<ware ware="hullparts" amount="1" />
-				<ware ware="rhydoniumcell" amount="1" />
-			</primary>1
-			</production>
-			<component ref="eclipse_macro" amount="1" />
-			<restriction licence="generaluseequipment" />
-			<owner faction="galempire" /> 
-		</ware> -->
     <ware id="sov_eclipse_ware" name="{1423010003,1}" description="{1423010003,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
       <price min="750000000" average="800000000" max="850000000" />
       <production time="21600" amount="1" method="default" name="{20206,101}">
@@ -271,19 +258,7 @@
       <restriction licence="capitalship" />
       <owner faction="galempire" />
     </ware>
-    <!-- <ware id="sov_viscount_ware" name="{1423010004,1}" description="{1423010004,2}" group="ships_sw" transport="ship" volume="1" tags="ship">
-			<price min="750000000" average="800000000" max="850000000" />
-			<production time="10000" amount="1" method="default" name="{20206,101}">
-				<primary>
-					<ware ware="energycells" amount="748800" />
-					<ware ware="hullparts" amount="400000" />
-					<ware ware="rhydoniumcell" amount="8000" />
-				</primary>
-			</production>
-			<component ref="viscount_macro" amount="1" />
-			<restriction licence="capitalship" />
-			<owner faction="newrepublic" />
-		</ware> -->
+
     <ware id="sov_lusankya" name="{1423010014,1}" description="{1423010014,2}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
       <price min="190102000" average="237627500" max="308915750" />
       <production time="16200" amount="1" method="default" name="{20206,101}">
@@ -596,23 +571,7 @@
       <owner faction="sith" />
       <owner faction="sienar" />
     </ware>
-    <!-- 		<ware id="sov_viscount_engines" name="{1423020004, 1}" description="{1423020004, 2}" group="engines" transport="equipment" volume="1" tags="engine equipment">
-			<price min="3400000" average="4600000" max="5800000" />
-			<production time="10" amount="1" method="default" name="{20206,101}">
-			<primary>
-				<ware ware="energycells" amount="3072" />
-				<ware ware="engineparts" amount="960" />
-				<ware ware="antimatterconverters" amount="1440" />
-			</primary>
-			</production>
-			<component ref="viscount_engines_macro" amount="1" />
-			<restriction licence="generaluseequipment" />
-			<use threshold="0" />
-			<owner faction="newrepublic" />
-			<owner faction="rebelalliance" />
-			<owner faction="moncal" />
-		</ware>
- -->
+
     <ware id="sov_mandator_2_engines" name="{1423020011, 1}" description="{1423020011, 2}" group="engines" transport="equipment" volume="1" tags="engine equipment">
       <price min="3400000" average="4600000" max="5800000" />
       <production time="10" amount="1" method="default" name="{20206,101}">
@@ -1228,21 +1187,7 @@
       <owner faction="galempire" />
       <owner faction="kuat" />
     </ware>
-    <!-- 		<ware id="sov_shield_xxl_viscount" name="{1423040004, 1}" description="{1423040004, 3}" group="shields" transport="equipment" volume="1" tags="equipment shield">
-			<price min="5940000" average="6440000" max="6640000" />
-			<production time="1" amount="1" method="default" name="{20206,101}">
-				<primary>
-				<ware ware="energycells" amount="12500" />
-				<ware ware="fieldcoils" amount="2500" />
-				<ware ware="shieldcomponents" amount="1500" />
-				</primary>
-			</production>
-			<component ref="shield_xxl_viscount_macro" amount="1" />
-			<restriction licence="capitalequipment" />
-			<use threshold="0" />
-			<owner faction="newrepublic" />
-			<owner faction="rebelalliance" />
-		</ware> -->
+
     <ware id="sov_shield_xxl_mandator_2" name="{1423040009, 1}" description="{1423040009, 3}" group="shields" transport="equipment" volume="1" tags="equipment shield">
       <price min="3415500" average="3703000" max="3818000" />
       <production time="1" amount="1" method="default" name="{20206,101}">
@@ -1427,28 +1372,7 @@
       <owner faction="ascendancy" />
     </ware>
     <!--Modules-->
-    <!-- <ware id="sov_pier_imp_xxl_harbor_02" name="{1423060002,1}" description="{1423060002,1}" transport="container" volume="1" tags="module">
-			<price min="3402384" average="4002804" max="4603224" />
-			<production time="433" amount="1" method="default" name="{20206,101}">
-				<primary>
-				<ware ware="claytronics" amount="616" />
-				<ware ware="energycells" amount="1250" />
-				<ware ware="hullparts" amount="2286" />
-				</primary>
-			</production>
-			<research time="10">
-				<research>
-				<ware ware="research_module_dock" />
-				</research>
-			</research>
-			<component ref="pier_imp_xxl_harbor_02_macro" amount="1" />
-			<restriction licence="station_gen_basic" />
-			<owner faction="galempire" />
-			<owner faction="ascendancy" />
-			<owner faction="sith" />
-			<owner faction="sienar" />
-			<owner faction="kuat" />
-		</ware> -->
+
   </add>
   <replace sel="/wares/ware[@id='lucrehulk_b']">
     <ware id="lucrehulk_b" name="{999840,131711}" description="{999840,131711}" group="ships_sw" transport="ship" volume="1" tags="ship">
@@ -19518,20 +19442,6 @@
       <owner faction="hoersh" />
     </ware>
 
-    <!-- <ware id="cis_refractory" name="{999840,123610}" description="{999840,123630}" group="ships_sw" transport="ship" volume="1" tags="ship">
-      <price min="6477000" average="8158890" max="10522724" />
-      <production time="900" amount="1" method="default" name="{20206,101}">
-        <primary>
-          <ware ware="energycells" amount="8000" />
-          <ware ware="hullparts" amount="3370" />
-          <ware ware="rhydoniumcell" amount="48" />
-          <ware ware="shipsupplies" amount="40" />
-        </primary>
-      </production>
-      <component ref="cis_refractory_macro" amount="1" />
-      <restriction licence="generaluseship" />
-      <owner faction="hoersh" />
-    </ware> -->
 
     <ware id="diamond_cruiser_civ" name="{999840,123511}" description="{999840,123531}" group="ships_sw" transport="ship" volume="1" tags="ship">
       <price min="2274800" average="2843500" max="3696550" />
@@ -19874,20 +19784,6 @@
       <owner faction="ascendancy" />
     </ware>
 
-    <!-- <ware id="storm" name="{999840,123810}" description="{999840,123830}" group="ships_sw" transport="ship" volume="1" tags="ship">
-      <price min="6501752" average="7189690" max="8746597" />
-      <production time="1000" amount="1" method="default" name="{20206,101}">
-        <primary>
-          <ware ware="energycells" amount="7000" />
-          <ware ware="hullparts" amount="1900" />
-          <ware ware="rhydoniumcell" amount="20" />
-          <ware ware="shipsupplies" amount="32" />
-        </primary>
-      </production>
-      <component ref="storm_macro" amount="1" />
-      <restriction licence="militaryship" />
-      <owner faction="ascendancy" />
-    </ware> -->
 
     <!-- XL -->
     <ware id="mc80" name="{999840,130210}" description="{999840,130230}" group="ships_sw" transport="ship" volume="1" tags="ship">
@@ -28818,23 +28714,6 @@
       <owner faction="newrepublic" />
     </ware>
 
-    <!-- <ware id="shield_xxl_bellator" name="{999840, 306610}" description="{999840, 306630}" group="shields" transport="equipment" volume="1" tags="equipment shield">
-			<price min="2970000" average="3220000" max="3320000" />
-			<production time="1" amount="1" method="default" name="{20206,101}">
-				<primary>
-					<ware ware="energycells" amount="2083" />
-					<ware ware="fieldcoils" amount="416" />
-					<ware ware="shieldcomponents" amount="250" />
-				</primary>
-			</production>
-			<component ref="shield_xxl_bellator_macro" amount="1" />
-			<restriction licence="capitalequipment" />
-			<use threshold="0" />
-			<owner faction="galempire" />
-			<owner faction="ascendancy" />
-			<owner faction="sith" />
-			<owner faction="kuat" />
-		</ware> -->
 
     <ware id="shield_velox" name="{999840, 307110}" description="{999840, 307130}" group="shields" transport="equipment" volume="1" tags="equipment shield">
       <price min="168768" average="225024" max="281280" />
@@ -29459,24 +29338,6 @@
       <owner faction="newrepublic" />
     </ware>
 
-    <!-- <ware id="module_pier_imperial_tradestation" name="{999840,701010}" description="{999840,701030}" transport="container" volume="1" tags="module">
-      <price min="1" average="1.5" max="2" />
-      <production time="1" amount="1" method="default" name="{20206,101}">
-        <primary>
-          <ware ware="claytronics" amount="0" />
-          <ware ware="energycells" amount="0" />
-          <ware ware="hullparts" amount="0" />
-        </primary>
-      </production>
-      <research time="10">
-        <research>
-          <ware ware="research_module_build" />
-        </research>
-      </research>
-      <component ref="pier_imp_tradestation_01_macro" amount="1" />
-      <restriction licence="station_equip_sm" />
-      <owner faction="galempire" />
-    </ware> -->
 
     <ware id="module_storage_liquid_imperial_tradestation" name="{999840,700810}" description="{999840,700830}" transport="container" volume="1" tags="module">
       <price min="3025503" average="4035886" max="5046269" />
@@ -29587,41 +29448,6 @@
 
     </ware>
 
-    <!-- <ware id="module_imperial_tower_throneroom" name="{999840,701720}" description="{999840,701730}" transport="container" volume="1" tags="module">
-      <price min="244928" average="316386" max="407844" />
-      <production time="120" amount="1" method="default" name="{20206,101}">
-        <primary>
-          <ware ware="claytronics" amount="50" />
-          <ware ware="energycells" amount="300" />
-          <ware ware="hullparts" amount="200" />
-        </primary>
-      </production>
-      <component ref="tower_imp_throneroom_macro" amount="1" />
-      <restriction licence="station_gen_intermediate" />
-      <owner faction="ascendancy" />
-      <owner faction="galempire" />
-      <owner faction="sienar" />
-    </ware>
- -->
-    <!-- <ware id="module_gen_xl_city" name="{999840,700510}" description="{999840,700530}" transport="container" volume="1" tags="module">
-      <price min="1" average="1.5" max="2" />
-      <production time="1" amount="1" method="default" name="{20206,101}">
-        <primary>
-          <ware ware="claytronics" amount="1" />
-          <ware ware="energycells" amount="1" />
-          <ware ware="hullparts" amount="1" />
-        </primary>
-      </production>
-      <research time="1">
-        <research>
-          <ware ware="research_module_habitation" />
-        </research>
-      </research>
-      <component ref="hab_gen_xl_city_macro" amount="1" />
-      <restriction licence="station_gen_advanced" />
-      <owner faction="anoat" />
-      <owner faction="newrepublic" />
-    </ware> -->
 
     <!-- Anoat habitats -->
     <ware id="hab_ano_l_01" name="{999840,720250}" description="{999840,720250}" transport="container" volume="1" tags="module">
@@ -29959,27 +29785,7 @@
       <owner faction="sienar" />
       <owner faction="kuat" />
     </ware>
-    <!-- <ware id="dockarea_imp_m_station_01_standard" name="{20104,70101}" description="{20104,70102}" transport="container" volume="1" tags="module">
-      <price min="476636" average="625454" max="674272" />
-      <production time="397" amount="1" method="default" name="{20206,101}">
-        <primary>
-          <ware ware="claytronics" amount="80" />
-          <ware ware="energycells" amount="101" />
-          <ware ware="hullparts" amount="185" />
-        </primary>
-      </production>
-      <research time="10">
-        <research>
-          <ware ware="research_module_dock" />
-        </research>
-      </research>
-      <component ref="dockarea_imp_m_station_01_standard_macro" amount="1" />
-      <restriction licence="station_gen_basic" />
-      <owner faction="galempire" />
-      <owner faction="ascendancy" />
-      <owner faction="sith" />
-      <owner faction="sienar" />
-    </ware> -->
+
 
     <ware id="struct_imp_base_01" name="{999840,720360}" description="{20104,720360}" transport="container" volume="1" tags="module">
       <price min="92363" average="108662" max="124961" />
@@ -30235,27 +30041,7 @@
       <owner faction="kuat" />
     </ware>
 
-    <!-- <ware id="prod_imp_energycells" name="{20104,10801}" description="{20104,10802}" transport="container" volume="1" tags="module">
-      <price min="1413819" average="1663316" max="1912813" />
-      <production time="756" amount="1" method="default" name="{20206,101}">
-        <primary>
-          <ware ware="claytronics" amount="260" />
-          <ware ware="energycells" amount="520" />
-          <ware ware="hullparts" amount="951" />
-        </primary>
-      </production>
-      <research time="10">
-        <research>
-          <ware ware="research_module_production" />
-        </research>
-      </research>
-      <component ref="prod_imp_energycells_macro" amount="1" />
-      <restriction licence="station_gen_basic" />
-      <owner faction="galempire" />
-      <owner faction="ascendancy" />
-      <owner faction="sith" />
-      <owner faction="sienar" />
-    </ware> -->
+
     <ware id="prod_imp_foodrations" name="{20104,13401}" description="{20104,13402}" transport="container" volume="1" tags="module">
       <price min="1425885" average="1677512" max="1929139" />
       <production time="757" amount="1" method="default" name="{20206,201}">
@@ -35833,19 +35619,6 @@
       <owner faction="sith" />
     </ware>
 
-    <!-- 		<ware id="ambition" name="{343001,19}" description="{343001,20}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly ">
-			<price min="1600000000" average="1800000000" max="2000000000" />
-			<production time="5500" amount="1" method="default" name="{20206,101}">
-				<primary>
-					<ware ware="energycells" amount="1643250" />
-					<ware ware="hullparts" amount="597700" />
-					<ware ware="rhydoniumcell" amount="12900" />
-				</primary>
-			</production>
-			<component ref="ambition_macro" amount="1" />
-			<restriction licence="capitalship" />
-			<owner faction="ascendancy" />
-		</ware> -->
 
     <ware id="endurance" name="{343001, 27}" description="{343001, 28}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
       <price min="100000000" average="100000000" max="100000000" />
@@ -36373,22 +36146,6 @@
       <use threshold="0" />
       <owner faction="sith" />
     </ware>
-
-    <!--		<ware id="shield_xxl_ambition" name="{343004, 15}" description="{343004, 16}" group="shields" transport="equipment" volume="1" tags="equipment shield ambition">
-			<price min="15325200" average="16615200" max="17131200" />
-			<production time="1" amount="1" method="default" name="{20206,101}">
-				<primary>
-					<ware ware="energycells" amount="16120" />
-					<ware ware="fieldcoils" amount="3230" />
-					<ware ware="shieldcomponents" amount="1940" />
-				</primary>
-			</production>
-			<component ref="shield_xxl_ambition_macro" amount="1" />
-			<restriction licence="capitalequipment" />
-			<use threshold="0" />
-			<owner faction="ascendancy" />
-		</ware> -->
-
     <ware id="shield_s_redsquadron" name="{343004, 17}" description="{343004, 18}" group="shields" transport="equipment" volume="1" tags="equipment shield redsquadron">
       <price min="98320" average="131100" max="163870" />
       <production time="1" amount="1" method="default" name="{20206,101}">
@@ -36806,21 +36563,6 @@
       <use threshold="0" />
       <owner faction="mandodw" />
     </ware>
-
-    <!--	<ware id="engine_ambition" name="{343002, 7}" description="{343002, 8}" group="engines" transport="equipment" volume="1" tags="engine equipment ambition">
-			<price min="22000000" average="27000000" max="32000000" />
-			<production time="10" amount="1" method="default" name="{20206,101}">
-				<primary>
-					<ware ware="energycells" amount="21670" />
-					<ware ware="engineparts" amount="6540" />
-					<ware ware="antimatterconverters" amount="9660" />
-				</primary>
-			</production>
-			<component ref="engine_ambition_macro" amount="1" />
-			<restriction licence="generaluseequipment" />
-			<use threshold="0" />
-			<owner faction="ascendancy" />
-		</ware> -->
 
     <ware id="engine_redsquadron" name="{343002, 9}" description="{343002, 10}" group="engines" transport="equipment" volume="1" tags="engine equipment redsquadron">
       <price min="443760" average="591690" max="739610" />

@@ -34,11 +34,12 @@
         -->
         <set_value name="$Factions" exact="table[]" />
         <!-- xs=1x, s=1x, m=7x, l=13x, xl=9, xxl=9 -->
+        <!-- now just 50% -->
         <set_value name="$DockTags" exact="table[
-          {tag.dock_xxl} = 2.75,
-          {tag.dock_xl} = 4.5,
-          {tag.dock_l} = 6.5,
-          {tag.dock_m} = 3.5,
+          {tag.dock_xxl} = 2,
+          {tag.dock_xl} = 2,
+          {tag.dock_l} = 2,
+          {tag.dock_m} = 2,
           {tag.dock_s} = 2,
           {tag.dock_xs} = 2
         ]" />
@@ -400,6 +401,7 @@
                 <do_else>
                   <set_value name="$GAJ_Sell_Ships.$SellPrice" operation="subtract" exact="$shipPrice" />
                 </do_else>
+                <set_value name="GAJ_Sell_Ships.$Ships.$ship.$checked" exact="event.param.$checked" />
                 <cancel_cue cue="this" />
               </actions>
             </cue>
@@ -415,8 +417,10 @@
                 <reset_cue cue="GAJ_Sell_Ships_Menu" />
                 <reward_player money="$GAJ_Sell_Ships.$SellPrice" />
                 <do_for_each name="$ship" in="GAJ_Sell_Ships.$Ships.keys.list">
-                  <set_owner object="$ship" faction="GAJ_Sell_Ships.$Interact_target.trueowner" />
-                  <create_order object="$ship" id="'RecycleDefault'" default="true" />
+                  <do_if value="GAJ_Sell_Ships.$Ships.$ship.$checked">
+                    <set_owner object="$ship" faction="GAJ_Sell_Ships.$Interact_target.trueowner" />
+                    <create_order object="$ship" id="'RecycleDefault'" default="true" />
+                  </do_if>
                 </do_for_each>
               </actions>
             </cue>

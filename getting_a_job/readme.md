@@ -18,22 +18,28 @@ XXL: ~5.5x
 ```
 * **Rewards Decreased**
 Missions, trading inventory items, selling craftables, trading software and deployables. Gone. Not really gone, but it's not how you'll get rich. Maybe missions, but not really trading the small stuff. Go become a pirate and loot lots of stuff, that's the easy way to become rich, or dead.
-```Rewards reduced by 16 to 6.25% of normal.
+```
+Mission pay reduced by 16 to 6.25% of normal.
 Average inventory prices reduced by 5 to 20% of normal.
 Inventory price spreads reduced by 8 to 12.5% of normal.
 ```
-## Requirements (some not yet required)
-[Star Wars Interworlds](https://sites.google.com/view/swinterworlds/Home)
-[InterGalactic Bank](https://discord.com/channels/614576717008207901/1309028894937972747/1309028897274466374)
-[Kuertee: Crime Has Consequences](https://www.nexusmods.com/x4foundations/mods/566) (v7.1.10: Disable crimes towards subordinates are reassigned to their commanders)
-[Kuertee: Alternatives to death](https://www.nexusmods.com/x4foundations/mods/551)
-[Kuertee: NPC Reactions](https://www.nexusmods.com/x4foundations/mods/497)
+## Requirements
+[Star Wars Interworlds](https://sites.google.com/view/swinterworlds/Home) (!! STAR WARS !!)
+[InterGalactic Bank](https://discord.com/channels/614576717008207901/1309028894937972747/1309028897274466374) (Money goes into your account, not teleported to your pocket)
+[Kuertee: Crime Has Consequences](https://www.nexusmods.com/x4foundations/mods/566) (don't break the law, selling stolen ships is a crime)
+[Kuertee: NPC Reactions](https://www.nexusmods.com/x4foundations/mods/497) (tip: use the taxi service to get onto enemy stations)
+
+## Required Utility Mods
 [Kuertee: UI Extensions and HUD](https://github.com/kuertee/x4-mod-ui-extensions/releases)
 [Mod Support APIs](https://www.nexusmods.com/x4foundations/mods/503)
 
+## Planned Requirements
+[Kuertee: Alternatives to death](https://www.nexusmods.com/x4foundations/mods/551) (descendants will inherit your assets, not your paycheck. some accounts will have different amounts of inheritance tax. death causes you to lose your pocket money, keep it safe in an account)
+[Teleport From Transporter Room](https://www.nexusmods.com/x4foundations/mods/553) (but only if you have the technology)
+[Escape Pod](https://www.nexusmods.com/x4foundations/mods/596) (abandoned; i'll update/integrate it eventually)
 
 ## Installation
-* Download: https://github.com/archenovalis/X4Mods/releases/tag/Getting_A_Job_v0.1
+* Download: https://github.com/archenovalis/X4Mods/releases/tag/Getting_A_Job_v0.5
 * Extract to extensions directory.
 ## Planned Features
 * **Get A Job**
@@ -53,9 +59,8 @@ Inventory price spreads reduced by 8 to 12.5% of normal.
   * Contraband pays much more when working for a faction that produces it.
   * Reverse engineer ships to get blueprints.
 
-
 ## Changelog
 - v0.1: Early player economy changes are complete.
 - v0.2: Basic Paycheck implemented
-- v0.21: Sell ships mechanic replaced, reduced ship sell price -- divide by ship class max ratio m=7x, l=13x xl=9, xxl=9x
-- v0.5: Work Missions implemented. Mission pay cut in half. Work misison bonus pay increased by 40-250%.
+- v0.21: Sell ships mechanic replaced, reduced ship sell price to 50%.
+- v0.5: Work Missions implemented. Mission pay cut in half. Work mission bonus pay increased by 40-250%.
