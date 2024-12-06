@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  
+
   <add pos="before" sel="//create_offer[@cue=&quot;$MissionCue&quot;]">
-    <do_if value="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active">
+    <do_if value="md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$missionGroup" />
     </do_if>
   </add>
-
-  <replace sel="//reward_player[@money='$RewardCr']">
+  <add pos="before" sel="//reward_player[@money='$RewardCr + $BonusCr']">
+    <set_value name="$RewardCr" exact="$RewardCr + $BonusCr" />
+  </add>
+  <replace sel="//reward_player[@money='$RewardCr + $BonusCr']">
     <do_if value="not @player.allmodules.{player.module}.isscenario">
       <set_value name="$GAJ_isWork" exact="false" />
       <do_if value="[

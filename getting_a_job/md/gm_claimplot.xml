@@ -11,11 +11,11 @@
   <!-- ADD property group:
     <create_offer cue="$MissionCue" ... >
   -->
-  <add sel="//create_offer[@cue=&quot;$MissionCue&quot;]" type="@group">$MissionGroup</add>
+  <add sel="//create_offer" type="@group">$MissionGroup</add>
 
-  <!-- getting a job -->  
-  <add pos="before" sel="//create_offer[@cue=&quot;$MissionCue&quot;]">
-    <do_if value="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active">
+  <!-- getting a job -->
+  <add pos="before" sel="//create_offer">
+    <do_if value="md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$OfferingFaction}.$missionGroup" />
     </do_if>
   </add>
