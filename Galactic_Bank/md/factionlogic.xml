@@ -10,8 +10,6 @@
           <param name="BaseAggressionLevel" value="moodlevel.low" />
           <param name="BaseAvariceLevel" value="moodlevel.high" />
           <param name="BaseLawfulness" value="0.9" />
-          <param name="PreferredHQSpaceMacro" value="macro.swi_clusterscipio_sector001_macro" comment=" " />
-          <param name="PreferredHQTypes" value="['any']" />
           <param name="SatelliteNetworkGoal" value="0" />
           <param name="LasertowerNetworkGoal" value="0" />
           <param name="MinefieldGoalPerSector" value="0" comment="[MGPS * Sectors, 12].min is the maximum amount of Minefields for this faction" />

@@ -10,3 +10,5 @@ Todo:
 - add player relation increase with banking clan for returning picked up looted credit boxes to banking clan office
 
 - implement cloning lab style office
+
+- manually add factionrep to main vault when main vault is functional
