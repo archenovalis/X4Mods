@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+  <add sel="/stocks/stock[@id='default_trader']">
+    <ware ref="inv_timewarp" min="1" max="2" chance="5" />
+    <ware ref="inv_fluxcapacitor" min="1" max="2" chance="10" />
+    <ware ref="inv_damagedsingularityengine" min="1" max="2" chance="10" />
+    <ware ref="inv_programmablefieldarray" min="1" max="2" chance="10" />
+  </add>
+  <add sel="/stocks/stock[@id='pirate_trader']">
+    <ware ref="inv_timewarp" min="1" max="2" chance="5" />
+    <ware ref="inv_fluxcapacitor" min="1" max="2" chance="10" />
+    <ware ref="inv_damagedsingularityengine" min="1" max="2" chance="10" />
+    <ware ref="inv_programmablefieldarray" min="1" max="2" chance="10" />
+  </add>
+  <add sel="/stocks/stock[@id='default_shadyguy']">
+    <ware ref="inv_timewarp" min="1" max="2" chance="5" />
+    <ware ref="inv_fluxcapacitor" min="1" max="2" chance="10" />
+    <ware ref="inv_damagedsingularityengine" min="1" max="2" chance="10" />
+    <ware ref="inv_programmablefieldarray" min="1" max="2" chance="10" />
+  </add>
+  <add sel="/stocks/stock[@id='tutorial_trader']">
+    <ware ref="inv_timewarp" min="1" max="2" chance="5" />
+    <ware ref="inv_fluxcapacitor" min="1" max="2" chance="10" />
+    <ware ref="inv_damagedsingularityengine" min="1" max="2" chance="10" />
+    <ware ref="inv_programmablefieldarray" min="1" max="2" chance="10" />
+  </add>
+  <add sel="/stocks/stock[@id='hutt_trader']">
+    <ware ref="inv_timewarp" min="1" max="2" chance="5" />
+    <ware ref="inv_fluxcapacitor" min="1" max="2" chance="10" />
+    <ware ref="inv_damagedsingularityengine" min="1" max="2" chance="10" />
+    <ware ref="inv_programmablefieldarray" min="1" max="2" chance="10" />
+  </add>
+</diff>

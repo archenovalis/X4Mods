@@ -603,6 +603,15 @@
               <set_value name="$Factions.{$faction}.$active" exact="true" />
               <set_value name="$Factions.{$faction}.$missionGroup" exact="$MissionGroups.{$faction}" />
               <set_value name="$Factions.{$faction}.$bonusMultiplier" exact="$MissionGroups.{$faction}" />
+              <find_sector name="$sectors" owner="$faction" multiple="true" />
+              <set_value name="$sectorMacros" exact="[]" />
+              <do_for_each name="$sector" in="$sectors">
+                <append_to_list name="$sector.macro" />
+              </do_for_each>
+              <run_actions ref="md.LIB_Generic.UncoverMap_SectorsAndGates">
+                <param name="InitialMap" value="$sectorMacros" />
+                <param name="UncoverStationFaction" value="$faction" />
+              </run_actions>
               <do_if value="$Paycheck" exact="0">
                 <signal_cue_instantly cue="IssuePaycheck" />
               </do_if>
