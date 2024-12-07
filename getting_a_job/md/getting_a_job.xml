@@ -114,7 +114,7 @@
               <conditions>
                 <event_cue_signalled />
               </conditions>
-              <delay exact="1ms" />
+              <delay exact="5s" />
               <actions>
                 <!-- find factions with ge 12 relation -->
                 <do_all counter="$i" exact="md.$FactionData.keys.count">
@@ -137,9 +137,383 @@
                   </do_if>
                 </do_all>
 
+                <signal_cue_instantly cue="EmergentMissionsSetup" />
                 <!-- Complete -->
                 <set_value name="$SetupComplete" exact="true" />
                 <reset_cue cue="InitSetup" />
+              </actions>
+            </cue>
+            <cue name="EmergentMissionsSetup">
+              <conditions>
+                <event_cue_signalled />
+              </conditions>
+              <actions>
+                <!-- <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.name}"" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]"
+                -->
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.anoat}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.ascendancy}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.baobab}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.bountyhunters}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.commerceguild}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.corellia}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.corporate}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.galempire}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.hoersh}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.huttcartel}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.incom}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.kamino}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.kuat}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.mandodw}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.miningguild}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.moncal}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.newrepublic}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.rebelalliance}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.rendili}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.sienar}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.tagge}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.thebankingclan}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.tradefederation}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.transgalmeg}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.twinsuns}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <!-- pirates -->
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.blacksun}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.huttpirates}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.mandoraiders}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.valarian}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <!-- reclusive -->
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.hapes}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.naboo}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.sith}" exact="table[
+                  $isDisabled                         = false,
+                  $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_patrol_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_patrol_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_raid_req_relLevel          = md.kuertee_emergent_missions.UserSettings.$req_rel_warSubscription,
+                  $mission_raid_req_repuLevel         = md.kuertee_emergent_missions.UserSettings.$req_none,
+                  $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
+                  $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
+                ]" />
               </actions>
             </cue>
           </cues>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../../../xsd/mddiff.xsd">
+
+  <add pos="before" sel="//cue[@name='Mission_Mayday']//create_offer[@cue=&quot;namespace&quot;]">
+    <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
+      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
+    </do_if>
+  </add>
+  <add sel="//cue[@name='Mission_Mayday']//create_offer[@cue=&quot;namespace&quot;]" type="@group">$MissionGroup</add>
+
+  <add pos="before" sel="//cue[@name='Mission_Escort']//create_offer[@cue=&quot;namespace&quot;]">
+    <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
+      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
+    </do_if>
+  </add>
+  <add sel="//cue[@name='Mission_Escort']//create_offer[@cue=&quot;namespace&quot;]" type="@group">$MissionGroup</add>
+
+
+  <add pos="before" sel="//cue[@name='Mission_SectorRaid_CreateOffer_IfInRange']//create_offer[@cue=&quot;$Cue_Mission&quot;]">
+    <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
+      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
+    </do_if>
+  </add>
+  <add pos="before" sel="//cue[@name='Mission_Hunt']//create_offer[@cue=&quot;$Cue_Mission&quot;]">
+    <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
+      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
+    </do_if>
+  </add>
+
+  <replace sel="//reward_player[@money='$Cue_Mission.$RewardCr']">
+    <do_if value="not @player.allmodules.{player.module}.isscenario">
+      <set_value name="$GAJ_isWork" exact="false" />
+      <do_if value="[
+          missiongroup.gaj_anoat,
+          missiongroup.gaj_ascendancy,
+          missiongroup.gaj_baobab,
+          missiongroup.gaj_blacksun,
+          missiongroup.gaj_bountyhunters,
+          missiongroup.gaj_commerceguild,
+          missiongroup.gaj_corellia,
+          missiongroup.gaj_corporate,
+          missiongroup.gaj_galempire,
+          missiongroup.gaj_hapes,
+          missiongroup.gaj_hoersh,
+          missiongroup.gaj_huttcartel,
+          missiongroup.gaj_huttpirates,
+          missiongroup.gaj_incom,
+          missiongroup.gaj_kamino,
+          missiongroup.gaj_kuat,
+          missiongroup.gaj_mandodw,
+          missiongroup.gaj_mandoraiders,
+          missiongroup.gaj_miningguild,
+          missiongroup.gaj_moncal,
+          missiongroup.gaj_naboo,
+          missiongroup.gaj_newrepublic,
+          missiongroup.gaj_rebelalliance,
+          missiongroup.gaj_rendili,
+          missiongroup.gaj_sienar,
+          missiongroup.gaj_sith,
+          missiongroup.gaj_tagge,
+          missiongroup.gaj_thebankingclan,
+          missiongroup.gaj_tradefederation,
+          missiongroup.gaj_transgalmeg,
+          missiongroup.gaj_twinsuns,
+          missiongroup.gaj_valarian
+        ].indexof.{@$MissionGroup}">
+        <set_value name="$GAJ_isWork" exact="true" />
+      </do_if>
+      <set_value name="$faction" exact="$Cue_Mission.$Faction" />
+      <do_if value="$GAJ_isWork">
+        <set_value name="$account" exact="md.GettingAJob.GAJ.$Factions.{$faction}" />
+        <set_value name="$workBonus" exact="$Cue_Mission.$RewardCr * $account.$bonusMultiplier" />
+        <set_value name="$RewardCr" exact="$Cue_Mission.$RewardCr + $workBonus" />
+        <set_value name="$account.$totalRewards" exact="$RewardCr" />
+        <set_value name="$account.$pay" operation="add" exact="$RewardCr * $account.$payMultipler" />
+      </do_if>
+      <get_factions_by_tag tag="tag.economic" result="$economic" />
+      <!-- non-bankingclan accounts -->
+      <do_if value="@md.GalacticBank.Vault.$Accounts.keys.list.indexof.{$faction}">
+        <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $Cue_Mission.$RewardCr]" />
+      </do_if>
+      <!-- major faction bankingclan account -->
+      <do_elseif value="$economic.indexof.{$faction}">
+        <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="$Cue_Mission.$RewardCr" />
+      </do_elseif>
+      <!-- catch exception -->
+      <do_else>
+        <reward_player money="$Cue_Mission.$RewardCr" />
+      </do_else>
+    </do_if>
+  </replace>
+
+  <replace sel="//library[@name='Mission_Escorts_IsOkToCreateOffer']/set_value[@name='$isOk_reqRel']">
+    <set_value name="$isOk_reqRel" exact="
+      $Ship.owner.relationto.{faction.player} ge 0.1
+      or
+      Requirements.$mission_escort_req_relLevel == UserSettings.$req_none
+      or
+      (
+        Requirements.$mission_escort_req_relLevel == UserSettings.$req_rel_neutral and
+        $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.neutral.min
+      ) or
+      (
+        Requirements.$mission_escort_req_relLevel == UserSettings.$req_rel_friend and
+        $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.friend.min
+      ) or
+      Requirements.$mission_escort_req_relLevel == UserSettings.$req_rel_warSubscription
+    " />
+  </replace>
+  <replace sel="//library[@name='Mission_SectorRaids_IsOkToCreateOffer']/set_value[@name='$isOk_reqRel']">
+    <set_value name="$isOk_reqRel" exact="
+      $Ship.owner.relationto.{faction.player} ge 0.1
+      or
+      (
+        $kEMissionType == kEMissions.$missionType_patrol and
+        (
+          Requirements.$mission_patrol_req_relLevel == UserSettings.$req_none
+          or
+          (
+            Requirements.$mission_patrol_req_relLevel == UserSettings.$req_rel_neutral and
+            $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.neutral.min
+          ) or
+          (
+            Requirements.$mission_patrol_req_relLevel == UserSettings.$req_rel_friend and
+            $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.friend.min
+          ) or
+          (
+            Requirements.$mission_patrol_req_relLevel == UserSettings.$req_rel_warSubscription and
+            (
+              $subscription_status == 'subscribed'
+              or
+              (
+                $warSubscriptions.count gt 0
+                and
+                $warSubscriptions_active.count gt 0
+              )
+              or
+              (
+                $warSubscriptions.count == 0
+                and
+                $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.friend.min
+              )
+            )
+          )
+        )
+      ) or
+      (
+        $kEMissionType == kEMissions.$missionType_raid and
+        (
+          Requirements.$mission_raid_req_relLevel == UserSettings.$req_none
+          or
+          (
+            Requirements.$mission_raid_req_relLevel == UserSettings.$req_rel_neutral and
+            $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.neutral.min
+          ) or
+          (
+            Requirements.$mission_raid_req_relLevel == UserSettings.$req_rel_friend and
+            $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.friend.min
+          ) or
+          (
+            Requirements.$mission_raid_req_relLevel == UserSettings.$req_rel_warSubscription and
+            (
+              $subscription_status == 'subscribed'
+              or
+              (
+                $warSubscriptions.count gt 0
+                and
+                $warSubscriptions_active.count gt 0
+              )
+              or
+              (
+                $warSubscriptions.count == 0
+                and
+                $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.friend.min
+              )
+            )
+          )
+        )
+      ) or
+      (
+        $kEMissionType == kEMissions.$missionType_defendPirate and
+        (
+          Requirements.$mission_defendPirate_req_relLevel == UserSettings.$req_none
+          or
+          (
+            Requirements.$mission_defendPirate_req_relLevel == UserSettings.$req_rel_neutral and
+            $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.neutral.min
+          ) or
+          (
+            Requirements.$mission_defendPirate_req_relLevel == UserSettings.$req_rel_friend and
+            $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.friend.min
+          ) or
+          (
+            Requirements.$mission_defendPirate_req_relLevel == UserSettings.$req_rel_warSubscription and
+            (
+              $subscription_status == 'subscribed'
+              or
+              (
+                $warSubscriptions.count gt 0
+                and
+                $warSubscriptions_active.count gt 0
+              )
+              or
+              (
+                $warSubscriptions.count == 0
+                and
+                $Ship.owner.relationto.{faction.player} ge $Ship.owner.relation.friend.min
+              )
+            )
+          )
+        )
+      )
+    " />
+  </replace>
+</diff>
