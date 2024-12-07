@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
+  <replace sel="//cue[@name='IllegalActivityReward']//do_if[@value='event.param.{5}']">
+    <set_value name="$bounty" exact="event.param.{5} / md.GettingAJob.GAJ.$MissionRewardReducer" />
+    <set_value name="$gajfaction" exact="$rewardnpc.owner" />
+    <do_if value="$md.GettingAJob.GAJ.$Factions.{$gajfaction}.$active?">
+      <set_value name="$account" exact="$md.GettingAJob.GAJ.$Factions.{$gajfaction}" />
+      <set_value name="$workBonus" exact="$bounty * $account.$bonusMultiplier" />
+      <set_value name="$bounty" exact="$bounty + $workBonus" />
+      <set_value name="$account.$totalRewards" exact="$bounty" />
+      <set_value name="$account.$pay" operation="add" exact="$bounty * $account.$payMultipler" />
+    </do_if>
+    <get_factions_by_tag tag="tag.economic" result="$economic" />
+    <!-- non-bankingclan accounts -->
+    <do_if value="@md.GalacticBank.Vault.$Accounts.keys.list.indexof.{$faction}">
+      <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $bounty]" />
+    </do_if>
+    <!-- major faction bankingclan account -->
+    <do_elseif value="$economic.indexof.{$faction}">
+      <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="$bounty" />
+    </do_elseif>
+    <!-- catch exception -->
+    <do_else>
+      <reward_player money="$bounty" />
+    </do_else>
+  </replace>
+</diff>

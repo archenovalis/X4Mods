@@ -1183,13 +1183,13 @@
 <ware id="yv_fighter" name="{999840,104410}" description="{999840,104430}" transport="ship" volume="1" tags="noblueprint noplayerblueprint ship">
 <price min="0" average="0" max="0" />
 <component ref="yv_fighter_macro" amount="1" />
-<ware id="chimaera" name="{343001, 5}" description="{343001, 6}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="chimaera" name="{343001, 5}" description="{343001, 6}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="100000000" average="100000000" max="100000000" />
 <component ref="chimaera_macro" amount="1" />
-<ware id="infinity" name="{343001, 47}" description="{343001, 48}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="infinity" name="{343001, 47}" description="{343001, 48}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="500000000" average="500000000" max="500000000" />
 <component ref="infinity_macro" amount="1" />
-<ware id="orthavan" name="{343001, 7}" description="{343001, 8}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="orthavan" name="{343001, 7}" description="{343001, 8}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="100000000" average="100000000" max="100000000" />
 <component ref="orthavan_macro" amount="1" />
 <ware id="hand" name="{343001,11}" description="{343001,12}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
@@ -1222,7 +1222,7 @@
 <ware id="heroexecutor" name="{343001,57}" description="{343001,58}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
 <price min="100000000000" average="100000000000" max="100000000000" />
 <component ref="executor_macro" amount="1" />
-<ware id="profundity" name="{343001, 77}" description="{343001, 78}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="profundity" name="{343001, 77}" description="{343001, 78}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="100000000" average="100000000" max="100000000" />
 <component ref="profundity_macro" amount="1" />
 <ware id="mythosaur" name="{343001,23}" description="{343001,24}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
@@ -1243,7 +1243,7 @@
 <ware id="battleforged" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="30000000" average="30000000" max="30000000" />
 <component ref="battleforged_macro" amount="1" />
-<ware id="tantive" name="{343001, 1}" description="{343001, 2}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="tantive" name="{343001, 1}" description="{343001, 2}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="6000000" average="6000000" max="6000000" />
 <component ref="tantive_macro" amount="1" />
 <ware id="ebon" name="{343001,13}" description="{343001,14}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
@@ -1261,10 +1261,10 @@
 <ware id="corvus" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="6000000" average="6000000" max="6000000" />
 <component ref="corvus_macro" amount="1" />
-<ware id="anakin" name="{343001, 3}" description="{343001, 4}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="anakin" name="{343001, 3}" description="{343001, 4}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="2000000" average="2000000" max="2000000" />
 <component ref="anakin_macro" amount="1" />
-<ware id="vader" name="{343001,9}" description="{343001,10}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="vader" name="{343001,9}" description="{343001,10}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="2000000" average="2000000" max="2000000" />
 <component ref="vader_macro" amount="1" />
 <ware id="djarin" name="{343001,17}" description="{343001,18}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
@@ -1279,12 +1279,18 @@
 <ware id="soulless" name="{343001,33}" description="{343001,34}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="2000000" average="2000000" max="2000000" />
 <component ref="soulless_macro" amount="1" />
-<ware id="galaxysedge" name="{343001,59}" description="{343001,60}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="galaxysedge" name="{343001,59}" description="{343001,60}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="2000000" average="2000000" max="2000000" />
 <component ref="galaxysedge_macro" amount="1" />
-<ware id="lootbug" name="{343001,67}" description="{343001,68}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="lootbug" name="{343001,67}" description="{343001,68}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="200000" average="200000" max="200000" />
 <component ref="lootbug_macro" amount="1" />
-<ware id="inferno" name="{343001,75}" description="{343001,76}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<ware id="inferno" name="{343001,75}" description="{343001,76}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
 <price min="2000000" average="2000000" max="2000000" />
 <component ref="inferno_macro" amount="1" />
+<ware id="compellor_ware" name="{1765010013,1}" description="{1765010013,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="160000000" average="205000000" max="250000000" />
+<component ref="compellor_macro" amount="1" />
+<ware id="impellor_ware" name="{1765010014,1}" description="{1765010014,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="160000000" average="205000000" max="250000000" />
+<component ref="impellor_macro" amount="1" />

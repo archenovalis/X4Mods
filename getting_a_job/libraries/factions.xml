@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<diff>
+  <remove sel="//faction[@id='huttpirates']/relations/@locked" />
+  <remove sel="//faction[@id='mandoraiders']/relations/@locked" />
+  <remove sel="//faction[@id='twinsuns']/relations/@locked" />
+  <remove sel="//faction[@id='baobab']/relations/@locked" />
+  <remove sel="//faction[@id='tradefederation']/relations/@locked" />
+  <remove sel="//faction[@id='tagge']/relations/@locked" />
+  <remove sel="//faction[@id='bankingclan']/relations/@locked" />
+</diff>

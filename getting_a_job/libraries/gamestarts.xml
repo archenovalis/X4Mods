@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/gamestartsdiff.xsd">
+  <!-- 10% starting money -->
+  <replace sel="//gamestart[@id='x4ep1_sw_emp_navypilot']/info/item[@name='{1021,3}']/@value">25000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_emp_navypilot']/player/@money">25000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']/info/item[@name='{1021,3}']/@value">20000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']/player/@money">20000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_trader']/info/item[@name='{1021,3}']/@value">20000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_trader']/player/@money">20000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_emp_trader']/info/item[@name='{1021,3}']/@value">20000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_emp_trader']/player/@money">20000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_kuat']/info/item[@name='{1021,3}']/@value">350000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_kuat']/player/@money">350000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_mando_fighter']/info/item[@name='{1021,3}']/@value">15000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_mando_fighter']/player/@money">15000</replace>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_cis_trader']/info/item[@name='{1021,3}']/@value">55000</replace>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_cis_trader']/player/@money">55000</replace>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_cis_prisoner']/info/item[@name='{1021,3}']/@value">2500</replace>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_cis_prisoner']/player/@money">2500</replace>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_csd']/info/item[@name='{1021,3}']/@value">5000</replace>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_csd']/player/@money">5000</replace>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_anoat']/info/item[@name='{1021,3}']/@value">6000</replace>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_anoat']/player/@money">6000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_ascendancy']/info/item[@name='{1021,3}']/@value">10000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_ascendancy']/player/@money">10000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_hutt_yacht']/info/item[@name='{1021,3}']/@value">20000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_hutt_yacht']/player/@money">20000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_hapes_noble']/info/item[@name='{1021,3}']/@value">30000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_hapes_noble']/player/@money">30000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rogue_captain']/info/item[@name='{1021,3}']/@value">100000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rogue_captain']/player/@money">100000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_mc80r']/info/item[@name='{1021,3}']/@value">10000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_mc80r']/player/@money">10000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_venator']/info/item[@name='{1021,3}']/@value">350000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_venator']/player/@money">350000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_mando_outcust']/info/item[@name='{1021,3}']/@value">150000</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_mando_outcust']/player/@money">150000</replace>
+
+  <replace sel="//gamestart[@id='x4ep1_sw_emp_navypilot']//relation[@faction='galempire']/@relation">0.0133</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='newrepublic']/@relation">0.0133</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_trader']//relation[@faction='newrepublic']/@relation">0.01</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_trader']//relation[@faction='rebelalliance']/@relation">0.01</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_emp_trader']//relation[@faction='sienar']/@relation">0.01</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_emp_trader']//relation[@faction='galempire']/@relation">0.01</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_mando_fighter']//relation[@faction='mandodw']/@relation">0.0085</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_mando_fighter']//relation[@faction='mandoraiders']/@relation">0.0085</replace>
+  <add sel="//gamestart[@id='x4ep1_gamestart_cis_prisoner']//relations">
+    <relation faction="blacksun" otherfaction="player" relation="0.008" />
+    <relation faction="valarian" otherfaction="player" relation="0.008" />
+    <relation faction="mandoraiders" otherfaction="player" relation="0.008" />
+    <relation faction="huttpirates" otherfaction="player" relation="0.008" />
+  </add>
+  <add sel="//gamestart[@id='x4ep1_gamestart_csd']//relations">
+    <relation faction="corporate" otherfaction="player" relation="0.0133" />
+  </add>
+  <replace sel="//gamestart[@id='x4ep1_gamestart_anoat']//relation[@faction='anoat']/@relation">0.0085</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_bhg']//relation[@faction='corporate']/@relation">0.0085</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_ascendancy']//relation[@faction='ascendancy']/@relation">0.0133</replace>
+  <add sel="//gamestart[@id='x4ep1_sw_hutt_yacht']//relations">
+    <relation faction="huttpirates" otherfaction="player" relation="0.005" />
+  </add>
+  <replace sel="//gamestart[@id='x4ep1_sw_hapes_noble']//relation[@faction='hapes']/@relation">0.0133</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_venator']//relation[@faction='corporate']/@relation">0.0133</replace>
+
+</diff>

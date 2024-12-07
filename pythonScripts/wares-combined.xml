@@ -36775,6 +36775,160 @@
       <owner faction="galempire" />
     </ware>
 
+    <!-- DABC Addon -->
+    <!-- RESEARCH -->
+    <ware id="research_xxl_construction_pellors_plan" name="{1765050001,1}" description="{1765050001,2}" transport="research" volume="1" tags="research" sortorder="701">
+      <price min="1" average="1" max="1" />
+      <research time="600">
+        <primary>
+          <ware ware="energycells" amount="600" />
+          <ware ware="engineparts" amount="200" />
+          <ware ware="antimatterconverters" amount="150" />
+        </primary>
+      </research>
+    </ware>
+    <ware id="research_xxl_construction_compellor" name="{1765050002,1}" description="{1765050002,2}" transport="research" volume="1" tags="research" sortorder="801">
+      <price min="1" average="1" max="1" />
+      <research time="1800">
+        <primary>
+          <ware ware="advancedelectronics" amount="2500" />
+          <ware ware="energycells" amount="400000" />
+          <ware ware="rhydoniumcell" amount="6000" />
+          <ware ware="antimattercells" amount="8000" />
+          <ware ware="hydrogen" amount="8000" />
+          <ware ware="smartchips" amount="25000" />
+          <ware ware="fieldcoils" amount="45000" />
+        </primary>
+        <research>
+          <ware ware="research_xxl_construction_pellors_plan" />
+        </research>
+      </research>
+    </ware>
+    <ware id="research_xxl_construction_impellor" name="{1765050003,1}" description="{1765050003,2}" transport="research" volume="1" tags="research" sortorder="901">
+      <price min="1" average="1" max="1" />
+      <research time="1800">
+        <primary>
+          <ware ware="advancedelectronics" amount="2500" />
+          <ware ware="energycells" amount="400000" />
+          <ware ware="rhydoniumcell" amount="6000" />
+          <ware ware="antimattercells" amount="8000" />
+          <ware ware="hydrogen" amount="8000" />
+          <ware ware="smartchips" amount="25000" />
+          <ware ware="fieldcoils" amount="45000" />
+        </primary>
+        <research>
+          <ware ware="research_xxl_construction_compellor" />
+        </research>
+      </research>
+    </ware>
 
+
+    <!-- Ships -->
+    <ware id="compellor_ware" name="{1765010013,1}" description="{1765010013,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+      <price min="160000000" average="205000000" max="250000000" />
+      <production time="10000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="85000" />
+          <ware ware="hullparts" amount="63500" />
+          <ware ware="rhydoniumcell" amount="1400" />
+          <ware ware="shipsupplies" amount="700" />
+        </primary>
+        <research>
+          <ware ware="research_xxl_construction_compellor" />
+        </research>
+      </production>
+      <component ref="compellor_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="impellor_ware" name="{1765010014,1}" description="{1765010014,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+      <price min="160000000" average="205000000" max="250000000" />
+      <production time="12500" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="85000" />
+          <ware ware="hullparts" amount="43000" />
+          <ware ware="rhydoniumcell" amount="1400" />
+          <ware ware="shipsupplies" amount="900" />
+        </primary>
+        <research>
+          <ware ware="research_xxl_construction_impellor" />
+        </research>
+      </production>
+      <component ref="impellor_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+
+
+    <!--Engines-->
+
+    <ware id="impellor_engines" name="{1765020014, 1}" description="{1765020014, 3}" group="engines" transport="equipment" volume="1" tags="engine equipment">
+      <price min="2200000" average="2700000" max="3200000" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="2167" />
+          <ware ware="engineparts" amount="654" />
+          <ware ware="antimatterconverters" amount="966" />
+        </primary>
+      </production>
+      <component ref="impellor_engines_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+    <ware id="impellor_engines_02" name="{1765020014, 4}" description="{1765020014, 3}" group="engines" transport="equipment" volume="1" tags="engine equipment  blueprintsaleonly">
+      <price min="2200000" average="2700000" max="3200000" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="2167" />
+          <ware ware="engineparts" amount="654" />
+          <ware ware="antimatterconverters" amount="966" />
+        </primary>
+      </production>
+      <component ref="impellor_engines_02_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <!--Shields-->
+
+
+    <ware id="shield_xxl_compellor" name="{1765030011, 1}" description="{1765030011, 3}" group="shields" transport="equipment" volume="1" tags="equipment shield">
+      <price min="1532520" average="1661520" max="1713120" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="1612" />
+          <ware ware="fieldcoils" amount="323" />
+          <ware ware="shieldcomponents" amount="194" />
+        </primary>
+      </production>
+      <component ref="shield_xxl_compellor_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="shield_xxl_impellor" name="{1765030012, 1}" description="{1765030012, 3}" group="shields" transport="equipment" volume="1" tags="equipment shield">
+      <price min="1532520" average="1661520" max="1713120" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="1612" />
+          <ware ware="fieldcoils" amount="323" />
+          <ware ware="shieldcomponents" amount="194" />
+        </primary>
+      </production>
+      <component ref="shield_xxl_impellor_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
   </add>
 </diff>
