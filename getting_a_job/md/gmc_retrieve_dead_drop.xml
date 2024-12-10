@@ -77,19 +77,7 @@
         <set_value name="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$totalRewards" exact="$RewardCr" />
         <set_value name="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$pay" operation="add" exact="$RewardCr * md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$payMultipler" />
       </do_if>
-      <get_factions_by_tag tag="tag.economic" result="$economic" />
-      <!-- non-bankingclan accounts -->
-      <do_if value="@md.GalacticBank.Vault.$Accounts.keys.list.indexof.{$faction}">
-        <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $RewardCr]" />
-      </do_if>
-      <!-- major faction bankingclan account -->
-      <do_elseif value="$economic.indexof.{$faction}">
-        <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="$RewardCr" />
-      </do_elseif>
-      <!-- catch exception -->
-      <do_else>
-        <reward_player money="$RewardCr" />
-      </do_else>
+      <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
     </do_if>
   </replace>
 </diff>

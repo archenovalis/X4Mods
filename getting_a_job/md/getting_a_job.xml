@@ -15,36 +15,22 @@
         <set_value name="$MissionRewardReducer" exact="16" />
         <set_value name="$Paycheck" exact="0" />
         <set_value name="$PayInterval" exact="15m" />
-        <set_value name="$PayMultiplier" exact="0.01" comment="% of mission reward added to paycheck" />
+        <set_value name="$PayFactor" exact="0.01" comment="% of mission reward added to paycheck" />
         <!--
-          GettingAJob.$Factions = table[
-            {$faction} = table[
-              $missionGroup = missiongroup.gaj_factionname,
-              $pay = float,
-              $payMultipler = float,
-              $lastMission = time,
-              $totalRewards = int,
-              $pensionTier = int,
-              $jobOffered = bool,
-              $spyOffered = bool,
-              $status = string { hired || quit || retired || traitor || spy },
-              $active = bool
-            ]
-          ]
-        -->
-        <set_value name="$Factions" exact="table[]" />
-        <!-- xs=1x, s=1x, m=7x, l=13x, xl=9, xxl=9 -->
-        <!-- now just 50% -->
-        <set_value name="$DockTags" exact="table[
-          {tag.dock_xxl} = 2,
-          {tag.dock_xl} = 2,
-          {tag.dock_l} = 2,
-          {tag.dock_m} = 2,
-          {tag.dock_s} = 2,
-          {tag.dock_xs} = 2
-        ]" />
-        <!-- Pirates pay less but no risk when selling stolen ships -->
-        <set_value name="$PiratebaseFactor" exact="2" />
+        GettingAJob.$Factions.{$faction} = table[
+          $missionGroup = missiongroup.gaj_factionname,
+          $pay = float,
+          $payMultipler = float,
+          $lastMission = time,
+          $totalRewards = int,
+          $pensionTier = int,
+          $jobOffered = bool,
+          $spyOffered = bool,
+          $status = string { hired || quit || retired || traitor || spy },
+          $active = bool
+        ] -->
+        <set_value name="$Factions" exact="table[]" /> <!-- table populates when player begins working for a faction -->
+
         <set_value name="$BasePayTags" exact="table[
           {tag.peaceful} = 25000,
           {tag.police} = 10000,
@@ -117,9 +103,8 @@
               <delay exact="5s" />
               <actions>
                 <!-- find factions with ge 12 relation -->
-                <do_all counter="$i" exact="md.$FactionData.keys.count">
-                  <set_value name="$faction" exact="md.$FactionData.keys.{$i}" />
-                  <do_if value="$faction.relationto.{faction.player} ge 0.01585">
+                <do_for_each name="$faction" in="md.$FactionData.keys.list">
+                  <do_if value="$faction.relationto.{faction.player} ge 0.0158">
                     <set_value name="$Factions.{$faction}" exact="table[]" />
                     <set_value name="$Factions.{$faction}.$jobOffered" exact="true" />
                     <do_for_each name="$tag" in="$BasePayTags.keys">
@@ -127,7 +112,7 @@
                       <do_if value="$taggedFactions.indexof.{$faction}">
                         <set_value name="$pay" exact="$BasePayTags.{$tag}" />
                         <set_value name="$bonusMultiplier" exact="$BonusTags.{$tag}" />
-                        <set_value name="$payMultiplier" exact="$BonusTags.{$tag}" />
+                        <set_value name="$payFactor" exact="$payFactor.{$tag}" />
                         <break />
                       </do_if>
                     </do_for_each>
@@ -135,12 +120,12 @@
                     <set_value name="$offer" exact="'Pay: '+$pay+'/'+$PayInterval+' Bonus: '+$bonusMultiplier*100+'%'" />
                     <write_incoming_message highpriority="true" source="$faction.name" title="$faction.name+': Job Offer'" text="'We are please to inform you that we are offering a job to you. Please see one of our station managers to accept the position.\n\n'+$offer" />
                   </do_if>
-                </do_all>
+                </do_for_each>
 
                 <signal_cue_instantly cue="EmergentMissionsSetup" />
                 <!-- Complete -->
                 <set_value name="$SetupComplete" exact="true" />
-                <reset_cue cue="InitSetup" />
+                <reset_cue cue="this" />
               </actions>
             </cue>
             <cue name="EmergentMissionsSetup">
@@ -514,6 +499,7 @@
                   $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
                   $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
                 ]" />
+                <reset_cue cue="this" />
               </actions>
             </cue>
           </cues>
@@ -526,13 +512,12 @@
           </conditions>
           <delay exact="$PayInterval" />
           <actions>
-            <!-- todo: loop through active factions and pay to appropriate accounts, generate message (one per account) -->
-
-            <!-- api -->
-            <!-- param: $money (money goes to from bankingclan office account) -->
-            <!-- param: table[$faction = $faction, $money = $money] (money to from faction manager account) -->
-            <!-- positive money is deposit, negative is withdrawal -->
-            <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="$Paycheck" />
+            <do_for_each name="$faction" in="$Factions.keys.list">
+              <do_if value="$Factions.{$faction}.$active">
+                <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $Factions.{$faction}.$pay]" />
+                <!-- todo: generate paycheck notification, add ability to disable notifications -->
+              </do_if>
+            </do_for_each>
             <signal_cue_instantly cue="this" />
           </actions>
         </cue>
@@ -623,191 +608,6 @@
             </do_elseif>
             <reset_cue cue="this" />
           </actions>
-        </cue>
-      </cues>
-    </cue>
-
-    <!-- ui menu button -->
-    <cue name="GAJ_InteractMenu">
-      <conditions>
-        <event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
-      </conditions>
-      <actions>
-        <set_value name="$interact_ships" exact="@event.param.$selectedplayerships" />
-        <set_value name="$Interact_target" exact="@event.param.$object" />
-        <do_if value="not $Interact_target.isplayerowned and $interact_ships">
-          <do_if value="$Interact_target.isshipyard">
-            <set_value name="$dockSizes" exact="[class.ship_l, class.ship_xl]" />
-          </do_if>
-          <do_elseif value="$Interact_target.iswharf">
-            <set_value name="$dockSizes" exact="[class.ship_xs, class.ship_s, class.ship_m]" />
-          </do_elseif>
-          <do_if value="$dockSizes">
-            <do_for_each name="$ship" in="$interact_ships">
-              <do_if value="$ship.isclass.ship">
-                <do_if value="$ship.docksize.indexof.{$dockSizes}">
-                  <set_value name="$display" exact="true" />
-                  <break />
-                </do_if>
-              </do_if>
-            </do_for_each>
-            <do_if value="$display">
-              <signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
-							$id = 'GAJ_Sell_Ships',
-							$section = 'main',
-							$text = 'Sell Ships',
-							$icon = 'ware_money',
-							$callback = GAJ_Sell_Ships
-						]" />
-            </do_if>
-          </do_if>
-        </do_if>
-        <reset_cue cue="this" />
-      </actions>
-    </cue>
-    <cue name="GAJ_Sell_Ships" namespace="this">
-      <conditions>
-        <event_cue_signalled />
-      </conditions>
-      <actions>
-        <set_value name="$SellPrice" exact="0" />
-        <set_value name="$interact_ships" exact="@event.param.$selectedplayerships" />
-        <set_value name="$Interact_target" exact="@event.param.$object" />
-        <do_if value="$Interact_target.isshipyard or $Interact_target.wharf">
-          <set_value name="$dockSizes" exact="[]" />
-          <find_object_component name="$xxl" object="$Interact_target">
-            <match_dock size="[tag.dock_xxl]" />
-          </find_object_component>
-          <do_if value="$xxl">
-            <append_to_list name="$dockSizes" exact="tag.dock_xxl" />
-          </do_if>
-          <find_object_component name="$xl" object="$Interact_target">
-            <match_dock size="[tag.dock_xl]" />
-          </find_object_component>
-          <do_if value="$xl">
-            <append_to_list name="$dockSizes" exact="tag.dock_xl" />
-          </do_if>
-          <find_object_component name="$l" object="$Interact_target">
-            <match_dock size="[tag.dock_l]" />
-          </find_object_component>
-          <do_if value="$l">
-            <append_to_list name="$dockSizes" exact="tag.dock_l" />
-          </do_if>
-          <find_object_component name="$m" object="$Interact_target">
-            <match_dock size="[tag.dock_m]" />
-          </find_object_component>
-          <do_if value="$m">
-            <append_to_list name="$dockSizes" exact="tag.dock_m" />
-          </do_if>
-          <find_object_component name="$s" object="$Interact_target">
-            <match_dock size="[tag.dock_s]" />
-          </find_object_component>
-          <do_if value="$s">
-            <append_to_list name="$dockSizes" exact="tag.dock_s" />
-          </do_if>
-          <find_object_component name="$xs" object="$Interact_target">
-            <match_dock size="[tag.dock_xs]" />
-          </find_object_component>
-          <do_if value="$xs">
-            <append_to_list name="$dockSizes" exact="tag.dock_xs" />
-          </do_if>
-          <set_value name="$Ships" exact="table[]" />
-          <do_for_each name="$ship" in="$interact_ships">
-            <do_if value="$ship.isclass.ship">
-              <do_if value="$ship.docksize.indexof.{$dockSizes}">
-                <set_value name="$Ships.{$ship}" exact="true" />
-                <set_value name="$factor" exact="$Docktags.{$ship.docksize}" />
-                <set_value name="$shipPrice" exact="$ship.averagePrice / $factor" />
-                <set_value name="$SellPrice" operation="add" exact="$shipPrice" />
-              </do_if>
-            </do_if>
-          </do_for_each>
-          <set_value name="$StationFactor" exact="if Interact_target.ispiratebase then $GettingAJob.$PiratebaseFactor else 1" />
-        </do_if>
-        <signal_cue_instantly cue="GAJ_Sell_Ships_Menu" />
-        <reset_cue cue="this" />
-      </actions>
-      <cues>
-        <cue name="GAJ_Sell_Ships_Menu" instantiate="true">
-          <conditions>
-            <event_cue_signalled />
-          </conditions>
-          <actions>
-            <signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu"
-              param="table[
-								$id = 'sell_menu',
-								$columns = 2,
-								$title = 'Sell these ships?',
-								$height = 400,
-								$width = 300
-							]" />
-            <do_all counter="$i" exact="GAJ_Sell_Ships.$Ships.keys.count">
-              <set_value name="$ship" exact="GAJ_Sell_Ships.$Ships.keys.{$i}" />
-              <set_value name="$factor" exact="$Docktags.{$ship.docksize} * $GAJ_Sell_Ships.$StationFactor" />
-              <set_value name="$shipPrice" exact="$ship.averagePrice / $factor" />
-              <signal_cue_instantly
-                cue="md.Simple_Menu_API.Add_Row" param="table[]" />
-              <signal_cue_instantly
-                cue="md.Simple_Menu_API.Make_Text"
-                param="table[$col=1, $halign='center', $text=$ship.name+': '+$shipPrice]"
-              />
-              <signal_cue_instantly cue="md.Simple_Menu_API.Make_Checkbox"
-                param="table[
-								$id = $i,
-                $checked = GAJ_Sell_Ships.$Ships.{$ship},
-								$col = 2,
-								$text = table[$text=''],
-								$onClick = CheckClicked
-							]" />
-            </do_all>
-            <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-            <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button"
-              param="table[
-								$col = 2,
-								$text = table[$text='Confirm'],
-								$onClick = ConfirmSell
-							]" />
-          </actions>
-          <cues>
-            <cue name="CheckClicked" instantiate="true">
-              <conditions>
-                <event_cue_signalled />
-              </conditions>
-              <actions>
-                <set_value name="$ship" exact="GAJ_Sell_Ships.$Ships.keys.{event.param.id}" />
-                <set_value name="GAJ_Sell_Ships.$Ships.{$ship}" exact="event.param.$checked" />
-                <set_value name="$factor" exact="$Docktags.{$ship.docksize}" />
-                <set_value name="$shipPrice" exact="$ship.averagePrice / $factor" />
-                <do_if value="event.param.$checked">
-                  <set_value name="$GAJ_Sell_Ships.$SellPrice" operation="add" exact="$shipPrice" />
-                </do_if>
-                <do_else>
-                  <set_value name="$GAJ_Sell_Ships.$SellPrice" operation="subtract" exact="$shipPrice" />
-                </do_else>
-                <set_value name="GAJ_Sell_Ships.$Ships.$ship.$checked" exact="event.param.$checked" />
-                <cancel_cue cue="this" />
-              </actions>
-            </cue>
-            <cue name="ConfirmSell" instantiate="true">
-              <conditions>
-                <event_cue_signalled />
-              </conditions>
-              <actions>
-                <!-- add stolen ship checks
-                if ship stolen from enemy, then ok, otherwise:
-                crime and forfeiture of ship and fines deducted from $SellPrice -->
-                <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-                <reset_cue cue="GAJ_Sell_Ships_Menu" />
-                <reward_player money="$GAJ_Sell_Ships.$SellPrice" />
-                <do_for_each name="$ship" in="GAJ_Sell_Ships.$Ships.keys.list">
-                  <do_if value="GAJ_Sell_Ships.$Ships.$ship.$checked">
-                    <set_owner object="$ship" faction="GAJ_Sell_Ships.$Interact_target.trueowner" />
-                    <create_order object="$ship" id="'RecycleDefault'" default="true" />
-                  </do_if>
-                </do_for_each>
-              </actions>
-            </cue>
-          </cues>
         </cue>
       </cues>
     </cue>

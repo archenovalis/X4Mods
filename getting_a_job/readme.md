@@ -64,3 +64,5 @@ Inventory price spreads reduced by 8 to 12.5% of normal.
 - v0.2: Basic Paycheck implemented
 - v0.21: Sell ships mechanic replaced, reduced ship sell price to 50%.
 - v0.5: Work Missions implemented. Mission pay cut in half. Work mission bonus pay increased by 40-250%.
+- v0.55: implemented kuertee emergent missions, faction requirements, and all other vanilla rewards
+- v0.60: sell ships implemented

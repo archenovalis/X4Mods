@@ -860,12 +860,6 @@
   <replace sel="//ware[@id='mod_engine_boostthrust_01_mk3']/price">
     <price min="245312.0" average="250000" max="254687" />
   </replace>
-  <replace sel="//ware[@id='mod_engine_boostthrust_02_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_boostthrust_02_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
-  </replace>
   <replace sel="//ware[@id='mod_engine_forwardthrust_01_mk1']/price">
     <price min="9812.0" average="10000" max="10187" />
   </replace>
@@ -874,9 +868,6 @@
   </replace>
   <replace sel="//ware[@id='mod_engine_forwardthrust_01_mk3']/price">
     <price min="245312.0" average="250000" max="254687" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_forwardthrust_02_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_engine_forwardthrust_02_mk2']/price">
     <price min="49062.0" average="50000" max="50937" />
@@ -887,27 +878,6 @@
   <replace sel="//ware[@id='mod_engine_rotationthrust_01_mk3']/price">
     <price min="245312.0" average="250000" max="254687" />
   </replace>
-  <replace sel="//ware[@id='mod_engine_rotationthrust_02_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_strafethrust_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_strafethrust_02_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_travelattacktime_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_travelchargetime_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_travelreleasetime_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_travelstartthrust_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
   <replace sel="//ware[@id='mod_engine_travelthrust_01_mk1']/price">
     <price min="9812.0" average="10000" max="10187" />
   </replace>
@@ -916,12 +886,6 @@
   </replace>
   <replace sel="//ware[@id='mod_engine_travelthrust_01_mk3']/price">
     <price min="245312.0" average="250000" max="254687" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_travelthrust_02_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_engine_travelthrust_02_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_shield_capacity_01_mk1']/price">
     <price min="9812.0" average="10000" max="10187" />
@@ -951,9 +915,6 @@
     <price min="9812.0" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_ship_deployablecapacity_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_ship_drag_01_mk1']/price">
     <price min="9812.0" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_ship_drag_01_mk2']/price">
@@ -989,22 +950,7 @@
   <replace sel="//ware[@id='mod_ship_radarrange_01_mk1']/price">
     <price min="9812.0" average="10000" max="10187" />
   </replace>
-  <replace sel="//ware[@id='mod_ship_regiondamage_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_ship_regiondamage_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
-  </replace>
-  <replace sel="//ware[@id='mod_ship_regiondamage_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
-  </replace>
-  <replace sel="//ware[@id='mod_ship_unitcapacity_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
   <replace sel="//ware[@id='mod_weapon_beamlength_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_chargetime_01_mk1']/price">
     <price min="9812.0" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_cooling_01_mk1']/price">
@@ -1017,18 +963,6 @@
     <price min="9812.0" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_cooling_02_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_cooling_03_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_cooling_03_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_cooling_04_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_cooling_05_mk2']/price">
     <price min="49062.0" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_01_mk1']/price">
@@ -1049,16 +983,10 @@
   <replace sel="//ware[@id='mod_weapon_damage_02_mk3']/price">
     <price min="245312.0" average="250000" max="254687" />
   </replace>
-  <replace sel="//ware[@id='mod_weapon_damage_03_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
   <replace sel="//ware[@id='mod_weapon_damage_03_mk2']/price">
     <price min="49062.0" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_04_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_damage_05_mk2']/price">
     <price min="49062.0" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_lifetime_01_mk1']/price">
@@ -1081,18 +1009,6 @@
   </replace>
   <replace sel="//ware[@id='mod_weapon_speed_01_mk3']/price">
     <price min="245312.0" average="250000" max="254687" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_sticktime_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_sticktime_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_sticktime_02_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
-  </replace>
-  <replace sel="//ware[@id='mod_weapon_sticktime_03_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_surfaceelement_01_mk1']/price">
     <price min="9812.0" average="10000" max="10187" />
@@ -1117,9 +1033,6 @@
   </replace>
   <replace sel="//ware[@id='ship_gen_m_transdrone_container_01_a']/price">
     <price min="9145.0" average="9320" max="9494" />
-  </replace>
-  <replace sel="//ware[@id='ship_gen_s_fightingdrone_01_a']/price">
-    <price min="2680.0" average="2732" max="2783" />
   </replace>
   <replace sel="//ware[@id='ship_gen_s_miningdrone_liquid_01_a']/price">
     <price min="2720.0" average="2772" max="2823" />

@@ -35,7 +35,7 @@
       <price min="70738308" average="87450950" max="114463593" />
       <component ref="republic_secutor_macro" amount="1" />
     <ware id="imperial_secutor_ware" name="{1423010013,1}" description="{1423010013,2}" group="ships_sw" transport="ship" volume="1" tags="ship ">
-      <price min="87812138" average="115815649" max="148500940" />
+      <price min="87812138" average="115815649" max="14850094" />
       <component ref="imperial_secutor_macro" amount="1" />
     <ware id="ship_providence_dreadnaught_01" name="{1423010112,1}" description="{1423010112,3}" group="ships_sw" transport="ship" volume="1" tags="ship">
       <price min="146479226" average="178667654" max="234299836" />
@@ -53,7 +53,7 @@
       <price min="200000000" average="225000000" max="250000000" />
       <component ref="lucrehulk_t_macro" amount="1" />
     <ware id="lucrehulk_b" name="{999840,131711}" description="{999840,131711}" group="ships_sw" transport="ship" volume="1" tags="ship">
-      <price min="79638308" average="99350950" max="129635930" />
+      <price min="79638308" average="99350950" max="12963593" />
       <component ref="lucrehulk_b_macro" amount="1" />
     <ware id="mc80_homeone" name="{999840,131410}" description="{999840,131430}" group="ships_sw" transport="ship" volume="1" tags="ship">
       <price min="70738308" average="87450950" max="114463593" />
@@ -713,7 +713,7 @@
       <price min="230085" average="288100" max="374115" />
       <component ref="scurrg_h6_macro" amount="1" />
     <ware id="r41" name="{999840,102910}" description="{999840,102930}" group="ships_sw" transport="ship" volume="1" tags="ship">
-      <price min="175085" average="219100" max="285115" />
+      <price min="275085" average="219100" max="285115" />
       <component ref="r41_macro" amount="1" />
     <ware id="razorcrest" name="{999840,111510}" description="{999840,111530}" group="ships_sw" transport="ship" volume="1" tags="ship">
       <price min="852085" average="1065000" max="1365000" />
@@ -758,7 +758,7 @@
       <price min="101808" average="127260" max="165438" />
       <component ref="v19_macro" amount="1" />
     <ware id="hapan_s" name="{999840,105310}" description="{999840,105330}" group="ships_sw" transport="ship" volume="1" tags="ship">
-      <price min="175085" average="219100" max="285115" />
+      <price min="275085" average="219100" max="285115" />
       <component ref="hapan_s_macro" amount="1" />
     <ware id="fortitude" name="{999840,102410}" description="{999840,102430}" group="ships_sw" transport="ship" volume="1" tags="ship">
       <price min="393085" average="499500" max="639115" />
@@ -1052,10 +1052,10 @@
       <price min="11015057" average="13898890" max="17972724" />
       <component ref="mc40b_macro" amount="1" />
     <ware id="arquitens" name="{999840,121510}" description="{999840,121530}" group="ships_sw" transport="ship" volume="1" tags="ship">
-      <price min="495615" average="618031" max="808009" />
+      <price min="495615" average="6180312" max="808009" />
       <component ref="arquitens_macro" amount="1" />
     <ware id="imp_light_cruiser" name="{999840,121610}" description="{999840,121630}" group="ships_sw" transport="ship" volume="1" tags="ship">
-      <price min="525615" average="658031" max="848009" />
+      <price min="525615" average="6580312" max="848009" />
       <component ref="imp_light_cruiser_macro" amount="1" />
     <ware id="imp_cruiser_546" name="{999840,121710}" description="{999840,121730}" group="ships_sw" transport="ship" volume="1" tags="ship">
       <price min="1144615" average="14280312" max="18508009" />

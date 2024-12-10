@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../../../xsd/mddiff.xsd">
+  <replace sel="//cue[@name='SW_Start_Outcast']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_Outcast']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_VENATOR']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_VENATOR']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_csa']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_csa']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_anoat']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_anoat']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_ascendancy']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_ascendancy']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_bhg']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_bhg']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_cis']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_cis']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_cis_prisoner']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_cis_prisoner']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_hutt_yacht']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_hutt_yacht']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_nrl_trader']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_nrl_trader']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_nrl_fighter']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_nrl_fighter']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_kuat']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_kuat']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_mando']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_mando']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_emp_trader']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_emp_trader']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_emp_navy']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_emp_navy']//param[@name='UncoverTradeStations']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_hapes_noble']//param[@name='UncoverShipyardsAndWharfs']/@value">false</replace>
+  <replace sel="//cue[@name='SW_Start_hapes_noble']//param[@name='UncoverTradeStations']/@value">false</replace>
+</diff>

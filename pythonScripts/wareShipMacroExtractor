@@ -1,0 +1,34 @@
+import re
+
+# Function to modify lines matching the price pattern
+def modify_line(i, lines, line):
+    # Regex pattern to match the price line
+    if '<ware id=' in line:
+      macro = re.match(r'\s*<component ref="([a-zA-Z0-9_-]*)\s*"', lines[i+2]).group(1)
+      return f'<start>{macro}<end>\n'
+    return ''
+
+# Function to read, modify, and write to the file
+def process_file(input_file, output_file):
+    with open(input_file, 'r') as file:
+        lines = file.readlines()
+
+    modified_lines = []
+
+    i = 0
+    for line in lines:
+        modified_line = modify_line(i, lines, line)
+        if modified_line: modified_lines.append(modified_line)
+        i += 1
+
+    with open(output_file, 'w') as file:
+        file.writelines(modified_lines)
+
+    print(f"File processed and saved as {output_file}")
+
+# Example usage
+input_file = 'parsed_ships-fixed.xml'
+output_file = 'ship_macros.xml'
+
+
+process_file(input_file, output_file)
