@@ -57,3 +57,7 @@ added bank transfer api
 added accounts for factions that can't or won't openly use the banking clan's vaults (sith, pirates, hapes, etc)
 disabled bank loans NPC Reactions
 
+v0.65:
+icons, cleanup, menu improvement
+still needs a clean install, v0.7 will overwrite beta installs
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <content id="intergalactic_bank"
-	name="InterGalactic Bank" description="Invest with the InterGalactic Banking Clan" version="60"
+	name="InterGalactic Bank" description="Invest with the InterGalactic Banking Clan" version="65"
 	date="2024-11-28"
 	save="0" enabled="1"
 	author="Archie">
