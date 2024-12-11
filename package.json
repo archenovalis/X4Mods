@@ -2,9 +2,7 @@
   "name": "archies-mods",
   "version": "1.0.0",
   "scripts": {
-    "bank": "npx ts-node compileMod.ts galactic_bank",
-    "job": "npx ts-node compileMod.ts getting_a_job"
-
+    "build": "npx ts-node compileMod.ts galactic_bank"
   },
   "keywords": [],
   "author": "",
