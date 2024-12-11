@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "bank": "npx ts-node compileMod.ts galactic_bank",
-    "job": "getting_a_job\\setup.bat && npx ts-node compileMod.ts getting_a_job"
+    "job": "npx ts-node compileMod.ts getting_a_job"
 
   },
   "keywords": [],
