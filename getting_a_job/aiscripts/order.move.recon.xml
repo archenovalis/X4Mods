@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+<!-- add. purpose: params.
+	<params>
+-->
+	<!-- <t id="690001">Report Small And Medium Enemies</t>
+	<t id="690002">Report Enemy Capital Ships</t> -->
+	<add sel="//params">
+		<param name="kNPCRParam_isValid" required="false" type="internal" default="@this.isplayerowned" />
+		<param name="kNPCRParam_reportEnemies_small" required="false" type="bool" text="{1416318, 690001}" default="
+			if  @this.assignedcontrolled.isplayerowned and
+			@global.$kNPCR_bridgeCrew_userSettings.$userIsAlertEnemies_comm_xssm
+			then true else false" />
+		<param name="kNPCRParam_reportEnemies_large" required="false" type="bool" text="{1416318, 690002}" default="
+			if  @this.assignedcontrolled.isplayerowned and
+			@global.$kNPCR_bridgeCrew_userSettings.$userIsAlertEnemies_comm_lxl
+			then true else false" />
+		<param name="kNPCRParam_doNotEngage" required="false" default="if $holdfire? then $holdfire else false" type="bool" text="{1416318, 690003}" />
+	</add>
+<!-- add. purpose: send params to move.generic.
+	<run_script name="'move.seekenemies'">
+-->
+	<add sel="//run_script[@name=&quot;'move.seekenemies'&quot;]">
+		<param name="kNPCRParam_reportEnemies_small" value="@$kNPCRParam_reportEnemies_small"/>
+		<param name="kNPCRParam_reportEnemies_large" value="@$kNPCRParam_reportEnemies_large"/>
+		<param name="kNPCRParam_doNotEngage" value="@$kNPCRParam_doNotEngage"/>
+	</add>
+<!-- add. purpose: flee instead of attack.
+	<do_if value="@$attacker.isoperational">
+		<create_order id="'Attack'" object="this.assignedcontrolled" immediate="true">
+-->
+	<add sel="//do_if[@value=&quot;@$attacker.isoperational&quot;]//create_order[@id=&quot;'Attack'&quot;][@object=&quot;this.assignedcontrolled&quot;][@immediate=&quot;true&quot;]" type="@chance">if @$kNPCRParam_doNotEngage then 0 else 100</add>
+	<add pos="after" sel="//do_if[@value=&quot;@$attacker.isoperational&quot;]//create_order[@id=&quot;'Attack'&quot;][@object=&quot;this.assignedcontrolled&quot;][@immediate=&quot;true&quot;]">
+		<do_if value="@$kNPCRParam_isValid and @$kNPCRParam_doNotEngage">
+			<!-- flee or ignore -->
+			<set_value name="$kNPCR_isIgnore" exact="false" />
+			<do_if value="@global.$kAAIT" comment="kuda is installed">
+				<set_value name="$kAAIT_test_attackTargetInTheWayOrNot" exact="$enemy" />
+				<include_interrupt_actions ref="kAAIT_GetAttackOrIgnoreTargetInTheWay" />
+				<do_if value="$kAAIT_result_isTargetInTheWayIgnored">
+					<set_value name="$kNPCR_isIgnore" exact="true" />
+				</do_if>
+			</do_if>
+			<do_elseif value="$enemy.primarypurpose == purpose.fight and @$enemy.threatscore / @this.assignedcontrolled.threatscore le 0.75">
+				<set_value name="$kNPCR_isIgnore" exact="true" />
+			</do_elseif>
+			<do_if value="not $kNPCR_isIgnore">
+				<create_order object="this.assignedcontrolled" id="'Flee'" immediate="true" override="true">
+					<param name="method" value="['boost', 'highway', 'dock'].random" />
+					<param name="attacker" value="$attacker" />
+					<param name="log" value="false" />
+				</create_order>
+			</do_if>
+		</do_if>
+	</add>
+<!-- add. purpose: flee instead of attack.
+	<do_if value="$trouble?">
+		<create_order id="'Attack'" object="this.ship" immediate="true">
+-->
+	<add sel="//do_if[@value=&quot;$trouble?&quot;]//create_order[@id=&quot;'Attack'&quot;][@object=&quot;this.ship&quot;][@immediate=&quot;true&quot;]" type="@chance">if @$kNPCRParam_doNotEngage then 0 else 100</add>
+	<add pos="after" sel="//do_if[@value=&quot;$trouble?&quot;]//create_order[@id=&quot;'Attack'&quot;][@object=&quot;this.ship&quot;][@immediate=&quot;true&quot;]">
+		<do_if value="@$kNPCRParam_isValid and @$kNPCRParam_doNotEngage">
+			<!-- flee or ignore -->
+			<set_value name="$kNPCR_isIgnore" exact="false" />
+			<do_if value="@global.$kAAIT" comment="kuda is installed">
+				<set_value name="$kAAIT_test_attackTargetInTheWayOrNot" exact="$enemy" />
+				<include_interrupt_actions ref="kAAIT_GetAttackOrIgnoreTargetInTheWay" />
+				<do_if value="$kAAIT_result_isTargetInTheWayIgnored">
+					<set_value name="$kNPCR_isIgnore" exact="true" />
+				</do_if>
+			</do_if>
+			<do_elseif value="$enemy.primarypurpose == purpose.fight and @$enemy.threatscore / @this.assignedcontrolled.threatscore le 0.75">
+				<set_value name="$kNPCR_isIgnore" exact="true" />
+			</do_elseif>
+			<do_if value="not $kNPCR_isIgnore">
+				<create_order object="this.ship" id="'Flee'" immediate="true" override="true">
+					<param name="method" value="['boost', 'highway', 'dock'].random" />
+					<param name="attacker" value="$localtarget" />
+					<param name="log" value="false" />
+				</create_order>
+			</do_if>
+		</do_if>
+	</add>
+</diff>

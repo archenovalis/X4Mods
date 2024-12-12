@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+<!-- add after. purpose: bar patrons stay in the bar. find slot in room.
+	<cue name="ENTER_init">
+		<do_elseif value="@$NPC.$Stay">
+-->
+	<add pos="after" sel="//cue[@name=&quot;ENTER_init&quot;]//do_elseif[@value=&quot;@$NPC.$Stay&quot;]">
+		<do_elseif value="@$NPC.$kNPCR_isBarPatron">
+			<signal_cue_instantly cue="ChangeState" param="STATE_idle"/>
+		</do_elseif>
+	</add>
+<!-- add before. purpose: bar patrons stay in the bar. find slot in room.
+	<cue name="TRANSITION_idle_attempt_move">
+		<do_if value="this.$destinationslot">
+-->
+	<add pos="before" sel="(//cue[@name=&quot;TRANSITION_idle_attempt_move&quot;]//do_if[@value=&quot;this.$destinationslot&quot;])[5]">
+		<do_if value="@$NPC.$kNPCR_isBarPatron">
+			<!-- <debug_text text="'kuertee_npc_reactions $NPC: ' + $NPC + ' (' + $NPC.knownname + ')'" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" /> -->
+			<find_npc_slot name="this.$destinationslot" object="$NPC.room" tags="tag.npc_generic" />
+			<debug_text text="'kuertee_npc_reactions $NPC: ' + $NPC + ' (' + $NPC.knownname + ', $destinationslot: ' + this.$destinationslot + ')'" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+		</do_if>
+	</add>
+<!-- add before:
+	purpose: make pilot leave when player enters ship
+	<cue name="ENTER_ai_pilot">
+		<do_if value="$NPC.controlled">
+			<do_if value="$NPC.controlled == player.controlled">
+			<do_else>
+-->
+	<add pos="before" sel="//cue[@name=&quot;ENTER_ai_pilot&quot;]//do_if[@value=&quot;$NPC.controlled&quot;]/do_else">
+		<do_elseif value="@md.kuertee_npc_bridge_crew.AIPilot_AutoGetUp.$isGetUpNow">
+			<do_if value="$NPC.controlled and $NPC.controlled == player.ship">
+				<do_if value="$NPC.isplayerowned">
+					<signal_cue_instantly cue="ChangeState" param="STATE_ai_pilot_leave_post" />
+				</do_if>
+				<signal_cue_instantly cue="md.kuertee_npc_bridge_crew.AIPilot_AutoGetUp_OnGetUp" />
+			</do_if>
+		</do_elseif>
+	</add>
+</diff>

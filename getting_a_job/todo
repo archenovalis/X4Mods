@@ -5,10 +5,8 @@ verify ai scripts run correctly
 
 # integrate mods
 - kuerteeAlternativesToDeath
--	kuerteeUIExtensionsAndHUD
+money on person is lost on death
 -	kuerteeCrimeHasConsequences
--	kuerteeNPCReactions
-disable bank loan
 - bar
 limit to stations, use clone room, update galactic bank office at same time
 

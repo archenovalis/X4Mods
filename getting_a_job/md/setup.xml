@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+		purpose: npc bridge crew $userIsPlayerFleetFollowsPlayer
+		<cue name="PlayerStartedControl" instantiate="true">
+		<cue name="PlayerStoppedControl" instantiate="true">
+			...
+			<do_if value="$PlayerControlled.isoperational">
+	-->
+	<add pos="after" sel="//cue[@name=&quot;PlayerStartedControl&quot;]">
+		<library name="CancelAssignCommanderOrders" purpose="run_actions">
+			<params>
+				<param name="Ship" />
+			</params>
+			<actions>
+				<do_if value="$Ship.orders.count">
+					<do_all counter="$i" exact="$Ship.orders.count" reverse="true">
+						<do_if value="$Ship.orders.{$i}.id == 'AssignCommander'">
+							<cancel_order order="$Ship.orders.{$i}" />
+						</do_if>
+					</do_all>
+				</do_if>
+			</actions>
+		</library>
+	</add>
+	<add sel="//cue[@name=&quot;PlayerStartedControl&quot;]/actions">
+		<do_if value="not $PlayerControlled.isclass.spacesuit">
+			<do_if value="@md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_waitOrder.exists">
+				<cancel_order order="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_waitOrder" />
+				<debug_text text="'kuertee_npc_reactions cancel_order: ' + $playerShip_waitOrder" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+			</do_if>
+			<do_if value="
+				(not $PlayerControlled.isclass.spacesuit) and
+				md.kuertee_npc_bridge_crew.UserSettings.$userIsPlayerFleetFollowsPlayer and
+				md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last and
+				md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last != $PlayerControlled and
+				@md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips.indexof.{$PlayerControlled}">
+				<do_if value="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.assignedaipilot">
+					<set_value name="$assignment" exact="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.assignment" />
+					<set_value name="$subordinateGroupId" exact="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.subordinategroupid" />
+					<debug_text text="'kuertee_npc_reactions create_order AssignCommander: ' + md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.knownname + ' commander: ' + $PlayerControlled.knownname" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+					<run_actions ref="CancelAssignCommanderOrders">
+						<param name="Ship" value="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last" />
+					</run_actions>
+					<create_order id="'AssignCommander'" object="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last" immediate="true">
+						<param name="commander" value="player.occupiedship"/>
+						<param name="assignment" value="$assignment"/>
+						<param name="subordinategroup" value="$subordinateGroupId"/>
+						<param name="cancelorders" value="false"/>
+					</create_order>
+				</do_if>
+				<do_for_each name="$subordinate" in="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips">
+					<set_value name="$assignment" exact="$subordinate.assignment" />
+					<set_value name="$subordinateGroupId" exact="$subordinate.subordinategroupid" />
+					<debug_text text="'kuertee_npc_reactions create_order AssignCommander: ' + $subordinate.knownname + ' commander: ' + $PlayerControlled.knownname" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+					<run_actions ref="CancelAssignCommanderOrders">
+						<param name="Ship" value="$subordinate" />
+					</run_actions>
+					<create_order id="'AssignCommander'" object="$subordinate" immediate="true">
+						<param name="commander" value="player.occupiedship"/>
+						<param name="assignment" value="$assignment"/>
+						<param name="subordinategroup" value="$subordinateGroupId"/>
+						<param name="cancelorders" value="false"/>
+					</create_order>
+				</do_for_each>
+			</do_if>
+			<set_value name="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last" exact="$PlayerControlled" />
+			<do_if value="@md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.subordinates.count">
+				<set_value name="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips" exact="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.subordinates.clone" />
+				<append_to_list name="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips" exact="$PlayerControlled" />
+			</do_if>
+			<do_else>
+				<set_value name="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips" exact="[]" />
+			</do_else>
+			<debug_text text="'kuertee_npc_reactions $playerShip_last_fleetShips: ' + md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+		</do_if>
+	</add>
+	<add sel="//cue[@name=&quot;PlayerStoppedControl&quot;]/actions/do_if[@value=&quot;$PlayerControlled.isoperational&quot;]">
+		<do_if value="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.isclass.ship and (not @md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.isclass.spacesuit)">
+			<debug_text text="'kuertee_npc_reactions $playerShip_last: ' + md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.knownname" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+			<do_if value="@md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.subordinates.count">
+				<set_value name="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips" exact="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.subordinates.clone" />
+				<append_to_list name="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips" exact="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last" />
+			</do_if>
+			<do_else>
+				<set_value name="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips" exact="[]" />
+			</do_else>
+			<debug_text text="'kuertee_npc_reactions $playerShip_last_fleetShips: ' + md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last_fleetShips" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+			<do_if value="md.kuertee_npc_bridge_crew.UserSettings.$userShipWaitsForPlayer">
+				<do_if value="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last.assignedaipilot">
+					<create_order name="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_waitOrder" object="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_last" id="'Wait'" immediate="true">
+						<param name="timeout" value="1h" />
+						<param name="allowdocked" value="true" />
+					</create_order>
+					<debug_text text="'kuertee_npc_reactions create_order: ' + md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$playerShip_waitOrder" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+				</do_if>
+			</do_if>
+		</do_if>
+		<reset_cue cue="md.kuertee_npc_bridge_crew.PlayerStartCaptaincy" />
+	</add>
+</diff>

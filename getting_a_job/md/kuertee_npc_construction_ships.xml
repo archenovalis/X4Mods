@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_npc_construction_ships" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<cues>
+		<cue name="NPCConstructionShips" namespace="this">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<cues>
+				<cue name="Init">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="not $isConfigSet?">
+							<!-- user vars -->
+							<debug_text text="'(re)setting user vars'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<set_value name="$isConfigSet" exact="true" />
+						</do_if>
+						<do_if value="not $stationsWithNoConstructors?">
+							<create_list name="$stationsWithNoConstructors" />
+						</do_if>
+						<set_value name="$wasStationConfigurationMenuOpen" exact="false" />
+						<do_if value="not $stationsInConstruction?">
+							<create_group groupname="$stationsInConstruction" />
+						</do_if>
+						<do_if value="not $constructorsConstructing?">
+							<create_group groupname="$constructorsConstructing" />
+						</do_if>
+						<do_if value="not $constructionJobs?">
+							<set_value name="$constructionJobs" exact="table[]" />
+						</do_if>
+						<reset_cue cue="FindConstructorLoop" />
+						<reset_cue cue="StationEvents" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="NPCConstructionShips_CleanUp">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<reset_cue cue="parent" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnStationConfigurationMenu">
+					<conditions>
+						<event_ui_triggered screen="'StationConfigurationMenu'" />
+					</conditions>
+					<actions>
+						<debug_text text="'event.param: ' + event.param" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<debug_text text="'event.param2: ' + event.param2" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="event.param2 == 'menu_close'">
+							<set_value name="$wasStationConfigurationMenuOpen" exact="true" />
+							<debug_text text="'$wasStationConfigurationMenuOpen: ' + $wasStationConfigurationMenuOpen" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						</do_if>
+						<debug_text text="'reset_cue ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnMapMenuUiTriggered">
+					<conditions>
+						<event_ui_triggered screen="'MapMenu'" />
+						<check_value value="player.isinfullscreenmenu" />
+					</conditions>
+					<actions>
+						<debug_text text="'reset_cue ' + FindConstructorLoop + ' ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<reset_cue cue="FindConstructorLoop" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnAllFullScreenMenuClose">
+					<conditions>
+						<event_ui_triggered control="'menu_close'" />
+						<!-- <check_value value="not player.isinfullscreenmenu" /> -->
+						<check_value value="not player.timewarp.active" />
+					</conditions>
+					<delay exact="1s" />
+					<actions>
+						<debug_text text="'player.isinfullscreenmenu: ' + player.isinfullscreenmenu" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<debug_text text="'$wasStationConfigurationMenuOpen: ' + $wasStationConfigurationMenuOpen" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="not player.isinfullscreenmenu and $wasStationConfigurationMenuOpen">
+							<debug_text text="'control: ' + event.param2 + ' parameters: ' + event.param3" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<find_station multiple="true" name="$stations" space="player.galaxy" checkoperational="false">
+								<match owner="faction.player"/>
+								<match state="componentstate.wreck" negate="true"/>
+							</find_station>
+							<clear_list list="$stationsWithNoConstructors" />
+							<do_all counter="$i" exact="$stations.count">
+								<set_value name="$station" exact="$stations.{$i}" />
+								<debug_text text="'$station: ' + $station.knownname + ' (' + $station.idcode + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<debug_text text="'$station.plannedconstruction.sequence: ' + $station.plannedconstruction.sequence" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="$station.plannedconstruction.sequence">
+									<set_value name="$isRequiresConstructionVessel" exact="$station.requiresconstructionvessel.{$station.plannedconstruction.sequence}" />
+									<debug_text text="'$isRequiresConstructionVessel: ' + $isRequiresConstructionVessel" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<set_value name="$constructionVessel" exact="@$station.buildstorage.buildmodule.constructionvessel" />
+									<debug_text text="'$constructionVessel: ' + $constructionVessel" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<do_if value="$isRequiresConstructionVessel and not $constructionVessel">
+										<debug_text text="'append_to_list ' + $station" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<append_to_list name="$stationsWithNoConstructors" exact="$station" />
+									</do_if>
+								</do_if>
+							</do_all>
+							<debug_text text="'$stationsWithNoConstructors.count: ' + $stationsWithNoConstructors.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<do_if value="$stationsWithNoConstructors.count">
+								<debug_text text="'$stationsWithNoConstructors: ' + $stationsWithNoConstructors" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<debug_text text="'FindConstructorLoop.state: ' + FindConstructorLoop.state" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="FindConstructorLoop.state == cuestate.waiting">
+									<debug_text text="'signal_cue_instantly ' + FindConstructorLoop" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<signal_cue_instantly cue="FindConstructorLoop" param="table[$stations = $stationsWithNoConstructors]" />
+								</do_if>
+							</do_if>
+							<set_value name="$wasStationConfigurationMenuOpen" exact="false" />
+						</do_if>
+						<debug_text text="'reset_cue ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="FindConstructorLoop" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<delay exact="1s" />
+					<actions>
+						<set_value name="$stations" exact="event.param.$stations" />
+						<debug_text text="'$stations: ' + $stations" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<set_value name="$npc" exact="''" />
+						<set_value name="$stationCounter" exact="0" />
+						<set_value name="$isConstructorAssigned" exact="false" />
+						<find_ship name="$constructors" primarypurpose="purpose.build" class="[class.ship_m, class.ship_l, class.ship_xl]" space="player.galaxy" owner="faction.player" multiple="true" sortbydistanceto="$stations.{1}">
+							<match_relation_to object="$stations.{1}" relation="dock"/>
+						</find_ship>
+						<do_if value="player.money ge md.kuertee_npc_reactions.NPCReactions.$constructionVesselCost * 1Cr">
+							<find_ship name="$constructors" primarypurpose="purpose.build" class="[class.ship_m, class.ship_l, class.ship_xl]" space="player.galaxy" multiple="true" append="true" sortbydistanceto="$stations.{1}">
+								<match_relation_of faction="faction.player" relation="neutral" comparison="gt"/>
+								<match_relation_to object="$stations.{1}" relation="dock"/>
+							</find_ship>
+						</do_if>
+						<debug_text text="'$constructors.count (pre remove busy): ' + $constructors.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_for_each name="$constructor" in="$constructors" reverse="true">
+							<do_for_each name="$order" in="$constructor.orders" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" >
+								<debug_text text="'$constructor.idcode: %s $order.script: %s buildorders.count: %s'.[$constructor.idcode, $order.script, $constructor.buildorders.count]"/>
+							</do_for_each>
+							<do_if value="$constructor.buildorders.count or $constructor.order.script == 'order.build.deploy'">
+								<remove_from_list name="$constructors" exact="$constructor" />
+							</do_if>
+						</do_for_each>
+						<debug_text text="'$constructors.count (post remove busy): ' + $constructors.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="$constructors.count">
+							<signal_cue cue="NextLoop" />
+						</do_if>
+						<do_else>
+							<reset_cue cue="this" />
+						</do_else>
+					</actions>
+					<cues>
+						<cue name="NextLoop" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+								<!-- <check_value value="LookForConstuctor.state == cuestate.waiting" /> -->
+							</conditions>
+							<delay exact="1s" />
+							<actions>
+								<debug_text text="'$stations.count: ' + $stations.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="$stations.count and $stationCounter lt $stations.count">
+									<set_value name="$stationCounter" exact="$stationCounter + 1" />
+									<debug_text text="'signal_cue ' + LookForConstuctor" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<signal_cue_instantly cue="LookForConstuctor" />
+								</do_if>
+								<do_else>
+									<debug_text text="'signal_cue ' + EndLoop" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<signal_cue_instantly cue="EndLoop" />
+								</do_else>
+								<debug_text text="'cancel_cue ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="EndLoop">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<debug_text text="'reset_cue ' + this + ' ' + parent" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<reset_cue cue="this" />
+								<reset_cue cue="parent" />
+							</actions>
+						</cue>
+						<cue name="LookForConstuctor">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$isConstructorAssigned" exact="false" />
+								<set_value name="$constructor" exact="null" />
+								<do_all counter="$i" exact="$constructors.count">
+									<do_if value="not $constructors.{$i}.constructionmodule">
+										<set_value name="$constructor" exact="$constructors.{$i}" />
+										<break />
+									</do_if>
+								</do_all>
+								<debug_text text="'$constructor: ' + $constructor + ' (' + @$constructor.knownname + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="$constructor">
+									<!-- <remove_from_group group="$constructors" object="$constructor" /> -->
+									<remove_from_list name="$constructors" exact="$constructor" />
+									<set_value name="$npc" exact="$constructor.aipilot" />
+									<debug_text text="'$npc: ' + $npc + ' (' + @$npc.knownname + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								</do_if>
+								<do_else>
+									<debug_text text="'reset_cue ' + this + ' ' + parent" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<signal_cue_instantly cue="EndLoop" />
+								</do_else>
+								<!-- <debug_text text="'reset_cue ' + this + ' ' + parent" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<reset_cue cue="this" /> -->
+								<set_value name="$isCutSceneInteracted" exact="false" />
+							</actions>
+							<cues>
+								<cue name="NeedAConstructorConversation">
+									<actions>
+										<do_if value="$constructor and $npc">
+											<set_value name="$caption" exact="{1416318, 689000} + '\n'" comment="Need a constructor?" />
+											<do_if value="$stations.count gt 1">
+												<set_value name="$caption"
+													exact="$caption + {1416318, 689003} + ': ' + $stations.{1}.knownname + ' (' + @$stations.{1}.idcode + ')'" comment="Nearest to me" />
+											</do_if>
+											<debug_text text="'$caption: ' + $caption" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$cue = namespace, $npc = $npc, $caption = $caption, $interactionParam = 'NeedAConstructorConversation', $callback = OnCutsceneStopped]" />
+										</do_if>
+									</actions>
+								</cue>
+								<cue name="OnCutsceneStopped">
+									<conditions>
+										<event_cue_signalled />
+									</conditions>
+									<actions>
+										<do_if value="not $isCutSceneInteracted">
+											<debug_text text="'signal_cue ' + NextLoop" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<signal_cue cue="NextLoop" />
+											<debug_text text="'reset_cue ' + this + ' ' + parent + ' ' + parent.parent" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<reset_cue cue="this" />
+											<reset_cue cue="parent" />
+										</do_if>
+										<do_else>
+											<debug_text text="'start_conversation kuertee_npc_construction_conversation'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<start_conversation actor="$npc" conversation="kuertee_npc_construction_conversation" />
+											<debug_text text="'reset_cue ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<reset_cue cue="this" />
+										</do_else>
+									</actions>
+								</cue>
+								<cue name="OnPlayerInteraction">
+									<conditions>
+										<event_player_interaction param="'NeedAConstructorConversation'" />
+									</conditions>
+									<actions>
+										<set_value name="$isCutSceneInteracted" exact="true" />
+										<do_if value="$cutscene">
+											<stop_cutscene cutscene="$cutscene" />
+										</do_if>
+										<debug_text text="'reset_cue ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="OnConversationStarted">
+									<conditions>
+										<event_conversation_started conversation="kuertee_npc_construction_conversation"/>
+									</conditions>
+									<actions>
+										<!-- <debug_text text="'reset_cue ' + StartConversation" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<reset_cue cue="StartConversation" /> -->
+										<!-- <add_npc_line speaker="event.object" page="event.param2.{1}" line="event.param2.{2}" /> -->
+										<!-- <add_npc_line speaker="$npc" page="1416318" line="689000" comment="Need a constructor?" /> -->
+										<do_all counter="$i" exact="$stations.count">
+											<do_if value="$i  le 4">
+												<debug_text text="'add_player_choice ' + $stations.{$i}.knownname + ' (' + @$stations.{$i}.idcode + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+												<do_if value="$i == 1 and $stations.count gt 1">
+													<add_player_choice text="{1416318, 689002} + ': ' + $stations.{$i}.knownname + ' (' + @$stations.{$i}.idcode + ')'" section="kuertee_npc_construction_conversation_hire" choiceparam="$stations.{$i}" comment="{1416318, 689002} = Nearest" />
+												</do_if>
+												<do_else>
+													<add_player_choice text="$stations.{$i}.knownname + ' (' + @$stations.{$i}.idcode + ')'" section="kuertee_npc_construction_conversation_hire" choiceparam="$stations.{$i}" />
+												</do_else>
+												<!-- <remove_from_list name="$stations" exact="$stations.{$i}"/> -->
+											</do_if>
+											<do_else>
+												<break />
+											</do_else>
+										</do_all>
+										<add_player_choice_return text="{1416318,689001}" section="kuertee_npc_construction_conversation_no" comment="No, thank you." />
+										<debug_text text="'reset_cue ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="OnConversationNextSection">
+									<conditions>
+										<event_conversation_next_section sectionprefix="kuertee_npc_construction_conversation_" />
+									</conditions>
+									<actions>
+										<!-- <debug_text text="'event.object: ' + event.object" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'event.param: ' + event.param" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'event.param2: ' + event.param2" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+										<set_value name="$station" exact="event.param2" />
+										<debug_text text="'$station: ' + $station" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<do_if value="$station and not $station.buildstorage.buildmodule.constructionvessel">
+											<debug_text text="'$constructor: ' + $constructor + ' owner: ' + $constructor.owner + ' trueowner: ' + $constructor.trueowner" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<do_if value="$constructor.trueowner == faction.player">
+												<!-- <raise_lua_event name="'kNPCConstructionShips.SetCVToDeploy'" param="$constructor" />
+												<raise_lua_event name="'kNPCConstructionShips.SetStationToBuild'" param="$station" />
+												<raise_lua_event name="'kNPCConstructionShips.DeployCVToStation'" /> -->
+												<add_to_group groupname="md.kuertee_npc_construction_ships.NPCConstructionShips.$stationsInConstruction" object="$station" />
+												<add_to_group groupname="md.kuertee_npc_construction_ships.NPCConstructionShips.$constructorsConstructing" object="$constructor" />
+												<do_if value="not md.kuertee_npc_construction_ships.NPCConstructionShips.$constructionJobs.{$station}?">
+													<set_value name="md.kuertee_npc_construction_ships.NPCConstructionShips.$constructionJobs.{$station}" exact="table[$constructor = $constructor]" />
+												</do_if>
+												<create_order id="'DeployToStation'" name="md.kuertee_npc_construction_ships.NPCConstructionShips.$constructionJobs.{$station}.$order" object="$constructor" immediate="true">
+													<param name="station" value="$station"/>
+												</create_order>
+												<!-- consider always a success -->
+												<set_value name="$isConstructorAssigned" exact="true" />
+												<set_value name="$stationCounter" exact="$stationCounter - 1" />
+												<remove_from_list name="$stations" exact="$station"/>
+											</do_if>
+											<do_else>
+												<debug_text text="'signal_objects $constructor: ' + $constructor" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+												<set_value name="$station.buildstorage.buildmodule.container.tradenpc.$construction_vessel_response" exact="false" />
+												<signal_objects object="$constructor" param="'request construction vessel'" param2="$station.buildstorage.buildmodule"/>
+												<debug_text text="'$construction_vessel_response: ' + @$station.buildstorage.buildmodule.container.tradenpc.$construction_vessel_response" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+												<do_if value="@$station.buildstorage.buildmodule.container.tradenpc.$construction_vessel_response">
+													<!-- success -->
+													<set_value name="$isConstructorAssigned" exact="true" />
+													<set_value name="$stationCounter" exact="$stationCounter - 1" />
+													<remove_from_list name="$stations" exact="$station"/>
+													<debug_text text="'player.money: ' + player.money" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+													<debug_text text="'transfer_money ' + md.kuertee_npc_reactions.NPCReactions.$constructionVesselCost * 1Cr" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+													<!-- <transfer_money from="faction.player" to="$npc.trueowner" amount="md.kuertee_npc_reactions.NPCReactions.$constructionVesselCost * 1Cr" /> -->
+													<do_if value="@md.VerboseTransactionLog.TransferMoney.exists">
+														<signal_cue_instantly cue="md.VerboseTransactionLog.TransferMoney" param="table[
+															$amount = md.kuertee_npc_reactions.NPCReactions.$constructionVesselCost * 1Cr,
+															$description = {1416318, 103},
+															$from = faction.player,
+															$to = $npc.container,
+														]" />
+													</do_if>
+													<do_else>
+														<transfer_money from="faction.player" to="$npc.trueowner" amount="md.kuertee_npc_reactions.NPCReactions.$constructionVesselCost * 1Cr" />
+													</do_else>
+													<debug_text text="'player.money: ' + player.money" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+												</do_if>
+												<do_else>
+													<!-- try next constructor -->
+													<set_value name="$isConstructorAssigned" exact="false" />
+													<set_value name="$stationCounter" exact="$stationCounter - 1" />
+												</do_else>
+											</do_else>
+										</do_if>
+										<debug_text text="'reset_cue ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="OnConversationFinished">
+									<conditions>
+										<event_conversation_finished actor="$npc" />
+									</conditions>
+									<actions>
+										<!-- <debug_text text="'event.object: ' + event.object" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'event.param: ' + event.param" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'event.param2: ' + event.param2" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+										<do_if value="event.param != 'kuertee_npc_construction_conversation_hire'">
+											<debug_text text="'signal_cue ' + EndLoop" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<signal_cue cue="EndLoop" />
+										</do_if>
+										<do_else>
+											<debug_text text="'speak actor: ' + $npc" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<do_if value="not $isConstructorAssigned">
+												<show_notification text="{1416318,689005}" comment="{1416318,689005} = Constructor assignment failed." />
+												<speak actor="$npc" line="5035" comment="sorry"/>
+											</do_if>
+											<do_else>
+												<speak actor="$npc" line="[2103,2104,2105].random" comment="affirmative, confirmed, acknowledged"/>
+											</do_else>
+										</do_else>
+										<debug_text text="'reset_cue ' + this" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="OnSpeakFinished">
+									<conditions>
+										<check_any>
+											<event_speak_finished actor="$npc" line="2103" comment="affirmative" />
+											<event_speak_finished actor="$npc" line="2104" comment="confirmed" />
+											<event_speak_finished actor="$npc" line="2105" comment="acknowledged" />
+											<event_speak_finished actor="$npc" line="5035" comment="sorry" />
+										</check_any>
+									</conditions>
+									<actions>
+										<debug_text text="'signal_cue ' + NextLoop" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<signal_cue cue="NextLoop" />
+										<debug_text text="'reset_cue ' + this + ' ' + parent + ' ' + parent.parent" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<reset_cue cue="this" />
+										<reset_cue cue="parent" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="StationEvents">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<cues>
+						<cue name="OnStationDestroyed2">
+							<conditions>
+								<event_object_destroyed group="$stationsInConstruction" />
+							</conditions>
+							<actions>
+								<set_value name="$station" exact="event.object" />
+								<debug_text text="'$station: ' + $station" chance = "md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<set_value name="$constructor" exact="$constructionJobs.{$station}.$constructor" />
+								<debug_text text="'$constructor: ' + $constructor" chance = "md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<debug_text text="'$order: ' + $constructionJobs.{$station}.$order" chance = "md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<cancel_order order="$constructionJobs.{$station}.$order" />
+								<remove_value name="$constructionJobs.{$station}" />
+								<remove_from_group group="$constructorsConstructing" object="$constructor" />
+								<remove_from_group group="$stationsInConstruction" object="$station" />
+							</actions>
+						</cue>
+						<cue name="OnConstructionFinished2">
+							<conditions>
+								<check_any>
+									<event_object_order_finished group="$constructorsConstructing" />
+									<event_object_destroyed group="$constructorsConstructing" />
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$constructor" exact="event.object" />
+								<debug_text text="'$constructor: ' + $constructor" chance = "md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_all counter="$i" exact="$stationsInConstruction.count">
+									<do_if value="$constructionJobs.{$stationsInConstruction.{$i}}.$constructor == $constructor">
+										<debug_text text="'$stationsInConstruction.{$i}: ' + $stationsInConstruction.{$i}" chance = "md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'$order: ' + $constructionJobs.{$station}.$order" chance = "md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<do_if value="event.name == 'event_object_destroyed'">
+											<cancel_order order="$constructionJobs.{$stationsInConstruction.{$i}}.$order" />
+										</do_if>
+										<remove_value name="$constructionJobs.{$stationsInConstruction.{$i}}" />
+										<remove_from_group group="$stationsInConstruction" object="$stationsInConstruction.{$i}" />
+										<break />
+									</do_if>
+								</do_all>
+								<remove_from_group group="$constructorsConstructing" object="$constructor" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnModInstall">
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<signal_cue_instantly cue="Init" />
+					</actions>
+				</cue>
+				<cue name="OnModInstallComplete" checktime="player.age + 1s">
+					<actions>
+						<set_value name="$DebugChance" exact="0" />
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+	</cues>
+</mdscript>

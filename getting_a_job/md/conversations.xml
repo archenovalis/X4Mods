@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+		purpose: surrender based on plead for life count
+		search for "surrender based on plead for life count" to find code related to this feature
+		<do_elseif value="$surrenderoption">
+			<do_if value="$maysurrender">
+	-->
+	<!-- <add pos="after" sel="//do_elseif[@value=&quot;$surrenderoption&quot;]/do_if[@value=&quot;$maysurrender&quot;]">
+		<do_elseif value="event.object.$Cue_NPCR_Surrender? and event.object.$Cue_NPCR_Surrender.$Count_PleadForLife ge event.object.$Cue_NPCR_Surrender.$Max_PleadForLife">
+			<add_player_choice text="{1002,12005}" section="g_surrender" position="top_left" choiceparam="event.object.controlled"/>
+		</do_elseif>
+	</add> -->
+</diff>

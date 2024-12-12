@@ -1,0 +1,314 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- german translations by Hermän2000 on Discord upto 689128 then deepl.com -->
+<language id="49">
+	<!-- "kuertee NPC reactions" = "npcr" = "14 16 3 18 " in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
+	<page descr="" id="1416318" title="">
+
+		<page id="111204" title="" descr="">
+			<t id="1">kuertee: Alternativen zum Tod</t>
+			<t id="2">Debug Log</t>
+			<t id="3">Debug Funktion ausführen</t>
+			<t id="4">Alternative 1: Klon aktivieren</t>
+			<t id="5">Kosten für Klon</t>
+			<t id="6">Alternative 2: Spiel an einen entfernten Verwandten übertragen</t>
+			<t id="7">Schiffe und Stationen erben</t>
+			<t id="8">Cr sammeln um Schiffe und Stationen zu erben</t>
+			<t id="9">Wenn Eigenschaften verloren gehen, zufällig neu starten als:</t>
+			<t id="10">Alternative 3: Von einem Angestellten in Sicherheit teleportiert</t>
+			<t id="11">Unter folgenden Todesalternativen zufällig wählen:</t>
+			<t id="12">Eigentum an Grundstücken:</t>
+			<t id="13">Alternative 4: Gefangen, dann Lösegeld gefordert</t>
+			<t id="14">% an Eigentum als Lösegeld verloren</t>
+			<t id="15">Alternative 5: Gefangen, dann assimiliert</t>
+			<t id="16">Alle Gegenstände, Modifikationen und Ausrüstung verlieren</t>
+			<t id="17">Infektion/Zombifizierung zu Kha'ak erlauben</t>
+			<t id="18">Assimiliation in Xenon erlauben</t>
+			<t id="19">HQ durch Erbe oder Lösegeld verlieren</t>
+			<t id="20">Rumpf% für unvermeidbare Zerstörung \(X\)</t>
+			<t id="21">Noch Rumpfsekunden, um den Countdown zu starten \(Y\)</t>
+			<t id="22">Zusätzliche Countdown-Sekunden \(Z\)</t>
+			<t id="23">Die Zerstörung des Schiffes ist unvermeidbar, wenn Rumpf% kleiner ist als 'Rumpf% für unvermeidbare Zerstörung', X, und der erhaltene Schaden pro Sekunde \(DPS\) mehr ist als das, was der Rumpf bei 'Rumpfsekunden, die verbleiben, um den Countdown zu starten' aushalten kann. Y. Vor dieser Zeit kann der Spieler versuchen, die Zerstörung abzuwenden, indem er den empfangenen Schaden pro Sekunde verringert, indem er Ausweichmanöver ausführt.</t>
+			<t id="24">Der Test für unvermeidbare Zerstörung ist:</t>
+			<t id="25">\(Rumpf% &lt; X\) UND \(dps &gt; Rumpf% / Y\)</t>
+			<t id="26">Der Countdown beginnt, wenn Rumpf% diese Zeit vor der Zerstörung noch hat - wie von DPS festgelegt.</t>
+			<t id="27">Dies sind zusätzliche Sekunden, die dem Countdown hinzugefügt werden. Die Zeit, die der Spieler zur Flucht benötigt, ist die Summe von Y + Z.</t>
+			<t id="28">Strenger Klon startet</t>
+			<t id="29">Klone starten nur als ihr ursprüngliches Selbst.</t>
+			<t id="30">Besitz von Schiffen und Stationen</t>
+			<t id="31">Besitz des Spielers</t>
+			<t id="32">Von einer Stiftung geerbt</t>
+			<t id="33">Beschlagnahmt von der herrschenden Fraktion des Sektors</t>
+			<t id="34">Zerstört</t>
+			<t id="35">Beschlagnahmt durch die Fraktion des Mörders</t>
+			<t id="36">Besitz des Hauptquartiers des Spielers</t>
+			<t id="37">Klonen und Teleportieren von Mitarbeitern priorisieren</t>
+			<t id="38">Wenn aktiviert, werden die Klon- und Teleport-Alternativen vor allen anderen verwendet, wenn eine oder beide verfügbar sind. Wenn deaktiviert, wird die Klon-Alternative zufällig aus den verfügbaren Alternativen ausgewählt.</t>
+			<t id="39">Tot ist tot</t>
+			<t id="40">Unbegrenzte Speicherslots. Nach einer alternativen Todessequenz können Sie ein Spiel erst wieder laden, nachdem Sie es gespeichert haben. Wenn ein Quickload erkannt wird, wird eine Todesalternativsequenz aktiviert.</t>
+			<t id="41">Bonusschild bei abgewendeter Zerstörung</t>
+			<t id="42">Wenn in einem kleinen Schiff</t>
+			<t id="43">Mittelgroßes Schiff</t>
+			<t id="44">Großes oder extra großes Schiff</t>
+			<t id="45">Besitz klonen</t>
+			<t id="46">Nachkommenschaft</t>
+			<t id="47">Gleichgestelltes Eigentum</t>
+			<t id="48">Klone behalten Beziehungen bei</t>
+			<t id="49">Wenn aktiviert, verlieren Klone niemals ihre Beziehungen zu den Fraktionen. Dadurch bleiben auch Reputation und Social Standing erhalten - wenn die entsprechenden Mods installiert sind.</t>
+			<t id="50">Alternative 6: Spawne an der Station. Keine Strafe.</t>
+			<t id="51">Sparen von Abschaum-Strafen</t>
+			<t id="52">Todesalternative Strafe</t>
+			<t id="53">Eine alternative Todessequenz wird aktiviert.</t>
+			<t id="54">Gutschriften-Strafe</t>
+			<t id="55">Credits werden von den persönlichen Credits des Spielers abgezogen. "Abschaum-Todesstrafe retten" haben Vorrang vor dieser Strafe.</t>
+			<t id="56">Zeit</t>
+			<t id="57">Unbegrenzte Speicherslots. Es werden Strafen verhängt, wenn ein Spiel geladen wird, das älter als diese Zeit ist.</t>
+			<t id="58">Eisenmann-Modus</t>
+			<t id="59">Ein Speicherplatz. Sie können nur von einem Speicherplatz laden. Autosaves und Quicksaves sind davon ausgenommen.</t>
+			<t id="60">Gespeicherte Spiele</t>
+
+
+			<t id="100">Schiff verlassen</t>
+			<t id="101">Zerstörung steht bevor</t>
+			<t id="102">Zerstörung abgewendet</t>
+			<t id="103">Ausweichmanöver ausführen</t>
+
+			<!-- trust executor faction -->
+			<t id="200">Büro des Treuhänders</t>
+			<t id="201">{20006,102}(No information available)</t>
+			<t id="202">TH</t>
+
+			<!-- cloning lab -->
+			<t id="300">Klon-Labor</t>
+			<t id="301">Klon-Techniker</t>
+			<t id="302">Klon kaufen: %1(cost).</t>
+			<t id="303"></t>
+			<t id="304"></t>
+			<t id="305"></t>
+			<t id="306"></t>
+			<t id="307"></t>
+			<t id="308">Wie viele Klone habe ich derzeit?</t>
+			<t id="309">Klon-Standorte:</t>
+
+			<!-- inherit mission -->
+			<t id="400">Erbe</t>
+			<t id="401">Akquiriere %1.</t>
+			<!-- trust executor convo -->
+			<t id="402">Mein Erbe?</t>
+			<t id="403"></t>
+			<t id="404"></t>
+			<t id="405"></t>
+
+			<!-- escape pod -->
+			<t id="500">Rettungskapsel betreten</t>
+
+			<!-- action verbs -->
+			<t id="800">Warentransport</t>
+			<t id="801">Betreiben von Bergbau</t>
+			<t id="802">Erforschen</t>
+
+			<!-- death notice misc -->
+			<t id="900">Todesfall-Benachrichtigung</t>
+			<t id="901">An: %1</t>
+			<t id="902">Von: Dem Nachlassverwalter von %1</t>
+			<t id="903">Als gelesen markieren</t>
+			<t id="904">Erbschaftsmitteilung</t>
+
+			<!-- clone death messages -->
+			<t id="1000">Ihr Vorgänger ist gestorben.</t>
+			<t id="1001">Ihr Vorgänger ist in Erfüllung der Pflicht gegen %1 verstorben.</t><!-- %1 = faction name -->
+			<t id="1002">Beim %1 ist Ihr früheres Selbst im Kampf gegen %2 verstorben.</t><!-- %1 = action verb, %2 = faction name -->
+			<t id="1003">Ihr Vorgänger ist beim %1 verstorben.</t><!-- %1 = action verb -->
+			<!-- inheritance -->
+			<t id="1004">Laut Ihrem Vertrag werden alle Schiffe und Stationen Ihres Vorgängers von einem Treuhändler verwaltet.</t>
+			<t id="1005">Sie werden diese Schiffe und Stationen wiedererlangne, sobald Sie sich durch die Anhäufung von %1 als würdig erweisen.</t><!-- %1 = credits -->
+			<t id="1006">Wir wurden angewiesen, Ihnen die Daten Ihres früheren Selbsts zu überlassen. Diese beinhalten: Offene Verträge, Navigationskarten, Logbücher und Forschungsunterlagen.</t>
+			<t id="1007">Sie haben alle Schiffe und Stationen Ihres Vorgängers geerbt.</t>
+			<!-- Vererbung abgeschlossen -->
+			<t id="1008">Gemäß dem Willen Ihres Vorgängers werden Sie mit dem Erwerb von %1(Geld) zum Eigentümer der Grundstücke.</t>
+			<t id="1009">Wir übertragen sie nun auf Sie. Herzlichen Glückwunsch.</t>
+
+			<!-- descendant death messages -->
+			<t id="1100">%1, ein entfernter Verwandter, ist verstorben.</t><!-- %1 = name -->
+			<t id="1101">%1, ein entfernter Verwandter, ist bei der Pflichtausübung im Kampf gegen %2 verstorben.</t><!-- %1 = name, %2 = faction name -->
+			<t id="1102">Beim %1 ist %2, ein entfernter Verwandter, durch einen Angriff von %3 verstorben.</t><!-- %1 = action verb, %2 = name, %3 = faction name -->
+			<t id="1103">%1, ein entfernter Verwandter, ist bei einem Unfall beim %2 verstorben.</t><!-- %1 = name, %2 = action verb -->
+			<!-- inheritance -->
+			<t id="1104">Laut dem Testament werden alle Schiffe und Stationen die %1 besessen hat treuhänderisch verwaltet.</t><!-- %1 = name, %2 possessive adjective -->
+			<t id="1105">Sie werden diese Schiffe und Stationen erben, wenn Sie sich durch Anhäufung von %1 als würdig erweisen.</t><!-- %1 = credits -->
+			<t id="1106">Wir wurden instruiert, Ihnen die Daten von %1 zu überlassen. Diese beinhalten: Offene Verträge, Navigationskarten, Logbücher und Forschungsunterlagen.</t><!-- %1 = name -->
+			<t id="1107">Sie haben alle Schiffe und Stationen, die %1 in Besitz hatte, geerbt.</t><!-- %1 = name -->
+			<!-- Vererbung abgeschlossen -->
+			<t id="1108">Gemäß dem Testament von %1(Name) werden Sie mit dem Erwerb von %2(Geld) zum Eigentümer der Grundstücke.</t>
+			<t id="1109">Wir übertragen sie nun auf Sie. Herzlichen Glückwunsch.</t>
+
+			<!-- teleport to safety -->
+			<t id="1200">Teleportations-Hinweis</t><!-- %1 = name of pilot or manager of station -->
+			<t id="1201">%1 hat Sie in Sicherheit teleportiert.</t><!-- %1 = name of pilot or manager of station -->
+			<t id="1202">Der Computer Ihres Schiffes hat Sie in Sicherheit gebeamt.</t><!-- %1 = name of pilot or manager of station -->
+
+			<!-- logbook entry -->
+			<t id="1300">%1 ist verstorben.</t><!-- %1 = name -->
+
+			<!-- ransom -->
+			<t id="1400">Freilassungshinweis</t>
+			<t id="1401">Sie wurden von %1 gefangen genommen und nach Zahlung dieser Lösegeldsumme freigelassen:</t><!-- %1 faction name, %2 list of ransomed items -->
+
+			<!-- brainwash -->
+			<t id="1500">Guten Morgen</t>
+			<t id="1501">Sie wachen aus einem tiefen Schlaf auf und erinnern sich halbwegs an einen Traum in dem ihre stets treuen Verbündeten, %1, ihre Feinde waren.</t><!-- %1 faction name -->
+			<!-- assimilation (xenon) -->
+			<t id="1502">Hallo Welt</t>
+			<t id="1503">Oberste Direktive: alles organische Leben vernichten.</t>
+			<!-- zombify/infected (khaak) -->
+			<t id="1504">Ich bin wir. Du bist ich. Wir sind Eins.</t>
+			<t id="1505">Wir gehorchen der Königin. Wir schützen den Schwarm. Wir verbreiten die Sporen.</t>
+
+			<!-- mycu_verbose_transaction_log mod -->
+			<t id="2001">Lösegeldzahlung für die Freilassung aus der Gefangenschaft</t>
+			<t id="2002">Übertragung auf den Trust im Todesfall</t>
+			<t id="2003">Übertragung von der Station auf den Trust im Todesfall</t>
+			<t id="2004">Übertragung von Station Build Storage zu Trust bei Tod</t>
+			<t id="2005">Übertragung aus dem Trust als Erbe</t>
+			<t id="2006">Kloning-Dienst</t>
+			<t id="2007">Abschaum-Strafe sparen</t>
+		</page>
+
+
+		<!-- mycu_verbose_transaction_log mod -->
+		<t id="101">Bankdarlehen</t>
+		<t id="102">Auszahlung eines Bankkredits</t>
+		<t id="103">Bauschiffsmiete</t>
+		<t id="104">Taxi-Miete</t>
+
+		<t id="688845">Über die Galaxie unterhalten.</t>
+		<t id="688846">Über verschlossene Container unterhalten.</t>
+		<t id="688847">Über Anomalien unterhalten.</t>
+		<t id="688848">Über Datentresore unterhalten.</t>
+		<t id="688849">Über Politik unterhalten.</t>
+		<t id="688850">Über die Kriege unterhalten.</t>
+		<t id="688851">Über das Leben im Weltraum unterhalten.</t>
+		<t id="688852">Über Wissenschaft unterhalten.</t>
+		<!-- config -->
+		<t id="688900">kuertee: NPC Reaktionen</t>
+		<t id="688901">Keine direkter Abzug für Unterhaltungen</t>
+		<t id="688902">Die Grundchance für ein bedeutsames Gerücht; verringert sich mit jeder Stunde wenn man nicht mindestens ein persönliches Gespräch führt.</t>
+		<t id="688903">Bonus für gleiche Spezies</t>
+		<t id="688905">Bonus für freundliche Fraktion</t>
+		<t id="688907">Bonus für freundliche Fraktion in Feindgebiet</t>
+		<t id="688909">Anzahl an Unterhaltungen</t>
+		<t id="688910">Die Wahrscheinlichkeit, dass eine Unterhaltung ein bedeutsames Gerücht produzuert, erhöht sich nach jeder Unterhaltung um 1%. NICHT UNAUFGEFORDERT ÄNDERN.</t>
+		<t id="688911">Grundwahrscheinlichkeit für ein Gerücht</t>
+		<t id="688912">Wenn eine ein bedeutsames Gerücht produziert, wird die Grundwahrscheinlichkeit um 1% erhöht. Dies kann man als &quot;Unterhaltungs-Fähigkeit&quot; betrachten. NICHT UNAUFGEFORDERT ÄNDERN.</t>
+		<t id="688913">Debug Log</t>
+		<t id="688914">Maximale Grundwahrscheinlichkeit für ein Gerücht</t>
+		<t id="688915">Die Obergrenze für die Grundwahrscheinlichkeit für ein bedeutsames Gerücht. NICHT UNAUFGEFORDERT ÄNDERN.</t>
+		<t id="688916">Kneipenbonus</t>
+		<t id="688917">kuertee: NPC-Taxis</t>
+		<t id="688918">Zusätzliche Kosten pro Gate als Multiplikator</t>
+		<t id="688919">Do debug function</t>
+		<!-- bar patrons -->
+		<t id="688920">Sekundäre Fähigkeiten</t>
+		<!-- taxis -->
+		<t id="688921">(unused)Taxis zerstören</t>
+		<!-- crew alerts -->
+		<t id="688922">Besatzungswarnungen</t>
+		<t id="688923">Radarkontakthäufigkeit</t>
+		<t id="688924">Größer als oder gleich der Schiffsgröße</t>
+		<t id="688925">Kommunikation mit Zwischensequenz</t>
+		<!-- start: enable/disable features -->
+		<t id="688926">Gerüchte</t>
+		<t id="688927">Bankkredite von Stationsleitern</t>
+		<t id="688928">Barbesucher</t>
+		<t id="688929">Brückenpersonal</t>
+		<t id="688930">Bauschiffe fordern Ihre Aufträge an</t>
+		<t id="688931">NPCs bitten um Verstärkung per Comms</t>
+		<t id="688932">Taxis</t>
+		<!-- end: enable/disable features -->
+		<t id="688933">Videokommunikation mit generischem Hintergrund</t>
+		<t id="688934">Rennen auf Stationsbelegschaftsrennen beschränken</t>
+		<!-- bridge crew -->
+		<t id="688935">KI-Pilot verlässt die Steuerung automatisch</t>
+		<t id="688936">Kleine Schiffe</t>
+		<t id="688937">Mittelgroße Schiffe</t>
+		<t id="688938">Größere Schiffe</t>
+		<t id="688939">Halteposition zum letzten kontrollierten Schiff hinzufügen</t>
+		<t id="688940">Feinde melden</t>
+		<t id="688941">Sprachnachricht \(kleine und mittelgroße Feinde\)</t>
+		<t id="688942">Logbuch</t>
+		<t id="688943">Benachrichtigung</t>
+		<t id="688944">Sprachnachricht \(große Feinde\)</t>
+		<t id="688945">Die Flotte des Spielers folgt dem Spieler</t>
+		<!-- end: config -->
+		<!-- npc constructors -->
+		<t id="689000">Soll ich Ihnen etwas bauen?</t>
+		<t id="689001">Nein danke.</t>
+		<t id="689002">Nächste</t>
+		<t id="689003">Am nächsten zu mir</t>
+		<t id="689004">Ihr Mitarbeiter</t>
+		<t id="689005">Konstruktorzuweisung fehlgeschlagen.</t>
+		<!-- npc taxis -->
+		<t id="689100">NPC-Transport</t>
+		<t id="689101">Taxi-Service</t>
+		<t id="689102">Benötigen Sie eine Mitfahrgelegenheit?</t>
+		<t id="689103">Wie du willst, du Raumfliege!</t>
+		<t id="689104">Docke an ...</t>
+		<t id="689105">Ich brauche eine Fahrt nach ...</t>
+		<t id="689106">Dieses Schiff kann leider nicht an dieses Schiff andocken.</t>
+		<t id="689107">Dieses Schiff kann leider nicht an dieser Station andocken.</t>
+		<t id="689108">Ziel</t>
+		<t id="689109">Kosten</t>
+		<t id="689110">Sind Sie sicher?</t>
+		<t id="689111">Steigen Sie ein</t>
+		<t id="689112">Ziel</t>
+		<t id="689113">Transporter Anfordern</t>
+		<t id="689114">Derzeit sind keine Transporte verfügbar.</t>
+		<t id="689115">Wohin?</t>
+		<t id="689116">Ok, ich bin bald da.</t>
+		<t id="689117">Ich brauche keinen Transport mehr.</t>
+		<t id="689118">Ok, ich bin hier. Kommen Sie an Bord.</t>
+		<t id="689119">Ich brauche diesen Transport nicht mehr.</t>
+		<t id="689120">Ankunftszeit</t>
+		<t id="689121">Ich suche nach einer Mitfahrgelegenheit.</t>
+		<t id="689122">Lassen Sie mich den Piloten kontaktieren.</t>
+		<t id="689123">Warten Sie auf</t>
+		<t id="689124">Aussteigen</t>
+		<t id="689125">Ich habe die Entfernung zu den Kosten eingerechnet.</t>
+		<t id="689126">TAXI</t>
+		<t id="689127">Wiedereinstellung</t>
+		<t id="689128">Ich habe den Kontakt zu unserem Ziel verloren.</t>
+		<t id="689129">Ich brauche eine Fahrt zur nächsten Werft.</t>
+		<t id="689130">Ich brauche eine Fahrt zur nächstgelegenen Werft.</t>
+		<t id="689131">Zur nächsten Werft.</t>
+		<t id="689132">Docke an der nächsten Werft.</t>
+		<t id="689133">Leider können Sie sich das nicht leisten.</t>
+		<!-- npc bank loans convo -->
+		<t id="689200">Ich hätte gerne einen Bankkredit.</t>
+		<t id="689201">Bitte sehr.</t>
+		<t id="689202">Denken Sie daran, dass der Zinssatz 1% pro Stunde berechnet wird.</t>
+		<t id="689203">Ich möchte meinen Bankkredit \(%1(Cr)\) auszahlen.</t>
+		<t id="689204">(chc crime name)Unbezahlte Darlehen</t>
+		<!-- npc bankdarlehen ui -->
+		<t id="689300">Bankdarlehen</t>
+		<t id="689301">Station</t>
+		<t id="689302">Kreditgeber</t>
+		<t id="689303">Darlehen</t>
+		<t id="689304">Zinssatz</t>
+		<t id="689305">Darlehen auszahlen</t>
+		<t id="689306">%1(Zahl)%% pro Stunde</t>
+		<t id="689307">%s($STATION_NAME$) auf Karte anzeigen</t>
+		<t id="689308">Leitfaden auf %s($LENDER_NAME$)einstellen</t>
+		<!-- npc bridge crew -->
+		<t id="689401">Helm</t>
+		<t id="689402">Taktisch</t>
+		<t id="689403">Technik</t>
+		<t id="689404">Target %1(enemy)?</t>
+		<t id="689405">\(Bestellung geben.\)</t>
+		<t id="689406">Feindbericht</t>
+		<t id="689407">Gegner: %s(Gegner).\nSektor: %s(Sektor).\nGemeldet von: %s(Name) \(%s(Schiffsname)\).</t>
+		<t id="689408">Kehren Sie auf Ihren Posten zurück.</t>
+		<!-- orders: patrol -->
+		<t id="690001">Feindliche Jäger, Korvetten und Fregatten melden</t>
+		<t id="690002">Feindliche Zerstörer und Großkampfschiffe melden</t>
+		<t id="690003">Keine Feinde angreifen</t>
+	</page>
+</language>

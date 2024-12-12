@@ -7,4 +7,28 @@
   <remove sel="//faction[@id='tradefederation']/relations/@locked" />
   <remove sel="//faction[@id='tagge']/relations/@locked" />
   <remove sel="//faction[@id='bankingclan']/relations/@locked" />
+
+  <!-- npc reactions -->
+  <add sel="/factions">
+    <faction id="kuertee_npcr_taxi" name="{1416318, 689101}" description="{1416318, 689101}" shortname="{1416318, 689126}" primaryrace="argon" behaviourset="default" known="1" tags="hidden">
+      <color r="57" g="255" b="64" />
+      <icon active="faction_civilian" inactive="faction_civilian" />
+      <relations locked="1" />
+    </faction>
+  </add>
+
+  <!-- alternatives to death -->
+  <add sel="/factions">
+    <faction id="playertrust" name="{111204, 200}" description="{111204, 201}" shortname="{111204, 202}" primaryrace="argon" behaviourset="default" known="1" tags="hidden">
+      <color r="57" g="255" b="64" />
+      <icon active="faction_player" inactive="faction_player" />
+      <relations locked="1" />
+    </faction>
+    <faction id="kATD_moneysink" name="'kATD_money_sink'" description="'kATD_money_sink'" shortname="'kATD'" primaryrace="argon" behaviourset="default" known="1" tags="hidden">
+      <color r="57" g="255" b="64" />
+      <icon active="faction_player" inactive="faction_player" />
+      <relations locked="1" />
+    </faction>
+  </add>
+
 </diff>

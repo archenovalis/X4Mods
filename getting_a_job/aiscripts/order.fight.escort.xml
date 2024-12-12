@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+<!-- add. purpose: flee instead of attack.
+	<create_order id="$attackorderid" object="this.assignedcontrolled" immediate="true">
+-->
+	<add pos="before" sel="//create_order[@id=&quot;$attackorderid&quot;][@object=&quot;this.assignedcontrolled&quot;][@immediate=&quot;true&quot;]">
+		<do_if value="@this.assignedcontrolled.commander.order.$kNPCRParam_doNotEngage">
+			<set_value name="$kNPCR_isSkipAttack" exact="true" />
+		</do_if>
+	</add>
+	<add sel="//create_order[@id=&quot;$attackorderid&quot;][@object=&quot;this.assignedcontrolled&quot;][@immediate=&quot;true&quot;]" type="@chance">if @$kNPCR_isSkipAttack then 0 else 100</add>
+	<add pos="after" sel="//create_order[@id=&quot;$attackorderid&quot;][@object=&quot;this.assignedcontrolled&quot;][@immediate=&quot;true&quot;]">
+		<do_if value="@$kNPCRParam_isValid and @$kNPCR_isSkipAttack">
+			<!-- flee or ignore -->
+			<set_value name="$kNPCR_isIgnore" exact="false" />
+			<do_if value="@global.$kAAIT" comment="kuda is installed">
+				<set_value name="$kAAIT_test_attackTargetInTheWayOrNot" exact="$enemy" />
+				<include_interrupt_actions ref="kAAIT_GetAttackOrIgnoreTargetInTheWay" />
+				<do_if value="$kAAIT_result_isTargetInTheWayIgnored">
+					<set_value name="$kNPCR_isIgnore" exact="true" />
+				</do_if>
+			</do_if>
+			<do_elseif value="$enemy.primarypurpose == purpose.fight and @$enemy.threatscore / @this.assignedcontrolled.threatscore le 0.75">
+				<set_value name="$kNPCR_isIgnore" exact="true" />
+			</do_elseif>
+			<do_if value="not $kNPCR_isIgnore">
+				<create_order object="this.assignedcontrolled" id="'Flee'" immediate="true" override="true">
+					<param name="method" value="['boost', 'highway', 'dock'].random" />
+					<param name="attacker" value="$attacktarget" />
+					<param name="log" value="false" />
+				</create_order>
+			</do_if>
+		</do_if>
+	</add>
+</diff>

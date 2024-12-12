@@ -1,0 +1,1745 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_npc_taxis" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<cues>
+		<cue name="UserSettings">
+			<actions>
+				<set_value name="UserSettings.$userTaxiCostMultiplierPerGate" exact="0" />
+			</actions>
+		</cue>
+		<cue name="kNPCTaxis" namespace="this" version="3">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<set_value name="kNPCTaxis.$attentionVisibleAndNearer" exact="[attention.visible, attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+			</actions>
+			<patch sinceversion="2">
+				<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+				<do_if value="$userTaxiCostMultiplierPerGate?">
+					<set_value name="UserSettings.$userTaxiCostMultiplierPerGate" exact="$userTaxiCostMultiplierPerGate" />
+				</do_if>
+			</patch>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, state: ' + this.state" />
+				<set_value name="kNPCTaxis.$attentionVisibleAndNearer" exact="[attention.visible, attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+			</patch>
+			<cues>
+				<cue name="Init" version="2">
+					<patch sinceversion="2" state="waiting">
+						<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+					</patch>
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<set_value name="$taxi" exact="null" />
+						<set_value name="$npc" exact="null" />
+						<set_value name="$npcKnowsPilotData" exact="table[]" />
+						<set_value name="$station" exact="null" />
+						<set_value name="$paintMods" exact="[]" />
+						<get_ware_definition result="$paintMods" tags="[tag.paintmod]" />
+						<do_if value="not @kNPCTaxis.$taxis">
+							<create_group groupname="kNPCTaxis.$taxis" />
+						</do_if>
+						<set_value name="player.entity.$ui_kNPCTaxis_data" exact="table[
+							$userIsTaxis = md.kuertee_npc_reactions.NPCReactions.$userIsTaxis
+						]" />
+						<debug_text text="'player.entity.$ui_kNPCTaxis_data: ' + player.entity.$ui_kNPCTaxis_data" />
+					</actions>
+					<cues>
+						<cue name="Init2" checktime="player.age + 1s">
+							<actions>
+								<do_if value="DestroyUnusedTaxis.state == cuestate.waiting">
+									<signal_cue cue="DestroyUnusedTaxis" />
+								</do_if>
+								<reset_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="kNPCTaxis_CleanUp">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<remove_value name="player.entity.$ui_kNPCTaxis_data" />
+						<debug_text text="'player.entity.$ui_kNPCTaxis_data: ' + @player.entity.$ui_kNPCTaxis_data" />
+						<do_if value="CleanUp.state == cuestate.waiting">
+							<signal_cue_instantly cue="CleanUp" param="table[$isCleanUpForced = true]" />
+						</do_if>
+					</actions>
+					<cues>
+						<cue name="CleanUp2" checktime="player.age + 1s">
+							<actions>
+								<do_if value="DestroyUnusedTaxis.state == cuestate.waiting">
+									<signal_cue cue="DestroyUnusedTaxis" />
+								</do_if>
+								<reset_cue cue="kNPCTaxis" />
+								<reset_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnPlayerTalkToPilot">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<check_all>
+								<event_conversation_started conversation="default" />
+								<check_value value="not @event.object.hasrelation.enemy.{faction.player}" />
+								<check_value value="(not player.occupiedship) and player.ship and player.ship.aipilot == @event.object" />
+								<check_value value="not player.ship.isplayerowned" />
+							</check_all>
+						</check_any>
+					</conditions>
+					<actions>
+						<debug_text text="'event.name: ' + event.name" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists">
+							<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kNPCTaxis_pilot" exact="table[
+								$signalCue = OnPlayerTalkToPilot,
+								$params = table[$object=@event.object]
+							]" />
+						</do_if>
+						<do_else>
+							<set_value name="$taxi" exact="player.ship" />
+							<set_value name="$npc" exact="event.object" />
+							<do_if value="not @$npc.isclass.entity">
+								<set_value name="$npc" exact="event.param.$object" />
+							</do_if>
+							<debug_text text="'$taxi: ' + $taxi + ' (' + $taxi.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<debug_text text="'$npc: ' + $npc + ' (' + $npc.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<do_if value="$npc.owner == faction.player">
+								<add_player_choice text="{1416318, 689104}" section="kNPCT_get_destination" comment="Dock at ..." />
+								<!-- <do_if value="not @player.station.isshipyard">
+									<add_player_choice text="{1416318, 689131}" section="kNPCT_to_shipyard" comment="Dock at the nearest shipyard." />
+								</do_if>
+								<do_if value="not @player.station.iswharf">
+									<add_player_choice text="{1416318, 689132}" section="kNPCT_to_wharf" comment="Dock at the nearest wharf." />
+								</do_if> -->
+							</do_if>
+							<do_else>
+								<add_player_choice text="{1416318, 689105}" section="kNPCT_get_destination" comment="I need a ride to ..." />
+								<do_if value="not @player.station.isshipyard">
+									<add_player_choice text="{1416318, 689129}" section="kNPCT_to_shipyard" comment="I need a ride to the nearest shipyard." />
+								</do_if>
+								<do_if value="not @player.station.iswharf">
+									<add_player_choice text="{1416318, 689130}" section="kNPCT_to_wharf" comment="I need a ride to the nearest wharf." />
+								</do_if>
+							</do_else>
+						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<library name="FindTaxis">
+					<actions>
+						<!-- <clear_group group="kNPCTaxis.$taxis" /> -->
+						<find_ship groupname="$ships" space="player.sector" class="[class.ship_m, class.ship_s]" multiple="true" sortbydistanceto="player.entity" append="true">
+							<match_relation_to object="$station" relation="dock"/>
+							<match_relation_of faction="$station.owner" relation="neutral" comparison="ge"/>
+						</find_ship>
+						<get_factions_by_tag result="$validFactions" tag="tag.economic"/>
+						<do_all counter="$i" exact="$ships.count">
+							<set_value name="$ship" exact="$ships.random" />
+							<do_all counter="$j" exact="$ship.wares.list.count">
+								<debug_text text="'$ship.wares.list.{$j}: ' + $ship.wares.list.{$j}.name + ' (' + $ship.wares.list.{$j}.class + ')'" />
+							</do_all>
+							<do_if value="$ship.aipilot.isclass.npc and $ship.owner != faction.player and $station.dockingallowed.{$ship}">
+								<do_if value="kNPCTaxis.$taxis.count lt 5">
+									<remove_from_group group="$ships" object="$ship" />
+									<!-- copy ship and put it in the taxi faction -->
+									<debug_text text="'$ship: ' + $ship.knownname + ' (' + $ship.idcode + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<debug_text text="'$ship.macro: ' + $ship.macro" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<debug_text text="'$ship.loadoutlevel: ' + $ship.loadoutlevel" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<create_ship name="$newShip" macro="$ship.macro" zone="$ship.zone">
+										<owner exact="faction.kuertee_npcr_taxi" />
+										<!-- <safepos object="$station" radius="$ship.size * 2" min="25km" max="50km" allowyaxis="true" /> -->
+										<safepos object="$ship" radius="$ship.size * 2" max="10km" allowyaxis="true" />
+										<pilot>
+											<select faction="$validFactions.random" />
+											<owner faction="faction.kuertee_npcr_taxi" />
+										</pilot>
+									</create_ship>
+									<do_if value="@$newShip.aipilot.isclass.npc">
+										<debug_text text="'$newShip.pilot: ' + $newShip.pilot" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'$newShip.assignedpilot: ' + $newShip.assignedpilot" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'$newShip.aipilot: ' + $newShip.aipilot" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'$newShip.assignedaipilot: ' + $newShip.assignedaipilot" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<generate_loadout result="$loadouts" macro="$ship.macro" level="$ship.loadoutlevel" />
+										<do_all counter="$j" exact="$loadouts.count">
+											<debug_text text="'$loadouts.{$j}: ' + $loadouts.{$j}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<!-- <debug_text text="'$loadouts.{$j}.count: ' + $loadouts.{$j}.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<do_all counter="$k" exact="$loadouts.{$j}.count">
+												<debug_text text="'$loadouts.{$j}.{$k}: ' + $loadouts.{$j}.{$k}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											</do_all> -->
+											<apply_loadout object="$newShip" loadout="$loadouts.{$j}"/>
+										</do_all>
+										<add_paint_mod object="$newShip" ware="kNPCTaxis.$paintMods.random" />
+										<start_script object="$newShip.pilot" name="'orders.base'" />
+										<add_to_group groupname="kNPCTaxis.$taxis" object="$newShip" />
+									</do_if>
+									<do_else>
+										<debug_text text="'$newShip.aipilot.isclass.npc: ' + @$newShip.aipilot.isclass.npc" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<debug_text text="'destroy_object ' + $newShip" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<destroy_object object="$newShip" />
+									</do_else>
+								</do_if>
+								<do_if value="kNPCTaxis.$taxis.count ge 5 and not md.kuertee_npc_reactions.NPCReactions.$DebugChance">
+									<break />
+								</do_if>
+							</do_if>
+						</do_all>
+						<do_all counter="$i" exact="kNPCTaxis.$taxis.count">
+							<debug_text text="'kNPCTaxis.$taxis.{$' + $i + '}:' + kNPCTaxis.$taxis.{$i}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						</do_all>
+						<remove_value name="$ships" />
+					</actions>
+				</library>
+				<cue name="DestroyUnusedTaxis" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="'kNPCTaxis.$taxis.count: ' + kNPCTaxis.$taxis.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<find_ship_by_true_owner groupname="$taxis" space="player.galaxy" faction="faction.kuertee_npcr_taxi" multiple="true" />
+						<debug_text text="'$taxis.count: ' + $taxis.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_all counter="$i" exact="$taxis.count" reverse="true">
+							<do_if value="$taxis.{$i} != @Taxi.$taxi">
+								<debug_text text="'$taxis.{$i}: ' + $taxis.{$i} + ' (' + @$taxis.{$i}.knownname + ') ' + $taxis.{$i}.exists" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<destroy_object object="$taxis.{$i}" />
+							</do_if>
+						</do_all>
+						<debug_text text="'kNPCTaxis.$taxis.count: ' + kNPCTaxis.$taxis.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<debug_text text="'$taxis.count: ' + $taxis.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<!-- <reset_cue cue="this" /> -->
+					</actions>
+					<cues>
+						<cue name="DestroyUnusedTaxis2" checktime="player.age + 1s">
+							<actions>
+								<debug_text text="'kNPCTaxis.$taxis.count: ' + kNPCTaxis.$taxis.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<debug_text text="'$taxis.count: ' + $taxis.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_all counter="$i" exact="$taxis.count" reverse="true">
+									<debug_text text="'$taxis.{$i}: ' + $taxis.{$i} + ' (' + @$taxis.{$i}.knownname + ') ' + $taxis.{$i}.exists" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								</do_all>
+								<debug_text text="'kNPCTaxis.$taxis.count: ' + kNPCTaxis.$taxis.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<debug_text text="'$taxis.count: ' + $taxis.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<reset_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnPlayerTalkToBarPatron">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<check_all>
+								<event_conversation_started conversation="default" />
+								<check_value value="(not @event.object.ismissionactor) or @event.object.isshadyguy" />
+								<check_value value="not @event.object.hasrelation.enemy.{faction.player}" />
+							</check_all>
+						</check_any>
+						<check_value value="player.room.type == roomtype.bar or player.room.macro == macro.room_gen_bar_01_macro" />
+					</conditions>
+					<actions>
+						<debug_text text="'event.name: ' + event.name" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<debug_text text="'event.object: ' + event.object + ' (' + event.object.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<reset_cue cue="OnPlayerEnterExitStation" />
+						<do_if value="event.name == 'event_cue_signalled'">
+							<set_value name="$barNPC" exact="@event.param.$barNPC" />
+						</do_if>
+						<do_else>
+							<set_value name="$barNPC" exact="event.object" />
+							<debug_text text="'$barNPC: ' + $barNPC + ' (' + $barNPC.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<debug_text text="'$npcKnowsPilotData.{$barNPC}: ' + @$npcKnowsPilotData.{$barNPC}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<debug_text text="'player.room: ' + player.room" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<debug_text text="'player.room.type: ' + player.room.type" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<debug_text text="'player.room.macro: ' + player.room.macro" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<do_if value="not @$npcKnowsPilotData.{$barNPC}">
+								<set_value name="$npcKnowsPilotData.{$barNPC}" exact="table[$taxi = null, $RewardCr = 0]" />
+								<set_value name="$npcKnowsPilotData.{$barNPC}.$random" min="1" max="100" />
+								<do_if value="$npcKnowsPilotData.{$barNPC}.$random gt 50 or md.kuertee_npc_reactions.NPCReactions.$DebugChance">
+									<set_value name="$station" exact="player.station" />
+									<include_actions ref="FindTaxis" />
+									<set_value name="$assignedTaxiToBarPatron" exact="kNPCTaxis.$taxis.random" />
+									<debug_text text="'$assignedTaxiToBarPatron: ' + $assignedTaxiToBarPatron + ' (' + $assignedTaxiToBarPatron.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<set_value name="$npcKnowsPilotData.{$barNPC}.$taxi" exact="$assignedTaxiToBarPatron" />
+									<set_value name="$npc" exact="$npcKnowsPilotData.{$barNPC}.$taxi.aipilot" />
+									<include_actions ref="GetTaxiCost" />
+									<set_value name="$npcKnowsPilotData.{$barNPC}.$RewardCr" exact="$RewardCr / 2ct" />
+								</do_if>
+							</do_if>
+						</do_else>
+						<do_if value="
+							event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists
+							and
+							@$npcKnowsPilotData.{$barNPC}.$taxi.exists
+						">
+							<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kNPCTaxis_barPatron" exact="table[
+								$signalCue = OnPlayerTalkToBarPatron,
+								$params = table[$barNPC = $barNPC]
+							]" />
+						</do_if>
+						<do_else>
+							<debug_text text="'$npcKnowsPilotData.{$barNPC}: ' + $npcKnowsPilotData.{$barNPC}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<debug_text text="'$npcKnowsPilotData.{$barNPC}.$taxi: ' + $npcKnowsPilotData.{$barNPC}.$taxi + ' (' + @$npcKnowsPilotData.{$barNPC}.$taxi.name + ', ' + @$npcKnowsPilotData.{$barNPC}.$taxi.exists + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<do_if value="$npcKnowsPilotData.{$barNPC}.$taxi.exists">
+								<add_player_choice text="{1416318, 689121}" section="kNPCTxBar_contact_pilot" comment="{1416318, 689121} = I'm looking for transport." />
+							</do_if>
+						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnPlayerEnterExitStation">
+					<conditions>
+						<check_any>
+							<check_all>
+								<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+								<check_any>
+									<check_value value="@event.param2.$teleportTo.exists" />
+									<check_value value="@event.param2.$dockAt.exists" />
+								</check_any>
+							</check_all>
+							<check_all>
+								<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+								<check_any>
+									<check_value value="@event.param2.$leaveFrom.exists" />
+									<check_value value="@event.param2.$undockFrom.exists" />
+								</check_any>
+							</check_all>
+						</check_any>
+					</conditions>
+					<actions>
+						<set_value name="$station_this" exact="@event.param2.$teleportTo" />
+						<do_if value="not @$station_this.exists">
+							<set_value name="$station_this" exact="@event.param2.$dockAt" />
+						</do_if>
+						<do_if value="not @$station_this.exists">
+							<set_value name="$station_this" exact="@event.param2.$leaveFrom" />
+						</do_if>
+						<do_if value="not @$station_this.exists">
+							<set_value name="$station_this" exact="@event.param2.$undockFrom" />
+						</do_if>
+						<do_if value="$station_this != $station">
+							<set_value name="$station" exact="$station_this" />
+							<debug_text text="'$station: ' + $station + ' (' + @$station.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<do_if value="DestroyUnusedTaxis.state == cuestate.waiting">
+								<signal_cue cue="DestroyUnusedTaxis" />
+							</do_if>
+							<set_value name="$npcKnowsPilotData" exact="table[]" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<library name="GetTaxiCost">
+					<actions>
+						<set_value name="$MissionThread" exact="null" />
+						<set_value name="$OfferType" exact="null" />
+						<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[namespace, level.trivial, 1, $npc.owner]" comment="basic reward credits"/>
+						<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus"/>
+						<set_value name="$RewardCr" exact="$Reward_Money__Result_Multiplied"/>
+						<do_if value="$taxi.isclass.ship_xs">
+							<set_value name="$RewardCr" exact="($RewardCr / 3)f * 3ct" />
+						</do_if>
+						<do_elseif value="$taxi.isclass.ship_s">
+							<set_value name="$RewardCr" exact="($RewardCr / 3)f * 2ct" />
+						</do_elseif>
+						<do_elseif value="$taxi.isclass.ship_m">
+							<set_value name="$RewardCr" exact="($RewardCr / 3)f * 1ct" />
+						</do_elseif>
+						<do_elseif value="$taxi.isclass.ship_l">
+							<set_value name="$RewardCr" exact="($RewardCr / 3)f / 2ct" />
+						</do_elseif>
+						<do_elseif value="$taxi.isclass.ship_xl">
+							<set_value name="$RewardCr" exact="($RewardCr / 3)f / 3ct" />
+						</do_elseif>
+					</actions>
+				</library>
+				<library name="SetTaxiCostByDistance">
+					<actions>
+						<set_value name="$gateDistance" exact="0" />
+						<do_if value="UserSettings.$userTaxiCostMultiplierPerGate and @$destination">
+							<set_value name="$gateDistance" exact="$destination.gatedistance.{player.entity}" />
+							<debug_text text="'$gateDistance: ' + $gateDistance" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<set_value name="$RewardCr" exact="$RewardCr + ($RewardCr * UserSettings.$userTaxiCostMultiplierPerGate * $gateDistance)" />
+						</do_if>
+					</actions>
+				</library>
+				<library name="GetIsOkToDock">
+					<actions>
+						<!-- <find_dockingbay name="$dockingBays" multiple="true" object="$objectOfDock" />
+						<create_list name="$dockSizes" />
+						<do_for_each name="$dockingBay" in="$dockingBays">
+							<do_for_each name="$dockSize" in="$dockingBay.macro.docksizes">
+								<do_if value="not $dockSizes.indexof.{$dockSize}">
+									<append_to_list name="$dockSizes" exact="$dockSize" />
+								</do_if>
+							</do_for_each>
+						</do_for_each>
+						<set_value name="$taxiDockSize" exact="$dockingObject.docksize" />
+						<set_value name="$isOkToDock" exact="false" />
+						<do_if value="$dockSizes.indexof.{$taxiDockSize}">
+							<set_value name="$isOkToDock" exact="true" />
+						</do_if> -->
+						<debug_text text="'$objectOfDock: ' + $objectOfDock + ' (' + $objectOfDock.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<set_value name="$isOkToDock" exact="$objectOfDock.dockingallowed.{$dockingObject}" />
+					</actions>
+				</library>
+				<cue name="OnConversationSection">
+					<conditions>
+						<event_conversation_next_section sectionprefix="kNPCT_" />
+					</conditions>
+					<actions>
+						<debug_text text="'event.param: ' + event.param" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="event.param == 'kNPCT_get_destination'">
+							<open_conversation_menu menu="MapMenu" param="[0, 0, true, player.entity, null, 'selectComponent', ['kNPCT_get_cost', [class.ship, class.station]]]" />
+						</do_if>
+						<do_elseif value="event.param == 'kNPCT_get_cost' or event.param == 'kNPCT_to_shipyard' or event.param == 'kNPCT_to_wharf'">
+							<set_value name="$destination" exact="null" />
+							<do_if value="event.param == 'kNPCT_get_cost'">
+								<set_value name="$choiceparam" exact="event.param2" />
+								<debug_text text="'$choiceparam: ' + $choiceparam" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="typeof $choiceparam == datatype.list">
+									<set_value name="$destination" exact="$choiceparam.{1}" />
+								</do_if>
+								<do_else>
+									<set_value name="$destination" exact="$choiceparam" />
+								</do_else>
+							</do_if>
+							<do_elseif value="event.param == 'kNPCT_to_shipyard'">
+								<find_station name="$shipyardsOrWharves" shipyard="true" space="player.galaxy" multiple="true" sortbydistanceto="player.entity">
+									<!-- <match_object object="@player.station" negate="true" /> -->
+									<!-- <match_relation_to object="player.entity" comparison="ge" relation="dock" /> -->
+									<match_relation_to object="$npc.owner" comparison="ge" relation="dock" />
+									<match owner="[faction.player, faction.khaak, faction.xenon, faction.ownerless]" negate="true" />
+								</find_station>
+								<do_all counter="$i" exact="$shipyardsOrWharves.count">
+									<set_value name="$shipyardOrWharf" exact="$shipyardsOrWharves.{$i}" />
+									<do_if value="$shipyardOrWharf.shiptrader and $shipyardOrWharf != @player.station">
+										<set_value name="$destination" exact="$shipyardOrWharf" />
+										<break />
+									</do_if>
+								</do_all>
+								<remove_value name="$shipyardsOrWharves" />
+								<remove_value name="$shipyardOrWharf" />
+							</do_elseif>
+							<do_elseif value="event.param == 'kNPCT_to_wharf'">
+								<find_station name="$shipyardsOrWharves" wharf="true" space="player.galaxy" multiple="true" sortbydistanceto="player.entity">
+									<!-- <match_object object="@player.station" negate="true" /> -->
+									<!-- <match_relation_to object="player.entity" comparison="ge" relation="dock" /> -->
+									<match_relation_to object="$npc.owner" comparison="ge" relation="dock" />
+									<match owner="[faction.player, faction.khaak, faction.xenon, faction.ownerless]" negate="true" />
+								</find_station>
+								<debug_text text="'$shipyardsOrWharves.count: ' + $shipyardsOrWharves.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_all counter="$i" exact="$shipyardsOrWharves.count">
+									<set_value name="$shipyardOrWharf" exact="$shipyardsOrWharves.{$i}" />
+									<debug_text text="'$shipyardOrWharf: ' + $shipyardOrWharf + ' (' + $shipyardOrWharf.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<debug_text text="'$shipyardOrWharf.shiptrader: ' + $shipyardOrWharf.shiptrader + ' (' + $shipyardOrWharf.shiptrader.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<do_if value="$shipyardOrWharf.shiptrader and $shipyardOrWharf != @player.station">
+										<set_value name="$destination" exact="$shipyardOrWharf" />
+										<break />
+									</do_if>
+								</do_all>
+								<remove_value name="$shipyardsOrWharves" />
+								<remove_value name="$shipyardOrWharf" />
+							</do_elseif>
+							<debug_text text="'$destination: ' + $destination + ' (' + $destination.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<set_value name="$objectOfDock" exact="$destination" />
+							<debug_text text="'$dockingObject: ' + @$dockingObject + ' (' + @$dockingObject.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<set_value name="$dockingObject" exact="$taxi" />
+							<include_actions ref="GetIsOkToDock" />
+							<do_if value="$isOkToDock">
+								<include_actions ref="GetTaxiCost" />
+								<do_if value="$npc.owner != faction.player">
+									<include_actions ref="SetTaxiCostByDistance" />
+									<!-- <do_if value="player.money ge $RewardCr"> -->
+										<do_if value="@$gateDistance">
+											<add_npc_line actor="$npc" page="1416318" line="689125" hidechoices="true" comment="I included the distance to the cost." />
+										</do_if>
+										<add_npc_line actor="$npc" page="1416318" line="689110" hidechoices="true" comment="Are you sure?" />
+										<add_player_choice text="{1001, 2617} + ': ' + $RewardCr.formatted.{'%s %Cr'} + '.'" section="kNPCT_confirm_taxi" comment="Yes" />
+										<add_player_choice_return text="{1001, 2618} + '.'" position="bottom_right" comment="No" />
+									<!-- </do_if> -->
+								</do_if>
+								<do_else>
+									<add_npc_line actor="$npc" line="[2103,2104,2105].random" hidechoices="true" comment="affirmative, confirmed, acknowledged"/>
+									<debug_text text="'$taxi: ' + $taxi" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<signal_cue_instantly cue="SignalTaxiNow" param="table[$origin = player.ship, $destination = $destination, $taxi = $taxi, $RewardCr = 0]" />
+								</do_else>
+							</do_if>
+							<do_else>
+								<do_if value="$destination.isclass.ship">
+									<add_npc_line actor="$npc" page="1416318" line="689106" hidechoices="true" comment="Sorry, this ship can't dock on that ship."/>
+								</do_if>
+								<do_else>
+									<add_npc_line actor="$npc" page="1416318" line="689107" hidechoices="true" comment="Sorry, this ship can't dock at that station."/>
+								</do_else>
+							</do_else>
+						</do_elseif>
+						<do_elseif value="event.param == 'kNPCT_confirm_taxi'">
+							<do_if value="player.money ge $RewardCr">
+								<add_npc_line actor="$npc" line="[2103,2104,2105].random" hidechoices="true" comment="affirmative, confirmed, acknowledged"/>
+								<signal_cue_instantly cue="SignalTaxiNow" param="table[$origin = player.ship, $destination = $destination, $taxi = $taxi, $RewardCr = $RewardCr]" />
+							</do_if>
+							<do_else>
+								<!-- <t id="689133">Sorry, you can't afford that.</t> -->
+								<add_npc_line actor="$npc" page="1416318" line="689133" hidechoices="true" />
+							</do_else>
+						</do_elseif>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnBarConversationSection">
+					<conditions>
+						<event_conversation_next_section sectionprefix="kNPCTxBar_" />
+					</conditions>
+					<actions>
+						<do_if value="event.param == 'kNPCTxBar_contact_pilot'">
+							<add_npc_line actor="event.object" page="1416318" line="689122" hidechoices="true" comment="Let me contact the pilot." />
+							<signal_cue_instantly cue="CallForTransport" param="table[$taxi = $npcKnowsPilotData.{event.object}.$taxi, $RewardCr = $npcKnowsPilotData.{event.object}.$RewardCr]" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="CallForTransport" instantiate="true">
+					<conditions>
+						<check_any>
+							<event_ui_triggered screen="'kNPCTaxis'" control="'call_for_transport'" />
+							<event_cue_signalled />
+						</check_any>
+					</conditions>
+					<actions>
+						<do_if value="event.name == 'event_ui_triggered' and Taxi.state != cuestate.waiting and @Taxi.$taxi.dock.container == player.container">
+							<signal_cue_instantly cue="SetStage" param="table[$stage = Taxi.$stages.$rehire]" />
+							<reset_cue cue="this" />
+						</do_if>
+						<do_else>
+							<set_value name="$taxi" exact="@event.param.$taxi" />
+							<set_value name="$RewardCr" exact="@event.param.$RewardCr" />
+							<do_if value="CallForTransport2.state != cuestate.waiting and @CallForTransport2.CallForTransportCleanUp.state == cuestate.waiting">
+								<signal_cue_instantly cue="CallForTransport2.CallForTransportCleanUp" />
+							</do_if>
+							<do_else>
+								<reset_cue cue="CallForTransport2" />
+							</do_else>
+						</do_else>
+					</actions>
+					<cues>
+						<cue name="CallForTransportSignalCallForTransport2Cue">
+							<actions>
+								<signal_cue_instantly cue="CallForTransport2" param="table[$taxi = $taxi, $RewardCr = $RewardCr]" />
+								<cancel_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="CallForTransport2" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<reset_cue cue="OnPlayerEnterExitStation" />
+						<set_value name="$station" exact="player.station" />
+						<do_if value="not $station">
+							<set_value name="$station" exact="player.ship" />
+						</do_if>
+						<set_value name="$taxi" exact="@event.param.$taxi" />
+						<set_value name="$RewardCr" exact="@event.param.$RewardCr" />
+						<set_value name="$npc" exact="@$taxi.aipilot" />
+						<do_if value="not $taxi">
+							<include_actions ref="FindTaxis" />
+						</do_if>
+						<set_value name="$orderToDestination" exact="null" />
+						<set_value name="$isTransportConfirmed" exact="false" />
+						<set_value name="$isInTransport" exact="false" />
+					</actions>
+					<cues>
+						<cue name="CallForTransportStart">
+							<actions>
+								<do_if value="not $taxi">
+									<do_if value="kNPCTaxis.$taxis.count">
+										<start_conversation actor="player.computer" conversation="kNPCTxCFT_start" />
+									</do_if>
+									<do_else>
+										<add_npc_line actor="player.computer" page="1416318" line="689114" hidechoices="true" comment="There are no available transports at the moment." />
+										<signal_cue cue="CallForTransportCleanUp" />
+									</do_else>
+								</do_if>
+								<do_else>
+									<debug_text text="'$taxi: ' + $taxi.knownname + ' (' + $taxi.idcode + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<!-- <debug_text text="'$RewardCr: ' + $RewardCr" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+									<set_value name="$selectedTaxi" exact="$taxi" />
+									<start_conversation actor="player.computer" conversation="kNPCTxBar_start" convparam="table[$selectedTaxi = $taxi, $RewardCr = $RewardCr]" />
+								</do_else>
+							</actions>
+						</cue>
+						<cue name="CallForTransportCleanUp">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<event_cue_cancelled cue="namespace" />
+								</check_any>
+							</conditions>
+							<actions>
+								<debug_text text="namespace" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<cancel_cue cue="parent" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<library name="AddPlayerChoiceTransports">
+							<actions>
+								<do_all counter="$i" exact="kNPCTaxis.$taxis.count">
+									<set_value name="$taxi" exact="kNPCTaxis.$taxis.{$i}" />
+									<set_value name="$npc" exact="$taxi.aipilot" />
+									<set_value name="$destination" exact="null" />
+									<include_actions ref="GetTaxiCost" />
+									<add_player_choice_sub
+										text="$taxi.aipilot.name + ' (' + $taxi.type + ', ' + (($taxi.distanceto.{player.entity} / 1000 * 100)i / 100f) + 'km): ' + $RewardCr.formatted.{'%s %Cr'}"
+										section="kNPCTxCFT_select_taxi"
+										choiceparam="table[$selectedTaxi = $taxi, $RewardCr = $RewardCr]" />
+								</do_all>
+								<add_player_choice_return text="{1416318, 689117}" comment="I don't need a transport anymore." />
+							</actions>
+						</library>
+						<cue name="OnTransportConversationStarted">
+							<conditions>
+								<event_conversation_started conversation="kNPCTxCFT_start" />
+								<check_value value="not $isTransportConfirmed" />
+							</conditions>
+							<actions>
+								<include_actions ref="AddPlayerChoiceTransports" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="OnTransportConversationNextSection">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<event_conversation_started conversation="kNPCTxBar_start" />
+									<event_conversation_next_section sectionprefix="kNPCTxCFT_" />
+								</check_any>
+								<check_value value="not $isTransportConfirmed" />
+							</conditions>
+							<actions>
+								<do_if value="event.param == 'kNPCTxCFT_select_taxi'">
+									<set_value name="$selectedTaxi" exact="event.param2.$selectedTaxi" />
+									<debug_text text="'$selectedTaxi: ' + $selectedTaxi.knownname + ' (' + $selectedTaxi.idcode + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<set_value name="$npc" exact="$selectedTaxi.aipilot" />
+									<set_value name="$RewardCr" exact="event.param2.$RewardCr" />
+									<set_value name="$caption" exact="{1416318, 689115} + '\n'" comment="Where to?" />
+									<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+									<add_player_choice text="{1416318, 689105}" section="kNPCTxCFT_get_destination" comment="I need a ride to ..." />
+									<do_if value="not @player.station.isshipyard">
+										<add_player_choice text="{1416318, 689129}" section="kNPCTxCFT_to_shipyard" comment="I need a ride to the nearest shipyard." />
+									</do_if>
+									<do_if value="not @player.station.iswharf">
+										<add_player_choice text="{1416318, 689130}" section="kNPCTxCFT_to_wharf" comment="I need a ride to the nearest wharf." />
+									</do_if>
+									<add_player_choice_return text="{1416318, 689119}" position="bottom_right" comment="I don't need this transport anymore." />
+								</do_if>
+								<do_elseif value="event.param == 'kNPCTxBar_start'">
+									<set_value name="$selectedTaxi" exact="event.param2.$selectedTaxi" />
+									<debug_text text="'$selectedTaxi: ' + $selectedTaxi.knownname + ' (' + $selectedTaxi.idcode + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<set_value name="$npc" exact="$selectedTaxi.aipilot" />
+									<set_value name="$RewardCr" exact="event.param2.$RewardCr" />
+									<set_value name="$caption" exact="{1416318, 689115} + '\n'" comment="Where to?" />
+									<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+									<add_player_choice text="{1416318, 689105}" section="kNPCTxCFT_get_destination" comment="I need a ride to ..." />
+									<do_if value="not @player.station.isshipyard">
+										<add_player_choice text="{1416318, 689129}" section="kNPCTxCFT_to_shipyard" comment="I need a ride to the nearest shipyard." />
+									</do_if>
+									<do_if value="not @player.station.iswharf">
+										<add_player_choice text="{1416318, 689130}" section="kNPCTxCFT_to_wharf" comment="I need a ride to the nearest wharf." />
+									</do_if>
+									<add_player_choice_return text="{1416318, 689119}" position="bottom_right" comment="I don't need this transport anymore." />
+								</do_elseif>
+								<do_elseif value="event.param == 'kNPCTxCFT_get_destination'">
+									<open_conversation_menu menu="MapMenu" param="[0, 0, true, player.entity, null, 'selectComponent', ['kNPCTxCFT_show_cost', [class.ship, class.station]]]" />
+								</do_elseif>
+								<do_elseif value="event.param == 'kNPCTxCFT_show_cost' or event.param == 'kNPCTxCFT_to_shipyard' or event.param == 'kNPCTxCFT_to_wharf'">
+									<do_if value="event.param == 'kNPCTxCFT_show_cost'">
+										<set_value name="$mapSelections" exact="event.param2" />
+										<debug_text text="'$mapSelections: ' + $mapSelections" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<do_if value="typeof $mapSelections == datatype.list">
+											<set_value name="$destination" exact="$mapSelections.{1}" />
+										</do_if>
+										<do_else>
+											<set_value name="$destination" exact="$mapSelections" />
+										</do_else>
+									</do_if>
+									<do_elseif value="event.param == 'kNPCTxCFT_to_shipyard'">
+										<find_station name="$shipyardsOrWharves" shipyard="true" space="player.galaxy" multiple="true" sortbydistanceto="player.entity">
+											<!-- <match_object object="@player.station" negate="true" /> -->
+											<!-- <match_relation_to object="player.entity" comparison="ge" relation="dock" /> -->
+											<match_relation_to object="$selectedTaxi.owner" comparison="ge" relation="dock" />
+											<match owner="[faction.player, faction.khaak, faction.xenon, faction.ownerless]" negate="true" />
+										</find_station>
+										<do_all counter="$i" exact="$shipyardsOrWharves.count">
+											<set_value name="$shipyardOrWharf" exact="$shipyardsOrWharves.{$i}" />
+											<do_if value="$shipyardOrWharf.shiptrader and $shipyardOrWharf != @player.station">
+												<set_value name="$destination" exact="$shipyardOrWharf" />
+												<break />
+											</do_if>
+										</do_all>
+										<remove_value name="$shipyardsOrWharves" />
+										<remove_value name="$shipyardOrWharf" />
+									</do_elseif>
+									<do_elseif value="event.param == 'kNPCTxCFT_to_wharf'">
+										<find_station name="$shipyardsOrWharves" wharf="true" space="player.galaxy" multiple="true" sortbydistanceto="player.entity">
+											<!-- <match_object object="@player.station" negate="true" /> -->
+											<!-- <match_relation_to object="player.entity" comparison="ge" relation="dock" /> -->
+											<match_relation_to object="$selectedTaxi.owner" comparison="ge" relation="dock" />
+											<match owner="[faction.player, faction.khaak, faction.xenon, faction.ownerless]" negate="true" />
+										</find_station>
+										<debug_text text="'$shipyardsOrWharves.count: ' + $shipyardsOrWharves.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<do_all counter="$i" exact="$shipyardsOrWharves.count">
+											<set_value name="$shipyardOrWharf" exact="$shipyardsOrWharves.{$i}" />
+											<debug_text text="'$shipyardOrWharf: ' + $shipyardOrWharf + ' (' + $shipyardOrWharf.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<debug_text text="'$shipyardOrWharf.shiptrader: ' + $shipyardOrWharf.shiptrader + ' (' + $shipyardOrWharf.shiptrader.name + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+											<do_if value="$shipyardOrWharf.shiptrader and $shipyardOrWharf != @player.station">
+												<set_value name="$destination" exact="$shipyardOrWharf" />
+												<break />
+											</do_if>
+										</do_all>
+										<remove_value name="$shipyardsOrWharves" />
+										<remove_value name="$shipyardOrWharf" />
+									</do_elseif>
+									<set_value name="$objectOfDock" exact="$destination" />
+									<set_value name="$dockingObject" exact="$selectedTaxi" />
+									<include_actions ref="GetIsOkToDock" />
+									<do_if value="$isOkToDock">
+										<set_value name="$caption" exact="''" />
+										<include_actions ref="SetTaxiCostByDistance" />
+										<do_if value="@$gateDistance">
+											<set_value name="$caption" exact="$caption +  + {1416318, 689125} + '\n'" comment="I included the distance to the cost." />
+										</do_if>
+										<set_value name="$caption" exact="$caption + {1416318, 689110} + '\n'" comment="Are you sure?" />
+										<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+										<add_player_choice text="{1001, 2617} + ': ' + $RewardCr.formatted.{'%s %Cr'} + '.'" section="kNPCTxCFT_confirm_taxi" comment="Yes" />
+										<add_player_choice_return text="{1001, 2618} + '.'" position="bottom_right" comment="No" />
+									</do_if>
+									<do_else>
+										<do_if value="$destination.isclass.ship">
+											<set_value name="$caption" exact="{1416318, 689106} + '\n'" comment="Sorry, this ship can't dock on that ship." />
+											<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+										</do_if>
+										<do_else>
+											<set_value name="$caption" exact="{1416318, 689107} + '\n'" comment="Sorry, this ship can't dock at that station." />
+											<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+										</do_else>
+									</do_else>
+								</do_elseif>
+								<do_elseif value="event.param == 'kNPCTxCFT_confirm_taxi'">
+									<signal_cue_instantly cue="SignalTaxiNow" param="table[$origin = $station, $destination = $destination, $taxi = $selectedTaxi, $RewardCr = $RewardCr]" />
+								</do_elseif>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="OnTransportConversationFinished">
+							<conditions>
+								<event_conversation_finished />
+							</conditions>
+							<actions>
+								<!-- delete other taxis not selected -->
+								<debug_text text="'namespace.parent.$assignedTaxiToBarPatron: ' + @namespace.parent.$assignedTaxiToBarPatron" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_all counter="$i" exact="kNPCTaxis.$taxis.count" reverse="true">
+									<do_if value="kNPCTaxis.$taxis.{$i} != @namespace.parent.$assignedTaxiToBarPatron and kNPCTaxis.$taxis.{$i} != @$selectedTaxi">
+										<debug_text text="'destroy_object: ' + kNPCTaxis.$taxis.{$i}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<destroy_object object="kNPCTaxis.$taxis.{$i}" />
+									</do_if>
+								</do_all>
+								<clear_group group="kNPCTaxis.$taxis" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="SignalTaxiNow" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$origin" exact="event.param.$origin" />
+						<set_value name="$destination" exact="event.param.$destination" />
+						<set_value name="$taxi" exact="event.param.$taxi" />
+						<set_value name="$RewardCr" exact="event.param.$RewardCr" />
+						<!-- delete other taxis not selected -->
+						<do_all counter="$i" exact="kNPCTaxis.$taxis.count" reverse="true">
+							<do_if value="kNPCTaxis.$taxis.{$i} != $taxi">
+								<debug_text text="'destroy_object ' + kNPCTaxis.$taxis.{$i}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<destroy_object object="kNPCTaxis.$taxis.{$i}" />
+							</do_if>
+						</do_all>
+						<clear_group group="kNPCTaxis.$taxis" />
+						<debug_text text="'Taxi.state: ' + Taxi.state" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="Taxi.state != cuestate.waiting and CleanUp.state == cuestate.waiting">
+							<do_if value="$taxi == Taxi.$taxi">
+								<signal_cue_instantly cue="CleanUp" param="table[$isCleanUpForReroute = true]" />
+							</do_if>
+							<do_else>
+								<signal_cue cue="CleanUp" />
+							</do_else>
+						</do_if>
+					</actions>
+					<cues>
+						<cue name="SignalTaxiNowActual">
+							<delay exact="1s" />
+							<actions>
+								<signal_cue_instantly cue="Taxi" param="table[$origin = $origin, $destination = $destination, $taxi = $taxi, $RewardCr = $RewardCr]" />
+								<cancel_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="Taxi" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="'event.param: ' + event.param" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<set_value name="$origin" exact="event.param.$origin" />
+						<set_value name="$destination" exact="event.param.$destination" />
+						<set_value name="$taxi" exact="event.param.$taxi" />
+						<set_value name="$RewardCr" exact="event.param.$RewardCr" />
+						<set_value name="$npc" exact="$taxi.aipilot" />
+						<!-- orders -->
+						<set_value name="$orderToOrigin" exact="null" />
+						<set_value name="$orderOriginShipToWait" exact="null" />
+						<set_value name="$orderToWaitAtOrigin" exact="null" />
+						<set_value name="$orderToDestination" exact="null" />
+						<set_value name="$orderDestinationShipToWait" exact="null" />
+						<set_value name="$orderToWaitAtDestination" exact="null" />
+						<set_value name="$orderToAway" exact="null" />
+						<set_value name="$ordersCancelledCount" exact="0" />
+						<!-- stages -->
+						<set_value name="$isAfterDockedAtOriginFirstWarning" exact="false" />
+						<set_value name="$isAfterDockedAtOriginLastWarning" exact="false" />
+						<set_value name="$isStartAlreadyInCockpit" exact="false" />
+						<set_value name="$timeDockedAtOrigin" exact="null" />
+						<set_value name="$timeEnteredAtOrigin" exact="null" />
+						<set_value name="$timeDockedAtDestination" exact="null" />
+						<set_value name="$timeExitedAtDestination" exact="null" />
+						<set_value name="$timeRehire" exact="null" />
+						<!-- stages -->
+						<set_value name="$stage" exact="0" />
+						<set_value name="$stages" exact="table[
+							$flyToOrigin = 1,
+							$arrivedAtOrigin = 2,
+							$dockedAtOrigin = 3,
+							$enteredAtOrigin = 4,
+							$flyToDestination = 5,
+							$arrivedAtDestination = 6,
+							$dockedAtDestination = 7,
+							$exitedAtDestination = 8,
+							$rehire = 9,
+							$flyAway = 10,
+						]" />
+						<do_if value="player.ship == $taxi">
+							<set_value name="$stage" exact="$stages.$enteredAtOrigin" />
+						</do_if>
+					</actions>
+					<cues>
+						<cue name="Taxi_NewSector" namespace="this">
+							<conditions>
+								<event_object_changed_sector object="parent.$taxi" />
+								<check_value value="event.param" />
+							</conditions>
+							<actions>
+								<!-- <set_value name="$entryGate" exact="event.param" />
+								<set_value name="$exitGate" exact="event.param2" />
+								<debug_text text="'$entryGate: ' + $entryGate" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<debug_text text="'$exitGate: ' + $exitGate" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<set_known object="$entryGate" known="true"/>
+								<set_known object="$exitGate" known="true"/>
+								<set_known object="$exitGate.sector" known="true"/>
+								<set_known object="$exitGate.sector.cluster" known="true"/> -->
+								<!-- <signal_cue cue="md.NPC_Instantiation.PlayerChangesSpace" /> -->
+								<set_known object="event.param" known="true"/>
+								<set_known object="event.param.cluster" known="true"/>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<!-- <cue name="Taxi_Finds" namespace="this" instantiate="true">
+							<conditions>
+							</conditions>
+							<actions>
+								<cancel_cue cue="this" />
+							</actions>
+						</cue> -->
+						<cue name="SetStage">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$stage" exact="event.param.$stage" />
+								<debug_text text="'$stage: ' + $stage" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="$stage == $stages.$flyToOrigin">
+									<signal_cue cue="StageFlyToOrigin" />
+									<signal_cue cue="MissionWaitAtOrigin" />
+								</do_if>
+								<do_elseif value="$stage == $stages.$arrivedAtOrigin">
+									<signal_cue cue="StageArrivedAtOrigin" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$dockedAtOrigin">
+									<signal_cue cue="StageDockedAtOrigin" />
+									<signal_cue cue="MissionEnterTaxiAtOrigin" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$enteredAtOrigin">
+									<signal_cue cue="StageEnteredAtOrigin" />
+									<signal_cue cue="MissionDisembarkTaxiAtDestination" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$flyToDestination">
+									<signal_cue cue="StageFlyToDestinationn" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$arrivedAtDestination">
+									<signal_cue cue="StageArrivedAtDestination" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$dockedAtDestination">
+									<signal_cue cue="StageDockedAtDestination" />
+									<signal_cue cue="MissionDisembarkTaxiAtDestination" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$exitedAtDestination">
+									<signal_cue cue="StageExitedAtDestination" />
+									<signal_cue cue="MissionRehireTaxi" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$rehire">
+									<signal_cue cue="StageReHire" />
+									<signal_cue cue="MissionRehireTaxi" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$flyAway">
+									<signal_cue cue="StageFlyAway" />
+								</do_elseif>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageInit">
+							<actions>
+								<do_if value="player.container == $taxi">
+									<set_value name="$isStartAlreadyInCockpit" exact="true" />
+									<set_value name="$timeEnteredAtOrigin" exact="player.age" />
+									<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$enteredAtOrigin]" />
+								</do_if>
+								<do_elseif value="player.container == $destination">
+									<set_value name="$timeExitedAtDestination" exact="player.age" />
+									<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$exitedAtDestination]" />
+								</do_elseif>
+								<do_else>
+									<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$flyToOrigin]" />
+								</do_else>
+							</actions>
+						</cue>
+						<cue name="StageSetterInterval" checkinterval="10s" instantiate="true">
+							<actions>
+								<debug_text text="''" chance="@md.$kuertee_interval" />
+								<set_value name="$timeNow" exact="player.age" />
+								<!-- <debug_text text="'$timeNow: ' + $timeNow" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+								<do_if value="$stage == $stages.$flyToOrigin">
+									<set_value name="$distance" exact="$taxi.distanceto.{player.entity}" />
+									<signal_cue cue="NotifyETA" />
+									<do_if value="$origin.isclass.ship">
+										<do_if value="$distance lt 20km and (not $orderOriginShipToWait)">
+											<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$arrivedAtOrigin]" />
+											<!-- hack: set back stage, so this cue can be recalled for lt 5km distance -->
+											<set_value name="$stage" exact="$stages.$flyToOrigin" />
+										</do_if>
+									</do_if>
+									<do_if value="$distance lt 5km">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$arrivedAtOrigin]" />
+									</do_if>
+								</do_if>
+								<do_elseif value="$stage == $stages.$arrivedAtOrigin">
+									<signal_cue cue="NotifyETA" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$dockedAtOrigin">
+									<do_if value="$timeNow - $timeDockedAtOrigin gt 5min">
+										<do_if value="not $isAfterDockedAtOriginLastWarning">
+											<set_value name="$isAfterDockedAtOriginLastWarning" exact="true" />
+											<do_if value="$taxi.owner != faction.player">
+												<set_value name="$caption" exact="{1416318, 689103} + '\n'" comment="Suit yourself, you Spacefly!" />
+												<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+											</do_if>
+											<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$flyAway]" />
+										</do_if>
+									</do_if>
+									<do_elseif value="$timeNow - $timeDockedAtOrigin gt 2.5min">
+										<do_if value="not $isAfterDockedAtOriginFirstWarning">
+											<set_value name="$isAfterDockedAtOriginFirstWarning" exact="true" />
+											<set_value name="$caption" exact="{1416318, 689102} + '\n'" comment="Do you still need a ride?" />
+											<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+										</do_if>
+									</do_elseif>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$enteredAtOrigin">
+									<do_if value="$timeNow - $timeEnteredAtOrigin gt 15s">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$flyToDestination]" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$flyToDestination">
+									<set_value name="$distance" exact="$taxi.distanceto.{$destination}" />
+									<signal_cue cue="NotifyETA" />
+									<do_if value="$destination.isclass.ship">
+										<do_if value="$distance lt 20km and (not $orderDestinationShipToWait)">
+											<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$arrivedAtDestination]" />
+											<!-- hack: set back stage, so this cue can be recalled for lt 5km distance -->
+											<set_value name="$stage" exact="$stages.$flyToDestination" />
+										</do_if>
+									</do_if>
+									<do_if value="$distance lt 5km">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$arrivedAtDestination]" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$arrivedAtDestination">
+									<signal_cue cue="NotifyETA" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$dockedAtDestination">
+									<do_if value="@player.room.ship != $taxi or (not @player.room.isclass.cockpit)">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$exitedAtDestination]" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$exitedAtDestination">
+									<do_if value="$timeNow - $timeExitedAtDestination gt 15s">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$rehire]" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$rehire">
+									<set_value name="$waitDuration" exact="5min" />
+									<do_if value="$destination.owner.hasrelation.enemy.{faction.player}">
+										<set_value name="$waitDuration" exact="10min" />
+									</do_if>
+									<do_if value="$timeNow - $timeExitedAtDestination gt $waitDuration">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$flyAway]" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$flyAway">
+								</do_elseif>
+							</actions>
+						</cue>
+						<cue name="StageSetterTaxiDocked">
+							<conditions>
+								<event_object_docked object="$taxi" />
+							</conditions>
+							<actions>
+								<do_if value="$stage == $stages.$flyToOrigin or $stage == $stages.$arrivedAtOrigin">
+									<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$dockedAtOrigin]" />
+								</do_if>
+								<do_elseif value="$stage == $stages.$flyToDestination or $stage == $stages.$arrivedAtDestination">
+									<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$dockedAtDestination]" />
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$flyAway">
+									<signal_cue cue="CleanUp" />
+								</do_elseif>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageSetterPlayerChangedRoom">
+							<conditions>
+								<event_object_changed_room object="player.entity" />
+							</conditions>
+							<actions>
+								<set_value name="$room" exact="event.param" />
+								<debug_text text="'$room: ' + $room" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<set_value name="$isWaitPlayerToNearPilot" exact="false" />
+								<do_if value="$stage == $stages.$flyToOrigin">
+									<!-- player can go anywhere while waiting at origin -->
+								</do_if>
+								<do_elseif value="$stage == $stages.$arrivedAtOrigin">
+									<!-- player can go anywhere while waiting at origin -->
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$dockedAtOrigin">
+									<!-- player entered taxi at origin -->
+									<do_if value="$room.ship == $taxi and $room.isclass.cockpit">
+										<set_value name="$isWaitPlayerToNearPilot" exact="true" />
+										<debug_text text="'$isWaitPlayerToNearPilot (1): ' + $isWaitPlayerToNearPilot" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$enteredAtOrigin">
+									<!-- player exited taxi while still at origin -->
+									<do_if value="$room.ship != $taxi or (not $room.isclass.cockpit)">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$dockedAtOrigin]" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$flyToDestination">
+									<!-- player exited taxi enroute -->
+									<do_if value="$room.ship != $taxi or (not $room.isclass.cockpit)">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$flyAway]" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$arrivedAtDestination">
+									<!-- player exited taxi at destination -->
+									<do_if value="$room.ship != $taxi or (not $room.isclass.cockpit)">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$exitedAtDestination]" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$stage == $stages.$dockedAtDestination">
+									<!-- player exited taxi while docked at destination -->
+									<do_if value="$room.ship != $taxi or (not $room.isclass.cockpit)">
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$exitedAtDestination]" />
+									</do_if>
+								</do_elseif>
+								<debug_text text="'$isWaitPlayerToNearPilot (2): ' + $isWaitPlayerToNearPilot" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="not $isWaitPlayerToNearPilot">
+									<remove_value name="$isWaitPlayerToNearPilot" />
+									<reset_cue cue="this" />
+								</do_if>
+							</actions>
+							<cues>
+								<cue name="StageSetterPlayerChangedRoom_WaitForPlayerToNearPilot" instantiate="true" checkinterval="1s">
+									<actions>
+										<!-- <set_value name="$y_diff" exact="player.ship.pilot.position.y - player.entity.position.y" /> -->
+										<!-- <set_value name="$y_diff" exact="[$y_diff * -1, $y_diff].max" /> -->
+										<!-- <debug_text text="'$y_diff: ' + $y_diff" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+										<!-- <do_if value="$y_diff lt 5m"> -->
+										<debug_text text="''" chance="@md.$kuertee_interval" />
+										<do_if value="player.entity.distanceto.{player.ship.pilot} le 5m">
+											<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$enteredAtOrigin]" />
+											<remove_value name="$isWaitPlayerToNearPilot" />
+											<reset_cue cue="parent" />
+										</do_if>
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+						<cue name="StageSetterTeleportToDestination">
+							<conditions>
+								<event_ui_triggered screen="'kNPCTaxis'" control="'teleport_to_destination'" />
+							</conditions>
+							<actions>
+								<teleport_player object="$destination" instant="true" force="true" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageSetterOriginDestroyed">
+							<conditions>
+								<event_object_destroyed object="$origin" />
+							</conditions>
+							<actions>
+								<do_if value="$stage le $stages.$arrivedAtOrigin">
+									<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.flyAway]" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageSetterDestinationDestroyed">
+							<conditions>
+								<event_object_destroyed object="$destination" />
+							</conditions>
+							<actions>
+								<do_if value="$stage le $stages.$arrivedAtOrigin">
+									<set_value name="$caption" exact="{1416318, 689128} + '\n'" comment="I lost contact with our destination." />
+									<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+									<signal_cue_instantly cue="SetStage" param="table[$stage = $stage.rehire]" />
+								</do_if>
+								<do_elseif value="$stage le $stages.$arrivedAtDestination">
+									<speak actor="$npc" page="1416318" line="689128" comment="I lost contact with our destination." />
+									<signal_cue_instantly cue="SetStage" param="table[$stage = $stage.rehire]" />
+								</do_elseif>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageFlyToOrigin">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="not $orderToOrigin">
+									<create_order name="$orderToOrigin" object="$taxi" id="'DockAndWait'" immediate="true">
+										<param name="destination" value="$origin" />
+										<param name="timeout" value="10min" />
+										<param name="waittime" value="1h" />
+										<param name="debugchance" value="md.kuertee_npc_reactions.NPCReactions.$DebugChance == 100" />
+									</create_order>
+									<debug_text text="'$orderToOrigin: ' + $orderToOrigin" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<set_value name="$caption" exact="{1416318, 689116} + '\n'" comment="Ok, I'll be there soon." />
+									<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageArrivedAtOrigin">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="$origin.isclass.ship and $taxi.distanceto.{$origin} lt 20km">
+									<do_if value="not $orderOriginShipToWait">
+										<create_order name="$orderOriginShipToWait" object="$origin" id="'Wait'" immediate="true">
+											<param name="timeout" value="10min"/>
+											<param name="debugchance" value="md.kuertee_npc_reactions.NPCReactions.$DebugChance"/>
+										</create_order>
+										<debug_text text="'$orderOriginShipToWait: ' + $orderOriginShipToWait" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									</do_if>
+								</do_if>
+								<set_value name="$cameraYawStart" min="-360 - 45" max="360 + 45" />
+								<set_value name="$cameraYawEnd" min="90 + 45" max="90 + 90" />
+								<do_if value="($cameraYawEnd - 360) - $cameraYawStart lt $cameraYawEnd - $cameraYawStart">
+									<set_value name="$cameraYawEnd" exact="$cameraYawEnd - 360" />
+								</do_if>
+								<set_value name="$cameraDistance" min="$taxi.size" max="$taxi.size * 2" />
+								<set_value name="$cameraPitch" min="0" max="30" />
+								<do_if value="not $Cutscene_Taxi?">
+									<play_cutscene result="$Cutscene_Taxi" key="'Cutscene_follow_and_rotate'" targetmonitor="true">
+										<param name="duration" number="1h"/>
+										<param name="target_object" object="$taxi"/>
+										<param name="pitch_start" number="$cameraPitch"/>
+										<param name="pitch_end" number="$cameraPitch"/>
+										<param name="yaw_start" number="$cameraYawStart"/>
+										<param name="yaw_end" number="$cameraYawEnd"/>
+										<param name="distance_start" number="$cameraDistance"/>
+										<param name="distance_end" number="$cameraDistance"/>
+									</play_cutscene>
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageDockedAtOrigin">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="not $timeDockedAtOrigin">
+									<set_value name="$timeDockedAtOrigin" exact="player.age" />
+								</do_if>
+								<set_value name="$caption" exact="{1416318, 689118} + '\n'" comment="Ok, I'm here. Come aboard." />
+								<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[$npc = $npc, $caption = $caption]" />
+								<do_if value="not ($taxi.isclass.ship_l or $taxi.isclass.ship_xl)">
+									<do_if value="not $orderToWaitAtOrigin">
+										<create_order name="$orderToWaitAtOrigin" object="$taxi" id="'Wait'" immediate="true">
+											<param name="allowdocked" value="true" />
+											<param name="timeout" value="10min" />
+											<param name="debugchance" value="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										</create_order>
+										<debug_text text="'$orderToWaitAtOrigin: ' + $orderToWaitAtOrigin" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									</do_if>
+									<do_if value="$orderToOrigin">
+										<cancel_order order="$orderToOrigin" />
+										<set_value name="$orderToOrigin" exact="null" />
+									</do_if>
+								</do_if>
+								<do_if value="$orderOriginShipToWait">
+									<cancel_order order="$orderOriginShipToWait" />
+									<set_value name="$orderOriginShipToWait" exact="null" />
+								</do_if>
+								<do_if value="$Cutscene_Taxi?">
+									<stop_cutscene cutscene="$Cutscene_Taxi" />
+									<remove_value name="$Cutscene_Taxi" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageEnteredAtOrigin">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="not $timeEnteredAtOrigin">
+									<set_value name="$timeEnteredAtOrigin" exact="player.age" />
+								</do_if>
+								<!-- <t id="2110">(standard thanks)Thank you.</t> -->
+								<do_if value="$taxi.dock and (not $isStartAlreadyInCockpit)">
+									<!-- <speak actor="$npc" line="10801" comment="We'll be undocking soon." /> -->
+									<speak actor="$npc" line="2110" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageFlyToDestinationn">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="not $orderToDestination">
+									<create_order name="$orderToDestination" object="$taxi" id="'DockAndWait'" immediate="true">
+										<param name="destination" value="$destination" />
+										<param name="timeout" value="10min" />
+										<param name="waittime" value="1h" />
+										<param name="debugchance" value="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									</create_order>
+									<debug_text text="'$orderToDestination: ' + $orderToDestination" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								</do_if>
+								<do_if value="$orderToOrigin">
+									<cancel_order order="$orderToOrigin" />
+									<set_value name="$orderToOrigin" exact="null" />
+								</do_if>
+								<do_if value="$orderToWaitAtOrigin">
+									<cancel_order order="$orderToWaitAtOrigin" />
+									<set_value name="$orderToWaitAtOrigin" exact="null" />
+								</do_if>
+								<do_if value="$taxi.owner != faction.player">
+									<debug_text text="'transfer_money OUT: ' + $RewardCr" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<!-- <transfer_money from="faction.player" to="$npc.trueowner" amount="$RewardCr * 1ct" /> -->
+									<do_if value="@md.VerboseTransactionLog.TransferMoney.exists">
+										<signal_cue_instantly cue="md.VerboseTransactionLog.TransferMoney" param="table[
+											$amount = $RewardCr * 1ct,
+											$description = {1416318, 104},
+											$from = faction.player,
+											$to = $npc.container,
+										]" />
+									</do_if>
+									<do_else>
+										<transfer_money from="faction.player" to="$npc.trueowner" amount="$RewardCr * 1ct" />
+									</do_else>
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageArrivedAtDestination">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<raise_lua_event name="'kNPCTaxis.OnArriveAtDestination'" /><!-- adds the disembark button on the transporter room -->
+								<do_if value="not $orderDestinationShipToWait and $destination.isclass.ship and $taxi.distanceto.{$destination} lt 20km">
+									<create_order name="$orderDestinationShipToWait" object="$destination" id="'Wait'" immediate="true">
+										<param name="timeout" value="10min"/>
+										<param name="debugchance" value="md.kuertee_npc_reactions.NPCReactions.$DebugChance"/>
+									</create_order>
+									<debug_text text="'$orderDestinationShipToWait: ' + $orderDestinationShipToWait" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								</do_if>
+								<do_if value="$taxi.distanceto.{$destination} lt 5km">
+									<speak actor="$npc" line="10404" comment="We've arrived at our destination." />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageDockedAtDestination">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="not $timeDockedAtDestination">
+									<set_value name="$timeDockedAtDestination" exact="player.age" />
+								</do_if>
+								<raise_lua_event name="'kNPCTaxis.OnDisembarkAtDestination'" /><!-- removes the disembark button on the transporter room -->
+								<do_if value="not ($taxi.isclass.ship_l or $taxi.isclass.ship_xl)">
+									<do_if value="not $orderToWaitAtDestination">
+										<create_order name="$orderToWaitAtDestination" object="$taxi" id="'Wait'" immediate="true">
+											<param name="allowdocked" value="true" />
+											<param name="timeout" value="10min" />
+											<param name="debugchance" value="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										</create_order>
+										<debug_text text="'$orderToWaitAtDestination: ' + $orderToWaitAtDestination" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									</do_if>
+									<do_if value="$orderToDestination">
+										<cancel_order order="$orderToDestination" />
+										<set_value name="$orderToDestination" exact="null" />
+									</do_if>
+								</do_if>
+								<do_if value="$orderDestinationShipToWait">
+									<cancel_order order="$orderDestinationShipToWait" />
+									<set_value name="$orderDestinationShipToWait" exact="null" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageExitedAtDestination">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="not $timeExitedAtDestination">
+									<set_value name="$timeExitedAtDestination" exact="player.age" />
+								</do_if>
+								<raise_lua_event name="'kNPCTaxis.OnDisembarkAtDestination'" /><!-- removes the disembark button on the transporter room -->
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageReHire">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="StageFlyAway">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="$taxi.owner == faction.player">
+									<signal_cue cue="CleanUp" />
+								</do_if>
+								<do_else>
+									<find_station groupname="$stations" space="$taxi.sector" multiple="true">
+										<match_relation_to object="$taxi" relation="dock"/>
+									</find_station>
+									<remove_from_group group="$stations" object="$destination" />
+									<do_if value="not $stations.count">
+										<find_cluster_in_range name="$clusters" object="$taxi" maxdistance="3" multiple="true"/>
+										<set_value name="$sectors" exact="[]"/>
+										<do_all exact="$clusters.count" counter="$i">
+											<find_sector name="$sectors" space="$clusters.{$i}" multiple="true" append="true">
+												<match_relation_of faction="$taxi.owner" relation="neutral" comparison="ge"/>
+											</find_sector>
+										</do_all>
+										<do_if value="not $sectors.count">
+											<find_cluster_in_range name="$clusters" object="$taxi" mindistance="3" multiple="true"/>
+											<do_all exact="$clusters.count" counter="$i">
+												<find_sector name="$sectors" space="$clusters.{$i}" multiple="true" append="true">
+													<match_relation_of faction="$taxi.owner" relation="neutral" comparison="ge"/>
+												</find_sector>
+											</do_all>
+										</do_if>
+										<remove_value name="$clusters"/>
+										<find_station groupname="$stations" space="$sectors.random" multiple="true">
+											<match_relation_to object="$taxi" relation="dock"/>
+										</find_station>
+										<remove_value name="$sectors" />
+									</do_if>
+									<remove_from_group group="global.$PlayerContainerGroup" object="$taxi" />
+									<remove_from_group group="global.$PlayerControlledGroup" object="$taxi" />
+									<remove_from_group group="global.$PlayerOccupiedShipGroup" object="$taxi" />
+									<create_order name="$orderToAway" object="$taxi" id="'MoveDie'" immediate="true">
+										<param name="atstation" value="$stations.random" />
+										<param name="debugchance" value="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									</create_order>
+									<debug_text text="'$orderToAway: ' + $orderToAway" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								</do_else>
+								<do_if value="$orderToDestination">
+									<cancel_order order="$orderToDestination" />
+									<set_value name="$orderToDestination" exact="null" />
+								</do_if>
+								<do_if value="$orderToWaitAtDestination">
+									<cancel_order order="$orderToWaitAtDestination" />
+									<set_value name="$orderToWaitAtDestination" exact="null" />
+								</do_if>
+								<remove_mission cue="namespace" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="TaxiAttentionChanged">
+							<conditions>
+								<event_object_changed_attention object="$taxi" />
+							</conditions>
+							<actions>
+								<do_if value="$stage ge $stages.$rehire">
+									<!-- <do_if value="event.param lt attention.visible"> -->
+									<do_if value="not kNPCTaxis.$attentionVisibleAndNearer.indexof.{event.param}">
+										<signal_cue cue="CleanUp" />
+									</do_if>
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="MissionCreate">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="not namespace.hasmission">
+									<create_mission cue="namespace"
+										name= "{1416318, 689100}"
+										type = "missiontype.other"
+										faction ="faction.player"
+										difficulty = "level.trivial">
+										<briefing>
+											<objective
+												step="1"
+												action="objective.custom"
+												customaction="{1416318, 689123} + ' ' + $taxi.knownname"
+												text="$taxi.name"
+												object="$taxi" />
+											<objective
+												step="2"
+												action="objective.custom"
+												customaction="{1416318, 689111} + ' ' + $taxi.knownname"
+												text="$taxi.name"
+												object="$taxi" />
+											<objective
+												step="3"
+												action="objective.custom"
+												customaction="{1416318, 689112} + ' ' + $destination.knownname"
+												text="$destination.name"
+												object="$destination" />
+										</briefing>
+									</create_mission>
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="MissionWaitAtOrigin">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<signal_cue_instantly cue="MissionCreate" />
+								<set_objective cue="namespace"
+									step="1"
+									action="objective.custom"
+									customaction="{1416318, 689123}"
+									text="$taxi.knownname"
+									object="$taxi" 
+									comment="Wait for" />
+							</actions>
+						</cue>
+						<cue name="MissionEnterTaxiAtOrigin">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<signal_cue_instantly cue="MissionCreate" />
+								<set_objective cue="namespace"
+									step="2"
+									action="objective.custom"
+									customaction="{1416318, 689111}"
+									text="$taxi.knownname"
+									object="$taxi" 
+									comment="Get on board" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="MissionDisembarkTaxiAtDestination">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<signal_cue_instantly cue="MissionCreate" />
+								<set_objective cue="namespace"
+									step="3"
+									action="objective.custom"
+									customaction="{1416318, 689112}"
+									text="$destination.knownname"
+									object="$destination" 
+									comment="Disembark at" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="MissionRehireTaxi">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<signal_cue_instantly cue="MissionCreate" />
+								<set_objective cue="namespace"
+									step="2"
+									action="objective.custom"
+									customaction="{1416318, 689127}"
+									text="$taxi.knownname"
+									object="$taxi" 
+									comment="Re-hire" />
+								<do_if value="not $timeRehire">
+									<set_value name="$timeRehire" exact="player.age" />
+									<do_if value="$destination.owner.hasrelation.enemy.{faction.player}">
+										<update_mission cue="namespace" endtime="player.age + 10min"/>
+									</do_if>
+									<do_else>
+										<update_mission cue="namespace" endtime="player.age + 5min"/>
+									</do_else>
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<!-- <cue name="StageSetterOrdersCancelled">
+							<conditions>
+								<event_object_order_cancelled object="$taxi" />
+								<check_value value="false" />
+							</conditions>
+							<actions>
+								<set_value name="$order" exact="event.param" />
+								<do_if value="$order == $orderToOrigin and $stage == $stages.$flyToOrigin">
+									<set_value name="$ordersCancelledCount" exact="$ordersCancelledCount + 1" />
+									<do_if value="$ordersCancelledCount lt 5">
+										<set_value name="$orderToOrigin" exact="null" />
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$flyToOrigin]" />
+									</do_if>
+									<do_else>
+										<signal_cue_instantly cue="CleanUp" param="table[$isCleanUpForced = true]" />
+									</do_else>
+								</do_if>
+								<do_if value="$order == $orderToWaitAtOrigin and $stage == $stages.$dockedAtOrigin">
+									<set_value name="$ordersCancelledCount" exact="$ordersCancelledCount + 1" />
+									<do_if value="$ordersCancelledCount lt 5">
+										<set_value name="$orderToWaitAtOrigin" exact="null" />
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$dockedAtOrigin]" />
+									</do_if>
+									<do_else>
+										<signal_cue_instantly cue="CleanUp" param="table[$isCleanUpForced = true]" />
+									</do_else>
+								</do_if>
+								<do_if value="$order == $orderToDestination and $stage == $stages.$flyToDestination">
+									<set_value name="$ordersCancelledCount" exact="$ordersCancelledCount + 1" />
+									<do_if value="$ordersCancelledCount lt 5">
+										<set_value name="$orderToDestination" exact="null" />
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$flyToDestination]" />
+									</do_if>
+									<do_else>
+										<signal_cue_instantly cue="CleanUp" param="table[$isCleanUpForced = true]" />
+									</do_else>
+								</do_if>
+								<do_if value="$order == $orderToWaitAtDestination and $stage == $stages.$dockedAtDestination">
+									<set_value name="$ordersCancelledCount" exact="$ordersCancelledCount + 1" />
+									<do_if value="$ordersCancelledCount lt 5">
+										<set_value name="$orderToWaitAtDestination" exact="null" />
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$dockedAtDestination]" />
+									</do_if>
+									<do_else>
+										<signal_cue_instantly cue="CleanUp" param="table[$isCleanUpForced = true]" />
+									</do_else>
+								</do_if>
+								<do_if value="$order == $orderToAway and $stage == $stages.$flyAway">
+									<set_value name="$ordersCancelledCount" exact="$ordersCancelledCount + 1" />
+									<do_if value="$ordersCancelledCount lt 5">
+										<set_value name="$orderToAway" exact="null" />
+										<signal_cue_instantly cue="SetStage" param="table[$stage = $stages.$flyAway]" />
+									</do_if>
+									<do_else>
+										<signal_cue_instantly cue="CleanUp" param="table[$isCleanUpForced = true]" />
+									</do_else>
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue> -->
+						<cue name="NotifyETA">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="$stage == $stages.$flyToOrigin or $stage == $stages.$arrivedAtOrigin">
+									<estimate_travel_time result="$eta" start="$taxi" target="player.entity" ship="$taxi" />
+									<do_if value="$eta le 0">
+										<set_value name="$eta" exact="($taxi.distanceto.{$origin} / $taxi.speed)s" />
+									</do_if>
+									<do_elseif value="$eta lt 1min">
+										<set_value name="$eta" exact="$eta + 1min" />
+									</do_elseif>
+									<set_value name="$etaToName" exact="$taxi.aipilot.name" />
+								</do_if>
+								<do_else>
+									<estimate_travel_time result="$eta" start="$taxi" target="$destination" ship="$taxi" />
+									<do_if value="$eta le 0">
+										<set_value name="$eta" exact="($taxi.distanceto.{$destination} / ($taxi.speed + 0.00001))s" />
+									</do_if>
+									<do_elseif value="$eta lt 1min">
+										<set_value name="$eta" exact="$eta + 1min" />
+									</do_elseif>
+									<set_value name="$etaToName" exact="$destination.knownname" />
+								</do_else>
+								<do_if value="$eta gt 1min">
+									<set_value name="$eta" exact="$eta.formatted.{'%M:%S'} + 'min'" />
+								</do_if>
+								<do_elseif value="$eta gt 1s">
+									<set_value name="$eta" exact="$eta.formatted.{'%s'} + 's'" />
+								</do_elseif>
+								<do_else>
+									<set_value name="$eta" exact="{1011, 1008}" comment="docking" />
+								</do_else>
+								<set_value name="$notificaion" exact="$etaToName" />
+								<set_value name="$notificaion" exact="$notificaion + ', ' + {1416318, 689120} + ': ' + $eta" />
+								<set_value name="$notificaion" exact="$notificaion + ',\n' + {1001 , 2957} + ': ' + ((($distance / 100)i * 100) / 1000f) + 'km'" />
+								<!-- <set_value name="$notificaion" exact="$notificaion + ', ' + {1001, 8051} + ': ' + $taxi.speed + 'm/s'" /> -->
+								<do_if value="$taxi.speed lt 1000">
+									<set_value name="$notificaion" exact="$notificaion + ', ' + {1001, 8051} + ': ' + (($taxi.speed / 100)i * 100) + 'm/s'" />
+								</do_if>
+								<do_else>
+									<set_value name="$notificaion" exact="$notificaion + ', ' + {1001, 8051} + ': ' + ((($taxi.speed / 100)i * 100) / 1000f) + 'km/s'" />
+								</do_else>
+								<show_notification text="$notificaion" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="CleanUp" instantiate="true">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<event_cue_cancelled cue="namespace" />
+									<event_mission_aborted cue="namespace" />
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$isCleanUpForced" exact="@event.param.$isCleanUpForced" />
+								<debug_text text="'$isCleanUpForced: ' + @$isCleanUpForced" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<set_value name="$isCleanUpForReroute" exact="@event.param.$isCleanUpForReroute" />
+								<debug_text text="'$isCleanUpForReroute: ' + @$isCleanUpForReroute" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<set_value name="$isCleanUpPlayerTeleportForced" exact="false" />
+								<do_if value="@player.ship.owner != faction.player and $taxi == player.ship and ($isCleanUpForced or event.name == 'event_cue_cancelled' or event.name == 'event_mission_aborted')">
+									<set_value name="$isCleanUpPlayerTeleportForced" exact="true" />
+									<teleport_player object="$destination" instant="true" force="true" />
+								</do_if>
+							</actions>
+							<cues>
+								<cue name="CleanUpActual">
+									<conditions>
+										<check_any>
+											<event_player_teleport_successful />
+											<event_cue_signalled />
+										</check_any>
+									</conditions>
+									<actions>
+										<do_if value="@$orderToOrigin">
+											<cancel_order order="$orderToOrigin" />
+										</do_if>
+										<do_if value="@$orderToWaitAtOrigin">
+											<cancel_order order="$orderToWaitAtOrigin" />
+										</do_if>
+										<do_if value="@$orderOriginShipToWait">
+											<cancel_order order="$orderOriginShipToWait" />
+										</do_if>
+										<do_if value="@$orderToDestination">
+											<cancel_order order="$orderToDestination" />
+										</do_if>
+										<do_if value="@$orderToWaitAtDestination">
+											<cancel_order order="$orderToWaitAtDestination" />
+										</do_if>
+										<do_if value="@$orderDestinationShipToWait">
+											<cancel_order order="$orderDestinationShipToWait" />
+										</do_if>
+										<do_if value="@$orderToAway">
+											<cancel_order order="$orderToAway" />
+										</do_if>
+										<set_value name="$orderToOrigin" exact="null" />
+										<set_value name="$orderToWaitAtOrigin" exact="null" />
+										<set_value name="$orderOriginShipToWait" exact="null" />
+										<set_value name="$orderToDestination" exact="null" />
+										<set_value name="$orderToWaitAtDestination" exact="null" />
+										<set_value name="$orderDestinationShipToWait" exact="null" />
+										<set_value name="$orderToAway" exact="null" />
+										<do_if value="$taxi.owner != faction.player">
+											<do_if value="not $isCleanUpForReroute">
+												<debug_text text="'destroy_object ' + $taxi" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+												<destroy_object object="$taxi" />
+											</do_if>
+										</do_if>
+										<remove_mission cue="namespace" />
+										<reset_cue cue="namespace" />
+										<reset_cue cue="parent" />
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="SignalCleanUpActual">
+									<actions>
+										<do_if value="not $isCleanUpPlayerTeleportForced">
+											<signal_cue cue="CleanUpActual" />
+										</do_if>
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnModInstall">
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<signal_cue_instantly cue="Init" />
+					</actions>
+				</cue>
+				<cue name="OnModInstallComplete" checktime="player.age + 1s">
+					<actions>
+						<set_value name="$DebugChance" exact="0" />
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+	</cues>
+</mdscript>

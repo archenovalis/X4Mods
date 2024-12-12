@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+<!-- add. purpose: params.
+	<params>
+-->
+	<add sel="//params">
+		<param name="kNPCRParam_isValid" required="false" type="internal" default="@this.isplayerowned" />
+		<param name="kNPCRParam_reportEnemies_small" required="false" default="false" type="internal" />
+		<param name="kNPCRParam_reportEnemies_large" required="false" default="false" type="internal" />
+		<param name="kNPCRParam_doNotEngage" required="false" default="if $holdfire? then $holdfire else false" type="internal" />
+	</add>
+<!-- add. purpose: send params to move.generic.
+	<run_script name="'move.generic'" result="$movesuccess">
+-->
+	<add sel="//run_script[@name=&quot;'move.generic'&quot;][@result=&quot;$movesuccess&quot;]">
+		<param name="kNPCRParam_reportEnemies_small" value="@$kNPCRParam_reportEnemies_small"/>
+		<param name="kNPCRParam_reportEnemies_large" value="@$kNPCRParam_reportEnemies_large"/>
+		<param name="kNPCRParam_doNotEngage" value="@$kNPCRParam_doNotEngage"/>
+	</add>
+<!-- add. purpose: send comm of enemies.
+	<move_to object="this.ship" destination="$destination" finishonapproach="false" uselocalhighways="false" forceposition="false" forcesteering="false" travel="$travel">
+		...
+		<check_all>
+			<event_gravidar_has_scanned object="this.assignedcontrolled" />
+-->
+	<add sel="//event_gravidar_has_scanned[@object=&quot;this.assignedcontrolled&quot;]/ancestor::interrupt/actions">
+		<do_if value="@$kNPCRParam_isValid">
+			<do_if value="
+				@$detected.isoperational and
+				(
+					(
+						@$kNPCRParam_reportEnemies_large and
+						@$detected.isclass.[class.ship_l, class.ship_xl]
+					) or
+					(
+						@$kNPCRParam_reportEnemies_small and
+						$detected.isclass.[class.ship_xs, class.ship_s, class.ship_m]
+					)
+				)
+			">
+				<set_value name="$kNPCR_enemy" exact="$detected" />
+			</do_if>
+			<do_else>
+				<include_interrupt_actions ref="kNPCRActions_get_enemy" />
+			</do_else>
+			<include_interrupt_actions ref="kNPCRActions_enemy_detected" />
+		</do_if>
+	</add>
+<!-- add. purpose: flee instead of attack.
+	<create_order id="'Attack'" object="this.ship" immediate="true">
+-->
+	<add sel="//create_order[@id=&quot;'Attack'&quot;][@object=&quot;this.ship&quot;][@immediate=&quot;true&quot;]" type="@chance">if @$kNPCRParam_doNotEngage then 0 else 100</add>
+	<add pos="after" sel="//create_order[@id=&quot;'Attack'&quot;][@object=&quot;this.ship&quot;][@immediate=&quot;true&quot;]">
+		<do_if value="@$kNPCRParam_isValid and @$kNPCRParam_doNotEngage">
+			<!-- flee or ignore -->
+			<set_value name="$kNPCR_isIgnore" exact="false" />
+			<do_if value="@global.$kAAIT" comment="kuda is installed">
+				<set_value name="$kAAIT_test_attackTargetInTheWayOrNot" exact="$enemy" />
+				<include_interrupt_actions ref="kAAIT_GetAttackOrIgnoreTargetInTheWay" />
+				<do_if value="$kAAIT_result_isTargetInTheWayIgnored">
+					<set_value name="$kNPCR_isIgnore" exact="true" />
+				</do_if>
+			</do_if>
+			<do_elseif value="$enemy.primarypurpose == purpose.fight and @$enemy.threatscore / @this.assignedcontrolled.threatscore le 0.75">
+				<set_value name="$kNPCR_isIgnore" exact="true" />
+			</do_elseif>
+			<do_if value="not $kNPCR_isIgnore">
+				<create_order object="this.assignedcontrolled" id="'Flee'" immediate="true" override="true">
+					<param name="method" value="['boost', 'highway', 'dock'].random" />
+					<param name="attacker" value="$enemy" />
+					<param name="log" value="false" />
+				</create_order>
+			</do_if>
+		</do_if>
+	</add>
+</diff>

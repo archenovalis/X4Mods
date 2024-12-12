@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+		replace:
+		<cue name="UpdateBriefing" instantiate="true" comment="Called each time a briefing-update is needed">
+			<do_if value="$TargetObjectsPing.count">
+				<set_objective cue="$MissionCue" step="$StartStep" action="objective.unlock" group="$TargetObjectsPing" updatebriefing="true" comment="Added group Target"/>
+	-->
+	<replace sel="//cue[@name=&quot;UpdateBriefing&quot;]//set_objective[@cue=&quot;$MissionCue&quot;][@step=&quot;$StartStep&quot;][@action=&quot;objective.unlock&quot;][@group=&quot;$TargetObjectsPing&quot;][@updatebriefing=&quot;true&quot;]">
+		<do_if value="
+			[
+				macro.landmarks_vault_01_macro,
+				macro.landmarks_vault_02_macro,
+				macro.landmarks_vault_03_macro,
+				macro.landmarks_vault_04_macro
+			].indexof.{if @$TargetObjectsPing.{1} then $TargetObjectsPing.{1}.macro else @event.param.$approachedObject.macro}
+		">
+			<find_object_component class="class.signalleak" name="$dataVaultLeak" object="$TargetObjects.{1}" />
+			<set_objective cue="$MissionCue" step="$StartStep" action="objective.scan" object="$dataVaultLeak" updatebriefing="true" />
+			<do_if value="CheckMissionStatus_DataVault.state == cuestate.waiting">
+				<signal_cue_instantly cue="CheckMissionStatus_DataVault" param="table[$dataVaultLeak=$dataVaultLeak]" />
+			</do_if>
+		</do_if>
+		<do_if value="$TargetObjects.{1}.isclass.anomaly or @event.param.$approachedObject.isclass.anomaly">
+			<set_objective cue="$MissionCue" step="$StartStep" action="objective.approach" group="$TargetObjects" updatebriefing="true" />
+		</do_if>
+		<do_else>
+			<set_objective cue="$MissionCue" step="$StartStep" action="objective.unlock" group="$TargetObjectsPing" updatebriefing="true" />
+		</do_else>
+	</replace>
+	<!-- add after:
+		<cue name="CheckMissionStatus" instantiate="true">
+	-->
+	<add pos="after" sel="//cue[@name=&quot;CheckMissionStatus&quot;]">
+		<cue name="CheckMissionStatus_DataVault">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<set_value name="$dataVaultLeak" exact="@event.param.$dataVaultLeak" />
+				<do_if value="not $dataVaultLeak">
+					<set_value name="$feedbackvalue" exact="1" comment="success"/>
+					<signal_cue cue="Cleanup" />
+					<reset_cue cue="this" />
+				</do_if>
+			</actions>
+			<cues>
+				<cue name="CheckMissionStatus_DataVault_Success">
+					<conditions>
+						<event_player_signal_unlock_finished signal="$dataVaultLeak" />
+					</conditions>
+					<actions>
+						<set_value name="$feedbackvalue" exact="1" comment="success"/>
+						<signal_cue cue="Cleanup" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="CheckMissionStatus_Anomaly">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<do_if value="player.entity.distanceto.{$TargetObjects.{1}} le 5km">
+					<set_value name="$feedbackvalue" exact="1" comment="success"/>
+					<signal_cue cue="Cleanup" />
+				</do_if>
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+		<cue name="CheckApproach">
+			<conditions>
+				<check_any>
+					<event_cue_signalled />
+					<event_guidance_enabled cue="$MissionCue" />
+					<check_all>
+						<event_ui_triggered screen="'kNPCRumours'" />
+						<check_value value="event.param2 == 'get_active_mission'" />
+						<check_value value="event.param3 == $MissionCue" />
+					</check_all>
+				</check_any>
+			</conditions>
+			<actions>
+				<debug_text text="'kuertee_npc_reactions $TargetObjects.{1}: ' + $TargetObjects.{1} + ' (' + $TargetObjects.{1}.knownname + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+				<set_value name="$isDataVault" exact="
+					[
+						macro.landmarks_vault_01_macro,
+						macro.landmarks_vault_02_macro,
+						macro.landmarks_vault_03_macro,
+						macro.landmarks_vault_04_macro
+					].indexof.{$TargetObjects.{1}.macro}
+				" />
+				<debug_text text="'kuertee_npc_reactions $isDataVault: ' + $isDataVault" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+				<debug_text text="'kuertee_npc_reactions $TargetObjects.{1}.isclass.anomaly: ' + $TargetObjects.{1}.isclass.anomaly" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+				<do_if value="
+					(not $isDataVault)
+					and
+					(not $TargetObjects.{1}.isclass.anomaly)
+				">
+					<cancel_cue cue="this" />
+				</do_if>
+			</actions>
+			<cues>
+				<cue name="CheckApproach_Interval" instantiate="true" checkinterval="1s">
+					<actions>
+						<debug_text text="'kuertee_npc_reactions player.entity.distanceto.{$TargetObjects.{1}}: ' + player.entity.distanceto.{$TargetObjects.{1}}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="player.entity.distanceto.{$TargetObjects.{1}} le 5km">
+							<do_if value="$isDataVault">
+								<signal_cue_instantly cue="UpdateBriefing" param="table[$approachedObject=$TargetObjects.{1}]" />
+							</do_if>
+							<do_else>
+								<signal_cue cue="CheckMissionStatus_Anomaly" />
+							</do_else>
+							<reset_cue cue="parent" />
+						</do_if>
+						<cancel_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="CheckApproach_Disable_2021_11_25">
+					<conditions>
+						<event_guidance_disabled cue="$MissionCue" />
+					</conditions>
+					<actions>
+						<debug_text text="'kuertee_npc_reactions CheckApproach.state: ' + CheckApproach.state" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<reset_cue cue="parent" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+		<!-- <cue name="CheckApproach_Disable">
+			<conditions>
+				<event_guidance_disabled cue="$MissionCue" />
+			</conditions>
+			<actions>
+				<debug_text text="'kuertee_npc_reactions CheckApproach.state: ' + CheckApproach.state" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+				<reset_cue cue="CheckApproach" />
+				<reset_cue cue="this" />
+			</actions>
+		</cue> -->
+		<cue name="CheckApproach_SignalIfActive">
+			<delay exact="1s" />
+			<actions>
+				<raise_lua_event name="'kNPCRumours.get_active_mission'" />
+				<cancel_cue cue="this" />
+			</actions>
+		</cue>
+	</add>
+</diff>

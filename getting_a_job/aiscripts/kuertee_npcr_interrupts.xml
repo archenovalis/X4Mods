@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aiscript name="kuertee_npcr_interrupts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aiscripts.xsd">
+	<interrupts>
+		<library>
+			<actions name="kNPCRActions_get_enemy">
+				<find_gravidar_contact groupname="$kNPCR_enemies" object="this.assignedcontrolled" class="class.ship" maybeattackedby="this.assignedcontrolled" functional="true" masstraffic="false" docked="false" multiple="true">
+					<match_context macro="this.sector.macro"/>
+					<match_context class="class.highway" negate="true"/>
+					<match state="componentstate.wreck" negate="true"/>
+					<match class="class.buildstorage" negate="true"/>
+				</find_gravidar_contact>
+				<sort_group group="$kNPCR_enemies" sortbyvalue="loop.element.size" sortdescending="true" />
+				<do_for_each name="$kNPCR_enemyInList" in="$kNPCR_enemies">
+					<do_if value="
+						@$kNPCRParam_reportEnemies_large and
+						@$kNPCR_enemyInList.isclass.[class.ship_l, class.ship_xl]">
+						<set_value name="$kNPCR_enemy" exact="$kNPCR_enemyInList" />
+						<break />
+					</do_if>
+					<do_elseif value="
+						@$kNPCRParam_reportEnemies_small and
+						$kNPCR_enemyInList.isclass.[class.ship_xs, class.ship_s, class.ship_m]">
+						<set_value name="$kNPCR_enemy" exact="$kNPCR_enemyInList" />
+						<break />
+					</do_elseif>
+				</do_for_each>
+			</actions>
+			<actions name="kNPCRActions_enemy_detected">
+				<do_if value="not this.$kNPCR_data?">
+					<set_value name="this.$kNPCR_data" exact="table[]" />
+				</do_if>
+				<do_if value="
+					@$kNPCR_enemy.isoperational and
+					(
+						$kNPCR_enemy != @this.$kNPCR_data.$kNPCR_enemy_last or
+						player.age - @this.$kNPCR_data.$kNPCR_enemy_last_time gt 1h
+					)
+				">
+					<signal_objects object="player.galaxy" param="'kncpr_enemy_report'" param2="table[
+						$ship = this.assignedcontrolled,
+						$enemy = $kNPCR_enemy,
+						$isWithinLastMinute = player.age - @this.$kNPCR_data.$kNPCR_time_report le 1min
+					]" />
+					<set_value name="this.$kNPCR_data.$kNPCR_enemy_last" exact="$kNPCR_enemy" />
+					<set_value name="this.$kNPCR_data.$kNPCR_enemy_last_time" exact="player.age" />
+					<set_value name="this.$kNPCR_data.$kNPCR_time_report" exact="player.age" />
+				</do_if>
+			</actions>
+		</library>
+	</interrupts>
+</aiscript>

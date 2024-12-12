@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_npc_bar_patrons" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+	<cues>
+		<cue name="UserSettings">
+			<actions>
+				<set_value name="UserSettings.$userIsSecondarySkills" exact="true" />
+				<set_value name="UserSettings.$userIsLimitRaceToWorkforce" exact="false" />
+			</actions>
+		</cue>
+		<cue name="kNPCBarPatrons" namespace="this" version="5">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<set_value name="$station" exact="null" />
+				<set_value name="kNPCBarPatrons.$attentionNearbyAndNearer" exact="[attention.nearby, attention.adjacentroom, attention.inroom]" />
+			</actions>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, state: ' + this.state" />
+				<do_if value="not $userIsSecondarySkills?">
+					<set_value name="UserSettings.$userIsSecondarySkills" exact="$userIsSecondarySkills" />
+				</do_if>
+			</patch>
+			<patch sinceversion="4">
+				<debug_text text="'patch sinceversion 4, state: ' + this.state" />
+				<set_value name="UserSettings.$userIsLimitRaceToWorkforce" exact="false" />
+			</patch>
+			<patch sinceversion="5">
+				<debug_text text="'patch sinceversion 5, state: ' + this.state" />
+				<set_value name="kNPCBarPatrons.$attentionNearbyAndNearer" exact="[attention.nearby, attention.adjacentroom, attention.inroom]" />
+			</patch>
+			<cues>
+				<cue name="Init">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<debug_text text="'kNPCBarPatrons.$isModStarted: ' + @kNPCBarPatrons.$isModStarted" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="not @kNPCBarPatrons.$isModStarted">
+							<set_value name="kNPCBarPatrons.$isModStarted" exact="true" />
+							<debug_text text="'kNPCBarPatrons.$isModStarted: ' + @kNPCBarPatrons.$isModStarted" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="kNPCBarPatrons_CleanUp">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<reset_cue cue="parent" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnDockAtStation" namespace="this" instantiate="true">
+					<conditions>
+						<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+						<check_any>
+							<check_value value="@event.param2.$teleportTo.exists" />
+							<check_value value="@event.param2.$dockAt.exists" />
+						</check_any>
+					</conditions>
+					<actions>
+						<set_value name="$station" exact="@event.param2.$teleportTo" />
+						<do_if value="not @$station.exists">
+							<set_value name="$station" exact="@event.param2.$dockAt" />
+						</do_if>
+						<do_if value="$station == kNPCBarPatrons.$station">
+							<reset_cue cue="this" />
+						</do_if>
+						<do_elseif value="EnterNewStation.state != cuestate.waiting">
+							<signal_cue cue="CleanUp" />
+						</do_elseif>
+					</actions>
+					<cues>
+						<cue name="OnDockAtStation2">
+							<actions>
+								<do_if value="EnterNewStation.state == cuestate.waiting">
+									<set_value name="kNPCBarPatrons.$station" exact="$station" />
+									<debug_text text="'kNPCBarPatrons.$station: ' + kNPCBarPatrons.$station" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<signal_cue cue="EnterNewStation" />
+								</do_if>
+								<reset_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="EnterNewStation" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+						<!-- <check_value value="@player.container.shadyguy" /> -->
+						<check_value value="@kNPCBarPatrons.$station.isclass.station" />
+					</conditions>
+					<delay exact="1ms" />
+					<actions>
+						<!-- <set_value name="$bar" exact="kNPCBarPatrons.$station.shadyguy.room" /> -->
+						<!-- <find_room name="$highSecRooms" object="$station" multiple="true" roomtype="roomtype.infrastructure" /> -->
+						<set_value name="$bars" exact="[]" />
+						<find_room name="$rooms" object="kNPCBarPatrons.$station" multiple="true" />
+						<do_all counter="$i" exact="$rooms.count">
+							<do_if value="
+								@$rooms.{$i}.macro == macro.room_gen_bar_01_macro or
+								@$rooms.{$i}.macro == @macro.room_gen_bar_02_macro
+							">
+								<set_value name="$bar" exact="$rooms.{$i}" />
+								<append_to_list name="$bars" exact="$rooms.{$i}" />
+							</do_if>
+						</do_all>
+						<debug_text text="'kNPCBarPatrons.$station: ' + kNPCBarPatrons.$station + ' $bars: ' + $bars" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<do_if value="not $bars.count">
+							<set_value name="kNPCBarPatrons.$station" exact="null" />
+							<reset_cue cue="this" />
+						</do_if>
+						<do_else>
+							<!-- <set_value name="$barPatrons" exact="[]" /> -->
+							<create_group groupname="$barPatrons" />
+							<set_value name="$roles" exact="[entityrole.service, entityrole.marine, controlpost.aipilot, controlpost.manager]" />
+							<debug_text text="'$roles: ' + $roles" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<set_value name="$roleSkills" exact="table[]" />
+							<set_value name="$roleSkills.{entityrole.service}" exact="skilltype.engineering" />
+							<set_value name="$roleSkills.{entityrole.marine}" exact="skilltype.boarding" />
+							<set_value name="$roleSkills.{controlpost.aipilot}" exact="skilltype.piloting" />
+							<set_value name="$roleSkills.{controlpost.manager}" exact="skilltype.management" />
+							<debug_text text="'$roleSkills: ' + $roleSkills" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<set_value name="$green" exact="1" />
+							<set_value name="$rookie" exact="2" />
+							<set_value name="$veteran" exact="3" />
+							<set_value name="$elite" exact="4" />
+							<!-- <debug_text text="'$rookie: ' + $rookie" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+							<!-- <debug_text text="'$veteran: ' + $veteran" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+							<!-- <debug_text text="'$elite: ' + $elite" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+							<set_value name="$levels" exact="[$rookie, $rookie, $rookie, $veteran, $veteran, $veteran, $elite]" />
+							<set_value name="$levelMinMaxs" exact="table[]" />
+							<set_value name="$levelMinMaxs.{$green}" exact="table[$min = 1, $max = 3, $bestMin = 3, $worstMax = 2]" />
+							<set_value name="$levelMinMaxs.{$rookie}" exact="table[$min = 1, $max = 6, $bestMin = 6, $worstMax = 5]" />
+							<set_value name="$levelMinMaxs.{$veteran}" exact="table[$min = 7, $max = 12, $bestMin = 9, $worstMax = 11]" />
+							<set_value name="$levelMinMaxs.{$elite}" exact="table[$min = 13, $max = 15, $bestMin = 15, $worstMax = 14]" />
+							<debug_text text="'$levelMinMaxs.$rookie: ' + $levelMinMaxs.{$rookie}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<debug_text text="'$levelMinMaxs.$veteran: ' + $levelMinMaxs.{$veteran}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<debug_text text="'$levelMinMaxs.$elite: ' + $levelMinMaxs.{$elite}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<!-- <do_if value="[@faction.pioneers, @faction.terran, @faction.yaki].indexof.{kNPCBarPatrons.$station.owner}">
+								<set_value name="$factions" exact="[@faction.pioneers, @faction.terran, @faction.yaki]" />
+							</do_if> -->
+							<get_factions_by_tag result="$factions" tag="tag.economic" />
+							<get_factions_by_tag result="$factions_pluderer" tag="tag.plunder" />
+							<do_all counter="$i" exact="$factions_pluderer.count">
+								<do_if value="not $factions.indexof.{$factions_pluderer.{$i}}">
+									<append_to_list name="$factions" exact="$factions_pluderer.{$i}" />
+								</do_if>
+							</do_all>
+							<remove_value name="$factions_pluderer" />
+							<debug_text text="'$factions.count: ' + $factions.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<do_all counter="$i" exact="$factions.count" reverse="true">
+								<!-- <do_if value="$factions.{$i}.relationto.{faction.player} lt $factions.{$i}.relation.neutral.min">
+									<remove_value name="$factions.{$i}" />
+								</do_if> -->
+								<do_if value="kNPCBarPatrons.$station.owner == @faction.terran">
+									<do_if value="$factions.{$i} != faction.terran">
+										<do_if value="$factions.{$i}.relationto.{kNPCBarPatrons.$station.owner} lt $factions.{$i}.relation.neutral.min">
+											<remove_value name="$factions.{$i}" />
+										</do_if>
+										<do_else>
+											<set_value name="$random" min="1" max="100" />
+											<do_if value="$random gt 25">
+												<remove_value name="$factions.{$i}" />
+											</do_if>
+										</do_else>
+									</do_if>
+								</do_if>
+								<do_elseif value="$factions.{$i}.relationto.{kNPCBarPatrons.$station.owner} lt $factions.{$i}.relation.neutral.min">
+									<set_value name="$random" min="1" max="100" />
+									<do_if value="$random gt 25">
+										<remove_value name="$factions.{$i}" />
+									</do_if>
+								</do_elseif>
+							</do_all>
+							<debug_text text="'$factions.count: ' + $factions.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+							<do_for_each name="$bar" in="$bars">
+								<signal_cue_instantly cue="CreateBarPatrons" param="table[$bar = $bar]" />
+							</do_for_each>
+						</do_else>
+					</actions>
+					<cues>
+						<cue name="CreateBarPatrons" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$bar" exact="event.param.$bar" />
+								<debug_text text="'$bar: ' + $bar" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<debug_text text="'$bar.numfreeactorslots: ' + $bar.numfreeactorslots" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<set_value name="$freeSlotsCount" exact="$bar.numfreeactorslots" />
+								<do_all counter="$i" exact="$roles.count">
+									<!-- <debug_text text="'$roles: ' + $roles.{$i}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+									<!-- <debug_text text="'$freeSlotsCount: ' + $freeSlotsCount" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+									<do_if value="not $freeSlotsCount">
+										<break />
+									</do_if>
+									<do_else>
+										<do_all counter="$j" min="1" max="4">
+											<!-- <debug_text text="'$freeSlotsCount: ' + $freeSlotsCount" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+											<do_if value="not $freeSlotsCount">
+												<break />
+											</do_if>
+											<do_else>
+												<set_value name="$race" exact="null" />
+												<do_if value="UserSettings.$userIsLimitRaceToWorkforce and kNPCBarPatrons.$station.workforce.races.count">
+													<set_value name="$race" exact="kNPCBarPatrons.$station.workforce.races.random" />
+												</do_if>
+												<do_if value="$race">
+													<create_cue_actor name="$npc" cue="this">
+														<select race="$race" />
+														<select faction="$factions.random" />
+														<owner exact="$factions.random" />
+														<skills>
+															<!-- base skills -->
+															<skill type="boarding" exact="0" />
+															<skill type="engineering" exact="0" />
+															<skill type="management" exact="0" />
+															<skill type="morale" exact="0" />
+															<skill type="piloting" exact="0" />
+														</skills>
+													</create_cue_actor>
+												</do_if>
+												<do_else>
+													<create_cue_actor name="$npc" cue="this">
+														<select faction="$factions.random" />
+														<owner exact="$factions.random" />
+														<skills>
+															<!-- base skills -->
+															<skill type="boarding" exact="0" />
+															<skill type="engineering" exact="0" />
+															<skill type="management" exact="0" />
+															<skill type="morale" exact="0" />
+															<skill type="piloting" exact="0" />
+														</skills>
+													</create_cue_actor>
+												</do_else>
+												<set_value name="$npc.$kNPCR_isBarPatron" exact="true" />
+												<signal_objects object="$npc" param="'npc_state_reinit'" />
+												<do_if value="$npc">
+													<!-- <set_value name="$npc.$station_visitor" exact="true" /> -->
+													<set_entity_role entity="$npc" role="entityrole.service" />
+													<set_entity_role_object entity="$npc" object="$bar.station" />
+													<!-- specialities -->
+													<set_value name="$level" exact="$levels.random" />
+													<!-- <debug_text text="'$level: ' + $level" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+													<set_value name="$levelMinMax" exact="$levelMinMaxs.{$level}" />
+													<!-- <debug_text text="'$levelMinMax: ' + $levelMinMax" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" /> -->
+													<set_skill entity="$npc" type="$roleSkills.{$roles.{$i}}" min="$levelMinMax.$bestMin" max="$levelMinMax.$max" />
+													<!-- <set_skill entity="$npc" type="$roleSkills.{$roles.{$i}}" exact="$levelMinMax.$bestMin" /> -->
+													<set_value name="$otherRoles" exact="[]" />
+													<do_all counter="$k" exact="$roles.count">
+														<do_if value="$roles.{$k} != $roles.{$i}">
+															<append_to_list name="$otherRoles" exact="$roles.{$k}" />
+														</do_if>
+													</do_all>
+													<do_if value="UserSettings.$userIsSecondarySkills">
+														<do_if value="$level == $rookie">
+															<!-- green's morale -->
+															<set_skill entity="$npc" type="skilltype.morale" min="$levelMinMaxs.{$green}.$min" max="$levelMinMaxs.{$green}.$worstMax" />
+															<!-- a random other skill at green level -->
+															<set_skill entity="$npc" type="$roleSkills.{$otherRoles.random}" min="$levelMinMaxs.{$green}.$min" max="$levelMinMaxs.{$green}.$worstMax" />
+														</do_if>
+														<do_elseif value="$level == $veteran or $level == $elite">
+															<!-- rookie's morale -->
+															<set_skill entity="$npc" type="skilltype.morale" min="$levelMinMaxs.{$rookie}.$min" max="$levelMinMaxs.{$rookie}.$worstMax" />
+															<!-- a random other skill at rookie level -->
+															<set_skill entity="$npc" type="$roleSkills.{$otherRoles.random}" min="$levelMinMaxs.{$rookie}.$min" max="$levelMinMaxs.{$rookie}.$worstMax" />
+														</do_elseif>
+														<do_elseif value="$level == $elite">
+															<!-- veteran's morale -->
+															<set_skill entity="$npc" type="skilltype.morale" min="$levelMinMaxs.{$veteran}.$min" max="$levelMinMaxs.{$veteran}.$worstMax" />
+															<!-- a random other skill at veteran level -->
+															<set_skill entity="$npc" type="$roleSkills.{$otherRoles.random}" min="$levelMinMaxs.{$veteran}.$min" max="$levelMinMaxs.{$veteran}.$worstMax" />
+														</do_elseif>
+													</do_if>
+													<find_npc_slot name="$roomSlots" object="$bar" multiple="true" />
+													<set_value name="$isAdded" exact="false" />
+													<do_if value="@$roomSlots.count">
+														<add_actor_to_room actor="$npc" slot="$roomSlots.random" result="$isAdded" />
+														<debug_text text="'$isAdded: ' + $isAdded + ' $npc: ' + $npc.knownname + ' $roles.{$i}: ' + $roles.{$i} + ' $level: ' + $level + ' $npc.potentialskill.{$roles.{$i}}: ' + $npc.potentialskill.{$roles.{$i}}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+													</do_if>
+													<do_if value="$isAdded">
+														<!-- <append_to_list name="$barPatrons" exact="$npc" /> -->
+														<add_to_group groupname="$barPatrons" object="$npc" />
+														<run_actions ref="md.NPC_Instantiation.CalculateNPCHiringFee">
+															<param name="npc" value="$npc" />
+														</run_actions>
+														<set_value name="$freeSlotsCount" exact="$freeSlotsCount - 1" />
+													</do_if>
+													<do_else>
+														<destroy_object object="$npc" />
+													</do_else>
+												</do_if>
+												<do_else>
+													<destroy_object object="$npc" />
+												</do_else>
+											</do_else>
+										</do_all>
+									</do_else>
+								</do_all>
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="Convo_End">
+							<conditions>
+								<event_conversation_finished />
+								<check_value value="$barPatrons.indexof.{event.object}" />
+							</conditions>
+							<delay exact="3s" />
+							<actions>
+								<debug_text text="'event.object: ' + event.object + ' (' + event.object.knownname + ', $kNPCR_isBarPatron: ' + @event.object.$kNPCR_isBarPatron + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="event.object.owner == faction.player">
+									<remove_value name="event.object.$kNPCR_isBarPatron" />
+									<debug_text text="'event.object: ' + event.object + ' (' + event.object.knownname + ', $kNPCR_isBarPatron: ' + @event.object.$kNPCR_isBarPatron + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<signal_objects object="event.object" param="'npc_state_reinit'" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="CleanUp">
+							<conditions>
+								<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+								<check_any>
+									<check_value value="@event.param2.$leaveFrom == kNPCBarPatrons.$station" />
+									<check_value value="@event.param2.$undockFrom == kNPCBarPatrons.$station" />
+								</check_any>
+							</conditions>
+							<actions>
+								<do_all counter="$i" exact="$barPatrons.count">
+									<do_if value="$barPatrons.{$i}.owner != faction.player">
+										<debug_text text="'destroy_object ' + $barPatrons.{$i}" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+										<destroy_object object="$barPatrons.{$i}" />
+									</do_if>
+								</do_all>
+								<!-- <clear_list list="$barPatrons" /> -->
+								<clear_group group="$barPatrons" />
+								<set_value name="kNPCBarPatrons.$station" exact="null" />
+								<reset_cue cue="parent" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="Debug_Bar">
+							<conditions>
+								<!-- Event for the specified object changing room (object = room changing object, param = new room, param2 = previous room) -->
+								<event_object_changed_room object="player.entity" />
+							</conditions>
+							<actions>
+								<!-- <do_if value="event.param == $bar"> -->
+								<debug_text text="'CreateBarPatrons event.param ' + event.param + ' (' + @event.param.macro + ')'" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<!-- </do_if> -->
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnModInstall">
+					<actions>
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<signal_cue_instantly cue="Init" />
+					</actions>
+				</cue>
+				<cue name="OnModInstallComplete" checktime="player.age + 1s">
+					<actions>
+						<set_value name="$DebugChance" exact="0" />
+						<debug_text text="'$DebugChance: ' + md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+	</cues>
+</mdscript>

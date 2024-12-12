@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+	purpose: surrender based on plead for life count
+	search for "surrender based on plead for life count" to find code related to this feature
+	<library name="DoSpeak" purpose="include_actions">
+		<actions>
+			<do_if value="not Speak.$speakstarted">
+				<set_value name="Speak.$speakstarted" exact="true" />
+				<speak actor="Speak.$actor" page="Speak.$page" line="Speak.$linewithdelay" recipient="Speak.$recipient" priority="Speak.$priority"
+					backgroundcomm="Speak.$backgroundcomm" broadcast="Speak.$broadcast" voiceover="Speak.$voiceover"
+					emotion="Speak.$speakemotion" timer="@Speak.$timer" interruptontimer="@Speak.$interruptontimer" />
+	-->
+	<!-- <add sel="//library[@name=&quot;DoSpeak&quot;][@purpose=&quot;include_actions&quot;]//do_if[@value=&quot;not Speak.$speakstarted&quot;]">
+		<do_if value="Speak.$actor == Speak.$actor.ship.pilot">
+			<do_if value="[10024, 10025, 10026, 10027, 10028, 10029].indexof.{Speak.$linewithdelay}" comment="plead for life lines">
+				<do_if value="not Speak.$actor.$Cue_NPCR_Surrender?">
+					<signal_cue_instantly cue="NPCR_Surrender" param="Speak.$actor" />
+				</do_if>
+				<do_else>
+					<signal_objects object="Speak.$actor" param="'npcr_surrender_plead_for_life'" />
+				</do_else>
+			</do_if>
+			<do_elseif value="[10068, 10069, 10070, 10071].indexof.{Speak.$linewithdelay}" comment="taunt lines">
+				<signal_objects object="Speak.$actor" param="'npcr_surrender_taunt'" />
+			</do_elseif>
+		</do_if>
+	</add>
+	<add sel="(//cues)[1]">
+		<cue name="NPCR_Surrender" instantiate="true" namespace="this">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<set_value name="$Actor" exact="event.param" />
+				<set_value name="$Count_PleadForLife" exact="1" />
+				<set_value name="$Max_PleadForLife" exact="3 * (($Actor.skill.morale * 2 + $Actor.skill.piloting) / 30)" comment="morale is more significant than piloting skill" />
+				<debug_text text="'$Max_PleadForLife: ' + $Max_PleadForLife" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+				<set_value name="$Actor.$Cue_NPCR_Surrender" exact="this" />
+			</actions>
+			<cues>
+				<cue name="NPCR_Surrender_PleadForLife" instantiate="true">
+					<conditions>
+						<event_object_signalled object="$Actor" param="'npcr_surrender_plead_for_life'" />
+					</conditions>
+					<actions>
+						<set_value name="$Count_PleadForLife" operation="add" exact="1" />
+						<debug_text text="'$Count_PleadForLife: ' + $Count_PleadForLife" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+					</actions>
+				</cue>
+				<cue name="NPCR_Surrender_Cancel">
+					<conditions>
+						<check_any>
+							<event_object_docked object="$Actor" />
+							<event_object_changed_sector object="$Actor" />
+							<event_object_destroyed object="$Actor" />
+							<event_object_signalled object="$Actor" param="'npcr_surrender_taunt'" />
+						</check_any>
+					</conditions>
+					<actions>
+						<debug_text text="event.name" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+						<cancel_cue cue="NPCR_Surrender" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+	</add> -->
+</diff>

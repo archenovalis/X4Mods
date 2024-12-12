@@ -1,0 +1,1092 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_npc_bridge_crew" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<cues>
+		<cue name="UserSettings" version="9">
+			<actions>
+				<set_value name="$userRadarContact_frequency" exact="30s" />
+				<set_value name="$userRadarContact_isGEShipSize" exact="true" />
+				<set_value name="$userIsUseCutscene" exact="true" />
+				<set_value name="$aiAutoGetUp" exact="true" />
+				<set_value name="$aiAutoGetUp_s" exact="true" />
+				<set_value name="$aiAutoGetUp_lxl" exact="true" />
+				<set_value name="$userShipWaitsForPlayer" exact="false" />
+				<set_value name="$userIsAlertEnemies_comm_xssm" exact="false" />
+				<set_value name="$userIsAlertEnemies_comm_lxl" exact="true" />
+				<set_value name="$userIsAlertEnemies_log" exact="true" />
+				<set_value name="$userIsAlertEnemies_notification" exact="true" />
+				<set_value name="$userIsPlayerFleetFollowsPlayer" exact="false" />
+			</actions>
+			<patch sinceversion="2" state="complete">
+				<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+				<set_value name="$aiAutoGetUp" exact="true" />
+			</patch>
+			<patch sinceversion="3" state="complete">
+				<debug_text text="'patch sinceversion 3, state: ' + this.state" />
+				<set_value name="$aiAutoGetUp_s" exact="true" />
+				<set_value name="$aiAutoGetUp_lxl" exact="true" />
+			</patch>
+			<patch sinceversion="4" state="complete">
+				<debug_text text="'patch sinceversion 4, state: ' + this.state" />
+				<set_value name="$userShipWaitsForPlayer" exact="false" />
+			</patch>
+			<patch sinceversion="5" state="complete">
+				<debug_text text="'patch sinceversion 5, state: ' + this.state" />
+				<set_value name="$userIsAlertBigEnemies_comm" exact="false" />
+				<set_value name="$userIsAlertBigEnemies_log" exact="true" />
+				<set_value name="$userIsAlertBigEnemies_notification" exact="true" />
+			</patch>
+			<patch sinceversion="7" state="complete">
+				<debug_text text="'patch sinceversion 5, state: ' + this.state" />
+				<remove_value name="$userIsAlertBigEnemies_comm" />
+				<remove_value name="$userIsAlertBigEnemies_log" />
+				<remove_value name="$userIsAlertBigEnemies_notification" />
+				<set_value name="$userIsAlertEnemies_comm_xssm" exact="false" />
+				<set_value name="$userIsAlertEnemies_comm_lxl" exact="true" />
+				<set_value name="$userIsAlertEnemies_log" exact="true" />
+				<set_value name="$userIsAlertEnemies_notification" exact="true" />
+			</patch>
+			<patch sinceversion="8" state="complete">
+				<set_value name="$userIsPlayerFleetFollowsPlayer" exact="false" />
+			</patch>
+		</cue>
+		<cue name="kNPCBridgeCrew" namespace="this" version="9">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<set_value name="kNPCBridgeCrew.$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+				<set_value name="$playerShip_last" exact="player.occupiedship" />
+				<set_value name="$playerShip_waitOrder" exact="null" />
+				<do_if value="@$playerShip_last.subordinates.count">
+					<set_value name="$playerShip_last_fleetShips" exact="$playerShip_last.subordinates.clone" />
+					<append_to_list name="$playerShip_last_fleetShips" exact="$playerShip_last" />
+				</do_if>
+				<do_else>
+					<set_value name="$playerShip_last_fleetShips" exact="[]" />
+				</do_else>
+			</actions>
+			<patch sinceversion="2">
+				<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+				<do_if value="$userRadarContact_frequency?">
+					<set_value name="UserSettings.$userRadarContact_frequency" exact="$userRadarContact_frequency" />
+					<set_value name="UserSettings.$userRadarContact_isGEShipSize" exact="$userRadarContact_isGEShipSize" />
+					<set_value name="UserSettings.$userIsUseCutscene" exact="$userIsUseCutscene" />
+				</do_if>
+			</patch>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, state: ' + this.state" />
+				<set_value name="PlayerStartCaptaincy.$ship" exact="@$ship" />
+				<set_value name="PlayerStartCaptaincy.$npc_helm" exact="@$npc_helm" />
+				<set_value name="PlayerStartCaptaincy.$npc_tactical" exact="@$npc_tactical" />
+				<set_value name="PlayerStartCaptaincy.$npc_engineer" exact="@$npc_engineer" />
+				<set_value name="PlayerStartCaptaincy.$contacts" exact="@$contacts" />
+			</patch>
+			<patch sinceversion="4">
+				<debug_text text="'patch sinceversion 4, state: ' + this.state" />
+				<set_value name="kNPCBridgeCrew.$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+			</patch>
+			<patch sinceversion="5">
+				<debug_text text="'patch sinceversion 5, state: ' + this.state" />
+				<remove_value name="PlayerStartCaptaincy.$npc_helm" />
+				<remove_value name="PlayerStartCaptaincy.$npc_tactical" />
+				<remove_value name="PlayerStartCaptaincy.$npc_engineer" />
+			</patch>
+			<patch sinceversion="6">
+				<set_value name="$playerShip_last" exact="player.occupiedship" />
+			</patch>
+			<patch sinceversion="7">
+				<do_if value="$playerShip_last.isclass.spacesuit">
+					<set_value name="$playerShip_last" exact="null" />
+					<reset_cue cue="PlayerShip" />
+					<reset_cue cue="PlayerStartCaptaincy" />
+				</do_if>
+			</patch>
+			<patch sinceversion="9" state="complete">
+				<debug_text text="'patch sinceversion 9, state: ' + this.state" />
+				<do_if value="@$playerShip_last.subordinates.count">
+					<set_value name="$playerShip_last_fleetShips" exact="$playerShip_last.subordinates.clone" />
+					<append_to_list name="$playerShip_last_fleetShips" exact="$playerShip_last" />
+				</do_if>
+				<do_else>
+					<set_value name="$playerShip_last_fleetShips" exact="[]" />
+				</do_else>
+				<debug_text text="'$playerShip_last_fleetShips: ' + $playerShip_last_fleetShips" />
+			</patch>
+			<cues>
+				<cue name="Init">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<debug_text text="'$DebugChance: ' + [md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+						<set_value name="$crew" exact="[]" />
+						<set_value name="global.$kNPCR_bridgeCrew_userSettings" exact="UserSettings" />
+					</actions>
+					<cues>
+						<cue name="Init2">
+							<actions>
+								<debug_text text="'player.occupiedship: ' + player.occupiedship" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<debug_text text="'PlayerStartCaptaincy.state: ' + PlayerStartCaptaincy.state" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<do_if value="player.occupiedship and PlayerStartCaptaincy.state == cuestate.waiting">
+									<signal_cue cue="PlayerStartCaptaincy" />
+								</do_if>
+								<reset_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<!-- <cue name="PlayerShip" version="2">
+					<conditions>
+						<check_any>
+							<event_player_started_control />
+							<event_player_stopped_control />
+							<event_cue_signalled cue="md.kuertee_npc_taxis.StageFlyToDestinationn" />
+						</check_any>
+					</conditions>
+					<actions>
+						<debug_text text="event.name" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+						<set_value name="$eventName" exact="event.name" />
+						<do_if value="$eventName == 'event_player_started_control' or (event.name == 'event_cue_signalled' and event.object == md.kuertee_npc_taxis.StageFlyToDestinationn)">
+							<do_if value="@$playerShip_waitOrder.exists">
+								<cancel_order order="$playerShip_waitOrder" />
+								<debug_text text="'cancel_order: ' + $playerShip_waitOrder" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+							</do_if>
+							<do_if value="$eventName == 'event_player_started_control' and (not player.occupiedship.isclass.spacesuit)">
+								<do_if value="
+									UserSettings.$userIsPlayerFleetFollowsPlayer and
+									$playerShip_last and
+									player.occupiedship != $playerShip_last and
+									@$playerShip_last_fleetShips.indexof.{player.occupiedship}">
+									<do_if value="@$playerShip_last_fleetShips.count">
+										<do_if value="$playerShip_last.assignedaipilot">
+											<set_value name="$assignment" exact="$playerShip_last.assignment" />
+											<set_value name="$subordinateGroup" exact="$playerShip_last.subordinategroupid" />
+											<create_order id="'AssignCommander'" object="$playerShip_last" immediate="true">
+												<param name="commander" value="player.occupiedship"/>
+												<param name="assignment" value="$assignment"/>
+												<param name="assignment" value="$assignment"/>
+												<param name="subordinategroup" value="$subordinateGroup"/>
+												<param name="cancelorders" value="false"/>
+											</create_order>
+										</do_if>
+										<do_for_each name="$subordinate" in="$playerShip_last_fleetShips">
+											<set_value name="$assignment" exact="$subordinate.assignment" />
+											<set_value name="$subordinateGroup" exact="$subordinate.subordinategroupid" />
+											<create_order id="'AssignCommander'" object="$subordinate" immediate="true">
+												<param name="commander" value="player.occupiedship"/>
+												<param name="assignment" value="$assignment"/>
+												<param name="assignment" value="$assignment"/>
+												<param name="subordinategroup" value="$subordinateGroup"/>
+												<param name="cancelorders" value="false"/>
+											</create_order>
+										</do_for_each>
+									</do_if>
+								</do_if>
+								<set_value name="$playerShip_last" exact="player.occupiedship" />
+								<debug_text text="'$playerShip_last: ' + $playerShip_last.knownname" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+							</do_if>
+						</do_if>
+						<do_elseif value="$eventName == 'event_player_stopped_control'">
+							<do_if value="$playerShip_last">
+								<debug_text text="'$playerShip_last: ' + $playerShip_last.knownname" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<set_value name="$playerShip_last_fleetShips" exact="$playerShip_last.subordinates.clone" />
+								<do_if value="UserSettings.$userShipWaitsForPlayer">
+									<do_if value="$playerShip_last.assignedaipilot">
+										<create_order name="$playerShip_waitOrder" object="$playerShip_last" id="'Wait'" immediate="true">
+											<param name="timeout" value="1h" />
+											<param name="allowdocked" value="true" />
+										</create_order>
+										<debug_text text="'create_order: ' + $playerShip_waitOrder" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+									</do_if>
+								</do_if>
+							</do_if>
+							<reset_cue cue="PlayerStartCaptaincy" />
+						</do_elseif>
+						<reset_cue cue="this" />
+					</actions>
+				</cue> -->
+				<cue name="PlayerStartCaptaincy" namespace="this">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_player_started_control />
+						</check_any>
+						<check_value value="@player.occupiedship" />
+						<check_any>
+							<check_value value="@player.occupiedship.assignedaipilot.exists" />
+							<check_value value="@player.occupiedship.people.{entityrole.service}.list.count" />
+						</check_any>
+					</conditions>
+					<actions>
+						<set_value name="$ship" exact="player.occupiedship" />
+						<debug_text text="'$ship: ' + $ship + ' (' + $ship.knownname + ', ' + $ship.class + ')'" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+						<create_group groupname="$contacts" />
+						<set_value name="$shieldState_ok" exact="100" />
+						<set_value name="$shieldState_minor_damage" exact="75" />
+						<set_value name="$shieldState_major_damage" exact="50" />
+						<set_value name="$shieldState_depleted" exact="25" />
+						<set_value name="$shieldState" exact="$shieldState_ok" />
+						<set_value name="$lastContactTime" exact="0" />
+						<set_value name="$lastEnginesCount" exact="$ship.engines.operational.count" />
+						<set_value name="$lastWeaponsCount" exact="$ship.weapons.operational.count" />
+						<set_value name="$isGreetingOk" exact="event.name == 'event_player_started_control'" />
+					</actions>
+					<cues>
+						<cue name="Greetings">
+							<delay exact="3s" />
+							<actions>
+								<set_value name="$isGreeted" exact="false" />
+								<do_if value="$isGreetingOk and (not $contacts.count)">
+									<do_if value="
+										(not @kNPCBridgeCrew.$time_lastGreeting)
+										or
+										player.age gt @kNPCBridgeCrew.$time_lastGreeting + 10min
+									">
+										<set_value name="kNPCBridgeCrew.$time_lastGreeting" exact="player.age" />
+										<set_value name="$alertLine" exact="3003" />
+										<debug_text text="'$alertLine: ' + $alertLine" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+										<run_actions ref="FindCrewMember" result="$npc_helm" />
+										<do_if value="$npc_helm">
+											<do_if value="not UserSettings.$userIsUseCutscene">
+												<speak actor="$npc_helm" line="$alertLine" backgroundcomm="true" />
+											</do_if>
+											<do_else>
+												<set_value name="$isGreeted" exact="true" />
+												<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[
+													$cue = namespace,
+													$npc = $npc_helm,
+													$forcedNPCFaction = {1416318, 689401},
+													$page = $npc_helm.page,
+													$line = $alertLine,
+													$isSpeak = true,
+													$caption = readtext.{$npc_helm.page}.{$alertLine},
+													$AutoCam_isExpectedCutscene = true,
+												]" />
+											</do_else>
+										</do_if>
+									</do_if>
+								</do_if>
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+						<!-- ship computer -->
+						<!-- <t id="504">Hostile detected.( object name)</t> -->
+						<!-- npcs -->
+						<!-- <t id="3003">Captain.</t> -->
+						<!-- <t id="3103">Captain!</t> -->
+						<!-- <t id="10001">(report on enemy activity)Enemy spotted.</t>
+						<t id="10052">Xenon spotted!</t>
+						<t id="10053">Kha'ak spotted!</t> -->
+						<!-- <t id="11504">Engines need repair.</t>
+						<t id="11505">Hull needs fixing.</t>
+						<t id="11506">Shields are down.</t> -->
+						<!-- <t id="10055">(ship taking shield damage)Taking shield damage.</t>
+						<t id="10056">(ship taking shield damage)Shields hit.</t> -->
+						<!-- <t id="11507">Weapons need fixing.</t> -->
+						<cue name="RadarContact" instantiate="true">
+							<conditions>
+								<check_any>
+									<check_all>
+										<event_cue_signalled />
+										<check_value value="event.param.$enemy.isclass.ship" />
+										<check_value value="not $contacts.indexof.{event.param.$enemy}" />
+									</check_all>
+									<check_all>
+										<event_object_enemy_found object="$ship" />
+										<check_value value="event.param.isclass.ship" />
+										<check_value value="not $contacts.indexof.{event.param}" />
+										<check_value value="player.activity != activity.travel" />
+										<check_value value="not player.timewarp.active" />
+										<check_value value="not @player.zone.islocalhighway" />
+										<check_value value="not @player.zone.issuperhighway" />
+									</check_all>
+								</check_any>
+							</conditions>
+							<actions>
+								<do_if value="event.name == 'event_cue_signalled'">
+									<set_value name="$enemy" exact="event.param.$enemy" />
+								</do_if>
+								<do_elseif value="event.name == 'event_object_enemy_found'">
+									<set_value name="$enemy" exact="event.param" />
+								</do_elseif>
+								<debug_text text="'$enemy: ' + $enemy + ' (' + $enemy.knownname + ', ' + $enemy.class + ')'" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<debug_text text="'$contacts.count: ' + $contacts.count" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<debug_text text="'player.age: ' + player.age" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<debug_text text="'$lastContactTime: ' + ($lastContactTime + 1min) + ', ' + ($lastContactTime + UserSettings.$userRadarContact_frequency)" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<debug_text text="'$userRadarContact_isGEShipSize: ' + UserSettings.$userRadarContact_isGEShipSize" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<do_if value="
+									(
+										(not $contacts.count) or
+										player.age gt $lastContactTime + 1min or
+										(
+											player.age gt $lastContactTime + UserSettings.$userRadarContact_frequency and
+											(
+												(not UserSettings.$userRadarContact_isGEShipSize) or
+												(
+													($ship.isclass.ship_s and ($enemy.isclass.ship_s or $enemy.isclass.ship_m or $enemy.isclass.ship_l or $enemy.isclass.ship_xl)) or
+													($ship.isclass.ship_m and ($enemy.isclass.ship_m or $enemy.isclass.ship_l or $enemy.isclass.ship_xl)) or
+													($ship.isclass.ship_l and ($enemy.isclass.ship_l or $enemy.isclass.ship_xl)) or
+													($ship.isclass.ship_xl and $enemy.isclass.ship_xl)
+												)
+											)
+										)
+									) and
+									(
+										(
+											UserSettings.$userIsAlertEnemies_comm_xssm and
+											$enemy.isclass.[class.ship_xs, class.ship_s, class.ship_m]
+										) or
+										(
+											UserSettings.$userIsAlertEnemies_comm_lxl and
+											$enemy.isclass.[class.ship_l, class.ship_xl]
+										)
+									)
+								">
+									<add_to_group groupname="$contacts" object="$enemy" />
+									<set_value name="$lastContactTime" exact="player.age" />
+									<!-- <t id="10001">(report on enemy activity)Enemy spotted.</t> -->
+									<set_value name="$alertLine" exact="10001" />
+									<debug_text text="'$alertLine: ' + $alertLine" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+									<run_actions ref="FindCrewMember" result="$npc_helm" />
+									<do_if value="$npc_helm">
+										<!-- <do_if value="not UserSettings.$userIsUseCutscene">
+											<speak actor="$npc_helm" line="$alertLine" backgroundcomm="true" />
+										</do_if>
+										<do_else>
+											<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[
+												$cue = namespace,
+												$npc = $npc_helm,
+												$forcedNPCFaction = {1416318, 689401},
+												$page = $npc_helm.page,
+												$line = $alertLine,
+												$isSpeak = true,
+												$caption = readtext.{$npc_helm.page}.{$alertLine} + '\n' + {1416318, 689404}.[$enemy.knownname],
+												$interactionParam = 'kBridgeCrew_radar_contact',
+												$interactionParam2 = $enemy
+											]" />
+										</do_else> -->
+										<signal_objects object="player.galaxy" param="'kncpr_enemy_report'" param2="table[
+											$ship = $ship,
+											$enemy = $enemy,
+											$isWithinLastMinute = player.age - $lastContactTime le 1min,
+											$isVideoComm = UserSettings.$userIsUseCutscene,
+											$npc = $npc_helm,
+											$AutoCam_isExpectedCutscene = true,
+										]" />
+									</do_if>
+								</do_if>
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="RadarContact_Interact">
+							<conditions>
+								<event_player_interaction param="'kBridgeCrew_radar_contact'" />
+							</conditions>
+							<actions>
+								<stop_cutscene key="'ShowPilot'"/>
+								<stop_cutscene key="'ShowNPCFace'"/>
+								<stop_cutscene key="'ShowNPCFaceArgon'"/>
+								<stop_cutscene key="'ShowNPCFaceBoron'"/>
+								<stop_cutscene key="'ShowNPCFaceParanid'"/>
+								<stop_cutscene key="'ShowNPCFaceSplit'"/>
+								<stop_cutscene key="'ShowNPCFaceTeladi'"/>
+								<set_value name="$enemy" exact="event.param2" />
+								<debug_text text="'$enemy: ' + $enemy + ' (' + $enemy.knownname + ')'" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<do_if value="@player.occupiedship.exists">
+									<raise_lua_event name="'kBridgeCrew_set_target'" param="$enemy" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="ContactLeftRadar" instantiate="true">
+							<conditions>
+								<check_any>
+									<check_all>
+										<event_object_changed_attention group="$contacts" />
+										<check_value value="not kNPCBridgeCrew.$attentionInZoneAndNearer.indexof.{event.param}" />
+										<check_value value="kNPCBridgeCrew.$attentionInZoneAndNearer.indexof.{event.param2}" />
+									</check_all>
+									<event_object_destroyed group="$contacts" />
+								</check_any>
+							</conditions>
+							<actions>
+								<debug_text text="'event.object: ' + event.object" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<remove_from_group group="$contacts" object="event.object" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="Hits" instantiate="true">
+							<conditions>
+								<event_player_ship_hit />
+								<check_value value="$ship.shieldpercentage le $shieldState" />
+								<check_value value="player.activity != activity.travel" />
+								<check_value value="not player.timewarp.active" />
+							</conditions>
+							<actions>
+								<!-- shields -->
+								<set_value name="$alertLine" exact="null" />
+								<do_if value="$ship.shieldpercentage le $shieldState_depleted">
+									<do_if value="$shieldState != $shieldState_depleted">
+										<set_value name="$shieldState" exact="$shieldState_depleted" />
+										<!-- <t id="11506">Shields are down.</t> -->
+										<set_value name="$alertLine" exact="11506" />
+									</do_if>
+								</do_if>
+								<do_elseif value="$ship.shieldpercentage le $shieldState_major_damage">
+									<do_if value="$shieldState != $shieldState_major_damage">
+										<set_value name="$shieldState" exact="$shieldState_major_damage" />
+										<!-- <t id="10055">(ship taking shield damage)Taking shield damage.</t> -->
+										<set_value name="$alertLine" exact="10055" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$ship.shieldpercentage le $shieldState_minor_damage">
+									<do_if value="$shieldState != $shieldState_minor_damage">
+										<set_value name="$shieldState" exact="$shieldState_minor_damage" />
+										<!-- <t id="10056">(ship taking shield damage)Shields hit.</t> -->
+										<set_value name="$alertLine" exact="10056" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="$shieldState != $shieldState_ok">
+									<set_value name="$shieldState" exact="$shieldState_ok" />
+								</do_elseif>
+								<do_if value="$alertLine">
+									<debug_text text="'$shieldState: ' + $shieldState" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+									<debug_text text="'$alertLine: ' + $alertLine" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+									<run_actions ref="FindCrewMember" result="$npc_tactical" />
+									<do_if value="$npc_tactical">
+										<do_if value="not UserSettings.$userIsUseCutscene">
+											<speak actor="$npc_tactical" line="$alertLine" backgroundcomm="true" />
+										</do_if>
+										<do_else>
+											<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[
+												$cue = namespace,
+												$npc = $npc_tactical,
+												$forcedNPCFaction = {1416318, 689402},
+												$page = $npc_tactical.page,
+												$line = $alertLine,
+												$isSpeak = true,
+												$caption = readtext.{$npc_tactical.page}.{$alertLine},
+												$AutoCam_isExpectedCutscene = true,
+											]" />
+										</do_else>
+									</do_if>
+								</do_if>
+								<do_if value="not $alertLine">
+									<!-- engines -->
+									<set_value name="$enginesCount" exact="$ship.engines.operational.count" />
+									<do_if value="$enginesCount lt $lastEnginesCount">
+										<set_value name="$lastEnginesCount" exact="$enginesCount" />
+										<set_value name="$alertLine" exact="11504" />
+									</do_if>
+									<do_if value="$alertLine">
+										<debug_text text="'$lastEnginesCount: ' + $lastEnginesCount" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+										<debug_text text="'$alertLine: ' + $alertLine" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+										<run_actions ref="FindCrewMember" result="$npc_engineer" />
+										<do_if value="$npc_engineer">
+											<do_if value="not UserSettings.$userIsUseCutscene">
+												<speak actor="$npc_engineer" line="$alertLine" backgroundcomm="true" />
+											</do_if>
+											<do_else>
+												<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[
+													$cue = namespace,
+													$npc = $npc_engineer,
+													$forcedNPCFaction = {1416318, 689403},
+													$page = $npc_engineer.page,
+													$line = $alertLine,
+													$isSpeak = true,
+													$caption = readtext.{$npc_engineer.page}.{$alertLine},
+													$AutoCam_isExpectedCutscene = true,
+												]" />
+											</do_else>
+										</do_if>
+									</do_if>
+								</do_if>
+								<do_if value="not $alertLine">
+									<!-- weapons -->
+									<set_value name="$weaponsCount" exact="$ship.weapons.operational.count" />
+									<!-- <debug_text text="'$weaponsCount: ' + $weaponsCount" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance]" /2>.max -->
+									<!-- <debug_text text="'$lastWeaponsCount: ' + $lastWeaponsCount" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance]" /2>.max -->
+									<do_if value="$weaponsCount lt $lastWeaponsCount">
+										<set_value name="$lastWeaponsCount" exact="$weaponsCount" />
+										<debug_text text="'$lastWeaponsCount: ' + $lastWeaponsCount" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+										<set_value name="$alertLine" exact="11507" />
+									</do_if>
+									<do_if value="$alertLine">
+										<debug_text text="'$alertLine: ' + $alertLine" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+										<run_actions ref="FindCrewMember" result="$npc_engineer" />
+										<do_if value="$npc_engineer">
+											<do_if value="not UserSettings.$userIsUseCutscene">
+												<speak actor="$npc_engineer" line="$alertLine" backgroundcomm="true" />
+											</do_if>
+											<do_else>
+												<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[
+													$cue = namespace,
+													$npc = $npc_engineer,
+													$forcedNPCFaction = {1416318, 689403},
+													$page = $npc_engineer.page,
+													$line = $alertLine,
+													$isSpeak = true,
+													$caption = readtext.{$npc_engineer.page}.{$alertLine},
+													$AutoCam_isExpectedCutscene = true,
+												]" />
+											</do_else>
+										</do_if>
+									</do_if>
+								</do_if>
+								<reset_cue cue="HitTimeout" />
+							</actions>
+							<cues>
+								<cue name="Hits2">
+									<actions>
+										<signal_cue cue="HitTimeout" />
+										<cancel_cue cue="this" />
+										<cancel_cue cue="parent" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+						<cue name="HitTimeout">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<cues>
+								<cue name="HitTimout_CheckInterval" checkinterval="30s" instantiate="true">
+									<actions>
+										<debug_text text="''" chance="@md.$kuertee_interval" />
+										<do_if value="$ship.shieldpercentage gt $shieldState">
+											<do_if value="$ship.shieldpercentage gt $shieldState_minor_damage">
+												<set_value name="$shieldState" exact="$shieldState_ok" />
+											</do_if>
+											<do_elseif value="$ship.shieldpercentage gt $shieldState_major_damage">
+												<set_value name="$shieldState" exact="$shieldState_minor_damage" />
+											</do_elseif>
+											<do_elseif value="$ship.shieldpercentage gt $shieldState_depleted">
+												<set_value name="$shieldState" exact="$shieldState_major_damage" />
+											</do_elseif>
+											<debug_text text="'$shieldState: ' + $shieldState" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+										</do_if>
+										<set_value name="$enginesCount" exact="$ship.engines.operational.count" />
+										<do_if value="$enginesCount gt $lastEnginesCount">
+											<set_value name="$lastEnginesCount" exact="$enginesCount" />
+										</do_if>
+										<set_value name="$weaponsCount" exact="$ship.weapons.operational.count" />
+										<do_if value="$weaponsCount gt $lastWeaponsCount">
+											<set_value name="$lastWeaponsCount" exact="$weaponsCount" />
+										</do_if>
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="HitTimeout_Cancel" checktime="player.age + 1min">
+									<actions>
+										<cancel_cue cue="parent" />
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+						<cue name="TargetChanged" instantiate="true">
+							<conditions>
+								<event_player_changed_target />
+								<check_value value="player.occupiedship" />
+							</conditions>
+							<actions>
+								<do_if value="@player.target.exists">
+									<stop_cutscene key="'ShowPilot'"/>
+									<stop_cutscene key="'ShowNPCFace'"/>
+									<stop_cutscene key="'ShowNPCFaceArgon'"/>
+									<stop_cutscene key="'ShowNPCFaceBoron'"/>
+									<stop_cutscene key="'ShowNPCFaceParanid'"/>
+									<stop_cutscene key="'ShowNPCFaceSplit'"/>
+									<stop_cutscene key="'ShowNPCFaceTeladi'"/>
+								</do_if>
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="Autopilot" namespace="this" instantiate="true" version="3">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<event_autopilot_target_set />
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$target" exact="event.param" />
+								<debug_text text="'$target: ' + $target + ' ' + @$target.knownname + ' ' + @$target.idcode" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<do_if value="$isDebugChanceEnabled?">
+									<remove_value name="$isDebugChanceEnabled" />
+									<set_value name="md.kuertee_npc_reactions.NPCReactions.$DebugChance" exact="0" />
+								</do_if>
+							</actions>
+							<patch sinceversion="3">
+								<debug_text text="'patch sinceversion 3'" />
+								<do_if value="not md.kuertee_npc_reactions.NPCReactions.$DebugChance">
+									<set_value name="$isDebugChanceEnabled" exact="true" />
+									<set_value name="md.kuertee_npc_reactions.NPCReactions.$DebugChance" exact="100" />
+								</do_if>
+								<signal_cue_instantly cue="Autopilot.static" param="$target" />
+							</patch>
+							<cues>
+								<cue name="Autopilot_EnsureOneInstanceOnly">
+									<conditions>
+										<check_any>
+											<event_cue_signalled cue="Autopilot.static" />
+											<event_autopilot_target_set />
+										</check_any>
+									</conditions>
+									<actions>
+										<debug_text text="event.name" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+										<cancel_cue cue="Autopilot" />
+									</actions>
+								</cue>
+								<cue name="Autopilot_Stopped" checkinterval="1s" instantiate="true">
+									<actions>
+										<do_if value="not player.autopilottarget">
+											<cancel_cue cue="Autopilot" />
+											<cancel_cue cue="this" />
+										</do_if>
+									</actions>
+								</cue>
+								<cue name="Autopilot_Arrived">
+									<conditions>
+										<event_object_changed_attention object="$target" />
+										<check_any>
+											<check_value value="not $target.isclass.ship" />
+											<check_all>
+												<check_value value="not $target.travel.active" />
+												<check_value value="$target.speed le $target.maxspeed * 0.25" />
+											</check_all>
+										</check_any>
+										<check_value value="event.param ge attention.inzone" />
+										<check_value value="event.param2 lt attention.inzone" />
+									</conditions>
+									<actions>
+										<estimate_travel_time result="$eta" start="player.occupiedship" target="$target" ship="player.occupiedship" />
+										<debug_text text="'$eta: ' + $eta" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+									</actions>
+									<delay exact="($eta * 0.75)s" />
+									<actions>
+										<set_value name="$alertLine" exact="10404" comment="We've arrived at our destination." />
+										<run_actions ref="FindCrewMember" result="$npc" />
+										<do_if value="$npc">
+											<do_if value="not UserSettings.$userIsUseCutscene">
+												<speak actor="$npc" line="$alertLine" backgroundcomm="true" />
+											</do_if>
+											<do_else>
+												<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[
+													$cue = namespace,
+													$npc = $npc,
+													$forcedNPCFaction = {1416318, 689401},
+													$page = $npc.page,
+													$line = $alertLine,
+													$isSpeak = true,
+													$caption = readtext.{$npc.page}.{$alertLine},
+													$AutoCam_isExpectedCutscene = true,
+												]" />
+											</do_else>
+										</do_if>
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="ShipWaitsForPlayerToDock2" namespace="this">
+					<conditions>
+						<event_object_dock_assigned group="global.$PlayerControlledGroup" />
+						<check_value value="@event.object.assigneddock.ship" />
+					</conditions>
+					<actions>
+						<set_value name="$ship" exact="event.object" />
+						<create_order name="$ship_playerDockingAt_wait" object="$ship.assigneddock.ship" id="'Wait'" immediate="true">
+							<param name="timeout" value="1h" />
+						</create_order>
+						<debug_text text="'$ship.assigneddock.ship: ' + @$ship.assigneddock.ship.knownname + ', ' + @$ship.assigneddock" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+						<debug_text text="'$ship_playerDockingAt_wait.exists: ' + $ship_playerDockingAt_wait.exists" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+					</actions>
+					<cues>
+						<cue name="ShipWaitsForPlayerToDock2_CleanUp">
+							<conditions>
+								<check_any>
+									<event_player_stopped_control />
+									<event_object_docked object="$ship" />
+									<event_object_dock_unassigned object="$ship" />
+								</check_any>
+							</conditions>
+							<actions>
+								<cancel_order order="$ship_playerDockingAt_wait" />
+								<debug_text text="'$ship_playerDockingAt_wait.exists: ' + $ship_playerDockingAt_wait.exists" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<reset_cue cue="ShipWaitsForPlayerToDock2" />
+								<reset_cue cue="ShipWaitsForPlayerToDock2_CleanUp" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<library name="FindCrewMember" purpose="run_actions">
+					<actions>
+						<set_value name="$crewMember" exact="null" />
+						<set_value name="$ship" exact="player.ship" />
+						<find_object_component name="$npcsInRoom" class="class.npc" object="player.room" owner="faction.player" multiple="true" />
+						<do_if value="$npcsInRoom.count">
+							<set_value name="$crewMember" exact="$npcsInRoom.random" />
+						</do_if>
+						<!-- <do_if value="not @$crewMember.exists">
+							<find_object_component name="$npcsInShip" class="class.npc" object="player.ship" owner="faction.player" multiple="true" />
+							<set_value name="$crewMember" exact="$npcsInShip.random" />
+						</do_if> -->
+						<do_if value="not @$crewMember.exists and @$ship.assignedaipilot.exists">
+							<set_value name="$crewMember" exact="$ship.assignedaipilot" />
+						</do_if>
+						<return value="$crewMember" />
+					</actions>
+				</library>
+				<cue name="CleanOldVersionData">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="'kNPCBridgeCrew.$crew: ' + kNPCBridgeCrew.$crew" />
+						<do_all counter="$i" exact="kNPCBridgeCrew.$crew.count" reverse="true">
+							<set_value name="$member" exact="kNPCBridgeCrew.$crew.{$i}" />
+							<do_if value="@$member.exists">
+								<debug_text text="'$member (pre clean): ' + $member + ' (' + @$member.name + ')'" />
+								<set_value name="$member.$kNPCR_isBridgeCrew" exact="null" />
+								<do_if value="@$member.$isNPCRBridgeCrewTemplate">
+									<remove_cue_actor cue="namespace" actor="$member" />
+									<destroy_object object="$member" />
+								</do_if>
+							</do_if>
+							<debug_text text="'$member (post clean): ' + $member + ' (' + @$member.name + ')'" />
+						</do_all>
+					</actions>
+					<cues>
+						<cue name="CleanOldVersionData2">
+							<actions>
+								<do_all counter="$i" exact="kNPCBridgeCrew.$crew.count" reverse="true">
+									<set_value name="$member" exact="@kNPCBridgeCrew.$crew.{$i}" />
+									<do_if value="@$member.exists and $member.isplayerowned">
+										<signal_objects object="$member" param="'npc_state_reinit'" />
+									</do_if>
+									<remove_from_list name="kNPCBridgeCrew.$crew" exact="$member" />
+								</do_all>
+								<debug_text text="'kNPCBridgeCrew.$crew: ' + kNPCBridgeCrew.$crew" />
+								<reset_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="CleanOldVersionData_RunOnce">
+					<actions>
+						<signal_cue cue="CleanOldVersionData" />
+						<cancel_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="AIPilot_AutoGetUp" namespace="this">
+					<actions>
+						<set_value name="$ship_lastPlayerControlled" exact="player.occupiedship" />
+						<set_value name="$isGetUpNow" exact="false" />
+					</actions>
+					<cues>
+						<cue name="AIPilot_AutoGetUp_OnPlayerStartControl">
+							<conditions>
+								<event_player_started_control />
+								<check_value value="not player.ship.isclass.spacesuit" />
+							</conditions>
+							<actions>
+								<set_value name="$ship_lastPlayerControlled" exact="player.ship" />
+								<debug_text text="'$ship_lastPlayerControlled: ' + $ship_lastPlayerControlled + ' (' + $ship_lastPlayerControlled + ')'" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="AIPilot_AutoGetUp_OnPlayerEnterShip">
+							<conditions>
+								<event_object_changed_room object="player.entity" />
+								<check_value value="@event.param.isclass.cockpit" />
+								<check_value value="@event.param.ship.assignedaipilot.exists" />
+								<check_value value="@event.param.ship == $ship_lastPlayerControlled" />
+								<check_value value="@event.param.ship.isplayerowned" />
+								<!-- <check_value value="UserSettings.$aiAutoGetUp" /> -->
+								<check_any>
+									<check_all>
+										<check_value value="UserSettings.$aiAutoGetUp_s" />
+										<check_value value="@event.param.ship.isclass.ship_s" />
+									</check_all>
+									<check_all>
+										<check_value value="UserSettings.$aiAutoGetUp" />
+										<check_value value="@event.param.ship.isclass.ship_m" />
+									</check_all>
+									<check_all>
+										<check_value value="UserSettings.$aiAutoGetUp_lxl" />
+										<check_value value="@event.param.ship.isclass.[class.ship_l, class.ship_xl]" />
+									</check_all>
+								</check_any>
+								<check_any>
+									<check_value value="not @md.Story_Criminal.Ch6_ToPrison.exists" />
+									<check_value value="@md.Story_Criminal.Ch6_ToPrison.state != cuestate.active" />
+									<check_value value="event.param.ship != @md.Story_Criminal.Ch6_ToPrison.namespace.$AxiomShip" />
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$isGetUpNow" exact="true" />
+								<debug_text text="'event.param.ship.isclass.ship_m: ' + @event.param.ship.isclass.ship_m" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<debug_text text="'$isGetUpNow: ' + $isGetUpNow" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<do_if value="$ship_lastPlayerControlled.assignedaipilot and $ship_lastPlayerControlled.isplayerowned">
+									<signal_objects object="$ship_lastPlayerControlled.assignedaipilot" param="'npc_state_reinit'" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="AIPilot_AutoGetUp_OnGetUp">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$isGetUpNow" exact="false" />
+								<debug_text text="'$isGetUpNow: ' + $isGetUpNow" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OrderPilotConversation" namespace="this">
+					<actions>
+						<set_value name="$npc" exact="null" />
+						<set_value name="$isGiveOrder" exact="false" />
+					</actions>
+					<cues>
+						<cue name="OrderPilotConversation_ConvoStart">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<!-- Event for when a conversation is started (object = actor (entity or list containing context and template), param = conversation name, param2 = conversation parameter) -->
+									<event_conversation_started conversation="default" />
+								</check_any>
+							</conditions>
+							<actions>
+								<debug_text text="'event.name: ' + event.name" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="event.name == 'event_conversation_started'">
+									<set_value name="$npc" exact="event.object" />
+								</do_if>
+								<do_else>
+									<set_value name="$npc" exact="@event.param.$npc" />
+								</do_else>
+								<debug_text text="'$npc: ' + $npc" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<set_value name="$isGiveOrder" exact="false" />
+								<do_if value="$npc.isplayerowned and @$npc.ship.pilot == $npc">
+									<do_if value="event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists">
+										<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kNPCR_isBridgeCrew" exact="table[
+											$signalCue = OrderPilotConversation_ConvoStart,
+											$params = table[$npc = @$npc]
+										]" />
+									</do_if>
+									<do_else>
+										<!-- <t id="689405">\(Give order.\)</t> -->
+										<!-- <t id="689408">Return to your post.</t> -->
+										<add_player_choice text="{1416318, 689405}" section="bridge_crew_give_order" />
+										<!-- <do_if value="@$npc.assignedcontrolled.order.exists and @$npc.assignedcontrolled.defaultorder.exists and $npc.assignedcontrolled.order != $npc.assignedcontrolled.defaultorder">
+											<add_player_choice text="{1416318, 689408}" section="bridge_crew_return_to_post" />
+										</do_if> -->
+									</do_else>
+								</do_if>
+								<do_else>
+									<set_value name="$npc" exact="null" />
+								</do_else>
+								<reset_cue cue="OrderPilotConversation_ConvoSection" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="OrderPilotConversation_ConvoSection">
+							<conditions>
+								<check_any>
+									<event_conversation_next_section section="bridge_crew_give_order" />
+									<!-- <event_conversation_next_section section="bridge_crew_return_to_post" /> -->
+								</check_any>
+							</conditions>
+							<actions>
+								<debug_text text="'$npc: ' + $npc" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<do_if value="event.param == 'bridge_crew_give_order'">
+									<set_value name="$isGiveOrder" exact="true" />
+								</do_if>
+								<!-- <do_elseif value="event.param == 'bridge_crew_return_to_post'">
+									<cancel_all_orders object="$npc.assignedcontrolled" />
+								</do_elseif> -->
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="OrderPilotConversation_ConvoEnd">
+							<conditions>
+								<event_conversation_finished />
+							</conditions>
+							<actions>
+								<debug_text text="'$isGiveOrder: ' + $isGiveOrder" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+								<do_if value="$isGiveOrder">
+									<!-- open map, preselect this ship -->
+									<!-- param == { 0, 0, showzone, focuscomponent [, history] [, mode, modeparam] } -->
+									<!-- <open_menu menu="MapMenu" param="[0, 0, true, null, null, 'infomode', [ 'info', event.param2 ]]" /> -->
+									<do_if value="kNPCBridgeCrew.$playerShip_waitOrder.exists">
+										<cancel_order order="kNPCBridgeCrew.$playerShip_waitOrder" />
+									</do_if>
+									<set_value name="$isShowZone" exact="false" />
+									<set_value name="$focusComponent" exact="$npc.ship" />
+									<set_value name="$history" exact="null" />
+									<set_value name="$mode" exact="''" />
+									<set_value name="$modeParam" exact="[]" />
+									<open_menu menu="MapMenu" param="[0, 0, $isShowZone, $focusComponent, $history, $mode, $modeParam]" />
+									<raise_lua_event name="'kBridgeCrew_give_order'" param="$focusComponent" />
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnModInstall">
+					<actions>
+						<debug_text text="'$DebugChance: ' + [md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+						<signal_cue_instantly cue="Init" />
+					</actions>
+				</cue>
+				<cue name="OnModInstallComplete" checktime="player.age + 1s">
+					<actions>
+						<set_value name="$DebugChance" exact="0" />
+						<debug_text text="'$DebugChance: ' + [md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+					</actions>
+				</cue>
+				<cue name="EnemyReports" namespace="this">
+					<actions>
+						<set_value name="$timesBySector" exact="table[]" />
+					</actions>
+					<cues>
+						<cue name="EnemyReports_Report" instantiate="true">
+							<conditions>
+								<event_object_signalled object="player.galaxy" param="'kncpr_enemy_report'" />
+							</conditions>
+							<actions>
+								<set_value name="$ship" exact="event.param2.$ship" />
+								<set_value name="$isPlayerShip" exact="$ship == player.occupiedship" />
+								<set_value name="$enemy" exact="event.param2.$enemy" />
+								<set_value name="$isWithinLastMinute" exact="event.param2.$isWithinLastMinute" />
+								<set_value name="$isVideoComm" exact="@event.param2.$isVideoComm" />
+								<set_value name="$npc" exact="@event.param2.$npc" />
+								<do_if value="not $npc">
+									<set_value name="$npc" exact="$ship.assignedaipilot" />
+								</do_if>
+								<do_if value="
+									$npc and
+									(
+										$enemy.isclass.[class.ship_l, class.ship_xl] or
+										player.age - @$timesBySector.{$ship.sector} gt 5min or
+										$isPlayerShip
+									)
+								">
+									<!-- <debug_text text="'kuertee_npc_bridge_crew UserSettings.$userIsAlertEnemies_comm: ' + @UserSettings.$userIsAlertEnemies_comm" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" /> -->
+									<debug_text text="'kuertee_npc_bridge_crew $isWithinLastMinute: ' + $isWithinLastMinute" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
+									<!-- <t id="689406">Enemy \(%s(enemy)\) Report</t>
+									<t id="689407">Enemy \(%s(enemy)\) spotted in %s(sector). Reported by %s(name) %s(ship name).</t>
+									<t id="10001">(report on enemy activity)Enemy spotted.</t> -->
+									<set_value name="$timesBySector.{$ship.sector}" exact="player.age" />
+									<do_if value="
+										$isPlayerShip or
+										(
+											(
+												$enemy.isclass.[class.ship_l, class.ship_xl] or
+												(not $isWithinLastMinute)
+											) and
+											(
+												(
+													UserSettings.$userIsAlertEnemies_comm_xssm and
+													$enemy.isclass.[class.ship_xs, class.ship_s, class.ship_m]
+												) or
+												(
+													UserSettings.$userIsAlertEnemies_comm_lxl and
+													$enemy.isclass.[class.ship_l, class.ship_xl]
+												)
+											)
+										)
+									">
+										<do_if value="not $isVideoComm">
+											<speak actor="$npc" line="10001" recipient="player.entity" backgroundcomm="true" />
+										</do_if>
+										<do_else>
+											<signal_cue_instantly cue="md.kuertee_npc_reactions.PilotCutscenePlay" param="table[
+												$cue = namespace,
+												$npc = $npc,
+												$forcedNPCFaction = {1416318, 689401},
+												$page = $npc.page,
+												$line = 10001,
+												$isSpeak = true,
+												$caption = readtext.{$npc.page}.{10001} + '\n' + {1416318, 689404}.[$enemy.knownname],
+												$interactionParam = 'kBridgeCrew_radar_contact',
+												$interactionParam2 = $enemy,
+												$AutoCam_isExpectedCutscene = true,
+											]" />
+										</do_else>
+									</do_if>
+									<do_if value="(not $enemy.isunit) and (not $enemy.islasertower)">
+										<set_value name="$kNPCR_text_enemyReport" exact="{1416318, 689407}.[
+											$enemy.knownname + ', ' + $enemy.idcode,
+											$ship.sector.knownname,
+											$npc.name,
+											$ship.knownname + ', ' + $ship.idcode
+										]" />
+										<do_if value="UserSettings.$userIsAlertEnemies_log">
+											<do_if value="not $enemy.ismasstraffic">
+												<write_to_logbook category="alerts" title="{1416318, 689406}" text="$kNPCR_text_enemyReport" object="$enemy" interaction="showonmap" />
+											</do_if>
+										</do_if>
+										<do_if value="UserSettings.$userIsAlertEnemies_notification">
+											<show_notification text="$kNPCR_text_enemyReport" />
+										</do_if>
+										<do_if value="@md.kuertee_auto_camera.PauseOptions_PauseOnEvents.state == cuestate.waiting">
+											<signal_cue cue="md.kuertee_auto_camera.PauseOptions_PauseOnEvents" />
+										</do_if>
+									</do_if>
+								</do_if>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="DebugChat2">
+			<conditions>
+				<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+				<check_any>
+					<check_value value="event.param3.$text == 'debug npcr find crew'" />
+					<check_value value="event.param3.$text == 'debug npcr pilot dist'" />
+					<check_value value="event.param3.$text == 'debug npcr orders'" />
+				</check_any>
+			</conditions>
+			<actions>
+				<debug_text text="event.param3" />
+				<do_if value="event.param3.$text == 'debug npcr find crew'">
+					<find_object_component name="$npcsInRoom" class="class.npc" object="player.room" owner="faction.player" multiple="true" />
+					<do_if value="$npcsInRoom.count">
+						<do_for_each name="$npc_inList" in="$npcsInRoom">
+							<debug_text text="$npc_inList + ' (' + $npc_inList.knownname + ', exists: ' + @$npc_inList.exists + ', room: ' + @$npc_inList.room.name + ', distance: ' + @$npc_inList.distanceto.{player.entity} + ')'" />
+						</do_for_each>
+					</do_if>
+				</do_if>
+				<do_elseif value="event.param3.$text == 'debug npcr pilot dist'">
+					<debug_text text="player.entity.distanceto.{player.ship.pilot}" />
+				</do_elseif>
+				<do_elseif value="event.param3.$text == 'debug npcr orders'">
+					<do_for_each name="$order" in="player.target.orders">
+						<debug_text text="'$order.id: ' + $order.id" />
+					</do_for_each>
+					<debug_text text="'defaultorder.id: ' + @player.target.defaultorder.id" />
+					<debug_text text="'defaultorder.$targetspace: ' + @player.target.defaultorder.$targetspace.knownname" />
+					<debug_text text="'defaultorder.$kNPCR_reportEnemies_small: ' + player.target.defaultorder.$kNPCR_reportEnemies_small" />
+					<debug_text text="'defaultorder.$kNPCR_reportEnemies_large: ' + player.target.defaultorder.$kNPCR_reportEnemies_large" />
+				</do_elseif>
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+	</cues>
+</mdscript>

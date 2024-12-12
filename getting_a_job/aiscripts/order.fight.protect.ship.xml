@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+<!-- add. purpose: params.
+	<params>
+-->
+	<!-- <t id="690001">Report Small And Medium Enemies</t>
+	<t id="690002">Report Enemy Capital Ships</t> -->
+	<add sel="//params">
+		<param name="kNPCRParam_isValid" required="false" type="internal" default="@this.isplayerowned" />
+		<param name="kNPCRParam_reportEnemies_small" required="false" type="bool" text="{1416318, 690001}" default="
+			if  @this.assignedcontrolled.isplayerowned and
+			@global.$kNPCR_bridgeCrew_userSettings.$userIsAlertEnemies_comm_xssm
+			then true else false" />
+		<param name="kNPCRParam_reportEnemies_large" required="false" type="bool" text="{1416318, 690002}" default="
+			if  @this.assignedcontrolled.isplayerowned and
+			@global.$kNPCR_bridgeCrew_userSettings.$userIsAlertEnemies_comm_lxl
+			then true else false" />
+		<param name="kNPCRParam_doNotEngage" required="false" default="if $holdfire? then $holdfire else false" type="bool" text="{1416318, 690003}" />
+	</add>
+<!-- add. purpose: send params to move.generic. NOTE: when kuda is installed, this will be invalid and will throw an error on load - which is allowed to fail, which is ok.
+	<wait min="10s" max="20s" >
+		<interrupt>
+			<actions>
+-->
+	<add sel="//wait[@min=&quot;10s&quot;][@max=&quot;20s&quot;]//interrupt//actions">
+		<do_if value="@$kNPCRParam_isValid">
+			<do_if value="this.$goattack">
+				<set_value name="$kNPCR_enemy" exact="$enemy" />
+				<include_interrupt_actions ref="kNPCRActions_enemy_detected" />
+			</do_if>
+		</do_if>
+	</add>
+</diff>

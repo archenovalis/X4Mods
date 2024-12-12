@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+	<library name="AddUseCaseDefs">
+		<actions>
+	-->
+	<add sel="//library[@name=&quot;AddUseCaseDefs&quot;]/actions">
+        <!-- <signal_cue_instantly cue="AddUseCaseDef" param="table[ $name = '$BridgeNavOrder',
+            $priority = 50, $chance = 100, $repeattimeout = 10min,
+            $locations = [ '$Bridge' ],
+            $actors = [
+              table[ $name = '$Captain', $location = '$Bridge', $filter = [controlpost.aipilot, attention.inroom], $allow_player = true ],
+              table[ $name = '$Nav', $location = '$Bridge', $filter = [entityrole.service, controlposition.navigation], $allow_walk_to_position = true ],
+            ],
+            $script = [
+              table[ $actor = '$Captain', $speak = 5018, $comment = 'We have new orders.' ],
+              table[ $actor = '$Captain', $speak = 3122, $templookat = '$Nav', $comment = 'Navigation!' ],
+              table[ $actor = '$Nav', $runto = controlposition.navigation, $speak_TODO_ENABLE = 5019, $recipient = '$Captain', $abortafter = 20s, $comment = 'On the way. (TODO: Only if not at post yet)' ],
+              table[ $actor = '$Nav', $lookat = '$Captain' ],
+              table[ $actor = '$Captain', $speak = 10419, $lookat = '$Nav', $comment = 'Fly to the following position. (TODO: Add typing on terminal)' ],
+              table[ $actor = '$Nav', $selectspeak = [2103, 2104, 2105], $comment = 'acknowledgement (TODO: Add typing on terminal)' ],
+            ]
+          ]" /> -->
+
+        <!-- Navigation crewman on bridge announcing jump gate approach -->
+        <!-- <signal_cue_instantly cue="AddUseCaseDef" param="table[ $name = '$BridgeNavApproachJumpGate',
+            $priority = 30, $chance = 100, $repeattimeout = 1min,
+            $locations = [ '$Bridge' ],
+            $actors = [
+              table[ $name = '$Captain', $location = '$Bridge', $filter = [controlpost.aipilot, attention.inroom], $allow_player = true ],
+              table[ $name = '$Nav', $location = '$Bridge', $filter = [entityrole.service, controlposition.navigation], $allow_walk_to_position = true ],
+            ],
+            $script = [
+              table[ $actor = '$Nav', $runto = controlposition.navigation, $abortafter = 20s ],
+              table[ $actor = '$Nav', $speak = 10415, $templookat = '$Captain', $comment = 'Approaching Jump Gate.' ],
+            ]
+          ]" /> -->
+
+        <!-- Navigation crewman on bridge announcing superhighway approach -->
+        <!-- <signal_cue_instantly cue="AddUseCaseDef" param="table[ $name = '$BridgeNavApproachSuperHWGate',
+            $priority = 30, $chance = 100, $repeattimeout = 1min,
+            $locations = [ '$Bridge' ],
+            $actors = [
+              table[ $name = '$Captain', $location = '$Bridge', $filter = [controlpost.aipilot, attention.inroom], $passive = true, $allow_player = true ],
+              table[ $name = '$Nav', $location = '$Bridge', $filter = [entityrole.service, controlposition.navigation], $allow_walk_to_position = true ],
+            ],
+            $script = [
+              table[ $actor = '$Nav', $runto = controlposition.navigation, $abortafter = 20s ],
+              table[ $actor = '$Nav', $speak = 10413, $templookat = '$Captain', $comment = 'Approaching superhighway.' ],
+            ]
+          ]" /> -->
+
+        <!-- Navigation crewman on bridge announcing transorbital accelerator approach -->
+        <!-- <signal_cue_instantly cue="AddUseCaseDef" param="table[ $name = '$BridgeNavApproachAccelerator',
+            $priority = 30, $chance = 100, $repeattimeout = 1min,
+            $locations = [ '$Bridge' ],
+            $actors = [
+              table[ $name = '$Captain', $location = '$Bridge', $filter = [controlpost.aipilot, attention.inroom], $passive = true, $allow_player = true ],
+              table[ $name = '$Nav', $location = '$Bridge', $filter = [entityrole.service, controlposition.navigation], $allow_walk_to_position = true ],
+            ],
+            $script = [
+              table[ $actor = '$Nav', $runto = controlposition.navigation, $abortafter = 20s ],
+              table[ $actor = '$Nav', $speak = 10414, $templookat = '$Captain', $comment = 'Approaching accelerator.' ],
+            ]
+          ]" /> -->
+
+        <!-- Navigation crewman on bridge announcing travel drive activation -->
+        <!-- <signal_cue_instantly cue="AddUseCaseDef" param="table[ $name = '$BridgeNavTravelDrive',
+            $priority = 30, $chance = 100, $repeattimeout = 3min,
+            $locations = [ '$Bridge' ],
+            $actors = [
+              table[ $name = '$Captain', $location = '$Bridge', $filter = [controlpost.aipilot, attention.inroom], $passive = true, $allow_player = true ],
+              table[ $name = '$Nav', $location = '$Bridge', $filter = [entityrole.service, controlposition.navigation], $allow_walk_to_position = true ],
+            ],
+            $script = [
+              table[ $actor = '$Nav', $runto = controlposition.navigation, $abortafter = 20s ],
+              table[ $actor = '$Nav', $speak = 5006, $templookat = '$Captain', $comment = 'Activating travel mode.' ],
+            ]
+          ]" /> -->
+	</add>
+</diff>

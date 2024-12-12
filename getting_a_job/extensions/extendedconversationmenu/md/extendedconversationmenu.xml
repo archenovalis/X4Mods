@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+		<cue name="ExtendedConversationMenu_Handler" instantiate="true">
+			<conditions>
+				<check_any>
+	-->
+	<add sel="//cue[@name=&quot;ExtendedConversationMenu_Handler&quot;]/conditions/check_any">
+      <event_conversation_next_section section="g_mainmore"/>
+      <event_conversation_returned_to_section section="g_mainmore"/>
+	</add>
+</diff>

@@ -1,0 +1,2098 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_npc_reactions" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+	<cues>
+		<cue name="OnkNPCReactionsLuaReady">
+			<conditions>
+				<event_ui_triggered screen="'kNPCReactionsLuaReady'" />
+				<check_value value="not @player.allmodules.{player.module}.isscenario" />
+			</conditions>
+			<delay exact="1s" />
+			<actions>
+				<debug_text text="'param: ' + event.param + ' param2: ' + event.param2 + ' param3: ' + event.param3" chance="NPCReactions.$DebugChance" />
+				<set_value name="NPCReactions.$constructionVesselCost" exact="event.param3.$builderFee" chance="NPCReactions.$DebugChance" />
+				<debug_text text="'$constructionVesselCost: ' + NPCReactions.$constructionVesselCost" chance="NPCReactions.$DebugChance" />
+				<debug_text text="'reset_cue ' + this" chance="NPCReactions.$DebugChance" />
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+		<cue name="NPCReactions" namespace="this" version="7">
+			<conditions>
+				<check_any>
+					<event_cue_signalled />
+					<event_cue_signalled cue="md.Setup.GameStart" />
+					<event_game_loaded />
+				</check_any>
+				<check_value value="not @player.allmodules.{player.module}.isscenario" />
+			</conditions>
+			<actions>
+				<debug_text text="'event.name: ' + event.name" />
+				<set_value name="$DebugChance" exact="100" />
+				<set_value name="$DebugChance2" exact="100" />
+				<set_value name="$isDoDebug1" exact="false" />
+				<set_value name="$isDoDebug2" exact="false" />
+			</actions>
+			<patch sinceversion="2">
+				<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+				<debug_text text="'patch Init.state: ' + Init.state" />
+				<do_if value="Init.state == cuestate.disabled">
+					<debug_text text="'reset_cue ' + Init" />
+					<reset_cue cue="Init" />
+				</do_if>
+				<do_else>
+					<debug_text text="'patch Init ok'" />
+				</do_else>
+			</patch>
+			<patch sinceversion="4">
+				<debug_text text="'patch sinceversion 4, state: ' + this.state" />
+				<set_value name="$DebugChance2" exact="0" />
+			</patch>
+			<patch sinceversion="5">
+				<debug_text text="'patch sinceversion 5, state: ' + this.state" />
+				<set_value name="$DebugChance2" exact="0" />
+			</patch>
+			<patch sinceversion="6">
+				<debug_text text="'patch sinceversion 6, state: ' + this.state" />
+				<reset_cue cue="K_ArriveAndLeaveStations" />
+			</patch>
+			<patch sinceversion="7">
+				<debug_text text="'patch sinceversion 7, state: ' + this.state" />
+				<remove_value name="$userIsRequestBackUp" />
+			</patch>
+			<cues>
+				<cue name="Init">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<set_value name="$DebugChance_old" exact="$DebugChance" />
+						<set_value name="$DebugChance2_old" exact="$DebugChance2" />
+						<set_value name="$DebugChance" exact="100" />
+						<set_value name="$DebugChance2" exact="100" />
+						<debug_text text="'event.name: ' + event.name + ', DebugChance: ' + $DebugChance" />
+						<set_value name="$isDoDebug1" exact="false" />
+						<set_value name="$isDoDebug2" exact="false" />
+						<do_if value="not $isConfigSet?">
+							<!-- user vars -->
+							<debug_text text="'(re)setting user vars'" chance="NPCReactions.$DebugChance" />
+							<set_value name="$base_chance_penalty_no_direct_convo_per_hour" exact="0.25" />
+							<set_value name="$chance_bonus_same_race" exact="2.5" />
+							<set_value name="$chance_bonus_friendly_faction" exact="2.5" />
+							<set_value name="$chance_bonus_in_enemy_sector" exact="2.5" />
+							<set_value name="$isConfigSet" exact="true" />
+						</do_if>
+						<do_if value="@$lastVersion lt 3">
+							<set_value name="$constructionVesselCost" exact="50000" />
+							<set_value name="$chance_bonus_in_bar" exact="2.5" />
+						</do_if>
+						<set_value name="$lastVersion" exact="parent.version" />
+						<do_if value="not $conversation_count?">
+							<set_value name="$conversation_count" exact="0" />
+						</do_if>
+						<do_if value="not $rumour_base_chance?">
+							<set_value name="$rumour_base_chance" exact="10.0" />
+						</do_if>
+						<do_if value="not $rumour_max_base_chance?">
+							<set_value name="$rumour_max_base_chance" exact="50" />
+						</do_if>
+						<debug_text text="'$conversation_count: ' + $conversation_count + ' $rumour_base_chance: ' + $rumour_base_chance + ' rumour_max_base_chance: ' + $rumour_max_base_chance" chance="NPCReactions.$DebugChance" />
+						<do_if value="not $userIsRumours?">
+							<set_value name="$userIsRumours" exact="true" />
+						</do_if>
+						<do_if value="not $userIsBarPatrons?">
+							<set_value name="$userIsBarPatrons" exact="true" />
+						</do_if>
+						<do_if value="not $userIsBridgeCrew?">
+							<set_value name="$userIsBridgeCrew" exact="true" />
+						</do_if>
+						<do_if value="not $userIsConstructionShips?">
+							<set_value name="$userIsConstructionShips" exact="true" />
+						</do_if>
+						<do_if value="not $userIsTaxis?">
+							<set_value name="$userIsTaxis" exact="true" />
+						</do_if>
+						<do_if value="not $userIsForceShowPilotCutscene?">
+							<set_value name="$userIsForceShowPilotCutscene" exact="false" />
+						</do_if>
+					</actions>
+					<cues>
+						<cue name="Init2">
+							<delay exact="1s" />
+							<actions>
+								<signal_cue cue="EnableDisableSubMods" />
+							</actions>
+							<delay exact="3s" />
+							<actions>
+								<set_value name="$DebugChance" exact="$DebugChance_old" />
+								<set_value name="$DebugChance2" exact="$DebugChance2_old" />
+								<remove_value name="$DebugChance_old" />
+								<remove_value name="$DebugChance2_old" />
+								<reset_cue cue="parent" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="EnableDisableSubMods">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<do_if value="$userIsBarPatrons and md.kuertee_npc_bar_patrons.kNPCBarPatrons.state == cuestate.waiting">
+							<signal_cue cue="md.kuertee_npc_bar_patrons.kNPCBarPatrons" />
+						</do_if>
+						<do_if value="(not $userIsBarPatrons) and md.kuertee_npc_bar_patrons.kNPCBarPatrons_CleanUp.state == cuestate.waiting">
+							<signal_cue cue="md.kuertee_npc_bar_patrons.kNPCBarPatrons_CleanUp" />
+						</do_if>
+						<do_if value="$userIsBridgeCrew and md.kuertee_npc_bridge_crew.kNPCBridgeCrew.state == cuestate.waiting">
+							<signal_cue cue="md.kuertee_npc_bridge_crew.kNPCBridgeCrew" />
+						</do_if>
+						<do_elseif value="(not $userIsBridgeCrew) and md.kuertee_npc_bridge_crew.kNPCBridgeCrew_CleanUp.state == cuestate.waiting">
+							<signal_cue cue="md.kuertee_npc_bridge_crew.kNPCBridgeCrew_CleanUp" />
+						</do_elseif>
+						<do_if value="$userIsConstructionShips and md.kuertee_npc_construction_ships.NPCConstructionShips.state == cuestate.waiting">
+							<signal_cue cue="md.kuertee_npc_construction_ships.NPCConstructionShips" />
+						</do_if>
+						<do_elseif value="(not $userIsConstructionShips) and md.kuertee_npc_construction_ships.NPCConstructionShips_CleanUp.state == cuestate.waiting">
+							<signal_cue cue="md.kuertee_npc_construction_ships.NPCConstructionShips_CleanUp" />
+						</do_elseif>
+						<do_if value="$userIsTaxis and md.kuertee_npc_taxis.kNPCTaxis.state == cuestate.waiting">
+							<signal_cue cue="md.kuertee_npc_taxis.kNPCTaxis" />
+						</do_if>
+						<do_elseif value="(not $userIsTaxis) and md.kuertee_npc_taxis.kNPCTaxis_CleanUp.state == cuestate.waiting">
+							<signal_cue cue="md.kuertee_npc_taxis.kNPCTaxis_CleanUp" />
+						</do_elseif>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConversationStarted0">
+					<conditions>
+						<check_any>
+							<event_conversation_started conversation="default" />
+							<event_conversation_returned_to_section section="default" />
+						</check_any>
+						<check_value value="$userIsRumours" />
+						<check_value value="(not @event.object.ismissionactor) or @event.object.isshadyguy" />
+						<check_value value="not @event.object.hasrelation.enemy.{faction.player}" />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<debug_text text="'event.name: ' + event.name" chance="NPCReactions.$DebugChance" />
+						<set_value name="$npc" exact="event.object" />
+						<debug_text text="'$npc: ' + @$npc + ' (controlpost: ' + @$npc.controlpost + ')'" chance="NPCReactions.$DebugChance" />
+						<debug_text text="'$npc: ' + @$npc + ' ($kNPCR_isBarPatron: ' + @$npc.$kNPCR_isBarPatron + ')'" chance="NPCReactions.$DebugChance" />
+						<debug_text text="'$npc: ' + @$npc + ' ($kNPCR_isBridgeCrew: ' + @$npc.$kNPCR_isBridgeCrew + ')'" chance="NPCReactions.$DebugChance" />
+						<debug_text text="'$npc.count: ' + @$npc.count" chance="NPCReactions.$DebugChance" />
+						<do_if value="@$npc.count and $npc.{2}">
+							<!-- uninstantced npc -->
+							<debug_text text="'$npc.{1}: ' + $npc.{1} + ' (' + @$npc.{1}.knownname + ')'" chance="NPCReactions.$DebugChance" />
+							<debug_text text="'$npc.{2}: ' + $npc.{2} + ' (' + @$npc.{2}.knownname + ')'" chance="NPCReactions.$DebugChance" />
+							<set_value name="$isNPCInstanced" exact="false" />
+							<set_value name="$npcName" exact="$npc.{1}.people.{$npc.{2}}.name" />
+							<set_value name="$npcRace" exact="$npc.{1}.people.{$npc.{2}}.race" />
+							<set_value name="$npcSector" exact="$npc.{1}.sector" />
+							<set_value name="$npcIsPlayerOwned" exact="$npc.{1}.isplayerowned" />
+							<set_value name="$npcOwner" exact="$npc.{1}.owner" />
+							<set_value name="$npcCoverOwner" exact="$npc.{1}.coverowner" />
+							<set_value name="$npcTrueOwner" exact="$npc.{1}.trueowner" />
+							<set_value name="$npcRole" exact="$npc.{1}.people.{$npc.{2}}.role" />
+							<!-- empty when instanced -->
+							<!-- <xs:enumeration value="entityrole.service" />
+							<xs:enumeration value="entityrole.marine" />
+							<xs:enumeration value="entityrole.passenger" />
+							<xs:enumeration value="entityrole.prisoner" /> -->
+							<do_if value="$npcRole == entityrole.marine or $npcRole == entityrole.prisoner">
+								<set_value name="$genericMissionType" exact="'combat'" />
+							</do_if>
+							<do_elseif value="$npcRole == entityrole.passenger">
+								<do_any>
+									<set_value name="$genericMissionType" exact="'economic'" />
+									<set_value name="$genericMissionType" exact="'engineering'" />
+								</do_any>
+							</do_elseif>
+							<do_elseif value="$npcRole == entityrole.service">
+								<set_value name="$genericMissionType" exact="'engineering'" />
+							</do_elseif>
+							<do_else>
+								<set_value name="$genericMissionType" exact="'any'" />
+							</do_else>
+						</do_if>
+						<do_else>
+							<set_value name="$isNPCInstanced" exact="true" />
+							<set_value name="$npcName" exact="$npc.name" />
+							<set_value name="$npcRace" exact="$npc.race" />
+							<set_value name="$npcSector" exact="$npc.sector" />
+							<set_value name="$npcIsPlayerOwned" exact="$npc.isplayerowned" />
+							<set_value name="$npcOwner" exact="$npc.owner" />
+							<set_value name="$npcCoverOwner" exact="$npc.coverowner" />
+							<set_value name="$npcTrueOwner" exact="$npc.trueowner" />
+							<set_value name="$npcType" exact="$npc.type" /><!-- empty when not instanced -->
+							<!-- <xs:enumeration value="entitytype.officer" />
+							<xs:enumeration value="entitytype.trader" />
+							<xs:enumeration value="entitytype.factionrepresentative" />
+							<xs:enumeration value="entitytype.shadyguy" />
+							<xs:enumeration value="entitytype.crowd" /> -->
+							<set_value name="$npcControlPost" exact="$npc.controlpost" /><!-- empty when not instanced -->
+							<!-- <xs:enumeration value="controlpost.aipilot" />
+							<xs:enumeration value="controlpost.defence" />
+							<xs:enumeration value="controlpost.manager" />
+							<xs:enumeration value="controlpost.engineer" />
+							<xs:enumeration value="controlpost.shadyguy" />
+							<xs:enumeration value="controlpost.shiptrader" /> -->
+							<do_if value="$npcType == entitytype.factionrepresentative or $npcType == entitytype.shadyguy or $npcControlPost == controlpost.shadyguy">
+								<set_value name="$genericMissionType" exact="'any'" />
+							</do_if>
+							<do_elseif value="$npcType == entitytype.officer or $npcControlPost == controlpost.aipilot or $npcControlPost == controlpost.defence">
+								<set_value name="$genericMissionType" exact="'combat'" />
+							</do_elseif>
+							<do_elseif value="$npcType == entitytype.trader or $npcType == entitytype.crowd or $npcControlPost == controlpost.manager or $npcControlPost == controlpost.shiptrader">
+								<do_any>
+									<set_value name="$genericMissionType" exact="'economic'" />
+									<set_value name="$genericMissionType" exact="'engineering'" />
+								</do_any>
+							</do_elseif>
+							<do_elseif value="$npcControlPost == controlpost.engineer">
+								<do_any>
+									<set_value name="$genericMissionType" exact="'engineering'" />
+									<set_value name="$genericMissionType" exact="'economic'" />
+								</do_any>
+							</do_elseif>
+						</do_else>
+						<debug_text text="$npc + ': ' + $npcName + ', ' + $npcRace + ', ' + $npcSector + ', ' + $npcIsPlayerOwned" chance="NPCReactions.$DebugChance" />
+						<debug_text text="$npc + ': ' + $npcOwner + ', ' + $npcCoverOwner + ', ' + $npcTrueOwner" chance="NPCReactions.$DebugChance" />
+						<debug_text text="$npc + ': ' + @$npcRole + ', ' + @$npcType + ', ' + @$npcControlPost + ', ' + $genericMissionType" chance="NPCReactions.$DebugChance" />
+						<do_if value="event.name == 'event_conversation_returned_to_section' or @$savedRumourTypes.{$npc} or @$savedRumourTypes.{@$npc.{2}}">
+						</do_if>
+						<do_else>
+							<set_value name="$rumour_chance" exact="0" />
+							<set_value name="$rumour_random" exact="0" />
+							<set_value name="$rumour_type" exact="0" />
+							<!-- base chance adjustments -->
+							<debug_text text="'$rumour_base_chance: ' + $rumour_base_chance" chance="NPCReactions.$DebugChance" />
+							<include_actions ref="GetNoDirectConversationRumourBaseChanceAdjustment" /><!-- returns $rumour_base_chance_adj -->
+							<set_value name="$rumour_base_chance" exact="$rumour_base_chance + $rumour_base_chance_adj" />
+							<do_if value="$rumour_base_chance lt 10">
+								<set_value name="$rumour_base_chance" exact="10" />
+							</do_if>
+							<!-- chance adjustments -->
+							<set_value name="$rumour_chance" exact="$rumour_base_chance + $conversation_count" />
+							<debug_text text="'$rumour_chance: ' + $rumour_chance" chance="NPCReactions.$DebugChance" />
+							<set_value name="$rumour_chance_adj" exact="0" />
+							<include_actions ref="GetNPCRacialAdjustment" /><!-- returns $rumour_chance_adj -->
+							<set_value name="$rumour_chance" exact="$rumour_chance + $rumour_chance_adj" />
+							<set_value name="$rumour_chance_adj" exact="0" />
+							<include_actions ref="GetNPCFactionAdjustment" /><!-- returns $rumour_chance_adj -->
+							<set_value name="$rumour_chance" exact="$rumour_chance + $rumour_chance_adj" />
+							<set_value name="$rumour_chance_adj" exact="0" />
+							<include_actions ref="GetRoomAdjustment" /><!-- returns $rumour_chance_adj -->
+							<set_value name="$rumour_chance" exact="$rumour_chance + $rumour_chance_adj" />
+							<set_value name="$rumour_chance_adj" exact="0" />
+							<include_actions ref="GetNPCCooldownRumourChanceAdjustment" /><!-- returns $rumour_chance_adj -->
+							<set_value name="$rumour_chance" exact="$rumour_chance + $rumour_chance_adj" />
+							<do_if value="$rumour_chance lt 0">
+								<set_value name="$rumour_chance" exact="0" />
+							</do_if>
+							<!-- test if convo has rumour -->
+							<set_value name="$conversation_count" exact="$conversation_count + 1" />
+							<debug_text text="'$conversation_count: ' + $conversation_count + ' $rumour_base_chance: ' + $rumour_base_chance" chance="NPCReactions.$DebugChance" />
+							<set_value name="$rumour_random" min="1" max="100" />
+							<debug_text text="'$rumour_random: ' + $rumour_random + ' $rumour_chance: ' + $rumour_chance" chance="NPCReactions.$DebugChance" />
+						</do_else>
+						<debug_text text="'$savedRumourTypes.{$npc}: ' + (if @$npc.count then @$savedRumourTypes.{@$npc.{2}} else @$savedRumourTypes.{$npc})" chance="NPCReactions.$DebugChance" />
+						<set_value name="$isECM" exact="false" />
+						<do_if value="@$savedRumourTypes.{$npc} or @$savedRumourTypes.{@$npc.{2}} or $rumour_random le $rumour_chance or $DebugChance == 100">
+							<reset_cue cue="OnConversationStarted" />
+							<do_if value="@md.ExtendedConversationMenu.Main.exists">
+								<set_value name="$isECM" exact="true" />
+								<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kNPCR" exact="table[
+									$signalCue = OnConversationStarted
+								]" />
+							</do_if>
+						</do_if>
+						<do_else>
+							<reset_cue cue="this" />
+						</do_else>
+					</actions>
+					<cues>
+						<cue name="OnConversationStarted1">
+							<actions>
+								<debug_text text="'OnConversationStarted.state: ' + OnConversationStarted.state" chance="NPCReactions.$DebugChance" />
+								<do_if value="$isECM">
+								</do_if>
+								<do_else>
+									<signal_cue_instantly cue="OnConversationStarted" />
+								</do_else>
+								<reset_cue cue="parent" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnConversationStarted">
+					<conditions>
+						<check_all>
+							<check_any>
+								<event_cue_signalled />
+								<!-- <event_conversation_returned_to_section section="default"/> -->
+							</check_any>
+							<check_any>
+								<check_value value="@$savedRumourTypes.{$npc} or @$savedRumourTypes.{@$npc.{2}}" />
+								<check_value value="$rumour_random le $rumour_chance" />
+								<check_value value="NPCReactions.$DebugChance" />
+							</check_any>
+						</check_all>
+					</conditions>
+					<actions>
+						<set_value name="$isRumourSelected" exact="false" />
+						<set_value name="$rumour_type" exact="if @$npc.count then @$savedRumourTypes.{@$npc.{2}} else @$savedRumourTypes.{$npc}" />
+						<do_if value="@$rumour_type.count and $rumour_type.{1}.static == md.kuertee_emergent_missions.Mission_Hunt">
+							<set_value name="$emHunts_known" exact="$rumour_type" />
+							<do_for_each name="$emHunt" in="$emHunts_known" reverse="true">
+								<do_if value="$emHunt.exists and $emHunt.$Objective_Step ge $emHunt.$Objective_Step_debrief">
+									<remove_from_list name="$emHunts_known" exact="$emHunt" />
+								</do_if>
+							</do_for_each>
+							<do_if value="not $emHunts_known.count">
+								<set_value name="$rumour_type" exact="0" />
+							</do_if>
+						</do_if>
+						<do_if value="$rumour_random le $rumour_chance or $rumour_type">
+							<include_actions ref="GetEMHunts" />
+							<do_if value="$emHunts_known.count">
+								<set_value name="$rumour_type" exact="$emHunts_known" />
+								<set_value name="$savedRumourTypes.{$npc}" exact="$emHunts_known" />
+							</do_if>
+							<do_else>
+								<include_actions ref="GetLockedDataVaults" />
+								<include_actions ref="GetAnomalies" />
+								<set_value name="$rumour_type" min="1" max="100" />
+								<do_if value="not @$savedRumourTypes">
+									<set_value name="$savedRumourTypes" exact="table[]" />
+								</do_if>
+								<do_if value="@$npc.count and @$npc.{2}.exists">
+									<set_value name="$savedRumourTypes.{@$npc.{2}}" exact="$rumour_type" />
+								</do_if>
+								<do_elseif value="@$npc.exists">
+									<set_value name="$savedRumourTypes.{$npc}" exact="$rumour_type" />
+								</do_elseif>
+							</do_else>
+						</do_if>
+						<debug_text text="'$rumour_type: ' + @$rumour_type" chance="NPCReactions.$DebugChance" />
+					</actions>
+					<cues>
+						<cue name="ContinueOnConversationStarted">
+							<actions>
+								<debug_text text="''" chance="NPCReactions.$DebugChance" />
+								<signal_cue cue="AddRumourTopics_2" />
+								<reset_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="AddRumourTopics_2">
+					<conditions>
+						<event_cue_signalled />
+						<check_value value="not $isRumourSelected" />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<do_if value="$DebugChance > 0">
+							<add_player_choice_sub text="'NPC reactions debug'" section="rumour_topic_debug" />
+							<!-- <add_player_choice_sub text="'npc_state_reinit'" section="rumour_npc_state_reinit" />
+							<add_player_choice_sub text="'idle_stay__end'" section="rumour_idle_stay__end" /> -->
+						</do_if>
+						<debug_text text="'$rumour_type: ' + $rumour_type" chance="NPCReactions.$DebugChance" />
+						<do_if value="$rumour_type">
+							<debug_text text="'$LockedDataVaults.count: ' + $LockedDataVaults.count" chance="NPCReactions.$DebugChance" />
+							<debug_text text="'$Anomalies.count: ' + $Anomalies.count" chance="NPCReactions.$DebugChance" />
+							<set_value name="$conversation_count" exact="0" />
+							<do_if value="@$rumour_type.count and $rumour_type.{1}.static == md.kuertee_emergent_missions.Mission_Hunt"
+								comment="rumours of ship target of md.kuertee_emergent_missions.Mission_Hunt">
+								<set_value name="$emHunts_known" exact="$rumour_type" />
+								<do_for_each name="$emHunt" in="$emHunts_known">
+									<set_value name="$choiceText" exact="{1416318,688853}.[$emHunt.$MissionTarget.knownname, $emHunt.$MissionTarget.idcode]" />
+									<add_player_choice text="'(' + $choiceText + ')'" section="rumour_emHunt_target" />
+								</do_for_each>
+							</do_if>
+							<do_elseif value="$rumour_type ge 95 and $LockedDataVaults.count">
+								<!-- data vault: 5% -->
+								<set_value name="$choiceText" exact="{1416318,688848}" />
+								<add_player_choice text="'(' + $choiceText + ')'" section="rumour_topic_data_vaults" />
+							</do_elseif>
+							<do_elseif value="$rumour_type ge 90 and $Anomalies.count">
+								<!-- anomaly: 5% -->
+								<set_value name="$choiceText" exact="{1416318,688847}" />
+								<add_player_choice text="'(' + $choiceText + ')'" section="rumour_topic_anomalies" />
+							</do_elseif>
+							<do_elseif value="$rumour_type ge 75">
+								<!-- lockbox: 15% -->
+								<set_value name="$choiceText" exact="{1416318,688846}" />
+								<add_player_choice text="'(' + $choiceText + ')'" section="rumour_topic_lockboxes" />
+							</do_elseif>
+							<do_elseif value="$rumour_type ge 60 and (not $npcIsPlayerOwned) and (not $npcCoverOwner)">
+								<!-- reputation increase: 15% -->
+								<set_value name="$choiceText" exact="{1416318,688849}" />
+								<add_player_choice text="'(' + $choiceText + ')'" section="rumour_topic_politics" />
+							</do_elseif>
+							<do_else>
+								<!-- mission: 60% -->
+								<do_if value="$genericMissionType == 'any'">
+									<set_value name="$choiceText" exact="{1416318,688845}" />
+								</do_if>
+								<do_elseif value="$genericMissionType == 'combat'">
+									<set_value name="$choiceText" exact="{1416318,688850}" />
+								</do_elseif>
+								<do_elseif value="$genericMissionType == 'economic'">
+									<set_value name="$choiceText" exact="{1416318,688851}" />
+								</do_elseif>
+								<do_elseif value="$genericMissionType == 'engineering'">
+									<set_value name="$choiceText" exact="{1416318,688852}" />
+								</do_elseif>
+								<add_player_choice text="'(' + $choiceText + ')'" section="rumour_topic_galaxy" />
+							</do_else>
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConversationNextSectionRumourTopic_2Debug_2">
+					<conditions>
+						<event_conversation_next_section section="rumour_topic_debug" />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<!-- <add_player_choice text="'(Chat about the galaxy)'" section="rumour_topic_galaxy" /> -->
+						<do_if value="$genericMissionType == 'any'">
+							<set_value name="$choiceText" exact="{1416318,688845}" />
+						</do_if>
+						<do_elseif value="$genericMissionType == 'combat'">
+							<set_value name="$choiceText" exact="{1416318,688850}" />
+						</do_elseif>
+						<do_elseif value="$genericMissionType == 'economic'">
+							<set_value name="$choiceText" exact="{1416318,688851}" />
+						</do_elseif>
+						<do_elseif value="$genericMissionType == 'engineering'">
+							<set_value name="$choiceText" exact="{1416318,688852}" />
+						</do_elseif>
+						<add_player_choice text="'(' + $choiceText + ')'" section="rumour_topic_galaxy" />
+						<add_player_choice text="'(Chat about lockboxes)'" section="rumour_topic_lockboxes" />
+						<add_player_choice text="'(Chat about anomalies)'" section="rumour_topic_anomalies" />
+						<add_player_choice text="'(Chat about data vaults)'" section="rumour_topic_data_vaults" />
+						<add_player_choice text="'(Chat about politics)'" section="rumour_topic_politics" />
+						<add_player_choice_return text="'Back'" comment="rumour_topic_debug_back" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConversationNextSectionRumourTopic_2">
+					<conditions>
+						<check_all>
+							<event_conversation_next_section sectionprefix="rumour_" />
+							<check_value value="event.param != 'rumour_topic_debug'" />
+						</check_all>
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<!-- conversation produced a meaningful result, reset conversation_count, increase rumour_base_chance -->
+						<debug_text text="namespace + ': event.param: ' + event.param" chance="NPCReactions.$DebugChance" />
+						<set_value name="$isRumourSelected" exact="true" />
+						<set_value name="$rumour_base_chance" exact="$rumour_base_chance + 1" />
+						<do_if value="$rumour_base_chance ge $rumour_max_base_chance">
+							<set_value name="$rumour_base_chance" exact="$rumour_max_base_chance" />
+						</do_if>
+						<debug_text text="'$conversation_count: ' + $conversation_count + ' $rumour_base_chance: ' + $rumour_base_chance" chance="NPCReactions.$DebugChance" />
+						<do_if value="event.param == 'rumour_topic_none'">
+							<signal_cue cue="RumourTopicNoneCue_2" />
+						</do_if>
+						<do_elseif value="event.param == 'rumour_topic_galaxy'">
+							<signal_cue cue="RumourTopicGalaxyCue_2" />
+						</do_elseif>
+						<do_elseif value="event.param == 'rumour_topic_politics'">
+							<signal_cue cue="RumourTopicPoliticsCue_2" />
+						</do_elseif>
+						<do_elseif value="event.param == 'rumour_topic_lockboxes'">
+							<signal_cue cue="RumourTopicLockboxesCue_2" />
+						</do_elseif>
+						<do_elseif value="event.param == 'rumour_topic_anomalies'">
+							<signal_cue cue="RumourTopicAnomaliesCue_2" />
+						</do_elseif>
+						<do_elseif value="event.param == 'rumour_topic_data_vaults'">
+							<signal_cue cue="RumourTopicDataVaultsCue_2" />
+						</do_elseif>
+						<do_elseif value="event.param == 'rumour_emHunt_target'">
+							<signal_cue_instantly cue="Mission_Hunt_UpdateLastKnownsFromOtherFaction" param="$npc.trueowner" />
+						</do_elseif>
+						<!-- <do_elseif value="event.param == 'rumour_npc_state_reinit'">
+							<signal_objects object="event.object" param="'npc_state_reinit'"/>
+						</do_elseif>
+						<do_elseif value="event.param == 'rumour_idle_stay__end'">
+							<signal_objects object="event.object" param="'idle_stay__end'"/>
+						</do_elseif> -->
+						<do_if value="@$npc.count">
+							<remove_value name="$savedRumourTypes.{@$npc.{2}}" />
+						</do_if>
+						<do_else>
+							<remove_value name="$savedRumourTypes.{$npc}" />
+						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="RumourTopicNoneCue_2">
+					<!-- no meaningful result -->
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="RumourTopicGalaxyCue_2">
+					<!-- get mission -->
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<signal_cue cue="RumourMissionGalaxy" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="RumourTopicPoliticsCue_2">
+					<!-- get increase faction reputation -->
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<debug_text text="'$npcOwner: ' + @$npcOwner + ' $npcCoverOwner: ' + @$npcCoverOwner + ' $npcTrueOwner: ' + @$npcTrueOwner" chance="NPCReactions.$DebugChance" />
+						<!-- <signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Notoriety" param="[Start, $Difficulty, $MissionLevel, $ClientOwner]"/>
+						<set_value name="$RewardNotoriety" exact="$Reward_Notoriety__Result"/> -->
+						<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Notoriety" param="[namespace, level.trivial, 1, $npcOwner]" />
+						<debug_text text="'player.entity.relationto.{$npcOwner}: ' + player.entity.relationto.{$npcOwner}" chance="NPCReactions.$DebugChance" />
+						<add_faction_relation faction="faction.player" otherfaction="$npcOwner" value="namespace.$Reward_Notoriety__Result" reason="relationchangereason.smalltalkreward" />
+						<debug_text text="'player.entity.relationto.{$npcOwner}: ' + player.entity.relationto.{$npcOwner}" chance="NPCReactions.$DebugChance" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="RumourTopicLockboxesCue_2">
+					<!-- get lockbox location -->
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<signal_cue cue="RumourMissionLockbox" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="RumourTopicAnomaliesCue_2">
+					<!-- get anomaly location -->
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<signal_cue cue="RumourMissionAnomaly" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="RumourTopicDataVaultsCue_2">
+					<!-- get data vault location -->
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="''" chance="NPCReactions.$DebugChance" />
+						<signal_cue cue="RumourMissionDataVault" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="ResetNPCRumours">
+					<conditions>
+						<check_any>
+							<event_player_started_control />
+							<event_player_stopped_control />
+							<event_object_changed_room object="player.entity" />
+							<event_autopilot_target_set />
+							<event_ui_triggered control="'menu_close'" />
+						</check_any>
+					</conditions>
+					<actions>
+						<do_if value="event.name != 'event_ui_triggered' or (not player.isinfullscreenmenu)">
+							<set_value name="$savedRumourTypes" exact="null" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<!--  -->
+				<cue name="RumourMissionGalaxy" instantiate="true" namespace="this" version="2">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="RumourMissionGalaxy" chance="NPCReactions.$DebugChance" />
+						<set_value name="$npc" exact="md.kuertee_npc_reactions.NPCReactions.$npc" />
+						<set_value name="$isNPCInstanced" exact="md.kuertee_npc_reactions.NPCReactions.$isNPCInstanced" />
+						<set_value name="$genericMissionType" exact="md.kuertee_npc_reactions.NPCReactions.$genericMissionType" />
+						<set_value name="$Client" exact="@event.param.$Client" />
+						<do_if value="not $Client">
+							<set_value name="$Client" exact="$npc" />
+						</do_if>
+						<set_value name="$LocalSectors" exact="[]" />
+						<set_value name="$MissionFaction" exact="@$Client.owner" />
+						<debug_text text="'$MissionFaction: ' + $MissionFaction" chance="NPCReactions.$DebugChance" />
+						<set_value name="$random" min="1" max="100" />
+						<get_factions_by_tag result="$validFactions" tag="tag.economic" />
+						<get_factions_by_tag result="$validFactions_pluderer" tag="tag.plunder" />
+						<do_all counter="$i" exact="$validFactions_pluderer.count">
+							<do_if value="not $validFactions.indexof.{$validFactions_pluderer.{$i}}">
+								<append_to_list name="$validFactions" exact="$validFactions_pluderer.{$i}" />
+							</do_if>
+						</do_all>
+						<do_if value="(not $MissionFaction) or $random gt 75 or $MissionFaction == faction.player or (not $validFactions.indexof.{$MissionFaction})">
+							<set_value name="$MissionFaction" exact="$validFactions.random" />
+							<debug_text text="'$MissionFaction (invalid faction, or set to randomised): ' + $MissionFaction" chance="NPCReactions.$DebugChance" />
+						</do_if>
+						<find_sector name="$LocalSectors" owner="$MissionFaction" multiple="true" append="true">
+							<match_gate_distance object="$Client" max="5" />
+							<match_relation_of faction="faction.player" relation="neutral" comparison="gt" />
+						</find_sector>
+						<do_if value="not $LocalSectors.count">
+							<!-- factionalgoal_hold_space.xml line: 136 -->
+							<find_cluster_in_range name="$LocalClusters" object="player.entity" maxdistance="3" multiple="true" />
+							<do_all exact="$LocalClusters.count" counter="$i">
+								<find_sector name="$LocalSectors" space="$LocalClusters.{$i}" multiple="true" append="true">
+									<match_relation_of faction="faction.player" relation="neutral" comparison="gt" />
+								</find_sector>
+							</do_all>
+							<debug_text text="'$LocalSectors.{1}: ' + $LocalSectors.{1}.knownname" chance="NPCReactions.$DebugChance" />
+							<debug_text text="'$LocalSectors.{2}: ' + $LocalSectors.{2}.knownname" chance="NPCReactions.$DebugChance" />
+							<debug_text text="'$LocalSectors.{3}: ' + $LocalSectors.{3}.knownname" chance="NPCReactions.$DebugChance" />
+							<do_if value="not $LocalSectors.count">
+								<find_cluster_in_range name="$LocalClusters" object="player.entity" mindistance="3" maxdistance="5" multiple="true" />
+								<do_all exact="$LocalClusters.count" counter="$i">
+									<find_sector name="$LocalSectors" space="$LocalClusters.{$i}" multiple="true" append="true">
+										<match_relation_of faction="faction.player" relation="neutral" comparison="ge" />
+									</find_sector>
+								</do_all>
+								<debug_text text="'$LocalSectors.{1}: ' + $LocalSectors.{1}.knownname" chance="NPCReactions.$DebugChance" />
+								<debug_text text="'$LocalSectors.{2}: ' + $LocalSectors.{2}.knownname" chance="NPCReactions.$DebugChance" />
+								<debug_text text="'$LocalSectors.{3}: ' + $LocalSectors.{3}.knownname" chance="NPCReactions.$DebugChance" />
+							</do_if>
+							<remove_value name="$LocalClusters" />
+						</do_if>
+						<set_value name="$Sector" exact="$LocalSectors.random" />
+						<set_value name="$IsMissionAccepted" exact="false" />
+						<set_value name="$IsMissionFinished" exact="false" />
+						<set_value name="$GenerateMissionCount" exact="0" />
+					</actions>
+					<patch sinceversion="2">
+						<set_value name="NPCReactions.$DebugChance" exact="100" />
+						<debug_text text="'patch ' + this + ' version: ' + this.version + ' this.state: ' + this.state" />
+						<debug_text text="'patch ' + this + ' CleanRumourMissionGalaxy.state: ' + CleanRumourMissionGalaxy.state" />
+						<signal_cue_instantly cue="CleanRumourMissionGalaxy" param="table[$isFromPatch = true]" />
+						<!-- <set_value name="NPCReactions.$DebugChance" exact="0" /> -->
+					</patch>
+					<cues>
+						<cue name="GenerateMission">
+							<actions>
+								<debug_text text="GenerateMission" chance="NPCReactions.$DebugChance" />
+								<set_value name="$GenerateMissionCount" exact="$GenerateMissionCount + 1" />
+								<debug_text text="'$GenerateMissionCount: ' + $GenerateMissionCount" chance="NPCReactions.$DebugChance" />
+								<remove_value name="$MissionSetUpCue" />
+								<do_if value="not $MissionSetUpCue?">
+									<do_if value="$genericMissionType == 'any'">
+										<include_actions ref="GetAnyTypeMission" />
+									</do_if>
+									<do_elseif value="$genericMissionType == 'combat'">
+										<include_actions ref="GetCombatTypeMission" />
+									</do_elseif>
+									<do_elseif value="$genericMissionType == 'economic'">
+										<include_actions ref="GetEconomicTypeMission" />
+									</do_elseif>
+									<do_elseif value="$genericMissionType == 'engineering'">
+										<include_actions ref="GetEngineeringTypeMission" />
+									</do_elseif>
+								</do_if>
+								<!-- <do_if value="(not $Client?) and $isNPCInstanced">
+									<do_any>
+										<set_value name="$Client" exact="$npc" />
+										<set_value name="$Client" exact="null" />
+									</do_any>
+								</do_if> -->
+								<do_if value="@$npc.count">
+									<set_value name="$Client" exact="$npc.{2}" />
+									<debug_text text="'$Client (npc template):' + $Client" chance="NPCReactions.$DebugChance" />
+								</do_if>
+								<do_else>
+									<set_value name="$Client" exact="$npc" />
+									<debug_text text="'$Client (actor):' + $Client" chance="NPCReactions.$DebugChance" />
+								</do_else>
+								<do_if value="not @$MissionFaction">
+									<set_value name="$MissionFaction" exact="@$Client.owner" />
+									<debug_text text="'$MissionFaction: ' + $MissionFaction" chance="NPCReactions.$DebugChance" />
+									<do_if value="(not $MissionFaction) or $MissionFaction == faction.player">
+										<get_factions_by_tag result="$validFactions" tag="tag.economic" />
+										<set_value name="$MissionFaction" exact="$validFactions.random" />
+										<debug_text text="'$MissionFaction (invalid faction, get random): ' + $MissionFaction" chance="NPCReactions.$DebugChance" />
+									</do_if>
+								</do_if>
+								<signal_cue_instantly cue="$MissionSetUpCue" param="table[
+									$Sector = $Sector,
+									$ReportSignalCue = OnGenerateMission,
+									$RemoveOnSectorChange = false,
+									$Client = $Client,
+									$ClientOwner = $MissionFaction,
+									$DebugChance = NPCReactions.$DebugChance
+								]" />
+								<set_value name="$MissionCue" exact="null" />
+								<set_value name="$OnRumourMissionGalaxyGenerateFail" exact="CleanRumourMissionGalaxy" />
+								<set_value name="$OnRumourMissionGalaxyComplete" exact="CleanRumourMissionGalaxy" />
+							</actions>
+						</cue>
+						<cue name="OnGenerateMission" instantiate="true">
+							<!-- notes: -->
+							<!-- $GM_Wrapper = $MissionSetUpCue = md.*.GenerateGenericMission -->
+							<!-- $MissionCue = event.param.$Cue = md.*.Start = used in MissionBriefingMenu -->
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<debug_text text="OnGenerateMission" chance="NPCReactions.$DebugChance" />
+								<do_if value="@static.$EndFeedbackValue" comment="Evaluate return-value of GM (success/failure)">
+									<debug_text text="'mission ended. static.$EndFeedbackValue: ' + static.$EndFeedbackValue" chance="NPCReactions.$DebugChance" />
+									<set_value name="$IsMissionFinished" exact="true" />
+									<cancel_cue cue="static.$GM_Wrapper" />
+									<do_if value="$MissionCue">
+										<!-- mission was generated, clean -->
+										<do_if value="@$OnRumourMissionGalaxyComplete">
+											<debug_text text="'$OnRumourMissionGalaxyComplete: ' + $OnRumourMissionGalaxyComplete" chance="NPCReactions.$DebugChance" />
+											<signal_cue cue="$OnRumourMissionGalaxyComplete" />
+										</do_if>
+									</do_if>
+									<do_elseif value="$GenerateMissionCount lt 25">
+										<!-- generate another mission -->
+										<reset_cue cue="GenerateMission" />
+									</do_elseif>
+									<do_else>
+										<do_if value="@$OnRumourMissionGalaxyGenerateFail">
+											<debug_text text="'$OnRumourMissionGalaxyGenerateFail: ' + $OnRumourMissionGalaxyGenerateFail" chance="NPCReactions.$DebugChance" />
+											<signal_cue cue="$OnRumourMissionGalaxyGenerateFail" />
+										</do_if>
+									</do_else>
+								</do_if>
+								<do_elseif value="@static.$FeedbackValue">
+									<debug_text text="'mission signal. static.$FeedbackValue: ' + static.$FeedbackValue" chance="NPCReactions.$DebugChance" />
+									<do_if value="static.$FeedbackValue.$ID == '$MISSION_ACCEPTED'">
+										<set_value name="$Client" exact="null" />
+										<set_value name="$IsMissionAccepted" exact="true" />
+									</do_if>
+									<do_if value="static.$FeedbackValue.$ID == '$MISSION_GENERATED'">
+										<set_value name="$MissionCue" exact="event.param.$Cue" />
+										<debug_text text="'$MissionCue: ' + $MissionCue" chance="NPCReactions.$DebugChance" />
+										<!-- <append_to_list name="Manager.$MissionCues" exact="$MissionCue" /> -->
+										<open_conversation_menu menu="MissionBriefingMenu" param="[0, 0, $MissionCue, true]" />
+									</do_if>
+									<do_elseif value="static.$FeedbackValue.$ID == '$MISSION_NO_VARIANT'">
+										<!-- generate another mission -->
+										<do_if value="$GenerateMissionCount lt 25">
+											<!-- generate another mission -->
+											<reset_cue cue="GenerateMission" />
+										</do_if>
+										<do_else>
+											<do_if value="@$OnRumourMissionGalaxyGenerateFail">
+												<debug_text text="'$OnRumourMissionGalaxyGenerateFail: ' + $OnRumourMissionGalaxyGenerateFail" chance="NPCReactions.$DebugChance" />
+												<signal_cue cue="$OnRumourMissionGalaxyGenerateFail" />
+											</do_if>
+										</do_else>
+									</do_elseif>
+								</do_elseif>
+							</actions>
+						</cue>
+						<cue name="CleanRumourMissionGalaxy" instantiate="true">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<event_conversation_finished />
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$Client" exact="null" />
+								<do_if value="@$MissionCue">
+									<debug_text text="'remove_offer: $MissionCue' + $MissionCue" chance="NPCReactions.$DebugChance" />
+									<remove_offer cue="$MissionCue" />
+								</do_if>
+								<do_if value="(not $IsMissionAccepted) or $IsMissionFinished">
+									<debug_text text="'$IsMissionAccepted: ' + $IsMissionAccepted + ' $IsMissionFinished: ' + $IsMissionFinished" chance="NPCReactions.$DebugChance" />
+									<do_if value="@$MissionCue">
+										<debug_text text="'cancel_cue: $MissionCue' + $MissionCue" chance="NPCReactions.$DebugChance" />
+										<cancel_cue cue="$MissionCue" />
+									</do_if>
+									<do_if value="@static.$GM_Wrapper">
+										<debug_text text="'cancel_cue static.$GM_Wrapper: ' + static.$GM_Wrapper" chance="NPCReactions.$DebugChance" />
+										<cancel_cue cue="static.$GM_Wrapper" />
+									</do_if>
+									<debug_text text="'cance_cue ' + namespace" chance="NPCReactions.$DebugChance" />
+									<cancel_cue cue="namespace" />
+								</do_if>
+								<do_if value="@event.param.$isFromPatch">
+									<set_value name="NPCReactions.$DebugChance" exact="0" />
+								</do_if>
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<!--  -->
+				<cue name="RumourMissionLockbox" instantiate="true" namespace="this" version="2">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$npc" exact="md.kuertee_npc_reactions.NPCReactions.$npc" />
+						<set_value name="$isNPCInstanced" exact="md.kuertee_npc_reactions.NPCReactions.$isNPCInstanced" />
+						<set_value name="$TargetSector" exact="player.sector" />
+						<create_position name="$TargetOffset" space="$TargetSector" min="0" max="$TargetSector.size * 0.75" />
+						<set_value name="$TargetOffset" exact="position.[$TargetOffset.x, 0, $TargetOffset.z]" comment="Engine limitation, keep it on ecliptic (y=0)" />
+						<set_value name="$TargetRadius" exact="25km" />
+						<set_value name="$LockboxAmount" exact="1" />
+						<do_any>
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Medical" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Illegal" />
+						</do_any>
+						<set_value name="$Pitch" min="0" max="360" />
+						<set_value name="$Yaw" min="0" max="360" />
+						<set_value name="$Roll" min="0" max="360" />
+						<do_any>
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_rare_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_unusual_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_special_01_macro" />
+						</do_any>
+						<create_lockbox name="$TargetObject" macro="$LockboxMacro" sector="$TargetSector">
+							<safepos value="$TargetOffset" min="0" max="$TargetRadius" allowyaxis="false" />
+							<rotation pitch="($Pitch)deg" yaw="($Yaw)deg" roll="($Roll)deg" />
+						</create_lockbox>
+						<debug_text text="'$TargetObject: ' + $TargetObject + ' (' + $TargetObject.knownname + ')'" chance="NPCReactions.$DebugChance" />
+						<do_all counter="$i" exact="$CrateContent.count">
+							<do_all counter="$j" exact="$CrateContent.{$i}.count">
+								<add_cargo object="$TargetObject" ware="$CrateContent.{$i}.{$j}.{1}" exact="$CrateContent.{$i}.{$j}.{2}" />
+							</do_all>
+						</do_all>
+					</actions>
+					<cues>
+						<cue name="RumourMissionLockbox_FindObject" ref="FindObject">
+							<param name="npc" value="$npc" />
+							<param name="TargetObject" value="$TargetObject" />
+							<param name="MissionCue" value="parent" />
+							<param name="UpdateBriefing" value="true" />
+						</cue>
+					</cues>
+				</cue>
+				<!-- -->
+				<cue name="RumourMissionAnomaly" instantiate="true" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$npc" exact="md.kuertee_npc_reactions.NPCReactions.$npc" />
+						<set_value name="$isNPCInstanced" exact="md.kuertee_npc_reactions.NPCReactions.$isNPCInstanced" />
+						<include_actions ref="GetAnomalies" />
+						<set_value name="$AnomalyId" min="1" max="$Anomalies.count" />
+						<set_value name="$TargetObject" exact="$Anomalies.{$AnomalyId}" />
+						<debug_text text="'$TargetObject: ' + $TargetObject + ' (' + $TargetObject.knownname + ')'" chance="NPCReactions.$DebugChance" />
+						<do_if value="not $RumouredAnomalies.indexof.{$TargetObject}">
+							<add_to_group groupname="$RumouredAnomalies" object="$TargetObject" />
+						</do_if>
+					</actions>
+					<cues>
+						<cue name="RumourMissionAnomaly_FindObject" ref="FindObject">
+							<param name="npc" value="$npc" />
+							<param name="TargetObject" value="$TargetObject" />
+							<param name="MissionCue" value="parent" />
+							<param name="UpdateBriefing" value="true" />
+						</cue>
+					</cues>
+				</cue>
+				<!-- -->
+				<cue name="RumourMissionDataVault" instantiate="true" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$npc" exact="md.kuertee_npc_reactions.NPCReactions.$npc" />
+						<set_value name="$isNPCInstanced" exact="md.kuertee_npc_reactions.NPCReactions.$isNPCInstanced" />
+						<include_actions ref="GetLockedDataVaults" />
+						<set_value name="$DataVaultId" min="1" max="$LockedDataVaults.count" />
+						<set_value name="$TargetObject" exact="$LockedDataVaults.{$DataVaultId}" />
+						<debug_text text="'$TargetObject: ' + $TargetObject + ' (' + $TargetObject.knownname + ')'" chance="NPCReactions.$DebugChance" />
+						<do_if value="not $RumouredDataVaults.indexof.{$TargetObject}">
+							<add_to_group groupname="$RumouredDataVaults" object="$TargetObject" />
+						</do_if>
+					</actions>
+					<cues>
+						<cue name="RumourMissionDataVault_FindObject" ref="FindObject">
+							<param name="npc" value="$npc" />
+							<param name="TargetObject" value="$TargetObject" />
+							<param name="MissionCue" value="parent" />
+							<param name="UpdateBriefing" value="true" />
+						</cue>
+					</cues>
+				</cue>
+				<!-- -->
+				<library name="FindObject" namespace="this">
+					<params>
+						<param name="npc" />
+						<param name="TargetObject" />
+						<param name="MissionCue" />
+						<param name="UpdateBriefing" />
+					</params>
+					<actions>
+						<do_if value="$npc and $TargetObject and $MissionCue and $UpdateBriefing">
+							<set_value name="$TargetSector" exact="$TargetObject.sector" />
+							<set_value name="$TargetOffset" exact="$TargetObject.position" />
+							<set_value name="$TargetRadius" exact="50km" />
+							<create_group groupname="$TargetObjects" />
+							<add_to_group groupname="$TargetObjects" object="$TargetObject" />
+							<set_value name="$MissionGroup" exact="null" />
+							<do_if value="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$active?">
+								<set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$missionGroup" />
+							</do_if>
+							<create_group groupname="$DroppedObjects" />
+							<create_offer
+								cue="$MissionCue"
+								actor="if @$npc.count then player.entity else $npc"
+								location="if @$npc.count then $npc.{1} else $npc.container"
+								distance="50km"
+								name="$TargetObject.knownname"
+								faction="if @$npc.count then $npc.{1}.owner else $npc.owner"
+								type="missiontype.find"
+								difficulty="level.trivial"
+								group="$MissionGroup"
+							>
+								<briefing>
+									<objective step="1" action="objective.find" text="$TargetObject.knownname" />
+								</briefing>
+							</create_offer>
+						</do_if>
+						<do_else>
+							<cancel_cue cue="this" />
+						</do_else>
+					</actions>
+					<cues>
+						<cue name="FindObject_End">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<event_mission_aborted cue="$MissionCue" />
+									<check_all>
+										<event_conversation_finished />
+										<check_value value="not $MissionCue.hasmission" />
+									</check_all>
+								</check_any>
+							</conditions>
+							<actions>
+								<stop_cutscene key="'OrbitParameterized'" />
+								<debug_text text="'$DroppedObjects.count: ' + @$DroppedObjects.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_all counter="$i" exact="@$DroppedObjects.count" reverse="true">
+									<destroy_object object="$DroppedObjects.{$i}" />
+								</do_all>
+								<debug_text text="'$DroppedObjects.count: ' + @$DroppedObjects.count" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<remove_offer cue="$MissionCue" />
+								<remove_mission cue="$MissionCue" />
+								<cancel_cue cue="parent" />
+								<debug_text text="'cancel_cue ' + $MissionCue" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<cancel_cue cue="$MissionCue" />
+							</actions>
+						</cue>
+						<cue name="FindObject_BriefingCutscene">
+							<conditions>
+								<check_any>
+									<event_briefing_started cue="$MissionCue" />
+									<event_briefing_cancelled cue="$MissionCue" />
+								</check_any>
+							</conditions>
+							<actions>
+								<debug_text text="'event.name: ' + event.name" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<do_if value="event.name == 'event_briefing_started'">
+									<set_value name="$RenderTarget" exact="event.param.{1}" />
+									<play_cutscene key="'OrbitParameterized'" rendertarget="$RenderTarget">
+										<param name="targetobject" object="$TargetObject" />
+										<param name="orbitdist" number="$TargetObject.size * 1.5" />
+										<param name="orbitelevation" number="$TargetObject.size * 0.5" />
+									</play_cutscene>
+								</do_if>
+								<do_else>
+									<stop_cutscene key="'OrbitParameterized'" />
+								</do_else>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="FindObject_ShowBriefing">
+							<actions>
+								<open_conversation_menu menu="MissionBriefingMenu" param="[0, 0, $MissionCue, true]" />
+							</actions>
+						</cue>
+						<cue name="FindObject_Accepted">
+							<conditions>
+								<check_any>
+									<event_offer_accepted cue="$MissionCue" />
+									<event_object_signalled object="if @$npc.count then player.entity else $npc" param="'accept'" />
+								</check_any>
+							</conditions>
+							<actions>
+								<debug_text text="'create_mission ' + $MissionCue" chance="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+								<create_mission cue="$MissionCue" offercue="$MissionCue" />
+								<remove_offer cue="$MissionCue" />
+							</actions>
+							<cues>
+								<cue name="FindObject_Start" ref="md.RML_FindObject.FindObject">
+									<!-- always pass these -->
+									<param name="EndSignalCue" value="FindObject_End" />
+									<param name="MissionCue" value="$MissionCue" />
+									<param name="StartStep" value="1" comment="Briefing step to start the mission on" />
+									<param name="UpdateBriefing" value="$UpdateBriefing" comment="Update the briefing objective step when the objective is updated" />
+									<param name="DebugChance" value="md.kuertee_npc_reactions.NPCReactions.$DebugChance" />
+									<param name="Text_Objective_Find" value="$TargetObject.knownname" />
+									<param name="Text_Objective_Pickup" value="{30149, 104}" comment="Containers" />
+									<!-- mission-related parameters -->
+									<param name="TargetSector" value="$TargetSector" />
+									<param name="TargetOffset" value="$TargetOffset" />
+									<param name="TargetRadius" value="$TargetRadius" />
+									<param name="TargetObjects" value="$TargetObjects" />
+									<param name="DroppedObjects" value="$DroppedObjects" />
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</library>
+				<!-- -->
+				<library name="GetNoDirectConversationRumourBaseChanceAdjustment">
+					<actions>
+						<debug_text text="GetNoDirectConversationRumourBaseChanceAdjustment" chance="NPCReactions.$DebugChance" />
+						<do_if value="$base_chance_penalty_no_direct_convo_per_hour">
+							<set_value name="$rumour_base_chance_adj" exact="0" />
+							<!-- start: degrade $rumour_base_chance at -0.25 every hour no face-to-face convo -->
+							<!-- <debug_text text="'player.age: ' + player.age" chance="NPCReactions.$DebugChance" /> -->
+							<do_if value="(not player.occupiedship and not player.spacesuit) or (not @$lastTimeDirectConversation)">
+								<!-- save time player conversed out of ship or spacesuit -->
+								<set_value name="$lastTimeDirectConversation" exact="player.age" />
+							</do_if>
+							<set_value name="$elapsedTimeNoDirectConversation" exact="player.age - $lastTimeDirectConversation" />
+							<set_value name="$elapsedHoursNoDirectConversation" exact="($elapsedTimeNoDirectConversation / 60 / 60)i" />
+							<debug_text text="'$elapsedHoursNoDirectConversation: ' + $elapsedHoursNoDirectConversation" chance="NPCReactions.$DebugChance" />
+							<do_if value="$elapsedHoursNoDirectConversation gt 0">
+								<set_value name="$lastTimeDirectConversation" exact="player.age" />
+								<set_value name="$rumour_base_chance_adj" exact="-1 * $elapsedHoursNoDirectConversation * $base_chance_penalty_no_direct_convo_per_hour" />
+							</do_if>
+							<debug_text text="'$rumour_base_chance_adj: ' + $rumour_base_chance_adj" chance="NPCReactions.$DebugChance" />
+							<!-- end: degrade $rumour_base_chance at -0.25 every hour no face-to-face convo -->
+						</do_if>
+					</actions>
+				</library>
+				<!-- -->
+				<library name="GetNPCCooldownRumourChanceAdjustment">
+					<actions>
+						<debug_text text="GetNPCCooldownRumourChanceAdjustment" chance="NPCReactions.$DebugChance" />
+						<set_value name="$rumour_chance_adj" exact="0" />
+						<do_if value="not $npcTable?">
+							<set_value name="$npcTable" exact="table[]" />
+						</do_if>
+						<!-- <set_value name="$lastTimeNPCConversation" exact="@$npcTable.{$npc}" />
+						<debug_text text="'$lastTimeNPCConversation: ' + $lastTimeNPCConversation" chance="NPCReactions.$DebugChance" />
+						<set_value name="$hoursSinceLast" exact="(player.age - $lastTimeNPCConversation) / 60 / 60" />
+						<debug_text text="'hoursSinceLast: ' + $hoursSinceLast" chance="NPCReactions.$DebugChance" /> -->
+						<do_if value="@$npcTable.{$npc} and player.age lt @$npcTable.{$npc} + 60 * 60">
+							<!-- 1hr cool down for each NPC -->
+							<set_value name="$rumour_chance_adj" exact="-1000000" />
+						</do_if>
+						<do_elseif value="@$npcTable.{@$npc.{2}} and player.age lt @$npcTable.{@$npc.{2}} + 60 * 60">
+							<set_value name="$rumour_chance_adj" exact="-1000000" />
+						</do_elseif>
+						<debug_text text="'$rumour_chance_adj: ' + $rumour_chance_adj" chance="NPCReactions.$DebugChance" />
+						<!-- start: clean $npcTable -->
+						<debug_text text="'$npcTable: ' + $npcTable" chance="NPCReactions.$DebugChance" />
+						<do_all exact="$npcTable.keys.count" counter="$i" reverse="true">
+							<do_if value="(@$npcTable.keys.{$i} and player.age gt $npcTable.{$npcTable.keys.{$i}} + 60 * 60)">
+								<!-- remove npcs conversed with more than an hour ago -->
+								<debug_text text="$npcTable.keys.{$i} + ': ' + $npcTable.{$npcTable.keys.{$i}}" chance="NPCReactions.$DebugChance" />
+								<remove_value name="$npcTable.{$npcTable.keys.{$i}}" />
+								<do_if value="@$savedRumourTypes.{@$npcTable.keys.{$i}}">
+									<remove_value name="$savedRumourTypes.{$npcTable.keys.{$i}}" />
+								</do_if>
+							</do_if>
+						</do_all>
+						<debug_text text="'$npcTable: ' + $npcTable" chance="NPCReactions.$DebugChance" />
+						<!-- end: clean $npcTable -->
+						<!-- save npc to table -->
+						<do_if value="not $isNPCInstanced">
+							<!-- uninstantced npc -->
+							<set_value name="$npcTable.{@$npc.{2}}" exact="player.age" />
+						</do_if>
+						<do_else>
+							<set_value name="$npcTable.{$npc}" exact="player.age" />
+						</do_else>
+					</actions>
+				</library>
+				<!-- -->
+				<library name="GetNPCRacialAdjustment">
+					<actions>
+						<debug_text text="GetNPCRacialAdjustment" chance="NPCReactions.$DebugChance" />
+						<set_value name="$rumour_chance_adj" exact="0" />
+						<do_if value="player.entity.race == $npcRace">
+							<set_value name="$rumour_chance_adj" exact="$chance_bonus_same_race" />
+						</do_if>
+						<debug_text text="'$rumour_chance_adj: ' + $rumour_chance_adj" chance="NPCReactions.$DebugChance" />
+					</actions>
+				</library>
+				<!-- -->
+				<library name="GetNPCFactionAdjustment">
+					<actions>
+						<debug_text text="GetNPCFactionAdjustment" chance="NPCReactions.$DebugChance" />
+						<!--
+							from libraries/faction.xml:
+
+							Default Relation Ranges:
+							self:          1.0  to  1.0
+							member:        0.1  to  1.0
+							friend:        0.01 to  1.0
+							neutral:      -0.01 to  0.01
+							enemy:        -1.0  to -0.01
+							killmilitary: -1.0  to -0.1
+							kill:         -1.0  to -0.32
+							nemesis:      -1.0  to -1.0
+						-->
+						<set_value name="$rumour_chance_adj" exact="0" />
+						<debug_text text="'$npcTrueOwner.relationto.{faction.player}: ' + $npcTrueOwner.relationto.{faction.player}" chance="NPCReactions.$DebugChance" />
+						<do_if value="$npcTrueOwner != faction.player and not $npcCoverOwner">
+							<do_if value="$npcTrueOwner.relationto.{faction.player} ge $npcTrueOwner.relation.friend.min">
+								<!-- npc is a friend -->
+								<do_if value="$chance_bonus_friendly_faction">
+									<set_value name="$rumour_chance_adj" exact="$rumour_chance_adj + $chance_bonus_friendly_faction" />
+								</do_if>
+								<debug_text text="'$npcSector.trueowner.relationto.{faction.player}: ' + $npcSector.trueowner.relationto.{faction.player}" chance="NPCReactions.$DebugChance" />
+								<do_if value="$npcSector.trueowner.hasrelation.enemy.{faction.player} or $npcSector.trueowner.hasrelation.enemy.{$npcTrueOwner}">
+									<!-- npc is in an enemy sector -->
+									<do_if value="$chance_bonus_in_enemy_sector">
+										<set_value name="$rumour_chance_adj" exact="$rumour_chance_adj + $chance_bonus_in_enemy_sector" />
+									</do_if>
+								</do_if>
+							</do_if>
+						</do_if>
+						<debug_text text="'$rumour_chance_adj: ' + $rumour_chance_adj" chance="NPCReactions.$DebugChance" />
+					</actions>
+				</library>
+				<!-- -->
+				<library name="GetRoomAdjustment">
+					<actions>
+						<debug_text text="GetRoomAdjustment" chance="NPCReactions.$DebugChance" />
+						<set_value name="$rumour_chance_adj" exact="0" />
+						<do_if value="player.room.type == roomtype.bar or player.room.macro == macro.room_gen_bar_01_macro">
+							<set_value name="$rumour_chance_adj" exact="$chance_bonus_in_bar" />
+						</do_if>
+						<debug_text text="'$rumour_chance_adj: ' + $rumour_chance_adj" chance="NPCReactions.$DebugChance" />
+					</actions>
+				</library>
+				<!-- -->
+				<library name="GetLockedDataVaults">
+					<actions>
+						<debug_text text="GetLockedDataVaults" chance="NPCReactions.$DebugChance" />
+						<!-- find locked data vaults -->
+						<do_if value="not md.kuertee_npc_reactions.NPCReactions.$LockedDataVaults?">
+							<!-- create in NPCReactions instead of the sub-cues -->
+							<create_group groupname="md.kuertee_npc_reactions.NPCReactions.$LockedDataVaults" />
+							<create_group groupname="md.kuertee_npc_reactions.NPCReactions.$LockedDataVaultLeaks" />
+							<create_group groupname="md.kuertee_npc_reactions.NPCReactions.$RumouredDataVaults" />
+						</do_if>
+						<do_else>
+							<clear_group group="md.kuertee_npc_reactions.NPCReactions.$LockedDataVaults" />
+							<clear_group group="md.kuertee_npc_reactions.NPCReactions.$LockedDataVaultLeaks" />
+							<!-- never clear $RumouredDataVaults -->
+							<!-- <clear_group group="md.kuertee_npc_reactions.NPCReactions.$RumouredDataVaults" /> -->
+						</do_else>
+						<!-- copy from NPCReactions into whatever cue uses this library -->
+						<set_value name="$LockedDataVaults" exact="md.kuertee_npc_reactions.NPCReactions.$LockedDataVaults" />
+						<set_value name="$LockedDataVaultLeaks" exact="md.kuertee_npc_reactions.NPCReactions.$LockedDataVaultLeaks" />
+						<set_value name="$RumouredDataVaults" exact="md.kuertee_npc_reactions.NPCReactions.$RumouredDataVaults" />
+						<find_object groupname="$VaultsGroup" space="player.galaxy" multiple="true">
+							<match_any>
+								<match macro="macro.landmarks_vault_01_macro" />
+								<match macro="macro.landmarks_vault_02_macro" />
+								<match macro="macro.landmarks_vault_03_macro" />
+								<match macro="macro.landmarks_vault_04_macro" />
+							</match_any>
+						</find_object>
+						<do_all exact="$VaultsGroup.count" counter="$i">
+							<find_object_component name="$Leak" object="$VaultsGroup.{$i}" signalleaktype="signalleaktype.data" />
+							<do_if value="$Leak.exists">
+								<add_to_group groupname="$LockedDataVaults" object="$VaultsGroup.{$i}" />
+								<add_to_group groupname="$LockedDataVaultLeaks" object="$Leak" />
+							</do_if>
+						</do_all>
+						<debug_text text="'$LockedDataVaults.count: ' + $LockedDataVaults.count" chance="NPCReactions.$DebugChance" />
+						<debug_text text="'$LockedDataVaultLeaks.count: ' + $LockedDataVaultLeaks.count" chance="NPCReactions.$DebugChance" />
+						<!-- keep 3 closest -->
+						<!-- e.g. -->
+						<!-- <sort_group list="$PossibleShips" sortbyvalue="loop.element.position.distanceto.{$HQPosition}" /> -->
+						<!-- <sort_group group="$PatrolTarget" sortbydistanceto="player.entity" /> -->
+						<sort_group group="$LockedDataVaults" sortbydistanceto="player.entity" />
+						<sort_group group="$LockedDataVaultLeaks" sortbydistanceto="player.entity" />
+						<debug_text text="'keep 3 closest'" chance="NPCReactions.$DebugChance" />
+						<do_all exact="$LockedDataVaults.count" counter="$i">
+							<do_if value="$i > 3 and @$LockedDataVaults.{4}">
+								<remove_from_group group="$LockedDataVaults" object="$LockedDataVaults.{4}" />
+								<remove_from_group group="$LockedDataVaultLeaks" object="$LockedDataVaultLeaks.{4}" />
+							</do_if>
+						</do_all>
+						<debug_text text="'$LockedDataVaults.count: ' + $LockedDataVaults.count" chance="NPCReactions.$DebugChance" />
+						<debug_text text="'$LockedDataVaultLeaks.count: ' + $LockedDataVaultLeaks.count" chance="NPCReactions.$DebugChance" />
+					</actions>
+				</library>
+				<!-- -->
+				<library name="GetAnomalies">
+					<actions>
+						<debug_text text="GetAnomalies" chance="NPCReactions.$DebugChance" />
+						<!-- find locked data vaults -->
+						<do_if value="not md.kuertee_npc_reactions.NPCReactions.$Anomalies?">
+							<!-- create in NPCReactions instead of the sub-cues -->
+							<create_group groupname="md.kuertee_npc_reactions.NPCReactions.$Anomalies" />
+							<create_group groupname="md.kuertee_npc_reactions.NPCReactions.$RumouredAnomalies" />
+						</do_if>
+						<do_else>
+							<clear_group group="md.kuertee_npc_reactions.NPCReactions.$Anomalies" />
+							<!-- never clear $RumouredAnomalies -->
+							<!-- <clear_group group="md.kuertee_npc_reactions.NPCReactions.$RumouredAnomalies" /> -->
+						</do_else>
+						<!-- copy from NPCReactions into whatever cue uses this library -->
+						<set_value name="$Anomalies" exact="md.kuertee_npc_reactions.NPCReactions.$Anomalies" />
+						<set_value name="$RumouredAnomalies" exact="md.kuertee_npc_reactions.NPCReactions.$RumouredAnomalies" />
+						<!-- e.g.s: -->
+						<!-- <find_object name="$Anomaly" class="class.anomaly" space="$Sector" /> -->
+						<!-- <find_object groupname="static.$Objects" multiple="true" class="$ObjectClasses" masstraffic="false" checkoperational="false" recursive="true" space="$PlayerSpace.{1}" /> -->
+						<find_object groupname="$FoundAnomalies" multiple="true" class="class.anomaly" space="player.galaxy" />
+						<do_all exact="$FoundAnomalies.count" counter="$i">
+							<do_if value="not $RumouredAnomalies.indexof.{$FoundAnomalies.{$i}}">
+								<add_to_group groupname="$Anomalies" object="$FoundAnomalies.{$i}" />
+							</do_if>
+						</do_all>
+						<debug_text text="'$Anomalies.count: ' + $Anomalies.count" chance="NPCReactions.$DebugChance" />
+						<!-- keep 3 closest -->
+						<debug_text text="'keep 3 closest'" chance="NPCReactions.$DebugChance" />
+						<sort_group group="$Anomalies" sortbydistanceto="player.entity" />
+						<do_all exact="$Anomalies.count" counter="$i">
+							<do_if value="$i > 3 and @$Anomalies.{4}">
+								<remove_from_group group="$Anomalies" object="$Anomalies.{4}" />
+							</do_if>
+						</do_all>
+						<debug_text text="'$Anomalies.count: ' + $Anomalies.count" chance="NPCReactions.$DebugChance" />
+					</actions>
+				</library>
+				<!-- start: emergent mission: hunt -->
+				<library name="GetEMHunts">
+					<actions>
+						<debug_text text="GetEMHunts" chance="NPCReactions.$DebugChance" />
+						<!-- get missions this npc's faction knows.
+						mission faction CAN'T BE the same npc faction because player will already have the most up-to-date data from the mission faction. -->
+						<set_value name="$emHunts_known" exact="[]" />
+						<debug_text text="'@global.$Missions_Hunts.$missions_active.count: ' + @global.$Missions_Hunts.$missions_active.count" chance="NPCReactions.$DebugChance" />
+						<do_if value="@global.$Missions_Hunts.$missions_active.count">
+							<do_for_each name="$emHunt_activeMission" in="global.$Missions_Hunts.$missions_active">
+								<do_if value="$emHunt_activeMission.hasmission">
+									<do_for_each name="$emHunt_faction" valuename="$emHunt_fromOtherFaction_lastKnowns" in="$emHunt_activeMission.$MissionTarget.aipilot.$kEM_lastKnownLocation">
+										<debug_text text="'$emHunt_faction: ' + $emHunt_faction + ' != $emHunt_activeMission.$Faction: ' + $emHunt_activeMission.$Faction" chance="NPCReactions.$DebugChance" />
+										<do_if value="$emHunt_faction != $npc.trueowner or NPCReactions.$DebugChance">
+											<do_if value="$emHunt_faction != $emHunt_activeMission.$Faction" comment="this OTHER faction also has a bounty on this target">
+												<debug_text text="$emHunt_fromOtherFaction_lastKnowns.{1}.$time + ' gt ' + $emHunt_activeMission.$LastKnownDatas.$lastKnowns.{1}.$time + ': ' + ($emHunt_fromOtherFaction_lastKnowns.{1}.$time gt $emHunt_activeMission.$LastKnownDatas.$lastKnowns.{1}.$time)" chance="NPCReactions.$DebugChance" />
+												<do_if value="$emHunt_fromOtherFaction_lastKnowns.{1}.$time gt $emHunt_activeMission.$LastKnownDatas.$lastKnowns.{1}.$time">
+													<append_to_list name="$emHunts_known" exact="$emHunt_activeMission" />
+												</do_if>
+											</do_if>
+										</do_if>
+									</do_for_each>
+								</do_if>
+							</do_for_each>
+						</do_if>
+						<debug_text text="'$emHunts_known: ' + $emHunts_known" chance="NPCReactions.$DebugChance" />
+					</actions>
+				</library>
+				<!-- end: emergent mission: hunt -->
+				<library name="GetCombatTypeMission">
+					<actions>
+						<debug_text text="GetCombatTypeMission" chance="NPCReactions.$DebugChance" />
+						<do_any>
+							<set_value name="$MissionSetUpCue" exact="md.GM_Assassinate.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_DeployInPlace.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Destroy_Objects.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Rescue_Ship.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Scan.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_GetExactCrew.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BuildStation.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_KillMasstraffic.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairSignalLeaks.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_TrackShip.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BoardShip.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Patrol.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Destroy_RarelyOnSight.GenerateGenericMission" />
+						</do_any>
+					</actions>
+				</library>
+				<library name="GetEconomicTypeMission">
+					<actions>
+						<debug_text text="GetEconomicTypeMission" chance="NPCReactions.$DebugChance" />
+						<do_any>
+							<set_value name="$MissionSetUpCue" exact="md.GM_DeployInPlace.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Find_Resources.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Transport_Passengers.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Scan.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_SupplyFactory.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_GetExactCrew.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BringItems.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RetrieveItem.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_FindObject.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BuildStation.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairSignalLeaks.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GMC_Assisted_Task.GenerateGenericMission" />
+						</do_any>
+					</actions>
+				</library>
+				<library name="GetEngineeringTypeMission">
+					<actions>
+						<debug_text text="GetEngineeringTypeMission" chance="NPCReactions.$DebugChance" />
+						<do_any>
+							<set_value name="$MissionSetUpCue" exact="md.GM_DeployInPlace.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Find_Resources.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairObject.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Transport_Passengers.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Scan.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_GetExactCrew.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_FindObject.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BuildStation.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairSignalLeaks.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GMC_Assisted_Task.GenerateGenericMission" />
+						</do_any>
+					</actions>
+				</library>
+				<library name="GetAnyTypeMission">
+					<actions>
+						<debug_text text="GetAnyTypeMission" chance="NPCReactions.$DebugChance" />
+						<do_any>
+							<set_value name="$MissionSetUpCue" exact="md.GM_Assassinate.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_DeployInPlace.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Destroy_Objects.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Find_Resources.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Rescue_Ship.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairObject.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Transport_Passengers.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Scan.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_SupplyFactory.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_GetExactCrew.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BringItems.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RetrieveItem.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_FindObject.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BuildStation.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_KillMasstraffic.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairSignalLeaks.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_TrackShip.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BoardShip.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Patrol.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Destroy_RarelyOnSight.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GMC_Assisted_Task.GenerateGenericMission" />
+						</do_any>
+					</actions>
+				</library>
+				<cue name="PilotCutscene" namespace="this">
+					<cues>
+						<cue name="PilotCutscenePlay" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$DebugChance" exact="NPCReactions.$DebugChance" />
+								<set_value name="$caption" exact="event.param.$caption" />
+								<set_value name="$npc" exact="@event.param.$npc" />
+								<!-- <do_if value="typeof $npc == datatype.npctemplate">
+									<set_value name="$npcTemplate" exact="$npc" />
+									<find_npc_waypoint name="$slot" object="player.container" tags="tag.npctransport"/>
+									<create_npc_from_template name="$npc" object="$ship" template="$npcTemplate" slot="$slot" owner="player.container.owner" />
+								</do_if> -->
+								<debug_text text="'$npc: ' + $npc" chance="NPCReactions.$DebugChance" />
+								<set_value name="$npcTemplate" exact="@event.param.$npcTemplate" />
+								<set_value name="$npcTemplateContainer" exact="@event.param.$npcTemplateContainer" />
+								<do_if value="(not $npc) and $npcTemplate and $npcTemplateContainer">
+									<!-- this npc will be destoryed after the cutscene -->
+									<!-- the npc template on the container will be untouched -->
+									<find_npc_waypoint name="$slot" object="$npcTemplateContainer" tags="tag.npctransport" />
+									<create_npc_from_template name="$npc" object="$npcTemplateContainer" template="$npcTemplate" slot="$slot" owner="$npcTemplateContainer.owner" />
+									<create_cue_actor cue="namespace" actor="$npc" />
+									<debug_text text="'$npc (from $npcTemnplate): ' + $npc" chance="NPCReactions.$DebugChance" />
+								</do_if>
+								<set_value name="$forcedNPCName" exact="@event.param.$forcedNPCName" />
+								<set_value name="$forcedContainerName" exact="@event.param.$forcedContainerName" />
+								<set_value name="$forcedNPCFaction" exact="@event.param.$forcedNPCFaction" />
+								<do_if value="$forcedNPCName">
+									<set_value name="$extraCaption" exact="$forcedNPCName + ' '" />
+								</do_if>
+								<do_else>
+									<set_value name="$extraCaption" exact="@$npc.knownname + ' '" />
+								</do_else>
+								<set_value name="$npcOwner" exact="$npc.owner" />
+								<do_if value="$forcedNPCFaction">
+									<set_value name="$npcOwner" exact="$forcedNPCFaction" />
+								</do_if>
+								<do_if value="$npcOwner == faction.player">
+									<set_value name="$extraCaption" exact="$extraCaption + '(' + {1416318, 689004} + ')'" />
+								</do_if>
+								<do_else>
+									<set_value name="$extraCaption" exact="$extraCaption + '(' + $npcOwner + ')'" />
+								</do_else>
+								<do_if value="$forcedContainerName">
+									<set_value name="$extraCaption" exact="$extraCaption + '\n'" />
+									<set_value name="$extraCaption" exact="$extraCaption + $forcedContainerName" />
+								</do_if>
+								<do_else>
+									<do_if value="$npc.container">
+										<set_value name="$extraCaption" exact="$extraCaption + '\n'" />
+										<do_if value="$npc.container.idcode">
+											<set_value name="$extraCaption" exact="$extraCaption + $npc.container.idcode + ' '" />
+										</do_if>
+										<do_if value="@$npc.container.type">
+											<set_value name="$extraCaption" exact="$extraCaption + '(' + $npc.container.type + ') '" />
+										</do_if>
+										<set_value name="$extraCaption" exact="$extraCaption + $npc.container.knownname" />
+									</do_if>
+								</do_else>
+								<set_value name="$extraCaption" exact="$extraCaption + ':\n'" />
+								<set_value name="$caption" exact="$extraCaption + $caption" />
+								<debug_text text="'$caption: ' + $caption" chance="NPCReactions.$DebugChance" />
+								<remove_value name="$forcedNPCName" />
+								<remove_value name="$forcedContainerName" />
+								<remove_value name="$forcedNPCFaction" />
+								<remove_value name="$extraCaption" />
+								<remove_value name="$npcOwner" />
+								<set_value name="$page" exact="@event.param.$page" />
+								<set_value name="$line" exact="@event.param.$line" />
+								<set_value name="$isSpeak" exact="@event.param.$isSpeak" />
+								<set_value name="$fromCue" exact="@event.param.$cue" />
+								<set_value name="$callback" exact="@event.param.$callback" />
+								<set_value name="$callbackParam" exact="@event.param.$callbackParam" />
+								<set_value name="$interactionText" exact="@event.param.$interactionText" />
+								<set_value name="$interactionParam" exact="@event.param.$interactionParam" />
+								<set_value name="$interactionParam2" exact="@event.param.$interactionParam2" />
+								<set_value name="$AutoCam_isExpectedCutscene" exact="@event.param.$AutoCam_isExpectedCutscene" />
+								<!-- <do_if value="@$cutscene">
+									<stop_cutscene cutscene="$cutscene" />
+								</do_if> -->
+								<stop_cutscene key="'ShowPilot'" />
+								<stop_cutscene key="'ShowNPCFace'" />
+								<stop_cutscene key="'ShowNPCFaceArgon'" />
+								<stop_cutscene key="'ShowNPCFaceBoron'" />
+								<stop_cutscene key="'ShowNPCFaceParanid'" />
+								<stop_cutscene key="'ShowNPCFaceSplit'" />
+								<stop_cutscene key="'ShowNPCFaceTeladi'" />
+							</actions>
+							<cues>
+								<cue name="PilotCutscenePlayActualSignal">
+									<delay exact="1s" />
+									<actions>
+										<debug_text text="'$cutscene: ' + @$cutscene + ' PilotCutscenePlayActual.state: ' + PilotCutscenePlayActual.state" chance="NPCReactions.$DebugChance" />
+										<do_if value="(not $cutscene?) and PilotCutscenePlayActual.state == cuestate.waiting">
+											<debug_text text="'$AutoCam_isExpectedCutscene: ' + $AutoCam_isExpectedCutscene" />
+											<signal_cue_instantly cue="PilotCutscenePlayActual" param="table[
+												$npc = $npc,
+												$caption = $caption,
+												$page = $page,
+												$line = $line,
+												$isSpeak = $isSpeak,
+												$fromCue = $fromCue,
+												$callback = $callback,
+												$callbackParam = $callbackParam,
+												$interactionText = $interactionText,
+												$interactionParam = $interactionParam,
+												$interactionParam2 = $interactionParam2,
+												$AutoCam_isExpectedCutscene = $AutoCam_isExpectedCutscene,
+											]" />
+										</do_if>
+										<remove_value name="$npc" />
+										<remove_value name="$caption" />
+										<remove_value name="$page" />
+										<remove_value name="$line" />
+										<remove_value name="$isSpeak" />
+										<remove_value name="$fromCue" />
+										<remove_value name="$callback" />
+										<remove_value name="$callbackParam" />
+										<remove_value name="$interactionText" />
+										<remove_value name="$interactionParam" />
+										<remove_value name="$interactionParam2" />
+										<remove_value name="$AutoCam_isExpectedCutscene" />
+										<cancel_cue cue="parent" />
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+						<cue name="PilotCutscenePlayActual" namespace="this">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$caption" exact="event.param.$caption" />
+								<set_value name="$npc" exact="event.param.$npc" />
+								<set_value name="$page" exact="event.param.$page" />
+								<set_value name="$line" exact="event.param.$line" />
+								<set_value name="$isSpeak" exact="event.param.$isSpeak" />
+								<set_value name="$fromCue" exact="@event.param.$fromCue" />
+								<set_value name="$callback" exact="@event.param.$callback" />
+								<set_value name="$callbackParam" exact="@event.param.$callbackParam" />
+								<set_value name="$interactionText" exact="@event.param.$interactionText" />
+								<set_value name="$interactionParam" exact="@event.param.$interactionParam" />
+								<set_value name="$interactionParam2" exact="@event.param.$interactionParam2" />
+								<set_value name="$AutoCam_isExpectedCutscene" exact="@event.param.$AutoCam_isExpectedCutscene" />
+								<debug_text text="'$AutoCam_isExpectedCutscene: ' + $AutoCam_isExpectedCutscene" />
+								<do_if value="not $interactionText">
+									<set_value name="$interactionText" exact="''" />
+								</do_if>
+								<set_value name="$cutsceneKey" exact="'ShowPilot'" />
+								<do_if value="@$npc.room.iswalkable and $npc.roomslot and (not @parent.$npcTemplate) and (not NPCReactions.$userIsForceShowPilotCutscene)">
+									<set_value name="$cutsceneKey" exact="if $npc.room.iswalkable then (
+										if @$npc.race.facecutscene then $npc.race.facecutscene else 'ShowNPCFace'
+									) else 'ShowPilot'" />
+								</do_if>
+								<debug_text text="'$npc.room == player.room: ' + (@$npc.room == player.room)" chance="NPCReactions.$DebugChance" />
+								<debug_text text="'$npc.room.iswalkable: ' + @$npc.room.iswalkable" chance="NPCReactions.$DebugChance" />
+								<debug_text text="'$npc.roomslot: ' + @$npc.roomslot" chance="NPCReactions.$DebugChance" />
+								<debug_text text="'$npc.isinspeakrange: ' + @$npc.isinspeakrange" chance="NPCReactions.$DebugChance" />
+								<debug_text text="'$cutsceneKey: ' + @$cutsceneKey" chance="NPCReactions.$DebugChance" />
+								<do_if value="md.kuertee_auto_camera.kAutoCam?">
+									<set_value name="md.kuertee_auto_camera.kAutoCam.$isExpectedCutscene" exact="$AutoCam_isExpectedCutscene" />
+									<debug_text text="'md.kuertee_auto_camera.kAutoCam.$isExpectedCutscene: ' + md.kuertee_auto_camera.kAutoCam.$isExpectedCutscene" />
+								</do_if>
+								<do_if value="$interactionParam">
+									<play_cutscene result="$cutscene" key="$cutsceneKey" targetmonitor="true" timeout="10s + 100ms"
+										caption="$caption"
+										sound="notification_conversationstart">
+										<interaction text="$interactionText" param="$interactionParam" param2="$interactionParam2" />
+										<param name="npcref" object="$npc" />
+									</play_cutscene>
+								</do_if>
+								<do_else>
+									<play_cutscene result="$cutscene" key="$cutsceneKey" targetmonitor="true" timeout="10s + 100ms"
+										caption="$caption"
+										sound="notification_conversationstart">
+										<param name="npcref" object="$npc" />
+									</play_cutscene>
+								</do_else>
+								<do_if value="$fromCue">
+									<set_value name="$fromCue.$cutscene" exact="$cutscene" />
+								</do_if>
+								<debug_text text="'$cutscene: ' + $cutscene" chance="namespace.parent.$DebugChance" />
+								<do_if value="$isSpeak">
+									<speak actor="$npc" page="$page" line="$line" />
+								</do_if>
+								<!-- <remove_value name="$npc" /> -->
+								<remove_value name="$caption" />
+								<remove_value name="$page" />
+								<remove_value name="$line" />
+								<remove_value name="$isSpeak" />
+								<remove_value name="$fromCue" />
+							</actions>
+							<cues>
+								<cue name="PilotCutsceneStop">
+									<conditions>
+										<event_cutscene_stopped key="$cutsceneKey" />
+									</conditions>
+									<actions>
+										<debug_text text="'PilotCutscene.$npcTemplate: ' + @PilotCutscene.$npcTemplate" chance="namespace.parent.$DebugChance" />
+										<debug_text text="'PilotCutscene.$npcTemplateContainer: ' + @PilotCutscene.$npcTemplateContainer" chance="namespace.parent.$DebugChance" />
+										<do_if value="@PilotCutscene.$npcTemplate and @PilotCutscene.$npcTemplateContainer">
+											<debug_text text="'$npc: ' + $npc + ' (' + @$npc.name + ')'" chance="namespace.parent.$DebugChance" />
+											<debug_text text="'$npc.exists: ' + $npc.exists" chance="namespace.parent.$DebugChance" />
+											<remove_cue_actor actor="$npc" cue="PilotCutscene" />
+											<destroy_object object="$npc" />
+											<debug_text text="'$npc: ' + $npc + ' (' + @$npc.name + ')'" chance="namespace.parent.$DebugChance" />
+											<debug_text text="'$npc.exists: ' + $npc.exists" chance="namespace.parent.$DebugChance" />
+										</do_if>
+										<debug_text text="'$cutscene: ' + $cutscene" chance="namespace.parent.$DebugChance" />
+										<set_value name="$cutscene" exact="null" />
+										<debug_text text="'$cutscene: ' + $cutscene" chance="namespace.parent.$DebugChance" />
+										<do_if value="$callback">
+											<signal_cue_instantly cue="$callback" param="$callbackParam" />
+											<set_value name="$callback" exact="null" />
+										</do_if>
+										<reset_cue cue="parent" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="K_ArriveAndLeaveStations" namespace="this">
+					<actions>
+						<set_value name="$attentionNearbyAndNearer" exact="[attention.nearby, attention.adjacentroom, attention.inroom]" />
+						<set_value name="$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+						<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_station_old" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_station_current" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
+					</actions>
+					<cues>
+						<cue name="K_ArriveStation" instantiate="true">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<check_all>
+										<!-- Event for the specified object changing attention level (object = attention changing object, param = new attention level, param2 = previous attention level) -->
+										<event_object_changed_attention group="md.NPC_Instantiation.Instantiation.$TrackedObjects" />
+										<check_value value="event.object.isclass.station" />
+										<check_value value="@event.object.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.object.macro != @macro.torus_maze_macro" />
+									</check_all>
+									<check_all>
+										<!-- Event for when the player successfully teleports. (param = new room, param2 = old room, param3 = is shortcut instead of real teleport) -->
+										<event_player_teleport_successful />
+									</check_all>
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$isOk" exact="false" />
+								<set_value name="$isAlreadyActive" exact="false" />
+								<set_value name="$isTeleport" exact="false" />
+								<do_if value="event.name == 'event_cue_signalled'">
+									<set_value name="$station_this" exact="event.param.$station" />
+									<set_value name="$isAlreadyActive" exact="event.param.$isAlreadyActive" />
+									<set_value name="$isOk" exact="true" />
+								</do_if>
+								<do_elseif value="event.name == 'event_object_changed_attention'">
+									<do_if value="event.object.isclass.station">
+										<set_value name="$station_this" exact="event.object" />
+										<set_value name="$isOk" exact="
+											$attentionNearbyAndNearer.indexof.{event.param}
+											and
+											(not $attentionNearbyAndNearer.indexof.{event.param2})
+											and
+											$station_this != md.Notifications.Init.$kuertee_station_current
+										" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="event.name == 'event_player_teleport_successful'">
+									<set_value name="$isTeleport" exact="true" />
+									<do_if value="player.station">
+										<set_value name="$station_this" exact="player.station" />
+										<set_value name="$isOk" exact="
+											(
+												(not @md.Notifications.Init.$kuertee_station_current)
+												or
+												(not @param.hascontext.{@md.Notifications.Init.$kuertee_station_current})
+											)
+											and
+											$station_this != md.Notifications.Init.$kuertee_station_current
+										" />
+									</do_if>
+								</do_elseif>
+								<do_if value="$isOk">
+									<do_if value="not $isAlreadyActive">
+										<do_if value="md.Notifications.Init.$kuertee_Cue_departOldStation.exists">
+											<do_if value="md.Notifications.Init.$kuertee_Cue_departOldStation.state == cuestate.waiting">
+												<signal_cue_instantly cue="md.Notifications.Init.$kuertee_Cue_departOldStation" />
+											</do_if>
+										</do_if>
+										<set_value name="md.Notifications.Init.$kuertee_station_new" exact="$station_this" />
+										<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+									</do_if>
+									<do_else>
+										<set_value name="md.Notifications.Init.$kuertee_station_new" exact="$station_this" />
+										<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation $isAlreadyActive at: ' + @md.Notifications.Init.$kuertee_station_current.knownname" />
+										<debug_text text="'K_ArriveStation $isAlreadyActive at: ' + @md.Notifications.Init.$kuertee_station_current.knownname" />
+									</do_else>
+								</do_if>
+								<do_else>
+									<cancel_cue cue="this" />
+								</do_else>
+							</actions>
+							<cues>
+								<cue name="K_DepartStation">
+									<conditions>
+										<check_any>
+											<event_cue_signalled />
+											<event_object_changed_attention object="md.Notifications.Init.$kuertee_station_current" />
+										</check_any>
+									</conditions>
+									<actions>
+										<set_value name="$isOk" exact="false" />
+										<set_value name="$isOk" exact="
+											event.name == 'event_cue_signalled'
+											or
+											(
+												(not @$attentionNearbyAndNearer.indexof.{@event.param})
+												and
+												@$attentionNearbyAndNearer.indexof.{@event.param2}
+											)
+										" />
+										<do_if value="$isOk">
+											<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
+											<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+											<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<cancel_cue cue="parent" />
+											<reset_cue cue="this" />
+										</do_if>
+										<do_else>
+											<reset_cue cue="this" />
+										</do_else>
+									</actions>
+								</cue>
+								<cue name="K_ArriveStation2">
+									<actions>
+										<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="K_DepartStation" />
+										<do_if value="$isTeleport">
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$teleportTo = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+										</do_if>
+										<do_else>
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$arriveAt = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+										</do_else>
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="K_DockedAtStation">
+									<conditions>
+										<!-- Event for the specified object docking (object = docking object, param = dock object, param2 = zone) -->
+										<event_object_docked group="global.$PlayerContainerGroup" />
+										<check_value value="event.param.isclass.station" />
+										<check_value value="@event.param.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
+									</conditions>
+									<actions>
+										<!-- <raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation player.station ' + @$player.station.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" /> -->
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
+										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$dockAt = md.Notifications.Init.$kuertee_station_current]" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_DockedAtStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="K_UndockedFromStation">
+									<conditions>
+										<!-- Event for the specified object undocking (object = undocking object, param = dock, param2 = zone) -->
+										<event_object_undocked group="global.$PlayerContainerGroup" />
+										<check_value value="event.param.isclass.station" />
+										<check_value value="@event.param.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
+									</conditions>
+									<actions>
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
+										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$undockFrom = md.Notifications.Init.$kuertee_station_current]" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_UndockedFromStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_UndockedFromStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+						<cue name="K_ArriveAndLeaveStations_Debug" namespace="this">
+							<conditions>
+								<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+								<check_value value="event.param3.$text == 'kuertee debug K_ArriveAndLeaveStations'" />
+							</conditions>
+							<actions>
+								<debug_text text="@event.param3" />
+								<raise_lua_event name="'Chat_Window_API.Print'" param="@event.param3.$text" />
+								<do_if value="@md.Notifications.Init.$kuertee_debugChance">
+									<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
+								</do_if>
+								<do_else>
+									<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="100" />
+								</do_else>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="K_ArriveAndLeaveStations_Init2" namespace="this">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<!-- save station current -->
+						<set_value name="$station_current" exact="@md.Notifications.Init.$kuertee_station_current" />
+						<do_if value="not @$station_current.exists">
+							<set_value name="$station_current" exact="@K_ArriveAndLeaveStations.$kuertee_station_current" />
+							<do_if value="not @$station_current.exists">
+								<set_value name="$station_current" exact="@K_ArriveAndLeaveStations.$station_current" />
+							</do_if>
+						</do_if>
+						<debug_text text="'$station_current: ' + $station_current + ' (' + @$station_current.knownname + ')'" />
+						<do_if value="@md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
+							<!-- deregister at every load -->
+							<remove_value name="md.Notifications.Init.$kuertee_ArriveAndLeaveStations" />
+						</do_if>
+						<set_value name="$initDelay" min="0.0s" max="1.0s" />
+						<debug_text text="'$initDelay: ' + $initDelay" />
+						<!-- reset cue at every load -->
+						<reset_cue cue="K_ArriveAndLeaveStations" />
+					</actions>
+					<cues>
+						<cue name="K_ArriveAndLeaveStations_Init3" checktime="player.age + $initDelay">
+							<actions>
+								<do_if value="not @md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
+									<!-- no K_ArriveAndLeaveStations registered -->
+									<!-- register this K_ArriveAndLeaveStations -->
+									<set_value name="md.Notifications.Init.$kuertee_ArriveAndLeaveStations" exact="K_ArriveAndLeaveStations" />
+									<debug_text text="'$kuertee_ArriveAndLeaveStations: ' + @md.Notifications.Init.$kuertee_ArriveAndLeaveStations" />
+								</do_if>
+								<do_else>
+									<!-- cancel this K_ArriveAndLeaveStations, so only one exists -->
+									<debug_text text="'cancel_cue ' + K_ArriveAndLeaveStations" />
+									<cancel_cue cue="K_ArriveAndLeaveStations" />
+									<reset_cue cue="parent" />
+								</do_else>
+							</actions>
+							<cues>
+								<cue name="K_ArriveAndLeaveStations_Init4">
+									<actions>
+										<do_if value="not @$station_current.exists">
+											<find_station name="$station" sortbydistanceto="player.entity" space="player.sector" />
+											<do_if value="[attention.nearby, attention.adjacentroom, attention.inroom].indexof.{$station.attention}">
+												<set_value name="$station_current" exact="$station" />
+												<debug_text text="'$station_current (found nearby): ' + $station_current + ' (' + $station_current.knownname + ')'" />
+											</do_if>
+											<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
+										</do_if>
+										<do_if value="@$station_current.exists">
+											<!-- if there was a $station_current, prepare K_ArriveAndLeaveStations with it -->
+											<!-- this is required so that K_DepartStation can continue with $station_current -->
+											<!-- <debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" /> -->
+											<!-- <signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" /> -->
+											<!-- <reset_cue cue="K_ArriveAndLeaveStations_Init2" /> -->
+										</do_if>
+									</actions>
+									<cues>
+										<cue name="K_ArriveAndLeaveStations_Init5">
+											<actions>
+												<debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" />
+												<signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" />
+												<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
+											</actions>
+										</cue>
+									</cues>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="K_ArriveAndLeaveStations_FirstRun2">
+					<actions>
+						<signal_cue cue="K_ArriveAndLeaveStations_Init2" />
+					</actions>
+				</cue>
+				<cue name="OnModInstall">
+					<actions>
+						<debug_text text="'$DebugChance: ' + $DebugChance" />
+						<signal_cue_instantly cue="Init" />
+					</actions>
+				</cue>
+				<cue name="OnModInstallComplete" checktime="player.age + 1s">
+					<actions>
+						<set_value name="$DebugChance" exact="0" />
+						<set_value name="$DebugChance2" exact="0" />
+						<debug_text text="'$DebugChance: ' + $DebugChance" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="OnOptionsMenuClose">
+			<conditions>
+				<event_ui_triggered screen="'OptionsMenu'" control="'menu_close'" />
+			</conditions>
+			<actions>
+				<signal_cue cue="EnableDisableSubMods" />
+				<debug_text text="'$isDoDebug1: ' + md.kuertee_npc_reactions.NPCReactions.$isDoDebug1 + ' $isDoDebug2: ' + md.kuertee_npc_reactions.NPCReactions.$isDoDebug2" chance="NPCReactions.$DebugChance" />
+				<do_if value="@NPCReactions.$isDoDebug1">
+					<set_value name="NPCReactions.$isDoDebug1" exact="false" />
+					<!-- <find_npc_slot name="$destinationslots" object="player.ship" tags="tag.service" multiple="true" />
+					<debug_text text="'$destinationslots: ' + $destinationslots" />
+					<do_all counter="$i" exact="$destinationslots.count">
+						<debug_text text="'$destinationslots.{$i}: ' + $destinationslots.{$i}.tags" />
+					</do_all> -->
+				</do_if>
+				<do_if value="@NPCReactions.$isDoDebug2">
+					<set_value name="NPCReactions.$isDoDebug2" exact="false" />
+					<!-- <set_value name="$npc_tactical" exact="md.kuertee_npc_bridge_crew.PlayerStartCaptaincy.$npc_tactical" />
+					<signal_objects object="$npc_tactical" param="'npc_state_reinit'" /> -->
+					<debug_text text="'$npc_helm: ' + @md.kuertee_npc_bridge_crew.PlayerStartCaptaincy.$npc_helm + ' (' + @md.kuertee_npc_bridge_crew.PlayerStartCaptaincy.$npc_helm.knownname + ')'" />
+					<debug_text text="'$npc_tactical: ' + @md.kuertee_npc_bridge_crew.PlayerStartCaptaincy.$npc_tactical + ' (' + @md.kuertee_npc_bridge_crew.PlayerStartCaptaincy.$npc_tactical.knownname + ')'" />
+					<debug_text text="'$npc_engineer: ' + @md.kuertee_npc_bridge_crew.PlayerStartCaptaincy.$npc_engineer + ' (' + @md.kuertee_npc_bridge_crew.PlayerStartCaptaincy.$npc_engineer.knownname + ')'" />
+					<debug_text text="'$crew: ' + md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$crew" />
+					<do_all counter="$i" exact="md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$crew.count">
+						<debug_text text="'$crew.{$i}: ' + md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$crew.{$i}.knownname + ', == player.room: ' + (@md.kuertee_npc_bridge_crew.kNPCBridgeCrew.$crew.{$i}.room == player.room)" />
+					</do_all>
+					<debug_text text="'state: ' + md.kuertee_npc_bridge_crew.PlayerStartCaptaincy.state" />
+					<debug_text text="'state: ' + md.kuertee_npc_bridge_crew.CleanCrewMembers.state" />
+					<debug_text text="'state: ' + md.kuertee_npc_bridge_crew.ResetAlarms.state" />
+				</do_if>
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+		<cue name="DebugChat">
+			<conditions>
+				<check_any>
+					<event_cue_signalled />
+					<check_all>
+						<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+						<check_any>
+							<check_value value="event.param3.$text == 'debug kuertee interval'" />
+							<check_value value="event.param3.$text == 'debug npcr status'" />
+							<check_value value="event.param3.$text == 'debug npcr constructors'" />
+							<check_value value="event.param3.$text == 'debug npcr casino'" />
+						</check_any>
+					</check_all>
+				</check_any>
+			</conditions>
+			<actions>
+				<debug_text text="event.param3" />
+				<do_if value="event.param3.$text == 'debug kuertee interval'">
+					<do_if value="player.age - @md.$kuertee_interval_time gt 1s">
+						<set_value name="md.$kuertee_interval_time" exact="player.age" />
+						<do_if value="@md.$kuertee_interval">
+							<remove_value name="md.$kuertee_interval" />
+						</do_if>
+						<do_else>
+							<set_value name="md.$kuertee_interval" exact="100" />
+						</do_else>
+					</do_if>
+					<debug_text text="'md.$kuertee_interval: ' + @md.$kuertee_interval" />
+				</do_if>
+				<do_elseif value="event.name == 'event_cue_signalled' or event.param3.$text == 'debug npcr status'">
+					<raise_lua_event name="'Chat_Window_API.Print'" param="'kNPCBarPatrons: ' + (md.kuertee_npc_bar_patrons.kNPCBarPatrons.state != cuestate.waiting)" />
+					<raise_lua_event name="'Chat_Window_API.Print'" param="'kNPCBridgeCrew: ' + (md.kuertee_npc_bridge_crew.kNPCBridgeCrew.state != cuestate.waiting)" />
+					<raise_lua_event name="'Chat_Window_API.Print'" param="'NPCConstructionShips: ' + (md.kuertee_npc_construction_ships.NPCConstructionShips.state != cuestate.waiting)" />
+					<raise_lua_event name="'Chat_Window_API.Print'" param="'kNPCTaxis: ' + (md.kuertee_npc_taxis.kNPCTaxis.state != cuestate.waiting)" />
+					<raise_lua_event name="'Chat_Window_API.Print'" param="'NPCReactions: ' + (md.kuertee_npc_reactions.NPCReactions.state != cuestate.waiting)" />
+				</do_elseif>
+				<do_elseif value="event.param3.$text == 'debug npcr constructors'">
+					<find_station multiple="true" name="$stations" space="player.galaxy" checkoperational="false">
+						<match owner="faction.player" />
+						<match state="componentstate.wreck" negate="true" />
+					</find_station>
+					<set_value name="$stationsWithNoConstructors" exact="[]" />
+					<do_all counter="$i" exact="$stations.count">
+						<set_value name="$station" exact="$stations.{$i}" />
+						<debug_text text="'$station: ' + $station.knownname + ' (' + $station.idcode + ')'" />
+						<debug_text text="'$station.plannedconstruction.sequence: ' + $station.plannedconstruction.sequence" />
+						<do_if value="$station.plannedconstruction.sequence">
+							<set_value name="$isRequiresConstructionVessel" exact="$station.requiresconstructionvessel.{$station.plannedconstruction.sequence}" />
+							<debug_text text="'$isRequiresConstructionVessel: ' + $isRequiresConstructionVessel" />
+							<set_value name="$constructionVessel" exact="@$station.buildstorage.buildmodule.constructionvessel" />
+							<debug_text text="'$constructionVessel: ' + $constructionVessel" />
+							<do_if value="$isRequiresConstructionVessel and not $constructionVessel">
+								<debug_text text="'append_to_list ' + $station" />
+								<append_to_list name="$stationsWithNoConstructors" exact="$station" />
+							</do_if>
+						</do_if>
+					</do_all>
+					<debug_text text="'$stationsWithNoConstructors: ' + $stationsWithNoConstructors" />
+					<find_ship name="$constructors" primarypurpose="purpose.build" space="player.galaxy" multiple="true" append="true" sortbydistanceto="$stationsWithNoConstructors.{1}">
+						<match_relation_of faction="faction.player" relation="neutral" comparison="ge" />
+						<match_relation_to object="$stationsWithNoConstructors.{1}" relation="dock" />
+					</find_ship>
+					<debug_text text="'$constructors: ' + $constructors" />
+					<find_ship name="$constructors" class="class.ship_xl" space="player.galaxy" multiple="true" append="true" sortbydistanceto="$stationsWithNoConstructors.{1}">
+						<match_relation_of faction="faction.player" relation="neutral" comparison="ge" />
+					</find_ship>
+					<debug_text text="'$constructors: ' + $constructors" />
+					<find_ship name="$constructors" primarypurpose="purpose.build" space="player.galaxy" multiple="true" append="true" sortbydistanceto="$stationsWithNoConstructors.{1}" />
+					<debug_text text="'$constructors: ' + $constructors" />
+					<find_ship name="$constructors" class="class.ship_xl" space="player.galaxy" multiple="true" append="true" sortbydistanceto="$stationsWithNoConstructors.{1}" />
+					<debug_text text="'$constructors: ' + $constructors" />
+				</do_elseif>
+				<do_elseif value="event.param3.$text == 'debug npcr casino'">
+					<debug_text text="'md.Story_Research_Welfare_2.Investigate_Habitations.state: ' + md.Story_Research_Welfare_2.Investigate_Habitations.state" />
+					<do_if value="md.Story_Research_Welfare_2.Investigate_Habitations.state == cuestate.waiting">
+						<signal_cue cue="md.Story_Research_Welfare_2.Investigate_Habitations" />
+					</do_if>
+					<do_else>
+						<reset_cue cue="md.Story_Research_Welfare_2.Investigate_Habitations" />
+					</do_else>
+				</do_elseif>
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+		<cue name="DisableAll">
+			<conditions>
+				<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+				<check_value value="event.param3.$text == 'debug npcr disable'" />
+			</conditions>
+			<actions>
+				<signal_cue_instantly cue="md.kuertee_npc_bar_patrons.kNPCBarPatrons_CleanUp" />
+				<signal_cue_instantly cue="md.kuertee_npc_bridge_crew.kNPCBridgeCrew_CleanUp" />
+				<signal_cue_instantly cue="md.kuertee_npc_construction_ships.NPCConstructionShips_CleanUp" />
+				<signal_cue_instantly cue="md.kuertee_npc_taxis.kNPCTaxis_CleanUp" />
+				<reset_cue cue="md.kuertee_npc_reactions.NPCReactions" />
+			</actions>
+			<cues>
+				<cue name="DisableAll2" checkinterval="1s" instantiate="true">
+					<actions>
+						<debug_text text="''" chance="@md.$kuertee_interval" />
+						<do_if value="md.kuertee_npc_taxis.kNPCTaxis.state == cuestate.waiting">
+							<signal_cue cue="DebugChat" />
+							<reset_cue cue="parent" />
+						</do_if>
+						<cancel_cue cue="this" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="EnableAll">
+			<conditions>
+				<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+				<check_value value="event.param3.$text == 'debug npcr enable'" />
+			</conditions>
+			<actions>
+				<signal_cue_instantly cue="md.kuertee_npc_bar_patrons.kNPCBarPatrons" />
+				<signal_cue_instantly cue="md.kuertee_npc_bridge_crew.kNPCBridgeCrew" />
+				<signal_cue_instantly cue="md.kuertee_npc_construction_ships.NPCConstructionShips" />
+				<signal_cue_instantly cue="md.kuertee_npc_taxis.kNPCTaxis" />
+				<signal_cue_instantly cue="md.kuertee_npc_reactions.NPCReactions" />
+				<signal_cue_instantly cue="DebugChat" />
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+	</cues>
+</mdscript>
