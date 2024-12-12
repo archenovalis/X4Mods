@@ -17,4 +17,7 @@
 	<dependency id="sov_dreadnaughts" optional="true" name="Dreadnaughts and Battlecruisers" />
 	<dependency id="swi_heroes_plus" optional="true" name="Heroes for SWI with Extras" />
 	<dependency id="swi_heroes" optional="true" name="Heroes for SWI" />
+
+	<!-- integrated -->
+	<!-- <dependency id="kuerteeTeleportFromTransporterRoom" optional="true" name="kuertee: Teleport from transporter room" /> -->
 </content>

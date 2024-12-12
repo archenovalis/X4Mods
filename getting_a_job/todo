@@ -1,9 +1,19 @@
 Getting a Job:
 
+- sell ships refactor
+verify ai scripts run correctly
+
+# integrate mods
+- kuerteeAlternativesToDeath
+-	kuerteeUIExtensionsAndHUD
+-	kuerteeCrimeHasConsequences
+-	kuerteeNPCReactions
+disable bank loan
+- bar
+limit to stations, use clone room, update galactic bank office at same time
+
+
 # Features
-- disable teleport (except for hotkey, check disable teleport mods by kuertee)
-
-
 -- New Statuses --
 -  Deserter, not completing any military or support missions within last (60/120/240)? minutes. Consequence: Paycheck paused until next mission is completed.
 * reset delay cue when mission complete

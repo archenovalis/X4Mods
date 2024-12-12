@@ -2,238 +2,257 @@
 <mdscript name="GettingAJob_SellShips" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
   <cues>
-    <!-- ui interaction button -->
-    <cue name="SellShips_Button">
+    <cue name="Sell" namespace="this" version="1">
       <conditions>
-        <event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
-        <check_value value="event.param.$object.isoperational" />
         <check_any>
-          <check_value value="@event.param.$object.isshipyard" />
-          <check_value value="@event.param.$object.iswharf" />
+          <event_game_loaded />
+          <event_game_started />
+          <event_player_created />
+          <event_cue_signalled cue="md.Setup.Start" />
         </check_any>
-        <check_value value="not event.param.$object.isplayerowned" />
-        <check_value value="@event.param.$selectedplayerships" />
       </conditions>
-      <actions>
-        <set_value name="$interact_ships" exact="event.param.$selectedplayerships" />
-        <set_value name="$Interact_target" exact="event.param.$object" />
-        <!-- determine station's docking compatabilities -->
-        <set_value name="$dockSizes" exact="[]" />
-        <do_if value="$Interact_target.isshipyard">
-          <find_object_component name="$xxl" object="$Interact_target">
-            <match_dock size="[tag.dock_xxl]" />
-          </find_object_component>
-          <do_if value="$xxl">
-            <append_to_list name="$dockSizes" exact="'dock_xxl'" />
-            <append_to_list name="$dockSizes" exact="'dock_dxxl'" />
-          </do_if>
-
-          <find_object_component name="$xl" object="$Interact_target">
-            <match_dock size="[tag.dock_xl]" />
-          </find_object_component>
-          <do_if value="$xl">
-            <append_to_list name="$dockSizes" exact="'dock_xl'" />
-          </do_if>
-          <find_object_component name="$l" object="$Interact_target">
-            <match_dock size="[tag.dock_l]" />
-          </find_object_component>
-          <do_if value="$l">
-            <append_to_list name="$dockSizes" exact="'dock_l'" />
-            <append_to_list name="$dockSizes" exact="'dock_l_mandator_2'" />
-            <append_to_list name="$dockSizes" exact="'dock_l_mandatoriii'" />
-          </do_if>
-        </do_if>
-        <do_if value="$Interact_target.iswharf">
-          <find_object_component name="$m" object="$Interact_target">
-            <match_dock size="[tag.dock_m]" />
-          </find_object_component>
-          <do_if value="$m">
-            <append_to_list name="$dockSizes" exact="'dock_m'" />
-          </do_if>
-          <find_object_component name="$s" object="$Interact_target">
-            <match_dock size="[tag.dock_s]" />
-          </find_object_component>
-          <do_if value="$s">
-            <append_to_list name="$dockSizes" exact="'dock_s'" />
-          </do_if>
-        </do_if>
-        <do_if value="$dockSizes?">
-          <set_value name="$display" exact="false" />
-          <!-- display interaction when any selected ship is compatible with station -->
-          <do_for_each name="$ship" in="$interact_ships">
-            <do_if value="$ship.isclass.ship and $ship.sector == $Interact_target.sector">
-              <set_value name="$docksize" exact="$ship.docksize" />
-              <do_if value="$dockSizes.indexof.{''+$docksize}">
-                <set_value name="$display" exact="true" />
-                <break />
-              </do_if>
-            </do_if>
-          </do_for_each>
-          <do_if value="$display">
-            <signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
-							$id = 'sellships',
-							$section = 'selected_orders',
-							$text = 'SellShips',
-							$icon = 'menu_swi_credits',
-              $callback = SellShips_Menu,
-              $echo = table[$dockSizes = $dockSizes]
-            ]" />
-          </do_if>
-        </do_if>
-        <reset_cue cue="this" />
-      </actions>
-    </cue>
-
-    <!-- Sell Ships Menu -->
-    <cue name="SellShips_Menu" namespace="this" instantiate="true">
-      <conditions>
-        <event_cue_signalled />
-      </conditions>
-      <delay exact="1ms" />
       <actions>
         <!-- Settings -->
-        <!-- xs=1x, s=1x, m=7x, l=13x, xl=9, xxl=9 -->
-        <!-- used ships sell for % of average price -->
-        <set_value name="$DockTags" exact="table[
-          $dock_xxl = 0.5,
-          $dock_dxxl = 0.5,
-          $dock_xl = 0.5,
-          $dock_l = 0.5,
-          $dock_l_mandator_2 = 0.5,
-          $dock_l_mandatoriii = 0.5,
-          $dock_m = 0.5,
-          $dock_s = 0.5,
-          $dock_xs = 0.5
-        ]"
+        <!-- ships sold direct to ai sell for % of average price -->
+        <set_value name="$UsedMult" exact="table[
+            $dock_xxl = 0.5,
+            $dock_dxxl = 0.5,
+            $dock_xl = 0.5,
+            $dock_l = 0.5,
+            $dock_l_mandator_2 = 0.5,
+            $dock_l_mandatoriii = 0.5,
+            $dock_m = 0.5,
+            $dock_s = 0.5,
+            $dock_xs = 0.5
+          ]"
         />
         <!-- Pirates pay less but no risk when selling stolen ships -->
-        <set_value name="$PirateFactor" exact="0.8" />
-
-        <!-- cue variables -->
-        <set_value name="$Ships" exact="table[]" />
-        <set_value name="$SellTotal" exact="0" />
-        <set_value name="$Interact_target" exact="@event.param.$object" />
-
-        <!-- create valid sell list -->
-        <set_value name="$interact_ships" exact="@event.param.$selectedplayerships" />
-        <set_value name="$dockSizes" exact="@event.param.$echo.$dockSizes" />
-        <set_value name="$stationFactor" exact="if $Interact_target.ispiratebase then $PirateFactor else 1" />
-        <do_for_each name="$ship" in="$interact_ships">
-          <do_if value="$ship.isclass.ship and $ship.sector == $Interact_target.sector">
-            <set_value name="$docksize" exact="$ship.docksize" />
-            <do_if value="$dockSizes.indexof.{''+$docksize}">
-              <set_value name="$Ships.{$ship}" exact="table[]" />
-              <!-- reduce price for selling a used ship by % value based on its docksize requirement and if sold to pirates -->
-              <set_value name="$price" exact="(($ship.macro.ware.averageprice)f * $DockTags.{'$'+$docksize} * $stationFactor)/100" />
-              <set_value name="$Ships.{$ship}.$price" exact="$price" />
-              <set_value name="$Ships.{$ship}.$sell" exact="true" />
-              <set_value name="$SellTotal" operation="add" exact="$price" />
-            </do_if>
-          </do_if>
-        </do_for_each>
-        <signal_cue cue="SellShips_Menu_Open" />
+        <set_value name="$PirateMult" exact="0.8" />
       </actions>
       <cues>
-        <cue name="SellShips_Menu_Open" instantiate="true">
+        <!-- ui interaction button -->
+        <cue name="SellShips_Button">
           <conditions>
-            <event_cue_signalled />
+            <event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
+            <check_value value="@event.param.$object.isoperational" />
+            <check_any>
+              <check_value value="@event.param.$object.isshipyard" />
+              <check_value value="@event.param.$object.iswharf" />
+            </check_any>
+            <check_value value="not event.param.$object.isplayerowned" />
+            <check_value value="@event.param.$selectedplayerships" />
           </conditions>
-          <delay exact="1ms" />
           <actions>
-            <signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu"
-              param="table[
-              $id = 'sell_menu',
-              $columns = 2,
-              $title = 'Sellable Ships',
-              $height = 400,
-              $width = 495
-            ]" />
-            <do_for_each name="$ship" in="$Ships.keys.list">
-              <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
-              <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
-              <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
-              <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$text='']" />
-              <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
-              <signal_cue_instantly
-                cue="md.Simple_Menu_API.Make_Text" param="table[
-                $col=1,
-                $halign = 'right',
-                $text=$ship.name+': '+$Ships.{$ship}.$price]"
-              />
-              <signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox" param="table[
-                $id = $ship,
-                $checked = $Ships.{$ship}.$sell,
-                $col = 2,
-                $width = 20,
-                $text = table[$text=''],
-                $onClick = CheckClicked
-              ]" />
-            </do_for_each>
-            <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
-            <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$text='']" />
-            <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
-            <signal_cue_instantly
-              cue="md.Simple_Menu_API.Make_Text" param="table[
-              $col=1,
-              $halign='right',
-              $text='Total: '+$SellTotal]"
-            />
-            <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button"
-              param="table[
-              $col = 2,
-              $width=100,
-              $text = table[$text='Confirm'],
-              $onClick = ConfirmSell
-            ]" />
-          </actions>
-        </cue>
-        <cue name="CheckClicked" instantiate="true">
-          <conditions>
-            <event_cue_signalled />
-          </conditions>
-          <delay exact="1ms" />
-          <actions>
-            <set_value name="$ship" exact="event.param.$id" />
-            <set_value name="$Ships.{$ship}.$sell" exact="event.param.$checked" />
-            <do_if value="event.param.$checked">
-              <set_value name="$SellTotal" operation="add" exact="$Ships.{$ship}.$price" />
+            <set_value name="$interact_ships" exact="event.param.$selectedplayerships" />
+            <set_value name="$Interact_target" exact="event.param.$object" />
+            <!-- determine station's docking compatabilities -->
+
+
+            <find_object_component groupname="$WharfModules" object="$Interact_target" class="class.buildmodule">
+              <match_any>
+                <match canbuildclass="class.ship_s" />
+              </match_any>
+            </find_object_component>
+
+
+            <set_value name="$dockSizes" exact="[]" />
+            <!-- check shipyards -->
+            <do_if value="$Interact_target.isshipyard">
+              <find_object_component groupname="$xl" object="$Interact_target" class="class.buildmodule">
+                <match canbuildclass="class.ship_xl" />
+              </find_object_component>
+              <!-- xl valid -->
+              <do_if value="$xl">
+                <append_to_list name="$dockSizes" exact="'dock_xl'" />
+                <find_object_component name="$xxl" object="$Interact_target">
+                  <match_dock size="[tag.dock_xxl]" />
+                </find_object_component>
+                <!-- xxl valid -->
+                <do_if value="$xxl">
+                  <append_to_list name="$dockSizes" exact="'dock_xxl'" />
+                  <append_to_list name="$dockSizes" exact="'dock_dxxl'" />
+                </do_if>
+              </do_if>
+              <!-- l valid -->
+              <find_object_component groupname="$l" object="$Interact_target" class="class.buildmodule">
+                <match canbuildclass="class.ship_l" />
+              </find_object_component>
+              <do_if value="$l">
+                <append_to_list name="$dockSizes" exact="'dock_l'" />
+                <append_to_list name="$dockSizes" exact="'dock_l_mandator_2'" />
+                <append_to_list name="$dockSizes" exact="'dock_l_mandatoriii'" />
+              </do_if>
             </do_if>
-            <do_else>
-              <set_value name="$SellTotal" operation="subtract" exact="$Ships.{$ship}.$price" />
-            </do_else>
-            <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-            <signal_cue_instantly cue="SellShips_Menu_Open" />
+            <!-- wharfs and shipyards -->
+            <do_if value="$Interact_target.iswharf or $Interact_target.isshipyard">
+              <find_object_component groupname="$m" object="$Interact_target" class="class.buildmodule">
+                <match canbuildclass="class.ship_m" />
+              </find_object_component>
+              <do_if value="$m">
+                <append_to_list name="$dockSizes" exact="'dock_m'" />
+              </do_if>
+              <find_object_component groupname="$s" object="$Interact_target" class="class.buildmodule">
+                <match canbuildclass="class.ship_s" />
+              </find_object_component>
+              <do_if value="$s">
+                <append_to_list name="$dockSizes" exact="'dock_s'" />
+              </do_if>
+            </do_if>
+            <do_if value="$dockSizes?">
+              <set_value name="$display" exact="false" />
+              <!-- display interaction when any selected ship is compatible with station and in same sector as station -->
+              <do_for_each name="$ship" in="$interact_ships">
+                <do_if value="$ship.isclass.ship and $ship.sector == $Interact_target.sector">
+                  <set_value name="$docksize" exact="$ship.docksize" />
+                  <do_if value="$dockSizes.indexof.{''+$docksize}">
+                    <set_value name="$display" exact="true" />
+                    <break />
+                  </do_if>
+                </do_if>
+              </do_for_each>
+              <do_if value="$display">
+                <signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
+                $id = 'sellships',
+                $section = 'selected_orders',
+                $text = 'SellShips',
+                $icon = 'menu_swi_credits',
+                $callback = SellShips_Menu,
+                $echo = table[$dockSizes = $dockSizes]
+              ]" />
+              </do_if>
+            </do_if>
+            <reset_cue cue="this" />
           </actions>
         </cue>
-        <cue name="ConfirmSell" instantiate="true">
+
+        <!-- Sell Ships Menu -->
+        <cue name="SellShips_Menu" namespace="this" instantiate="true">
           <conditions>
             <event_cue_signalled />
           </conditions>
           <delay exact="1ms" />
           <actions>
-            <!-- todo: add stolen ship checks
-            if ship stolen from enemy, then ok, otherwise:
-            crime and forfeiture of ship and fines deducted from $SellTotal -->
-            <set_value name="$faction" exact="$Interact_target.owner" />
-            <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $SellTotal]" />
-            <!-- <reward_player money="$SellTotal" /> -->
-            <do_for_each name="$ship" in="$Ships.keys.list">
-              <do_if value="$Ships.{$ship}.$sell">
-                <set_owner object="$ship" faction="$faction" />
-                <cancel_all_orders object="$ship" />
-                <add_build_to_recycle_ship object="$Interact_target" buildobject="$ship" />
-                <start_script object="$ship.pilot" name="'move.generic'">
-                  <param name="destination" value="$Interact_target" />
-                </start_script>
-                <start_script object="$ship.pilot" name="'order.build.recycle'">
-                  <param name="build" value="$Interact_target" />
-                  <param name="usecover" value="false" />
-                  <param name="internalorder" value="true" />
-                </start_script>
+            <!-- cue variables -->
+            <set_value name="$ValidShips" exact="table[]" />
+            <set_value name="$SellTotal" exact="0" />
+            <set_value name="$Interact_target" exact="@event.param.$object" />
+
+            <!-- create valid sell list -->
+            <set_value name="$interact_ships" exact="@event.param.$selectedplayerships" />
+            <set_value name="$dockSizes" exact="@event.param.$echo.$dockSizes" />
+            <set_value name="$stationMult" exact="if $Interact_target.ispiratebase then $PirateFactor else 1" />
+            <do_for_each name="$ship" in="$interact_ships">
+              <do_if value="$ship.isclass.ship and $ship.sector == $Interact_target.sector">
+                <set_value name="$docksize" exact="$ship.docksize" />
+                <do_if value="$dockSizes.indexof.{''+$docksize}">
+                  <set_value name="$ValidShips.{$ship}" exact="table[]" />
+                  <!-- reduce price for selling a used ship by % value based on its docksize requirement and if sold to pirates -->
+                  <set_value name="$price" exact="(($ship.macro.ware.averageprice)f * $UsedMult.{'$'+$docksize} * $stationMult)/100" />
+                  <set_value name="$ValidShips.{$ship}.$price" exact="$price" />
+                  <set_value name="$ValidShips.{$ship}.$sell" exact="true" />
+                  <set_value name="$SellTotal" operation="add" exact="$price" />
+                </do_if>
               </do_if>
             </do_for_each>
-            <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+            <signal_cue cue="SellShips_Menu_Open" />
           </actions>
+          <cues>
+            <cue name="SellShips_Menu_Open" instantiate="true">
+              <conditions>
+                <event_cue_signalled />
+              </conditions>
+              <delay exact="1ms" />
+              <actions>
+                <signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
+                  $id = 'sell_menu',
+                  $columns = 2,
+                  $title = 'Sellable Ships',
+                  $height = 400,
+                  $width = 495
+                ]" />
+                <do_for_each name="$ship" in="$ValidShips.keys.list">
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$text='']" />
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+                    $col=1,
+                    $halign = 'right',
+                    $text=$ship.name+': '+$ValidShips.{$ship}.$price
+                  ]" />
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox" param="table[
+                    $id = $ship,
+                    $checked = $ValidShips.{$ship}.$sell,
+                    $col = 2,
+                    $width = 20,
+                    $text = table[$text=''],
+                    $onClick = CheckClicked
+                  ]" />
+                </do_for_each>
+                <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$text='']" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+                  $col=1,
+                  $halign='right',
+                  $text='Total: '+$SellTotal
+                ]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+                  $col = 2,
+                  $width=100,
+                  $text = table[$text='Confirm'],
+                  $onClick = ConfirmSell
+                ]" />
+              </actions>
+            </cue>
+            <cue name="CheckClicked" instantiate="true">
+              <conditions>
+                <event_cue_signalled />
+              </conditions>
+              <delay exact="1ms" />
+              <actions>
+                <set_value name="$ship" exact="event.param.$id" />
+                <set_value name="$ValidShips.{$ship}.$sell" exact="event.param.$checked" />
+                <do_if value="event.param.$checked">
+                  <set_value name="$SellTotal" operation="add" exact="$ValidShips.{$ship}.$price" />
+                </do_if>
+                <do_else>
+                  <set_value name="$SellTotal" operation="subtract" exact="$ValidShips.{$ship}.$price" />
+                </do_else>
+                <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+                <signal_cue_instantly cue="SellShips_Menu_Open" />
+              </actions>
+            </cue>
+            <cue name="ConfirmSell" instantiate="true">
+              <conditions>
+                <event_cue_signalled />
+              </conditions>
+              <delay exact="1ms" />
+              <actions>
+                <!-- todo: add stolen ship checks. if ship stolen from enemy, then ok, otherwise: crime and forfeiture of ship and fines deducted from $SellTotal -->
+                <set_value name="$faction" exact="$Interact_target.owner" />
+                <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $SellTotal]" />
+                <!-- <reward_player money="$SellTotal" /> -->
+                <do_for_each name="$ship" in="$ValidShips.keys.list">
+                  <do_if value="$ValidShips.{$ship}.$sell">
+                    <set_owner object="$ship" faction="$faction" />
+                    <cancel_all_orders object="$ship" />
+                    <add_build_to_recycle_ship object="$Interact_target" buildobject="$ship" />
+                    <start_script object="$ship.pilot" name="'move.generic'">
+                      <param name="destination" value="$Interact_target" />
+                    </start_script>
+                    <start_script object="$ship.pilot" name="'order.build.recycle'">
+                      <param name="build" value="$Interact_target" />
+                      <param name="usecover" value="false" />
+                      <param name="internalorder" value="true" />
+                    </start_script>
+                  </do_if>
+                </do_for_each>
+                <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+              </actions>
+            </cue>
+          </cues>
         </cue>
       </cues>
     </cue>

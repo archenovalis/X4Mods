@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<diff>
+  <add sel="//ship">
+    <radarcloak ware="mod_ship_spy" quality="1" min="-0.5" max="-0.5" />
+  </add>
+</diff>

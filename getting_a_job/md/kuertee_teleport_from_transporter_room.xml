@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_teleport_from_transporter_room" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+	<cues>
+		<cue name="OnUIXMenuLoad">
+			<conditions>
+				<event_ui_triggered screen="'uix_mod_lua'" control="'init'" />
+			</conditions>
+			<actions>
+				<raise_lua_event name="'kTFTR.SetMapTeleportButtonAvailability'" param="kTFTR.$userIsRemoveTeleportCommandFromMap" />
+				<!-- getting a job changes -->
+				<!-- teleporting from ships to ships is unlocked by research -->
+				<raise_lua_event name="'kTFTR.SetTeleportDestinationShipsOk'" param="
+					player.container.isclass.station
+					or
+					(
+						player.container.isclass.ship
+						and
+						player.container.isplayerowned
+						and
+						(
+							( 
+								ware.research_teleportation_range_01.unlocked
+								and
+								player.ship.isclass.{class.ship_xl}
+							) or 
+							( 
+								ware.research_teleportation_range_02.unlocked
+								and
+								player.ship.isclass.{[class.ship_l, class.ship_m]}
+							) or 
+							( 
+								ware.research_teleportation_range_03.unlocked
+								and
+								player.ship.isclass.{class.ship_s}
+							) or
+							player.ship.hasshipmod.{$SpyMod}
+						)
+					)
+				" />
+				<set_value name="$isTransporterRoomHasTeleport" exact="false" />
+				<signal_cue cue="OnPlayerEnterProperty" />
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+		<cue name="kTFTR" namespace="this" version="2">
+			<conditions>
+				<check_any>
+					<event_cue_signalled cue="md.Setup.GameStart" />
+					<event_game_loaded />
+				</check_any>
+				<!-- <check_value value="not @player.allmodules.{player.module}.isscenario" /> -->
+			</conditions>
+			<actions>
+				<debug_text text="'event.name: ' + event.name" />
+				<set_value name="$debugChance" exact="100" />
+				<set_value name="$isDoDebug1" exact="false" />
+				<set_value name="$isDoDebug2" exact="false" />
+			</actions>
+			<patch sinceversion="2">
+				<set_value name="$userIsTeleportOnlyToHQ" exact="false" />
+				<set_value name="$userIsTeleportOnlyToStations" exact="true" />
+			</patch>
+			<cues>
+				<cue name="Init">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<!-- <check_value value="not @player.allmodules.{player.module}.isscenario" /> -->
+					</conditions>
+					<actions>
+						<do_if value="not $debugChance?">
+							<set_value name="$debugChance" exact="0" />
+						</do_if>
+						<debug_text text="'$debugChance: ' + $debugChance" />
+						<set_value name="$isDoDebug1" exact="false" />
+						<set_value name="$isDoDebug2" exact="false" />
+						<do_if value="not $isConfigSet?">
+							<set_value name="$isConfigSet" exact="true" />
+							<!-- getting a job changes -->
+							<set_value name="$userIsRemoveTeleportCommandFromMap" exact="true" /> <!-- original variable -->
+
+							<!-- teleporting from stations -->
+							<set_value name="$userIsAllowTeleportFromFriend" exact="true" /> <!-- original variable -->
+							<!-- spy: needs special inventory item to teleport from enemy stations -->
+							<set_value name="$SpyDevice" exact="ware.inv_spydevice" />
+
+							<!-- teleporting from ships -->
+							<!-- spy: ships with special ship mod installed by faction representative -->
+							<set_value name="$SpyMod" exact="ware.mod_ship_spy" />
+							<!-- research teleport level 1: XL, XXL -->
+							<!-- research teleport level 2: L, M -->
+							<!-- research teleport level 3: S -->
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnPlayerEnterProperty">
+					<conditions>
+						<check_any>
+							<event_object_changed_room object="player.entity" />
+							<event_player_stopped_control />
+							<event_cue_signalled />
+						</check_any>
+					</conditions>
+					<actions>
+						<!-- ware.research_teleportation
+						ware.research_teleportation_range_01
+						ware.research_teleportation_range_02
+						ware.research_teleportation_range_03
+						ware.research_high_mass_teleportation -->
+						<!-- getting a job changes -->
+						<do_if value="ware.research_teleportation.research.unlocked or $debugChance">
+							<set_value name="$isTransporterRoomHasTeleport" exact="
+								(
+									player.container.isclass.station
+									and 
+									(
+										player.container.isplayerowned
+										or
+										player.container.hasrelation.friend.{faction.player})
+										or
+										@player.entity.inventory.{$SpyDevice}
+									)
+								) or
+								(
+									player.container.isclass.ship
+									and
+									(
+										player.container.isplayerowned
+										and
+										(
+											( 
+												ware.research_teleportation_range_01.unlocked
+												and
+												player.ship.isclass.{class.ship_xl}
+											) or 
+											( 
+												ware.research_teleportation_range_02.unlocked
+												and
+												player.ship.isclass.{[class.ship_l, class.ship_m]}
+											) or 
+											( 
+												ware.research_teleportation_range_03.unlocked
+												and
+												player.ship.isclass.{class.ship_s}
+											) or
+											player.ship.hasshipmod.{$SpyMod}
+										)
+									)
+								)
+							" />
+							<debug_text text="'$isTransporterRoomHasTeleport: ' + $isTransporterRoomHasTeleport" chance="$debugChance" />
+							<do_if value="$isTransporterRoomHasTeleport">
+								<debug_text text="'raise_lua_event kTFTR.ShowTeleportButtonInTransporterRoom'" chance="$debugChance" />
+								<raise_lua_event name="'kTFTR.ShowTeleportButtonInTransporterRoom'" />
+							</do_if>
+							<do_else>
+								<debug_text text="'raise_lua_event kTFTR.HideTeleportButtonInTransporterRoom'" chance="$debugChance" />
+								<raise_lua_event name="'kTFTR.HideTeleportButtonInTransporterRoom'" />
+							</do_else>
+							<!-- getting a job changes -->
+							<!-- teleporting from ships to ships is unlocked by research -->
+							<raise_lua_event name="'kTFTR.SetTeleportDestinationShipsOk'" param="
+								player.container.isclass.station
+								or
+								(
+									player.container.isclass.ship
+									and
+									(
+										( 
+											ware.research_teleportation_range_01.unlocked
+											and
+											player.ship.isclass.{class.ship_xl}
+										) or 
+										( 
+											ware.research_teleportation_range_02.unlocked
+											and
+											player.ship.isclass.{[class.ship_l, class.ship_m]}
+										) or 
+										( 
+											ware.research_teleportation_range_03.unlocked
+											and
+											player.ship.isclass.{class.ship_s}
+										) or
+										player.ship.hasshipmod.{$SpyMod}
+									)
+								)
+							" />
+						</do_if>
+						<do_else>
+							<debug_text text="'ware.research_teleportation.research.unlocked: ' + ware.research_teleportation.research.unlocked" chance="$debugChance" />
+							<set_value name="$isTransporterRoomHasTeleport" exact="false" />
+							<debug_text text="'raise_lua_event kTFTR.HideTeleportButtonInTransporterRoom'" chance="$debugChance" />
+							<raise_lua_event name="'kTFTR.HideTeleportButtonInTransporterRoom'" />
+						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnDestinationSelected">
+					<conditions>
+						<event_ui_triggered screen="'kTFTR_set_destination'" />
+					</conditions>
+					<actions>
+						<raise_lua_event name="'kTFTR.CloseMenu'" />
+						<set_value name="$destination" exact="event.param3" />
+						<debug_text text="'$destination: ' + $destination" chance="$debugChance" />
+						<do_if value="typeof $destination == datatype.list">
+							<set_value name="$destination" exact="$destination.{1}" />
+						</do_if>
+						<debug_text text="'$destination: ' + $destination + ' ' + $destination.knownname + ' ' + $destination.idcode" chance="$debugChance" />
+						<debug_text text="'player.canteleportto.{$destination}: ' + player.canteleportto.{$destination}" chance="$debugChance" />
+						<!-- getting a job changes -->
+						<do_if value="player.canteleportto.{$destination}">
+							<do_if value="
+								$destination.isplayerowned
+								or
+								$destination.owner.relationto.{faction.player} ge $destination.owner.relation.friend.min)
+								or
+								@player.entity.inventory.{$SpyDevice}
+							" comment="allow teleport to destination">
+							</do_if>
+							<do_else>
+								<show_notification text="{20777, 404}" />
+								<reset_cue cue="this" />
+							</do_else>
+						</do_if>
+						<do_else>
+							<show_notification text="{1026, 7816}" />
+							<reset_cue cue="this" />
+						</do_else>
+						<!-- <reset_cue cue="this" /> -->
+					</actions>
+					<cues>
+						<cue name="OnDestinationSelected_TeleportDone">
+							<conditions>
+								<check_any>
+									<event_player_teleport_successful />
+									<event_player_teleport_failed />
+								</check_any>
+							</conditions>
+							<actions>
+								<reset_cue cue="parent" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="OnDestinationSelected_TeleportNow" checktime="player.age + 1s">
+							<actions>
+								<teleport_player object="$destination" force="true" instant="true" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnOptionsMenuClose">
+					<conditions>
+						<event_ui_triggered screen="'OptionsMenu'" control="'menu_close'" />
+					</conditions>
+					<actions>
+						<raise_lua_event name="'kTFTR.SetMapTeleportButtonAvailability'" param="$userIsRemoveTeleportCommandFromMap" />
+						<!-- getting a job changes -->
+						<!-- teleporting from ships to ships is unlocked by research -->
+						<raise_lua_event name="'kTFTR.SetTeleportDestinationShipsOk'" param="
+							player.container.isclass.station
+							or
+							(
+								player.container.isclass.ship
+								and
+								(
+									( 
+										ware.research_teleportation_range_01.unlocked
+										and
+										player.ship.isclass.{class.ship_xl}
+									) or 
+									( 
+										ware.research_teleportation_range_02.unlocked
+										and
+										player.ship.isclass.{[class.ship_l, class.ship_m]}
+									) or 
+									( 
+										ware.research_teleportation_range_03.unlocked
+										and
+										player.ship.isclass.{class.ship_s}
+									) or
+									player.ship.hasshipmod.{$SpyMod}
+								)
+							)
+						" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnModInstall">
+					<actions>
+						<debug_text text="'$debugChance: ' + $debugChance" />
+						<signal_cue_instantly cue="Init" />
+					</actions>
+				</cue>
+				<cue name="OnModInstallComplete" checktime="player.age + 1s">
+					<actions>
+						<set_value name="$debugChance" exact="0" />
+						<debug_text text="'$debugChance: ' + $debugChance" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+	</cues>
+</mdscript>
