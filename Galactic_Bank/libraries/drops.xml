@@ -4,12 +4,37 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="//droplists">
+
+    <droplist id="vault_medium">
+      <drop macro="bank_wares_macro" min="1" max="1" chance="100">
+        <collectable>
+          <wares selection="random">
+            <select weight="1">
+              <ware ware="bank_large_credit_lootbox" min="2" max="4" />
+            </select>
+          </wares>
+        </collectable>
+      </drop>
+    </droplist>
+
+    <droplist id="vault_large">
+      <drop macro="bank_wares_macro" min="1" max="1" chance="100">
+        <collectable>
+          <wares selection="random">
+            <select weight="1">
+              <ware ware="bank_large_credit_lootbox" min="8" max="16" />
+            </select>
+          </wares>
+        </collectable>
+      </drop>
+    </droplist>
+
     <droplist id="ship_medium_banker">
       <drop macro="bank_wares_macro" min="1" max="1" chance="100">
         <collectable>
           <wares selection="random">
             <select weight="1">
-              <ware ware="bank_credit_lootbox" min="1" max="4" />
+              <ware ware="bank_credit_lootbox" min="2" max="4" />
             </select>
           </wares>
         </collectable>
@@ -49,13 +74,12 @@
       </drop>
     </droplist>
 
-  <droplist
-      id="ship_large_banker">
+    <droplist id="ship_large_banker">
       <drop macro="bank_wares_macro" min="1" max="1" chance="100">
         <collectable>
           <wares selection="random">
             <select weight="1">
-              <ware ware="bank_credit_lootbox" min="5" max="20" />
+              <ware ware="bank_credit_lootbox" min="8" max="16" />
             </select>
           </wares>
         </collectable>

@@ -6,5 +6,35 @@
       <price min="1" average="1" max="1" />
       <container ref="sm_gen_wares_common_01_macro" />
     </ware>
+    <ware id="bank_large_credit_lootbox" name="{20777,1009}" description="{20777,1010}" transport="inventory" volume="1" tags="inventory missiononly">
+      <price min="1" average="1" max="1" />
+      <container ref="sm_gen_wares_common_01_macro" />
+    </ware>
+    <ware id="vault_large" name="{20777,1013} {20777, 1004}" description="{20777,1013} {20777, 1004}" transport="container" volume="1" tags="module">
+      <price min="625503" average="735886" max="846269" />
+      <production time="582" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="claytronics" amount="115" />
+          <ware ware="energycells" amount="230" />
+          <ware ware="hullparts" amount="700" />
+        </primary>
+      </production>
+      <component ref="vault_large_macro" amount="1" />
+      <restriction licence="station_gen_basic" />
+      <owner faction="thebankingclan" />
+    </ware>
+    <ware id="vault_medium" name="{20777,1014} {20777, 1004}" description="{20777,1014} {20777, 1004}" transport="container" volume="1" tags="module">
+      <price min="445475" average="524088" max="602701" />
+      <production time="414" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="claytronics" amount="82" />
+          <ware ware="energycells" amount="163" />
+          <ware ware="hullparts" amount="495" />
+        </primary>
+      </production>
+      <component ref="vault_medium_macro" amount="1" />
+      <restriction licence="station_gen_basic" />
+      <owner faction="thebankingclan" />
+    </ware>
   </add>
 </diff> 

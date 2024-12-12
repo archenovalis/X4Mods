@@ -744,7 +744,7 @@
 					</cues>
 				</cue>
 
-				<!-- ui menu button -->
+				<!-- ui account access interaction button -->
 				<cue name="Vault_AccountMenu">
 					<conditions>
 						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
@@ -1023,6 +1023,269 @@
 						<do_else>
 							<reward_player money="event.param.$money" />
 						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+
+				<!-- ui open lootbox interaction button -->
+				<cue name="Vault_LootboxMenu">
+					<conditions>
+						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
+						<check_value value="@event.param.$object.sector == player.sector" />
+						<check_value value="@event.param.$object.isclass.{class.station}" />
+						<check_value value="$Accounts.keys.list.indexof.{@event.param.$object.owner} or $MajorFactionList.{@event.param.$object.sector.owner}" />
+						<check_value value="@event.param.$object.owner.relationto.{faction.player} gt -0.01" />
+						<check_value value="@event.param.$object.distanceto.{player.entity} le 10km" />
+					</conditions>
+					<actions>
+						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
+							$id = 'Vault_LootboxMenu',
+							$section = 'main',
+							$text = 'Open Lootbox',
+							$icon = 'menu_swi_credits',
+							$callback = Lootbox_Menu,
+							$echo = table[$faction = event.param.$object.owner]
+						]" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+
+				<cue name="Lootbox_Menu" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<delay exact="1ms" />
+					<actions>
+						<!-- undocked -->
+						<do_if value="event.param.$echo.$faction?">
+							<set_value name="$Faction" exact="event.param.$echo.$faction" />
+						</do_if>
+						<!-- docked -->
+						<do_else>
+							<set_value name="$Faction" exact="event.object.trueowner" />
+						</do_else>
+						<!-- determine account -->
+						<do_if value="$Faction == faction.thebankingclan">
+							<set_value name="$Title" exact="'InterGalactic Bank Account'" />
+						</do_if>
+						<do_elseif value="$Accounts.keys.list.indexof.{$Faction}">
+							<set_value name="$Title" exact="$Faction+': Account'" />
+						</do_elseif>
+						<do_else>
+							<set_value name="$Faction" exact="faction.thebankingclan" />
+							<set_value name="$Title" exact="'InterGalactic Bank Account'" />
+						</do_else>
+						<set_value name="$account" exact="$Accounts.{$Faction}" />
+						<!-- set cue variablse -->
+						<set_value name="$Fee" exact="$account.$fee + $account.$undockedFee" />
+						<set_value name="$Rate" exact="$account.$rate" />
+						<set_value name="$Period" exact="$account.$period" />
+						<!-- update interest -->
+						<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
+						<do_if value="$timeSinceInterest> 1">
+							<set_value name="$newBalance" exact="$account.$balance * ((1 + $Rate)^($timeSinceInterest / $Period))" />
+							<set_value name="$Interest_amount" exact="$newBalance - $account.$balance" />
+							<set_value name="$Accounts.{$Faction}.$balance" exact="$account.$balance + $interest_amount" />
+							<set_value name="$Withdraw_amount" exact="0" />
+							<set_value name="$newBalance" exact="$account.$balance" />
+							<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
+						</do_if>
+						<signal_cue cue="Lootbox_Menu_Open" />
+					</actions>
+					<cues>
+
+						<cue name="Lootbox_Menu_Open" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$account" exact="$Accounts.{$Faction}" />
+								<set_value name="$Deposit_amount" exact="0" />
+								<set_value name="$Withdraw_amount" exact="0" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu"
+									param="table[
+									$id = 'Lootbox_Menu',
+									$columns = 1,
+									$title = $Title,
+									$height = 400,
+									$width = 300
+								]" />
+								<signal_cue_instantly
+									cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+								<signal_cue_instantly
+									cue="md.Simple_Menu_API.Make_Text"
+									param="table[$col=1, $halign='center', $text='Status']" />
+								<do_if value="$Fee gt 0">
+									<signal_cue_instantly
+										cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly
+										cue="md.Simple_Menu_API.Make_Text"
+										param="table[$col=1, $halign='center', $color='Helper.color.red', $text='('+{20777, 1006}+' Fee: '+ $Fee*100 + '%)']" />
+								</do_if>
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
+									param="table[$interactive=false]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
+									param="table[$col=1, $text='']" />
+								<signal_cue_instantly
+									cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+								<signal_cue_instantly
+									cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1, $halign='center',
+											$text=$Rate * 100 + '% interest per ' + $Period / 60 / 60 + ' hours.']" />
+								<do_if value="$account.$balance gt 0">
+									<signal_cue_instantly
+										cue="md.Simple_Menu_API.Add_Row"
+										param="table[$interactive=false]" />
+									<signal_cue_instantly
+										cue="md.Simple_Menu_API.Make_Text"
+										param="table[$col=1, $text='']" />
+									<signal_cue_instantly
+										cue="md.Simple_Menu_API.Add_Row"
+										param="table[$interactive=false]" />
+									<signal_cue_instantly
+										cue="md.Simple_Menu_API.Make_Text"
+										param="table[$col=1, $halign='right', $text='Interest earned since last update:']" />
+									<signal_cue_instantly
+										cue="md.Simple_Menu_API.Add_Row"
+										param="table[$interactive=false]" />
+									<signal_cue_instantly
+										cue="md.Simple_Menu_API.Make_Text"
+										param="table[$col=1, $halign='right', $text=$Interest_amount+'Cr']" />
+								</do_if>
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
+									param="table[$interactive=false]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
+									param="table[$col=1, $text='']" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+									$start = 0,
+									$col = 1,
+									$text = table[$text=''],
+									$min = 0, $max = player.money, $step = 1, $suffix='Cr',
+									$default = 0,
+									$onSliderCellChanged = Bank_Menu_Deposit_Amount
+								]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+									$col = 1,
+									$text = table[$text='Deposit'],
+									$onClick = Bank_Menu_Deposit
+								]" />
+								<do_if value="$account.$balance gt 0">
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
+										param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
+										param="table[$col=1, $text='']" />
+									<do_if value="$Fee gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
+											param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
+											param="table[$col=1, $halign='right', $text='Max withdrawal after '+{20777, 1006}+' Fee:']" />
+									</do_if>
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+										$start = 0,
+										$col = 1,
+										$text = table[$text=''],
+										$min = 0, $max = $account.$balance / (1+$Fee), $step = 1, $suffix='Cr',
+										$default = 0,
+										$onSliderCellChanged = Bank_Menu_Withdraw_Amount
+									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+										$col = 1,
+										$text = table[$text='Withdraw'],
+										$onClick = Bank_Menu_Withdraw
+									]" />
+								</do_if>
+							</actions>
+							<cues>
+								<!-- checkbox -->
+								<cue name="UseSecurityOverrideCheckbox" instantiate="true">
+									<conditions>
+										<event_cue_signalled />
+									</conditions>
+									<actions>
+										<set_value name="$UseSecurityOverride" exact="event.param.$value" />
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+
+								<!-- actions -->
+								<cue name="OpenLootbox" instantiate="true">
+									<conditions>
+										<event_cue_signalled />
+									</conditions>
+									<actions>
+										<set_value name="$account" exact="$Accounts.{$Faction}" />
+										<do_if value="player.money ge $Deposit_amount">
+											<do_if value="$account.$balance == 0">
+												<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
+											</do_if>
+											<do_else>
+												<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
+												<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
+												<set_value name="$Interest_amount" exact="$account.$balance * ((1 + $Rate)^($timeSinceInterest / $Period) - 1)" />
+											</do_else>
+											<reward_player money="($Deposit_amount)Cr * -1" />
+											<set_value name="$Accounts.{$Faction}.$balance" operation="add" exact="$Deposit_amount + $Interest_amount" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+											<signal_cue_instantly cue="Bank_Menu_Open" />
+										</do_if>
+										<do_else>
+											<cancel_cue cue="this" />
+										</do_else>
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+
+				<!-- unused -->
+				<cue name="SpawnLargeLootBox">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<!--check for destroyed vault component-->
+						</check_any>
+					</conditions>
+					<delay exact="2s" />
+					<actions>
+						<do_all exact="[2,4,6].random">
+							<set_value name="$RandomMultiplier" exact="[1.4, 1.5, 1.6, 1.8, 1.9, 2.0, 2.1, 2.2, 2.4, 2.6].random" />
+							<do_any>
+								<do_all>
+									<create_position name="$TargetOffset" space="event.object.sector" object="event.object" />
+									<set_value name="$TargetVelocityX" exact="-200 * $RandomMultiplier" />
+									<set_value name="$TargetVelocityY" exact="0" />
+									<set_value name="$TargetVelocityZ" exact="0" />
+								</do_all>
+								<do_all>
+									<create_position name="$TargetOffset" space="event.object.sector" object="event.object" />
+									<set_value name="$TargetVelocityX" exact="-200 * $RandomMultiplier" />
+									<set_value name="$TargetVelocityY" exact="0" />
+									<set_value name="$TargetVelocityZ" exact="-200 * $RandomMultiplier" />
+								</do_all>
+								<do_all>
+									<create_position name="$TargetOffset" space="event.object.sector" object="event.object" />
+									<set_value name="$TargetVelocityX" exact="200 * $RandomMultiplier" />
+									<set_value name="$TargetVelocityY" exact="0" />
+									<set_value name="$TargetVelocityZ" exact="0" />
+								</do_all>
+							</do_any>
+							<set_value name="$Pitch" min="0" max="360" />
+							<set_value name="$Yaw" min="0" max="360" />
+							<set_value name="$Roll" min="0" max="360" />
+							<create_object name="$lootbox" sector="event.object.sector" macro="macro.bank_wares_macro">
+								<position value="$TargetOffset" />
+								<rotation pitch="($Pitch)deg" yaw="($Yaw)deg" roll="($Roll)deg" />
+							</create_object>
+							<add_object_velocity object="$lootbox">
+								<linear x="$TargetVelocityX" y="$TargetVelocityY" z="$TargetVelocityZ" />
+							</add_object_velocity>
+							<add_cargo object="$lootbox" ware="ware.bank_large_credit_lootbox" exact="[1,2,3].random" />
+						</do_all>
 						<reset_cue cue="this" />
 					</actions>
 				</cue>
