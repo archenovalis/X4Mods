@@ -16,7 +16,6 @@
         <set_value name="$MissionRewardReducer" exact="16" />
         <set_value name="$Paycheck" exact="0" />
         <set_value name="$PayInterval" exact="15m" />
-        <set_value name="$PayFactor" exact="0.01" comment="% of mission reward added to paycheck" />
         <!--
         GettingAJob.$Factions.{$faction} = table[
           $missionGroup = missiongroup.gaj_factionname,
@@ -41,6 +40,11 @@
           {tag.peaceful} = 0.4,
           {tag.police} = 1,
           {tag.plunder} = 2.5
+        ]" />
+        <set_value name="$PayFactors" exact="table[
+          {tag.peaceful} = 0.01,
+          {tag.police} = 0.01,
+          {tag.plunder} = 0.01
         ]" />
         <!-- Work Mission Groups -->
         <set_value name="$MissionGroups" exact="table[
@@ -77,7 +81,7 @@
           {faction.twinsuns} = missiongroup.gaj_twinsuns,
           {faction.valarian} = missiongroup.gaj_valarian
         ]" />
-        <set_value name="$SetupComplete" exact="false" />
+        <set_value name="$InitSetup" exact="true" />
       </actions>
       <cues>
         <cue name="Init">
@@ -90,51 +94,42 @@
             </check_any>
             <check_value value="not @player.allmodules.{player.module}.isscenario" />
           </conditions>
-          <delay exact="2s" />
+          <delay exact="1ms" />
           <actions>
-            <do_if value="not $SetupComplete">
+            <do_if value="$InitSetup">
               <signal_cue_instantly cue="InitSetup" />
             </do_if>
-            <reset_cue cue="Init" />
+            <do_else>
+              <reset_cue cue="Init" />
+            </do_else>
           </actions>
           <cues>
-            <cue name="InitSetup">
+            <cue name="InitSetup" instantiate="true">
               <conditions>
                 <event_cue_signalled />
               </conditions>
-              <delay exact="5s" />
+              <delay exact="1ms" />
               <actions>
                 <!-- find factions with ge 12 relation -->
                 <do_for_each name="$faction" in="md.$FactionData.keys.list">
-                  <do_if value="$faction.relationto.{faction.player} ge 0.0158">
+                  <do_if value="$faction.relationto.{faction.player} ge 0.01592425">
                     <set_value name="$Factions.{$faction}" exact="table[]" />
                     <set_value name="$Factions.{$faction}.$jobOffered" exact="true" />
-                    <do_for_each name="$tag" in="$BasePayTags.keys">
+                    <do_for_each name="$tag" in="$BasePayTags.keys.list">
                       <get_factions_by_tag tag="$tag" result="$taggedFactions" />
                       <do_if value="$taggedFactions.indexof.{$faction}">
                         <set_value name="$pay" exact="$BasePayTags.{$tag}" />
                         <set_value name="$bonusMultiplier" exact="$BonusTags.{$tag}" />
-                        <set_value name="$payFactor" exact="$payFactor.{$tag}" />
+                        <set_value name="$payFactor" exact="$payFactors.{$tag}" />
                         <break />
                       </do_if>
                     </do_for_each>
                     <set_value name="$Factions.{$faction}.$pay" exact="$pay" />
-                    <set_value name="$offer" exact="'Pay: '+$pay+'/'+$PayInterval+' Bonus: '+$bonusMultiplier*100+'%'" />
+                    <set_value name="$offer" exact="'Pay: '+$pay+'Cr / '+$PayInterval+'min\nMission Reward Bonus: '+$bonusMultiplier*100+'%'" />
                     <write_incoming_message highpriority="true" source="$faction.name" title="$faction.name+': Job Offer'" text="'We are please to inform you that we are offering a job to you. Please see one of our station managers to accept the position.\n\n'+$offer" />
                   </do_if>
                 </do_for_each>
 
-                <signal_cue_instantly cue="EmergentMissionsSetup" />
-                <!-- Complete -->
-                <set_value name="$SetupComplete" exact="true" />
-                <reset_cue cue="this" />
-              </actions>
-            </cue>
-            <cue name="EmergentMissionsSetup">
-              <conditions>
-                <event_cue_signalled />
-              </conditions>
-              <actions>
                 <!-- <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.name}"" exact="table[
                   $isDisabled                         = false,
                   $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
@@ -501,7 +496,8 @@
                   $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
                   $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
                 ]" />
-                <reset_cue cue="this" />
+                <set_value name="$InitSetup" exact="false" />
+                <reset_cue cue="parent" />
               </actions>
             </cue>
           </cues>
@@ -612,6 +608,26 @@
           </actions>
         </cue>
       </cues>
+    </cue>
+    <cue name="OnLuaLoaderReady">
+      <conditions>
+        <event_ui_triggered screen="'Lua_Loader'" control="'Ready'" />
+      </conditions>
+      <actions>
+        <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.kuertee_ui_extensions.ui.kuertee_menu_interactmenu'" />
+        <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.getting_a_job.ui.menu_interactmenu_uix'" />
+        <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.getting_a_job.ui.sellships'" />
+        <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.getting_a_job.ui.menu_transporter_uix'" />
+      </actions>
+    </cue>
+    <cue name="OnLuaLoaderReadyCompleted">
+      <conditions>
+        <event_cue_completed cue="OnLuaLoaderReady" />
+      </conditions>
+      <actions>
+        <reset_cue cue="OnLuaLoaderReady" />
+        <reset_cue cue="this" />
+      </actions>
     </cue>
   </cues>
 </mdscript>

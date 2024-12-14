@@ -16,324 +16,332 @@
 
 		<!-- kuertee: teleport from transporter room -->
 		<t id="404">Invalid Transporter Codes</t>
-
-		<!-- "kuertee: Alternatives to death" = "kATD" = "11 1 20 4" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
-		<page id="111204" voice="no">
-			<t id="1">kuertee: Alternatives to death</t>
-			<t id="2">Debug log</t>
-			<t id="3">Do debug function</t>
-			<t id="4">Alternative 1: Activate a clone</t>
-			<t id="5">Clone cost</t>
-			<t id="6">Alternative 2: Transfer play to a distant relation</t>
-			<t id="7">Inherit ships and stations</t>
-			<t id="8">Acquire Cr to inherit ships and stations</t>
-			<t id="9">When properties are lost, randomly restart as:</t>
-			<t id="10">Alternative 3: Teleported to safety by an employee</t>
-			<t id="11">Death alternatives randomly chosen from:</t>
-			<t id="12">Ownership of properties:</t>
-			<t id="13">Alternative 4: Captured then ransomed</t>
-			<t id="14">% of properties lost as ransom</t>
-			<t id="15">Alternative 5: Captured then assimilated</t>
-			<t id="16">Lose all items, mods and equipment</t>
-			<t id="17">Allow infection/zombification into the Kha'ak</t>
-			<t id="18">Allow assimilation into the Xenon</t>
-			<t id="19">Lose HQ to inheritance or ransom</t>
-			<t id="20">Hull % for unavoidable destruction \(X\)</t>
-			<t id="21">Hull-seconds remaining to start countdown \(Y\)</t>
-			<t id="22">Additional countdown seconds \(Z\)</t>
-			<t id="23">The ship's destruction is unavoidable if hull % is less than 'Hull % for unavoidable destruction', X, and received damage-per-second \(DPS\) is more than what the hull can withstand at 'Hull-seconds remaining to start countdown', Y. Before this time, the player can try to avert the destruction by decreasing received DPS by executing evasive manouvers.</t>
-			<t id="24">The test for unavoidable destruction is:</t>
-			<t id="25">\(hull % &lt; X\) AND \(dps &gt; hull % / Y\)</t>
-			<t id="26">The countdown will start when hull % has this amount of time left before destruction - as determined by DPS.</t>
-			<t id="27">This is additional seconds addded to the countdown. The time allowed for the player to escape is the sum of both Y + Z.</t>
-			<t id="28">Strict clone starts</t>
-			<t id="29">Clones start only as their original selves.</t>
-			<t id="30">Ownership of ships and stations</t>
-			<t id="31">Retained by the player</t>
-			<t id="32">Inherited from a trust</t>
-			<t id="33">Confiscated by the sector's ruling faction</t>
-			<t id="34">Destroyed</t>
-			<t id="35">Confiscated by the killer's faction</t>
-			<t id="36">Ownership of player's HQ</t>
-			<t id="37">Prioritise clone and employee teleport</t>
-			<t id="38">When enabled, the clone and teleport alternatives will be used, if either or both are available, before any others. When disabled, the clone alternative will be chosen randomly among available alternatives.</t>
-			<t id="39">Dead is dead</t>
-			<t id="40">Unlimited save slots. After a death alternative sequence, you won't be able to load a game until after you save the game. If a quickload is detected, a death alternative sequence will be activated.</t>
-			<t id="41">Bonus shield when destruction averted</t>
-			<t id="42">When in a small ship</t>
-			<t id="43">Medium ship</t>
-			<t id="44">Large or extra large ship</t>
-			<t id="45">Clone ownership</t>
-			<t id="46">Descendant ownership</t>
-			<t id="47">Assimilated ownership</t>
-			<t id="48">Clones retain Relationships</t>
-			<t id="49">When enabled, clones never lose their relationships with the factions. This also retains Reputations and Social Standings - if the relevant mods are installed.</t>
-			<t id="50">Alternative 6: Warp to friendly station. No penalties.</t>
-			<t id="51">Save scum penalties</t>
-			<t id="52">Death alternative penalty</t>
-			<t id="53">A death alternative sequence will be activated.</t>
-			<t id="54">Credits penalty</t>
-			<t id="55">Credits will be deducted from the player's personal credits. "Save scum death penalty" takes priority over this penalty.</t>
-			<t id="56">Time</t>
-			<t id="57">Unlimited save slots. Penalties will be applied when a game older than this time is loaded.</t>
-			<t id="58">Ironman mode</t>
-			<t id="59">One save slot. You can only load from one save slot. Autosaves and quicksaves are exempt.</t>
-			<t id="60">Saved games</t>
-			<t id="61">A miner</t>
-			<t id="62">A trader</t>
-			<t id="63">A fighter pilot</t>
-			<t id="67">in these ship sizes:</t>
-			<t id="68">Small</t>
-			<t id="69">Medium</t>
-			<t id="70">Large</t>
-
-			<t id="100">Abandon ship</t>
-			<t id="101">Destruction imminent</t>
-			<t id="102">Destruction averted</t>
-			<t id="103">Execute evasive manouvers</t>
-
-			<!-- trust executor faction -->
-			<t id="200">Trust Executor's Office</t>
-			<t id="201">{20006,102}(No information available)</t>
-			<t id="202">TE</t>
-
-			<!-- cloning lab -->
-			<t id="300">Cloning Lab</t>
-			<t id="301">Cloning technician</t>
-			<t id="302">Buy a clone: %1(cost).</t>
-			<t id="303"></t>
-			<t id="304"></t>
-			<t id="305"></t>
-			<t id="306"></t>
-			<t id="307"></t>
-			<t id="308">How many clones do I have?</t>
-			<t id="309">Clone locations:</t>
-
-			<!-- inherit mission -->
-			<t id="400">Inheritance</t>
-			<t id="401">Acquire %1.</t><!-- credits -->
-			<!-- trust executor convo -->
-			<t id="402">My inheritance?</t>
-			<t id="403"></t>
-			<t id="404"></t>
-			<t id="405"></t>
-
-			<!-- escape pod -->
-			<t id="500">Enter Escape Pod</t>
-
-			<!-- action verbs -->
-			<t id="800">transporting</t><!-- for shiptypes: courier, transporter, personnelcarrier -->
-			<t id="801">mining</t><!-- for shiptypes: miner, scavenger, largeminer -->
-			<t id="802">exploring</t>
-
-			<!-- death notice misc -->
-			<t id="900">A notice of death</t>
-			<t id="901">To: %1</t><!-- current name-->
-			<t id="902">From: the executor of the estate of %1</t><!-- death name -->
-			<t id="903">Mark As Read</t><!-- button label -->
-			<t id="904">A notice of inheritance</t>
-
-			<!-- clone death messages -->
-			<t id="1000">Your pre-self has died.</t>
-			<t id="1001">Your pre-self has died in the line of duty against the %1.</t><!-- %1 = faction name -->
-			<t id="1002">While peacefully %1, your pre-self was killed in an attack by the %2.</t><!-- %1 = action verb, %2 = faction name -->
-			<t id="1003">Your pre-self has died in an accident while %1.</t><!-- %1 = action verb -->
-			<!-- inheritance -->
-			<t id="1004">According to your contract, all ships and stations owned by your pre-self will be held in a trust.</t>
-			<t id="1005">You will inherit those ships and stations when you prove worthy of them by acquiring %1.</t><!-- %1 = credits -->
-			<t id="1006">We have been instructed to hand-over your pre-self's data to you. These include: open contracts, navigation charts, data journals, and research papers.</t>
-			<t id="1007">You have inherited all ships and stations owned by your pre-self.</t>
-			<!-- inheritance complete -->
-			<t id="1008">In accordance to your pre-self's will, on acquiring %1(money), you become elligble to own their properties.</t>
-			<t id="1009">We now transfer them to you. Congratulations.</t>
-
-			<!-- descendant death messages -->
-			<t id="1100">%1, a distant relation, has died.</t><!-- %1 = name -->
-			<t id="1101">%1, a distant relation, has died in the line of duty against the %2.</t><!-- %1 = name, %2 = faction name -->
-			<t id="1102">While peacefully %1, %2, a distant relation, was killed in an attack by the %3.</t><!-- %1 = action verb, %2 = name, %3 = faction name -->
-			<t id="1103">%1, a distant relation, has died in an accident while %2.</t><!-- %1 = name, %2 = action verb -->
-			<!-- inheritance -->
-			<t id="1104">According to the will, all ships and stations owned by %1 will be held in a trust.</t><!-- %1 = name, %2 possessive adjective -->
-			<t id="1105">You will inherit those ships and stations when you prove worthy of them by acquiring %1.</t><!-- %1 = credits -->
-			<t id="1106">We have been instructed to hand-over %1's data to you. These include: open contracts, navigation charts, data journals, and research papers.</t><!-- %1 = name -->
-			<t id="1107">You have inherited all ships and stations owned by %1.</t><!-- %1 = name -->
-			<!-- inheritance complete -->
-			<t id="1108">In accordance to the will of %1(name), on acquiring %2(money), you become elligble to own their properties.</t>
-			<t id="1109">We now transfer them to you. Congratulations.</t>
-
-			<!-- teleport to safety -->
-			<t id="1200">Teleport notice</t><!-- %1 = name of pilot or manager of station -->
-			<t id="1201">%1 teleported you to safety.</t><!-- %1 = name of pilot or manager of station -->
-			<t id="1202">Your ship's computer teleported you away to safety.</t><!-- %1 = name of pilot or manager of station -->
-
-			<!-- logbook entry -->
-			<t id="1300">%1 has died.</t><!-- %1 = name -->
-
-			<!-- ransom -->
-			<t id="1400">A notice of release</t>
-			<t id="1401">You were captured by the %1 and were released after paying this ransom:</t><!-- %1 faction name, %2 list of ransomed items -->
-
-			<!-- brainwash -->
-			<t id="1500">Good morning</t>
-			<t id="1501">You awaken from a deep sleep with a half-remembered dream that your ever-trusting allies, the %1, were your enemies.</t><!-- %1 faction name -->
-			<!-- assimilation (xenon) -->
-			<t id="1502">Hello world</t>
-			<t id="1503">Prime directive: destroy all organic life.</t>
-			<!-- zombify/infected (khaak) -->
-			<t id="1504">I am us. You are me. We are one.</t>
-			<t id="1505">We obey the queen. We protect the hive. We spread the spore.</t>
-
-			<!-- mycu_verbose_transaction_log mod -->
-			<t id="2001">Ransom payment for release from captivity</t>
-			<t id="2002">Transfer to trust upon death</t>
-			<t id="2003">Transfer from station to trust upon death</t>
-			<t id="2004">Transfer from station build storage to trust upon death</t>
-			<t id="2005">Transfer from trust as inheritance</t>
-			<t id="2006">Cloning service</t>
-			<t id="2007">Save scum penalty</t>
-		</page>
-
-		<!-- kuertee: npc reactions  -->
-		<page id="1416318" voice="no">
-
-			<!-- mycu_verbose_transaction_log mod -->
-			<t id="101">Bank loan</t>
-			<t id="102">Bank loan payment</t>
-			<t id="103">Construction ship hire</t>
-			<t id="104">Taxi hire</t>
-
-			<t id="688845">Chat about the galaxy.</t>
-			<t id="688846">Chat about lockboxes.</t>
-			<t id="688847">Chat about anomalies.</t>
-			<t id="688848">Chat about data vaults.</t>
-			<t id="688849">Chat about politics.</t>
-			<t id="688850">Chat about the wars.</t>
-			<t id="688851">Chat about life in space.</t>
-			<t id="688852">Chat about science.</t>
-			<t id="688853">Chat about target: %s(knownname) %s(idcode).</t>
-			<!-- start: config -->
-			<t id="688900">kuertee: NPC reactions</t>
-			<t id="688901">No direct conversation penalty</t>
-			<t id="688902">The base chance for a meaningful rumour (your conversation skill) degrades every hour you don't have at least one face-to-face conversation.</t>
-			<t id="688903">Same race bonus</t>
-			<t id="688905">Friendly faction bonus</t>
-			<t id="688907">Friendly faction in enemy sector bonus</t>
-			<t id="688909">Conversation count</t>
-			<t id="688910">The chance a conversation produces a meaningful rumour increases by 1% at every new conversation. DO NOT CHANGE THIS except when necessary.</t>
-			<t id="688911">Base chance for a rumour</t>
-			<t id="688912">When a conversation produces a meaningful rumour, a base chance is increased by 1%. This can be considered to be a 'conversation skill'. DO NOT CHANGE THIS except when necessary.</t>
-			<t id="688913">Debug log</t>
-			<t id="688914">Max base chance for a rumour</t>
-			<t id="688915">This is the limit of the base chance for a meaningful rumour. DO NOT CHANGE THIS except when necessary.</t>
-			<t id="688916">In bar bonus</t>
-			<t id="688917">kuertee: NPC Taxis</t>
-			<t id="688918">Additional cost per gate as multiplier</t>
-			<t id="688919">Do debug function</t>
-			<!-- bar patrons -->
-			<t id="688920">Secondary skills</t>
-			<!-- taxis -->
-			<t id="688921">(unused)Destroy taxis</t>
-			<!-- crew alerts -->
-			<t id="688922">Bridge crew</t>
-			<t id="688923">Radar contact frequency</t>
-			<t id="688924">Greater than or equal to ship size</t>
-			<t id="688925">Comm with cutscene</t>
-			<!-- start: enable/disable features -->
-			<t id="688926">Rumours</t>
-			<t id="688927">Bank loans from station managers</t>
-			<t id="688928">Bar patrons</t>
-			<t id="688929">Bridge crew</t>
-			<t id="688930">Construction ships request your jobs</t>
-			<t id="688931">NPCs request back-up via comms</t>
-			<t id="688932">Taxis</t>
-			<!-- end: enable/disable features -->
-			<t id="688933">Video comms with generic background</t>
-			<t id="688934">Limit race to station workforce races</t>
-			<!-- bridge crew -->
-			<t id="688935">AI pilot auto-leaves controls</t>
-			<t id="688936">Small ships</t>
-			<t id="688937">Medium ships</t>
-			<t id="688938">Larger ships</t>
-			<t id="688939">Add Hold Position to last controlled ship</t>
-			<t id="688940">Report enemies</t>
-			<t id="688941">Voice message \(small-sized and medium-sized enemies\)</t>
-			<t id="688942">Log book</t>
-			<t id="688943">Notification</t>
-			<t id="688944">Voice message \(large enemies\)</t>
-			<t id="688945">Player's fleet follows the player</t>
-			<!-- end: config -->
-			<!-- npc constructors -->
-			<t id="689000">Need a constructor?</t>
-			<t id="689001">No, thank you.</t>
-			<t id="689002">Nearest</t>
-			<t id="689003">Nearest to me</t>
-			<t id="689004">Your employee</t>
-			<t id="689005">Constructor assignment failed.</t>
-			<!-- npc taxis -->
-			<t id="689100">Taxi service(mission name)</t>
-			<t id="689101">Taxi service(faction name)</t>
-			<t id="689102">Do you still need a ride?</t>
-			<t id="689103">Suit yourself, you Spacefly!</t>
-			<t id="689104">Dock at ...</t>
-			<t id="689105">I need a ride to ...</t>
-			<t id="689106">Sorry, this ship can't dock on that ship.</t>
-			<t id="689107">Sorry, this ship can't dock at that station.</t>
-			<t id="689108">Destination</t>
-			<t id="689109">Cost</t>
-			<t id="689110">Are you sure?</t>
-			<t id="689111">Get on board</t>
-			<t id="689112">Disembark at</t>
-			<t id="689113">Call for Transport</t>
-			<t id="689114">There are no available transports at the moment.</t>
-			<t id="689115">Where to?</t>
-			<t id="689116">Ok, I'll be there soon.</t>
-			<t id="689117">I don't need a transport anymore.</t>
-			<t id="689118">Ok, I'm here. Come aboard.</t>
-			<t id="689119">I don't need this transport anymore.</t>
-			<t id="689120">E.T.A.</t>
-			<t id="689121">I'm looking for transport.</t>
-			<t id="689122">Let me contact the pilot.</t>
-			<t id="689123">Wait for</t>
-			<t id="689124">Disembark</t>
-			<t id="689125">I included the distance to the cost.</t>
-			<t id="689126">TAXI</t>
-			<t id="689127">Re-hire</t>
-			<t id="689128">I lost contact with our destination.</t>
-			<t id="689129">I need a ride to the nearest shipyard.</t>
-			<t id="689130">I need a ride to the nearest wharf.</t>
-			<t id="689131">Dock at the nearest shipyard.</t>
-			<t id="689132">Dock at the nearest wharf.</t>
-			<t id="689133">Sorry, you can't afford that.</t>
-			<!-- npc bank loans convo -->
-			<t id="689200">I'd like a bank loan \(%1(Cr)\).</t>
-			<t id="689201">Here you go.</t>
-			<t id="689202">Remember that the interest rate is 1% calculated per hour.</t>
-			<t id="689203">I'd like to pay my bank loan \(%1(Cr)\).</t>
-			<t id="689204">(chc crime name)Unpaid Loans</t>
-			<!-- npc bank loans ui -->
-			<t id="689300">Bank Loans</t>
-			<t id="689301">Station</t>
-			<t id="689302">Lender</t>
-			<t id="689303">Loan</t>
-			<t id="689304">Interest rate</t>
-			<t id="689305">Pay loan</t>
-			<t id="689306">%1(number)%% per hour</t>
-			<t id="689307">Show %s($STATION_NAME$) on Map</t>
-			<t id="689308">Set Guidance to %s($LENDER_NAME$)</t>
-			<!-- npc bridge crew -->
-			<t id="689401">Helm</t>
-			<t id="689402">Tactical</t>
-			<t id="689403">Engineering</t>
-			<t id="689404">Target %1(enemy)?</t>
-			<t id="689405">\(Give order.\)</t>
-			<t id="689406">Enemy Report</t>
-			<t id="689407">Enemy: %s(enemy).\nSector: %s(sector).\nReported by: %s(name) \(%s(ship name)\).</t>
-			<t id="689408">Return to your post.</t>
-			<!-- orders: patrol -->
-			<t id="690001">Report Enemy Fighters, Corvettes And Frigates</t>
-			<t id="690002">Report Enemy Destroyers And Capital Ships</t>
-			<t id="690003">Do Not Engage Enemies</t>
-		</page>
-
 	</page>
+
+
+	<!-- -->
+
+
+	<!-- "kuertee: Alternatives to death" = "kATD" = "11 1 20 4" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
+	<page id="111204" voice="no">
+		<t id="1">kuertee: Alternatives to death</t>
+		<t id="2">Debug log</t>
+		<t id="3">Do debug function</t>
+		<t id="4">Alternative 1: Activate a clone</t>
+		<t id="5">Clone cost</t>
+		<t id="6">Alternative 2: Transfer play to a distant relation</t>
+		<t id="7">Inherit ships and stations</t>
+		<t id="8">Acquire Cr to inherit ships and stations</t>
+		<t id="9">When properties are lost, randomly restart as:</t>
+		<t id="10">Alternative 3: Teleported to safety by an employee</t>
+		<t id="11">Death alternatives randomly chosen from:</t>
+		<t id="12">Ownership of properties:</t>
+		<t id="13">Alternative 4: Captured then ransomed</t>
+		<t id="14">% of properties lost as ransom</t>
+		<t id="15">Alternative 5: Captured then assimilated</t>
+		<t id="16">Lose all items, mods and equipment</t>
+		<t id="17">Allow infection/zombification into the Kha'ak</t>
+		<t id="18">Allow assimilation into the Xenon</t>
+		<t id="19">Lose HQ to inheritance or ransom</t>
+		<t id="20">Hull % for unavoidable destruction \(X\)</t>
+		<t id="21">Hull-seconds remaining to start countdown \(Y\)</t>
+		<t id="22">Additional countdown seconds \(Z\)</t>
+		<t id="23">The ship's destruction is unavoidable if hull % is less than 'Hull % for unavoidable destruction', X, and received damage-per-second \(DPS\) is more than what the hull can withstand at 'Hull-seconds remaining to start countdown', Y. Before this time, the player can try to avert the destruction by decreasing received DPS by executing evasive manouvers.</t>
+		<t id="24">The test for unavoidable destruction is:</t>
+		<t id="25">\(hull % &lt; X\) AND \(dps &gt; hull % / Y\)</t>
+		<t id="26">The countdown will start when hull % has this amount of time left before destruction - as determined by DPS.</t>
+		<t id="27">This is additional seconds addded to the countdown. The time allowed for the player to escape is the sum of both Y + Z.</t>
+		<t id="28">Strict clone starts</t>
+		<t id="29">Clones start only as their original selves.</t>
+		<t id="30">Ownership of ships and stations</t>
+		<t id="31">Retained by the player</t>
+		<t id="32">Inherited from a trust</t>
+		<t id="33">Confiscated by the sector's ruling faction</t>
+		<t id="34">Destroyed</t>
+		<t id="35">Confiscated by the killer's faction</t>
+		<t id="36">Ownership of player's HQ</t>
+		<t id="37">Prioritise clone and employee teleport</t>
+		<t id="38">When enabled, the clone and teleport alternatives will be used, if either or both are available, before any others. When disabled, the clone alternative will be chosen randomly among available alternatives.</t>
+		<t id="39">Dead is dead</t>
+		<t id="40">Unlimited save slots. After a death alternative sequence, you won't be able to load a game until after you save the game. If a quickload is detected, a death alternative sequence will be activated.</t>
+		<t id="41">Bonus shield when destruction averted</t>
+		<t id="42">When in a small ship</t>
+		<t id="43">Medium ship</t>
+		<t id="44">Large or extra large ship</t>
+		<t id="45">Clone ownership</t>
+		<t id="46">Descendant ownership</t>
+		<t id="47">Assimilated ownership</t>
+		<t id="48">Clones retain Relationships</t>
+		<t id="49">When enabled, clones never lose their relationships with the factions. This also retains Reputations and Social Standings - if the relevant mods are installed.</t>
+		<t id="50">Alternative 6: Warp to friendly station. No penalties.</t>
+		<t id="51">Save scum penalties</t>
+		<t id="52">Death alternative penalty</t>
+		<t id="53">A death alternative sequence will be activated.</t>
+		<t id="54">Credits penalty</t>
+		<t id="55">Credits will be deducted from the player's personal credits. "Save scum death penalty" takes priority over this penalty.</t>
+		<t id="56">Time</t>
+		<t id="57">Unlimited save slots. Penalties will be applied when a game older than this time is loaded.</t>
+		<t id="58">Ironman mode</t>
+		<t id="59">One save slot. You can only load from one save slot. Autosaves and quicksaves are exempt.</t>
+		<t id="60">Saved games</t>
+		<t id="61">A miner</t>
+		<t id="62">A trader</t>
+		<t id="63">A fighter pilot</t>
+		<t id="67">in these ship sizes:</t>
+		<t id="68">Small</t>
+		<t id="69">Medium</t>
+		<t id="70">Large</t>
+
+		<t id="100">Abandon ship</t>
+		<t id="101">Destruction imminent</t>
+		<t id="102">Destruction averted</t>
+		<t id="103">Execute evasive manouvers</t>
+
+		<!-- trust executor faction -->
+		<t id="200">Trust Executor's Office</t>
+		<t id="201">{20006,102}(No information available)</t>
+		<t id="202">TE</t>
+
+		<!-- cloning lab -->
+		<t id="300">Cloning Lab</t>
+		<t id="301">Cloning technician</t>
+		<t id="302">Buy a clone: %1(cost).</t>
+		<t id="303"></t>
+		<t id="304"></t>
+		<t id="305"></t>
+		<t id="306"></t>
+		<t id="307"></t>
+		<t id="308">How many clones do I have?</t>
+		<t id="309">Clone locations:</t>
+
+		<!-- inherit mission -->
+		<t id="400">Inheritance</t>
+		<t id="401">Acquire %1.</t><!-- credits -->
+		<!-- trust executor convo -->
+		<t id="402">My inheritance?</t>
+		<t id="403"></t>
+		<t id="404"></t>
+		<t id="405"></t>
+
+		<!-- escape pod -->
+		<t id="500">Enter Escape Pod</t>
+
+		<!-- action verbs -->
+		<t id="800">transporting</t><!-- for shiptypes: courier, transporter, personnelcarrier -->
+		<t id="801">mining</t><!-- for shiptypes: miner, scavenger, largeminer -->
+		<t id="802">exploring</t>
+
+		<!-- death notice misc -->
+		<t id="900">A notice of death</t>
+		<t id="901">To: %1</t><!-- current name-->
+		<t id="902">From: the executor of the estate of %1</t><!-- death name -->
+		<t id="903">Mark As Read</t><!-- button label -->
+		<t id="904">A notice of inheritance</t>
+
+		<!-- clone death messages -->
+		<t id="1000">Your pre-self has died.</t>
+		<t id="1001">Your pre-self has died in the line of duty against the %1.</t><!-- %1 = faction name -->
+		<t id="1002">While peacefully %1, your pre-self was killed in an attack by the %2.</t><!-- %1 = action verb, %2 = faction name -->
+		<t id="1003">Your pre-self has died in an accident while %1.</t><!-- %1 = action verb -->
+		<!-- inheritance -->
+		<t id="1004">According to your contract, all ships and stations owned by your pre-self will be held in a trust.</t>
+		<t id="1005">You will inherit those ships and stations when you prove worthy of them by acquiring %1.</t><!-- %1 = credits -->
+		<t id="1006">We have been instructed to hand-over your pre-self's data to you. These include: open contracts, navigation charts, data journals, and research papers.</t>
+		<t id="1007">You have inherited all ships and stations owned by your pre-self.</t>
+		<!-- inheritance complete -->
+		<t id="1008">In accordance to your pre-self's will, on acquiring %1(money), you become elligble to own their properties.</t>
+		<t id="1009">We now transfer them to you. Congratulations.</t>
+
+		<!-- descendant death messages -->
+		<t id="1100">%1, a distant relation, has died.</t><!-- %1 = name -->
+		<t id="1101">%1, a distant relation, has died in the line of duty against the %2.</t><!-- %1 = name, %2 = faction name -->
+		<t id="1102">While peacefully %1, %2, a distant relation, was killed in an attack by the %3.</t><!-- %1 = action verb, %2 = name, %3 = faction name -->
+		<t id="1103">%1, a distant relation, has died in an accident while %2.</t><!-- %1 = name, %2 = action verb -->
+		<!-- inheritance -->
+		<t id="1104">According to the will, all ships and stations owned by %1 will be held in a trust.</t><!-- %1 = name, %2 possessive adjective -->
+		<t id="1105">You will inherit those ships and stations when you prove worthy of them by acquiring %1.</t><!-- %1 = credits -->
+		<t id="1106">We have been instructed to hand-over %1's data to you. These include: open contracts, navigation charts, data journals, and research papers.</t><!-- %1 = name -->
+		<t id="1107">You have inherited all ships and stations owned by %1.</t><!-- %1 = name -->
+		<!-- inheritance complete -->
+		<t id="1108">In accordance to the will of %1(name), on acquiring %2(money), you become elligble to own their properties.</t>
+		<t id="1109">We now transfer them to you. Congratulations.</t>
+
+		<!-- teleport to safety -->
+		<t id="1200">Teleport notice</t><!-- %1 = name of pilot or manager of station -->
+		<t id="1201">%1 teleported you to safety.</t><!-- %1 = name of pilot or manager of station -->
+		<t id="1202">Your ship's computer teleported you away to safety.</t><!-- %1 = name of pilot or manager of station -->
+
+		<!-- logbook entry -->
+		<t id="1300">%1 has died.</t><!-- %1 = name -->
+
+		<!-- ransom -->
+		<t id="1400">A notice of release</t>
+		<t id="1401">You were captured by the %1 and were released after paying this ransom:</t><!-- %1 faction name, %2 list of ransomed items -->
+
+		<!-- brainwash -->
+		<t id="1500">Good morning</t>
+		<t id="1501">You awaken from a deep sleep with a half-remembered dream that your ever-trusting allies, the %1, were your enemies.</t><!-- %1 faction name -->
+		<!-- assimilation (xenon) -->
+		<t id="1502">Hello world</t>
+		<t id="1503">Prime directive: destroy all organic life.</t>
+		<!-- zombify/infected (khaak) -->
+		<t id="1504">I am us. You are me. We are one.</t>
+		<t id="1505">We obey the queen. We protect the hive. We spread the spore.</t>
+
+		<!-- mycu_verbose_transaction_log mod -->
+		<t id="2001">Ransom payment for release from captivity</t>
+		<t id="2002">Transfer to trust upon death</t>
+		<t id="2003">Transfer from station to trust upon death</t>
+		<t id="2004">Transfer from station build storage to trust upon death</t>
+		<t id="2005">Transfer from trust as inheritance</t>
+		<t id="2006">Cloning service</t>
+		<t id="2007">Save scum penalty</t>
+	</page>
+
+
+	<!-- -->
+
+
+	<!-- kuertee: npc reactions  -->
+	<page id="1416318" voice="no">
+
+		<!-- mycu_verbose_transaction_log mod -->
+		<t id="101">Bank loan</t>
+		<t id="102">Bank loan payment</t>
+		<t id="103">Construction ship hire</t>
+		<t id="104">Taxi hire</t>
+
+		<t id="688845">Chat about the galaxy.</t>
+		<t id="688846">Chat about lockboxes.</t>
+		<t id="688847">Chat about anomalies.</t>
+		<t id="688848">Chat about data vaults.</t>
+		<t id="688849">Chat about politics.</t>
+		<t id="688850">Chat about the wars.</t>
+		<t id="688851">Chat about life in space.</t>
+		<t id="688852">Chat about science.</t>
+		<t id="688853">Chat about target: %s(knownname) %s(idcode).</t>
+		<!-- start: config -->
+		<t id="688900">kuertee: NPC reactions</t>
+		<t id="688901">No direct conversation penalty</t>
+		<t id="688902">The base chance for a meaningful rumour (your conversation skill) degrades every hour you don't have at least one face-to-face conversation.</t>
+		<t id="688903">Same race bonus</t>
+		<t id="688905">Friendly faction bonus</t>
+		<t id="688907">Friendly faction in enemy sector bonus</t>
+		<t id="688909">Conversation count</t>
+		<t id="688910">The chance a conversation produces a meaningful rumour increases by 1% at every new conversation. DO NOT CHANGE THIS except when necessary.</t>
+		<t id="688911">Base chance for a rumour</t>
+		<t id="688912">When a conversation produces a meaningful rumour, a base chance is increased by 1%. This can be considered to be a 'conversation skill'. DO NOT CHANGE THIS except when necessary.</t>
+		<t id="688913">Debug log</t>
+		<t id="688914">Max base chance for a rumour</t>
+		<t id="688915">This is the limit of the base chance for a meaningful rumour. DO NOT CHANGE THIS except when necessary.</t>
+		<t id="688916">In bar bonus</t>
+		<t id="688917">kuertee: NPC Taxis</t>
+		<t id="688918">Additional cost per gate as multiplier</t>
+		<t id="688919">Do debug function</t>
+		<!-- bar patrons -->
+		<t id="688920">Secondary skills</t>
+		<!-- taxis -->
+		<t id="688921">(unused)Destroy taxis</t>
+		<!-- crew alerts -->
+		<t id="688922">Bridge crew</t>
+		<t id="688923">Radar contact frequency</t>
+		<t id="688924">Greater than or equal to ship size</t>
+		<t id="688925">Comm with cutscene</t>
+		<!-- start: enable/disable features -->
+		<t id="688926">Rumours</t>
+		<t id="688927">Bank loans from station managers</t>
+		<t id="688928">Bar patrons</t>
+		<t id="688929">Bridge crew</t>
+		<t id="688930">Construction ships request your jobs</t>
+		<t id="688931">NPCs request back-up via comms</t>
+		<t id="688932">Taxis</t>
+		<!-- end: enable/disable features -->
+		<t id="688933">Video comms with generic background</t>
+		<t id="688934">Limit race to station workforce races</t>
+		<!-- bridge crew -->
+		<t id="688935">AI pilot auto-leaves controls</t>
+		<t id="688936">Small ships</t>
+		<t id="688937">Medium ships</t>
+		<t id="688938">Larger ships</t>
+		<t id="688939">Add Hold Position to last controlled ship</t>
+		<t id="688940">Report enemies</t>
+		<t id="688941">Voice message \(small-sized and medium-sized enemies\)</t>
+		<t id="688942">Log book</t>
+		<t id="688943">Notification</t>
+		<t id="688944">Voice message \(large enemies\)</t>
+		<t id="688945">Player's fleet follows the player</t>
+		<!-- end: config -->
+		<!-- npc constructors -->
+		<t id="689000">Need a constructor?</t>
+		<t id="689001">No, thank you.</t>
+		<t id="689002">Nearest</t>
+		<t id="689003">Nearest to me</t>
+		<t id="689004">Your employee</t>
+		<t id="689005">Constructor assignment failed.</t>
+		<!-- npc taxis -->
+		<t id="689100">Taxi service(mission name)</t>
+		<t id="689101">Taxi service(faction name)</t>
+		<t id="689102">Do you still need a ride?</t>
+		<t id="689103">Suit yourself, you Spacefly!</t>
+		<t id="689104">Dock at ...</t>
+		<t id="689105">I need a ride to ...</t>
+		<t id="689106">Sorry, this ship can't dock on that ship.</t>
+		<t id="689107">Sorry, this ship can't dock at that station.</t>
+		<t id="689108">Destination</t>
+		<t id="689109">Cost</t>
+		<t id="689110">Are you sure?</t>
+		<t id="689111">Get on board</t>
+		<t id="689112">Disembark at</t>
+		<t id="689113">Call for Transport</t>
+		<t id="689114">There are no available transports at the moment.</t>
+		<t id="689115">Where to?</t>
+		<t id="689116">Ok, I'll be there soon.</t>
+		<t id="689117">I don't need a transport anymore.</t>
+		<t id="689118">Ok, I'm here. Come aboard.</t>
+		<t id="689119">I don't need this transport anymore.</t>
+		<t id="689120">E.T.A.</t>
+		<t id="689121">I'm looking for transport.</t>
+		<t id="689122">Let me contact the pilot.</t>
+		<t id="689123">Wait for</t>
+		<t id="689124">Disembark</t>
+		<t id="689125">I included the distance to the cost.</t>
+		<t id="689126">TAXI</t>
+		<t id="689127">Re-hire</t>
+		<t id="689128">I lost contact with our destination.</t>
+		<t id="689129">I need a ride to the nearest shipyard.</t>
+		<t id="689130">I need a ride to the nearest wharf.</t>
+		<t id="689131">Dock at the nearest shipyard.</t>
+		<t id="689132">Dock at the nearest wharf.</t>
+		<t id="689133">Sorry, you can't afford that.</t>
+		<!-- npc bank loans convo -->
+		<t id="689200">I'd like a bank loan \(%1(Cr)\).</t>
+		<t id="689201">Here you go.</t>
+		<t id="689202">Remember that the interest rate is 1% calculated per hour.</t>
+		<t id="689203">I'd like to pay my bank loan \(%1(Cr)\).</t>
+		<t id="689204">(chc crime name)Unpaid Loans</t>
+		<!-- npc bank loans ui -->
+		<t id="689300">Bank Loans</t>
+		<t id="689301">Station</t>
+		<t id="689302">Lender</t>
+		<t id="689303">Loan</t>
+		<t id="689304">Interest rate</t>
+		<t id="689305">Pay loan</t>
+		<t id="689306">%1(number)%% per hour</t>
+		<t id="689307">Show %s($STATION_NAME$) on Map</t>
+		<t id="689308">Set Guidance to %s($LENDER_NAME$)</t>
+		<!-- npc bridge crew -->
+		<t id="689401">Helm</t>
+		<t id="689402">Tactical</t>
+		<t id="689403">Engineering</t>
+		<t id="689404">Target %1(enemy)?</t>
+		<t id="689405">\(Give order.\)</t>
+		<t id="689406">Enemy Report</t>
+		<t id="689407">Enemy: %s(enemy).\nSector: %s(sector).\nReported by: %s(name) \(%s(ship name)\).</t>
+		<t id="689408">Return to your post.</t>
+		<!-- orders: patrol -->
+		<t id="690001">Report Enemy Fighters, Corvettes And Frigates</t>
+		<t id="690002">Report Enemy Destroyers And Capital Ships</t>
+		<t id="690003">Do Not Engage Enemies</t>
+	</page>
+
 </language>

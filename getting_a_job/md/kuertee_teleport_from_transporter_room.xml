@@ -19,17 +19,17 @@
 						and
 						(
 							( 
-								ware.research_teleportation_range_01.unlocked
+								ware.research_teleportation_range_01.research.unlocked
 								and
 								player.ship.isclass.{class.ship_xl}
 							) or 
 							( 
-								ware.research_teleportation_range_02.unlocked
+								ware.research_teleportation_range_02.research.unlocked
 								and
 								player.ship.isclass.{[class.ship_l, class.ship_m]}
 							) or 
 							( 
-								ware.research_teleportation_range_03.unlocked
+								ware.research_teleportation_range_03.research.unlocked
 								and
 								player.ship.isclass.{class.ship_s}
 							) or
@@ -119,7 +119,7 @@
 									(
 										player.container.isplayerowned
 										or
-										player.container.hasrelation.friend.{faction.player})
+										player.container.hasrelation.friend.{faction.player}
 										or
 										@player.entity.inventory.{$SpyDevice}
 									)
@@ -132,17 +132,17 @@
 										and
 										(
 											( 
-												ware.research_teleportation_range_01.unlocked
+												ware.research_teleportation_range_01.research.unlocked
 												and
 												player.ship.isclass.{class.ship_xl}
 											) or 
 											( 
-												ware.research_teleportation_range_02.unlocked
+												ware.research_teleportation_range_02.research.unlocked
 												and
 												player.ship.isclass.{[class.ship_l, class.ship_m]}
 											) or 
 											( 
-												ware.research_teleportation_range_03.unlocked
+												ware.research_teleportation_range_03.research.unlocked
 												and
 												player.ship.isclass.{class.ship_s}
 											) or
@@ -170,17 +170,17 @@
 									and
 									(
 										( 
-											ware.research_teleportation_range_01.unlocked
+											ware.research_teleportation_range_01.research.unlocked
 											and
 											player.ship.isclass.{class.ship_xl}
 										) or 
 										( 
-											ware.research_teleportation_range_02.unlocked
+											ware.research_teleportation_range_02.research.unlocked
 											and
 											player.ship.isclass.{[class.ship_l, class.ship_m]}
 										) or 
 										( 
-											ware.research_teleportation_range_03.unlocked
+											ware.research_teleportation_range_03.research.unlocked
 											and
 											player.ship.isclass.{class.ship_s}
 										) or
@@ -216,7 +216,7 @@
 							<do_if value="
 								$destination.isplayerowned
 								or
-								$destination.owner.relationto.{faction.player} ge $destination.owner.relation.friend.min)
+								$destination.owner.relationto.{faction.player} ge $destination.owner.relation.friend.min
 								or
 								@player.entity.inventory.{$SpyDevice}
 							" comment="allow teleport to destination">
@@ -269,17 +269,17 @@
 								and
 								(
 									( 
-										ware.research_teleportation_range_01.unlocked
+										ware.research_teleportation_range_01.research.unlocked
 										and
 										player.ship.isclass.{class.ship_xl}
 									) or 
 									( 
-										ware.research_teleportation_range_02.unlocked
+										ware.research_teleportation_range_02.research.unlocked
 										and
 										player.ship.isclass.{[class.ship_l, class.ship_m]}
 									) or 
 									( 
-										ware.research_teleportation_range_03.unlocked
+										ware.research_teleportation_range_03.research.unlocked
 										and
 										player.ship.isclass.{class.ship_s}
 									) or

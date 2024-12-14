@@ -36,8 +36,24 @@
   <replace sel="//gamestart[@id='x4ep1_sw_mando_outcust']/info/item[@name='{1021,3}']/@value">150000</replace>
   <replace sel="//gamestart[@id='x4ep1_sw_mando_outcust']/player/@money">150000</replace>
 
-  <replace sel="//gamestart[@id='x4ep1_sw_emp_navypilot']//relation[@faction='galempire']/@relation">0.0165</replace>
-  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='newrepublic']/@relation">0.0165</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_emp_navypilot']//relation[@faction='galempire']/@relation">0.01592425</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='newrepublic']/@relation">0.01592425</replace>
+  <!-- debug test -->
+  <!-- <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='newrepublic']/@relation">0.0159243</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='rebelalliance']/@relation">0.01592425</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='galempire']/@relation">0.0159242</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='mandodw']/@relation">0.01592415</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='ascendancy']/@relation">0.0159241</replace>
+  <add pos="after" sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='ascendancy']">
+    <relation faction="commerceguild" otherfaction="player" relation="0.01592405" />
+  </add>
+  <add pos="after" sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='ascendancy']">
+    <relation faction="corporate" otherfaction="player" relation="0.015924" />
+  </add>
+  <add pos="after" sel="//gamestart[@id='x4ep1_sw_rep_cadet']//relation[@faction='ascendancy']">
+    <relation faction="anoat" otherfaction="player" relation="0.01592395" />
+  </add> -->
+
   <replace sel="//gamestart[@id='x4ep1_sw_rep_trader']//relation[@faction='newrepublic']/@relation">0.01</replace>
   <replace sel="//gamestart[@id='x4ep1_sw_rep_trader']//relation[@faction='rebelalliance']/@relation">0.01</replace>
   <replace sel="//gamestart[@id='x4ep1_sw_emp_trader']//relation[@faction='sienar']/@relation">0.01</replace>
@@ -51,15 +67,15 @@
     <relation faction="huttpirates" otherfaction="player" relation="0.008" />
   </add>
   <add sel="//gamestart[@id='x4ep1_gamestart_csd']//relations">
-    <relation faction="corporate" otherfaction="player" relation="0.0165" />
+    <relation faction="corporate" otherfaction="player" relation="0.01592425" />
   </add>
   <replace sel="//gamestart[@id='x4ep1_gamestart_anoat']//relation[@faction='anoat']/@relation">0.0085</replace>
   <replace sel="//gamestart[@id='x4ep1_sw_bhg']//relation[@faction='corporate']/@relation">0.0085</replace>
-  <replace sel="//gamestart[@id='x4ep1_sw_ascendancy']//relation[@faction='ascendancy']/@relation">0.0165</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_ascendancy']//relation[@faction='ascendancy']/@relation">0.01592425</replace>
   <add sel="//gamestart[@id='x4ep1_sw_hutt_yacht']//relations">
     <relation faction="huttpirates" otherfaction="player" relation="0.005" />
   </add>
-  <replace sel="//gamestart[@id='x4ep1_sw_hapes_noble']//relation[@faction='hapes']/@relation">0.0165</replace>
-  <replace sel="//gamestart[@id='x4ep1_sw_venator']//relation[@faction='corporate']/@relation">0.0165</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_hapes_noble']//relation[@faction='hapes']/@relation">0.01592425</replace>
+  <replace sel="//gamestart[@id='x4ep1_sw_venator']//relation[@faction='corporate']/@relation">0.01592425</replace>
 
 </diff>

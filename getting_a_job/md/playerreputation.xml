@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+  <add sel="//cue[@name=&quot;Base&quot;]/conditions">
+    <check_value value="not md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+  <add sel="//cue[@name=&quot;ReputationChanged&quot;]/conditions">
+    <check_value value="not md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+</diff>

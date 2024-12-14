@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+	<!-- boarding operation created -->
+	<!-- <cues>
+	<cue name="OperationCreated" instantiate="true" namespace="this" version="4">
+	<actions> -->
+	<add sel="//cue[@name=&quot;OperationCreated&quot;]/actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<signal_cue_instantly cue="md.kuertee_atd.BoardingOperationStarted" param="table[
+				$cue = this,
+				$target = $Target
+			]"/>
+		</do_if>
+	</add>
+	<!-- boarding operation removed -->
+	<!--<cues>
+		<cue name="OperationCreated" instantiate="true" namespace="this" version="4">
+			<cues>
+			<cue name="OperationRemoved">
+				<actions> -->
+	<add sel="//cue[@name=&quot;OperationCreated&quot;]/cues/cue[@name=&quot;OperationRemoved&quot;]/actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<signal_cue_instantly cue="md.kuertee_atd.BoardingOperationFinished" param="table[
+				$cue = this,
+				$target = $Target
+			]"/>
+		</do_if>
+	</add>
+</diff>

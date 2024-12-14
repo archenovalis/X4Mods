@@ -1,18 +1,21 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <diff>
-<!-- add after. purpose: bar patrons stay in the bar. find slot in room.
+
+	<!-- npc reactions -->
+
+	<!-- add after. purpose: bar patrons stay in the bar. find slot in room.
 	<cue name="ENTER_init">
 		<do_elseif value="@$NPC.$Stay">
--->
+	-->
 	<add pos="after" sel="//cue[@name=&quot;ENTER_init&quot;]//do_elseif[@value=&quot;@$NPC.$Stay&quot;]">
 		<do_elseif value="@$NPC.$kNPCR_isBarPatron">
-			<signal_cue_instantly cue="ChangeState" param="STATE_idle"/>
+			<signal_cue_instantly cue="ChangeState" param="STATE_idle" />
 		</do_elseif>
 	</add>
-<!-- add before. purpose: bar patrons stay in the bar. find slot in room.
+	<!-- add before. purpose: bar patrons stay in the bar. find slot in room.
 	<cue name="TRANSITION_idle_attempt_move">
 		<do_if value="this.$destinationslot">
--->
+	-->
 	<add pos="before" sel="(//cue[@name=&quot;TRANSITION_idle_attempt_move&quot;]//do_if[@value=&quot;this.$destinationslot&quot;])[5]">
 		<do_if value="@$NPC.$kNPCR_isBarPatron">
 			<!-- <debug_text text="'kuertee_npc_reactions $NPC: ' + $NPC + ' (' + $NPC.knownname + ')'" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" /> -->
@@ -20,13 +23,13 @@
 			<debug_text text="'kuertee_npc_reactions $NPC: ' + $NPC + ' (' + $NPC.knownname + ', $destinationslot: ' + this.$destinationslot + ')'" chance="[md.kuertee_npc_reactions.NPCReactions.$DebugChance, md.kuertee_npc_reactions.NPCReactions.$DebugChance2].max" />
 		</do_if>
 	</add>
-<!-- add before:
+	<!-- add before:
 	purpose: make pilot leave when player enters ship
 	<cue name="ENTER_ai_pilot">
 		<do_if value="$NPC.controlled">
 			<do_if value="$NPC.controlled == player.controlled">
 			<do_else>
--->
+	-->
 	<add pos="before" sel="//cue[@name=&quot;ENTER_ai_pilot&quot;]//do_if[@value=&quot;$NPC.controlled&quot;]/do_else">
 		<do_elseif value="@md.kuertee_npc_bridge_crew.AIPilot_AutoGetUp.$isGetUpNow">
 			<do_if value="$NPC.controlled and $NPC.controlled == player.ship">
@@ -37,4 +40,47 @@
 			</do_if>
 		</do_elseif>
 	</add>
+
+
+	<!-- alternatives to death -->
+
+	<!-- <replace sel="root/bar/foo[@a='1']/@a">3</replace> -->
+	<!-- replace: $NPC.controlled == player.controlled -->
+	<!-- purpose: prevent pilot from returning if there's a countdown -->
+	<!-- <cue name="ENTER_ai_pilot">
+		<actions>
+			<do_if value="$NPC.controlled">
+				<do_if value="$NPC.controlled == player.controlled">
+					<signal_cue_instantly cue="ChangeState" param="STATE_ai_pilot_leave_post" /> -->
+	<replace sel="//cue[@name=&quot;ENTER_ai_pilot&quot;]/actions//do_if[@value=&quot;$NPC.controlled == player.controlled&quot;]/@value">$NPC.controlled == player.controlled or @md.kuertee_atd.kATD.$shipCountdownCues.{@$NPC.assignedcontrolled}.exists</replace>
+	<!-- <add pos="prepend" sel="//cue[@name=&quot;ENTER_ai_pilot&quot;]/actions">
+		<debug_text text="$NPC.assignedcontrolled + ' md.kuertee_atd.kATD.$shipCountdownCues.{$NPC.assignedcontrolled}: ' + @md.kuertee_atd.kATD.$shipCountdownCues.{$NPC.assignedcontrolled}" />
+		<debug_text text="$NPC.assignedcontrolled + ' $NPC.isbusy: ' + @$NPC.isbusy + ' $NPC.ishidden: ' + @$NPC.ishidden" />
+	</add> -->
+	<!-- add: conditions -->
+	<!-- purpose: prevent pilot from returning if there's a countdown -->
+	<!-- <cue name="STATE_ai_pilot_move_to_post">
+		<conditions>
+			<event_cue_signalled />
+			<check_value value="not @event.param" />
+		</conditions> -->
+	<add sel="//cue[@name=&quot;STATE_ai_pilot_move_to_post&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$shipCountdownCues.{@$NPC.assignedcontrolled}.exists" />
+	</add>
+	<!-- <add pos="prepend" sel="//cue[@name=&quot;STATE_ai_pilot_move_to_post&quot;]/actions">
+		<debug_text text="$NPC.assignedcontrolled + ' md.kuertee_atd.kATD.$shipCountdownCues.{$NPC.assignedcontrolled}: ' + @md.kuertee_atd.kATD.$shipCountdownCues.{$NPC.assignedcontrolled}" />
+	</add> -->
+	<!-- add: conditions -->
+	<!-- purpose: prevent pilot from returning if there's a countdown -->
+	<!-- <cue name="STATE_ai_pilot_return_to_post">
+		<conditions>
+			<event_cue_signalled />
+			<check_value value="not @event.param" />
+		</conditions> -->
+	<add sel="//cue[@name=&quot;STATE_ai_pilot_return_to_post&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$shipCountdownCues.{@$NPC.assignedcontrolled}.exists" />
+	</add>
+	<!-- <add pos="prepend" sel="//cue[@name=&quot;STATE_ai_pilot_return_to_post&quot;]/actions">
+		<debug_text text="$NPC.assignedcontrolled + ' md.kuertee_atd.kATD.$shipCountdownCues.{$NPC.assignedcontrolled}: ' + @md.kuertee_atd.kATD.$shipCountdownCues.{$NPC.assignedcontrolled}" />
+	</add> -->
 </diff>

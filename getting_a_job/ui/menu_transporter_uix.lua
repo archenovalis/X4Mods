@@ -2,7 +2,6 @@ local ffi = require ("ffi")
 local C = ffi.C
 
 local ModLua = {}
-
 local origFuncs = {}
 local newFuncs = {}
 local transporterMenu
@@ -25,6 +24,7 @@ function ModLua.init()
 	RegisterEvent ("kTFTR.HideTeleportButtonInTransporterRoom", kTFTR.HideTeleportButtonInTransporterRoom)
 	RegisterEvent ("kTFTR.CloseMenu", kTFTR.CloseMenu)
 end
+
 function newFuncs.insertLuaAction (actiontype, istobedisplayed)
 	if actiontype ~= "teleport" or kTFTR.isRemoveTeleportCommandFromMap ~= 1 then
 		origFuncs.insertLuaAction (actiontype, istobedisplayed)

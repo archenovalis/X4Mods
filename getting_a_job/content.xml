@@ -8,16 +8,17 @@
 	author="Archie">
 
 	<dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" />
+	<dependency id="kuerteeUIExtensionsAndHUD" optional="false" name="kuertee UI Extensions and HUD" />
 	<dependency id="SW Interworlds" optional="false" name="SW Interworlds" />
 	<dependency id="intergalactic_bank" optional="false" name="InterGalactic Bank" />
-	<dependency id="kuerteeAlternativesToDeath" optional="false" name="kuertee: Alternatives to death" />
-	<dependency id="kuerteeUIExtensionsAndHUD" optional="false" name="kuertee UI Extensions and HUD" />
-	<dependency id="kuerteeCrimeHasConsequences" optional="false" name="kuertee: Crime has consequences" />
-	<dependency id="kuerteeNPCReactions" optional="false" name="kuertee: NPC reactions" />
 	<dependency id="sov_dreadnaughts" optional="true" name="Dreadnaughts and Battlecruisers" />
 	<dependency id="swi_heroes_plus" optional="true" name="Heroes for SWI with Extras" />
 	<dependency id="swi_heroes" optional="true" name="Heroes for SWI" />
 
 	<!-- integrated -->
 	<!-- <dependency id="kuerteeTeleportFromTransporterRoom" optional="true" name="kuertee: Teleport from transporter room" /> -->
+	<!-- <dependency id="kuerteeAlternativesToDeath" optional="false" name="kuertee: Alternatives to death" /> -->
+	<!-- <dependency id="kuerteeCrimeHasConsequences" optional="false" name="kuertee: Crime has consequences" /> -->
+	<!-- <dependency id="kuerteeNPCReactions" optional="false" name="kuertee: NPC reactions" /> -->
+
 </content>

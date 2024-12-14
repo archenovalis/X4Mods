@@ -2,6 +2,10 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../../../xsd/mddiff.xsd">
 
+
+  <add pos="after" sel="//cue[@name='Mission_Mayday']/actions/set_value[@name=&quot;$Cue_Mission&quot;]">
+    <set_value name="$MissionGroup" exact="null" />
+  </add>
   <add pos="before" sel="//cue[@name='Mission_Mayday']//create_offer[@cue=&quot;namespace&quot;]">
     <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
@@ -9,6 +13,9 @@
   </add>
   <add sel="//cue[@name='Mission_Mayday']//create_offer[@cue=&quot;namespace&quot;]" type="@group">$MissionGroup</add>
 
+  <add pos="after" sel="//cue[@name='Mission_Escort']/actions/set_value[@name=&quot;$Cue_Mission&quot;]">
+    <set_value name="$MissionGroup" exact="null" />
+  </add>
   <add pos="before" sel="//cue[@name='Mission_Escort']//create_offer[@cue=&quot;namespace&quot;]">
     <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
@@ -16,12 +23,12 @@
   </add>
   <add sel="//cue[@name='Mission_Escort']//create_offer[@cue=&quot;namespace&quot;]" type="@group">$MissionGroup</add>
 
-
   <add pos="before" sel="//cue[@name='Mission_SectorRaid_CreateOffer_IfInRange']//create_offer[@cue=&quot;$Cue_Mission&quot;]">
     <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
     </do_if>
   </add>
+
   <add pos="before" sel="//cue[@name='Mission_Hunt']//create_offer[@cue=&quot;$Cue_Mission&quot;]">
     <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
@@ -75,23 +82,11 @@
         <set_value name="$account.$totalRewards" exact="$RewardCr" />
         <set_value name="$account.$pay" operation="add" exact="$RewardCr * $account.$payMultipler" />
       </do_if>
-      <get_factions_by_tag tag="tag.economic" result="$economic" />
-      <!-- non-bankingclan accounts -->
-      <do_if value="@md.GalacticBank.Vault.$Accounts.keys.list.indexof.{$faction}">
-        <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $Cue_Mission.$RewardCr]" />
-      </do_if>
-      <!-- major faction bankingclan account -->
-      <do_elseif value="$economic.indexof.{$faction}">
-        <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="$Cue_Mission.$RewardCr" />
-      </do_elseif>
-      <!-- catch exception -->
-      <do_else>
-        <reward_player money="$Cue_Mission.$RewardCr" />
-      </do_else>
+      <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $Cue_Mission.$RewardCr]" />
     </do_if>
   </replace>
 
-  <replace sel="//library[@name='Mission_Escorts_IsOkToCreateOffer']/set_value[@name='$isOk_reqRel']">
+  <replace sel="//library[@name='Mission_Escorts_IsOkToCreateOffer']//set_value[@name='$isOk_reqRel']">
     <set_value name="$isOk_reqRel" exact="
       $Ship.owner.relationto.{faction.player} ge 0.1
       or
@@ -108,7 +103,7 @@
       Requirements.$mission_escort_req_relLevel == UserSettings.$req_rel_warSubscription
     " />
   </replace>
-  <replace sel="//library[@name='Mission_SectorRaids_IsOkToCreateOffer']/set_value[@name='$isOk_reqRel']">
+  <replace sel="//library[@name='Mission_SectorRaids_IsOkToCreateOffer']//set_value[@name='$isOk_reqRel']">
     <set_value name="$isOk_reqRel" exact="
       $Ship.owner.relationto.{faction.player} ge 0.1
       or

@@ -11,6 +11,33 @@
       <set_value name="$account.$totalRewards" exact="$bounty" />
       <set_value name="$account.$pay" operation="add" exact="$bounty * $account.$payMultipler" />
     </do_if>
-    <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $bounty]" />
+    <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $gajfaction, $money = $bounty]" />
   </replace>
+
+  <!-- alternatives to death -->
+  <add sel="//cue[@name=&quot;ChangedJurisdiction&quot;]/conditions">
+    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+  <add sel="//cue[@name=&quot;ChangedSpace&quot;]/conditions">
+    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+  <add sel="//cue[@name=&quot;PlayerDiscountCommission&quot;]/conditions">
+    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+  <add sel="//cue[@name=&quot;TempRelationDropped&quot;]/conditions">
+    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+  <add sel="//cue[@name=&quot;BaseRelationChanged&quot;]/conditions">
+    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+  <add sel="//cue[@name=&quot;PlayerMoneyTransfer&quot;]/conditions">
+    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+  <add sel="//cue[@name=&quot;PlayerOwnedMoneyUpdated&quot;]/conditions">
+    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+  <add sel="//cue[@name=&quot;BlueprintUnlocked&quot;]/conditions">
+    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+  </add>
+
 </diff>
