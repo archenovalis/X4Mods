@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+  <add sel="/index">
+    <entry name="ship_gen_xs_escapepod_01_a_player" value="extensions\escape_pod\assets\units\size_xs\ship_gen_xs_escapepod_01_a_player" />
+  </add>
+</diff>

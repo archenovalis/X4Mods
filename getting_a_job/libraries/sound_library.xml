@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diff>
+	<add sel="/soundlibrary">
+		<sound id="abandon_ship_alarm" description="Abandon Ship Alarm" repeat="1" is3d="1" preload="0" isunique="true">
+			<sample start="extensions\getting_a_job\sfx\abandon_ship_alarm" />
+			<volume start="1" />
+		</sound>
+	</add>
+</diff>

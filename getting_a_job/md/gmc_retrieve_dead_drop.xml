@@ -77,7 +77,7 @@
         <set_value name="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$totalRewards" exact="$RewardCr" />
         <set_value name="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$pay" operation="add" exact="$RewardCr * md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$payMultipler" />
       </do_if>
-      <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
+      <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
     </do_if>
   </replace>
 </diff>

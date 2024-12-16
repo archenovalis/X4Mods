@@ -512,7 +512,7 @@
           <actions>
             <do_for_each name="$faction" in="$Factions.keys.list">
               <do_if value="$Factions.{$faction}.$active">
-                <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $Factions.{$faction}.$pay]" />
+                <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $Factions.{$faction}.$pay]" />
                 <!-- todo: generate paycheck notification, add ability to disable notifications -->
               </do_if>
             </do_for_each>

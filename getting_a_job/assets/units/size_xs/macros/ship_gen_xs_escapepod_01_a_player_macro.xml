@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<macros>
+  <macro name="ship_gen_xs_escapepod_01_a_player_macro" class="ship_xs">
+    <component ref="ship_gen_xs_escapepod_01_a_player" />
+    <properties>
+      <identification name="{20101,101101}" description="{20101,101111}" icon="ship_xs_escapepod_01" />
+      <software>
+        <software ware="software_dockmk1" compatible="1" />
+        <software ware="software_flightassistmk1" default="1" />
+        <software ware="software_scannerobjectmk1" compatible="1" />
+      </software>
+      <!-- same as escapepod_01 and s_fighter_01_a-->
+      <hull max="209" />
+      <secrecy level="1" />
+      <purpose primary="trade" />
+      <people capacity="3" />
+      <sounds>
+        <shipdetail ref="shipdetail_ship_01" />
+      </sounds>
+      <physics mass="3.549">
+        <inertia pitch="0.17" yaw="0.17" roll="0.17" />
+        <drag forward="1.71" reverse="6.839" horizontal="1.506" vertical="1.506" pitch="0.607" yaw="0.607" roll="0.607" />
+      </physics>
+      <thruster tags="small" />
+      <loadouts>
+        <loadout id="default">
+          <macros>
+            <engine macro="engine_gen_xs_escapepod_01_macro" path="../engine_connection" />
+          </macros>
+        </loadout>
+      </loadouts>
+      <capture allow="0" />
+      <ship type="escapepod" />
+      <sound_occlusion inside="0.5" />
+    </properties>
+    <connections>
+      <connection ref="con_cockpit">
+        <macro ref="cockpit_gen_virtual_01_macro" connection="ship" />
+      </connection>
+      <connection ref="con_engine_01">
+        <macro ref="engine_gen_xs_escapepod_01_macro" connection="spacesuit" />
+      </connection>
+    </connections>
+  </macro>
+</macros>

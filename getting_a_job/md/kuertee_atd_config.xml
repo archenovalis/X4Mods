@@ -28,9 +28,6 @@
 			<actions>
 				<debug_text text="''" />
 				<set_value name="$levels" exact="[
-					level.trivial,
-					level.veryeasy,
-					level.easy,
 					level.medium,
 					level.hard,
 					level.veryhard,
@@ -40,8 +37,8 @@
 				<do_all counter="$i" exact="$levels.count">
 					<set_value name="$MissionThread" exact="null" />
 					<set_value name="$OfferType" exact="null" />
-					<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[namespace, $levels.{$i}, 1, faction.argon]" comment="basic reward credits"/>
-					<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus"/>
+					<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[namespace, $levels.{$i}, 1, faction.argon]" comment="basic reward credits" />
+					<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus" />
 					<!-- <debug_text text="$levels.{$i} + ': ' + $Reward_Money__Result_Multiplied.formatted.{'%s %Cr'}" /> -->
 					<set_value name="$rewardEgTextByLevels.{$levels.{$i}}" exact="$Reward_Money__Result_Multiplied.formatted.{'%s %Cr'}" />
 					<remove_value name="$MissionThread" />
@@ -61,8 +58,8 @@
 					<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={1001, 4825}, $color='Helper.color.green']" />
 				</do_if>
 				<do_else>
-					<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-						param = "table[
+					<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+						param="table[
 							$id = 'userIsIronManMode',
 							$checked = md.kuertee_atd.kATD.$userIsIronManMode,
 							$col = 2,
@@ -109,11 +106,11 @@
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 51}]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 56}, $halign = 'right']"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 56}, $halign = 'right']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userSaveScumPenalty_timeMinutes',
 						$start = md.kuertee_atd.kATD.$userSaveScumPenalty_timeMinutes,
 						$col = 2,
@@ -127,8 +124,8 @@
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={111204, 57}, $wordwrap=true]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 52}, $halign='right']" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'userSaveScumPenalty_death',
 						$checked = md.kuertee_atd.kATD.$userSaveScumPenalty_death,
 						$col = 2,
@@ -142,8 +139,8 @@
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 54}, $halign='right']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userSaveScumPenalty_creditsPerc',
 						$start = md.kuertee_atd.kATD.$userSaveScumPenalty_creditsPerc,
 						$col = 2,
@@ -159,532 +156,27 @@
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 11}, $color='Helper.color.blue']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 4}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsUseClones',
-						$checked = md.kuertee_atd.kATD.$userIsUseClones,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 5}, $halign = 'right']"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 5}, $halign = 'right']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCloneCostLevel',
 						$col = 2,
 						$options = [
-							table[$text={1001, 4001} + ' (' + $rewardEgTextByLevels.{level.trivial} + ')', $value=level.trivial],
-							table[$text={1001, 4002} + ' (' + $rewardEgTextByLevels.{level.veryeasy} + ')', $value=level.veryeasy],
-							table[$text={1001, 4003} + ' (' + $rewardEgTextByLevels.{level.easy} + ')', $value=level.easy],
 							table[$text={1001, 4004} + ' (' + $rewardEgTextByLevels.{level.medium} + ')', $value=level.medium],
 							table[$text={1001, 4005} + ' (' + $rewardEgTextByLevels.{level.hard} + ')', $value=level.hard],
 							table[$text={1001, 4006} + ' (' + $rewardEgTextByLevels.{level.veryhard} + ')', $value=level.veryhard],
 							table[$text={1001, 4007} + ' (' + $rewardEgTextByLevels.{level.impossible} + ')', $value=level.impossible]
 						],
-						$startOption = if md.kuertee_atd.kATD.$userCloneCostLevel == level.trivial then 1 else (
-							if md.kuertee_atd.kATD.$userCloneCostLevel == level.veryeasy then 2 else (
-								if md.kuertee_atd.kATD.$userCloneCostLevel == level.easy then 3 else (
-									if md.kuertee_atd.kATD.$userCloneCostLevel == level.medium then 4 else (
-										if md.kuertee_atd.kATD.$userCloneCostLevel == level.hard then 5 else (
-											if md.kuertee_atd.kATD.$userCloneCostLevel == level.veryhard then 6 else (
-												if md.kuertee_atd.kATD.$userCloneCostLevel == level.impossible then 7
-											)
-										)
-									)
+						$startOption = if md.kuertee_atd.kATD.$userCloneCostLevel == level.medium then 4 else (
+							if md.kuertee_atd.kATD.$userCloneCostLevel == level.hard then 5 else (
+								if md.kuertee_atd.kATD.$userCloneCostLevel == level.veryhard then 6 else (
+									if md.kuertee_atd.kATD.$userCloneCostLevel == level.impossible then 7
 								)
 							)
 						),
 						$mouseOverText = {1001,2661} + ': ' + {1001, 4001},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 48}, $halign = 'right']" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsClonesRetainRelationships',
-						$checked = md.kuertee_atd.kATD.$userIsClonesRetainRelationships,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = true,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={111204, 49}, $wordwrap=true]" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 6}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsUseDescendants',
-						$checked = md.kuertee_atd.kATD.$userIsUseDescendants,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 10}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsUseTeleportToSafety',
-						$checked = md.kuertee_atd.kATD.$userIsUseTeleportToSafety,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 13}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsUseRansom',
-						$checked = md.kuertee_atd.kATD.$userIsUseRansom,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 14}, $halign = 'right']" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
-						$id = 'userRansomPerc',
-						$start = md.kuertee_atd.kATD.$userRansomPerc,
-						$col = 2,
-						$text = table[$text=''],
-						$min = 0, $max = 100, $step = 5, $suffix='%',
-						$default = 25,
-						$mouseOverText = {1001,2661} + ': 25%',
-						$onSliderCellChanged = OnSMOSliderChange
-					]" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 15}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsUseAssimilation',
-						$checked = md.kuertee_atd.kATD.$userIsUseAssimilation,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 17}, $halign = 'right']" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsAllowKhaakAssimilation',
-						$checked = md.kuertee_atd.kATD.$userIsAllowKhaakAssimilation,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2649},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 18}, $halign = 'right']" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsAllowXenonAssimilation',
-						$checked = md.kuertee_atd.kATD.$userIsAllowXenonAssimilation,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2649},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 50}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsUseNoPenalty',
-						$checked = md.kuertee_atd.kATD.$userIsUseNoPenalty,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2649},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 37}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsPrioritiseClone',
-						$checked = md.kuertee_atd.kATD.$userIsPrioritiseClone,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = true,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648} + '.',
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={111204, 38}, $wordwrap=true]" />
-
-				<!-- <t id="45">Clone ownership</t>
-				<t id="46">Descendant ownership</t>
-				<t id="47">Assimilated ownership</t> -->
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 12}, $color='Helper.color.blue']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 45}]" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
-						$id = 'userOwnershipOnDeath_clone',
-						$col = 2,
-						$options = [
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_retained}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_retained],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_inherited}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_inherited],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_confiscated}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_confiscated],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_destroyed}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_destroyed]
-						],
-						$startOption = if md.kuertee_atd.kATD.$userOwnershipOnDeath_clone == md.kuertee_atd.kATD.$ownershipOnDeath_retained then 1 else (
-							if md.kuertee_atd.kATD.$userOwnershipOnDeath_clone == md.kuertee_atd.kATD.$ownershipOnDeath_inherited then 2 else (
-								if md.kuertee_atd.kATD.$userOwnershipOnDeath_clone == md.kuertee_atd.kATD.$ownershipOnDeath_confiscated then 3 else (
-									if md.kuertee_atd.kATD.$userOwnershipOnDeath_clone == md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer then 4 else (
-										if md.kuertee_atd.kATD.$userOwnershipOnDeath_clone == md.kuertee_atd.kATD.$ownershipOnDeath_destroyed then 5
-									)
-								)
-							)
-						),
-						$mouseOverText = {1001, 2661} + ': ' + {111204, 31},
-						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 46}]" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
-						$id = 'userOwnershipOnDeath_descendant',
-						$col = 2,
-						$options = [
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_retained}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_retained],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_inherited}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_inherited],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_confiscated}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_confiscated],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_destroyed}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_destroyed]
-						],
-						$startOption = if md.kuertee_atd.kATD.$userOwnershipOnDeath_descendant == md.kuertee_atd.kATD.$ownershipOnDeath_retained then 1 else (
-							if md.kuertee_atd.kATD.$userOwnershipOnDeath_descendant == md.kuertee_atd.kATD.$ownershipOnDeath_inherited then 2 else (
-								if md.kuertee_atd.kATD.$userOwnershipOnDeath_descendant == md.kuertee_atd.kATD.$ownershipOnDeath_confiscated then 3 else (
-									if md.kuertee_atd.kATD.$userOwnershipOnDeath_descendant == md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer then 4 else (
-										if md.kuertee_atd.kATD.$userOwnershipOnDeath_descendant == md.kuertee_atd.kATD.$ownershipOnDeath_destroyed then 5
-									)
-								)
-							)
-						),
-						$mouseOverText = {1001, 2661} + ': ' + {111204, 32},
-						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 47}]" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
-						$id = 'userOwnershipOnDeath_assimilated',
-						$col = 2,
-						$options = [
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_retained}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_retained],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_inherited}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_inherited],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_confiscated}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_confiscated],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_destroyed}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_destroyed]
-						],
-						$startOption = if md.kuertee_atd.kATD.$userOwnershipOnDeath_assimilated == md.kuertee_atd.kATD.$ownershipOnDeath_retained then 1 else (
-							if md.kuertee_atd.kATD.$userOwnershipOnDeath_assimilated == md.kuertee_atd.kATD.$ownershipOnDeath_inherited then 2 else (
-								if md.kuertee_atd.kATD.$userOwnershipOnDeath_assimilated == md.kuertee_atd.kATD.$ownershipOnDeath_confiscated then 3 else (
-									if md.kuertee_atd.kATD.$userOwnershipOnDeath_assimilated == md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer then 4 else (
-										if md.kuertee_atd.kATD.$userOwnershipOnDeath_assimilated == md.kuertee_atd.kATD.$ownershipOnDeath_destroyed then 5
-									)
-								)
-							)
-						),
-						$mouseOverText = {1001, 2661} + ': ' + {111204, 31},
-						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 8}]" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
-						$id = 'userInheritTrustOnMoney',
-						$start = md.kuertee_atd.kATD.$userInheritTrustOnMoney,
-						$col = 2,
-						$text = table[$text=''],
-						$min = 25000Cr, $max = 5000000Cr, $step = 25000Cr, $suffix='Cr',
-						$default = 1000000Cr,
-						$mouseOverText = {1001,2661} + ': 1000000 Cr',
-						$onSliderCellChanged = OnSMOSliderChange
-					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 16}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsLoseInventoryItems',
-						$checked = md.kuertee_atd.kATD.$userIsLoseInventoryItems,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 9}, $color='Helper.color.blue']" />
-				<!-- <t id="61">Miner</t>
-				<t id="62">Trader</t>
-				<t id="63">Fighter pilot</t> -->
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 61}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsNewStartMiner',
-						$checked = md.kuertee_atd.kATD.$userIsNewStartMiner,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 62}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsNewStartTrader',
-						$checked = md.kuertee_atd.kATD.$userIsNewStartTrader,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 63}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsNewStartFighter',
-						$checked = md.kuertee_atd.kATD.$userIsNewStartFighter,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<!-- <t id="67">in these ship sizes:</t>
-				<t id="68">Small</t>
-				<t id="69">Medium</t>
-				<t id="70">Large</t> -->
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 67}, $color='Helper.color.blue']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 68}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsNewStartSmallShip',
-						$checked = md.kuertee_atd.kATD.$userIsNewStartSmallShip,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 69}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsNewStartMediumShip',
-						$checked = md.kuertee_atd.kATD.$userIsNewStartMediumShip,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 70}]" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsNewStartLargeShip',
-						$checked = md.kuertee_atd.kATD.$userIsNewStartLargeShip,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 100}, $color='Helper.color.blue']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 41}]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 42}, $halign = 'right']" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
-						$id = 'userBonusShieldOnEvadeSuccess_s',
-						$start = md.kuertee_atd.kATD.$userBonusShieldOnEvadeSuccess_s,
-						$col = 2,
-						$text = table[$text=''],
-						$min = 0, $max = 100, $step = 5, $suffix='%',
-						$default = 75,
-						$mouseOverText = {1001,2661} + ': 75%',
-						$onSliderCellChanged = OnSMOSliderChange
-					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 43}, $halign = 'right']" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
-						$id = 'userBonusShieldOnEvadeSuccess_m',
-						$start = md.kuertee_atd.kATD.$userBonusShieldOnEvadeSuccess_m,
-						$col = 2,
-						$text = table[$text=''],
-						$min = 0, $max = 100, $step = 5, $suffix='%',
-						$default = 50,
-						$mouseOverText = {1001,2661} + ': 50%',
-						$onSliderCellChanged = OnSMOSliderChange
-					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 44}, $halign = 'right']" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
-						$id = 'userBonusShieldOnEvadeSuccess_lxl',
-						$start = md.kuertee_atd.kATD.$userBonusShieldOnEvadeSuccess_lxl,
-						$col = 2,
-						$text = table[$text=''],
-						$min = 0, $max = 100, $step = 5, $suffix='%',
-						$default = 25,
-						$mouseOverText = {1001,2661} + ': 25%',
-						$onSliderCellChanged = OnSMOSliderChange
-					]" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<!-- <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 20}]" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
-						$id = 'userDestructionAtHullPerc',
-						$start = md.kuertee_atd.kATD.$userDestructionAtHullPerc,
-						$col = 2,
-						$text = table[$text=''],
-						$min = 1, $max = 100, $step = 1, $suffix='%',
-						$default = 25,
-						$mouseOverText = {1001,2661} + ': 25%',
-						$onSliderCellChanged = OnSMOSliderChange
-					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={111204, 23}, $wordwrap=true]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={111204, 24}, $wordwrap=true]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={111204, 25}, $wordwrap=true]" /> -->
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 21}]" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
-						$id = 'userCountdownAtHullSecs',
-						$start = md.kuertee_atd.kATD.$userCountdownAtHullSecs,
-						$col = 2,
-						$text = table[$text=''],
-						$min = 1, $max = 15, $step = 1, $suffix='s',
-						$default = 10,
-						$mouseOverText = {1001,2661} + ': 10s',
-						$onSliderCellChanged = OnSMOSliderChange
-					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={111204, 26}, $wordwrap=true]" />
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 22}]" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
-						$id = 'userExtraCountdownSecs',
-						$start = md.kuertee_atd.kATD.$userExtraCountdownSecs,
-						$col = 2,
-						$text = table[$text=''],
-						$min = 0, $max = 30, $step = 1, $suffix='s',
-						$default = 10,
-						$mouseOverText = {1001,2661} + ': 10s',
-						$onSliderCellChanged = OnSMOSliderChange
-					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={111204, 27}, $wordwrap=true]" />
-
-				<!-- <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 30}]" comment="Ownership of ships and stations" />
-				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
-						$id = 'userOwnershipOnDeath',
-						$col = 2,
-						$options = [
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_retained}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_retained],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_inherited}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_inherited],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_confiscated}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_confiscated],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer],
-							table[$text=readtext.{111204}.{md.kuertee_atd.kATD.$ownershipOnDeath_destroyed}, $value=md.kuertee_atd.kATD.$ownershipOnDeath_retained]
-						],
-						$startOption = if md.kuertee_atd.kATD.$userOwnershipOnDeath == md.kuertee_atd.kATD.$ownershipOnDeath_retained then 1 else (
-							if md.kuertee_atd.kATD.$userOwnershipOnDeath == md.kuertee_atd.kATD.$ownershipOnDeath_inherited then 2 else (
-								if md.kuertee_atd.kATD.$userOwnershipOnDeath == md.kuertee_atd.kATD.$ownershipOnDeath_confiscated then 3 else (
-									if md.kuertee_atd.kATD.$userOwnershipOnDeath == md.kuertee_atd.kATD.$ownershipOnDeath_confiscated_by_killer then 4 else (
-										if md.kuertee_atd.kATD.$userOwnershipOnDeath == md.kuertee_atd.kATD.$ownershipOnDeath_destroyed then 5
-									)
-								)
-							)
-						),
-						$mouseOverText = {1001, 2661} + ': ' + {111204, 32},
-						$onDropDownConfirmed = onDropDownConfirmed
-					]"/> -->
-
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={111204, 2}, $color='Helper.color.red']" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'debugChance',
-						$checked = if md.kuertee_atd.kATD.$debugChance == 100 then true else false,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$bgColor = 'Helper.color.red',
-						$onClick = OnSMOCheckboxChange
 					]" />
 			</actions>
 		</cue>
@@ -696,7 +188,7 @@
 				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_atd.kATD.{'$' + event.param.$id}" chance="md.kuertee_atd.kATD.$debugChance" />
 				<set_value name="md.kuertee_atd.kATD.{'$' + event.param.$id}" exact="event.param.$value" />
 				<debug_text text="event.param.$id + ' post: ' + md.kuertee_atd.kATD.{'$' + event.param.$id}" chance="md.kuertee_atd.kATD.$debugChance" />
-				<cancel_cue cue = "this" />
+				<cancel_cue cue="this" />
 			</actions>
 		</cue>
 		<cue name="OnSMOCheckboxChange" instantiate="true">
@@ -707,13 +199,13 @@
 				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_atd.kATD.{'$' + event.param.$id}" chance="md.kuertee_atd.kATD.$debugChance" />
 				<do_if value="event.param.$id == 'debugChance'">
 					<set_value name="md.kuertee_atd.kATD.{'$' + event.param.$id}" exact="if event.param.$checked then 100 else 0" />
-					<signal_cue_instantly cue="md.Simple_Menu_API.Refresh_Menu"/>
+					<signal_cue_instantly cue="md.Simple_Menu_API.Refresh_Menu" />
 				</do_if>
 				<do_else>
 					<set_value name="md.kuertee_atd.kATD.{'$' + event.param.$id}" exact="event.param.$checked" />
 				</do_else>
 				<debug_text text="event.param.$id + ' post: ' + md.kuertee_atd.kATD.{'$' + event.param.$id}" chance="md.kuertee_atd.kATD.$debugChance" />
-				<cancel_cue cue = "this" />
+				<cancel_cue cue="this" />
 			</actions>
 		</cue>
 		<cue name="onDropDownConfirmed" instantiate="true">
@@ -725,7 +217,7 @@
 				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_atd.kATD.{'$' + event.param.$id}" chance="md.kuertee_atd.kATD.$debugChance" />
 				<set_value name="md.kuertee_atd.kATD.{'$' + event.param.$id}" exact="(event.param.$option.$value)" />
 				<debug_text text="event.param.$id + ' post: ' + md.kuertee_atd.kATD.{'$' + event.param.$id}" chance="md.kuertee_atd.kATD.$debugChance" />
-				<cancel_cue cue = "this" />
+				<cancel_cue cue="this" />
 			</actions>
 		</cue>
 	</cues>

@@ -5893,7 +5893,7 @@
   <!-- ===== Complex types ==== -->
 
   <xs:complexType name="filedoc">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="author" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Author details </xs:documentation>
@@ -5954,7 +5954,7 @@
           </xs:attribute>
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
 
   <!-- Usage note: Use together with one of the attributeGroups "findarbitrary", "findobject", "findstation", or "findship". -->
@@ -6113,7 +6113,7 @@
           <xs:documentation> Match by distance by jumpgates. Calculation based on the sectors of the objects. Checking distance of clusters will check between two random sectors within them. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="blacklist" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Use specified sector travel blacklist when calculating distance </xs:documentation>
@@ -6122,7 +6122,7 @@
                 <xs:attributeGroup ref="blacklist" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attribute name="min" type="expression">
             <xs:annotation>
               <xs:documentation> Min distance by jumpgates (not compared if not supplied) </xs:documentation>
@@ -6524,7 +6524,7 @@
   </xs:complexType>
 
   <xs:complexType name="matchwaresorcargo">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="ware">
         <xs:complexType>
           <xs:attribute name="ware" type="expression" use="required">
@@ -6551,7 +6551,7 @@
           <xs:attribute name="comment" type="comment" />
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="matchrange">
@@ -6813,9 +6813,9 @@
     <xs:annotation>
       <xs:documentation> Component Offset </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
-    </xs:sequence>
+    </xs:choice>
     <xs:attribute name="object" type="object" use="required" />
     <xs:attribute name="comment" type="comment" />
   </xs:complexType>
@@ -7025,7 +7025,7 @@
   </xs:complexType>
 
   <xs:complexType name="propdbcategory">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="security" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Security level (not available from scripts) </xs:documentation>
@@ -7077,7 +7077,7 @@
           </xs:attribute>
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
     <xs:attribute name="tags" type="expression" use="optional">
       <xs:annotation>
         <xs:documentation> Specification tag or list of tags </xs:documentation>
@@ -7424,9 +7424,9 @@
     <xs:annotation>
       <xs:documentation> Project conditions </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="condition" type="terraformingcondition" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
 
   <xs:attributeGroup name="terraformingeffectattributes">
@@ -7477,9 +7477,9 @@
   </xs:complexType>
 
   <xs:complexType name="terraformingeffects">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="effect" type="terraformingeffect" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="terraformingsideeffect">
@@ -7502,9 +7502,9 @@
   </xs:complexType>
 
   <xs:complexType name="terraformingsideeffects">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="sideeffect" type="terraformingsideeffect" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="terraformingrebate">
@@ -7521,9 +7521,9 @@
   </xs:complexType>
 
   <xs:complexType name="terraformingrebates">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="rebate" type="terraformingrebate" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="terraformingwareamount">
@@ -7543,9 +7543,9 @@
     <xs:annotation>
       <xs:documentation> Required resources. The amounts will be scaled, using the average prices, to reach the defined total price. If no resource wares are given this is a direct payment instead. </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="ware" type="terraformingwareamount" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
+    </xs:choice>
     <xs:attribute name="price" type="expression" use="required">
       <xs:annotation>
         <xs:documentation> The total cost </xs:documentation>
@@ -7595,16 +7595,16 @@
     <xs:annotation>
       <xs:documentation> Ships to be built for delivery of resources </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="ship" type="terraformingdelivery" minOccurs="0" maxOccurs="unbounded" />
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="terraformingremovedprojects">
     <xs:annotation>
       <xs:documentation> Projects that will be removed when this one is completed (usually used for mutually exclusive choices) </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="project" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
           <xs:attribute name="id" type="expression">
@@ -7614,14 +7614,14 @@
           </xs:attribute>
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
   </xs:complexType>
 
   <xs:complexType name="terraformingpredecessors">
     <xs:annotation>
       <xs:documentation> The predecessor projects that must be completed before this one can be started. Either id or group must be supplied. </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="predecessor" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
           <xs:attribute name="id" type="expression">
@@ -7641,7 +7641,7 @@
           </xs:attribute>
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
     <xs:attribute name="any" type="booleanexpression">
       <xs:annotation>
         <xs:documentation> Whether only one of the specified projects is required instead of all of them. Defaults to false. </xs:documentation>
@@ -7712,7 +7712,7 @@
   <!-- ===== Generic groups ==== -->
 
   <xs:group name="selectrandom">
-    <xs:sequence>
+    <xs:choice>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="select">
           <xs:annotation>
@@ -7725,16 +7725,16 @@
           </xs:complexType>
         </xs:element>
       </xs:choice>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="equipmentmods">
     <xs:annotation>
       <xs:documentation> Equipment mods </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:choice minOccurs="0" maxOccurs="1">
-        <xs:sequence>
+        <xs:choice>
           <xs:element name="chance" minOccurs="0" maxOccurs="1">
             <xs:annotation>
               <xs:documentation> The percentage chance that an equipment mod may be installed on this ship. Also the chance that additional equipment mods may be installed. Given as a float between 0 and 1. </xs:documentation>
@@ -7743,8 +7743,8 @@
               <xs:attributeGroup ref="random" />
             </xs:complexType>
           </xs:element>
-        </xs:sequence>
-        <xs:sequence>
+        </xs:choice>
+        <xs:choice>
           <xs:element name="engine" minOccurs="0" maxOccurs="1">
             <xs:annotation>
               <xs:documentation> Engine mod specification </xs:documentation>
@@ -7830,13 +7830,13 @@
               </xs:attribute>
             </xs:complexType>
           </xs:element>
-        </xs:sequence>
+        </xs:choice>
       </xs:choice>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="createship">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="select" type="shipdbcategoryselect" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Criteria for selecting a suitable ship from the ShipDB. If combined with a static ShipDB reference in the ref attribute, the nodes of the referenced type take precedence. &lt;select&gt; cannot be combined with a variable ShipDB reference. </xs:documentation>
@@ -7874,7 +7874,7 @@
             <xs:documentation> The loadout that the ship should be given. Can be defined as a reference to a loadout definition or as a level to which the ship should be outfitted. </xs:documentation>
           </xs:annotation>
           <xs:complexType>
-            <xs:sequence>
+            <xs:choice>
               <xs:element name="level" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                   <xs:documentation> The percentage level to which this ship should be fitted out with randomly generated equipment. Given as a float between 0 and 1. Note that this level is modified by the variation which defaults to the value from parameters unless explicitly specified as well. </xs:documentation>
@@ -7896,7 +7896,7 @@
                   <xs:attributeGroup ref="random" />
                 </xs:complexType>
               </xs:element>
-            </xs:sequence>
+            </xs:choice>
             <xs:attribute name="ref" type="expression" use="optional">
               <xs:annotation>
                 <xs:documentation> A reference to a loadout definition as defined in loadouts.xml </xs:documentation>
@@ -8140,11 +8140,11 @@
           </xs:complexType>
         </xs:element>
       </xs:choice>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="createnpc">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="select" type="characterdbcategoryselect" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Criteria for selecting a suitable character from the CharacterDB. If combined with a static CharacterDB reference in the ref attribute, the nodes of the referenced type take precedence. &lt;select&gt; cannot be combined with a variable CharacterDB reference. </xs:documentation>
@@ -8187,7 +8187,7 @@
             <xs:documentation> Character skills </xs:documentation>
           </xs:annotation>
           <xs:complexType>
-            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
               <xs:element name="skill">
                 <xs:annotation>
                   <xs:documentation> Skill (value between 0 and 15, representing steps of 1/3 of a star, up to 5 stars) </xs:documentation>
@@ -8202,7 +8202,7 @@
                   <xs:attribute name="comment" type="comment" />
                 </xs:complexType>
               </xs:element>
-            </xs:sequence>
+            </xs:choice>
           </xs:complexType>
         </xs:element>
         <xs:element name="stock">
@@ -8231,17 +8231,17 @@
           </xs:complexType>
         </xs:element>
       </xs:choice>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="createmodule">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="compatibilities" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Production compatibilities </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="limits" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Station module limits (Defaults to 20. Modules in defined base construction plans can exceed the limits) </xs:documentation>
@@ -8281,7 +8281,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
         </xs:complexType>
       </xs:element>
       <xs:element name="select" type="moduledbcategoryselect" minOccurs="0" maxOccurs="1">
@@ -8289,11 +8289,11 @@
           <xs:documentation> Criteria for selecting a suitable module from the ModuleDB. If combined with a static ModuleDB reference in the ref attribute, the nodes of the referenced type take precedence. &lt;select&gt; cannot be combined with a variable ModuleDB reference. </xs:documentation>
         </xs:annotation>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="createstation">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="select" type="stationdbcategoryselect" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Criteria for selecting a suitable station from the StationDB. If combined with a static StationDB reference in the ref attribute, the nodes of the referenced type take precedence. &lt;select&gt; cannot be combined with a variable StationDB reference. </xs:documentation>
@@ -8322,7 +8322,7 @@
             <xs:documentation> The values used to generate the loadout for the station modules. </xs:documentation>
           </xs:annotation>
           <xs:complexType>
-            <xs:sequence>
+            <xs:choice>
               <xs:element name="level" minOccurs="0" maxOccurs="1">
                 <xs:annotation>
                   <xs:documentation> The percentage level to which this station should be fitted out with randomly generated equipment. Given as a float between 0 and 1. </xs:documentation>
@@ -8344,7 +8344,7 @@
                   <xs:attributeGroup ref="random" />
                 </xs:complexType>
               </xs:element>
-            </xs:sequence>
+            </xs:choice>
             <xs:attribute name="useplanloadout" type="boolean" use="optional">
               <xs:annotation>
                 <xs:documentation> Use the loadout of the selected construction plan instead of generating a new one? (defaults to false) </xs:documentation>
@@ -8353,11 +8353,11 @@
           </xs:complexType>
         </xs:element>
       </xs:choice>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="createobject">
-    <xs:sequence>
+    <xs:choice>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="name" minOccurs="0" maxOccurs="1">
           <xs:annotation>
@@ -8377,11 +8377,11 @@
           </xs:annotation>
         </xs:element>
       </xs:choice>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="people">
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="fillpercent" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Fill percentage </xs:documentation>
@@ -8406,20 +8406,20 @@
           </xs:attribute>
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="loadoutelements">
     <xs:annotation>
       <xs:documentation> Loadout elements cannot contain script expressions </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="macros" minOccurs="0" maxOccurs="1">
         <xs:annotation>
           <xs:documentation> Macro elements </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="engine" type="loadoutmacro" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Engines </xs:documentation>
@@ -8440,7 +8440,7 @@
                 <xs:documentation> Turrets (ungrouped) </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
         </xs:complexType>
       </xs:element>
       <xs:element name="groups" minOccurs="0" maxOccurs="1">
@@ -8448,7 +8448,7 @@
           <xs:documentation> Group elements </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="shields" type="loadoutgroup" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Shield groups </xs:documentation>
@@ -8459,7 +8459,7 @@
                 <xs:documentation> Turret groups </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
         </xs:complexType>
       </xs:element>
       <xs:element name="ammunition" minOccurs="0" maxOccurs="1">
@@ -8467,7 +8467,7 @@
           <xs:documentation> Ammunition elements </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="ammunition" type="loadoutammo" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Ammunition </xs:documentation>
@@ -8478,7 +8478,7 @@
                 <xs:documentation> Units (drones) </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
         </xs:complexType>
       </xs:element>
       <xs:element name="software" minOccurs="0" maxOccurs="1">
@@ -8486,13 +8486,13 @@
           <xs:documentation> Software elements </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="software" type="loadoutsoftware" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Software </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
         </xs:complexType>
       </xs:element>
       <xs:element name="values" minOccurs="0" maxOccurs="1">
@@ -8505,13 +8505,13 @@
           <xs:documentation> Virtual macro elements </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="thruster" type="loadoutvirtualmacro" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Thrusters </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
         </xs:complexType>
       </xs:element>
       <xs:element name="crew" minOccurs="0" maxOccurs="1">
@@ -8519,13 +8519,13 @@
           <xs:documentation> Crew elements (only used when applying player-created loadouts or when people data is not supplied) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="crew" type="loadoutcrew" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Crew </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attribute name="experienced" type="boolean" use="optional">
             <xs:annotation>
               <xs:documentation> Allow a chance for experienced crew with wider skill range (default is false) </xs:documentation>
@@ -8533,20 +8533,20 @@
           </xs:attribute>
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="constructionsequenceelements">
     <xs:annotation>
       <xs:documentation> Construction sequence elements cannot contain script expressions </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
+    <xs:choice>
       <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation> Sequence entry </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="predecessor" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Entry in sequence to which this entry is connected </xs:documentation>
@@ -8569,7 +8569,7 @@
                 <xs:documentation> Offset for this entry </xs:documentation>
               </xs:annotation>
               <xs:complexType>
-                <xs:sequence>
+                <xs:choice>
                   <xs:element name="position" type="position" minOccurs="0" maxOccurs="unbounded">
                     <xs:annotation>
                       <xs:documentation> Position of entry </xs:documentation>
@@ -8580,7 +8580,7 @@
                       <xs:documentation> Rotation of entry </xs:documentation>
                     </xs:annotation>
                   </xs:element>
-                </xs:sequence>
+                </xs:choice>
               </xs:complexType>
             </xs:element>
             <xs:element name="upgrades" minOccurs="0" maxOccurs="1">
@@ -8588,16 +8588,16 @@
                 <xs:documentation> Upgrades (loadout) for this entry </xs:documentation>
               </xs:annotation>
               <xs:complexType>
-                <xs:sequence>
+                <xs:choice>
                   <xs:group ref="loadoutelements">
                     <xs:annotation>
                       <xs:documentation> Loadout definition </xs:documentation>
                     </xs:annotation>
                   </xs:group>
-                </xs:sequence>
+                </xs:choice>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attribute name="index" type="xs:integer" use="required">
             <xs:annotation>
               <xs:documentation> Entry index </xs:documentation>
@@ -8620,7 +8620,7 @@
           </xs:attribute>
         </xs:complexType>
       </xs:element>
-    </xs:sequence>
+    </xs:choice>
   </xs:group>
 
   <xs:group name="voicedata">
@@ -14141,10 +14141,10 @@
           <xs:documentation> Add NPC actor to a room. This action fails if the actor could not be connected to that room. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="actor" type="actor" use="required" />
           <xs:attribute name="object" type="expression" use="optional">
@@ -15678,7 +15678,7 @@
           <xs:documentation> Apply damage from an attack to target, returns if target was killed </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="result" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Result of attack including which component was hit. </xs:documentation>
@@ -15701,7 +15701,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="attacker" type="object" use="optional" />
@@ -16110,11 +16110,11 @@
           <xs:documentation> Check if a ship is inside the designated area. Ignores mass traffic (as long as it's in the lane) and ships that have collision avoidance currently disabled (due to docking or parking). </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
             <xs:element name="boundingbox" type="boundingbox" minOccurs="1" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="zone" type="zone" use="required" />
           <xs:attribute name="macro" type="macro" use="required" />
@@ -16128,10 +16128,10 @@
           <xs:documentation> Check if a build location is free. Takes highways and objects like stations and gates into account, but ignores ships or asteroids. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="zone" type="zone" use="required" />
           <xs:attribute name="macro" type="macro" use="required" />
@@ -16400,10 +16400,10 @@
           <xs:documentation> Get buildership position outside of the stations boundaries, requires using 'position', 'space' and 'macro' OR an already placed 'construction' </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="construction" type="object" />
@@ -16486,7 +16486,7 @@
           <xs:documentation> Add a build task to construct a ship </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="override" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Define override resources and build duration </xs:documentation>
@@ -16504,7 +16504,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="expression" use="required">
             <xs:annotation>
@@ -16607,13 +16607,13 @@
           <xs:documentation> Add a build task to upgrade or restock a ship </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="people" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> People definitions </xs:documentation>
               </xs:annotation>
               <xs:complexType>
-                <xs:sequence>
+                <xs:choice>
                   <xs:element name="add" minOccurs="0" maxOccurs="1">
                     <xs:complexType>
                       <xs:choice maxOccurs="1">
@@ -16676,10 +16676,10 @@
                       </xs:choice>
                     </xs:complexType>
                   </xs:element>
-                </xs:sequence>
+                </xs:choice>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="expression" use="required">
             <xs:annotation>
@@ -16789,7 +16789,7 @@
           <xs:documentation> Transfer people as defined in a build order, or by this definition </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="failed" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Result values for the cost of people which were unable to be transferred </xs:documentation>
@@ -16825,7 +16825,7 @@
                 </xs:complexType>
               </xs:element>
             </xs:choice>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="build" type="build" use="optional">
             <xs:annotation>
@@ -16910,7 +16910,7 @@
           <xs:documentation> Reserve a build plot, creating the base station and build storage </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="safepos" type="createobjectsafepos" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
@@ -16936,7 +16936,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="zone" type="zone" use="required" />
           <xs:attribute name="owner" type="faction" use="optional" />
@@ -17430,12 +17430,12 @@
           <xs:documentation> Spawn a waiting job ship into an area of space or a dock </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="orientation" type="orientation" minOccurs="0" maxOccurs="1" />
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="safepos" type="createobjectsafepos" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="ship" type="object" use="required" />
           <xs:attribute name="dock" type="expression">
@@ -17668,7 +17668,7 @@
           <xs:documentation> Create a Lockbox (wrapped inside its own object) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="safepos" type="createobjectsafepos" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
@@ -17680,7 +17680,7 @@
                 <xs:attributeGroup ref="vector" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" />
           <xs:attribute name="groupname" type="groupname" />
@@ -17709,10 +17709,10 @@
           <xs:documentation> Create a bomb attached to a target </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" />
           <xs:attribute name="groupname" type="groupname" />
@@ -17726,11 +17726,11 @@
           <xs:documentation> Create an Object </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="safepos" type="createobjectsafepos" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" />
           <xs:attribute name="groupname" type="groupname" />
@@ -17769,7 +17769,7 @@
           <xs:documentation> Create a signal leak on an object or in space </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
             <xs:element name="voice" minOccurs="0" maxOccurs="1">
@@ -17785,7 +17785,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" />
           <xs:attribute name="groupname" type="groupname" />
@@ -17830,7 +17830,7 @@
           <xs:documentation> Creates an AI order and adds it to an object's order queue </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="param" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> AI order parameter </xs:documentation>
@@ -17849,7 +17849,7 @@
                 <xs:attribute name="comment" type="comment" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="id" type="expression" use="required">
@@ -17920,13 +17920,13 @@
           <xs:documentation> Create an orientation(rotation) value. refobject takes priority over refposition if both are supplied </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position">
               <xs:annotation>
                 <xs:documentation> Position the orientation originates at (e.g. look_at means look from position towards refposition) </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attribute name="useaimtarget" type="booleanexpression" use="optional">
             <xs:annotation>
               <xs:documentation> If set to true, the refobject's aim targets (or the bounding box center if there are none) will be used as the reference point, consistent with weapon aiming. Requires refobject to be set. Defaults to false. </xs:documentation>
@@ -17948,7 +17948,7 @@
           <xs:documentation> Create a construction sequence for a station randomly, connecting station modules with each other (but not applying the result to the station automatically). Since it takes a lot of CPU time to calculate the result, the action is completed instantly and the result will be provided later via &lt;event_object_construction_sequence_created&gt;. To retrieve the result immediately as part of the action, use the child element &lt;immediate&gt;, but be aware that it will block the rest of the game until the result is available. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="immediate" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Provide the construction sequence immediately. The action will block the game until the result is available. </xs:documentation>
@@ -17961,7 +17961,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="station" type="expression" use="required">
             <xs:annotation>
@@ -18006,7 +18006,7 @@
           <xs:documentation> Remove entries from the construction sequence that use the provided macros, also detaching all descendant entries in the connection tree. It is possible that more entries get removed than requested in the macro list. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="result">
               <xs:annotation>
                 <xs:documentation> Element for defining variable names that will receive the results </xs:documentation>
@@ -18029,7 +18029,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="expression" use="optional">
             <xs:annotation>
@@ -18424,9 +18424,9 @@
           <xs:documentation> Create a position value just outside the bounding box of a component, in the direction of the given position (the resulting value is relative to the component). If the given position is inside the bounding box, it will be used as the result. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="component" type="object" use="required" />
           <xs:attribute name="distance" type="expression">
@@ -18443,9 +18443,9 @@
           <xs:documentation> Check if a position is inside an object's bounding box </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="name" type="lvaluename" use="required" />
@@ -18457,7 +18457,7 @@
           <xs:documentation> Create a position value directly on the surface of an object, in the direction of the given position (the resulting value is relative to the space, or the object if no space was supplied). The rotation value will be set from the surface normal. If no position is supplied, it will be randomized in a sphere around the object. If the position return value is null, no valid surface position was found. This may happen if the object's physics were not ready (use .isphysicsready). </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="end" type="position" minOccurs="0" maxOccurs="1">
               <xs:annotation>
@@ -18481,7 +18481,7 @@
                 </xs:complexContent>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="component" type="object">
@@ -18521,9 +18521,9 @@
           <xs:documentation> Create a position value </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="refposition" type="expression" use="required">
             <xs:annotation>
@@ -18555,13 +18555,13 @@
           <xs:documentation> Create a ship </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:group ref="createship" />
             <xs:element name="orientation" type="orientation" minOccurs="0" maxOccurs="1" />
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="safepos" type="createobjectsafepos" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" />
           <xs:attribute name="groupname" type="groupname" />
@@ -18609,11 +18609,11 @@
           <xs:documentation> Create a station </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="safepos" type="createobjectsafepos" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" />
           <xs:attribute name="groupname" type="groupname" />
@@ -18672,12 +18672,12 @@
           <xs:documentation> Create a factory </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:group ref="createmodule" />
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="safepos" type="createobjectsafepos" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attributeGroup ref="createmodule" />
           <xs:attribute name="name" type="lvaluename" use="required" />
@@ -18753,11 +18753,11 @@
           <xs:documentation> Create and add a module to an object </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="safepos" type="createobjectsafepos" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" />
           <xs:attribute name="groupname" type="groupname" />
@@ -19075,10 +19075,10 @@
           <xs:documentation> Create a NPC from a NPC template on an object </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" use="optional" />
           <xs:attribute name="object" type="expression" use="required">
@@ -19297,9 +19297,9 @@
           <xs:documentation> Deplete yield for a certain ware in a zone of a specific region. If container is provided, attempt to add the wares to it (which may affect the deleted amount) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="sector" type="object" use="required" />
           <xs:attribute name="container" type="expression">
@@ -19350,9 +19350,9 @@
           <xs:documentation> Determine rate at which the refobject can drain resources from the supplied region in the specified zone (averaged using available colletector drones) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="sector" type="object" use="required" />
           <xs:attribute name="ware" type="object" use="required" />
@@ -19716,9 +19716,9 @@
           <xs:documentation> Find asteroid in cluster near specified position </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="cluster" type="expression" use="required">
             <xs:annotation>
@@ -19764,9 +19764,9 @@
           <xs:documentation> Find recyclable in cluster near specified position </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="cluster" type="expression" use="required">
             <xs:annotation>
@@ -19887,13 +19887,13 @@
           <xs:documentation> Find closest resource </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="refposition" type="position" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> After evaluation this position will be treated as relative to refobject. </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="ware" type="expression" use="required">
             <xs:annotation>
@@ -19974,7 +19974,7 @@
           <xs:documentation> Find the closest position in a sector that the player hasn't uncovered yet. May return null if none exists. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> The reference position in sector coordinates. </xs:documentation>
@@ -19985,7 +19985,7 @@
                 <xs:documentation> The center of the valid range in sector coordinates. Required if and only if range is valid. </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="sector" type="expression" use="required">
             <xs:annotation>
@@ -20010,13 +20010,13 @@
           <xs:documentation> Find the closest position in a sector that obscures the gravidar. May return null if none exists. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> The reference position in sector coordinates. </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="sector" type="expression" use="required">
             <xs:annotation>
@@ -20036,13 +20036,13 @@
           <xs:documentation> Find the closest position in a sector that is inside a dangerous region. May return null if none exists. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> The reference position in sector coordinates. </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="sector" type="expression" use="required">
             <xs:annotation>
@@ -20434,7 +20434,7 @@
           <xs:documentation> Get the closest valid floor position for a NPC (requires the object to have active physics) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1" />
             <xs:element name="result" minOccurs="1" maxOccurs="1">
               <xs:complexType>
@@ -20460,7 +20460,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
         </xs:complexType>
@@ -21217,7 +21217,7 @@
           <xs:documentation> Get attack strength against target </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="result" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Resulting damage calculated for per-second usage. If 'missileresult' node is ommitted then this also includes approximate missile dps which may misrepresent burst damage. </xs:documentation>
@@ -21292,7 +21292,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="target" type="object" use="required" />
@@ -21358,7 +21358,7 @@
           <xs:documentation> Get the lists of people to be exchanged between the &quot;trader&quot; and the &quot;tradepartner&quot; of a ship-to-ship crew exchange trade. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="result">
               <xs:complexType>
                 <xs:attribute name="trader" type="lvalueexpression">
@@ -21373,7 +21373,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="expression" use="required">
             <xs:annotation>
@@ -21427,10 +21427,10 @@
           <xs:documentation> Get global path from start to end (multiple=0 returns first value. multiple=1 returns whole path as lists) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="start" type="componentoffset" />
             <xs:element name="end" type="componentoffset" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="component" type="lvalueexpression" use="required">
             <xs:annotation>
@@ -21480,10 +21480,10 @@
           <xs:documentation> Get jump path from start to end (multiple=0 returns first value. multiple=1 returns whole path as lists) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="start" type="componentoffset" />
             <xs:element name="end" type="componentoffset" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="component" type="lvalueexpression" use="required">
             <xs:annotation>
@@ -21528,9 +21528,9 @@
           <xs:documentation> Get the internal highway offset which is closest to this position </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="highway" type="zone" use="required" />
           <xs:attribute name="space" type="expression" use="required">
@@ -21568,13 +21568,13 @@
           <xs:documentation> Get the percentage of hexes in an area that are being covered by player-owned satellites </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> The center of the target area. </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="radius" type="expression" use="required">
             <xs:annotation>
@@ -22005,7 +22005,7 @@
           <xs:documentation> Get a single or multiple definitions for wares from the WareDB. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="owner" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Filter wares by the owner of the trade licence </xs:documentation>
@@ -22028,7 +22028,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="faction" type="factionexprlookup" use="optional">
             <xs:annotation>
@@ -22339,9 +22339,9 @@
           <xs:documentation> Get a safe position for leaving a zone towards a destination (destination must be in same sector!) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="zone" type="zone" use="required" />
           <xs:attribute name="destination" type="object" use="required" />
@@ -22918,7 +22918,7 @@
           <xs:documentation> Start playing a cutscene </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="interaction" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Player interaction event </xs:documentation>
@@ -22950,7 +22950,7 @@
                 <xs:attribute name="comment" type="comment" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="key" type="cutscenekey" use="required" />
           <xs:attribute name="targetmonitor" type="boolean">
@@ -23112,7 +23112,7 @@
           <xs:documentation> Return to caller (supported in AI scripts, as well as MD libraries with purpose=&quot;run_actions&quot;). In global interrupts and actions of &lt;on_abort&gt;, &lt;patch&gt; or &lt;editable&gt; elements, this action does not return to the caller and just aborts the current actions in those elements. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="retval" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Named return value (only supported for non-order AI scripts) </xs:documentation>
@@ -23131,7 +23131,7 @@
                 <xs:attribute name="comment" type="comment" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="value" type="expression">
             <xs:annotation>
@@ -23150,7 +23150,7 @@
           <xs:documentation> Check whether a NPC can walk do a destination </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="start" type="position" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Addional offset to the start position, either the 'start' slot/component or the NPCs position if 'start' was not provided </xs:documentation>
@@ -23161,7 +23161,7 @@
                 <xs:documentation> Addional offset to the end slot/component position </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="actor" type="actor" use="required" />
           <xs:attribute name="start" type="expression" use="optional">
@@ -23681,7 +23681,7 @@
           <xs:documentation> Add an attacker to the boarding operation and configure their behaviour and use of marines </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="marines" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Amount of marines by skill level to match against role tiers </xs:documentation>
@@ -23699,7 +23699,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="attacker" type="object" use="required" />
           <xs:attribute name="behavior" type="boardingbehaviourlookup" use="required" />
@@ -23734,7 +23734,7 @@
           <xs:documentation> Inform the boarding operation that an attacker has dispatched a number of marines to board the target (the creation of marines and activation of their AI behaviour is not handled by this action) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="marines" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Amount of marines by skill level to match against role tiers </xs:documentation>
@@ -23752,7 +23752,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="attacker" type="object" use="required" />
           <xs:attribute name="operation" type="expression" use="required" />
@@ -24068,10 +24068,10 @@
           <xs:documentation> Lets the actor walk to the target (as long as the player can watch it) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="actor" type="actor" use="required" />
           <xs:attribute name="speed" type="expression" use="optional">
@@ -25267,7 +25267,7 @@
           <xs:documentation> Sets the object's velocity </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="linear" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> The new linear velocity (linear velocity will not be changed if this is omitted) </xs:documentation>
@@ -25284,7 +25284,7 @@
                 <xs:attributeGroup ref="vector" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="constantvel" type="booleanexpression">
@@ -25300,7 +25300,7 @@
           <xs:documentation> Adds to the object's velocity </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="linear" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> The new linear velocity (linear velocity will not be changed if this is omitted) </xs:documentation>
@@ -25317,7 +25317,7 @@
                 <xs:attributeGroup ref="vector" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="constantvel" type="booleanexpression">
@@ -26124,7 +26124,7 @@
           <xs:documentation> Set trade restrictions for an object and/or faction </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="override" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Define an override for the trade restrictions per ware (only applicable for objects) </xs:documentation>
@@ -26158,7 +26158,7 @@
                 <xs:attribute name="comment" type="comment" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="expression">
             <xs:annotation>
@@ -26474,7 +26474,7 @@
           <xs:documentation> Show multiple texts from help text page if it was not shown before, or if force attribute value is true </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="text" minOccurs="1" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Definition of the individual help texts. </xs:documentation>
@@ -26498,7 +26498,7 @@
                 <xs:attribute name="comment" type="comment" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="force" type="booleanexpression">
             <xs:annotation>
@@ -26586,13 +26586,13 @@
           <xs:documentation> Show fullscreen overlay texts, e.g. for cutscenes </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="row" minOccurs="1" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Definition of overlay rows. </xs:documentation>
               </xs:annotation>
               <xs:complexType>
-                <xs:sequence>
+                <xs:choice>
                   <xs:element name="col" minOccurs="1" maxOccurs="unbounded">
                     <xs:annotation>
                       <xs:documentation> Definition of overlay cells. </xs:documentation>
@@ -26701,7 +26701,7 @@
                       <xs:attribute name="comment" type="comment" />
                     </xs:complexType>
                   </xs:element>
-                </xs:sequence>
+                </xs:choice>
                 <xs:attribute name="reloffsetx" type="expression">
                   <xs:annotation>
                     <xs:documentation> Defines how much relative offset the row has from the left border (see fromright). If not specified the x offset of the previous row or the global offset is used - defaults to -1.0 </xs:documentation>
@@ -26724,7 +26724,7 @@
                 </xs:attribute>
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="fadein" type="expression">
             <xs:annotation>
@@ -26819,7 +26819,7 @@
           <xs:documentation> Show an interactive notification in the target monitor </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="interaction">
               <xs:annotation>
                 <xs:documentation> Player interaction event </xs:documentation>
@@ -26828,7 +26828,7 @@
                 <xs:attributeGroup ref="interaction" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="caption" type="expression">
             <xs:annotation>
@@ -27126,7 +27126,7 @@
           <xs:documentation> Start an AI script, aborting previously running scripts </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="param" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> AI script parameter </xs:documentation>
@@ -27145,7 +27145,7 @@
                 <xs:attribute name="comment" type="comment" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="object" type="object" use="required" />
           <xs:attribute name="name" type="expression" use="required">
@@ -27242,7 +27242,7 @@
           <xs:documentation> Search in a text for sub-strings and substitutes them </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="replace" minOccurs="1" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation> Definition of a sub-string in the text and a replacement string. All occurrences of the sub-string will be replaced. </xs:documentation>
@@ -27261,7 +27261,7 @@
                 <xs:attribute name="comment" type="comment" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="text" type="lvalueexpression" use="required">
             <xs:annotation>
@@ -27633,10 +27633,10 @@
           <xs:documentation> Add an effect object. If the effect's duration is infinite (value of -1), you need to remove it yourself with remove_effect. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="statechanges" type="booleanexpression">
             <xs:annotation>
@@ -27946,7 +27946,7 @@
           <xs:documentation> Write a message that is received by the player </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="cutscene" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Cutscene data to be passed to UI when message is displayed </xs:documentation>
@@ -27961,7 +27961,7 @@
                 <xs:attribute name="comment" type="comment" />
               </xs:complexType>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="source" type="expression" use="required">
             <xs:annotation>
@@ -28418,10 +28418,10 @@
           <xs:documentation> Create and add a region </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="cluster" type="cluster" use="required" />
           <xs:attribute name="definition" type="expression" use="required">
@@ -28576,7 +28576,7 @@
           <xs:documentation> Estimate the time it takes to fly to a target location (takes highways and travel mode into account). Either the ship, the ship macro or all engine parameters have to be supplied. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="startposition" type="position" minOccurs="0" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> Start position relative to the start component. </xs:documentation>
@@ -28587,7 +28587,7 @@
                 <xs:documentation> Target position relative to the target component. </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="start" type="object" use="required" />
           <xs:attribute name="target" type="object" use="required" />
@@ -29215,13 +29215,13 @@
           <xs:documentation> Clear the fog of war in a radius around a given position. Does not reveal any objects. </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="1" maxOccurs="1">
               <xs:annotation>
                 <xs:documentation> The reference position in sector coordinates. </xs:documentation>
               </xs:annotation>
             </xs:element>
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="sector" type="expression" use="required">
             <xs:annotation>
@@ -29367,10 +29367,10 @@
           <xs:documentation> Attach a component to an interior (for internal use only) </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-          <xs:sequence>
+          <xs:choice>
             <xs:element name="position" type="position" minOccurs="0" maxOccurs="1" />
             <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="1" />
-          </xs:sequence>
+          </xs:choice>
           <xs:attributeGroup ref="action" />
           <xs:attribute name="name" type="lvaluename" />
           <xs:attribute name="macro" type="expression" use="required">

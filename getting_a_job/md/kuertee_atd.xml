@@ -20,12 +20,12 @@
 				<set_value name="$userSaveScumPenalty_creditsPerc" exact="50" />
 				<set_value name="$userSaveScumPenalty_death" exact="false" />
 				<set_value name="$userIsIronManMode" exact="false" />
-				<set_value name="$userIsNewStartMiner" exact="true" />
-				<set_value name="$userIsNewStartTrader" exact="true" />
+				<set_value name="$userIsNewStartMiner" exact="false" />
+				<set_value name="$userIsNewStartTrader" exact="false" />
 				<set_value name="$userIsNewStartFighter" exact="true" />
 				<set_value name="$userIsNewStartSmallShip" exact="true" />
-				<set_value name="$userIsNewStartMediumShip" exact="true" />
-				<set_value name="$userIsNewStartLargeShip" exact="true" />
+				<set_value name="$userIsNewStartMediumShip" exact="false" />
+				<set_value name="$userIsNewStartLargeShip" exact="false" />
 				<set_value name="$gameStartSector" exact="player.sector" />
 				<run_actions ref="GetFriendliestFaction" result="$gameStartFaction" />
 			</actions>
@@ -92,12 +92,12 @@
 			</patch>
 			<patch sinceversion="22">
 				<debug_text text="'patch sinceversion 22, state: ' + this.state" />
-				<set_value name="$userIsNewStartMiner" exact="true" />
-				<set_value name="$userIsNewStartTrader" exact="true" />
+				<set_value name="$userIsNewStartMiner" exact="false" />
+				<set_value name="$userIsNewStartTrader" exact="false" />
 				<set_value name="$userIsNewStartFighter" exact="true" />
 				<set_value name="$userIsNewStartSmallShip" exact="true" />
-				<set_value name="$userIsNewStartMediumShip" exact="true" />
-				<set_value name="$userIsNewStartLargeShip" exact="true" />
+				<set_value name="$userIsNewStartMediumShip" exact="false" />
+				<set_value name="$userIsNewStartLargeShip" exact="false" />
 				<set_value name="$gameStartSector" exact="player.sector" />
 				<debug_text text="'$gameStartSector.knownname: ' + $gameStartSector.knownname" />
 				<run_actions ref="GetFriendliestFaction" result="$gameStartFaction" />
@@ -122,20 +122,20 @@
 						<do_if value="not @$isConfigSet">
 							<set_value name="$isConfigSet" exact="true" />
 							<set_value name="$userIsUseClones" exact="true" />
-							<set_value name="$userCloneCostLevel" exact="level.trivial" />
+							<set_value name="$userCloneCostLevel" exact="level.hard" />
 							<set_value name="$userCloneCost" exact="500000Cr" />
 							<set_value name="$cloneCount" exact="0" />
 							<set_value name="$userIsUseDescendants" exact="true" />
-							<set_value name="$userIsUseTeleportToSafety" exact="true" />
-							<set_value name="$userIsUseRansom" exact="true" />
+							<set_value name="$userIsUseTeleportToSafety" exact="false" />
+							<set_value name="$userIsUseRansom" exact="false" />
 							<set_value name="$userRansomPerc" exact="25" />
-							<set_value name="$userIsUseAssimilation" exact="true" />
+							<set_value name="$userIsUseAssimilation" exact="false" />
 							<set_value name="$userIsLoseInventoryItems" exact="true" />
 							<!-- <set_value name="$userIsInheritTrustOnMoney" exact="true" /> -->
-							<set_value name="$userInheritTrustOnMoney" exact="1000000Cr" />
+							<set_value name="$userInheritTrustOnMoney" exact="0Cr" />
 							<set_value name="$userIsAllowKhaakAssimilation" exact="false" />
 							<set_value name="$userIsAllowXenonAssimilation" exact="false" />
-							<set_value name="$userIsLoseHQ" exact="true" />
+							<set_value name="$userIsLoseHQ" exact="false" />
 							<set_value name="$ownershipOnDeath_retained" exact="31" />
 							<set_value name="$ownershipOnDeath_inherited" exact="32" />
 							<set_value name="$ownershipOnDeath_confiscated" exact="33" />
@@ -145,6 +145,9 @@
 							<set_value name="$userOwnershipOnDeath_descendant" exact="$ownershipOnDeath_inherited" />
 							<set_value name="$userOwnershipOnDeath_assimilated" exact="$ownershipOnDeath_retained" />
 							<set_value name="$userIsUseNoPenalty" exact="false" />
+							<!-- getting a job -->
+							<set_value name="$inheritanceTax" exact="true" />
+							<set_value name="$losePersonalCash" exact="true" />
 						</do_if>
 						<do_if value="not $userDestructionAtHullPerc?">
 							<set_value name="$userDestructionAtHullPerc" exact="1" />
@@ -242,11 +245,13 @@
 						</check_any>
 					</conditions>
 					<actions>
-						<debug_text text="'md.EscapePod.EscapePodMain.exists: ' + @md.EscapePod.EscapePodMain.exists" chance="$debugChance" />
-						<do_if value="@md.EscapePod.EscapePodMain.exists">
-							<raise_lua_event name="'kATD.SetEscapePodAvailability'" param="player.ship and @player.ship.owner == faction.player" />
-							<raise_lua_event name="'kATD.EnableEscapePodButton'" param="not @player.ship.dock" />
-						</do_if>
+						<!-- getting a job -->
+						<!--<debug_text text="'md.EscapePod.EscapePodMain.exists: ' + @md.EscapePod.EscapePodMain.exists" chance="$debugChance" />
+						<do_if value="@md.EscapePod.EscapePodMain.exists"> -->
+						<!-- <raise_lua_event name="'kATD.SetEscapePodAvailability'" param="player.ship and @player.ship.owner == faction.player" /> -->
+						<raise_lua_event name="'kATD.SetEscapePodAvailability'" param="player.ship" />
+						<raise_lua_event name="'kATD.EnableEscapePodButton'" param="not @player.ship.dock" />
+						<!-- </do_if> -->
 						<reset_cue cue="this" />
 					</actions>
 				</cue>
@@ -328,10 +333,10 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
-								<do_if value="not @event.param.$isKeepInvincible">
+								<!-- <do_if value="not @event.param.$isKeepInvincible">
 									<debug_text text="'set_object_min_hull ' + $ship + ' (' + @$ship.knownname + ') to 0'" />
 									<set_object_min_hull object="$ship" exact="0" />
-								</do_if>
+								</do_if> -->
 								<set_value name="$ship" exact="null" />
 								<reset_cue cue="parent" />
 								<reset_cue cue="this" />
@@ -377,6 +382,9 @@
 									<debug_text text="'set_object_min_hull ' + $ship + ' (' + @$ship.knownname + ') to 1'" />
 									<set_object_min_hull object="$ship" exact="1" />
 								</do_if>
+								<do_if value="$ship.hull == 1">
+									<signal_cue_instantly cue="PlayerDeath" param="table[$ship = $ship, $attackerFaction = $attackerFaction]" />
+								</do_if>
 								<set_value name="$attacker_last" exact="$attacker" />
 								<set_value name="$attacker" exact="null" />
 								<do_if value="event.name == 'event_object_attacked'">
@@ -402,9 +410,9 @@
 								<do_else>
 									<set_value name="$isPlayerHit" exact="true" />
 								</do_else>
-								<do_if value="ResetBonusShieldCounter_After10Min.state == cuestate.complete">
+								<!-- <do_if value="ResetBonusShieldCounter_After10Min.state == cuestate.complete">
 									<reset_cue cue="ResetBonusShieldCounter_After10Min" />
-								</do_if>
+								</do_if> -->
 								<cancel_cue cue="this" />
 							</actions>
 						</cue>
@@ -463,6 +471,15 @@
 												<!-- no damage received or damage received but hull is already at 1 and hull is protected at 1 -->
 												<!-- only record this no-damage, if player is NOT hit -->
 												<!-- if hit, do NOT record this no-damage to maintain the previous dps -->
+												<!-- getting a job death -->
+												<do_if value="$ship.hull == 1">
+													<do_if value="not @kATD.$shipCountdownCues.{$ship}">
+														<signal_cue_instantly cue="PlayerDeath" param="table[$ship = $ship, $attackerFaction = $attackerFaction]" />
+													</do_if>
+													<do_else>
+														<signal_cue_instantly cue="CancelAlarm" param="table[$ship = $ship, $isDestroy = true, $attackerFaction = @$attackerFaction, $isDestructionAverted = false]" />
+													</do_else>
+												</do_if>
 												<do_if value="not $isPlayerHit">
 													<debug_text text="'1. NO DAMAGE RECORDED AND NOT HIT, DECREASE DPS'" chance="kATD.$debugChance" />
 													<set_value operation="insert" name="$savedDamages.{1}" exact="$damage" />
@@ -494,34 +511,41 @@
 													<!-- dps ge (hull / $userCountdownAtHullSecs seconds) AND le $userDestructionAtHullPerc -->
 													<debug_text text="'2. HULL+SHIELD TOO LOW, DPS GREATER THAN HULL+SHIELD / $userCountdownAtHullSecs'" chance="kATD.$debugChance" />
 													<do_if value="not @kATD.$shipCountdownCues.{$ship}">
-														<signal_cue_instantly cue="StartDestructionCountdown" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" />
+														<!-- <signal_cue_instantly cue="StartDestructionCountdown" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" /> -->
+														<signal_cue_instantly cue="TriggerAlarm" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" />
 													</do_if>
-													<do_elseif value="$hull + $shield lt kATD.$userDestructionAtHullPerc + 1">
+													<!-- <do_elseif value="$hull + $shield lt kATD.$userDestructionAtHullPerc + 1">
 														<set_value name="kATD.$shipCountdownCues.{$ship}.$isDestructionCertain" exact="true" />
-													</do_elseif>
+													</do_elseif> -->
 													<set_value name="$time_countdownLastShown" exact="player.age" />
 												</do_if>
 												<do_elseif value="$dps ge ($hull + $shield) / ($userCountdownAtHullSecs)f">
 													<!-- dps ge (hull / $userCountdownAtHullSecs seconds) -->
 													<debug_text text="'2. DPS GREATER THAN HULL+SHIELD / $userCountdownAtHullSecs'" chance="kATD.$debugChance" />
 													<do_if value="not @kATD.$shipCountdownCues.{$ship}">
-														<signal_cue_instantly cue="StartDestructionCountdown" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" />
+														<!-- <signal_cue_instantly cue="StartDestructionCountdown" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" /> -->
+														<signal_cue_instantly cue="TriggerAlarm" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" />
 													</do_if>
-													<do_elseif value="$hull + $shield lt kATD.$userDestructionAtHullPerc + 1">
+													<!-- <do_elseif value="$hull + $shield lt kATD.$userDestructionAtHullPerc + 1">
 														<set_value name="kATD.$shipCountdownCues.{$ship}.$isDestructionCertain" exact="true" />
-													</do_elseif>
+													</do_elseif> -->
 													<set_value name="$time_countdownLastShown" exact="player.age" />
 												</do_elseif>
 												<do_elseif value="
-													(not @kATD.$shipCountdownCues.{$ship}.$isDestructionCertain) and
 													player.age gt @$time_countdownLastShown + 3 and
 													$dps lt ($hull + $shield) / ($userCountdownAtHullSecs)f
 												">
+													<!-- <do_elseif value="
+													(not @kATD.$shipCountdownCues.{$ship}.$isDestructionCertain) and
+													player.age gt @$time_countdownLastShown + 3 and
+													$dps lt ($hull + $shield) / ($userCountdownAtHullSecs)f
+												"> -->
 													<!-- dps le (hull / $userCountdownAtHullSecs seconds) -->
 													<debug_text text="'2. DPS LESS THAN HULL+SHIELD / $userCountdownAtHullSecs'" chance="kATD.$debugChance" />
 													<do_if value="@kATD.$shipCountdownCues.{$ship}">
 														<!-- destruction averted -->
-														<signal_cue_instantly cue="StopDestructionCountdown" param="table[$ship = $ship, $isDestroy = false, $attacker = $attacker, $attackerFaction = @$attackerFaction, $isDestructionAverted = true]" />
+														<!-- <signal_cue_instantly cue="StopDestructionCountdown" param="table[$ship = $ship, $isDestroy = false, $attacker = $attacker, $attackerFaction = @$attackerFaction, $isDestructionAverted = true]" /> -->
+														<signal_cue_instantly cue="CancelAlarm" param="table[$ship = $ship, $isDestroy = false, $attackerFaction = @$attackerFaction, $isDestructionAverted = true]" />
 													</do_if>
 													<debug_text text="'$dps: ' + $dps + ' time: ' + (player.age - @$time_lastDamage)" chance="kATD.$debugChance" />
 													<do_if value="(not $dps) and player.age - @$time_lastDamage gt 2min">
@@ -553,6 +577,89 @@
 						</cue>
 					</cues>
 				</cue>
+				<cue name="TriggerAlarm" namespace="this" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$ship" exact="@event.param.$ship" />
+						<set_value name="$attacker" exact="@event.param.$attacker" />
+						<set_value name="$attackerFaction" exact="@event.param.$attackerFaction" />
+						<do_if value="$ship">
+							<do_if value="@kATD.$shipCountdownCues.{$ship}">
+								<!-- already an alarm, cancel this one, and let the other continue -->
+								<cancel_cue cue="this" />
+							</do_if>
+							<do_elseif value="$ship.isclass.spacesuit or $ship.hull == 1">
+								<!-- no alarm, just death -->
+								<signal_cue_instantly cue="PlayerDeath" param="table[$ship = $ship, $attackerFaction = $attackerFaction]" />
+								<cancel_cue cue="this" />
+							</do_elseif>
+							<do_else>
+								<set_value name="kATD.$shipCountdownCues.{$ship}" exact="this" />
+								<!-- getting a job alarm and lighting -->
+								<play_sound object="player.entity.room" sound="'abandon_ship_alarm'" />
+								<set_cockpit_tint r="125" g="10" b="10" frequency="0.25" amplitude="0.85" />
+							</do_else>
+						</do_if>
+						<do_else>
+							<cancel_cue cue="this" />
+						</do_else>
+					</actions>
+				</cue>
+
+				<cue name="CancelAlarm" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+						<check_value value="PlayerDeath.state == cuestate.waiting" />
+					</conditions>
+					<actions>
+						<reset_cue cue="TriggerAlarm" />
+						<debug_text text="'event.param: ' + event.param" chance="kATD.$debugChance" />
+						<set_value name="$ship" exact="@event.param.$ship" />
+						<set_value name="$isDestroy" exact="@event.param.$isDestroy" />
+						<set_value name="$attackerFaction" exact="@event.param.$attackerFaction" />
+						<set_value name="$isDestructionAverted" exact="@event.param.$isDestructionAverted" />
+						<do_if value="@kATD.$shipCountdownCues.{$ship}">
+							<cancel_cue cue="kATD.$shipCountdownCues.{$ship}" />
+							<remove_value name="kATD.$shipCountdownCues.{$ship}" />
+						</do_if>
+						<do_if value="$ship.assignedaipilot.isclass.npc">
+							<signal_objects object="$ship.assignedaipilot" param="'npc__return_to_post'" />
+						</do_if>
+						<do_if value="$isDestroy">
+							<do_if value="$ship == @player.ship">
+								<!-- still in the ship, player death -->
+								<signal_cue_instantly cue="PlayerDeath" param="table[$ship = $ship, $attackerFaction = $attackerFaction]" />
+								<reset_cue cue="this" />
+							</do_if>
+							<do_else>
+								<!-- not used: -->
+								<!-- player must have escaped from the ship -->
+								<!-- continue into cues to destroy the ship in a cutscene in the targetmonitor -->
+								<!-- note: destruction cutscene can't play in target monitor -->
+								<!-- used: -->
+								<!-- just destroy the ship -->
+								<destroy_object object="$ship" explosion="true" />
+								<reset_cue cue="this" />
+							</do_else>
+						</do_if>
+						<do_elseif value="not $isDestructionAverted">
+							<reset_cue cue="this" />
+						</do_elseif>
+					</actions>
+					<cues>
+						<cue name="ClearAlarmDPS" checktime="player.age + 3s">
+							<actions>
+								<debug_text text="'reset_cue ' + PlayerShipDPSChecker" chance="kATD.$debugChance" />
+								<reset_cue cue="PlayerShipDPSChecker" />
+								<reset_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+
 				<cue name="StartDestructionCountdown" namespace="this" instantiate="true">
 					<conditions>
 						<event_cue_signalled />
@@ -595,8 +702,8 @@
 									<set_value name="$dps_old" exact="0" />
 									<set_value name="$dps_trend" exact="0" />
 									<include_actions ref="Countdown_SetDPSData" />
-									<!-- <debug_text text="'$countdown: ' + $countdown" chance="kATD.$debugChance" />
-									<raise_lua_event name="'kATDHUD.ShowCountdown'" param="$countdown" /> -->
+									<debug_text text="'$countdown: ' + $countdown" chance="kATD.$debugChance" />
+									<raise_lua_event name="'kATDHUD.ShowCountdown'" param="$countdown" />
 								</do_if>
 							</do_else>
 						</do_if>
@@ -899,6 +1006,10 @@
 						<event_cue_signalled />
 					</conditions>
 					<actions>
+						<!-- getting a job: lose cash on hand -->
+						<do_if value="$losePersonalCash">
+							<reward_player money="player.money * -1" />
+						</do_if>
 						<!-- <run_actions ref="DeadIsDead_SaveTimeDeath" /> -->
 						<run_actions ref="SavedGames_SetSaveScumDeath" />
 						<set_value name="$isDestroyShip" exact="not @event.param.$isSaveShip" />
@@ -915,7 +1026,7 @@
 						</do_if>
 						<set_value name="kATD.$deathAlternative" exact="null" />
 						<set_value name="$nearestContainerTo" exact="player.entity" />
-						<include_actions ref="FindNearestContainers" />
+						<!-- <include_actions ref="FindNearestContainers" /> -->
 						<set_value name="$cloneLocation" exact="null" />
 						<set_value name="$deathAlternatives" exact="[]" />
 						<do_if value="kATD.$userIsUseClones and kATD.$cloneCount and kATD.$userIsPrioritiseClone">
@@ -1257,7 +1368,7 @@
 							</conditions>
 							<actions>
 								<debug_text text="event.name" chance="kATD.$debugChance" />
-								<set_value name="kATD.$isRetainRelationships" exact="false" />
+								<set_value name="kATD.$isRetainRelationships" exact="true" />
 								<do_if value="kATD.$deathAlternative == 'clone'">
 									<set_value name="kATD.$isRetainRelationships" exact="kATD.$userIsClonesRetainRelationships" />
 									<do_if value="kATD.$userOwnershipOnDeath_clone != kATD.$ownershipOnDeath_retained">
@@ -1348,7 +1459,7 @@
 					<cues>
 						<cue name="OnEscapePodEntered2">
 							<actions>
-								<signal_cue cue="md.EscapePod.TriggerPod" />
+								<signal_cue cue="md.GAJ_EscapePod.LaunchPod" />
 								<reset_cue cue="parent" />
 								<cancel_cue cue="this" />
 							</actions>
@@ -1368,6 +1479,12 @@
 							or
 							(kATD.$deathAlternative == 'assimilation' and kATD.$userOwnershipOnDeath_assimilated == kATD.$ownershipOnDeath_inherited)
 						">
+							<!-- Getting A Job: Inheritance tax -->
+							<do_if value="$inheritanceTax">
+								<do_for_each name="$account" in="md.GalacticBank.Vault.$Accounts.keys.list">
+									<set_value name="md.GalacticBank.Vault.$Accounts.{$account}.$balance" exact="md.GalacticBank.Vault.$Accounts.{$account}.$balance * (1-md.GalacticBank.Vault.$Accounts.{$account}.$inheritanceTax)" />
+								</do_for_each>
+							</do_if>
 							<do_if value="not @TrustExecutor.$npc">
 								<signal_cue_instantly cue="TrustExecutor" />
 							</do_if>

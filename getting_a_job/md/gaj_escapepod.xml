@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="GAJ_EscapePod"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+    <cues>
+        <cue name="EscapePod">
+            <delay exact="1ms" />
+            <actions>
+                <signal_cue cue="GameStart" />
+            </actions>
+            <cues>
+                <cue name="LaunchPod" instantiate="true">
+                    <conditions>
+                        <event_cue_signalled />
+                    </conditions>
+                    <actions>
+                        <set_value name="$ship" exact="player.ship" />
+                        <find_dockingbay name="$dock" object="$ship">
+                            <match_dock size="tag.dock_xs" />
+                        </find_dockingbay>
+                        <create_position name="$position" space="$ship.sector" object="$dock" />
+                        <set_value name="$roll" min="-359deg" max="359deg" />
+                        <create_rotation name="$dockrotation" value="$dock.relativerotation.{$ship.zone}" />
+                        <create_rotation name="$rotation" pitch="$dockrotation.pitch" yaw="$dockrotation.yaw" roll="$roll" />
+                        <create_ship name="$pod" macro="ship_gen_xs_escapepod_01_a_player_macro" sector="player.sector" capturable="false" sellable="false">
+                            <owner exact="faction.player" overridenpc="true" />
+                            <position value="$position" />
+                            <rotation value="$rotation" />
+                        </create_ship>
+                        <do_if value="not $pod.exists">
+                            <create_ship name="$pod" macro="ship_gen_xs_escapepod_01_a_player_macro" sector="player.sector" capturable="false" sellable="false">
+                                <owner exact="faction.player" overridenpc="true" />
+                                <orientation refobject="$ship" orientation="look_away" />
+                                <safepos object="$ship" />
+                            </create_ship>
+                        </do_if>
+                        <disable_collisions_between object="$pod" target="$ship" />
+                        <disable_collision_response object="$pod" />
+                        <do_if value="not $pod.exists">
+                            <cancel_cue cue="this" />
+                        </do_if>
+                    </actions>
+                </cue>
+            </cues>
+        </cue>
+    </cues>
+</mdscript>

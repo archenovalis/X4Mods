@@ -82,7 +82,7 @@
         <set_value name="$account.$totalRewards" exact="$RewardCr" />
         <set_value name="$account.$pay" operation="add" exact="$RewardCr * $account.$payMultipler" />
       </do_if>
-      <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $faction, $money = $Cue_Mission.$RewardCr]" />
+      <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $Cue_Mission.$RewardCr]" />
     </do_if>
   </replace>
 

@@ -1,43 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  <replace sel="//cue[@name='IllegalActivityReward']//do_if[@value='event.param.{5}']">
-    <set_value name="$bounty" exact="event.param.{5} / md.GettingAJob.GAJ.$MissionRewardReducer" />
-    <set_value name="$gajfaction" exact="$rewardnpc.owner" />
-    <do_if value="$md.GettingAJob.GAJ.$Factions.{$gajfaction}.$active?">
-      <set_value name="$account" exact="$md.GettingAJob.GAJ.$Factions.{$gajfaction}" />
-      <set_value name="$workBonus" exact="$bounty * $account.$bonusMultiplier" />
-      <set_value name="$bounty" exact="$bounty + $workBonus" />
-      <set_value name="$account.$totalRewards" exact="$bounty" />
-      <set_value name="$account.$pay" operation="add" exact="$bounty * $account.$payMultipler" />
-    </do_if>
-    <signal_cue_instantly cue="md.GalacticBank.Vault.Transfer" param="table[$faction = $gajfaction, $money = $bounty]" />
-  </replace>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <!-- alternatives to death -->
-  <add sel="//cue[@name=&quot;ChangedJurisdiction&quot;]/conditions">
-    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
-  </add>
-  <add sel="//cue[@name=&quot;ChangedSpace&quot;]/conditions">
-    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
-  </add>
-  <add sel="//cue[@name=&quot;PlayerDiscountCommission&quot;]/conditions">
-    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
-  </add>
-  <add sel="//cue[@name=&quot;TempRelationDropped&quot;]/conditions">
-    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
-  </add>
-  <add sel="//cue[@name=&quot;BaseRelationChanged&quot;]/conditions">
-    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
-  </add>
-  <add sel="//cue[@name=&quot;PlayerMoneyTransfer&quot;]/conditions">
-    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
-  </add>
-  <add sel="//cue[@name=&quot;PlayerOwnedMoneyUpdated&quot;]/conditions">
-    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
-  </add>
-  <add sel="//cue[@name=&quot;BlueprintUnlocked&quot;]/conditions">
-    <check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
-  </add>
+	<!-- getting a job -->
+	<replace sel="//cue[@name='IllegalActivityReward']//do_if[@value='event.param.{5}']">
+		<set_value name="$bounty" exact="event.param.{5} / md.GettingAJob.GAJ.$MissionRewardReducer" />
+		<set_value name="$gajfaction" exact="$rewardnpc.owner" />
+		<do_if value="$md.GettingAJob.GAJ.$Factions.{$gajfaction}.$active?">
+			<set_value name="$account" exact="$md.GettingAJob.GAJ.$Factions.{$gajfaction}" />
+			<set_value name="$workBonus" exact="$bounty * $account.$bonusMultiplier" />
+			<set_value name="$bounty" exact="$bounty + $workBonus" />
+			<set_value name="$account.$totalRewards" exact="$bounty" />
+			<set_value name="$account.$pay" operation="add" exact="$bounty * $account.$payMultipler" />
+		</do_if>
+		<signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $gajfaction, $money = $bounty]" />
+	</replace>
+
+	<!-- getting a job: escape pod -->
+	<add pos="after" sel="//check_value[@value='event.param3 != killmethod.collected']">
+		<check_value value="not event.param.macro.ismacro.{macro.ship_gen_xs_escapepod_01_a_player_macro}" />
+		<check_value value="event.param3 != killmethod.selfdestructed" />
+	</add>
+
+	<replace sel="///do_if[@value='$killed.isclass.ship and notification.ship_destroyed.active']">
+		<do_if value="$killed.isclass.ship and notification.ship_destroyed.active and not $killed.macro.ismacro.{macro.ship_gen_xs_escapepod_01_a_player_macro}">
+			<show_notification text="$tickertext" priority="2" />
+		</do_if>
+	</replace>
+
+	<!-- alternatives to death -->
+	<add sel="//cue[@name=&quot;ChangedJurisdiction&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+	</add>
+	<add sel="//cue[@name=&quot;ChangedSpace&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+	</add>
+	<add sel="//cue[@name=&quot;PlayerDiscountCommission&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+	</add>
+	<add sel="//cue[@name=&quot;TempRelationDropped&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+	</add>
+	<add sel="//cue[@name=&quot;BaseRelationChanged&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+	</add>
+	<add sel="//cue[@name=&quot;PlayerMoneyTransfer&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+	</add>
+	<add sel="//cue[@name=&quot;PlayerOwnedMoneyUpdated&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+	</add>
+	<add sel="//cue[@name=&quot;BlueprintUnlocked&quot;]/conditions">
+		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
+	</add>
+
 
 </diff>

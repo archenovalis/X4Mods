@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="GettingAJob_SellShips" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mdscript name="GAJ_SellShips" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
   <cues>
     <cue name="Sell" namespace="this" version="1">

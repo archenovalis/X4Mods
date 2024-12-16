@@ -4,12 +4,11 @@ Getting a Job:
 verify ai scripts run correctly
 
 # integrate mods
-- kuerteeAlternativesToDeath
-money on person is lost on death
 -	kuerteeCrimeHasConsequences
-- bar
-limit to stations, use clone room, update galactic bank office at same time
+configure
 
+- bar
+limit to stations, use clone room, update galactic bank office at same time, modify bar missions to use the bar
 
 # Features
 -- New Statuses --
