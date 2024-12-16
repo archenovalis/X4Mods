@@ -62,7 +62,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.2
 				]" />
 				<set_value name="$Accounts.{faction.hapes}" exact="table[
 					$balance = 0,
@@ -70,7 +71,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.25
 				]" />
 				<set_value name="$Accounts.{faction.huttpirates}" exact="table[
 					$balance = 0,
@@ -78,7 +80,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.5
 				]" />
 				<set_value name="$Accounts.{faction.mandoraiders}" exact="table[
 					$balance = 0,
@@ -86,7 +89,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.5
 				]" />
 				<set_value name="$Accounts.{faction.valarian}" exact="table[
 					$balance = 0,
@@ -94,7 +98,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.5
 				]" />
 				<set_value name="$Accounts.{faction.blacksun}" exact="table[
 					$balance = 0,
@@ -102,7 +107,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.5
 				]" />
 				<set_value name="$Accounts.{faction.naboo}" exact="table[
 					$balance = 0,
@@ -110,7 +116,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.1
 				]" />
 				<set_value name="$Accounts.{faction.kamino}" exact="table[
 					$balance = 0,
@@ -118,7 +125,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.25
 				]" />
 				<set_value name="$Accounts.{faction.rebelalliance}" exact="table[
 					$balance = 0,
@@ -126,7 +134,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0.25
 				]" />
 				<set_value name="$Accounts.{faction.sith}" exact="table[
 					$balance = 0,
@@ -134,7 +143,8 @@
 					$rate = 0.0075,
 					$period = 20h,
 					$interest_time = null,
-					$undockedFee = 0.0025
+					$undockedFee = 0.0025,
+					$inheritanceTax = 0
 				]" />
 
 				<!-- factions with branch vaults and offices -->
