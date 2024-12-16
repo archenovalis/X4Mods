@@ -1,31 +1,31 @@
 <diff>
 
   <replace sel="//ware[@id='sov_eclipse_ware']/price">
-    <price min="1162843750" average="1172000000" max="1181156250" /> <!-- dock_xxl -->
+    <price min="3571875000" average="3600000000" max="3628125000" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='sov_lusankya']/price">
-    <price min="339421179" average="348124287" max="361178947" /> <!-- dock_xxl -->
+    <price min="1042590656" average="1069323750" max="1109423390" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='mandalorian_mandator_2_ware']/price">
-    <price min="796593750" average="805750000" max="814906249" /> <!-- dock_xxl -->
+    <price min="2446875000" average="2475000000" max="2503124999" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='sov_mandator_2_ware']/price">
-    <price min="299960178" average="307651465" max="319188394" /> <!-- dock_xxl -->
+    <price min="921379387" average="945004500" max="980442168" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='mandatoriii']/price">
-    <price min="526120505" average="539610775" max="559846179" /> <!-- dock_xxl -->
+    <price min="1616069812" average="1657507500" max="1719664031" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='sov_annihilator_ware']/price">
-    <price min="723343750" average="732500000" max="741656250" /> <!-- dock_xxl -->
+    <price min="2221875000" average="2250000000" max="2278125000" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='sov_strident_ware']/price">
-    <price min="576843750" average="586000000" max="595156250" /> <!-- dock_xxl -->
+    <price min="1771875000" average="1800000000" max="1828125000" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='sov_titan_ware']/price">
-    <price min="288421875" average="293000000" max="297578125" /> <!-- dock_xxl -->
+    <price min="885937500" average="900000000" max="914062500" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='sov_procurator_ware']/price">
-    <price min="251796875" average="256375000" max="260953124" /> <!-- dock_xxl -->
+    <price min="773437500" average="787500000" max="801562500" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='sov_harrower_bc_ware']/price">
     <price min="1141170187" average="1163200500" max="1185230812" /> <!-- dock_xl -->
@@ -34,7 +34,7 @@
     <price min="823933687" average="845964000" max="867994312" /> <!-- dock_xl -->
   </replace>
   <replace sel="//ware[@id='sov_republic_secutor_ware']/price">
-    <price min="125055138" average="128115641" max="133062331" /> <!-- dock_xxl -->
+    <price min="384128413" average="393529275" max="408723886" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='imperial_secutor_ware']/price">
     <price min="791788536" average="816465580" max="845268266" /> <!-- dock_xl -->
@@ -46,13 +46,13 @@
     <price min="1015982936" average="1042033781" max="1068084625" /> <!-- ship_xl -->
   </replace>
   <replace sel="//ware[@id='sov_grey_bellator_ware']/price">
-    <price min="686718750" average="695875000" max="705031250" /> <!-- dock_xxl -->
+    <price min="2109375000" average="2137500000" max="2165625000" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='sov_bellator_ware']/price">
-    <price min="686718750" average="695875000" max="705031250" /> <!-- dock_xxl -->
+    <price min="2109375000" average="2137500000" max="2165625000" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='lucrehulk_t']/price">
-    <price min="325046875" average="329625000" max="334203125" /> <!-- dock_xxl -->
+    <price min="998437500" average="1012500000" max="1026562500" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='lucrehulk_b']/price">
     <price min="683023365" average="700394392" max="727081894" /> <!-- ship_xl -->
@@ -61,7 +61,7 @@
     <price min="601775572" average="616502962" max="640306840" /> <!-- ship_xl -->
   </replace>
   <replace sel="//ware[@id='ship_imperial_xxl_executer']/price">
-    <price min="526120505" average="539610775" max="559846179" /> <!-- dock_xxl -->
+    <price min="1616069812" average="1657507500" max="1719664031" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='ship_arg_l_destroyer_01_a']/price">
     <price min="24233710" average="24696775" max="25159839" /> <!-- ship_l -->
@@ -823,22 +823,22 @@
     <price min="453003991" average="461733848" max="474805439" /> <!-- ship_xl -->
   </replace>
   <replace sel="//ware[@id='ship_imperial_xxl_executer_proto']/price">
-    <price min="339421179" average="348124287" max="361178947" /> <!-- dock_xxl -->
+    <price min="1042590656" average="1069323750" max="1109423390" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='ship_imperial_xxl_executer']/price">
-    <price min="526120505" average="539610775" max="559846179" /> <!-- dock_xxl -->
+    <price min="1616069812" average="1657507500" max="1719664031" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='praetor']/price">
-    <price min="231526017" average="237462582" max="246367428" /> <!-- dock_xxl -->
+    <price min="711172068" average="729407250" max="756760021" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='bellator']/price">
-    <price min="299960178" average="307651465" max="319188394" /> <!-- dock_xxl -->
+    <price min="921379387" average="945004500" max="980442168" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='chimaera']/price">
     <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
   </replace>
   <replace sel="//ware[@id='infinity']/price">
-    <price min="732500000" average="732500000" max="732500000" /> <!-- dock_xxl -->
+    <price min="2250000000" average="2250000000" max="2250000000" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='orthavan']/price">
     <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
@@ -871,7 +871,7 @@
     <price min="3524850000" average="3524850000" max="3524850000" /> <!-- ship_xl -->
   </replace>
   <replace sel="//ware[@id='heroexecutor']/price">
-    <price min="146500000000" average="146500000000" max="146500000000" /> <!-- dock_xxl -->
+    <price min="450000000000" average="450000000000" max="450000000000" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='profundity']/price">
     <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
@@ -913,9 +913,9 @@
     <price min="21216000" average="21216000" max="21216000" /> <!-- ship_m -->
   </replace>
   <replace sel="//ware[@id='compellor_ware']/price">
-    <price min="292084375" average="300325000" max="308565625" /> <!-- dock_xxl -->
+    <price min="897187500" average="922500000" max="947812499" /> <!-- dock_xxl -->
   </replace>
   <replace sel="//ware[@id='impellor_ware']/price">
-    <price min="292084375" average="300325000" max="308565625" /> <!-- dock_xxl -->
+    <price min="897187500" average="922500000" max="947812499" /> <!-- dock_xxl -->
   </replace>
 </diff>

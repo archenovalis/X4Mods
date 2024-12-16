@@ -94,25 +94,26 @@ input_file = 'parsed_ships-fixed.xml'
 # (0 = no changes)
 ##### Default ######
 #    ship_s = no change,
-#    ship_m = 3.536x, 1m = 12 small
-#    ship_l = 5.24x, 1l = 9 medium
-#    ship_xl = 7.0497x, 1xl = 12 large
-#    dock_xxl = 1.465x, 1xxl = 18 extralarge
+#    ship_m = 3.536x, 1m = 12s
+#    ship_l = 5.24x, 1l = 9m
+#    ship_xl = 7.0497x, 1xl = 12l
+#    dock_xxl = 3x, 1xxl = ~36 xl
 
-#output_file = 'wares_ships_12m-9l-12xl-18xxl.xml'
+output_file = 'wares_ships_12m-9l-12xl-18xxl.xml'
 
-#priceMult = dict(
-#    ship_s = 0,
-#    ship_m = 3.536,
-#    ship_l = 5.24,
-#    ship_xl = 7.0497,
-#    dock_xl = 7.0497,
-#    dock_xxl = 1.465,
-#    dock_dxxl = 1.465,
-#    dock_l_mandator_2 = 1.465
-#    )
+priceMult = dict(
+    ship_s = 0,
+    ship_m = 3.536,
+    ship_l = 5.24,
+    dock_l_mandator_2 = 5.24,
+    dock_l_mandator_iii = 5.24,
+    ship_xl = 7.0497,
+    dock_xl = 7.0497,
+    dock_xxl = 4.5,
+    dock_dxxl = 4.5
+    )
 
-output_file = 'wares_ships_spread-only.xml'
+"""output_file = 'wares_ships_spread-only.xml'
 
 rate = 1
 priceMult = dict(
@@ -124,7 +125,7 @@ priceMult = dict(
     dock_xxl = rate,
     dock_dxxl = rate,
     dock_l_mandator_2 = rate
-    )
+    ) """
 reduce_spread_by = 8
 macroDirectories = [
     'D:\\Games\\Steam\\steamapps\\common\\X4 Foundations\\extensions\\sov_dreadnaughts\\assets\\units\\size_xl\\macros\\',
