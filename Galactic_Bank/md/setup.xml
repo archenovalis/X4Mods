@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  <replace sel="//get_ware_definition[@faction='faction.bankingclan']/@result">md.$EquipmentTable.{faction.thebankingclan}</replace>
-  <replace sel="//get_ware_definition[@faction='faction.bankingclan']/@faction">faction.thebankingclan</replace>
-  <replace sel="//set_value[@name='md.$FactionData.{faction.bankingclan}']/@name">md.$FactionData.{faction.thebankingclan}</replace>
-</diff>

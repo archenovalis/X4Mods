@@ -1,7 +1,7 @@
 <macro name="vault_medium_macro" class="storage">
   <component ref="storage_par_m_solid_01" />
   <properties>
-    <identification name="{20777,1014} {20777, 1004}" shortname="{20777,1014} {20777, 1004}" makerrace="thebankingclan" size="medium" description="{20777,1016}" />
+    <identification name="{20777,1014} {20777, 1004}" shortname="{20777,1014} {20777, 1004}" makerrace="bankingclan" size="medium" description="{20777,1016}" />
     <build>
       <sets>
         <set ref="factory" />

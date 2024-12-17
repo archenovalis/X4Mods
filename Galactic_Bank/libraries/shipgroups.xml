@@ -2,7 +2,7 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <replace sel="//groups/group[@name='bankingclan_trader_container_l']">
-    <group name="thebankingclan_transport_l">
+    <group name="bankingclan_transport_l">
       <select macro="quasar_imp_macro" />
       <select macro="vindicator_macro" />
       <select macro="enforcer_macro" />
@@ -14,7 +14,7 @@
     </group>
   </replace>
   <replace sel="//groups/group[@name='bankingclan_trader_container_m']">
-    <group name="thebankingclan_transport_m">
+    <group name="bankingclan_transport_m">
       <select macro="impgozanti_cr_macro" />
       <select macro="customs_corvette_macro" />
       <select macro="raider_macro" />

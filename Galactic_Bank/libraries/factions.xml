@@ -2,27 +2,27 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/factionsdiff.xsd">
   <add sel="//faction[@id='sith']/relations">
-    <relation faction="thebankingclan" relation="0.2" />
+    <relation faction="bankingclan" relation="0.2" />
   </add>
   <add sel="//faction[@id='huttpirates']/relations">
-    <relation faction="thebankingclan" relation="-0.1" />
+    <relation faction="bankingclan" relation="-0.1" />
   </add>
   <add sel="//faction[@id='mandoraiders']/relations">
-    <relation faction="thebankingclan" relation="-0.1" />
+    <relation faction="bankingclan" relation="-0.1" />
   </add>
   <add sel="//faction[@id='valarian']/relations">
-    <relation faction="thebankingclan" relation="-0.1" />
+    <relation faction="bankingclan" relation="-0.1" />
   </add>
   <add sel="//faction[@id='blacksun']/relations">
-    <relation faction="thebankingclan" relation="-0.1" />
+    <relation faction="bankingclan" relation="-0.1" />
   </add>
   <add sel="//faction[@id='sienar']/relations">
-    <relation faction="thebankingclan" relation="0.2" />
+    <relation faction="bankingclan" relation="0.2" />
   </add>
-  <add sel="//faction[@id='tradefederation']" pos="before">
-    <faction id="thebankingclan" name="{999840,529110}" description="{999840,529130}" shortname="{999840,529120}" primaryrace="argon" behaviourset="default" known="1" tags="economic protective watchdoguser privateloadout publicloadout privateship peaceful">
+  <replace sel="//faction[@id='bankingclan']">
+    <faction id="bankingclan" name="{999840,529110}" description="{999840,529130}" shortname="{999840,529120}" primaryrace="argon" behaviourset="default" known="1" tags="economic privateloadout publicloadout privateship peaceful">
       <color r="153" g="204" b="0" />
-      <icon active="faction_thebankingclan" inactive="faction_thebankingclan" />
+      <icon active="faction_bankingclan" inactive="faction_bankingclan" />
       <relations>
         <relation faction="criminal" relation="-0.5" />
         <relation faction="khaak" relation="-1" />
@@ -61,5 +61,5 @@
         <relation faction="sith" relation="0.2" />
       </relations>
     </faction>
-  </add>
+  </replace>
 </diff>

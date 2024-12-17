@@ -24,16 +24,16 @@
       <orders>
         <order order="SWBankTransport" default="true" />
       </orders>
-      <category faction="thebankingclan" tags="[factionlogic]" size="ship_m" />
+      <category faction="bankingclan" tags="[factionlogic]" size="ship_m" />
       <quota galaxy="20" sector="1" />
       <location class="galaxy" macro="swi_galaxy_macro" />
       <environment buildatshipyard="true" />
       <ship>
-        <select faction="thebankingclan" tags="[banking]" size="ship_m" />
+        <select faction="bankingclan" tags="[banking]" size="ship_m" />
         <loadout>
           <level exact="1" />
         </loadout>
-        <owner exact="thebankingclan" overridenpc="true" />
+        <owner exact="bankingclan" overridenpc="true" />
       </ship>
     </job>
 
@@ -42,42 +42,42 @@
       <orders>
         <order order="SWBankTransport" default="true" />
       </orders>
-      <category faction="thebankingclan" tags="[factionlogic]" size="ship_l" />
+      <category faction="bankingclan" tags="[factionlogic]" size="ship_l" />
       <quota galaxy="5" sector="1" />
       <location class="galaxy" macro="swi_galaxy_macro" />
       <environment buildatshipyard="true" />
       <ship>
-        <select faction="thebankingclan" tags="[banking]" size="ship_l" />
+        <select faction="bankingclan" tags="[banking]" size="ship_l" />
         <loadout>
           <level exact="1" />
         </loadout>
-        <owner exact="thebankingclan" overridenpc="true" />
+        <owner exact="bankingclan" overridenpc="true" />
       </ship>
     </job>
   </add>
   <replace sel="//job[@id='bankingclan_construction_vessel_l']">
-    <job id="thebankingclan_construction_vessel_l" name="{20204,5101}">
+    <job id="bankingclan_construction_vessel_l" name="{20204,5101}">
       <modifiers commandeerable="true" />
       <orders>
         <order order="FindBuildTasks" default="true">
           <param name="maxjumps" value="8" />
         </order>
       </orders>
-      <category faction="thebankingclan" tags="[builder]" size="ship_l" />
+      <category faction="bankingclan" tags="[builder]" size="ship_l" />
       <quota galaxy="5" cluster="1" />
       <location class="galaxy" macro="swi_galaxy_macro" faction="galempire" relation="member" comparison="ge" matchextension="false" />
       <environment buildatshipyard="true" />
       <ship>
-        <select faction="thebankingclan" tags="[builder]" size="ship_l" />
+        <select faction="bankingclan" tags="[builder]" size="ship_l" />
         <loadout>
           <level exact="1" />
         </loadout>
-        <owner exact="thebankingclan" overridenpc="true" />
+        <owner exact="bankingclan" overridenpc="true" />
       </ship>
     </job>
   </replace>
   <replace sel="//job[@id='bankingclan_construction_vessel_l_playeronly']">
-    <job id="thebankingclan_construction_vessel_l_playeronly" name="{20204,5101}">
+    <job id="bankingclan_construction_vessel_l_playeronly" name="{20204,5101}">
       <modifiers commandeerable="true" />
       <orders>
         <order order="FindBuildTasks" default="true">
@@ -85,16 +85,16 @@
           <param name="playeronly" value="true" />
         </order>
       </orders>
-      <category faction="thebankingclan" tags="[builder]" size="ship_l" />
+      <category faction="bankingclan" tags="[builder]" size="ship_l" />
       <quota galaxy="2" cluster="1" />
       <location class="galaxy" macro="swi_galaxy_macro" faction="galempire" relation="member" comparison="ge" matchextension="false" />
       <environment buildatshipyard="true" />
       <ship>
-        <select faction="thebankingclan" tags="[builder]" size="ship_l" />
+        <select faction="bankingclan" tags="[builder]" size="ship_l" />
         <loadout>
           <level exact="1" />
         </loadout>
-        <owner exact="thebankingclan" overridenpc="true" />
+        <owner exact="bankingclan" overridenpc="true" />
       </ship>
     </job>
   </replace>

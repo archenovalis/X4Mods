@@ -27,8 +27,7 @@ Branch offices will only be in stations owned by major factions with a functioni
 - Bounty Hunters-
 Bounty hunters will hunt you when your banking rep hits -10. Factions with vaults will drop to and freeze at -10 when you hit -20 banking rep.
 
-Download: https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.6
-🛑 (Dont install on top of beta versions)⚠️ 
+Download: https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.7
 
 
 ## Changelog
@@ -61,3 +60,10 @@ v0.65:
 icons, cleanup, menu improvement
 still needs a clean install, v0.7 will overwrite beta installs
 
+v0.7:
+added sw credits icon
+started implementing loot box opening
+added more loot box wares
+started testing dropping loot boxes when vaults are destroyed
+added inheritance tax (for use with kuertee's alternatives to death)
+should be compatible with prior versions

@@ -1,12 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  <replace sel="//cue[@name='SetupStarWarsMod']/actions/set_value[@name='md.$FactionData.{faction.bankingclan}']/@name">md.$FactionData.{faction.thebankingclan}</replace>
   <replace sel="//cue[@name='BankingclanFactionLogic']">
-    <cue name="TheBankingclanFactionLogic">
+    <cue name="BankingclanFactionLogic">
       <cues>
-        <cue name="TheBankingclanFactionLogic_Manager" ref="Manager">
-          <param name="Faction" value="faction.thebankingclan" />
+        <cue name="BankingclanFactionLogic_Manager" ref="Manager">
+          <param name="Faction" value="faction.bankingclan" />
           <param name="BaseAggressionLevel" value="moodlevel.low" />
           <param name="BaseAvariceLevel" value="moodlevel.high" />
           <param name="BaseLawfulness" value="0.9" />

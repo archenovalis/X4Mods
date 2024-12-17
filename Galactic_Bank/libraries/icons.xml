@@ -1,8 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
-  <replace sel="//icon[@name='faction_bankingclan']/@name">faction_thebankingclan</replace>
-
   <add sel="//icons">
     <icon name="mapob_bankingclan_vaulthq" texture="extensions\galactic_bank\assets\fx\gui\textures\map_objects\mapob_bankingclan_vaulthq.tga" height="256" width="256" />
     <icon name="mapob_bankingclan_vault" texture="extensions\galactic_bank\assets\fx\gui\textures\map_objects\mapob_bankingclan_vault.tga" height="256" width="256" />

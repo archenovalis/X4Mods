@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
-  <replace sel="//group[@paintmod='paintmod_0060'][@faction='bankingclan']/@faction">thebankingclan</replace>
-</diff>

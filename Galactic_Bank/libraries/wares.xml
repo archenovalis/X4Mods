@@ -21,7 +21,7 @@
       </production>
       <component ref="vault_large_macro" amount="1" />
       <restriction licence="station_gen_basic" />
-      <owner faction="thebankingclan" />
+      <owner faction="bankingclan" />
     </ware>
     <ware id="vault_medium" name="{20777,1014} {20777, 1004}" description="{20777,1014} {20777, 1004}" transport="container" volume="1" tags="module">
       <price min="445475" average="524088" max="602701" />
@@ -34,7 +34,7 @@
       </production>
       <component ref="vault_medium_macro" amount="1" />
       <restriction licence="station_gen_basic" />
-      <owner faction="thebankingclan" />
+      <owner faction="bankingclan" />
     </ware>
   </add>
 </diff> 

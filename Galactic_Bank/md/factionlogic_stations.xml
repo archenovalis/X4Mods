@@ -6,7 +6,7 @@
   <add
     sel="/mdscript/cues/library[@name='Manage_Stations']/cues/cue[@name='Process']/cues/cue[@name='Analyse_Stations']/actions/do_elseif[@value='@$DesiredTradeStationPatchMarker']"
     pos="after">
-    <do_elseif value="$Faction == faction.thebankingclan">
+    <do_elseif value="$Faction == faction.bankingclan">
       <set_value name="$DesiredTradeStation" exact="0" />
     </do_elseif>
   </add>
@@ -29,7 +29,7 @@ $RelevantSectors.count"
   <add sel="//set_value[@name='$PreferredSectors']">
     <!-- BEGIN Banking Clan's Vault -->
     <do_if
-      value="$Faction == faction.thebankingclan">
+      value="$Faction == faction.bankingclan">
 
       <set_value name="$DesiredTradeStation" exact="9" />
       <do_if value="$TradeStationCount lt $DesiredTradeStation">
@@ -40,8 +40,6 @@ $RelevantSectors.count"
 
         <do_if value="$TradeStationsToBuild gt 0">
           <set_value name="$StationDefinitions" exact="[]" />
-          <set_value name="$StationTypeTag"
-            exact="[tag.tradestation]" />
           <find_station_by_true_owner
             macro="macro.station_bankingclan_mainvault_macro"
             name="$hq"
@@ -54,7 +52,6 @@ $RelevantSectors.count"
             <append_to_list name="$PreferredSectors"
               exact="$sector" />
           </do_if>
-
           <do_else>
             <set_value name="$planTag"
               exact="tag.branchvault" />
@@ -151,7 +148,7 @@ $RelevantSectors.count"
           <do_if value="$ModuleSetMacro">
             <get_construction_plan result="$ConstructionPlan"
               rawname="$ConstructionPlanName"
-              faction="$Faction" tags="@$planTag" />
+              faction="$Faction" tags="$planTag" />
             <append_to_list name="$StationDefinitions"
               exact="[$ConstructionPlan, $ConstructionPlanName]" />
           </do_if>

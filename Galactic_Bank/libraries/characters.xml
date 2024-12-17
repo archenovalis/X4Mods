@@ -20,111 +20,93 @@
   <replace sel="//character[@id='shadyguy_scum_random']/owner/@list">[huttcartel, anoat, huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg, faction.player]</replace>
   <replace sel="//character[@id='scum_casual']/owner/@list">[huttcartel, anoat, huttpirates, valarian, blacksun, hoersh, twinsuns, baobab, tradefederation, tagge, miningguild, transgalmeg]</replace>
 
-	<!-- add new thebankingclan -->
-  <replace sel="//character[@id='service_imperial_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='service_imperial_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='marine_imperial_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='marine_imperial_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='fighter_imperial_regular_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='fighter_imperial_regular_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='manager_imperial_regular_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='manager_imperial_regular_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='trader_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='trader_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='fighter_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='fighter_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='manager_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='manager_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='service_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='service_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='marine_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='marine_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='passenger_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='passenger_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='prisoner_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='prisoner_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='service_galempire_random_rookie']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='service_galempire_random_rookie']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='marine_galempire_random_rookie']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='marine_galempire_random_rookie']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='fighter_galempire_random_rookie']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='fighter_galempire_random_rookie']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='service_galempire_random_veteran']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='service_galempire_random_veteran']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='marine_galempire_random_veteran']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='marine_galempire_random_veteran']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='service_galempire_random_elite']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='service_galempire_random_elite']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='marine_galempire_random_elite']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='marine_galempire_random_elite']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='fighter_galempire_random_elite']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='fighter_galempire_random_elite']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='platform_trader_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='platform_trader_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='ship_trader_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='ship_trader_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='shadyguy_galempire_random']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='shadyguy_galempire_random']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='galempire_casual']/category/@faction">[galempire, thebankingclan, ascendancy, sienar, sith, faction.player]</replace>
-  <replace sel="//character[@id='galempire_casual']/owner/@list">[galempire, thebankingclan, ascendancy, sienar, sith]</replace>
-  <replace sel="//character[@id='trader_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='trader_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='fighter_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='fighter_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='manager_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='manager_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='service_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='service_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='marine_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='marine_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='fighter_generichuman_regular_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='fighter_generichuman_regular_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='manager_generichuman_regular_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='manager_generichuman_regular_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='passenger_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='passenger_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='prisoner_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='prisoner_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='service_generichuman_random_rookie']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='service_generichuman_random_rookie']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='marine_generichuman_random_rookie']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='marine_generichuman_random_rookie']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='fighter_generichuman_random_rookie']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='fighter_generichuman_random_rookie']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='service_generichuman_random_veteran']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='service_generichuman_random_veteran']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='marine_generichuman_random_veteran']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='marine_generichuman_random_veteran']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='service_generichuman_random_elite']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='service_generichuman_random_elite']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='marine_generichuman_random_elite']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='marine_generichuman_random_elite']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='fighter_generichuman_random_elite']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='fighter_generichuman_random_elite']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='platform_trader_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='platform_trader_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='ship_trader_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='ship_trader_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='shadyguy_generichuman_random']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='shadyguy_generichuman_random']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-  <replace sel="//character[@id='generichuman_casual']/category/@faction">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
-  <replace sel="//character[@id='generichuman_casual']/owner/@list">[newrepublic, thebankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
-
-  <!-- make bankingclan save compatible -->
-  <add sel="/characters">
-    <character id="factionrepresentative_thebankingclan" group="argon.factionrepresentative.male">
-      <category tags="[factionrepresentative]" faction="thebankingclan" race="argon" />
-      <skills>
-        <skill type="management" min="10" max="15" />
-        <skill type="morale" max="15" />
-
-        <skill type="boarding" min="6" max="15" />
-        <skill type="engineering" min="5" max="15" />
-        <skill type="piloting" min="11" max="15" />
-      </skills>
-      <page exact="10101" />
-      <owner exact="thebankingclan" />
-    </character>
-  </add>
-  <remove sel="//character[@id='factionrepresentative_bankingclan']" />
+  <!-- add new bankingclan -->
+  <replace sel="//character[@id='service_imperial_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='service_imperial_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='marine_imperial_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='marine_imperial_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='fighter_imperial_regular_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='fighter_imperial_regular_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='manager_imperial_regular_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='manager_imperial_regular_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='trader_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='trader_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='fighter_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='fighter_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='manager_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='manager_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='service_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='service_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='marine_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='marine_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='passenger_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='passenger_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='prisoner_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='prisoner_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='service_galempire_random_rookie']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='service_galempire_random_rookie']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='marine_galempire_random_rookie']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='marine_galempire_random_rookie']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='fighter_galempire_random_rookie']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='fighter_galempire_random_rookie']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='service_galempire_random_veteran']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='service_galempire_random_veteran']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='marine_galempire_random_veteran']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='marine_galempire_random_veteran']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='service_galempire_random_elite']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='service_galempire_random_elite']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='marine_galempire_random_elite']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='marine_galempire_random_elite']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='fighter_galempire_random_elite']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='fighter_galempire_random_elite']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='platform_trader_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='platform_trader_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='ship_trader_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='ship_trader_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='shadyguy_galempire_random']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='shadyguy_galempire_random']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='galempire_casual']/category/@faction">[galempire, bankingclan, ascendancy, sienar, sith, faction.player]</replace>
+  <replace sel="//character[@id='galempire_casual']/owner/@list">[galempire, bankingclan, ascendancy, sienar, sith]</replace>
+  <replace sel="//character[@id='trader_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='trader_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='fighter_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='fighter_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='manager_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='manager_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='service_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='service_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='marine_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='marine_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='fighter_generichuman_regular_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='fighter_generichuman_regular_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='manager_generichuman_regular_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='manager_generichuman_regular_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='passenger_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='passenger_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='prisoner_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='prisoner_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='service_generichuman_random_rookie']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='service_generichuman_random_rookie']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='marine_generichuman_random_rookie']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='marine_generichuman_random_rookie']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='fighter_generichuman_random_rookie']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='fighter_generichuman_random_rookie']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='service_generichuman_random_veteran']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='service_generichuman_random_veteran']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='marine_generichuman_random_veteran']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='marine_generichuman_random_veteran']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='service_generichuman_random_elite']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='service_generichuman_random_elite']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='marine_generichuman_random_elite']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='marine_generichuman_random_elite']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='fighter_generichuman_random_elite']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='fighter_generichuman_random_elite']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='platform_trader_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='platform_trader_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='ship_trader_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='ship_trader_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='shadyguy_generichuman_random']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='shadyguy_generichuman_random']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
+  <replace sel="//character[@id='generichuman_casual']/category/@faction">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders, faction.player]</replace>
+  <replace sel="//character[@id='generichuman_casual']/owner/@list">[newrepublic, bankingclan, rebelalliance, corporate, commerceguild, mandodw, naboo, hapes, kamino, kuat, corellia, rendili, incom, moncal, mandoraiders]</replace>
 </diff>
