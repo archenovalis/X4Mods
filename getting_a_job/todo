@@ -10,6 +10,9 @@ configure
 - bar
 limit to stations, use clone room, update galactic bank office at same time, modify bar missions to use the bar
 
+# Gamestarts
+modify gamestarts to all have small ships of the various areas / factions of the map
+
 # Features
 -- New Statuses --
 -  Deserter, not completing any military or support missions within last (60/120/240)? minutes. Consequence: Paycheck paused until next mission is completed.
@@ -40,5 +43,5 @@ kuertee creates a criminal ship database. so i guess i'll just use the same data
 
 
 -- Retirement
-- (pension level variable check): Quit at any time or Retire after reaching pension levels.  ? retiring necessary?
-- mdpaydelay (total mission rewards variable): Pension based on total pay received.
+- (pension level variable check): Quit at any time or Retire after reaching pension levels. pension transfered to descendant
+- (total mission rewards variable): Pension based on total pay received.

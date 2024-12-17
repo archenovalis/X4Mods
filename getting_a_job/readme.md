@@ -2,48 +2,58 @@
 
 Life isn't easy. It's a grind. The rich get richer and the poor...slowly get richer. Owning even a single multi-crew ship is a big deal. Starting a company, having a fleet of traders, your own militia? Yeah... dream big. It will take you a while to get there. Fast cash? Become a pirate and kill everything, or die trying. Tho, maybe you could go work for your faction earn a steady paycheck. I mean why not? The turtle was faster than the rabbit, in the end. Now go find that representative.
 ## Features
-* **Get A Job**
-* Work for a faction's government, available at 12+ relationship. Receive a paycheck deposited direct to your InterGalactic Bank account every 15 minutes. Basic paycheck for joining based on faction type (major=10k, peaceful=25k, pirate=4k).
+### Get A Job
+Work for a faction's government, available at 12 relationship.
+* Receive a paycheck deposited direct to your InterGalactic Bank account every 15 minutes. Basic paycheck for joining based on faction type (major=10k, peaceful=25k, pirate=4k).
 * Paycheck increases by a 1% of all work missions while employed for a faction.
 * Work missions pay more: 40-250% bonus (major=100%, peaceful=40%, pirate=250%).
-
+### Become A Spy
+Use a stealth ship to teleport onto stations and ships. Conduct sabotage missions. Help your faction by harming their enemies.
+* Stealth ship mod and teleportation inventory hacker
+* (Planned) Ship and station sabotage missions
+* (Planned) Faction police and military ships detect when you are working for other factions
+### Banking System
+Paychecks and mission rewards are deposited into your bank accounts. Money in your accounts is protected from loss due to death.
+* Major and some Minor factions use the Banking Clan's InterGalactic Bank. Some Minor factions have their own. Some situations might hand you cash.
+* Compounding Interest is earned. Good relations with the Banking Clan can be very profitable.
+* Bank Transports can be robbed for lootboxes.
+* (In Development) Open lootboxes for credits, there might be risks involved, so use a security override.
+* (Planned) Attacking Bank Vault Stations for lots of lootboxes.
+### Slowed Early Game
 * **Ship Prices**
-The cost of purchasing ships has been increased to match their hull, and scale with their size. Selling prices of used ships reduced.
+The cost of purchasing ships from npcs has been increased, scaling with their size. Selling ships to npc stations reduced by 25-50%, further reduced by hull%.
 ```
 S: no changes
-M: ~3-7x
-L: ~3.5-13x
-XL: ~4-9x
-XXL: ~5.5x
+M = 3.5x,
+L = 5.2x,
+XL = 7x,
+XXL = 4.5x,
 ```
-* **Rewards Decreased**
+* **Mission Rewards**
 Missions, trading inventory items, selling craftables, trading software and deployables. Gone. Not really gone, but it's not how you'll get rich. Maybe missions, but not really trading the small stuff. Go become a pirate and loot lots of stuff, that's the easy way to become rich, or dead.
 ```
 Mission pay reduced by 16 to 6.25% of normal.
 Average inventory prices reduced by 5 to 20% of normal.
 Inventory price spreads reduced by 8 to 12.5% of normal.
 ```
-## Requirements
-[Star Wars Interworlds](https://sites.google.com/view/swinterworlds/Home) (!! STAR WARS !!)
-[InterGalactic Bank](https://discord.com/channels/614576717008207901/1309028894937972747/1309028897274466374) (Money goes into your account, not teleported to your pocket)
-[Kuertee: Crime Has Consequences](https://www.nexusmods.com/x4foundations/mods/566) (don't break the law, selling stolen ships is a crime)
-[Kuertee: NPC Reactions](https://www.nexusmods.com/x4foundations/mods/497) (tip: use the taxi service to get onto enemy stations)
+### Death Has Consequences
+But it isn't game over there are Alternatives to Death (thanks Kuertee): Clones and Descendants. Clones prevent consequences while descendants allow you to partially start over. However, clones are expensive, so when you hear your ship's abandon ship alarm, quickly get to your escape pod. Else, you'll feel the consequences of death:
+```
+(Planned) Faction relations are softened
+Paychecks and all cash on hand are all lost
+Cash in accounts are reduced by the account's inheritance tax
+```
 
+## Required Mods
+* [Star Wars Interworlds](https://sites.google.com/view/swinterworlds/Home) (!! STAR WARS !!)
+* [InterGalactic Bank](https://discord.com/channels/614576717008207901/1309028894937972747/1309028897274466374) (Money goes into your account, not teleported to your pocket)
 ## Required Utility Mods
-[Kuertee: UI Extensions and HUD](https://github.com/kuertee/x4-mod-ui-extensions/releases)
-[Mod Support APIs](https://www.nexusmods.com/x4foundations/mods/503)
-
-## Planned Requirements
-[Kuertee: Alternatives to death](https://www.nexusmods.com/x4foundations/mods/551) (descendants will inherit your assets, not your paycheck. some accounts will have different amounts of inheritance tax. death causes you to lose your pocket money, keep it safe in an account)
-[Teleport From Transporter Room](https://www.nexusmods.com/x4foundations/mods/553) (but only if you have the technology)
-[Escape Pod](https://www.nexusmods.com/x4foundations/mods/596) (abandoned; i'll update/integrate it eventually)
-
+* [Mod Support APIs](https://www.nexusmods.com/x4foundations/mods/503)
+* [Kuertee: UI Extensions and HUD](https://github.com/kuertee/x4-mod-ui-extensions/releases)
 ## Installation
 * Download: https://github.com/archenovalis/X4Mods/releases/tag/Getting_A_Job_v0.5
 * Extract to extensions directory.
 ## Planned Features
-* **Get A Job**
-  * Retire or Quit at any time. Retire after reaching pension levels. Multiple pension levels, based on total pay received.
 * **New Statuses**
   * Deserter: not completing any work missions within last 120 minutes.
     * Consequence: Paycheck paused until next mission is completed.
