@@ -1,27 +1,29 @@
-Getting a Job:
-
-- sell ships refactor
-verify ai scripts run correctly
+# customize integrated mods
 - hacking-outcomes
-add spy/sabotage missions
-
-# integrate mods
--	kuerteeCrimeHasConsequences
-  - configure
-  - stolen ships are stolen, use them away from the faction (and their non-enemies) that they were stolen from or recycle them at your shipyard to try to reverse engineer them. can't sell them to non-pirate factions (legit salvaged ships are not stolen)
-  - would need to mark a ship as stolen when attacked (and pilot bails) and when boarded. but if the player didn't attack the ship before the pilot bailed, then it'd be legitimate salvage, and it wouldn't be stolen. and and if the pilot bails but the player attacked in self-defense, then it wouldn't be considered stolen (not sure when that'd happen but self-defense is in the crime has consequences mod). ah, can only give variables to the ai pilot, not the ship... so hmm
-  - kuertee creates a criminal ship database. so i guess i'll just use the same database for it
+  - add spy/sabotage missions
 
 - high-security-rooms-are-locked
   - create hacking ui
   - enable opening rooms with craftable item
+
 - bar
-  - limit to stations, use clone room, update galactic bank office at same time, modify bar missions to use the bar
+  - use clone room as example
+  - modify vanilla bar missions to use the bar
+
+- galactic bank office
+  - use clone room as example
 
 # Gamestarts
 modify gamestarts to all have small ships of the various areas / factions of the map
 
 # Features
+- sell ships
+  - verify ai scripts run correctly
+  - ships must be docked at a station to sell them (stolen ships are forfeited upon docking depending upon station faction)
+
+- military and police ships detect player's stolen ships
+  - stolen ships get attacked on sight by 
+
 -- New Statuses --
 -  Deserter, not completing any military or support missions within last (60/120/240)? minutes. Consequence: Paycheck paused until next mission is completed.
 * reset delay cue when mission complete

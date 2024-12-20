@@ -22,5 +22,5 @@
 	<!-- <dependency id="kuerteeHighSecurityRoomsAreLocked optional="true" name="kuertee: High security rooms are locked" version="710" date="2024-07-13" /> -->
 	<!-- <dependency id="kuerteeNPCReactions" optional="true" name="kuertee: NPC reactions" version="710" date="2024-12-03" /> -->
 	<!-- <dependency id="kuerteeTeleportFromTransporterRoom" optional="true" name="kuertee: Teleport from transporter room" version="710" date="2024-11-02" /> -->
-
+	<!-- <dependency id="x4_bar" optional="true" name="Bar" version="112" date="2020-05-30" /> -->
 </content>

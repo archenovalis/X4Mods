@@ -76,14 +76,22 @@
 	<add pos="before" sel="//cue[@name=&quot;Launch_Pod_Helper&quot;]/actions/do_if[@value=&quot;$Launcher.exists&quot;]/set_relation_boost[@object=&quot;$Target&quot;][@otherobject=&quot;$Launcher&quot;][@value=&quot;$Target.owner.relation.kill.min&quot;][@delay=&quot;10min&quot;][@decay=&quot;1&quot;]">
 		<debug_text text="'md.kuertee_chc:$Launcher: ' + $Launcher.knownname + ' (' + $Launcher.idcode + ')'" chance="md.kuertee_chc.kCHC.$debugChance" />
 		<debug_text text="'md.kuertee_chc:$isBoarded: ' + $isBoarded" chance="md.kuertee_chc.kCHC.$debugChance" />
-		<do_if value="$Launcher.trueowner == faction.player and $isBoarded">
-			<do_if value="not @player.allmodules.{player.module}.isscenario">
-				<signal_cue_instantly cue="md.kuertee_chc.CrimeBoarding" param="table[
-					$crime = relationchangereason.boardedobject,
-					$criminalShip = $Launcher,
-					$victimShipStation = $Target
-				]" />
-			</do_if>
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<set_value name="$kCHC_criminalShip" exact="$Launcher" />
+			<set_value name="$kCHC_victimShipStation" exact="$Target" />
+			<set_value name="$kCHC_crime" exact="relationchangereason.boardedobject" />
+			<run_actions ref="md.kuertee_chc.Step2_GetIsSelfDefense" result="$kCHC_isSelfDefense">
+				<param name="kCHC_criminalShip" value="$kCHC_criminalShip" />
+				<param name="kCHC_victimShipStation" value="$kCHC_victimShipStation" />
+				<param name="kCHC_crime" value="$kCHC_crime" />
+			</run_actions>
+			<debug_text text="'boarding.xml: $kCHC_isSelfDefense: ' + $kCHC_isSelfDefense" chance="@md.kuertee_chc.kCHC.$debugChance" />
+			<run_actions ref="md.kuertee_chc.Step3_RecordCrime">
+				<param name="kCHC_criminalShip" value="$kCHC_criminalShip" />
+				<param name="kCHC_victimShipStation" value="$kCHC_victimShipStation" />
+				<param name="kCHC_crime" value="$kCHC_crime" />
+				<param name="kCHC_isSelfDefense" value="$kCHC_isSelfDefense" />
+			</run_actions>
 		</do_if>
 	</add>
 

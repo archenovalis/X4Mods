@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="X4_Bar"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<cues>
+		<cue name="Init">
+			<conditions>
+				<check_any>
+					<event_game_loaded />
+					<event_game_started />
+					<event_player_created />
+					<event_cue_signalled cue="md.Setup.Start" />
+				</check_any>
+			</conditions>
+			<delay exact="2s" />
+			<actions>
+				<show_help duration="6s" custom="'X4_Bar Mod installed.'" />
+				<set_value name="$Debug" exact="false" />
+				<set_value name="$X4CorridorMacro" exact="null" />
+				<set_value name="$X4RoomMacro" exact="null" />
+				<set_value name="$Station" exact="player.station" />
+				<set_value name="$X4Interior" exact="null" />
+				<set_value name="$Corridor" exact="null" />
+				<set_value name="$Room" exact="null" />
+				<!-- <set_value name="$MainHQ" exact="md.X4Ep1_Mentor_Subscriptions.Start.$HQ" /> -->
+				<set_value name="$MainHQ" exact="md.SWI_HQ_Discovery.Start.$HQ" />
+				<set_value name="$DebugFileName" exact="md.$SystemTimeAtGamestart" comment="Имя файла, в который будет сохранен журнал.'" />
+				<set_value name="$DebugDirectory" exact="'bar'" comment="Каталог, в котором должны храниться файлы журналов." />
+				<set_value name="$DebugOutput" exact="false" comment="Должен ли файл журнала также выводиться на выход VS? - Убедитесь, что это неверно для сборок релиза." />
+				<set_value name="$ShadyGuyBar" exact="null" />
+				<get_room_definition macro="$X4CorridorMacro" tags="tag.corridor" />
+				<get_room_definition macro="$X4RoomMacro" tags="tag.bar" />
+				<signal_cue_instantly cue="Save_Log" param="'X4_Bar Start.'" />
+				<set_value name="$StationTable" exact="null" />
+				<set_value name="$StationInterior" exact="null" />
+				<signal_cue_instantly cue="Check_Player" />
+			</actions>
+			<cues>
+
+				<cue name="Remove_X4Interior" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$Obj" exact="event.param.{1}" />
+						<set_value name="$Interior" exact="event.param.{2}" />
+						<remove_dynamic_interior object="$Obj" interior="$Interior" />
+						<destroy_object object="$Interior" />
+						<signal_cue_instantly cue="Save_Log" param="'Бар в ' + $Interior + ' ' + $Obj.name + ' удален '" />
+						<remove_value name="$Interior" />
+						<remove_value name="$Corridor" />
+						<remove_value name="$Room" />
+					</actions>
+				</cue>
+
+				<cue name="Setup_All" instantiate="true">
+					<conditions>
+						<event_object_changed_object object="player.entity" />
+					</conditions>
+					<actions>
+						<set_value name="$Debug" exact="false" />
+						<!-- <set_value name="$MainHQ" exact="md.X4Ep1_Mentor_Subscriptions.Start.$HQ" /> -->
+						<set_value name="$MainHQ" exact="md.SWI_HQ_Discovery.Start.$HQ" />
+						<set_value name="$Station" exact="player.station" />
+						<set_value name="$X4Interior" exact="null" />
+						<set_value name="$Corridor" exact="null" />
+						<set_value name="$Room" exact="null" />
+						<signal_cue_instantly cue="Check_Player" />
+					</actions>
+				</cue>
+
+				<cue name="Check_Player" instantiate="true">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+						</check_any>
+					</conditions>
+					<actions>
+						<do_if value="$Station">
+							<do_if value="$Station != $MainHQ">
+								<signal_cue_instantly cue="Place_Station" />
+							</do_if>
+						</do_if>
+					</actions>
+				</cue>
+
+				<cue name="Find_Slot_of_Room" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$RoomSlots" exact="event.param.{1}" />
+						<set_value name="$Tag" exact="event.param.{2}" />
+						<set_value name="$Men" exact="event.param.{3}" />
+
+						<!-- Find specific slot to place Gride on. -->
+						<find_npc_slot name="$RoomSlots" object="$MainHQ" tags="$Tag" />
+						<do_if value="$RoomSlots">
+							<signal_cue_instantly cue="Save_Log" param="'Мы нашли свободный слот в комнате для ' + $Men.knownname + ' ' + $RoomSlots" />
+							<add_actor_to_room actor="$Men" slot="$RoomSlots" />
+						</do_if>
+						<do_else>
+							<signal_cue_instantly cue="Save_Log" param="'Не удалось создать слот в комнате ' + $Men.knownname" />
+						</do_else>
+					</actions>
+				</cue>
+
+				<cue name="Save_Log" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$Text" exact="event.param" />
+						<do_if value="$Debug">
+							<debug_to_file name="$DebugFileName" directory="$DebugDirectory" text="'' + $Text" output="$DebugOutput" />
+						</do_if>
+					</actions>
+				</cue>
+
+				<cue name="Place_Station" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<signal_cue_instantly cue="Save_Log" param="'Игрок прибыл на станцию [%s]'.[$Station.name]" />
+						<do_if value="$StationInterior">
+							<signal_cue_instantly cue="Remove_X4Interior" param="[$StationTable, $StationInterior]" />
+						</do_if>
+
+						<!-- Create Interior -->
+						<set_value name="$Race" exact="$Station.owner.primaryrace" />
+						<set_value name="$Seed" exact="$Station.seed + lookup.roomtype.list.indexof.{roomtype.bar}" />
+						<get_room_definition macro="$X4CorridorMacro" race="$Race" tags="tag.entertainmentcorridor" seed="$Seed" />
+						<get_room_definition macro="$X4CorridorMacro" tags="tag.entertainmentcorridor" seed="$Seed" chance="if $X4CorridorMacro then 0 else 100" />
+						<get_room_definition macro="$X4CorridorMacro" race="$Race" tags="tag.corridor" seed="$Seed" chance="if $X4CorridorMacro then 0 else 100" />
+						<get_room_definition macro="$X4CorridorMacro" tags="tag.corridor" seed="$Seed" chance="if $X4CorridorMacro then 0 else 100" />
+						<get_room_definition macro="$X4RoomMacro" tags="tag.bar" seed="$Seed" />
+						<create_dynamic_interior object="$Station" corridor="$X4CorridorMacro" room="$X4RoomMacro" name="'{20007, 1031}'" interiorname="$X4Interior" corridorname="$Corridor" roomname="$Room" roomtype="roomtype.bar" seed="$Seed" />
+						<do_if value="$ShadyGuyBar">
+							<set_value name="$ShadyGuyBar" exact="null" />
+						</do_if>
+						<create_cue_actor name="$ShadyGuyBar" cue="this" chance="2.5">
+							<select tags="tag.shadyguy" />
+							<owner exact="$Station.owner" />
+							<select race="$Race" />
+							<skills>
+								<skill type="management" exact="15" />
+								<skill type="morale" exact="0" />
+								<skill type="piloting" exact="4" />
+								<skill type="engineering" exact="6" />
+								<skill type="boarding" exact="0" />
+							</skills>
+						</create_cue_actor>
+						<do_if value="$ShadyGuyBar">
+							<set_entity_type entity="$ShadyGuyBar" type="entitytype.shadyguy" />
+						</do_if>
+						<do_if value="not $ShadyGuyBar">
+							<create_cue_actor name="$ShadyGuyBar" cue="this" chance="2.5">
+								<select tags="tag.trader" />
+								<owner exact="faction.huttcartel" />
+								<select race="$Race" />
+								<skills>
+									<skill type="management" exact="15" />
+									<skill type="morale" exact="0" />
+									<skill type="piloting" exact="4" />
+									<skill type="engineering" exact="6" />
+									<skill type="boarding" exact="0" />
+								</skills>
+							</create_cue_actor>
+							<do_if value="$ShadyGuyBar">
+								<set_entity_type entity="$ShadyGuyBar" type="entitytype.trader" />
+								<set_stock_reference entity="$ShadyGuyBar" stock="'hutt_trader'" />
+							</do_if>
+						</do_if>
+						<do_if value="$ShadyGuyBar">
+							<find_npc_slot name="$roomSlot" object="$Room" tags="tag.stand_leanrail_f" />
+							<add_actor_to_room actor="$ShadyGuyBar" slot="$roomSlot" result="$TraderMoved" />
+							<do_if value="$TraderMoved">
+								<set_value name="$ShadyGuyBar.$itemtrader_dockarea" exact="$ShadyGuyBar.dockarea" />
+								<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$ShadyGuyBar]" />
+								<do_if value="$ShadyGuyBar.type == entitytype.trader">
+									<set_stock_reference entity="$ShadyGuyBar" stock="'hutt_trader'" />
+								</do_if>
+								<do_else>
+									<set_stock_reference entity="$ShadyGuyBar" stock="'pirate_trader'" />
+								</do_else>
+							</do_if>
+						</do_if>
+						<do_if value="$X4Interior">
+							<signal_cue_instantly cue="Save_Log" param="'Бар в ' + $Station.name + ' создан'" />
+							<signal_cue_instantly cue="Save_Log" param="'$Corridor =  ' + $Corridor + ' $Room = ' + $Room + ' $X4Interior = ' + $X4Interior" />
+						</do_if>
+						<do_else>
+							<signal_cue_instantly cue="Save_Log" param="'Не удалось создать Бар в ' + $Station.name" />
+						</do_else>
+						<set_value name="$StationTable" exact="$Station" />
+						<set_value name="$StationInterior" exact="$X4Interior" />
+						<set_value name="$X4Interior" exact="null" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+	</cues>
+</mdscript>

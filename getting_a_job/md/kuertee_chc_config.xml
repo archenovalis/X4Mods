@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="kuertee_chc_config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+<mdscript name="kuertee_chc_config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
 		<cue name="Config" namespace="this" version="1">
 		</cue>
@@ -38,8 +38,8 @@
 				<do_all counter="$i" exact="$levels.count">
 					<set_value name="$MissionThread" exact="null" />
 					<set_value name="$OfferType" exact="null" />
-					<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[namespace, $levels.{$i}, 1, faction.argon]" comment="basic reward credits"/>
-					<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus"/>
+					<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[namespace, $levels.{$i}, 1, faction.argon]" comment="basic reward credits" />
+					<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus" />
 					<!-- <debug_text text="$levels.{$i} + ': ' + $Reward_Money__Result_Multiplied.formatted.{'%s %Cr'}" /> -->
 					<set_value name="$rewardEgTextByLevels.{$levels.{$i}}" exact="$Reward_Money__Result_Multiplied.formatted.{'%s %Cr'}" />
 					<remove_value name="$MissionThread" />
@@ -50,17 +50,14 @@
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={11383, 4}]" comment="Fines" />
 
 
-
-
-
 				<!-- attacks -->
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 5}, $color = 'Helper.color.blue']" comment="Attacks" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 6}]" comment="Beacons, probes, laser towers, and satellites" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeAttackedOtherFineLevel',
 						$col = 2,
 						$options = [
@@ -87,12 +84,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeAttackedOtherFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineMult,
 						$col = 2,
@@ -102,11 +99,11 @@
 						$mouseOverText = {1001,2661} + ': 0.5',
 						$onSliderCellChanged = OnSMOSliderChange
 					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 7}]" comment="Ship attacks" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeAttackedShipFineLevel',
 						$col = 2,
 						$options = [
@@ -133,12 +130,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeAttackedShipFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeAttackedShipFineMult,
 						$col = 2,
@@ -148,11 +145,11 @@
 						$mouseOverText = {1001,2661} + ': 1.00',
 						$onSliderCellChanged = OnSMOSliderChange
 					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 8}]" comment="Station attacks" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeAttackedStationFineLevel',
 						$col = 2,
 						$options = [
@@ -179,12 +176,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeAttackedStationFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeAttackedStationFineMult,
 						$col = 2,
@@ -196,19 +193,16 @@
 					]" />
 
 
-
-
-
 				<!-- thievery -->
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 9}, $color = 'Helper.color.blue']" comment="Thievery" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 10}]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 10}]" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeBoardedObjectFineLevel',
 						$col = 2,
 						$options = [
@@ -235,12 +229,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeBoardedObjectFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineMult,
 						$col = 2,
@@ -252,19 +246,16 @@
 					]" />
 
 
-
-
-
 				<!-- kills -->
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 11}, $color = 'Helper.color.blue']" comment="Kills" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 12}]" comment="Beacons, probes, laser towers, and satellites" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeDestroyedOtherFineLevel',
 						$col = 2,
 						$options = [
@@ -291,12 +282,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeDestroyedOtherFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineMult,
 						$col = 2,
@@ -306,11 +297,11 @@
 						$mouseOverText = {1001,2661} + ': 1.00',
 						$onSliderCellChanged = OnSMOSliderChange
 					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 13}]" comment="Ship kills" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeKilledShipFineLevel',
 						$col = 2,
 						$options = [
@@ -337,12 +328,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeKilledShipFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeKilledShipFineMult,
 						$col = 2,
@@ -352,11 +343,11 @@
 						$mouseOverText = {1001,2661} + ': 3.00',
 						$onSliderCellChanged = OnSMOSliderChange
 					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 14}]" comment="Station destructions" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeDestroyedStationFineLevel',
 						$col = 2,
 						$options = [
@@ -383,12 +374,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeDestroyedStationFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineMult,
 						$col = 2,
@@ -400,13 +391,10 @@
 					]" />
 
 
-
-
-
 				<!-- other -->
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 15}, $color = 'Helper.color.blue']" comment="Other types" />
 				<!-- <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 16}]" comment="Hacks" />
@@ -454,11 +442,11 @@
 						$mouseOverText = {1001,2661} + ': 1.0',
 						$onSliderCellChanged = OnSMOSliderChange
 					]" /> -->
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 17}]" comment="Illegal scans" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeScanningDiscoveredFineLevel',
 						$col = 2,
 						$options = [
@@ -485,12 +473,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4002},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeScanningDiscoveredFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineMult,
 						$col = 2,
@@ -500,11 +488,11 @@
 						$mouseOverText = {1001,2661} + ': 1.00',
 						$onSliderCellChanged = OnSMOSliderChange
 					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 18}]" comment="Illegal cargo/inventory" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeIllegalCargoFineLevel',
 						$col = 2,
 						$options = [
@@ -531,12 +519,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4002},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeIllegalCargoFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineMult,
 						$col = 2,
@@ -546,11 +534,11 @@
 						$mouseOverText = {1001,2661} + ': 1.00',
 						$onSliderCellChanged = OnSMOSliderChange
 					]" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 19}]" comment="Illegal build plots" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Dropdown"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Dropdown"
+					param="table[
 						$id = 'userCrimeIllegalPlotFineLevel',
 						$col = 2,
 						$options = [
@@ -577,12 +565,12 @@
 						),
 						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
 						$onDropDownConfirmed = onDropDownConfirmed
-					]"/>
+					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userCrimeIllegalPlotFineMult',
 						$start = md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineMult,
 						$col = 2,
@@ -594,18 +582,15 @@
 					]" />
 
 
-
-
-
 				<!-- vars -->
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 20}, $color = 'Helper.color.blue']" comment="Other features" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 35}]" comment="Allow attack and kill crimes in low attention" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'userIsAllowAttackCrimesInLowAttention',
 						$checked = md.kuertee_chc.kCHC.$userIsAllowAttackCrimesInLowAttention,
 						$col = 2,
@@ -617,8 +602,8 @@
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 21}, $mouseOverText = {11383, 31} + ' ' + {1001, 2661} + ': 0.1.']" comment="Fines multiplier in large operation areas" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userInLargeOperationFineMult',
 						$start = md.kuertee_chc.kCHC.$userInLargeOperationFineMult,
 						$col = 2,
@@ -630,8 +615,8 @@
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 22}]" comment="Imopund ship on dock" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'userIsImpoundShipOnDock',
 						$checked = md.kuertee_chc.kCHC.$userIsImpoundShipOnDock,
 						$col = 2,
@@ -642,8 +627,8 @@
 					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 23}, $halign = 'right']" comment="Imopund player ship on dock" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'userIsImpoundPlayerShipOnDock',
 						$checked = md.kuertee_chc.kCHC.$userIsImpoundPlayerShipOnDock,
 						$col = 2,
@@ -654,8 +639,8 @@
 					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 24}, $halign = 'right']" comment="Impound player ship on dock on any fines" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'userIsImpoundPlayerShipOnDockAnyFine',
 						$checked = md.kuertee_chc.kCHC.$userIsImpoundPlayerShipOnDockAnyFine,
 						$col = 2,
@@ -667,8 +652,8 @@
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 25}]" comment="Impound ship at hull percentage" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userShipHullPercImpound',
 						$start = md.kuertee_chc.kCHC.$userShipHullPercImpound,
 						$col = 2,
@@ -679,34 +664,10 @@
 						$onSliderCellChanged = OnSMOSliderChange
 					]" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 26}, $halign = 'right']" comment="Impound player ship on attack" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsImpoundPlayerShipOnAttack',
-						$checked = md.kuertee_chc.kCHC.$userIsImpoundPlayerShipOnAttack,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 27}, $halign = 'right']" comment="Impound player ship on attack on any fines" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
-						$id = 'userIsImpoundPlayerShipOnAttackAnyFine',
-						$checked = md.kuertee_chc.kCHC.$userIsImpoundPlayerShipOnAttackAnyFine,
-						$col = 2,
-						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
-						$default = false,
-						$mouseOverText = {1001, 2661} + ': ' + {1001, 2649},
-						$onClick = OnSMOCheckboxChange
-					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
-				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 33}]" comment="Hours to forfeit impounded ships" />
 				<signal_cue_instantly
-					cue = "md.Simple_Menu_API.Make_Slider"
-					param = "table[
+					cue="md.Simple_Menu_API.Make_Slider"
+					param="table[
 						$id = 'userHoursToForfeitImpounds',
 						$start = md.kuertee_chc.kCHC.$userHoursToForfeitImpounds,
 						$col = 2,
@@ -719,8 +680,8 @@
 
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 28}, $mouseOverText = {11383, 32} + ' ' + {1001, 2661} + ': ' + {1001, 2648} + '.']" comment="Separate wingmen crimes" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'userSeparateWingmanCrimes',
 						$checked = md.kuertee_chc.kCHC.$userSeparateWingmanCrimes,
 						$col = 2,
@@ -731,8 +692,8 @@
 					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 29}]" comment="Accumulate crimes on enemy factions" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'userIsDetectCrimesOnEnemy',
 						$checked = md.kuertee_chc.kCHC.$userIsDetectCrimesOnEnemy,
 						$col = 2,
@@ -743,8 +704,8 @@
 					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 34}]" comment="Accumulate crimes on enemy factions" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'userIsDetectCrimesOnPirate',
 						$checked = md.kuertee_chc.kCHC.$userIsDetectCrimesOnPirate,
 						$col = 2,
@@ -755,16 +716,13 @@
 					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
 
 
-
-
-
 				<!-- debug -->
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 2}, $color='Helper.color.red']" />
-				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-					param = "table[
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+					param="table[
 						$id = 'debugChance',
 						$checked = if md.kuertee_chc.kCHC.$debugChance == 100 then true else false,
 						$col = 2,
@@ -775,8 +733,8 @@
 				<do_if value="md.kuertee_chc.kCHC.$debugChance">
 					<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 					<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={161815, 3}, $color='Helper.color.red']" />
-					<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-						param = "table[
+					<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+						param="table[
 							$id = 'isDoDebug1',
 							$checked = md.kuertee_chc.kCHC.$isDoDebug1,
 							$col = 2,
@@ -786,8 +744,8 @@
 						]" />
 					<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 					<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={161815, 3}, $color='Helper.color.red']" />
-					<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
-						param = "table[
+					<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox"
+						param="table[
 							$id = 'isDoDebug2',
 							$checked = md.kuertee_chc.kCHC.$isDoDebug2,
 							$col = 2,
@@ -807,7 +765,7 @@
 				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
 				<set_value name="md.kuertee_chc.kCHC.{'$' + event.param.$id}" exact="event.param.$value" />
 				<debug_text text="event.param.$id + ' post: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
-				<cancel_cue cue = "this" />
+				<cancel_cue cue="this" />
 			</actions>
 		</cue>
 		<cue name="OnSMOCheckboxChange" instantiate="true">
@@ -818,13 +776,13 @@
 				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
 				<do_if value="event.param.$id == 'debugChance'">
 					<set_value name="md.kuertee_chc.kCHC.{'$' + event.param.$id}" exact="if event.param.$checked then 100 else 0" />
-					<signal_cue_instantly cue="md.Simple_Menu_API.Refresh_Menu"/>
+					<signal_cue_instantly cue="md.Simple_Menu_API.Refresh_Menu" />
 				</do_if>
 				<do_else>
 					<set_value name="md.kuertee_chc.kCHC.{'$' + event.param.$id}" exact="event.param.$checked" />
 				</do_else>
 				<debug_text text="event.param.$id + ' post: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
-				<cancel_cue cue = "this" />
+				<cancel_cue cue="this" />
 			</actions>
 		</cue>
 		<cue name="onDropDownConfirmed" instantiate="true">
@@ -836,7 +794,7 @@
 				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
 				<set_value name="md.kuertee_chc.kCHC.{'$' + event.param.$id}" exact="(event.param.$option.$value)" />
 				<debug_text text="event.param.$id + ' post: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
-				<cancel_cue cue = "this" />
+				<cancel_cue cue="this" />
 			</actions>
 		</cue>
 	</cues>

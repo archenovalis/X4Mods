@@ -10,6 +10,7 @@
 					$crimes = [],
 					$times = [],
 					$startTimes = [],
+					$victimShipsStations_orig = [],
 					$victimShipsStations = [],
 					$victimNames = [],
 					$victimFactions = [],
@@ -72,6 +73,9 @@
 				<set_value name="kCHC.$userHoursToForfeitImpounds" exact="14" />
 				<set_value name="kCHC.$userIsDetectCrimesOnPirate" exact="true" />
 				<!-- vars -->
+				<!-- getting_a_job: stolenShips variable -->
+				<!-- kCHC.$stolenShips.{$ship} = faction.originalowner -->
+				<set_value name="kCHC.$stolenShips" exact="table[]" />
 				<set_value name="kCHC.$factionFines" exact="table[]" />
 				<set_value name="kCHC.$crimesByShips" exact="table[]" />
 				<set_value name="kCHC.$crimesBySpacesuit" exact="table[]" />
@@ -193,6 +197,7 @@
 								<param name="Time" value="$crimesByShips.{$ship_inList}.$times.{$i}" />
 								<param name="CriminalShip" value="$ship_inList" />
 								<param name="Crime" value="$crime" />
+								<param name="VictimShipStation_orig" value="$crimesByShips.{$ship_inList}.$victimShipsStations_orig.{$i}" />
 								<param name="VictimShipStation" value="$crimesByShips.{$ship_inList}.$victimShipsStations.{$i}" />
 								<param name="VictimFaction" value="$crimesByShips.{$ship_inList}.$victimFactions.{$i}" />
 								<param name="Fines" value="$crimesByShips.{$ship_inList}.$fines.{$i}" />
@@ -412,6 +417,7 @@
 											<remove_value name="kCHC.$crimesByShips.{$ship}.$crimes.{$crimeI}" />
 											<remove_value name="kCHC.$crimesByShips.{$ship}.$times.{$crimeI}" />
 											<remove_value name="kCHC.$crimesByShips.{$ship}.$startTimes.{$crimeI}" />
+											<remove_value name="kCHC.$crimesByShips.{$ship}.$victimShipsStations_orig.{$crimeI}" />
 											<remove_value name="kCHC.$crimesByShips.{$ship}.$victimShipsStations.{$crimeI}" />
 											<remove_value name="kCHC.$crimesByShips.{$ship}.$victimNames.{$crimeI}" />
 											<remove_value name="kCHC.$crimesByShips.{$ship}.$victimFactions.{$crimeI}" />
@@ -1217,7 +1223,6 @@
 							<set_value name="$victimShipStation" exact="event.param2.$victimShipStation" />
 						</do_if>
 						<do_if value="event.name == 'event_player_signal_unlock_finished'">
-							<!-- getting a job: salvage license for friendly ships? -->
 							<set_value name="$criminalShip" exact="player.ship" />
 							<set_value name="$victimShipStation" exact="event.param2" />
 							<run_actions ref="Step1_GetCriminalShip" result="$criminalShip">
@@ -1762,6 +1767,7 @@
 								$crimes = [],
 								$times = [],
 								$startTimes = [],
+								$victimShipsStations_orig = [],
 								$victimShipsStations = [],
 								$victimNames = [],
 								$victimFactions = [],
@@ -1792,6 +1798,7 @@
 								$crimes = [],
 								$times = [],
 								$startTimes = [],
+								$victimShipsStations_orig = [],
 								$victimShipsStations = [],
 								$victimNames = [],
 								$victimFactions = [],
@@ -1869,6 +1876,7 @@
 						<do_if value="@$crimesByShipData.$crimes.count gt 50">
 							<resize_list list="$crimesByShipData.$crimes" count="50" />
 							<resize_list list="$crimesByShipData.$times" count="50" />
+							<resize_list list="$crimesByShipData.$victimShipsStations_orig" count="50" />
 							<resize_list list="$crimesByShipData.$victimShipsStations" count="50" />
 							<resize_list list="$crimesByShipData.$victimNames" count="50" />
 							<resize_list list="$crimesByShipData.$victimFactions" count="50" />
@@ -1915,7 +1923,7 @@
 							<do_if value="@$victimShipStation.ship">
 								<set_value name="$victimShipStation" exact="$victimShipStation.ship" />
 							</do_if>
-							<do_elseif value="@$victimShipStation.ship">
+							<do_elseif value="@$victimShipStation.station">
 								<set_value name="$victimShipStation" exact="$victimShipStation.station" />
 							</do_elseif>
 						</do_if>
@@ -2113,10 +2121,15 @@
 															<param name="Time" value="$crimeTime" />
 															<param name="CriminalShip" value="$criminalShip" />
 															<param name="Crime" value="$crime" />
+															<param name="VictimShipStation_orig" value="$victimShipStation_orig" />
 															<param name="VictimShipStation" value="$victimShipStation" />
 															<param name="VictimFaction" value="$victimFaction" />
 															<param name="Fines" value="$fines" />
 														</run_actions>
+														<!-- getting_a_job: add reported boarded ship to stolen ship list, even if boarding failed -->
+														<do_if value="$crime == relationchangereason.boardedobject">
+															<set_value name="$stolenShips.{$victimShipStation_orig}" exact="$victimFaction" />
+														</do_if>
 													</do_if>
 												</do_if>
 												<include_actions ref="PopulateCrimesByShipData" />
@@ -2189,6 +2202,7 @@
 									<set_value name="$crime" exact="@kCHC.$crimesByShips.{$ship}.$crimes.{$j}" />
 									<set_value name="$crimeTime" exact="@kCHC.$crimesByShips.{$ship}.$times.{$j}" />
 									<set_value name="$crimeTime" exact="@kCHC.$crimesByShips.{$ship}.$startTimes.{$j}" />
+									<set_value name="$victimShipStation_orig" exact="@kCHC.$crimesByShips.{$ship}.$victimShipsStations_orig.{$j}" />
 									<set_value name="$victimShipStation" exact="@kCHC.$crimesByShips.{$ship}.$victimShipsStations.{$j}" />
 									<set_value name="$victimName" exact="@kCHC.$crimesByShips.{$ship}.$victimNames.{$j}" />
 									<set_value name="$victimFaction" exact="@kCHC.$crimesByShips.{$ship}.$victimFactions.{$j}" />
@@ -2233,6 +2247,7 @@
 							<do_all counter="$j" exact="@kCHC.$savedCrimesByShips.{$ship}.$crimes.count">
 								<set_value name="$crime" exact="@kCHC.$savedCrimesByShips.{$ship}.$crimes.{$j}" />
 								<set_value name="$crimeTime" exact="@kCHC.$savedCrimesByShips.{$ship}.$times.{$j}" />
+								<set_value name="$victimShipStation_orig" exact="@kCHC.$savedCrimesByShips.{$ship}.$victimShipsStations_orig.{$j}" />
 								<set_value name="$victimShipStation" exact="@kCHC.$savedCrimesByShips.{$ship}.$victimShipsStations.{$j}" />
 								<set_value name="$victimName" exact="@kCHC.$savedCrimesByShips.{$ship}.$victimNames.{$j}" />
 								<set_value name="$victimFaction" exact="@kCHC.$savedCrimesByShips.{$ship}.$victimFactions.{$j}" />
@@ -2906,6 +2921,7 @@
 						<do_all counter="$i" exact="kCHC.$crimesBySpacesuit.$crimes.count">
 							<set_value name="$crime" exact="kCHC.$crimesBySpacesuit.$crimes.{$i}" />
 							<set_value name="$crimeTime" exact="kCHC.$crimesBySpacesuit.$times.{$i}" />
+							<set_value name="$victimShipStation_orig" exact="kCHC.$crimesBySpacesuit.$victimShipsStations_orig.{$i}" />
 							<set_value name="$victimShipStation" exact="kCHC.$crimesBySpacesuit.$victimShipsStations.{$i}" />
 							<set_value name="$victimName" exact="kCHC.$crimesBySpacesuit.$victimNames.{$i}" />
 							<set_value name="$victimFaction" exact="kCHC.$crimesBySpacesuit.$victimFactions.{$i}" />
@@ -3039,7 +3055,7 @@
 						<event_player_owned_attacked />
 						<check_value value="not event.object.isclass.spacesuit" />
 						<check_value value="kCHC.$userShipHullPercImpound" />
-						<!-- getting a job: never import a ship the player is on, when taking damage -->
+						<!-- getting_a_job: never impound a ship the player is on, when taking damage, wait until player gets off the ship -->
 						<!-- <check_any> -->
 						<check_value value="event.object != player.ship" />
 						<!-- <check_all>
@@ -3124,6 +3140,8 @@
 				<cue name="GetIsAttackerCanImpoundShip" instantiate="true">
 					<conditions>
 						<event_cue_signalled />
+						<!-- getting_a_job: never impound a ship the player is on, when attacked, wait until player gets off the ship -->
+						<check_value value="event.param.$ship != player.ship" />
 						<!-- param="table[$cue = cue to put var, $attacker = ship or station, $ship = ship] -->
 					</conditions>
 					<actions>
@@ -3357,6 +3375,7 @@
 							$crimes = [],
 							$times = [],
 							$startTimes = [],
+							$victimShipsStations_orig = [],
 							$victimShipsStations = [],
 							$victimNames = [],
 							$victimFactions = [],
@@ -3446,6 +3465,7 @@
 									<remove_value name="kCHC.$crimesByShips.{$ship_inList}.$times.{$i - $adj}" />
 									<remove_value name="kCHC.$crimesByShips.{$ship_inList}.$victimFactions.{$i - $adj}" />
 									<remove_value name="kCHC.$crimesByShips.{$ship_inList}.$victimNames.{$i - $adj}" />
+									<remove_value name="kCHC.$crimesByShips.{$ship_inList}.$victimShipsStations_orig.{$i - $adj}" />
 									<remove_value name="kCHC.$crimesByShips.{$ship_inList}.$victimShipsStations.{$i - $adj}" />
 									<set_value name="$adj" exact="$adj + 1" />
 								</do_for_each>
@@ -4085,6 +4105,7 @@
 									<do_all counter="$j" exact="@kCHC.$crimesBySpacesuit.$crimes.count">
 										<set_value name="$crime" exact="kCHC.$crimesBySpacesuit.$crimes.{$j}" />
 										<set_value name="$startTime" exact="kCHC.$crimesBySpacesuit.$startTimes.{$j}" />
+										<set_value name="$victimShipStation_orig" exact="kCHC.$crimesBySpacesuit.$victimShipsStations_orig.{$j}" />
 										<set_value name="$victimShipStation" exact="kCHC.$crimesBySpacesuit.$victimShipsStations.{$j}" />
 										<set_value name="$victimName" exact="kCHC.$crimesBySpacesuit.$victimNames.{$j}" />
 										<set_value name="$victimFaction" exact="kCHC.$crimesBySpacesuit.$victimFactions.{$j}" />
@@ -4156,6 +4177,7 @@
 										<do_all counter="$j" exact="@kCHC.$crimesByShips.{$ship}.$crimes.count">
 											<set_value name="$crime" exact="kCHC.$crimesByShips.{$ship}.$crimes.{$j}" />
 											<set_value name="$startTime" exact="kCHC.$crimesByShips.{$ship}.$startTimes.{$j}" />
+											<set_value name="$victimShipStation_orig" exact="kCHC.$crimesByShips.{$ship}.$victimShipsStations_orig.{$j}" />
 											<set_value name="$victimShipStation" exact="kCHC.$crimesByShips.{$ship}.$victimShipsStations.{$j}" />
 											<set_value name="$victimName" exact="kCHC.$crimesByShips.{$ship}.$victimNames.{$j}" />
 											<set_value name="$victimFaction" exact="kCHC.$crimesByShips.{$ship}.$victimFactions.{$j}" />
@@ -4318,6 +4340,7 @@
 									<remove_value name="$crimesByShipData.$crimes.{$j}" />
 									<remove_value name="$crimesByShipData.$times.{$j}" />
 									<remove_value name="$crimesByShipData.$startTimes.{$j}" />
+									<remove_value name="$crimesByShipData.$victimShipsStations_orig.{$j}" />
 									<remove_value name="$crimesByShipData.$victimShipsStations.{$j}" />
 									<remove_value name="$crimesByShipData.$victimNames.{$j}" />
 									<remove_value name="$crimesByShipData.$victimFactions.{$j}" />
@@ -4368,6 +4391,7 @@
 						<param name="Time" />
 						<param name="CriminalShip" />
 						<param name="Crime" />
+						<param name="VictimShipStation_orig" />
 						<param name="VictimShipStation" />
 						<param name="VictimFaction" />
 						<param name="Fines" />
@@ -4385,6 +4409,8 @@
 							$time = $Time,
 							$shipName = $shipName,
 							$crime = $Crime,
+							$victimShip = $VictimShipStation_orig,
+							$victimShip = $VictimShipStation,
 							$victimName = $victimName,
 							$victimFaction = $VictimFaction,
 							$fines = $Fines,
