@@ -51,7 +51,7 @@ Cash in accounts are reduced by the account's inheritance tax
 * [Mod Support APIs](https://www.nexusmods.com/x4foundations/mods/503)
 * [Kuertee: UI Extensions and HUD](https://github.com/kuertee/x4-mod-ui-extensions/releases)
 ## Installation
-* Download: https://github.com/archenovalis/X4Mods/releases/tag/Getting_A_Job_v0.5
+* Download: https://github.com/archenovalis/X4Mods/releases/tag/Getting_A_Job_v0.7
 * Extract to extensions directory.
 ## Planned Features
 * **New Statuses**
@@ -76,4 +76,4 @@ Cash in accounts are reduced by the account's inheritance tax
 - v0.5: Work Missions implemented. Mission pay cut in half. Work mission bonus pay increased by 40-250%.
 - v0.55: integrated kuertee emergent missions and faction requirements, replaced all vanilla rewards with bank transfers
 - v0.60: sell ships implemented
-- v0.7: NPC Reactions, Teleport from Transporter Room, and Alternatives to Death modified and integrated, Escape Pod created
+- v0.7: NPC Reactions, Teleport from Transporter Room, and Alternatives to Death customized and integrated. Escape Pod mod created and integrated. Death causes you to lose all cash on hand, keep it safe in a bank. Clones are expensive, but no penalties upon death. Descendants will also cost reputation, starting your paycheck over (pensions will persist), and incur inheritance taxes

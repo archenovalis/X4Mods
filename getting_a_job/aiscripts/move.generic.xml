@@ -1,6 +1,30 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <diff>
-<!-- add. purpose: params.
+
+	<!-- Crime Has Consequences -->
+	<add pos="before" sel="//attention[@min=&quot;unknown&quot;]/actions/return[@value=&quot;$returnvalue&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="this.assignedcontrolled.isoperational">
+				<set_value name="$kCHC_witness" exact="this.assignedcontrolled" />
+				<include_interrupt_actions ref="kCHC_ReportAnyWitnessedCriminals" />
+			</do_if>
+		</do_if>
+	</add>
+	<!-- purpose: report any criminals witnessed if near a station
+		<on_abort>
+	-->
+	<add pos="before" sel="//on_abort">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="this.assignedcontrolled.isoperational">
+				<set_value name="$kCHC_witness" exact="this.assignedcontrolled" />
+				<include_interrupt_actions ref="kCHC_ReportAnyWitnessedCriminals" />
+			</do_if>
+		</do_if>
+	</add>
+
+
+	<!-- NPC Reactions -->
+	<!-- add. purpose: params.
 	<params>
 -->
 	<add sel="//params">
@@ -9,7 +33,7 @@
 		<param name="kNPCRParam_reportEnemies_large" required="false" default="false" type="internal" />
 		<param name="kNPCRParam_doNotEngage" required="false" default="if $holdfire? then $holdfire else false" type="internal" />
 	</add>
-<!-- add. purpose: send comm of enemies.
+	<!-- add. purpose: send comm of enemies.
 	<event_gravidar_has_scanned object="if ($activepatrol or $stopondetect.exists) then this.assignedcontrolled else null" check="false"/>
 -->
 	<add sel="//event_gravidar_has_scanned[@object=&quot;if ($activepatrol or $stopondetect.exists) then this.assignedcontrolled else null&quot;][@check=&quot;false&quot;]/ancestor::handler/actions">
@@ -35,7 +59,7 @@
 			<include_interrupt_actions ref="kNPCRActions_enemy_detected" />
 		</do_if>
 	</add>
-<!-- add. purpose: flee instead of attack.
+	<!-- add. purpose: flee instead of attack.
 	<create_order object="this.assignedcontrolled" id="'Attack'" immediate="true">
 -->
 	<add sel="//create_order[@object=&quot;this.assignedcontrolled&quot;][@id=&quot;'Attack'&quot;][@immediate=&quot;true&quot;]" type="@chance">if @$kNPCRParam_doNotEngage then 0 else 100</add>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mdscript name="kuertee_atd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="kATD" namespace="this" version="22">
+		<!-- <cue name="kATD" namespace="this" version="22"> -->
+		<cue name="kATD" namespace="this" version="23">
 			<conditions>
 				<check_any>
 					<event_cue_signalled cue="md.Setup.GameStart" />
@@ -98,10 +99,34 @@
 				<set_value name="$userIsNewStartSmallShip" exact="true" />
 				<set_value name="$userIsNewStartMediumShip" exact="false" />
 				<set_value name="$userIsNewStartLargeShip" exact="false" />
-				<set_value name="$gameStartSector" exact="player.sector" />
-				<debug_text text="'$gameStartSector.knownname: ' + $gameStartSector.knownname" />
-				<run_actions ref="GetFriendliestFaction" result="$gameStartFaction" />
-				<debug_text text="'$gameStartFaction: ' + $gameStartFaction.knownname" />
+			</patch>
+			<!-- getting a job override patch -->
+			<patch sinceversion="23">
+				<set_value name="$inheritanceTax" exact="true" />
+				<set_value name="$losePersonalCash" exact="true" />
+				<set_value name="$userIsNewStartMiner" exact="false" />
+				<set_value name="$userIsNewStartTrader" exact="false" />
+				<set_value name="$userIsNewStartFighter" exact="true" />
+				<set_value name="$userIsNewStartSmallShip" exact="true" />
+				<set_value name="$userIsNewStartMediumShip" exact="false" />
+				<set_value name="$userIsNewStartLargeShip" exact="false" />
+				<set_value name="$userIsUseClones" exact="true" />
+				<set_value name="$userCloneCostLevel" exact="level.hard" />
+				<set_value name="$userCloneCost" exact="500000Cr" />
+				<set_value name="$userIsUseDescendants" exact="true" />
+				<set_value name="$userIsUseTeleportToSafety" exact="false" />
+				<set_value name="$userIsUseRansom" exact="false" />
+				<set_value name="$userRansomPerc" exact="25" />
+				<set_value name="$userIsUseAssimilation" exact="false" />
+				<set_value name="$userIsLoseInventoryItems" exact="true" />
+				<set_value name="$userInheritTrustOnMoney" exact="0Cr" />
+				<set_value name="$userIsAllowKhaakAssimilation" exact="false" />
+				<set_value name="$userIsAllowXenonAssimilation" exact="false" />
+				<set_value name="$userIsLoseHQ" exact="false" />
+				<set_value name="$userOwnershipOnDeath_clone" exact="$ownershipOnDeath_retained" />
+				<set_value name="$userOwnershipOnDeath_descendant" exact="$ownershipOnDeath_inherited" />
+				<set_value name="$userOwnershipOnDeath_assimilated" exact="$ownershipOnDeath_retained" />
+				<set_value name="$userIsUseNoPenalty" exact="false" />
 			</patch>
 			<cues>
 				<cue name="Init" version="5">
@@ -503,23 +528,23 @@
 												<set_value name="$dps" exact="$damageOverTime / ($savedDamages.count)f" />
 												<remove_value name="$damageOverTime" />
 												<debug_text text="'$dps: ' + $dps + ' ($hull + $shield) / $userCountdownAtHullSecs: ' + (($hull + $shield) / ($userCountdownAtHullSecs)f)" chance="kATD.$debugChance" />
-												<do_if value="
+												<!-- <do_if value="
 													$hull + $shield lt kATD.$userDestructionAtHullPerc + 1
 													or
 													$dps ge ($hull + $shield) / ($userCountdownAtHullSecs)f
 												">
-													<!-- dps ge (hull / $userCountdownAtHullSecs seconds) AND le $userDestructionAtHullPerc -->
+													<!- dps ge (hull / $userCountdownAtHullSecs seconds) AND le $userDestructionAtHullPerc ->
 													<debug_text text="'2. HULL+SHIELD TOO LOW, DPS GREATER THAN HULL+SHIELD / $userCountdownAtHullSecs'" chance="kATD.$debugChance" />
 													<do_if value="not @kATD.$shipCountdownCues.{$ship}">
-														<!-- <signal_cue_instantly cue="StartDestructionCountdown" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" /> -->
-														<signal_cue_instantly cue="TriggerAlarm" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" />
+														<signal_cue_instantly cue="StartDestructionCountdown" param="table[$ship = $ship, $attacker = $attacker, $attackerFaction = @$attacker.owner]" />
 													</do_if>
-													<!-- <do_elseif value="$hull + $shield lt kATD.$userDestructionAtHullPerc + 1">
+													<do_elseif value="$hull + $shield lt kATD.$userDestructionAtHullPerc + 1">
 														<set_value name="kATD.$shipCountdownCues.{$ship}.$isDestructionCertain" exact="true" />
-													</do_elseif> -->
+													</do_elseif>
 													<set_value name="$time_countdownLastShown" exact="player.age" />
 												</do_if>
-												<do_elseif value="$dps ge ($hull + $shield) / ($userCountdownAtHullSecs)f">
+												<do_elseif value="$dps ge ($hull + $shield) / ($userCountdownAtHullSecs)f"> -->
+												<do_if value="$dps ge ($hull + $shield) / ($userCountdownAtHullSecs)f">
 													<!-- dps ge (hull / $userCountdownAtHullSecs seconds) -->
 													<debug_text text="'2. DPS GREATER THAN HULL+SHIELD / $userCountdownAtHullSecs'" chance="kATD.$debugChance" />
 													<do_if value="not @kATD.$shipCountdownCues.{$ship}">
@@ -530,7 +555,8 @@
 														<set_value name="kATD.$shipCountdownCues.{$ship}.$isDestructionCertain" exact="true" />
 													</do_elseif> -->
 													<set_value name="$time_countdownLastShown" exact="player.age" />
-												</do_elseif>
+													<!-- </do_elseif> -->
+												</do_if>
 												<do_elseif value="
 													player.age gt @$time_countdownLastShown + 3 and
 													$dps lt ($hull + $shield) / ($userCountdownAtHullSecs)f

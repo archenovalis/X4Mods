@@ -31,4 +31,13 @@
     </faction>
   </add>
 
+  <!-- crime has consequences -->
+  <add sel="/factions">
+    <faction id="kuertee_chc_faf" name="{11383, 1000}" description="{11383, 1000}" shortname="{11383, 1006}" primaryrace="argon" behaviourset="default" known="1" tags="hidden">
+      <color r="57" g="255" b="64" />
+      <icon active="faction_civilian" inactive="faction_civilian" />
+      <relations locked="1" />
+    </faction>
+  </add>
+
 </diff>

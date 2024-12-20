@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<aiscript name="kuertee_chc.witness.crime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="aiscripts.xsd" version="2">
+	<params>
+		<param name="kCHC_criminalShip" />
+		<param name="kCHC_victimShipStation" />
+		<param name="kCHC_crime" />
+		<param name="kCHC_isSelfDefense" default="false" />
+	</params>
+	<attention min="unknown">
+		<actions>
+			<do_if value="$kCHC_criminalShip.isplayerowned">
+				<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+			</do_if>
+		</actions>
+	</attention>
+</aiscript>

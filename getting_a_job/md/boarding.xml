@@ -1,5 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff>
+	<!-- Crime Has Consequences -->
+	<!-- boarding operation created -->
+	<!-- <cues>
+	<cue name="OperationCreated" instantiate="true" namespace="this" version="4">
+	<actions> -->
+	<add sel="//cue[@name=&quot;OperationCreated&quot;]/actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<signal_cue_instantly cue="md.kuertee_chc.LargeOperationStarted" param="table[
+				$target = $Target
+			]" />
+		</do_if>
+	</add>
+	<!-- boarding operation internal fight ticker -->
+	<!--<cues>
+			<cue name="OperationCreated" instantiate="true" namespace="this" version="4">
+				<cues>
+					<cue name="Internal_Fight_Ticker" instantiate="true">
+						<actions>
+	-->
+	<add sel="//cue[@name=&quot;Internal_Fight_Ticker&quot;]/actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<signal_cue_instantly cue="md.kuertee_chc.LargeOperationContinued" param="table[
+				$target = $Target
+			]" />
+		</do_if>
+	</add>
+	<!-- boarding operation change phase -->
+	<!--<cues>
+			<cue name="OperationCreated" instantiate="true" namespace="this" version="4">
+				<cues>
+					<cue name="PhaseChanged" instantiate="true">
+						<actions>
+	-->
+	<add sel="//cue[@name=&quot;PhaseChanged&quot;]/actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<signal_cue_instantly cue="md.kuertee_chc.LargeOperationContinued" param="table[
+				$target = $Target
+			]" />
+		</do_if>
+	</add>
+	<!-- boarding operation removed -->
+	<!--<cues>
+		<cue name="OperationCreated" instantiate="true" namespace="this" version="4">
+			<cues>
+			<cue name="OperationRemoved">
+				<actions> -->
+	<add sel="//cue[@name=&quot;OperationRemoved&quot;]/actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<signal_cue_instantly cue="md.kuertee_chc.LargeOperationFinished" param="table[
+				$target = $Target
+			]" />
+		</do_if>
+	</add>
+	<!-- boarding successful -->
+	<!-- BEFORE:
+		<cues>
+			<cue name="OperationCreated" instantiate="true" namespace="this" version="4">
+				<cues>
+					<cue name="Launch_Pod_Helper">
+						<actions>
+						<do_if value="$Launcher.exists">
+							<do_while value="$NumMarinesLaunching gt 0">
+								<remove_value name="$NumMarinesInThisPod"/>
+							<set_relation_boost object="$Target" otherobject="$Launcher" value="$Target.owner.relation.kill.min" delay="10min" decay="1" />
+	-->
+	<add pos="before" sel="//cue[@name=&quot;Launch_Pod_Helper&quot;]/actions/do_if[@value=&quot;$Launcher.exists&quot;]/do_while[@value=&quot;$NumMarinesLaunching gt 0&quot;]">
+		<set_value name="$isBoarded" exact="false" />
+	</add>
+	<add pos="before" sel="//cue[@name=&quot;Launch_Pod_Helper&quot;]/actions/do_if[@value=&quot;$Launcher.exists&quot;]/do_while[@value=&quot;$NumMarinesLaunching gt 0&quot;]/remove_value[@name=&quot;$NumMarinesInThisPod&quot;]">
+		<do_if value="$NumMarinesInThisPod">
+			<set_value name="$isBoarded" exact="true" />
+		</do_if>
+	</add>
+	<add pos="before" sel="//cue[@name=&quot;Launch_Pod_Helper&quot;]/actions/do_if[@value=&quot;$Launcher.exists&quot;]/set_relation_boost[@object=&quot;$Target&quot;][@otherobject=&quot;$Launcher&quot;][@value=&quot;$Target.owner.relation.kill.min&quot;][@delay=&quot;10min&quot;][@decay=&quot;1&quot;]">
+		<debug_text text="'md.kuertee_chc:$Launcher: ' + $Launcher.knownname + ' (' + $Launcher.idcode + ')'" chance="md.kuertee_chc.kCHC.$debugChance" />
+		<debug_text text="'md.kuertee_chc:$isBoarded: ' + $isBoarded" chance="md.kuertee_chc.kCHC.$debugChance" />
+		<do_if value="$Launcher.trueowner == faction.player and $isBoarded">
+			<do_if value="not @player.allmodules.{player.module}.isscenario">
+				<signal_cue_instantly cue="md.kuertee_chc.CrimeBoarding" param="table[
+					$crime = relationchangereason.boardedobject,
+					$criminalShip = $Launcher,
+					$victimShipStation = $Target
+				]" />
+			</do_if>
+		</do_if>
+	</add>
+
+
+	<!-- Alternatives To Death -->
 	<!-- boarding operation created -->
 	<!-- <cues>
 	<cue name="OperationCreated" instantiate="true" namespace="this" version="4">
@@ -9,7 +98,7 @@
 			<signal_cue_instantly cue="md.kuertee_atd.BoardingOperationStarted" param="table[
 				$cue = this,
 				$target = $Target
-			]"/>
+			]" />
 		</do_if>
 	</add>
 	<!-- boarding operation removed -->
@@ -23,7 +112,7 @@
 			<signal_cue_instantly cue="md.kuertee_atd.BoardingOperationFinished" param="table[
 				$cue = this,
 				$target = $Target
-			]"/>
+			]" />
 		</do_if>
 	</add>
 </diff>

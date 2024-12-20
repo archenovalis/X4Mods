@@ -1,0 +1,1174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_hacking_outcomes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+	<cues>
+		<cue name="HackingOutcomes" namespace="this" version="3">
+			<conditions>
+				<check_any>
+					<event_cue_signalled cue="md.Setup.GameStart" />
+					<event_game_loaded />
+				</check_any>
+				<check_value value="not @player.allmodules.{player.module}.isscenario" />
+			</conditions>
+			<actions>
+				<debug_text text="'event.name: ' + event.name" />
+				<set_value name="$debugChance" exact="100" />
+				<set_value name="$isDoDebug1" exact="false" />
+				<set_value name="$isDoDebug2" exact="false" />
+				<set_value name="HackingOutcomes.$impoundedShips" exact="[]" />
+			</actions>
+			<patch sinceversion="2">
+				<debug_text text="'patch Init.state: ' + Init.state" />
+				<do_if value="Init.state == cuestate.disabled">
+					<debug_text text="'reset_cue ' + Init" />
+					<reset_cue cue="Init" />
+				</do_if>
+				<do_else>
+					<debug_text text="'patch Init ok'" />
+				</do_else>
+			</patch>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, state: ' + this.state" />
+				<set_value name="HackingOutcomes.$impoundedShips" exact="[]" />
+			</patch>
+			<cues>
+				<cue name="Init">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<do_if value="not $debugChance?">
+							<set_value name="$debugChance" exact="0" />
+						</do_if>
+						<debug_text text="'$debugChance: ' + $debugChance" />
+						<set_value name="$isDoDebug1" exact="false" />
+						<set_value name="$isDoDebug2" exact="false" />
+						<do_if value="not @HackingOutcomes.$hackedStations">
+							<set_value name="HackingOutcomes.$hackedStations" exact="table[]" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="HackedStations_OnHack">
+					<conditions>
+						<event_player_hacked_object />
+					</conditions>
+					<actions>
+						<set_value name="$panel" exact="event.param3" />
+						<debug_text text="'$panel: ' + $panel" chance="HackingOutcomes.$debugChance" />
+						<do_if value="$panel == controlpaneltype.hack_watchdogs">
+							<set_value name="HackingOutcomes.$hackedStations.{player.station}" exact="player.age" />
+							<debug_text text="'HackingOutcomes.$hackedStations.{player.station}: ' + HackingOutcomes.$hackedStations.{player.station}" chance="HackingOutcomes.$debugChance" />
+							<do_if value="HackedStations_CheckExpiration.state == cuestate.waiting">
+								<signal_cue cue="HackedStations_CheckExpiration" />
+							</do_if>
+							<!-- crime has consequences -->
+							<set_value name="HackingOutcomes.$impoundedShips" exact="[]" />
+							<do_if value="@md.kuertee_chc.kCHC.exists">
+								<do_for_each name="$ship_impounded" in="md.kuertee_chc.kCHC.$impoundedShips">
+									<do_if value="$ship_impounded.station == player.station">
+										<append_to_list name="HackingOutcomes.$impoundedShips" exact="$ship_impounded" />
+									</do_if>
+								</do_for_each>
+							</do_if>
+							<debug_text text="'HackingOutcomes.$impoundedShips: ' + HackingOutcomes.$impoundedShips" chance="$debugChance" />
+						</do_if>
+						<remove_value name="$panel" />
+						<set_value name="$hacked" exact="event.param" />
+						<set_value name="$hacker" exact="event.param2" />
+						<debug_text text="'$hacked: ' + @$hacked.knownname + ' ' + $hacked" chance="HackingOutcomes.$debugChance" />
+						<debug_text text="'$hacker: ' + @$hacker.knownname + ' ' + $hacker" chance="HackingOutcomes.$debugChance" />
+						<do_if value="not @$hacker">
+							<set_value name="$controlPanelType" exact="event.param3" />
+							<debug_text text="'$controlPanelType: ' + @$controlPanelType" chance="$debugChance" />
+							<do_if value="@$controlPanelType">
+								<start_conversation actor="player.computer" conversation="HackingOutcomesConversation" />
+							</do_if>
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="HackedStations_CheckExpiration" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$nextExpiration" exact="0" />
+					</actions>
+					<cues>
+						<cue name="HackedStations_GetNextExpiration">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$earliestTime" exact="0" />
+								<do_all counter="$i" exact="HackingOutcomes.$hackedStations.keys.count">
+									<set_value name="$station" exact="HackingOutcomes.$hackedStations.keys.{$i}" />
+									<do_if value="(not $earliestTime) or HackingOutcomes.$hackedStations.{$station} lt $earliestTime">
+										<set_value name="$earliestTime" exact="HackingOutcomes.$hackedStations.{$station}" />
+									</do_if>
+								</do_all>
+								<do_if value="$earliestTime">
+									<set_value name="$nextExpiration" exact="$earliestTime + 1min" />
+									<debug_text text="'$nextExpiration: ' + $nextExpiration" chance="HackingOutcomes.$debugChance" />
+									<reset_cue cue="this" />
+								</do_if>
+								<do_else>
+									<set_value name="$nextExpiration" exact="0" />
+									<debug_text text="'$nextExpiration: ' + $nextExpiration" chance="HackingOutcomes.$debugChance" />
+									<reset_cue cue="parent" />
+									<cancel_cue cue="this" />
+								</do_else>
+							</actions>
+						</cue>
+						<cue name="HackedStations_Start">
+							<actions>
+								<signal_cue_instantly cue="HackedStations_GetNextExpiration" />
+							</actions>
+						</cue>
+						<cue name="HackedStations_CheckInterval" instantiate="true" checkinterval="1min">
+							<actions>
+								<debug_text text="event.name" chance="@md.$kuertee_interval" />
+								<do_if value="player.age gt $nextExpiration">
+									<debug_text text="'player.age : ' + player.age  + ' $nextExpiration: ' + $nextExpiration" chance="HackingOutcomes.$debugChance" />
+									<do_all counter="$i" exact="HackingOutcomes.$hackedStations.keys.count" reverse="true">
+										<set_value name="$station" exact="HackingOutcomes.$hackedStations.keys.{$i}" />
+										<debug_text text="'$station : ' + $station + ' (' + @$station.name + ')'" chance="HackingOutcomes.$debugChance" />
+										<do_if value="not @$station.isoperational">
+											<remove_value name="HackingOutcomes.$hackedStations.{$station}" />
+										</do_if>
+										<do_else>
+											<do_if value="player.age gt HackingOutcomes.$hackedStations.{$station} + 1h">
+												<debug_text text="'player.age: ' + player.age + ' $hackedStations.{$station} + 1h: ' + HackingOutcomes.$hackedStations.{$station} + 1h" chance="HackingOutcomes.$debugChance" />
+												<remove_value name="HackingOutcomes.$hackedStations.{$station}" />
+											</do_if>
+										</do_else>
+									</do_all>
+									<debug_text text="'HackingOutcomes.$hackedStations: ' + @HackingOutcomes.$hackedStations" chance="HackingOutcomes.$debugChance" />
+									<signal_cue cue="HackedStations_GetNextExpiration" />
+								</do_if>
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="GetIsStationHacked" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+						<!-- param="table[$cue = cue to put var, $station] -->
+					</conditions>
+					<actions>
+						<set_value name="$cue" exact="event.param.$cue" />
+						<set_value name="$station" exact="event.param.$station" />
+						<do_if value="$cue and $station and @HackingOutcomes.$hackedStations.{$station}">
+							<set_value name="$cue.$isStationHacked" exact="@HackingOutcomes.$hackedStations.{$station} + 1h ge player.age" />
+							<debug_text text="'$cue.$isStationHacked: ' + $cue.$isStationHacked" chance="HackingOutcomes.$debugChance" />
+						</do_if>
+						<cancel_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="HackedStations_OnAttackResponse" namespace="this">
+					<conditions>
+						<event_conversation_started conversation="HackedStations_AttackResponse" />
+					</conditions>
+					<actions>
+						<!-- event.param2 = [ responderdata, victimdata, is_3rd_party_victim, lawnpc, relchange, has_cover, relationchangereason ] -->
+						<do_if value="event.object.container.isclass.station">
+							<!-- <add_npc_line>
+								<text line="1000" comment="muttering" />
+								<text line="11405" comment="It looks like someone's hacked us." />
+							</add_npc_line> -->
+							<set_value name="$lawnpc" exact="event.param2.{4}" />
+							<do_if value="$lawnpc">
+								<!-- <add_npc_line line="7003" comment="(warning of consequences - generic)" />
+								<add_npc_line>
+									<text line="3020" />
+									<text line="7007" />
+								</add_npc_line>
+								<add_npc_line speaker="$lawnpc">
+									<text line="11201" />
+									<text line="2005" />
+								</add_npc_line>
+								<add_npc_line line="7008" comment="(reporting of attack - stations)" /> -->
+								<add_npc_line speaker="$lawnpc">
+									<text line="11201" comment="This is sector security." />
+									<!-- <text line="11412" comment="Tell us of any suspicious activity immediately." /> -->
+								</add_npc_line>
+								<!-- <add_npc_line>
+									<text line="5027" comment="Sorry, I'm busy right now." />
+								</add_npc_line> -->
+							</do_if>
+							<add_npc_line>
+								<text line="11405" comment="It looks like someone's hacked us." />
+							</add_npc_line>
+							<do_if value="$lawnpc">
+								<add_npc_line speaker="$lawnpc">
+									<!-- <text line="11413" comment="Scan for suspicious activity." />
+									<text line="11412" comment="Tell us of any suspicious activity immediately." /> -->
+									<text line="[11412, 11413].random" />
+								</add_npc_line>
+							</do_if>
+							<remove_value name="$lawnpc" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="HackingOutcomesConversation">
+					<conditions>
+						<event_conversation_started conversation="HackingOutcomesConversation" />
+					</conditions>
+					<actions>
+						<!-- TODO: Getting A Job: Spy mission player choice goes here -->
+						<!-- getting a job: hacking missions disabled unless working for pirates -->
+						<!-- <do_if value="md.GettingAJob.GAJ.$IsPirate"> -->
+						<!-- <t id="688845">Browse files</t>-->
+						<add_player_choice text="{11815,688845}" section="hacking_browse_files" position="left" />
+						<!-- </do_if> -->
+						<debug_text text="'HackingOutcomes.$impoundedShips: ' + HackingOutcomes.$impoundedShips" chance="$debugChance" />
+						<debug_text text="'HackingOutcomes.$impoundedShips.count: ' + HackingOutcomes.$impoundedShips.count" chance="$debugChance" />
+						<do_if value="HackingOutcomes.$impoundedShips.count">
+							<!-- <t id="688847">Release impounded ships</t> -->
+							<add_player_choice text="{11815,688847}" section="hacking_release_impounded_ships" />
+						</do_if>
+						<!-- <t id="688846">Log out</t>-->
+						<add_player_choice text="{11815,688846}" section="hacking_log_out" position="right" />
+					</actions>
+					<cues>
+						<cue name="SectionHandler">
+							<conditions>
+								<event_conversation_next_section sectionprefix="hacking_" />
+							</conditions>
+							<actions>
+								<debug_text text="'event.param: ' + event.param" chance="$debugChance" />
+								<do_if value="event.param == 'hacking_browse_files'">
+									<do_if value="false and $debugChance > 0">
+										<!-- <signal_cue_instantly cue="MissionLockboxFromHack" param="table[$controlPanelType = $controlPanelType]" /> -->
+										<!-- <signal_cue_instantly cue="MissionAnomalyFromHack" param="table[$controlPanelType = $controlPanelType]" /> -->
+										<!-- <signal_cue_instantly cue="MissionDataVaultFromHack" param="table[$controlPanelType = $controlPanelType]" /> -->
+										<!-- <signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" /> -->
+									</do_if>
+									<do_elseif value="$controlPanelType == controlpaneltype.hack_all_turrets or $controlPanelType == controlpaneltype.hack_shieldgenerators or $controlPanelType == controlpaneltype.hack_watchdogs">
+										<debug_text text="'Combat-type missions'" chance="$debugChance" />
+										<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+									</do_elseif>
+									<do_elseif value="$controlPanelType == controlpaneltype.hack_buildmodules or $controlPanelType == controlpaneltype.hack_discount or $controlPanelType == controlpaneltype.hack_production or $controlPanelType == controlpaneltype.hack_storage">
+										<debug_text text="'Economic-type missions'" chance="$debugChance" />
+										<do_any>
+											<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionLockboxFromHack" param="table[$controlPanelType = $controlPanelType]" />
+										</do_any>
+									</do_elseif>
+									<do_elseif value="$controlPanelType == controlpaneltype.hack_engineer">
+										<debug_text text="'Engineering-type missions'" chance="$debugChance" />
+										<do_any>
+											<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionLockboxFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionLockboxFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionLockboxFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionAnomalyFromHack" param="table[$controlPanelType = $controlPanelType]" />
+											<signal_cue_instantly cue="MissionDataVaultFromHack" param="table[$controlPanelType = $controlPanelType]" />
+										</do_any>
+									</do_elseif>
+								</do_if>
+								<do_elseif value="event.param == 'hacking_release_impounded_ships'">
+									<do_for_each name="$ship_impounded" in="HackingOutcomes.$impoundedShips">
+										<do_if value="$ship_impounded.station == player.station">
+											<signal_cue_instantly cue="md.kuertee_chc.ReleaseShipFromImpound" param="table[
+												$ship = $ship_impounded,
+												$releasedByFaction = player.station.owner
+											]" />
+										</do_if>
+									</do_for_each>
+								</do_elseif>
+								<do_else>
+									<cancel_conversation actor="player.computer" />
+								</do_else>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="OnConversationFinished">
+							<conditions>
+								<event_conversation_finished actor="player.computer" />
+							</conditions>
+							<actions>
+								<debug_text text="'OnConversationFinished'" chance="$debugChance" />
+								<reset_cue cue="parent" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="MissionFromHack" instantiate="true" namespace="this" version="2">
+					<patch sinceversion="2">
+						<debug_text text="'patch ' + this + ' version: ' + this.version + ' this.state: ' + this.state" />
+						<debug_text text="'patch ' + this + ' CleanMissionFromHack.state: ' + CleanMissionFromHack.state" />
+						<signal_cue_instantly cue="CleanMissionFromHack" param="table[$isFromPatch = true]" />
+						<!-- <set_value name="HackingOutcomes.$debugChance" exact="0" /> -->
+					</patch>
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$controlPanelType" exact="md.kuertee_hacking_outcomes.HackingOutcomes.$controlPanelType" />
+						<set_value name="$IsMissionAccepted" exact="false" />
+						<set_value name="$IsMissionFinished" exact="false" />
+						<set_value name="$GenerateMissionCount" exact="0" />
+					</actions>
+					<cues>
+						<cue name="GenerateMission">
+							<actions>
+								<set_value name="$GenerateMissionCount" exact="$GenerateMissionCount + 1" />
+								<debug_text text="'GenerateMission $GenerateMissionCount: ' + $GenerateMissionCount" chance="HackingOutcomes.$debugChance" />
+								<find_cluster_in_range name="$LocalClusters" object="player.entity" maxdistance="3" multiple="true" />
+								<set_value name="$LocalSectors" exact="[]" />
+								<do_all exact="$LocalClusters.count" counter="$i">
+									<find_sector name="$LocalSectors" space="$LocalClusters.{$i}" multiple="true" append="true">
+										<match_relation_of faction="faction.player" relation="neutral" comparison="gt" />
+									</find_sector>
+								</do_all>
+								<remove_value name="$LocalClusters" />
+								<set_value name="$randomSectorMax" exact="3" />
+								<do_if value="$LocalSectors.count lt 3">
+									<set_value name="$randomSectorMax" exact="$LocalSectors.count" />
+								</do_if>
+								<set_value name="$randomSector" min="1" max="$randomSectorMax" />
+								<set_value name="$Sector" exact="$LocalSectors.{$randomSector}" />
+								<remove_value name="$MissionSetUpCue" />
+								<do_if value="not @$MissionSetUpCue">
+									<!-- <xs:enumeration value="controlpaneltype.hack_all_turrets" />
+									<xs:enumeration value="controlpaneltype.hack_buildmodules" />
+									<xs:enumeration value="controlpaneltype.hack_discount" />
+									<xs:enumeration value="controlpaneltype.hack_engineer" />
+									<xs:enumeration value="controlpaneltype.hack_production" />
+									<xs:enumeration value="controlpaneltype.hack_shieldgenerators" />
+									<xs:enumeration value="controlpaneltype.hack_storage" />
+									<xs:enumeration value="controlpaneltype.hack_watchdogs" /> -->
+									<do_if value="$controlPanelType == controlpaneltype.hack_all_turrets or $controlPanelType == controlpaneltype.hack_shieldgenerators or $controlPanelType == controlpaneltype.hack_watchdogs">
+										<!-- combat-type missions -->
+										<include_actions ref="GetCombatTypeMission" />
+									</do_if>
+									<do_elseif value="$controlPanelType == controlpaneltype.hack_buildmodules or $controlPanelType == controlpaneltype.hack_discount or $controlPanelType == controlpaneltype.hack_production or $controlPanelType == controlpaneltype.hack_storage">
+										<!-- economic-type missions -->
+										<include_actions ref="GetEconomicTypeMission" />
+									</do_elseif>
+									<do_elseif value="$controlPanelType == controlpaneltype.hack_engineer">
+										<!-- engineer-type missions -->
+										<include_actions ref="GetEngineeringTypeMission" />
+									</do_elseif>
+								</do_if>
+								<signal_cue_instantly cue="$MissionSetUpCue" param="table[
+									$Sector = $Sector,
+									$ReportSignalCue = OnGenerateMission,
+									$RemoveOnSectorChange = false,
+									$debugChance = HackingOutcomes.$debugChance
+								]" />
+								<set_value name="$MissionCue" exact="null" />
+								<set_value name="$OnRumourMissionGalaxyGenerateFail" exact="CleanMissionFromHack" />
+								<set_value name="$OnRumourMissionGalaxyComplete" exact="CleanMissionFromHack" />
+							</actions>
+						</cue>
+						<cue name="OnGenerateMission" instantiate="true">
+							<!-- notes: -->
+							<!-- $GM_Wrapper = $MissionSetUpCue = md.*.GenerateGenericMission -->
+							<!-- $MissionCue = event.param.$Cue = md.*.Start = used in MissionBriefingMenu -->
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<do_if value="@static.$EndFeedbackValue" comment="Evaluate return-value of GM (success/failure)">
+									<debug_text text="'mission ended. static.$EndFeedbackValue: ' + static.$EndFeedbackValue" chance="HackingOutcomes.$debugChance" />
+									<set_value name="$IsMissionFinished" exact="true" />
+									<cancel_cue cue="static.$GM_Wrapper" />
+									<do_if value="$MissionCue">
+										<!-- mission was generated, clean -->
+										<do_if value="@$OnRumourMissionGalaxyComplete">
+											<debug_text text="'$OnRumourMissionGalaxyComplete: ' + $OnRumourMissionGalaxyComplete" chance="HackingOutcomes.$debugChance" />
+											<signal_cue cue="$OnRumourMissionGalaxyComplete" />
+										</do_if>
+									</do_if>
+									<do_elseif value="$GenerateMissionCount lt 25">
+										<!-- generate another mission -->
+										<reset_cue cue="GenerateMission" />
+									</do_elseif>
+									<do_else>
+										<do_if value="@$OnRumourMissionGalaxyGenerateFail">
+											<debug_text text="'$OnRumourMissionGalaxyGenerateFail: ' + $OnRumourMissionGalaxyGenerateFail" chance="HackingOutcomes.$debugChance" />
+											<signal_cue cue="$OnRumourMissionGalaxyGenerateFail" />
+										</do_if>
+									</do_else>
+								</do_if>
+								<do_elseif value="@static.$FeedbackValue">
+									<debug_text text="'mission signal. static.$FeedbackValue: ' + static.$FeedbackValue" chance="HackingOutcomes.$debugChance" />
+									<do_if value="static.$FeedbackValue.$ID == '$MISSION_ACCEPTED'">
+										<set_value name="$IsMissionAccepted" exact="true" />
+									</do_if>
+									<do_if value="static.$FeedbackValue.$ID == '$MISSION_GENERATED'">
+										<set_value name="$MissionCue" exact="event.param.$Cue" />
+										<debug_text text="'$MissionCue: ' + $MissionCue" chance="HackingOutcomes.$debugChance" />
+										<!-- <append_to_list name="Manager.$MissionCues" exact="$MissionCue" /> -->
+										<open_conversation_menu menu="MissionBriefingMenu" param="[0, 0, $MissionCue, true]" />
+									</do_if>
+									<do_elseif value="static.$FeedbackValue.$ID == '$MISSION_NO_VARIANT'">
+										<!-- generate another mission -->
+										<do_if value="$GenerateMissionCount lt 25">
+											<!-- generate another mission -->
+											<reset_cue cue="GenerateMission" />
+										</do_if>
+										<do_else>
+											<do_if value="@$OnRumourMissionGalaxyGenerateFail">
+												<debug_text text="'$OnRumourMissionGalaxyGenerateFail: ' + $OnRumourMissionGalaxyGenerateFail" chance="HackingOutcomes.$debugChance" />
+												<signal_cue cue="$OnRumourMissionGalaxyGenerateFail" />
+											</do_if>
+										</do_else>
+									</do_elseif>
+								</do_elseif>
+							</actions>
+						</cue>
+						<cue name="CleanMissionFromHack" instantiate="true">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<event_conversation_finished actor="player.computer" />
+								</check_any>
+							</conditions>
+							<actions>
+								<do_if value="@$MissionCue">
+									<debug_text text="'remove_offer: $MissionCue' + $MissionCue" chance="HackingOutcomes.$debugChance" />
+									<remove_offer cue="$MissionCue" />
+								</do_if>
+								<do_if value="(not $IsMissionAccepted) or $IsMissionFinished">
+									<debug_text text="'$IsMissionAccepted: ' + $IsMissionAccepted + ' $IsMissionFinished: ' + $IsMissionFinished" chance="HackingOutcomes.$debugChance" />
+									<do_if value="@$MissionCue">
+										<debug_text text="'cancel_cue: $MissionCue' + $MissionCue" chance="HackingOutcomes.$debugChance" />
+										<cancel_cue cue="$MissionCue" />
+									</do_if>
+									<do_if value="@static.$GM_Wrapper">
+										<debug_text text="'cancel_cue static.$GM_Wrapper: ' + static.$GM_Wrapper" chance="HackingOutcomes.$debugChance" />
+										<cancel_cue cue="static.$GM_Wrapper" />
+									</do_if>
+									<cancel_cue cue="namespace" />
+								</do_if>
+								<do_if value="@event.param.$isFromPatch">
+									<set_value name="HackingOutcomes.$debugChance" exact="0" />
+								</do_if>
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="MissionLockboxFromHack" instantiate="true" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$TargetRadius" exact="25km" />
+						<set_value name="$TargetSector" exact="player.sector" />
+						<create_position name="$TargetOffset" space="$TargetSector" min="0" max="$TargetSector.size * 0.75" />
+						<set_value name="$TargetOffset" exact="position.[$TargetOffset.x, 0, $TargetOffset.z]" comment="Engine limitation, keep it on ecliptic (y=0)" />
+						<debug_text text="'$TargetOffset: ' + $TargetOffset + ' $TargetSector: ' + $TargetSector" chance="HackingOutcomes.$debugChance" />
+						<set_value name="$LockboxAmount" exact="1" />
+						<do_any>
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Normal" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_TradeGoods" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Medical" />
+							<include_actions ref="md.GM_FindObject.Setup_SetupCrates_Illegal" />
+						</do_any>
+						<debug_text text="'$CrateContent: ' + $CrateContent" chance="HackingOutcomes.$debugChance" />
+						<set_value name="$Pitch" min="0" max="360" />
+						<set_value name="$Yaw" min="0" max="360" />
+						<set_value name="$Roll" min="0" max="360" />
+						<do_any>
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_common_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_rare_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_unusual_01_macro" />
+							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_special_01_macro" />
+						</do_any>
+						<create_lockbox name="$TargetObject" macro="$LockboxMacro" sector="$TargetSector" allowyaxis="false">
+							<safepos value="$TargetOffset" min="0" max="$TargetRadius" allowyaxis="false" />
+							<rotation pitch="($Pitch)deg" yaw="($Yaw)deg" roll="($Roll)deg" />
+						</create_lockbox>
+					</actions>
+					<cues>
+						<cue name="StartMissionLockboxFromHack">
+							<actions>
+								<signal_cue_instantly cue="FindObjectMission" param="table[
+									$TargetObject = $TargetObject,
+									$TargetSector = $TargetSector,
+									$MissionName = readtext.{1004}.{45} + ': ' + readtext.{29109}.{4001} + ' (' + $TargetSector.knownname + ')',
+									$MissionDescription = readtext.{1004}.{45} + ': ' + readtext.{29109}.{4001} + ' (' + $TargetSector.knownname + ')',
+									$MissionType = missiontype.find,
+									$ObjectiveAction = objective.unlock,
+									$OnFindObjectMissionAborted = CleanMissionLockboxFromHack,
+									$OnFindObjectMissionCompleted = CleanMissionLockboxFromHack
+								]" comment="1041.45 = 'Unlock', 29109.4001 = 'Lockbox'" />
+							</actions>
+						</cue>
+						<cue name="CleanMissionLockboxFromHack">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<debug_text text="CleanMissionLockboxFromHack" chance="HackingOutcomes.$debugChance" />
+								<cancel_cue cue="namespace" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="MissionAnomalyFromHack" instantiate="true" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<include_actions ref="GetAnomalies" />
+						<set_value name="$AnomalyId" min="1" max="$Anomalies.count" />
+						<set_value name="$TargetObject" exact="$Anomalies.{$AnomalyId}" />
+						<do_if value="not $RumouredAnomalies.indexof.{$TargetObject}">
+							<add_to_group groupname="$RumouredAnomalies" object="$TargetObject" />
+						</do_if>
+						<set_value name="$TargetSector" exact="$TargetObject.sector" />
+						<debug_text text="'$TargetObject: ' + $TargetObject.knownname + ' $TargetSector: ' + $TargetSector" chance="HackingOutcomes.$debugChance" />
+					</actions>
+					<cues>
+						<cue name="StartMissionAnomalyFromHack">
+							<actions>
+								<signal_cue_instantly cue="FindObjectMission" param="table[
+									$TargetObject = $TargetObject,
+									$TargetSector = $TargetSector,
+									$MissionName = readtext.{1001}.{7806} + ': ' + $TargetObject.knownname + ' (' + $TargetSector.knownname + ')',
+									$MissionDescription = readtext.{1001}.{7806} + ': ' + $TargetObject.knownname + ' (' + $TargetSector.knownname + ')',
+									$MissionType = missiontype.find,
+									$ObjectiveAction = objective.flyto,
+									$OnFindObjectMissionAborted = OnMissionAnomalyFromHackAborted,
+									$OnFindObjectMissionCompleted = CleanMissionAnomalyFromHack
+								]" comment="1001.7806 = 'Fly to'" />
+							</actions>
+						</cue>
+						<cue name="OnMissionAnomalyFromHackAborted">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<debug_text text="'$FindObjectMission : ' + event.param.$FindObjectMission + ' $TargetObject: ' + event.param.$FindObjectMission.$TargetObject" chance="HackingOutcomes.$debugChance" />
+								<do_if value="@event.param.$FindObjectMission.$TargetObject">
+									<do_if value="$RumouredAnomalies.indexof.{event.param.$FindObjectMission.$TargetObject}">
+										<remove_from_group group="$RumouredAnomalies" object="event.param.$FindObjectMission.$TargetObject" />
+									</do_if>
+								</do_if>
+								<signal_cue cue="CleanMissionAnomalyFromHack" />
+							</actions>
+						</cue>
+						<cue name="CleanMissionAnomalyFromHack">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<debug_text text="CleanMissionAnomalyFromHack" chance="HackingOutcomes.$debugChance" />
+								<cancel_cue cue="namespace" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="MissionDataVaultFromHack" instantiate="true" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<include_actions ref="GetLockedDataVaults" />
+						<set_value name="$DataVaultId" min="1" max="$LockedDataVaults.count" />
+						<set_value name="$TargetObject" exact="$LockedDataVaults.{$DataVaultId}" />
+						<do_if value="not $RumouredDataVaults.indexof.{$TargetObject}">
+							<add_to_group groupname="$RumouredDataVaults" object="$TargetObject" />
+						</do_if>
+						<set_value name="$TargetSector" exact="$TargetObject.sector" />
+						<debug_text text="'$TargetObject: ' + $TargetObject.knownname + ' $TargetSector: ' + $TargetSector" chance="HackingOutcomes.$debugChance" />
+					</actions>
+					<cues>
+						<cue name="StartMissionDataVaultFromHack">
+							<actions>
+								<signal_cue_instantly cue="FindObjectMission" param="table[
+									$TargetObject = $TargetObject,
+									$TargetLeak = $LockedDataVaultLeaks.{$DataVaultId},
+									$TargetSector = $TargetSector,
+									$MissionName = readtext.{1004}.{16} + ': ' + $TargetObject.knownname + ' (' + $TargetSector.knownname + ')',
+									$MissionDescription = readtext.{1004}.{16} + ': ' + $TargetObject.knownname + ' (' + $TargetSector.knownname + ')',
+									$MissionType = missiontype.scan,
+									$ObjectiveAction = objective.scan,
+									$OnFindObjectMissionAborted = OnMissionDataVaultFromHackAborted,
+									$OnFindObjectMissionCompleted = CleanMissionDataVaultFromHack
+								]" comment="1041.16 = 'Scan', 20109.8901 = 'Data Vault'" />
+							</actions>
+						</cue>
+						<cue name="OnMissionDataVaultFromHackAborted">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<debug_text text="'$FindObjectMission : ' + event.param.$FindObjectMission + ' $TargetObject: ' + event.param.$FindObjectMission.$TargetObject" chance="HackingOutcomes.$debugChance" />
+								<do_if value="@event.param.$FindObjectMission.$TargetObject">
+									<do_if value="$RumouredDataVaults.indexof.{event.param.$FindObjectMission.$TargetObject}">
+										<remove_from_group group="$RumouredDataVaults" object="event.param.$FindObjectMission.$TargetObject" />
+									</do_if>
+								</do_if>
+								<signal_cue cue="CleanMissionDataVaultFromHack" />
+							</actions>
+						</cue>
+						<cue name="CleanMissionDataVaultFromHack">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<debug_text text="CleanMissionDataVaultFromHack" chance="HackingOutcomes.$debugChance" />
+								<cancel_cue cue="namespace" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="FindObjectMission" instantiate="true" namespace="this" version="2">
+					<patch sinceversion="2">
+						<debug_text text="'patch ' + this + ' version: ' + this.version + ' this.state: ' + this.state" />
+						<debug_text text="'patch ' + this + ' OnFindObjectMissionAborted.state: ' + OnFindObjectMissionAborted.state" />
+						<signal_cue_instantly cue="OnFindObjectMissionAborted" param="table[$isFromPatch = true]" />
+						<!-- <set_value name="HackingOutcomes.$debugChance" exact="0" /> -->
+					</patch>
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$TargetRadius" exact="25km" />
+						<set_value name="$TargetObject" exact="event.param.$TargetObject" />
+						<set_value name="$TargetSector" exact="event.param.$TargetSector" />
+						<set_value name="$MissionName" exact="event.param.$MissionName" />
+						<set_value name="$MissionDescription" exact="event.param.$MissionDescription" />
+						<set_value name="$MissionDifficulty" exact="@event.param.$MissionDifficulty" />
+						<do_if value="not @$MissionDifficulty">
+							<set_value name="$MissionDifficulty" exact="level.trivial" />
+						</do_if>
+						<set_value name="$MissionFaction" exact="@event.param.$MissionFaction" />
+						<do_if value="not @$MissionFaction">
+							<set_value name="$MissionFaction" exact="faction.player" />
+						</do_if>
+						<set_value name="$MissionType" exact="@event.param.$MissionType" />
+						<do_if value="not @$MissionType">
+							<set_value name="$MissionType" exact="missiontype.find" />
+						</do_if>
+						<set_value name="$ObjectiveAction" exact="@event.param.$ObjectiveAction" />
+						<do_if value="not @$ObjectiveAction">
+							<set_value name="$ObjectiveAction" exact="objective.flyto" />
+						</do_if>
+						<set_value name="$ObjectiveCustomAction" exact="@event.param.$ObjectiveCustomAction" />
+						<do_if value="not @$ObjectiveCustomAction">
+							<set_value name="$ObjectiveCustomAction" exact="''" />
+						</do_if>
+						<set_value name="$TargetLeak" exact="@event.param.$TargetLeak" />
+						<do_if value="not @$TargetLeak">
+							<set_value name="$TargetLeak" exact="null" />
+						</do_if>
+						<set_value name="$IsDestroyOnMissionAbort" exact="@event.param.$IsDestroyOnMissionAbort" />
+						<do_if value="not @$IsDestroyOnMissionAbort">
+							<set_value name="$IsDestroyOnMissionAbort" exact="false" />
+						</do_if>
+						<set_value name="$OnFindObjectMissionAborted" exact="@event.param.$OnFindObjectMissionAborted" />
+						<do_if value="not @$OnFindObjectMissionAborted">
+							<set_value name="$OnFindObjectMissionAborted" exact="null" />
+						</do_if>
+						<set_value name="$OnFindObjectMissionCompleted" exact="@event.param.$OnFindObjectMissionCompleted" />
+						<do_if value="not @$OnFindObjectMissionCompleted">
+							<set_value name="$OnFindObjectMissionCompleted" exact="null" />
+						</do_if>
+						<set_value name="$IsInTargetRadius" exact="false" />
+						<set_value name="$NotificationTimer" exact="0" />
+						<set_value name="$ObjectiveText" exact="''" />
+						<!-- interrupt.stoporder.xml line: 26 -->
+						<!-- <get_safe_pos object="this.ship" zone="this.ship.zone" radius="this.ship.size/2" result="$thissafepos" ignored="this.ship" /> -->
+						<!-- <get_safe_pos object="$TargetObject" sector="$TargetSector" radius="$TargetRadius / 3" result="$TargetPosition" /> -->
+						<get_safe_pos object="$TargetObject" sector="$TargetSector" max="$TargetRadius" result="$TargetPosition" />
+						<debug_text text="'$TargetObject.position: ' + $TargetObject.position + ' $TargetPosition: ' + $TargetPosition" chance="HackingOutcomes.$debugChance" />
+						<create_offer
+							cue="namespace"
+							actor="player.computer"
+							name="$MissionName"
+							description="$MissionDescription"
+							type="$MissionType"
+							difficulty="$MissionDifficulty"
+							faction="$MissionFaction">
+							<briefing>
+								<objective step="1"
+									action="$ObjectiveAction"
+									customaction="$ObjectiveCustomAction"
+									object="$TargetSector"
+									offset="$TargetPosition"
+									radius="$TargetRadius"
+									text="$TargetObject.knownname + ' (' + $TargetSector.knownname + ')'" />
+							</briefing>
+						</create_offer>
+						<open_conversation_menu menu="MissionBriefingMenu" param="[0, 0, namespace, true]" />
+					</actions>
+					<!-- placedobjects.xml line: 323 -->
+					<cues>
+						<cue name="OnFindObjectMissionConversationFinished">
+							<conditions>
+								<event_conversation_finished />
+							</conditions>
+							<actions>
+								<do_if value="not namespace.hasmission">
+									<!-- was not accepted -->
+									<signal_cue_instantly cue="OnFindObjectMissionAborted" param="table[$isRejected = true]" />
+								</do_if>
+							</actions>
+						</cue>
+						<cue name="OnFindObjectMissionAccepted">
+							<!-- genericmissions.xml line: 685 -->
+							<conditions>
+								<event_object_signalled object="player.computer" param="'accept'" />
+							</conditions>
+							<actions>
+								<!-- gm_find_object.xml line: 563 -->
+								<!-- <create_mission cue="$MissionCue" offercue="$MissionCue" /> -->
+								<!-- <create_mission cue="namespace" offercue="namespace" /> -->
+								<!-- boarding.xml line: 248 -->
+								<!-- <create_mission cue="$MissionCue" name="{30152,1}" description="{30152,2} + '\n' + $TargetText" faction="faction.player" type="missiontype.fight" abortable="false">
+									<briefing>
+										<objective step="$MissionStep_DestroyTurrets" action="objective.destroy" text="{30152,4}" comment="Turrets" />
+										<objective step="$MissionStep_ProtectPods"    action="objective.protect" text="{30152,5}" comment="Boarding Pods" />
+										<objective step="$MissionStep_DamageHull"     action="objective.custom" customaction="{30152,6}" text="$DamageHullText" comment="Damage: Hull to %" />
+										<objective step="$MissionStep_ProtectTarget"  action="objective.protect" object="$Target" />
+									</briefing>
+								</create_mission> -->
+								<debug_text text="'OnFindObjectMissionAccepted'" chance="HackingOutcomes.$debugChance" />
+								<create_mission cue="namespace" offercue="namespace">
+									<briefing>
+										<objective
+											step="1"
+											action="$ObjectiveAction"
+											customaction="$ObjectiveCustomAction"
+											object="$TargetSector"
+											offset="$TargetPosition"
+											radius="$TargetRadius"
+											text="$TargetObject.knownname + ' (' + $TargetSector.knownname + ')'" />
+									</briefing>
+									<objective
+										step="1"
+										action="$ObjectiveAction"
+										customaction="$ObjectiveCustomAction"
+										object="$TargetSector"
+										offset="$TargetPosition"
+										radius="$TargetRadius"
+										text="$TargetObject.knownname + ' (' + $TargetSector.knownname + ')'" />
+								</create_mission>
+								<remove_offer cue="namespace" />
+							</actions>
+						</cue>
+						<cue name="OnFindObjectMissionAborted">
+							<conditions>
+								<check_any>
+									<event_mission_aborted cue="namespace" />
+									<event_cue_signalled />
+								</check_any>
+							</conditions>
+							<actions>
+								<debug_text text="'OnFindObjectMissionAborted'" chance="HackingOutcomes.$debugChance" />
+								<do_if value="$IsDestroyOnMissionAbort">
+									<destroy_object object="$TargetObject" />
+								</do_if>
+								<do_if value="not @event.param.$isRejected">
+									<!-- <t id="3309">Mission aborted</t> -->
+									<show_notification text="{1001,3309}" comment="{1001,3309} = Mission aborted" />
+								</do_if>
+								<cancel_cue cue="namespace" />
+								<do_if value="$OnFindObjectMissionAborted">
+									<signal_cue_instantly cue="$OnFindObjectMissionAborted" param="table[
+										$FindObjectMission = namespace
+										]" />
+								</do_if>
+								<do_if value="@event.param.$isFromPatch">
+									<set_value name="HackingOutcomes.$debugChance" exact="0" />
+								</do_if>
+							</actions>
+						</cue>
+						<cue name="OnFindObjectMissionEnterTargetRadius" instantiate="true" checkinterval="5s">
+							<conditions>
+								<check_all>
+									<check_value value="not $IsInTargetRadius" />
+									<check_value value="$TargetObject.distanceto.{player.entity} lt $TargetRadius * 1.5" />
+								</check_all>
+							</conditions>
+							<actions>
+								<debug_text text="''" chance="@md.$kuertee_interval" />
+								<set_value name="$TargetObjectDistance" exact="$TargetObject.distanceto.{player.entity}" />
+								<debug_text text="'$TargetObjectDistance: ' + $TargetObjectDistance" chance="HackingOutcomes.$debugChance" />
+								<set_value name="$IsInTargetRadius" exact="true" />
+								<set_value name="$ObjectiveText" exact="''" />
+								<set_objective cue="namespace"
+									step="1"
+									action="objective.find"
+									object="$TargetSector"
+									offset="$TargetPosition"
+									radius="$TargetRadius"
+									text="$TargetObject.knownname" />
+							</actions>
+						</cue>
+						<cue name="OnFindObjectMissionExitTargetRadius" instantiate="true" checkinterval="5s">
+							<conditions>
+								<check_all>
+									<check_value value="$IsInTargetRadius" />
+									<check_value value="$TargetObject.distanceto.{player.entity} gt $TargetRadius * 1.5" />
+									<set_value name="$IsInTargetRadius" exact="false" />
+								</check_all>
+							</conditions>
+							<actions>
+								<debug_text text="''" chance="@md.$kuertee_interval" />
+								<set_value name="$TargetObjectDistance" exact="$TargetObject.distanceto.{player.entity}" />
+								<debug_text text="'$TargetObjectDistance: ' + $TargetObjectDistance" chance="HackingOutcomes.$debugChance" />
+								<set_value name="$IsInTargetRadius" exact="false" />
+								<set_value name="$ObjectiveText" exact="''" />
+								<set_objective cue="namespace"
+									step="1"
+									action="$ObjectiveAction"
+									customaction="$ObjectiveCustomAction"
+									object="$TargetSector"
+									offset="$TargetPosition"
+									radius="$TargetRadius"
+									text="$TargetObject.knownname + ' (' + $TargetSector.knownname + ')'" />
+							</actions>
+						</cue>
+						<cue name="OnFindObjectMissionCheckDistance" instantiate="true" checkinterval="1s">
+							<conditions>
+								<check_all>
+									<check_value value="$IsInTargetRadius" />
+									<check_value value="$TargetObject.distanceto.{player.entity} gt 1000" />
+									<check_value value="$TargetObject.distanceto.{player.entity} lt 10000" />
+								</check_all>
+							</conditions>
+							<actions>
+								<debug_text text="''" chance="@md.$kuertee_interval" />
+								<set_value name="$TargetObjectDistance" exact="$TargetObject.distanceto.{player.entity}" />
+								<debug_text text="'$TargetObjectDistance: ' + $TargetObjectDistance" chance="HackingOutcomes.$debugChance" />
+								<do_if value="$TargetObjectDistance gt 2500">
+									<do_if value="$NotificationTimer == 0">
+										<!-- <t id="2957">Distance</t> -->
+										<show_notification text="{1001,2957} + ': ' + $TargetObjectDistance + 'm'" comment="{1001,2957} = Distance" />
+									</do_if>
+									<set_value name="$NotificationTimer" exact="$NotificationTimer + 1" />
+									<do_if value="$NotificationTimer ge 4"><!-- every 5 seconds -->
+										<set_value name="$NotificationTimer" exact="0" />
+									</do_if>
+								</do_if>
+								<do_if value="$TargetObjectDistance lt 2500">
+									<do_if value="$ObjectiveAction == objective.flyto">
+										<!-- <t id="3307">Mission completed</t> -->
+										<show_notification text="{1001,3307}" comment="{1001,3307} = Mission completed" />
+										<cancel_cue cue="namespace" />
+										<do_if value="$OnFindObjectMissionCompleted">
+											<signal_cue_instantly cue="$OnFindObjectMissionCompleted" param="table[
+												$FindObjectMission = namespace
+												]" />
+										</do_if>
+									</do_if>
+									<do_else>
+										<do_if value="$ObjectiveText != $TargetObject.knownname">
+											<set_value name="$ObjectiveText" exact="$TargetObject.knownname" />
+											<set_objective cue="namespace"
+												step="1"
+												action="$ObjectiveAction"
+												customaction="$ObjectiveCustomAction"
+												object="$TargetSector"
+												offset="$TargetPosition"
+												radius="$TargetRadius"
+												text="$ObjectiveText" />
+										</do_if>
+									</do_else>
+								</do_if>
+							</actions>
+						</cue>
+						<cue name="OnFindObjectMissionObjectDroppedObjects">
+							<conditions>
+								<check_all>
+									<event_object_dropped_objects object="$TargetObject" />
+									<check_value value="$ObjectiveAction == objective.unlock" />
+								</check_all>
+							</conditions>
+							<actions>
+								<debug_text text="'OnFindObjectMissionObjectDroppedObjects'" chance="HackingOutcomes.$debugChance" />
+								<!-- <t id="3307">Mission completed</t> -->
+								<show_notification text="{1001,3307}" comment="{1001,3307} = Mission completed" />
+								<cancel_cue cue="namespace" />
+								<do_if value="$OnFindObjectMissionCompleted">
+									<signal_cue_instantly cue="$OnFindObjectMissionCompleted" param="table[
+										$FindObjectMission = namespace
+										]" />
+								</do_if>
+							</actions>
+						</cue>
+						<cue name="OnFindObjectMissionPlayerSignalUnlockFinished">
+							<conditions>
+								<check_all>
+									<event_player_signal_unlock_finished signal="$TargetLeak" />
+									<check_value value="$ObjectiveAction == objective.scan" />
+								</check_all>
+							</conditions>
+							<actions>
+								<debug_text text="'OnFindObjectMissionPlayerSignalUnlockFinished'" chance="HackingOutcomes.$debugChance" />
+								<!-- <t id="3307">Mission completed</t> -->
+								<show_notification text="{1001,3307}" comment="{1001,3307} = Mission completed" />
+								<cancel_cue cue="namespace" />
+								<do_if value="$OnFindObjectMissionCompleted">
+									<signal_cue_instantly cue="$OnFindObjectMissionCompleted" param="table[
+										$FindObjectMission = namespace
+										]" />
+								</do_if>
+							</actions>
+						</cue>
+						<cue name="OnFindObjectMissionObjectDestroy">
+							<conditions>
+								<event_object_destroyed object="$TargetObject" />
+							</conditions>
+							<actions>
+								<debug_text text="'OnFindObjectMissionObjectDestroy'" chance="HackingOutcomes.$debugChance" />
+								<!-- <t id="3308">Mission failed</t> -->
+								<show_notification text="{1001,3308}" comment="{1001,3308} = Mission failed" />
+								<cancel_cue cue="namespace" />
+								<do_if value="$OnFindObjectMissionCompleted">
+									<signal_cue_instantly cue="$OnFindObjectMissionCompleted" param="table[
+										$FindObjectMission = namespace
+										]" />
+								</do_if>
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<!-- -->
+				<library name="GetLockedDataVaults">
+					<actions>
+						<!-- find locked data vaults -->
+						<do_if value="not @md.kuertee_hacking_outcomes.HackingOutcomes.$LockedDataVaults">
+							<!-- create in RumourTopics instead of the sub-cues -->
+							<create_group groupname="md.kuertee_hacking_outcomes.HackingOutcomes.$LockedDataVaults" />
+							<create_group groupname="md.kuertee_hacking_outcomes.HackingOutcomes.$LockedDataVaultLeaks" />
+							<create_group groupname="md.kuertee_hacking_outcomes.HackingOutcomes.$RumouredDataVaults" />
+						</do_if>
+						<do_else>
+							<clear_group group="md.kuertee_hacking_outcomes.HackingOutcomes.$LockedDataVaults" />
+							<clear_group group="md.kuertee_hacking_outcomes.HackingOutcomes.$LockedDataVaultLeaks" />
+							<!-- never clear $RumouredDataVaults -->
+							<!-- <clear_group group="md.kuertee_hacking_outcomes.HackingOutcomes.$RumouredDataVaults" /> -->
+						</do_else>
+						<!-- copy from RumourTopics into whatever cue uses this library -->
+						<set_value name="$LockedDataVaults" exact="md.kuertee_hacking_outcomes.HackingOutcomes.$LockedDataVaults" />
+						<set_value name="$LockedDataVaultLeaks" exact="md.kuertee_hacking_outcomes.HackingOutcomes.$LockedDataVaultLeaks" />
+						<set_value name="$RumouredDataVaults" exact="md.kuertee_hacking_outcomes.HackingOutcomes.$RumouredDataVaults" />
+						<find_object groupname="$VaultsGroup" space="player.galaxy" multiple="true">
+							<match_any>
+								<match macro="macro.landmarks_vault_01_macro" />
+								<match macro="macro.landmarks_vault_02_macro" />
+								<match macro="macro.landmarks_vault_03_macro" />
+								<match macro="macro.landmarks_vault_04_macro" />
+							</match_any>
+						</find_object>
+						<do_all exact="$VaultsGroup.count" counter="$i">
+							<find_object_component name="$Leak" object="$VaultsGroup.{$i}" signalleaktype="signalleaktype.data" />
+							<do_if value="$Leak.exists">
+								<add_to_group groupname="$LockedDataVaults" object="$VaultsGroup.{$i}" />
+								<add_to_group groupname="$LockedDataVaultLeaks" object="$Leak" />
+							</do_if>
+						</do_all>
+						<debug_text text="'$LockedDataVaults.count: ' + $LockedDataVaults.count" chance="HackingOutcomes.$debugChance" />
+						<debug_text text="'$LockedDataVaultLeaks.count: ' + $LockedDataVaultLeaks.count" chance="HackingOutcomes.$debugChance" />
+						<!-- keep 3 closest -->
+						<!-- e.g. -->
+						<!-- <sort_group list="$PossibleShips" sortbyvalue="loop.element.position.distanceto.{$HQPosition}" /> -->
+						<!-- <sort_group group="$PatrolTarget" sortbydistanceto="player.entity" /> -->
+						<sort_group group="$LockedDataVaults" sortbydistanceto="player.entity" />
+						<sort_group group="$LockedDataVaultLeaks" sortbydistanceto="player.entity" />
+						<debug_text text="'keep 3 closest'" chance="HackingOutcomes.$debugChance" />
+						<do_all exact="$LockedDataVaults.count" counter="$i">
+							<do_if value="$i > 3 and @$LockedDataVaults.{4}">
+								<remove_from_group group="$LockedDataVaults" object="$LockedDataVaults.{4}" />
+								<remove_from_group group="$LockedDataVaultLeaks" object="$LockedDataVaultLeaks.{4}" />
+							</do_if>
+						</do_all>
+						<debug_text text="'$LockedDataVaults.count: ' + $LockedDataVaults.count" chance="HackingOutcomes.$debugChance" />
+						<debug_text text="'$LockedDataVaultLeaks.count: ' + $LockedDataVaultLeaks.count" chance="HackingOutcomes.$debugChance" />
+					</actions>
+				</library>
+				<!-- -->
+				<library name="GetAnomalies">
+					<actions>
+						<!-- find locked data vaults -->
+						<do_if value="not @md.kuertee_hacking_outcomes.HackingOutcomes.$Anomalies">
+							<!-- create in RumourTopics instead of the sub-cues -->
+							<create_group groupname="md.kuertee_hacking_outcomes.HackingOutcomes.$Anomalies" />
+							<create_group groupname="md.kuertee_hacking_outcomes.HackingOutcomes.$RumouredAnomalies" />
+						</do_if>
+						<do_else>
+							<clear_group group="md.kuertee_hacking_outcomes.HackingOutcomes.$Anomalies" />
+							<!-- never clear $RumouredAnomalies -->
+							<!-- <clear_group group="md.kuertee_hacking_outcomes.HackingOutcomes.$RumouredAnomalies" /> -->
+						</do_else>
+						<!-- copy from RumourTopics into whatever cue uses this library -->
+						<set_value name="$Anomalies" exact="md.kuertee_hacking_outcomes.HackingOutcomes.$Anomalies" />
+						<set_value name="$RumouredAnomalies" exact="md.kuertee_hacking_outcomes.HackingOutcomes.$RumouredAnomalies" />
+						<!-- e.g.s: -->
+						<!-- <find_object name="$Anomaly" class="class.anomaly" space="$Sector" /> -->
+						<!-- <find_object groupname="static.$Objects" multiple="true" class="$ObjectClasses" masstraffic="false" checkoperational="false" recursive="true" space="$PlayerSpace.{1}" /> -->
+						<find_object groupname="$FoundAnomalies" multiple="true" class="class.anomaly" space="player.galaxy" />
+						<do_all exact="$FoundAnomalies.count" counter="$i">
+							<do_if value="not $RumouredAnomalies.indexof.{$FoundAnomalies.{$i}}">
+								<add_to_group groupname="$Anomalies" object="$FoundAnomalies.{$i}" />
+							</do_if>
+						</do_all>
+						<debug_text text="'$Anomalies.count: ' + $Anomalies.count" chance="HackingOutcomes.$debugChance" />
+						<!-- keep 3 closest -->
+						<debug_text text="'keep 3 closest'" chance="HackingOutcomes.$debugChance" />
+						<sort_group group="$Anomalies" sortbydistanceto="player.entity" />
+						<do_all exact="$Anomalies.count" counter="$i">
+							<do_if value="$i > 3 and @$Anomalies.{4}">
+								<remove_from_group group="$Anomalies" object="$Anomalies.{4}" />
+							</do_if>
+						</do_all>
+						<debug_text text="'$Anomalies.count: ' + $Anomalies.count" chance="HackingOutcomes.$debugChance" />
+					</actions>
+				</library>
+				<!-- all generic mission -->
+				<!-- <set_value name="$MissionSetUpCue" exact="md.GM_Assassinate.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_DeployInPlace.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_Destroy_Objects.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_Find_Resources.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_Rescue_Ship.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_RepairObject.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_Transport_Passengers.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_Scan.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_SupplyFactory.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_GetExactCrew.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_BringItems.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_RetrieveItem.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_FindObject.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_BuildStation.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_KillMasstraffic.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_RepairSignalLeaks.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_TrackShip.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_BoardShip.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_Patrol.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GM_Destroy_RarelyOnSight.GenerateGenericMission" />
+						<set_value name="$MissionSetUpCue" exact="md.GMC_Assisted_Task.GenerateGenericMission" /> -->
+				<library name="GetCombatTypeMission">
+					<actions>
+						<do_any>
+							<set_value name="$MissionSetUpCue" exact="md.GM_Assassinate.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_DeployInPlace.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Destroy_Objects.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Rescue_Ship.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Scan.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_GetExactCrew.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BuildStation.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_KillMasstraffic.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairSignalLeaks.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_TrackShip.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BoardShip.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Patrol.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Destroy_RarelyOnSight.GenerateGenericMission" />
+						</do_any>
+					</actions>
+				</library>
+				<library name="GetEconomicTypeMission">
+					<actions>
+						<do_any>
+							<set_value name="$MissionSetUpCue" exact="md.GM_DeployInPlace.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Find_Resources.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Transport_Passengers.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Scan.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_SupplyFactory.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_GetExactCrew.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BringItems.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RetrieveItem.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_FindObject.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BuildStation.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairSignalLeaks.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GMC_Assisted_Task.GenerateGenericMission" />
+						</do_any>
+					</actions>
+				</library>
+				<library name="GetEngineeringTypeMission">
+					<actions>
+						<do_any>
+							<set_value name="$MissionSetUpCue" exact="md.GM_DeployInPlace.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Find_Resources.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairObject.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Transport_Passengers.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_Scan.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_GetExactCrew.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_FindObject.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_BuildStation.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GM_RepairSignalLeaks.GenerateGenericMission" />
+							<set_value name="$MissionSetUpCue" exact="md.GMC_Assisted_Task.GenerateGenericMission" />
+						</do_any>
+					</actions>
+				</library>
+				<cue name="OnModInstall">
+					<actions>
+						<debug_text text="'$debugChance: ' + $debugChance" />
+						<signal_cue_instantly cue="Init" />
+					</actions>
+				</cue>
+				<cue name="OnModInstallComplete" checktime="player.age + 1s">
+					<actions>
+						<set_value name="$debugChance" exact="0" />
+						<debug_text text="'$debugChance: ' + $debugChance" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="DebugChat2" namespace="this">
+			<conditions>
+				<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+				<check_any>
+					<check_value value="event.param3.$text == 'debug kuertee interval'" />
+					<check_value value="event.param3.$text == 'debug hacko'" />
+				</check_any>
+			</conditions>
+			<actions>
+				<debug_text text="event.param3" />
+				<do_if value="event.param3.$text == 'debug kuertee interval'">
+					<do_if value="player.age - @md.$kuertee_interval_time gt 1s">
+						<set_value name="md.$kuertee_interval_time" exact="player.age" />
+						<do_if value="@md.$kuertee_interval">
+							<remove_value name="md.$kuertee_interval" />
+						</do_if>
+						<do_else>
+							<set_value name="md.$kuertee_interval" exact="100" />
+						</do_else>
+					</do_if>
+					<debug_text text="'md.$kuertee_interval: ' + @md.$kuertee_interval" />
+				</do_if>
+				<do_elseif value="event.param3.$text == 'debug hacko'">
+					<do_if value="HackingOutcomes.$debugChance">
+						<set_value name="HackingOutcomes.$debugChance" exact="0" />
+					</do_if>
+					<do_else>
+						<set_value name="HackingOutcomes.$debugChance" exact="100" />
+					</do_else>
+					<raise_lua_event name="'Chat_Window_API.Print'" param="'HackingOutcomes.$debugChance: ' + HackingOutcomes.$debugChance" />
+				</do_elseif>
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+	</cues>
+</mdscript>

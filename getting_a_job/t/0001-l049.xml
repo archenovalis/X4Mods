@@ -1,179 +1,476 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- german translations by Hermän2000 on Discord upto 689128 then deepl.com -->
 <language id="49">
+
+	<!-- "kuertee: Crime has consequences" = "kCHC" = "11 3 8 3" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
+	<page id="11383" voice="no">
+		<t id="1">kuertee: Kriminalität hat Konsequenzen</t>
+		<!-- config -->
+		<t id="2">Debug-Protokoll</t>
+		<t id="3">Debug-Protokoll ausführen</t>
+		<t id="4">Geldstrafen</t>
+
+		<t id="5">Angriffe</t>
+		<t id="6">Navbarken, Sonden, Lasertürme und Satelliten</t>
+		<t id="7">Schiffsangriffe</t>
+		<t id="8">Stationsangriffe</t>
+
+		<t id="9">Diebstahl</t>
+		<t id="10">Schiffskaperung</t>
+
+		<t id="11">Abschüsse</t>
+		<t id="12">Navbarken, Sonden, Lasertürme und Satelliten</t>
+		<t id="13">Schiffsabschüsse</t>
+		<t id="14">Stationszerstörung</t>
+
+		<t id="15">Andere Arten</t>
+		<t id="16">Hacks</t>
+		<t id="17">Illegale Scans</t>
+		<t id="18">Illegale Fracht/Inventar</t>
+		<t id="19">Illegale Bauplätze</t>
+
+		<t id="20">Weitere Funktionen</t>
+		<t id="21">Geldstrafenmultiplikator in großen Einsatzgebieten</t>
+		<t id="22">Schiffsbeschlagnahmung am Dock</t>
+		<t id="23">Spielerschiff im Dock beschlagnahmen</t>
+		<t id="24">Beschlagnahme von Spielerschiffen am Dock bei jeglichen Geldstrafen</t>
+		<t id="25">Schiffsbeschlagnahmung bei Rumpfprozentsatz</t>
+		<t id="26">Spielerschiff bei Angriff beschlagnahmen</t>
+		<t id="27">Beschlagnahme von Spielerschiffen bei Angriff bei jeglichen Geldstrafen</t>
+		<t id="28">Verbrechen von Untergebenen trennen</t>
+		<t id="29">Summierung von Verbrechen an feindlichen Fraktionen</t>
+
+		<t id="30">z. B. Betrag %1(Cr)</t>
+		<t id="31">Große Operationen sind Angriffe auf Stationen und Schiffskaperungen.</t>
+		<t id="32">Untergebene werden separat bestraft, auch wenn ihre Ziele die gleichen wie die ihres Kommandanten waren. Andernfalls werden Verbrechen an denselben Zielen wie ihre Kommandanten als ein Verbrechen ihres Kommandeurs bestraft.</t>
+		<t id="33">Stunden für die Einbuße beschlagnahmter Schiffe</t>
+
+		<t id="34">Summierung von Verbrechen bei Piratenfraktionen</t>
+		<t id="35">Erlaubt Angriffe und Abschüsse mit niedriger Aufmerksamkeit</t>
+
+		<!-- mycu_verbose_transaction_log mod -->
+		<t id="101">Gebühren</t>
+		<t id="102">Geldbußen für ein Schiff</t>
+		<t id="103">Bestechungsgeld für die Freigabe eines Schiffes</t>
+
+		<!-- Fraktionsname und Kartentext -->
+		<t id="1000">Geldstrafen und Einbuße</t>
+		<t id="1001">Standort der Beschlagnahmung</t>
+		<t id="1002">Nächste 10</t>
+		<t id="1003">Vorherige 10</t>
+		<t id="1004">Gesamtstrafen</t>
+		<t id="1005">Selbstverteidigung</t>
+		<t id="1006">STRAFEN</t>
+		<t id="1007">Ort unbekannt</t>
+		<t id="1008">Angriff</t>
+		<t id="1009">Kaperung</t>
+		<t id="1010">Abschuss</t>
+		<t id="1011">Hack</t>
+		<t id="1012">Illegaler Scan</t>
+		<t id="1013">Illegale Fracht</t>
+		<t id="1014">Illegaler Bauplatz</t>
+		<t id="1015">Angriffe</t>
+		<t id="1016">Kaperungen</t>
+		<t id="1017">Abschüsse</t>
+		<t id="1018">Hacks</t>
+		<t id="1019">Illegale Scans</t>
+		<t id="1020">Illegale Fracht</t>
+		<t id="1021">Illegale Bauplätze</t>
+		<t id="1022">Kommandanten</t>
+		<t id="1023">Sanktioniert</t>
+		<!-- Spaltennamen -->
+		<t id="1100">Schiff</t>
+		<t id="1101">Beschlagnahmt \(Ort und Zeit\)</t>
+		<t id="1102">Geldstrafen</t>
+		<!-- anderer UI-Text -->
+		<t id="1103">Diese Geldstrafe bezahlen</t>
+		<t id="1104">Keine Geldstrafen</t>
+		<!-- Beschlagnahmebenachrichtigungen, Pilotenbericht/Beschlagnahmestation Zwischensequenz/Interaktion -->
+		<t id="2000">Wir wurden mit einer Geldstrafe von %1(Cr) wegen Angriffs auf\n%2(Schiff oder Station) belegt.</t>
+		<t id="2001">Wir wurden mit einer Geldstrafe von %1(Cr) für das Kapern von\n%2(Schiff oder Station) belegt.</t>
+		<t id="2002">Wir wurden mit einer Geldstrafe von %1(Cr) belegt, weil wir\n%2(Schiff oder Station) zerstört haben.</t>
+		<t id="2003">Wir wurden mit einer Geldstrafe von %1(Cr) für Hacking von\n%2(Schiff oder Station) belegt.</t>
+		<t id="2004">Wir wurden mit einer Geldstrafe von %1(Cr) für das Scannen von\n%2(Schiff oder Station) belegt.</t>
+		<t id="2005">Wir wurden mit einer Geldstrafe von %1(Cr) belegt, weil wir Schmuggelware transportieren.</t>
+		<t id="2006">Wir wurden mit einer Geldstrafe von %1(Cr) belegt, weil wir einen Bauplatz\nohne Lizenz beansprucht haben.</t>
+		<t id="2010">Ihr Schiff %1(Schiff)\nwurde mit einer Geldstrafe von %2(Cr) für den Angriff auf\n%3(Schiff oder Station) belegt.</t>
+		<t id="2011">Ihr Schiff %1(Schiff)\nwurde mit einer Geldstrafe von %2(Cr) für das Kapern von\n%3(Schiff oder Station) belegt.</t>
+		<t id="2012">Ihr Schiff %1(Schiff)\nwurde mit einer Geldstrafe von %2(Cr) wegen Zerstörung von\n%3(Schiff oder Station) belegt.</t>
+		<t id="2013">Ihr Schiff %1(Schiff)\nwurde mit einer Geldstrafe von %2(Cr) wegen Hackens von\n%3(Schiff oder Station) belegt.</t>
+		<t id="2014">Ihr Schiff %1(Schiff)\nwurde mit einer Geldstrafe von %2(Cr) wegen Scannen von\n%3(Schiff oder Station) belegt.</t>
+		<t id="2015">Ihr Schiff %1(Schiff)\nwurde mit einer Geldstrafe von %2(Cr) belegt, weil es Schmuggelware transportiert hat.</t>
+		<t id="2016">Ihr Schiff %1(Schiff)\nwurde mit einer Geldstrafe von %2(Cr) belegt, weil es\neinen Bauplatz ohne Lizenz beansprucht hat.</t>
+		<t id="2020">Ihr Schiff %1(Schiff)\nwurde von %2(Fraktion)\nbeschlagnahmt,\nund mit einer Geldstrafe von %3(Cr) belegt.</t>
+		<t id="2021">Ihr Mitarbeiter</t>
+		<t id="2022">Ihr Schiff %1(Schiff)\nwurde von %2(Fraktion) freigegeben.</t>
+		<t id="2023">Wir wurden von %1(Fraktion)\n beschlagnahmt und mit einer Geldstrafe von %2(Cr) belegt.</t>
+		<t id="2024">Sie (Raumanzug)wurden mit einer Geldstrafe von %1(Cr) für den Angriff auf\n%2(Schiff oder Station) belegt.</t>
+		<t id="2025">Sie (Raumanzug)wurden mit einer Geldstrafe von %1(Cr) für das Kapern von\n%2(Schiff oder Station) belegt.</t>
+		<t id="2026">Sie (Raumanzug)wurden mit einer Geldstrafe von %1(Cr) belegt, weil Sie\n%2(Schiff oder Station) zerstört haben.</t>
+		<t id="2027">Sie (Raumanzug)wurden mit einer Geldstrafe von %1(Cr) wegen Hackens von\n%2(Schiff oder Station) belegt.</t>
+		<t id="2028">Sie (Raumanzug)wurden mit einer Geldstrafe von %1(Cr) für das Scannen von\n%2(Schiff oder Station) belegt.</t>
+		<t id="2029">Sie (Raumanzug)wurden mit einer Geldstrafe von %1(Cr) für den Transport von Schmuggelware belegt.</t>
+		<t id="2030">Sie (Raumanzug)wurden mit einer Geldstrafe von %1(Cr) belegt, weil Sie\neine Bauplatz ohne Lizenz beansprucht haben.</t>
+		<t id="2031">Ihre Geldstrafen wurden auf Ihr Schiff\n%1 (Schiff) transferiert.</t>
+		<t id="2032">Wir haben Ihr Schiff %1(Schiff) beschlagnahmt\nund mit einer Geldstrafe von %2(Cr) belegt.</t>
+		<t id="2033">Ihr Schiff %1(Schiff)\nwurde an %2(Fraktion) übertragen\nund mit einer Geldstrafe von %3(Cr) belegt.</t>
+		<t id="2034">Ihr Schiff %1(Schiff)\nwurde von %2(Fraktion)\nfreigegeben.</t>
+		<!-- Logbucheinträge -->
+		<t id="2100">Kriminalität: Angriff, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %3(Cr), berichtet von: $s(reported by).</t>
+		<t id="2101">Kriminalität: Kaperung, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %3(Cr), berichtet von: $s(reported by).</t>
+		<t id="2102">Kriminalität: Zerstörung, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %3(Cr), berichtet von: $s(reported by).</t>
+		<t id="2103">Kriminalität: Hack, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %1(Cr), berichtet von: $s(reported by).</t>
+		<t id="2104">Kriminalität: Illegaler Scan, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %3(Cr), berichtet von: $s(reported by).</t>
+		<t id="2105">Kriminalität: Illegale Fracht, Täter: %1(kriminelles Schiff), Opfer: %2(Fraktion), Geldstrafen: %3(Cr), berichtet von: $s(reported by).</t>
+		<t id="2106">Kriminalität: Illegaler Bauplatz, Täter: %1(kriminelles Schiff), Opfer: %2(Fraktion), Geldstrafen: %3(Cr), berichtet von: $s(reported by).</t>
+		<t id="2107">Beschlagnahmung: %1(kriminelles Schiff) durch: %2(Fraktion).</t>
+		<t id="2108">Gezahlte Geldstrafen: %1(Cr), an: %2(Fraktion).</t>
+		<t id="2109">Freigabe: %1(kriminelles Schiff) durch: %2(Fraktion).</t>
+		<t id="2110">Pfändung: %1(kriminelles Schiff) durch: %2(Fraktion), Geldstrafen: %3(Cr).</t>
+		<t id="2111">(reported by var in log book entry)das Opfer</t>
+		<t id="2200">Kriminalität: Angriff, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %3(Cr), berichtet von: $s(reported by), berichtet unter: %s (station).</t>
+		<t id="2201">Kriminalität: Kaperung, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %3(Cr), berichtet von: $s(reported by), berichtet unter: %s (station).</t>
+		<t id="2202">Kriminalität: Zerstörung, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %3(Cr), berichtet von: $s(reported by), berichtet unter: %s (station).</t>
+		<t id="2203">Kriminalität: Hack, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %1(Cr), berichtet von: $s(reported by), berichtet unter: %s (station).</t>
+		<t id="2204">Kriminalität: Illegaler Scan, Täter: %1(kriminelles Schiff), Opfer: %2(Schiff oder Station), Geldstrafen: %3(Cr), berichtet von: $s(reported by), berichtet unter: %s (station).</t>
+		<t id="2205">Kriminalität: Illegale Fracht, Täter: %1(kriminelles Schiff), Opfer: %2(Fraktion), Geldstrafen: %3(Cr), berichtet von: $s(reported by), berichtet unter: %s (station).</t>
+		<t id="2206">Kriminalität: Illegaler Bauplatz, Täter: %1(kriminelles Schiff), Opfer: %2(Fraktion), Geldstrafen: %3(Cr), berichtet von: $s(reported by), berichtet unter: %s (station).</t>
+		<!-- Stationsraum und NPC-Gespräch -->
+		<t id="3000">Bußgeld- und Pfändungsbehörde</t>
+		<t id="3001"></t>
+		<t id="3002">Alle meine Geldstrafen bezahlen: %1(Cr).</t>
+		<t id="3003">Für %1(Schiff): %2(Cr).</t>
+		<t id="3004">Geldstrafen eines Schiffes zahlen.</t>
+		<t id="3005"></t>
+		<t id="3006"></t>
+		<t id="3007"></t>
+		<t id="3008">Für %1(count) Schiffe: %2(Cr).</t>
+		<t id="3009">Dieses Schiff hat keine offenen Geldstrafen.</t>
+		<t id="3010">Diese Schiffe haben keine offenen Geldstrafen.</t>
+		<t id="3011">Sie können es sich nicht leisten, diese Geldstrafen zu bezahlen.</t>
+		<!-- Missionen -->
+		<t id="4000">(fliegen Sie weg, dann geben Sie den Text von Ziel 1 frei)Bezahlen Sie die Geldstrafe des Schiffes!</t>
+		<t id="4001">(fliegen Sie weg, dann geben Sie Ziel 2 frei Text)Verlassen Sie die Station, wahlweise an Bord eines Ihrer Schiffe.</t>
+		<!-- Vorstrafen des Spielers -->
+		<t id="5000">Strafregister</t>
+		<t id="5001">%s(Zeit): %s(Kriminalität), Täter: %s(Schiff), Opfer: %s(Opfer), Geldstrafen: %s(Geldstrafen)</t>
+		<t id="5002">Unbezahlt</t>
+		<t id="5003">Nicht aktenkundig</t>
+		<!-- Bestechungsmanager-Convo -->
+		<t id="6000">Mein Schiff für %s(cr) freikaufen?</t>
+		<t id="6001">Meine Schiffe für %s(cr) freikaufen?</t>
+	</page>
+
+	<!-- "kuertee Alternativen zum Tod"-->
+	<page id="111204" title="" descr="">
+		<t id="1">kuertee: Alternativen zum Tod</t>
+		<t id="2">Debug Log</t>
+		<t id="3">Debug Funktion ausführen</t>
+		<t id="4">Alternative 1: Klon aktivieren</t>
+		<t id="5">Kosten für Klon</t>
+		<t id="6">Alternative 2: Spiel an einen entfernten Verwandten übertragen</t>
+		<t id="7">Schiffe und Stationen erben</t>
+		<t id="8">Cr sammeln um Schiffe und Stationen zu erben</t>
+		<t id="9">Wenn Eigenschaften verloren gehen, zufällig neu starten als:</t>
+		<t id="10">Alternative 3: Von einem Angestellten in Sicherheit teleportiert</t>
+		<t id="11">Unter folgenden Todesalternativen zufällig wählen:</t>
+		<t id="12">Eigentum an Grundstücken:</t>
+		<t id="13">Alternative 4: Gefangen, dann Lösegeld gefordert</t>
+		<t id="14">% an Eigentum als Lösegeld verloren</t>
+		<t id="15">Alternative 5: Gefangen, dann assimiliert</t>
+		<t id="16">Alle Gegenstände, Modifikationen und Ausrüstung verlieren</t>
+		<t id="17">Infektion/Zombifizierung zu Kha'ak erlauben</t>
+		<t id="18">Assimiliation in Xenon erlauben</t>
+		<t id="19">HQ durch Erbe oder Lösegeld verlieren</t>
+		<t id="20">Rumpf% für unvermeidbare Zerstörung \(X\)</t>
+		<t id="21">Noch Rumpfsekunden, um den Countdown zu starten \(Y\)</t>
+		<t id="22">Zusätzliche Countdown-Sekunden \(Z\)</t>
+		<t id="23">Die Zerstörung des Schiffes ist unvermeidbar, wenn Rumpf% kleiner ist als 'Rumpf% für unvermeidbare Zerstörung', X, und der erhaltene Schaden pro Sekunde \(DPS\) mehr ist als das, was der Rumpf bei 'Rumpfsekunden, die verbleiben, um den Countdown zu starten' aushalten kann. Y. Vor dieser Zeit kann der Spieler versuchen, die Zerstörung abzuwenden, indem er den empfangenen Schaden pro Sekunde verringert, indem er Ausweichmanöver ausführt.</t>
+		<t id="24">Der Test für unvermeidbare Zerstörung ist:</t>
+		<t id="25">\(Rumpf% &lt; X\) UND \(dps &gt; Rumpf% / Y\)</t>
+		<t id="26">Der Countdown beginnt, wenn Rumpf% diese Zeit vor der Zerstörung noch hat - wie von DPS festgelegt.</t>
+		<t id="27">Dies sind zusätzliche Sekunden, die dem Countdown hinzugefügt werden. Die Zeit, die der Spieler zur Flucht benötigt, ist die Summe von Y + Z.</t>
+		<t id="28">Strenger Klon startet</t>
+		<t id="29">Klone starten nur als ihr ursprüngliches Selbst.</t>
+		<t id="30">Besitz von Schiffen und Stationen</t>
+		<t id="31">Besitz des Spielers</t>
+		<t id="32">Von einer Stiftung geerbt</t>
+		<t id="33">Beschlagnahmt von der herrschenden Fraktion des Sektors</t>
+		<t id="34">Zerstört</t>
+		<t id="35">Beschlagnahmt durch die Fraktion des Mörders</t>
+		<t id="36">Besitz des Hauptquartiers des Spielers</t>
+		<t id="37">Klonen und Teleportieren von Mitarbeitern priorisieren</t>
+		<t id="38">Wenn aktiviert, werden die Klon- und Teleport-Alternativen vor allen anderen verwendet, wenn eine oder beide verfügbar sind. Wenn deaktiviert, wird die Klon-Alternative zufällig aus den verfügbaren Alternativen ausgewählt.</t>
+		<t id="39">Tot ist tot</t>
+		<t id="40">Unbegrenzte Speicherslots. Nach einer alternativen Todessequenz können Sie ein Spiel erst wieder laden, nachdem Sie es gespeichert haben. Wenn ein Quickload erkannt wird, wird eine Todesalternativsequenz aktiviert.</t>
+		<t id="41">Bonusschild bei abgewendeter Zerstörung</t>
+		<t id="42">Wenn in einem kleinen Schiff</t>
+		<t id="43">Mittelgroßes Schiff</t>
+		<t id="44">Großes oder extra großes Schiff</t>
+		<t id="45">Besitz klonen</t>
+		<t id="46">Nachkommenschaft</t>
+		<t id="47">Gleichgestelltes Eigentum</t>
+		<t id="48">Klone behalten Beziehungen bei</t>
+		<t id="49">Wenn aktiviert, verlieren Klone niemals ihre Beziehungen zu den Fraktionen. Dadurch bleiben auch Reputation und Social Standing erhalten - wenn die entsprechenden Mods installiert sind.</t>
+		<t id="50">Alternative 6: Spawne an der Station. Keine Strafe.</t>
+		<t id="51">Sparen von Abschaum-Strafen</t>
+		<t id="52">Todesalternative Strafe</t>
+		<t id="53">Eine alternative Todessequenz wird aktiviert.</t>
+		<t id="54">Gutschriften-Strafe</t>
+		<t id="55">Credits werden von den persönlichen Credits des Spielers abgezogen. "Abschaum-Todesstrafe retten" haben Vorrang vor dieser Strafe.</t>
+		<t id="56">Zeit</t>
+		<t id="57">Unbegrenzte Speicherslots. Es werden Strafen verhängt, wenn ein Spiel geladen wird, das älter als diese Zeit ist.</t>
+		<t id="58">Eisenmann-Modus</t>
+		<t id="59">Ein Speicherplatz. Sie können nur von einem Speicherplatz laden. Autosaves und Quicksaves sind davon ausgenommen.</t>
+		<t id="60">Gespeicherte Spiele</t>
+
+
+		<t id="100">Schiff verlassen</t>
+		<t id="101">Zerstörung steht bevor</t>
+		<t id="102">Zerstörung abgewendet</t>
+		<t id="103">Ausweichmanöver ausführen</t>
+
+		<!-- trust executor faction -->
+		<t id="200">Büro des Treuhänders</t>
+		<t id="201">{20006,102}(No information available)</t>
+		<t id="202">TH</t>
+
+		<!-- cloning lab -->
+		<t id="300">Klon-Labor</t>
+		<t id="301">Klon-Techniker</t>
+		<t id="302">Klon kaufen: %1(cost).</t>
+		<t id="303"></t>
+		<t id="304"></t>
+		<t id="305"></t>
+		<t id="306"></t>
+		<t id="307"></t>
+		<t id="308">Wie viele Klone habe ich derzeit?</t>
+		<t id="309">Klon-Standorte:</t>
+
+		<!-- inherit mission -->
+		<t id="400">Erbe</t>
+		<t id="401">Akquiriere %1.</t>
+		<!-- trust executor convo -->
+		<t id="402">Mein Erbe?</t>
+		<t id="403"></t>
+		<t id="404"></t>
+		<t id="405"></t>
+
+		<!-- escape pod -->
+		<t id="500">Rettungskapsel betreten</t>
+
+		<!-- action verbs -->
+		<t id="800">Warentransport</t>
+		<t id="801">Betreiben von Bergbau</t>
+		<t id="802">Erforschen</t>
+
+		<!-- death notice misc -->
+		<t id="900">Todesfall-Benachrichtigung</t>
+		<t id="901">An: %1</t>
+		<t id="902">Von: Dem Nachlassverwalter von %1</t>
+		<t id="903">Als gelesen markieren</t>
+		<t id="904">Erbschaftsmitteilung</t>
+
+		<!-- clone death messages -->
+		<t id="1000">Ihr Vorgänger ist gestorben.</t>
+		<t id="1001">Ihr Vorgänger ist in Erfüllung der Pflicht gegen %1 verstorben.</t><!-- %1 = faction name -->
+		<t id="1002">Beim %1 ist Ihr früheres Selbst im Kampf gegen %2 verstorben.</t><!-- %1 = action verb, %2 = faction name -->
+		<t id="1003">Ihr Vorgänger ist beim %1 verstorben.</t><!-- %1 = action verb -->
+		<!-- inheritance -->
+		<t id="1004">Laut Ihrem Vertrag werden alle Schiffe und Stationen Ihres Vorgängers von einem Treuhändler verwaltet.</t>
+		<t id="1005">Sie werden diese Schiffe und Stationen wiedererlangne, sobald Sie sich durch die Anhäufung von %1 als würdig erweisen.</t><!-- %1 = credits -->
+		<t id="1006">Wir wurden angewiesen, Ihnen die Daten Ihres früheren Selbsts zu überlassen. Diese beinhalten: Offene Verträge, Navigationskarten, Logbücher und Forschungsunterlagen.</t>
+		<t id="1007">Sie haben alle Schiffe und Stationen Ihres Vorgängers geerbt.</t>
+		<!-- Vererbung abgeschlossen -->
+		<t id="1008">Gemäß dem Willen Ihres Vorgängers werden Sie mit dem Erwerb von %1(Geld) zum Eigentümer der Grundstücke.</t>
+		<t id="1009">Wir übertragen sie nun auf Sie. Herzlichen Glückwunsch.</t>
+
+		<!-- descendant death messages -->
+		<t id="1100">%1, ein entfernter Verwandter, ist verstorben.</t><!-- %1 = name -->
+		<t id="1101">%1, ein entfernter Verwandter, ist bei der Pflichtausübung im Kampf gegen %2 verstorben.</t><!-- %1 = name, %2 = faction name -->
+		<t id="1102">Beim %1 ist %2, ein entfernter Verwandter, durch einen Angriff von %3 verstorben.</t><!-- %1 = action verb, %2 = name, %3 = faction name -->
+		<t id="1103">%1, ein entfernter Verwandter, ist bei einem Unfall beim %2 verstorben.</t><!-- %1 = name, %2 = action verb -->
+		<!-- inheritance -->
+		<t id="1104">Laut dem Testament werden alle Schiffe und Stationen die %1 besessen hat treuhänderisch verwaltet.</t><!-- %1 = name, %2 possessive adjective -->
+		<t id="1105">Sie werden diese Schiffe und Stationen erben, wenn Sie sich durch Anhäufung von %1 als würdig erweisen.</t><!-- %1 = credits -->
+		<t id="1106">Wir wurden instruiert, Ihnen die Daten von %1 zu überlassen. Diese beinhalten: Offene Verträge, Navigationskarten, Logbücher und Forschungsunterlagen.</t><!-- %1 = name -->
+		<t id="1107">Sie haben alle Schiffe und Stationen, die %1 in Besitz hatte, geerbt.</t><!-- %1 = name -->
+		<!-- Vererbung abgeschlossen -->
+		<t id="1108">Gemäß dem Testament von %1(Name) werden Sie mit dem Erwerb von %2(Geld) zum Eigentümer der Grundstücke.</t>
+		<t id="1109">Wir übertragen sie nun auf Sie. Herzlichen Glückwunsch.</t>
+
+		<!-- teleport to safety -->
+		<t id="1200">Teleportations-Hinweis</t><!-- %1 = name of pilot or manager of station -->
+		<t id="1201">%1 hat Sie in Sicherheit teleportiert.</t><!-- %1 = name of pilot or manager of station -->
+		<t id="1202">Der Computer Ihres Schiffes hat Sie in Sicherheit gebeamt.</t><!-- %1 = name of pilot or manager of station -->
+
+		<!-- logbook entry -->
+		<t id="1300">%1 ist verstorben.</t><!-- %1 = name -->
+
+		<!-- ransom -->
+		<t id="1400">Freilassungshinweis</t>
+		<t id="1401">Sie wurden von %1 gefangen genommen und nach Zahlung dieser Lösegeldsumme freigelassen:</t><!-- %1 faction name, %2 list of ransomed items -->
+
+		<!-- brainwash -->
+		<t id="1500">Guten Morgen</t>
+		<t id="1501">Sie wachen aus einem tiefen Schlaf auf und erinnern sich halbwegs an einen Traum in dem ihre stets treuen Verbündeten, %1, ihre Feinde waren.</t><!-- %1 faction name -->
+		<!-- assimilation (xenon) -->
+		<t id="1502">Hallo Welt</t>
+		<t id="1503">Oberste Direktive: alles organische Leben vernichten.</t>
+		<!-- zombify/infected (khaak) -->
+		<t id="1504">Ich bin wir. Du bist ich. Wir sind Eins.</t>
+		<t id="1505">Wir gehorchen der Königin. Wir schützen den Schwarm. Wir verbreiten die Sporen.</t>
+
+		<!-- mycu_verbose_transaction_log mod -->
+		<t id="2001">Lösegeldzahlung für die Freilassung aus der Gefangenschaft</t>
+		<t id="2002">Übertragung auf den Trust im Todesfall</t>
+		<t id="2003">Übertragung von der Station auf den Trust im Todesfall</t>
+		<t id="2004">Übertragung von Station Build Storage zu Trust bei Tod</t>
+		<t id="2005">Übertragung aus dem Trust als Erbe</t>
+		<t id="2006">Kloning-Dienst</t>
+		<t id="2007">Abschaum-Strafe sparen</t>
+	</page>
+
+	<!-- "kuertee high security rooms are locked" = "hsral" = "8 19 18 1 12" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
+	<page id="81918112" voice="no">
+		<!-- transporter room -->
+		<t id="1"> \033#FFFF0000#[Verschlossen]\033X</t>
+		<t id="2"> \033#FF00FF00#[Offen]\033X</t>
+		<!-- add_player_choice -->
+		<t id="100">Ich benötige Zugang zu einem Hochsicherheitsraum ...</t>
+		<t id="101">... auf dieser Station.</t>
+		<t id="102">... auf einer anderen Station.</t>
+		<t id="103">Ich benötige den Zugang doch nicht.</t>
+		<!-- speak -->
+		<t id="104">Diese Station liegt ausserhalb meines Einflußes.</t>
+		<t id="105">Welcher Hochsicherheitsraum?</t>
+		<t id="106">Es gibt keine verschlossenen Hochsicherheitsräume auf dieser Station.</t>
+		<t id="107">Es existieren keine Hochsicherheitsräume auf dieser Station.</t>
+		<t id="108">Es gibt keine verschlossenen Hochsicherheitsräume auf dieser Station.</t>
+		<t id="109">Es existieren keine Hochsicherheitsräume auf dieser Station.</t>
+		<t id="200">Ich kann folgende Zugänge anbieten. Welche wollen Sie?</t>
+		<!-- add_player_choice -->
+		<t id="201">Ein Transporterraum-Zugangscode</t>
+		<t id="202">Ein Hacker, der den Transporterraum hacken kann</t>
+		<t id="203">Ein Mitarbeiter, der Zugang zum Transporterraum hat</t>
+		<t id="204">Kosten</t>
+		<!-- menu_userquestion -->
+		<t id="300"></t>
+		<t id="301">Hochsicherheitsraum</t>
+		<t id="302">Zugangsart</t>
+		<t id="303">Zugangscode</t>
+		<t id="304">Hacker</t>
+		<t id="305">Arbeiter</t>
+		<t id="306">Diesen Zugang kaufen?</t>
+		<!-- speak -->
+		<t id="400">Sie können sich das nicht leisten.</t>
+		<t id="401"></t>
+		<t id="402"></t>
+		<!-- add_player_choice -->
+		<t id="500">Wie lautet der Passcode für den Kontakt??</t>
+		<t id="501">Ok.</t>
+		<!-- new contact in another sector convo -->
+		<t id="601">Schwarzmarkthändler in einem anderen Sektor?</t>
+		<t id="602">%s(name), %s(sector): %s(cost)</t>
+		<t id="603">Denken Sie daran, dass Sie diesen Kontakt nicht von mir bekommen haben.</t>
+		<!-- find new contact mission -->
+		<t id="701">Schwarzmarkthändler in %s(sector)</t>
+		<t id="702">Es ist nicht gelungen, ein Signalleck für den neuen Kontakt zu erstellen.</t>
+
+		<!-- mycu_verbose_transaction_log mod -->
+		<t id="801">Zugangscode für Hochsicherheitsräume</t>
+		<t id="802">Hackerdienste für den Zugang zu einem Hochsicherheitsraum</t>
+		<t id="803">Bestechungsgeld für den Zugang zu Hochsicherheitsräumen</t>
+		<t id="804">Bestechungsgeld für sonstigen Schwarzmarktkontakt</t>
+
+		<!-- mission -->
+		<t id="10000">Hochsicherheitsräume sind verschlossen</t>
+		<t id="10100">Verwenden Sie den Zugangscode für den Transporterraum.</t>
+		<t id="10101">Benutzen Sie den Transporterraum.</t>
+		<t id="10200">Kontaktieren Sie den Hacker und er wird den Transporterraum hacken..</t>
+		<t id="10201">Kontaktieren Sie den Hacker des Transporterraums.</t>
+		<t id="10300">Kontaktieren Sie den Arbeiter und folgen Sie ihm durch den Transporterraum.</t>
+		<t id="10301">Kontaktiere jetzt den Arbeiter.</t>
+		<t id="10302">Warte auf das Signal des Arbeiters.</t>
+		<t id="11000">Was?</t>
+		<t id="11001">Ok, der Transporterraum wurde gehackt.</t>
+		<t id="11002">Ok, warten Sie auf mein Signal.</t>
+		<t id="11003">Ok, der Transporterraum ist offen.</t>
+		<t id="11004">Ihr Mitarbeiter</t>
+		<!-- passphrases: https://randomwordgenerator.com/sentence.php -->
+		<!-- <t id="11100">She lived on Monkey Jungle Road ...</t>
+		<t id="11101">... and that seemed to explain all of his strangeness.</t>
+		<t id="11102">Peanuts don't grow on trees, but cashews do.</t>
+		<t id="11103">The trick to getting kids to eat is to put catchup on it.</t>
+		<t id="11104">He found a leprechaun in his walnut shell.</t>
+		<t id="11105">Her scream silenced the rowdy teenagers.</t>
+		<t id="11106">He only paints with bold colors ...</t>
+		<t id="11107">...she does not like pastels.</t>
+		<t id="11108">The view from the lighthouse excited even the most seasoned traveler.</t>
+		<t id="11109">It was the scarcity that fueled his creativity.</t>
+		<t id="11110">I'd rather be a bird than a fish.</t>
+		<t id="11111">Her daily goal was to improve on yesterday.</t> -->
+		<!-- questions: https://www.wordgenerator.net/random-sentence-generator.php -->
+		<!-- answers: set model size to large in https://transformer.huggingface.co/doc/distil-gpt2 -->
+		<t id="11100">Wie verdeutlicht die Mahlzeit den erleichterten Wechsel?</t>
+		<t id="11101">Das hat meine Stimmung nicht beeinträchtigt.</t>
+		<t id="11102">Wann formuliert das unbewusste Design die Leinwand?</t>
+		<t id="11103">Wenn Sie sie formen, werden Sie keine Probleme haben.</t>
+		<t id="11104">Wann gestaltet die abstoßende Erfahrung die Gesellschaft?</t>
+		<t id="11105">Was Sie nicht haben, ist eine subjektive Erfahrung.</t>
+		<t id="11106">Wann nimmt die erstaunliche Wendung im Essen ab?</t>
+		<t id="11107">Deshalb glaube ich nicht an die "Goblin-Diät".</t>
+		<t id="11108">Warum gibt der Vater der erstaunlichen Liebe den Vorrang?</t>
+		<t id="11109">Denn der schnelle Stich filtert das Gewicht.</t>
+		<t id="11110">Warum passt sich der Dampf dem statuenhaften Stahl an?</t>
+		<t id="11111">Es ist die Hitze im Dampf.</t>
+		<t id="11112">Wann wird der Zeitplan für die Dauer des Sitzens festgelegt?</t>
+		<t id="11113">Der Zeitplan für die langsame Phase beginnt mit dem Abheben des Flugzeugs.</t>
+		<t id="11114">Wann wird das Verhalten des Unternehmens als unberechenbar bestätigt?</t>
+		<t id="11115">Wenn Sie versuchen, mehr als eine Einheit zu kaufen.</t>
+		<t id="11116">Wie informiert die Erklärung über die heimliche Niederschrift?</t>
+		<t id="11117">Es ist ebenso eine Erklärung der Einstellung.</t>
+		<t id="11118">Wann lehrt die Nacht die unaufhörliche Einheit?</t>
+		<t id="11119">Wenn wir mit einem offenen Auge schlafen können.</t>
+		<t id="11120">Warum kalkuliert der verwirrte Gläubiger das Eisen?</t>
+		<t id="11121">Wir wissen, dass das Eisen nur so stark ist, wie der Stahl.</t>
+		<t id="11122">Warum billigt das Protokoll das Fladenbrot?</t>
+		<t id="11123">Damit sie wissen, wie die Zeit verbracht wurde.</t>
+		<t id="11124">Wann stellt der barbarische Schüttler den Tritt ein?</t>
+		<t id="11125">Wenn er nicht derjenige ist, der den Ball wirft.</t>
+		<t id="11126">Warum stärkt das Gesetz die emsige Pflanze?</t>
+		<t id="11127">Denn das bedeutet, dass die Aktivitäten des Werks nicht unterbrochen werden müssen..</t>
+		<t id="11128">Warum misst der verblüffte Sekretär die Bewegung?</t>
+		<t id="11129">Weil die Dame muss.</t>
+		<t id="11130">Wann ruft die Liste die nachfolgende Kurve ab?</t>
+		<t id="11131">Wenn der Benutzer eine Zahl oder eine Zeichenkette in das Suchfeld eingibt.</t>
+		<t id="11132">Warum belegt die Kunst das stille Design?</t>
+		<t id="11133">Ist es eine Frage der Phantasie und nicht der Realität?</t>
+		<t id="11134">Wann meldet sich ein Freiwilliger für die trübe Suppe??</t>
+		<t id="11135">Wenn das Ergebnis einer Aufgabe schlecht ist.</t>
+		<t id="11136">Wie verhindert die Nacht den erstaunlichen Anstieg?</t>
+		<t id="11137">Die Antwort scheint nicht der Mond zu sein.</t>
+		<t id="11138">Wann dokumentiert die einfache Mutter die Wissenschaft?</t>
+		<t id="11139">Wenn der einfache Vater die Magie dokumentiert.</t>
+		<!-- config -->
+		<t id="20000">kuertee: Hochsicherheitsräume sind verschlossen</t>
+		<t id="20001">Gewöhnlicher Hacking-Schwierigkeitsgrad</t>
+		<t id="20002">Auf welchen Schwierigkeitsgrad sind Hacking-Missionen in Ihrem Spiel eingestellt??</t>
+		<t id="20003">Zugangskosten in % des Schwierigkeitsgrads des Hackens</t>
+		<t id="20004">Debug-Protokoll</t>
+		<t id="20005">Debug-Protokoll ausführen</t>
+		<t id="20006">(20002 mouseover text)Dieser Wert ist von Egosoft fest auf "mittel" programmiert, kann aber von einem Mod geändert werden. Dies bestimmt die Kosten für den Zugang.</t>
+	</page>
+
+	<!-- "kuertee hacking outcomes" = "kho" = "11 8 15" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
+	<page id="11815" voice="no">
+		<t id="688845">Dateien durchsuchen</t>
+		<t id="688846">Ausloggen</t>
+		<t id="688847">Beschlagnahmte Schiffe freigeben</t>
+	</page>
+
 	<!-- "kuertee NPC reactions" = "npcr" = "14 16 3 18 " in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
 	<page descr="" id="1416318" title="">
-
-		<page id="111204" title="" descr="">
-			<t id="1">kuertee: Alternativen zum Tod</t>
-			<t id="2">Debug Log</t>
-			<t id="3">Debug Funktion ausführen</t>
-			<t id="4">Alternative 1: Klon aktivieren</t>
-			<t id="5">Kosten für Klon</t>
-			<t id="6">Alternative 2: Spiel an einen entfernten Verwandten übertragen</t>
-			<t id="7">Schiffe und Stationen erben</t>
-			<t id="8">Cr sammeln um Schiffe und Stationen zu erben</t>
-			<t id="9">Wenn Eigenschaften verloren gehen, zufällig neu starten als:</t>
-			<t id="10">Alternative 3: Von einem Angestellten in Sicherheit teleportiert</t>
-			<t id="11">Unter folgenden Todesalternativen zufällig wählen:</t>
-			<t id="12">Eigentum an Grundstücken:</t>
-			<t id="13">Alternative 4: Gefangen, dann Lösegeld gefordert</t>
-			<t id="14">% an Eigentum als Lösegeld verloren</t>
-			<t id="15">Alternative 5: Gefangen, dann assimiliert</t>
-			<t id="16">Alle Gegenstände, Modifikationen und Ausrüstung verlieren</t>
-			<t id="17">Infektion/Zombifizierung zu Kha'ak erlauben</t>
-			<t id="18">Assimiliation in Xenon erlauben</t>
-			<t id="19">HQ durch Erbe oder Lösegeld verlieren</t>
-			<t id="20">Rumpf% für unvermeidbare Zerstörung \(X\)</t>
-			<t id="21">Noch Rumpfsekunden, um den Countdown zu starten \(Y\)</t>
-			<t id="22">Zusätzliche Countdown-Sekunden \(Z\)</t>
-			<t id="23">Die Zerstörung des Schiffes ist unvermeidbar, wenn Rumpf% kleiner ist als 'Rumpf% für unvermeidbare Zerstörung', X, und der erhaltene Schaden pro Sekunde \(DPS\) mehr ist als das, was der Rumpf bei 'Rumpfsekunden, die verbleiben, um den Countdown zu starten' aushalten kann. Y. Vor dieser Zeit kann der Spieler versuchen, die Zerstörung abzuwenden, indem er den empfangenen Schaden pro Sekunde verringert, indem er Ausweichmanöver ausführt.</t>
-			<t id="24">Der Test für unvermeidbare Zerstörung ist:</t>
-			<t id="25">\(Rumpf% &lt; X\) UND \(dps &gt; Rumpf% / Y\)</t>
-			<t id="26">Der Countdown beginnt, wenn Rumpf% diese Zeit vor der Zerstörung noch hat - wie von DPS festgelegt.</t>
-			<t id="27">Dies sind zusätzliche Sekunden, die dem Countdown hinzugefügt werden. Die Zeit, die der Spieler zur Flucht benötigt, ist die Summe von Y + Z.</t>
-			<t id="28">Strenger Klon startet</t>
-			<t id="29">Klone starten nur als ihr ursprüngliches Selbst.</t>
-			<t id="30">Besitz von Schiffen und Stationen</t>
-			<t id="31">Besitz des Spielers</t>
-			<t id="32">Von einer Stiftung geerbt</t>
-			<t id="33">Beschlagnahmt von der herrschenden Fraktion des Sektors</t>
-			<t id="34">Zerstört</t>
-			<t id="35">Beschlagnahmt durch die Fraktion des Mörders</t>
-			<t id="36">Besitz des Hauptquartiers des Spielers</t>
-			<t id="37">Klonen und Teleportieren von Mitarbeitern priorisieren</t>
-			<t id="38">Wenn aktiviert, werden die Klon- und Teleport-Alternativen vor allen anderen verwendet, wenn eine oder beide verfügbar sind. Wenn deaktiviert, wird die Klon-Alternative zufällig aus den verfügbaren Alternativen ausgewählt.</t>
-			<t id="39">Tot ist tot</t>
-			<t id="40">Unbegrenzte Speicherslots. Nach einer alternativen Todessequenz können Sie ein Spiel erst wieder laden, nachdem Sie es gespeichert haben. Wenn ein Quickload erkannt wird, wird eine Todesalternativsequenz aktiviert.</t>
-			<t id="41">Bonusschild bei abgewendeter Zerstörung</t>
-			<t id="42">Wenn in einem kleinen Schiff</t>
-			<t id="43">Mittelgroßes Schiff</t>
-			<t id="44">Großes oder extra großes Schiff</t>
-			<t id="45">Besitz klonen</t>
-			<t id="46">Nachkommenschaft</t>
-			<t id="47">Gleichgestelltes Eigentum</t>
-			<t id="48">Klone behalten Beziehungen bei</t>
-			<t id="49">Wenn aktiviert, verlieren Klone niemals ihre Beziehungen zu den Fraktionen. Dadurch bleiben auch Reputation und Social Standing erhalten - wenn die entsprechenden Mods installiert sind.</t>
-			<t id="50">Alternative 6: Spawne an der Station. Keine Strafe.</t>
-			<t id="51">Sparen von Abschaum-Strafen</t>
-			<t id="52">Todesalternative Strafe</t>
-			<t id="53">Eine alternative Todessequenz wird aktiviert.</t>
-			<t id="54">Gutschriften-Strafe</t>
-			<t id="55">Credits werden von den persönlichen Credits des Spielers abgezogen. "Abschaum-Todesstrafe retten" haben Vorrang vor dieser Strafe.</t>
-			<t id="56">Zeit</t>
-			<t id="57">Unbegrenzte Speicherslots. Es werden Strafen verhängt, wenn ein Spiel geladen wird, das älter als diese Zeit ist.</t>
-			<t id="58">Eisenmann-Modus</t>
-			<t id="59">Ein Speicherplatz. Sie können nur von einem Speicherplatz laden. Autosaves und Quicksaves sind davon ausgenommen.</t>
-			<t id="60">Gespeicherte Spiele</t>
-
-
-			<t id="100">Schiff verlassen</t>
-			<t id="101">Zerstörung steht bevor</t>
-			<t id="102">Zerstörung abgewendet</t>
-			<t id="103">Ausweichmanöver ausführen</t>
-
-			<!-- trust executor faction -->
-			<t id="200">Büro des Treuhänders</t>
-			<t id="201">{20006,102}(No information available)</t>
-			<t id="202">TH</t>
-
-			<!-- cloning lab -->
-			<t id="300">Klon-Labor</t>
-			<t id="301">Klon-Techniker</t>
-			<t id="302">Klon kaufen: %1(cost).</t>
-			<t id="303"></t>
-			<t id="304"></t>
-			<t id="305"></t>
-			<t id="306"></t>
-			<t id="307"></t>
-			<t id="308">Wie viele Klone habe ich derzeit?</t>
-			<t id="309">Klon-Standorte:</t>
-
-			<!-- inherit mission -->
-			<t id="400">Erbe</t>
-			<t id="401">Akquiriere %1.</t>
-			<!-- trust executor convo -->
-			<t id="402">Mein Erbe?</t>
-			<t id="403"></t>
-			<t id="404"></t>
-			<t id="405"></t>
-
-			<!-- escape pod -->
-			<t id="500">Rettungskapsel betreten</t>
-
-			<!-- action verbs -->
-			<t id="800">Warentransport</t>
-			<t id="801">Betreiben von Bergbau</t>
-			<t id="802">Erforschen</t>
-
-			<!-- death notice misc -->
-			<t id="900">Todesfall-Benachrichtigung</t>
-			<t id="901">An: %1</t>
-			<t id="902">Von: Dem Nachlassverwalter von %1</t>
-			<t id="903">Als gelesen markieren</t>
-			<t id="904">Erbschaftsmitteilung</t>
-
-			<!-- clone death messages -->
-			<t id="1000">Ihr Vorgänger ist gestorben.</t>
-			<t id="1001">Ihr Vorgänger ist in Erfüllung der Pflicht gegen %1 verstorben.</t><!-- %1 = faction name -->
-			<t id="1002">Beim %1 ist Ihr früheres Selbst im Kampf gegen %2 verstorben.</t><!-- %1 = action verb, %2 = faction name -->
-			<t id="1003">Ihr Vorgänger ist beim %1 verstorben.</t><!-- %1 = action verb -->
-			<!-- inheritance -->
-			<t id="1004">Laut Ihrem Vertrag werden alle Schiffe und Stationen Ihres Vorgängers von einem Treuhändler verwaltet.</t>
-			<t id="1005">Sie werden diese Schiffe und Stationen wiedererlangne, sobald Sie sich durch die Anhäufung von %1 als würdig erweisen.</t><!-- %1 = credits -->
-			<t id="1006">Wir wurden angewiesen, Ihnen die Daten Ihres früheren Selbsts zu überlassen. Diese beinhalten: Offene Verträge, Navigationskarten, Logbücher und Forschungsunterlagen.</t>
-			<t id="1007">Sie haben alle Schiffe und Stationen Ihres Vorgängers geerbt.</t>
-			<!-- Vererbung abgeschlossen -->
-			<t id="1008">Gemäß dem Willen Ihres Vorgängers werden Sie mit dem Erwerb von %1(Geld) zum Eigentümer der Grundstücke.</t>
-			<t id="1009">Wir übertragen sie nun auf Sie. Herzlichen Glückwunsch.</t>
-
-			<!-- descendant death messages -->
-			<t id="1100">%1, ein entfernter Verwandter, ist verstorben.</t><!-- %1 = name -->
-			<t id="1101">%1, ein entfernter Verwandter, ist bei der Pflichtausübung im Kampf gegen %2 verstorben.</t><!-- %1 = name, %2 = faction name -->
-			<t id="1102">Beim %1 ist %2, ein entfernter Verwandter, durch einen Angriff von %3 verstorben.</t><!-- %1 = action verb, %2 = name, %3 = faction name -->
-			<t id="1103">%1, ein entfernter Verwandter, ist bei einem Unfall beim %2 verstorben.</t><!-- %1 = name, %2 = action verb -->
-			<!-- inheritance -->
-			<t id="1104">Laut dem Testament werden alle Schiffe und Stationen die %1 besessen hat treuhänderisch verwaltet.</t><!-- %1 = name, %2 possessive adjective -->
-			<t id="1105">Sie werden diese Schiffe und Stationen erben, wenn Sie sich durch Anhäufung von %1 als würdig erweisen.</t><!-- %1 = credits -->
-			<t id="1106">Wir wurden instruiert, Ihnen die Daten von %1 zu überlassen. Diese beinhalten: Offene Verträge, Navigationskarten, Logbücher und Forschungsunterlagen.</t><!-- %1 = name -->
-			<t id="1107">Sie haben alle Schiffe und Stationen, die %1 in Besitz hatte, geerbt.</t><!-- %1 = name -->
-			<!-- Vererbung abgeschlossen -->
-			<t id="1108">Gemäß dem Testament von %1(Name) werden Sie mit dem Erwerb von %2(Geld) zum Eigentümer der Grundstücke.</t>
-			<t id="1109">Wir übertragen sie nun auf Sie. Herzlichen Glückwunsch.</t>
-
-			<!-- teleport to safety -->
-			<t id="1200">Teleportations-Hinweis</t><!-- %1 = name of pilot or manager of station -->
-			<t id="1201">%1 hat Sie in Sicherheit teleportiert.</t><!-- %1 = name of pilot or manager of station -->
-			<t id="1202">Der Computer Ihres Schiffes hat Sie in Sicherheit gebeamt.</t><!-- %1 = name of pilot or manager of station -->
-
-			<!-- logbook entry -->
-			<t id="1300">%1 ist verstorben.</t><!-- %1 = name -->
-
-			<!-- ransom -->
-			<t id="1400">Freilassungshinweis</t>
-			<t id="1401">Sie wurden von %1 gefangen genommen und nach Zahlung dieser Lösegeldsumme freigelassen:</t><!-- %1 faction name, %2 list of ransomed items -->
-
-			<!-- brainwash -->
-			<t id="1500">Guten Morgen</t>
-			<t id="1501">Sie wachen aus einem tiefen Schlaf auf und erinnern sich halbwegs an einen Traum in dem ihre stets treuen Verbündeten, %1, ihre Feinde waren.</t><!-- %1 faction name -->
-			<!-- assimilation (xenon) -->
-			<t id="1502">Hallo Welt</t>
-			<t id="1503">Oberste Direktive: alles organische Leben vernichten.</t>
-			<!-- zombify/infected (khaak) -->
-			<t id="1504">Ich bin wir. Du bist ich. Wir sind Eins.</t>
-			<t id="1505">Wir gehorchen der Königin. Wir schützen den Schwarm. Wir verbreiten die Sporen.</t>
-
-			<!-- mycu_verbose_transaction_log mod -->
-			<t id="2001">Lösegeldzahlung für die Freilassung aus der Gefangenschaft</t>
-			<t id="2002">Übertragung auf den Trust im Todesfall</t>
-			<t id="2003">Übertragung von der Station auf den Trust im Todesfall</t>
-			<t id="2004">Übertragung von Station Build Storage zu Trust bei Tod</t>
-			<t id="2005">Übertragung aus dem Trust als Erbe</t>
-			<t id="2006">Kloning-Dienst</t>
-			<t id="2007">Abschaum-Strafe sparen</t>
-		</page>
-
-
 		<!-- mycu_verbose_transaction_log mod -->
 		<t id="101">Bankdarlehen</t>
 		<t id="102">Auszahlung eines Bankkredits</t>

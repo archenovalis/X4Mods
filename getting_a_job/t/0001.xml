@@ -21,6 +21,302 @@
 
 	<!-- -->
 
+	<!-- "kuertee: Crime has consequences" = "kCHC" = "11 3 8 3" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
+	<page id="11383" voice="no">
+		<t id="1">kuertee: Crime has consequences</t>
+		<!-- config -->
+		<t id="2">Debug log</t>
+		<t id="3">Do debug function</t>
+		<t id="4">Fines</t>
+
+		<t id="5">Attacks</t>
+		<t id="6">Beacons, probes, laser towers, and satellites</t>
+		<t id="7">Ship attacks</t>
+		<t id="8">Station attacks</t>
+
+		<t id="9">Thievery</t>
+		<t id="10">Ship boardings</t>
+
+		<t id="11">Kills</t>
+		<t id="12">Beacons, probes, laser towers, and satellites</t>
+		<t id="13">Ship kills</t>
+		<t id="14">Station destructions</t>
+
+		<t id="15">Other types</t>
+		<t id="16">Hacks</t>
+		<t id="17">Illegal scans</t>
+		<t id="18">Illegal cargo/inventory</t>
+		<t id="19">Illegal plots</t>
+
+		<t id="20">Other features</t>
+		<t id="21">Fines multiplier in large operation areas</t>
+		<t id="22">Impound ship on dock</t>
+		<t id="23">Impound player ship on dock</t>
+		<t id="24">Impound player ship on dock on any fines</t>
+		<t id="25">Impound ship at hull percentage</t>
+		<t id="26">Impound player ship on attack</t>
+		<t id="27">Impound player ship on attack on any fines</t>
+		<t id="28">Separate wingmen crimes</t>
+		<t id="29">Accumulate crimes on enemy factions</t>
+
+		<t id="30">e.g. amount %1(Cr)</t>
+		<t id="31">Large operations are station attacks and ship boardings.</t>
+		<t id="32">Wingmen are fined separately including if their targets are the same as their commander's. Otherwise, crimes on the same targets as their commanders are fined as one crime against their commanders.</t>
+		<t id="33">Hours to forfeit impounded ships</t>
+
+		<t id="34">Accumulate crimes on pirate factions</t>
+		<t id="35">Allow attack and kill crimes in low attention</t>
+
+		<!-- mycu_verbose_transaction_log mod -->
+		<t id="101">Fines</t>
+		<t id="102">Fines for one ship</t>
+		<t id="103">Bribe for ship release</t>
+
+		<!-- faction name and map text -->
+		<t id="1000">Fines and Forfeiture</t>
+		<t id="1001">Impound location</t>
+		<t id="1002">Next 10</t>
+		<t id="1003">Previous 10</t>
+		<t id="1004">Total fines</t>
+		<t id="1005">Self defense</t>
+		<t id="1006">FINES</t>
+		<t id="1007">Location unknown</t>
+		<t id="1008">Attack</t>
+		<t id="1009">Board</t>
+		<t id="1010">Kill</t>
+		<t id="1011">Hack</t>
+		<t id="1012">Illegal scan</t>
+		<t id="1013">Illegal cargo</t>
+		<t id="1014">Illegal plot</t>
+		<t id="1015">Attacks</t>
+		<t id="1016">Boardings</t>
+		<t id="1017">Kills</t>
+		<t id="1018">Hacks</t>
+		<t id="1019">Illegal scans</t>
+		<t id="1020">Illegal cargo</t>
+		<t id="1021">Illegal plots</t>
+		<t id="1022">Commander's</t>
+		<t id="1023">Sanctioned(EM and RAP support)</t>
+		<!-- column names -->
+		<t id="1100">Ship</t>
+		<t id="1101">Impounded \(Location and Time\)</t>
+		<t id="1102">Fines</t>
+		<!-- other ui text -->
+		<t id="1103">Pay This Fine</t>
+		<t id="1104">No fines</t>
+		<!-- impound notifications, pilot report/impounding station cutscene/interaction -->
+		<t id="2000">We were fined %1(Cr) for attacking\n%2(ship or station).</t>
+		<t id="2001">We were fined %1(Cr) for boarding\n%2(ship or station).</t>
+		<t id="2002">We were fined %1(Cr) for destroying\n%2(ship or station).</t>
+		<t id="2003">We were fined %1(Cr) for hacking\n%2(ship or station).</t>
+		<t id="2004">We were fined %1(Cr) for scanning\n%2(ship or station).</t>
+		<t id="2005">We were fined %1(Cr) for having contraband.</t>
+		<t id="2006">We were fined %1(Cr) for claiming space\nwithout a license.</t>
+		<t id="2010">Your ship, %1(ship),\nwas fined %2(Cr) for attacking\n%3(ship or station).</t>
+		<t id="2011">Your ship, %1(ship),\nwas fined %2(Cr) for boarding\n%3(ship or station).</t>
+		<t id="2012">Your ship, %1(ship),\nwas fined %2(Cr) for destroying\n%3(ship or station).</t>
+		<t id="2013">Your ship, %1(ship),\nwas fined %2(Cr) for hacking\n%3(ship or station).</t>
+		<t id="2014">Your ship, %1(ship),\nwas fined %2(Cr) for scanning\n%3(ship or station).</t>
+		<t id="2015">Your ship, %1(ship),\nwas fined %2(Cr) for having contraband.</t>
+		<t id="2016">Your ship, %1(ship),\nwas fined %2(Cr) for claiming\nspace without a license.</t>
+		<t id="2020">Your ship, %1(ship),\nwas impounded by the %2(faction)\ndue to fines of %3(Cr).</t>
+		<t id="2021">Your employee</t>
+		<t id="2022">Your ship, %1(ship),\nwas released by the %2(faction).</t>
+		<t id="2023">We were impounded by the %1(faction)\ndue to fines of %2(Cr).</t>
+		<t id="2024">You (spacesuit) were fined %1(Cr) for attacking\n%2(ship or station).</t>
+		<t id="2025">You (spacesuit) were fined %1(Cr) for boarding\n%2(ship or station).</t>
+		<t id="2026">You (spacesuit) were fined %1(Cr) for destroying\n%2(ship or station).</t>
+		<t id="2027">You (spacesuit) were fined %1(Cr) for hacking\n%2(ship or station).</t>
+		<t id="2028">You (spacesuit) were fined %1(Cr) for scanning\n%2(ship or station).</t>
+		<t id="2029">You (spacesuit) were fined %1(Cr) for having contraband.</t>
+		<t id="2030">You (spacesuit) were fined %1(Cr) for claiming\nspace without a license.</t>
+		<t id="2031">Your fines were transfered to your ship,\n%1 (ship).</t>
+		<t id="2032">We impounded your ship, %1(ship),\ndue to fines of %2(Cr).</t>
+		<t id="2033">Your ship, %1(ship),\nwas forfeited to the %2(faction)\ndue to fines of %3(Cr).</t>
+		<t id="2034">Your ship, %1(ship),\nwill be released by the %2(faction)\naway from the station.</t>
+		<!-- log book entries -->
+		<t id="2100">Crime: Attack, offender: %1(criminal ship), victim: %2(ship or station), fines: %3(Cr), reported by: %s(witness, can be victim).</t>
+		<t id="2101">Crime: Board, offender: %1(criminal ship), victim: %2(ship or station), fines: %3(Cr), reported by: %s(witness, can be victim).</t>
+		<t id="2102">Crime: Kill, offender: %1(criminal ship), victim: %2(ship or station), fines: %3(Cr), reported by: %s(witness, can be victim).</t>
+		<t id="2103">Crime: Hack, offender: %1(criminal ship), victim: %2(ship or station), fines: %1(Cr), reported by: %s(witness, can be victim).</t>
+		<t id="2104">Crime: Illegal scan, offender: %1(criminal ship), victim: %2(ship or station), fines: %3(Cr), reported by: %s(witness, can be victim).</t>
+		<t id="2105">Crime: Illegal cargo, offender: %1(criminal ship), victim: %2(faction), fines: %3(Cr), reported by: %s(witness, can be victim).</t>
+		<t id="2106">Crime: Illegal plot, offender: %1(criminal ship), victim: %2(faction), fines: %3(Cr), reported by: %s(witness, can be victim).</t>
+		<t id="2107">Impounded: %1(criminal ship), by: %2(faction).</t>
+		<t id="2108">Fines paid: %1(Cr), to: %2(faction).</t>
+		<t id="2109">Released: %1(criminal ship), by: %2(faction).</t>
+		<t id="2110">Forfeited: %1(criminal ship), to: %2(faction), fines: %3(Cr).</t>
+		<t id="2111">(reported by var in log book entry)the victim</t>
+		<t id="2200">Crime: Attack, offender: %1(criminal ship), victim: %2(ship or station), fines: %3(Cr), reported by: %s(witness, can be victim), reported at: %s (station).</t>
+		<t id="2201">Crime: Board, offender: %1(criminal ship), victim: %2(ship or station), fines: %3(Cr), reported by: %s(witness, can be victim), reported at: %s (station).</t>
+		<t id="2202">Crime: Kill, offender: %1(criminal ship), victim: %2(ship or station), fines: %3(Cr), reported by: %s(witness, can be victim), reported at: %s (station).</t>
+		<t id="2203">Crime: Hack, offender: %1(criminal ship), victim: %2(ship or station), fines: %1(Cr), reported by: %s(witness, can be victim), reported at: %s (station).</t>
+		<t id="2204">Crime: Illegal scan, offender: %1(criminal ship), victim: %2(ship or station), fines: %3(Cr), reported by: %s(witness, can be victim), reported at: %s (station).</t>
+		<t id="2205">Crime: Illegal cargo, offender: %1(criminal ship), victim: %2(faction), fines: %3(Cr), reported by: %s(witness, can be victim), reported at: %s (station).</t>
+		<t id="2206">Crime: Illegal plot, offender: %1(criminal ship), victim: %2(faction), fines: %3(Cr), reported by: %s(witness, can be victim), reported at: %s (station).</t>
+		<!-- station room and npc conversation -->
+		<t id="3000">Fines and Forfeiture Office</t>
+		<t id="3001"></t>
+		<t id="3002">Pay all my fines: %1(Cr).</t>
+		<t id="3003">For %1(ship): %2(Cr).</t>
+		<t id="3004">Pay a ship's fines.</t>
+		<t id="3005"></t>
+		<t id="3006"></t>
+		<t id="3007"></t>
+		<t id="3008">For %1(count) ships: %2(Cr).</t>
+		<t id="3009">That ship has no fines.</t>
+		<t id="3010">Those ships have no fines.</t>
+		<t id="3011">You can't afford to pay those fines.</t>
+		<!-- missions -->
+		<t id="4000">(fly away then release objective 1 text)Pay the ship's fine.</t>
+		<t id="4001">(fly away then release objective 2 text)Leave the station, optionally, aboard one of your ships.</t>
+		<!-- player criminal record -->
+		<t id="5000">Criminal Record</t>
+		<t id="5001">%s(time): %s(crime), offender: %s(ship), victim: %s(victim), fines: %s(fines)</t>
+		<t id="5002">Unpaid</t>
+		<t id="5003">Not on record</t>
+		<!-- bribe manager convo -->
+		<t id="6000">Release my ship for %s(cr)?</t>
+		<t id="6001">Release my ships for %s(cr)?</t>
+	</page>
+
+	<!-- "kuertee hacking outcomes" = "kho" = "11 8 15" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
+	<page id="11815" voice="no">
+		<t id="688845">Browse files</t>
+		<t id="688846">Log out</t>
+		<t id="688847">Release impounded ships</t>
+	</page>
+
+	<!-- "kuertee high security rooms are locked" = "hsral" = "8 19 18 1 12" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
+	<page id="81918112" voice="no">
+		<!-- transporter room -->
+		<t id="1"> \033#FFFF0000#[Locked]\033X</t>
+		<t id="2"> \033#FF00FF00#[Unlocked]\033X</t>
+		<!-- add_player_choice -->
+		<t id="100">I need access to a high security room ...</t>
+		<t id="101">... in this station.</t>
+		<t id="102">... in another station.</t>
+		<t id="103">I don't want this access anymore.</t>
+		<!-- speak -->
+		<t id="104">That station is outside my authority.</t>
+		<t id="105">Which high security room?</t>
+		<t id="106">There are no locked high security rooms in this station.</t>
+		<t id="107">There are no high security rooms in this station.</t>
+		<t id="108">There are no locked high security rooms in that station.</t>
+		<t id="109">There are no high security rooms in that station.</t>
+		<t id="200">I have these accesses available. Which do you want?</t>
+		<!-- add_player_choice -->
+		<t id="201">A Transporter Room entry code</t>
+		<t id="202">A hacker who can hack the Transporter Room</t>
+		<t id="203">An operative who has access to the Transporter Room</t>
+		<t id="204">Cost</t>
+		<!-- menu_userquestion -->
+		<t id="300"></t>
+		<t id="301">High security room</t>
+		<t id="302">Access type</t>
+		<t id="303">Entry code</t>
+		<t id="304">Hacker</t>
+		<t id="305">Operative</t>
+		<t id="306">Purchase this access?</t>
+		<!-- speak -->
+		<t id="400">You can't afford that.</t>
+		<t id="401"></t>
+		<t id="402"></t>
+		<!-- add_player_choice -->
+		<t id="500">What's the passcode for the contact?</t>
+		<t id="501">Ok.</t>
+		<!-- new contact in another sector convo -->
+		<t id="601">Black marketeer in another sector?</t>
+		<t id="602">%s(name), %s(sector): %s(cost)</t>
+		<t id="603">Remember that you didn't get this contact from me.</t>
+		<!-- find new contact mission -->
+		<t id="701">Black Marketeer in %s(sector)</t>
+		<t id="702">Failed to create a signal leak for the new contact.</t>
+
+		<!-- mycu_verbose_transaction_log mod -->
+		<t id="801">High-security room entry code</t>
+		<t id="802">Hacker services for high-security room access</t>
+		<t id="803">Bribe for high-security room access</t>
+		<t id="804">Bribe for other black marketeer contact</t>
+
+		<!-- mission -->
+		<t id="10000">High security rooms are locked</t>
+		<t id="10100">Use the Transporter Room entry code.</t>
+		<t id="10101">Use the Transporter Room.</t>
+		<t id="10200">Contact the hacker and they will hack the Transporter Room.</t>
+		<t id="10201">Contact the Transporter Room hacker.</t>
+		<t id="10300">Contact the operative and follow them through the Transporter Room.</t>
+		<t id="10301">Make contact with the operative.</t>
+		<t id="10302">Wait for the operative's signal.</t>
+		<t id="11000">What?</t>
+		<t id="11001">Ok, the Transporter Room is hacked.</t>
+		<t id="11002">Ok, wait for my signal.</t>
+		<t id="11003">Ok, the Transporter Room is unlocked.</t>
+		<t id="11004">Your employee</t>
+		<!-- passphrases: https://randomwordgenerator.com/sentence.php -->
+		<!-- <t id="11100">She lived on Monkey Jungle Road ...</t>
+		<t id="11101">... and that seemed to explain all of his strangeness.</t>
+		<t id="11102">Peanuts don't grow on trees, but cashews do.</t>
+		<t id="11103">The trick to getting kids to eat is to put catchup on it.</t>
+		<t id="11104">He found a leprechaun in his walnut shell.</t>
+		<t id="11105">Her scream silenced the rowdy teenagers.</t>
+		<t id="11106">He only paints with bold colors ...</t>
+		<t id="11107">...she does not like pastels.</t>
+		<t id="11108">The view from the lighthouse excited even the most seasoned traveler.</t>
+		<t id="11109">It was the scarcity that fueled his creativity.</t>
+		<t id="11110">I'd rather be a bird than a fish.</t>
+		<t id="11111">Her daily goal was to improve on yesterday.</t> -->
+		<!-- questions: https://www.wordgenerator.net/random-sentence-generator.php -->
+		<!-- answers: set model size to large in https://transformer.huggingface.co/doc/distil-gpt2 -->
+		<t id="11100">How does the meal clarify the relieved change?</t>
+		<t id="11101">This did not affect my mood.</t>
+		<t id="11102">When does the unadvised design formulate the canvas?</t>
+		<t id="11103">If you sculpt it, you're gonna have no problems.</t>
+		<t id="11104">When does the repulsive experience design the society?</t>
+		<t id="11105">What you don't have is a subjective experience.</t>
+		<t id="11106">When does the amazing twist decrease the food?</t>
+		<t id="11107">This is why I don't buy the "Goblin's diet".</t>
+		<t id="11108">Why does the father prioritize the amazing love?</t>
+		<t id="11109">Because the swift stitch filters the weight.</t>
+		<t id="11110">Why does the steam adapt the statuesque steel?</t>
+		<t id="11111">It's the heat in the steam.</t>
+		<t id="11112">When does the slow edge schedule the seat?</t>
+		<t id="11113">The slow edge schedule starts when the airplane takes off.</t>
+		<t id="11114">When does the behavior verify the erratic company?</t>
+		<t id="11115">When you try to buy more than one unit.</t>
+		<t id="11116">How does the statement brief the furtive minute?</t>
+		<t id="11117">It's as much a statement of the party's.</t>
+		<t id="11118">When does the night taught the ceaseless unit?</t>
+		<t id="11119">When we are able to sleep with one eye open.</t>
+		<t id="11120">Why does the deranged credit calculate the iron?</t>
+		<t id="11121">We know that the iron is only as strong as the steel is.</t>
+		<t id="11122">Why does the minute authorize the tart bread?</t>
+		<t id="11123">This is to help them know how the time was spent.</t>
+		<t id="11124">When does the barbarous shake adjust the kick?</t>
+		<t id="11125">When he is not the one who throws the ball.</t>
+		<t id="11126">Why does the act strengthen the busy plant?</t>
+		<t id="11127">Because it means that the plant's activities don't have to stop.</t>
+		<t id="11128">Why does the puzzled secretary measure the motion?</t>
+		<t id="11129">Because the lady has to.</t>
+		<t id="11130">When does the list retrieve the subsequent curve?</t>
+		<t id="11131">When the user types a number or string into the search field.</t>
+		<t id="11132">Why does the art substantiate the silent design?</t>
+		<t id="11133">Is it a matter of imagination and not of reality?</t>
+		<t id="11134">When does the tendency volunteer the clumsy soup?</t>
+		<t id="11135">When there's a bad result from a task.</t>
+		<t id="11136">How does the night prevent the astonishing level?</t>
+		<t id="11137">The answer, it seems, is not the moon.</t>
+		<t id="11138">When does the easy mother document the science?</t>
+		<t id="11139">When the easy father document the magic.</t>
+		<!-- config -->
+		<t id="20000">kuertee: High security rooms are locked</t>
+		<t id="20001">Usual hacking difficulty level</t>
+		<t id="20002">At what difficulty are hacking missions set in your game?</t>
+		<t id="20003">Access cost as % of the hacking difficulty</t>
+		<t id="20004">Debug log</t>
+		<t id="20005">Do debug function</t>
+		<t id="20006">(20002 mouseover text)This is hard-coded by Egosoft to "medium" but could be changed by a mod. This determines the cost of access.</t>
+	</page>
 
 	<!-- "kuertee: Alternatives to death" = "kATD" = "11 1 20 4" in https://www.boxentriq.com/code-breaking/letters-to-numbers -->
 	<page id="111204" voice="no">

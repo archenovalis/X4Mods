@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+<!-- <attention min="unknown">
+		<run_script name="$DefensibleScript">
+-->
+	<add pos="before" sel="//run_script[@name=&quot;$DefensibleScript&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="this.isplayerowned">
+				<set_value name="$kCHC_crime" exact="relationchangereason.attackedobject" />
+				<set_value name="$kCHC_criminalShip" exact="this.assignedcontrolled" />
+				<do_if comment="search for 'criminal validation' to find other instances of this test"
+					value="$kCHC_criminalShip.isplayerowned and
+					($kCHC_criminalShip.isclass.entity or $kCHC_criminalShip.isclass.ship) and
+					(not $kCHC_criminalShip.islasertower) and
+					(
+						global.$kCHC.$userIsAllowAttackCrimesInLowAttention or
+						$kCHC_criminalShip.attention ge attention.adjacentzone
+					)">
+					<set_value name="$kCHC_victimShipStation" exact="$target" />
+					<do_if comment="search for 'victim validation' to find other instances of this test"
+						value="(
+							(not $kCHC_victimShipStation.isplayerowned) or
+							$kCHC_crime == relationchangereason.boardedobject
+						) and
+						$kCHC_victimShipStation.isrealclass.[class.ship, class.station] and
+						(not [shiptype.xsdrone, shiptype.distressdrone].indexof.{@$kCHC_victimShipStation.shiptype}) and
+						@$kCHC_victimShipStation.pilot.race != race.drone and
+						(not $kCHC_victimShipStation.isunit) and
+						(
+							global.$kCHC.$userIsAllowAttackCrimesInLowAttention or
+							$kCHC_victimShipStation.attention ge attention.adjacentzone
+						) and
+						(
+							global.$kCHC.$validFactions.indexof.{$kCHC_victimShipStation.trueowner} or
+							(
+								[faction.ownerless, null].indexof.{$kCHC_victimShipStation.trueowner} or
+								$kCHC_crime == relationchangereason.boardedobject
+							)
+						) and
+						(not global.$kCHC.$pirateFactions.indexof.{$kCHC_victimShipStation.trueowner})">
+						<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+					</do_if>
+				</do_if>
+			</do_if>
+		</do_if>
+	</add>
+</diff>

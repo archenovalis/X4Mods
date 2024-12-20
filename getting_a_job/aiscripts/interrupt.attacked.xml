@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!-- purpose: add witness to player-owned boarding object
+		<handler name="AttackHandler">
+			<event_object_signalled object="this.defensible" param2="'boarding_operation_detected'"/>
+			<actions>
+	-->
+	<add pos="prepend" sel="//handler[@name=&quot;AttackHandler&quot;]/actions">
+		<!--
+			from boarding.xml:
+			trigger for signal: <signal_objects object="$Target" param="$Launcher" param2="'boarding_operation_detected'"/>
+			$Launcher is usually player.entity.controlled
+		-->
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="@event.param.isplayerowned">
+				<do_if value="event.name == 'event_object_signalled' and event.param2 == 'boarding_operation_detected'">
+					<set_value name="$kCHC_crime" exact="relationchangereason.boardedobject" />
+					<set_value name="$kCHC_criminalShip" exact="event.param" />
+					<set_value name="$kCHC_victimShipStation" exact="event.object" />
+					<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+				</do_if>
+			</do_if>
+		</do_if>
+	</add>
+</diff>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!-- purpose: add witness to player-owned scanned object
+		<handler name="ScannedHandler">
+			Event for when a (deep)scan is finished (requires attribute scanner and/or scanned) (object = scanner if supplied, otherwise scanned, param = the other object, param2 = true iff object is scanner)
+			<event_scan_finished scanned="this.defensible" />
+			<actions>
+	-->
+	<add pos="prepend" sel="//handler[@name=&quot;ScannedHandler&quot;]/actions">
+		<debug_text text="event.name + ' event.object: ' + event.object + ' ' + @event.object.knownname + ' ' + @event.object.idcode" chance="global.$kCHC.$debugChance" />
+		<debug_text text="event.name + ' event.param: ' + event.param + ' ' + @event.param.knownname + ' ' + @event.param.idcode" chance="global.$kCHC.$debugChance" />
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="event.object and @event.param.isplayerowned">
+				<do_if value="event.name == 'event_scan_finished'">
+					<set_value name="$kCHC_crime" exact="relationchangereason.scanningdiscovered" />
+					<set_value name="$kCHC_criminalShip" exact="event.param" />
+					<set_value name="$kCHC_victimShipStation" exact="event.object" />
+					<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+				</do_if>
+			</do_if>
+		</do_if>
+	</add>
+</diff>

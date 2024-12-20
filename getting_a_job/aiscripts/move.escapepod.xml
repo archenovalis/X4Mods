@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+		purpose: add event listener for $origin destruction so that its destruction can be reported as a crime
+		<params>
+	-->
+	<add pos="after" sel="//params">
+		<interrupts>
+			<handler>
+				<conditions>
+					<!-- Event for the specified object being destroyed (object = destroyed object, param = killer, param2 = kill method, param3 = was parent killed) -->
+					<event_object_destroyed object="$origin" check="false" />
+				</conditions>
+				<actions>
+					<debug_text text="event.name + ' ' + event.object + ' ' + @event.object.knownname + ' ' + @event.object.idcode" chance="global.$kCHC.$debugChance" />
+					<debug_text text="event.name + ' ' + event.param + ' ' + @event.param.knownname + ' ' + @event.param.idcode" chance="global.$kCHC.$debugChance" />
+					<do_if value="event.param.isplayerowned">
+						<do_if value="this.assignedcontrolled.distanceto.{event.param} le this.assignedcontrolled.maxradarrange">
+							<set_value name="$kCHC_criminalShip" exact="event.param" />
+							<set_value name="$kCHC_victimShipStation" exact="$origin" />
+							<set_value name="$kCHC_crime" exact="relationchangereason.killedobject" />
+							<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+						</do_if>
+					</do_if>
+				</actions>
+			</handler>
+		</interrupts>
+	</add>
+	<!--
+		purpose: witness attack crime on origin
+		<init>
+	-->
+	<add sel="//init">
+		<do_if value="@$attacker.isplayerowned">
+			<set_value name="$kCHC_criminalShip" exact="$attacker" />
+			<set_value name="$kCHC_victimShipStation" exact="$origin" />
+			<set_value name="$kCHC_crime" exact="relationchangereason.attackedobject" />
+			<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+		</do_if>
+	</add>
+	<!--
+		purpose: add origin's criminals witnessed list to this drone
+		<attention min="visible">
+			<run_script name="'move.generic'">
+	-->
+	<add pos="before" sel="//attention[@min=&quot;visible&quot;]/actions/run_script[@name=&quot;'move.generic'&quot;]">
+		<do_if value="$reportattack">
+			<set_value name="$kCHC_originEntity" exact="$origin.pilot" />
+			<do_if value="not $kCHC_originEntity">
+				<set_value name="$kCHC_originEntity" exact="$origin.defencenpc" />
+			</do_if>
+			<do_if value="$kCHC_originEntity and @$kCHC_originEntity.$kCHC_criminalIdsWitnessed">
+				<set_value name="$kCHC_witnessEntity" exact="this" />
+				<set_value name="$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed" exact="$kCHC_originEntity.$kCHC_criminalIdsWitnessed.clone" />
+			</do_if>
+		</do_if>
+	</add>
+	<!--
+		purpose: add origin's criminals witnessed list to this drone
+		<attention min="unknown">
+			<run_script name="'move.generic'">
+	-->
+	<add pos="before" sel="//attention[@min=&quot;unknown&quot;]/actions/run_script[@name=&quot;'move.generic'&quot;]">
+		<do_if value="$reportattack">
+			<set_value name="$kCHC_originEntity" exact="$origin.pilot" />
+			<do_if value="not $kCHC_originEntity">
+				<set_value name="$kCHC_originEntity" exact="$origin.defencenpc" />
+			</do_if>
+			<do_if value="$kCHC_originEntity and @$kCHC_originEntity.$kCHC_criminalIdsWitnessed">
+				<set_value name="$kCHC_witnessEntity" exact="this" />
+				<set_value name="$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed" exact="$kCHC_originEntity.$kCHC_criminalIdsWitnessed.clone" />
+			</do_if>
+		</do_if>
+	</add>
+</diff>

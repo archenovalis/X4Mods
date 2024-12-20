@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aiscript name="kuertee_chc_interrupts" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd">
+	<interrupts>
+		<library>
+			<actions name="kCHC_AddWitnessedCrime">
+				<!-- required data:
+				<set_value name="$kCHC_criminalShip" exact="this.assignedcontrolled" />
+				<set_value name="$kCHC_victimShipStation" exact="$target" />
+				<set_value name="$kCHC_crime" exact="relationchangereason.attackedobject" /> -->
+				<debug_text text="'kuertee_chc $kCHC_criminalShip: ' + $kCHC_criminalShip + ' ' + @$kCHC_criminalShip.knownname + ' ' + @$kCHC_criminalShip.idcode" chance="global.$kCHC.$debugChance" />
+				<debug_text text="'kuertee_chc $kCHC_victimShipStation: ' + $kCHC_victimShipStation + ' ' + $kCHC_victimShipStation.knownname + ' ' + $kCHC_victimShipStation.idcode" chance="global.$kCHC.$debugChance" />
+				<debug_text text="'kuertee_chc $kCHC_crime: ' + $kCHC_crime" chance="global.$kCHC.$debugChance" />
+				<include_interrupt_actions ref="kCHC_GetIsCriminalShipValid" />
+				<debug_text text="'kuertee_chc $kCHC_isCriminalShipValid: ' + $kCHC_isCriminalShipValid" chance="global.$kCHC.$debugChance" />
+				<do_if value="$kCHC_isCriminalShipValid">
+					<include_interrupt_actions ref="kCHC_GetIsVictimShipStationValid" />
+					<debug_text text="'kuertee_chc $kCHC_isVictimShipStationValid: ' + $kCHC_isVictimShipStationValid" chance="global.$kCHC.$debugChance" />
+					<do_if value="$kCHC_isVictimShipStationValid">
+						<include_interrupt_actions ref="kCHC_FindWitnesses" />
+						<debug_text text="'kuertee_chc $kCHC_witnesses.count: ' + $kCHC_witnesses.count" chance="global.$kCHC.$debugChance" />
+						<do_if value="$kCHC_witnesses.count">
+							<do_if value="not @$kCHC_isSelfDefense" comment="search for 'self defense test' to find other instances of this test">
+								<set_value name="$kCHC_isSelfDefense" exact="
+									@global.$kCHC.$selfDefendingAgainst.indexof.{$kCHC_victimShipStation} or
+									@global.$kCHC.$selfDefendingAgainst.indexof.{$kCHC_victimShipStation.commander} or
+									(
+										@$kCHC_victimShipStation.toplevelcommander and
+										@global.$kCHC.$selfDefendingAgainst.indexof.{$kCHC_victimShipStation.toplevelcommander}
+									)
+								" />
+								<do_if value="not $kCHC_isSelfDefense">
+									<do_if value="@$kCHC_victimShipStation.orders">
+										<do_for_each name="$kCHC_order" in="@$kCHC_victimShipStation.orders">
+											<do_if value="
+												@$kCHC_order.$primarytarget == $kCHC_criminalShip or
+												(
+													@$kCHC_order.$secondarytargets and
+													@$kCHC_order.$secondarytargets.indexof.{$kCHC_criminalShip}
+												)">
+												<set_value name="$kCHC_isSelfDefense" exact="true" />
+												<break />
+											</do_if>
+										</do_for_each>
+									</do_if>
+								</do_if>
+							</do_if>
+							<debug_text text="'kuertee_chc $kCHC_isSelfDefense: ' + $kCHC_isSelfDefense" chance="global.$kCHC.$debugChance" />
+							<do_if value="$kCHC_isSelfDefense">
+								<do_if value="@$kCHC_victimShipStation.toplevelcommander">
+									<add_to_group groupname="global.$kCHC.$selfDefendingAgainst" object="$kCHC_victimShipStation.toplevelcommander" />
+								</do_if>
+								<do_elseif value="$kCHC_victimShipStation.commander">
+									<add_to_group groupname="global.$kCHC.$selfDefendingAgainst" object="$kCHC_victimShipStation.commander" />
+								</do_elseif>
+								<do_else>
+									<add_to_group groupname="global.$kCHC.$selfDefendingAgainst" object="$kCHC_victimShipStation" />
+								</do_else>
+							</do_if>
+							<do_if value="not global.$kCHC.$pendingCrimesById.{'$' + $kCHC_criminalShip.idcode}?">
+								<set_value name="global.$kCHC.$pendingCrimesById.{'$' + $kCHC_criminalShip.idcode}" exact="[]" />
+							</do_if>
+							<debug_text text="'kuertee_chc $pendingCrimesById.count: ' + global.$kCHC.$pendingCrimesById.{'$' + $kCHC_criminalShip.idcode}.count" chance="global.$kCHC.$debugChance" />
+							<set_value name="$kCHC_pendingCrime" exact="null" />
+							<do_for_each name="$kCHC_crimeInList" in="global.$kCHC.$pendingCrimesById.{'$' + $kCHC_criminalShip.idcode}" comment="search for 'find current crime' to find other instances of this test">
+								<do_if value="
+									$kCHC_crimeInList.$victimShipStation == $kCHC_victimShipStation and
+									$kCHC_crimeInList.$crime == $kCHC_crime and
+									player.age - $kCHC_crimeInList.$crimeTime le 10min">
+									<set_value name="$kCHC_pendingCrime" exact="$kCHC_crimeInList" />
+									<break />
+								</do_if>
+							</do_for_each>
+							<debug_text text="'kuertee_chc $kCHC_pendingCrime: ' + $kCHC_pendingCrime" chance="global.$kCHC.$debugChance" />
+							<do_if value="not $kCHC_pendingCrime">
+								<set_value name="$kCHC_GetNameObject" exact="$kCHC_criminalShip" />
+								<include_interrupt_actions ref="kCHC_GetName" />
+								<set_value name="$kCHC_criminalShipName" exact="$kCHC_ObjectName" />
+								<set_value name="$kCHC_GetNameObject" exact="$kCHC_victimShipStation" />
+								<include_interrupt_actions ref="kCHC_GetName" />
+								<set_value name="$kCHC_victimShipStationName" exact="$kCHC_ObjectName" />
+								<set_value name="$kCHC_pendingCrime" exact="table[
+									$criminalShip = $kCHC_criminalShip,
+									$criminalShipName = $kCHC_criminalShipName,
+									$victimShipStation = $kCHC_victimShipStation,
+									$victimShipStationName = $kCHC_victimShipStationName,
+									$crime = $kCHC_crime,
+									$crimeTime = player.age,
+									$isSelfDefense = @$kCHC_isSelfDefense,
+									$witnesses = [],
+								]" />
+								<append_to_list name="global.$kCHC.$pendingCrimesById.{'$' + $kCHC_criminalShip.idcode}" exact="$kCHC_pendingCrime" />
+								<debug_text text="'kuertee_chc $kCHC_pendingCrime (new crime): ' + $kCHC_pendingCrime" chance="global.$kCHC.$debugChance" />
+								<debug_text text="'kuertee_chc $pendingCrimesById.count (new crime): ' + global.$kCHC.$pendingCrimesById.{'$' + $kCHC_criminalShip.idcode}.count" chance="global.$kCHC.$debugChance" />
+							</do_if>
+							<set_value name="$kCHC_witnessToReportImmediately" exact="null" />
+							<debug_text text="'kuertee_chc $witnesses.count: ' + $kCHC_pendingCrime.$witnesses.count" chance="global.$kCHC.$debugChance" />
+							<set_value name="$kCHC_isPlayerCrimeWillBeActionedInAttackResponse" exact="true"
+								comment="initially setting $kCHC_isPlayerCrimeWillBeActionedInAttackResponse to true and then testing for its trueness allows this to ALWAYS be set to false once its set to false." />
+							<do_for_each name="$kCHC_witness" in="$kCHC_witnesses">
+								<do_if value="not $kCHC_pendingCrime.$witnesses.indexof.{$kCHC_witness}">
+									<debug_text text="'kuertee_chc $kCHC_witness: ' + $kCHC_witness + ' ' + $kCHC_witness.knownname + ' ' + $kCHC_witness.idcode" chance="global.$kCHC.$debugChance" />
+									<set_value comment="search for 'hacking outcomes compatibililty' to find other instances of this test"
+										name="$kCHC_HackingOutcomes_isWitnessHacked" exact="
+										@$kCHC_witness.isclass.station and
+										$kCHC_witness.isoperational and
+										@md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{$kCHC_witness} and 
+										player.age le @md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{$kCHC_witness} + 1h" />
+									<do_if value="not $kCHC_HackingOutcomes_isWitnessHacked">
+										<debug_text text="'$kCHC_witness: ' + $kCHC_witness + ' ' + @$kCHC_witness.knownname + ' ' + @$kCHC_witness.idcode" chance="global.$kCHC.$debugChance" />
+										<append_to_list name="$kCHC_pendingCrime.$witnesses" exact="$kCHC_witness" />
+										<set_value name="$kCHC_witnessEntity" exact="$kCHC_witness.pilot" />
+										<do_if value="not $kCHC_witnessEntity">
+											<set_value name="$kCHC_witnessEntity" exact="$kCHC_witness.defencenpc" />
+										</do_if>
+										<do_if value="$kCHC_witnessEntity">
+											<do_if value="not $kCHC_witnessEntity.$kCHC_criminalIdsWitnessed?">
+												<set_value name="$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed" exact="[]" />
+											</do_if>
+											<do_if value="not @$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed.indexof.{$kCHC_criminalShip.idcode}">
+												<append_to_list name="$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed" exact="$kCHC_criminalShip.idcode" />
+											</do_if>
+										</do_if>
+										<debug_text text="'$kCHC_witnessEntity: ' + $kCHC_witnessEntity + ' ' + @$kCHC_witnessEntity.knownname + ' ' + @$kCHC_witnessEntity.idcode" chance="global.$kCHC.$debugChance" />
+										<debug_text text="'$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed: ' + @$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed" chance="global.$kCHC.$debugChance" />
+										<set_value name="$kCHC_isPlayerCrimeWillBeActionedInAttackResponse" exact="
+											$kCHC_isPlayerCrimeWillBeActionedInAttackResponse and
+											$kCHC_criminalShip == player.occupiedship and
+											$kCHC_witnessEntity and
+											player.occupiedship.distanceto.{$kCHC_victimShipStation} le $kCHC_victimShipStation.maxradarrange"
+											comment="if kCHC_witnessEntity is invalid, then no drone will be launched, and so report this crime IF there is a station witness.
+											this is the case on kill-crimes and the victim has become invalid.
+											initially setting $kCHC_isPlayerCrimeWillBeActionedInAttackResponse to true and then testing for its trueness allows this to ALWAYS be set to false once its set to false." />
+										<debug_text text="'$kCHC_isPlayerCrimeWillBeActionedInAttackResponse: ' + $kCHC_isPlayerCrimeWillBeActionedInAttackResponse" chance="global.$kCHC.$debugChance" />
+										<do_if value="(not $kCHC_isPlayerCrimeWillBeActionedInAttackResponse) and $kCHC_witness.isclass.station">
+											<set_value name="$kCHC_witnessToReportImmediately" exact="$kCHC_witness" />
+											<break />
+										</do_if>
+									</do_if>
+								</do_if>
+							</do_for_each>
+							<debug_text text="'kuertee_chc $witnesses.count (post add witness): ' + $kCHC_pendingCrime.$witnesses.count" chance="global.$kCHC.$debugChance" />
+							<debug_text text="'$kCHC_witnessToReportImmediately: ' + $kCHC_witnessToReportImmediately + ' ' + @$kCHC_witnessToReportImmediately.knownname + ' ' + @$kCHC_witnessToReportImmediately.idcode" chance="global.$kCHC.$debugChance" />
+							<do_if value="@$kCHC_witnessToReportImmediately.isclass.station">
+								<signal_objects object="player.galaxy" param="'kCHC_report_crime'" param2="table[$witness = $kCHC_witnessToReportImmediately, $station = $kCHC_witnessToReportImmediately]" />
+							</do_if>
+						</do_if>
+					</do_if>
+				</do_if>
+				<remove_value name="$kCHC_witnesses" />
+			</actions>
+			<actions name="kCHC_GetName" comment="kuertee_chc_interrupts.kCHC_GetName and md.kuertee_chc.GetObjectName must be the same">
+				<set_value name="$kCHC_ObjectName" exact="{11383, 5003}" />
+				<do_if value="$kCHC_GetNameObject.exists">
+					<do_if value="@$kCHC_GetNameObject.idcode">
+						<set_value name="$kCHC_ObjectName" exact="$kCHC_GetNameObject.knownname + ' (' + $kCHC_GetNameObject.idcode + ')'" />
+					</do_if>
+					<do_else>
+						<set_value name="$kCHC_ObjectName" exact="$kCHC_GetNameObject.knownname" />
+					</do_else>
+				</do_if>
+				<do_elseif value="@$kCHC_GetNameObject.macro">
+					<set_value name="$kCHC_ObjectName" exact="$kCHC_GetNameObject.macro.name" />
+				</do_elseif>
+			</actions>
+			<actions name="kCHC_GetIsCriminalShipValid" comment="search for 'criminal validation' to find other instances of this test">
+				<set_value name="$kCHC_isCriminalShipValid"
+					exact="$kCHC_criminalShip.isplayerowned and
+					($kCHC_criminalShip.isclass.entity or $kCHC_criminalShip.isclass.ship) and
+					(not @$kCHC_criminalShip.islasertower) and
+					(
+						global.$kCHC.$userIsAllowAttackCrimesInLowAttention or
+						$kCHC_criminalShip.attention ge attention.adjacentzone
+					)" />
+			</actions>
+			<actions name="kCHC_GetIsVictimShipStationValid">
+				<debug_text text="' + this ' + (not $kCHC_victimShipStation.isplayerowned)" />
+				<debug_text text="'   or this ' + ($kCHC_crime == relationchangereason.boardedobject)" />
+				<debug_text text="' + ' + (not [shiptype.xsdrone, shiptype.distressdrone].indexof.{@$kCHC_victimShipStation.shiptype})" />
+				<debug_text text="' + ' + (@$kCHC_victimShipStation.pilot.race != race.drone)" />
+				<debug_text text="' + ' + (not $kCHC_victimShipStation.isunit)" />
+				<debug_text text="' + ' + (global.$kCHC.$userIsAllowAttackCrimesInLowAttention or
+										$kCHC_victimShipStation.attention ge attention.adjacentzone)" />
+				<debug_text text="' + ' + (not $kCHC_victimShipStation.isunit)" />
+				<debug_text text="' + this ' + global.$kCHC.$validFactions.indexof.{$kCHC_victimShipStation.trueowner}" />
+				<debug_text text="'   or this ' + ([faction.ownerless, null].indexof.{$kCHC_victimShipStation.trueowner} or
+							$kCHC_crime == relationchangereason.boardedobject)" />
+				<debug_text text="' + ' + (not global.$kCHC.$pirateFactions.indexof.{$kCHC_victimShipStation.trueowner})" />
+				<set_value comment="search for 'victim validation' to find other instances of this test"
+					name="$kCHC_isVictimShipStationValid"
+					exact="
+					(
+						(not $kCHC_victimShipStation.isplayerowned) or
+						$kCHC_crime == relationchangereason.boardedobject
+					) and
+					$kCHC_victimShipStation.isrealclass.[class.ship, class.station] and
+					(not [shiptype.xsdrone, shiptype.distressdrone].indexof.{@$kCHC_victimShipStation.shiptype}) and
+					@$kCHC_victimShipStation.pilot.race != race.drone and
+					(not $kCHC_victimShipStation.isunit) and
+					(
+						global.$kCHC.$userIsAllowAttackCrimesInLowAttention or
+						$kCHC_victimShipStation.attention ge attention.adjacentzone
+					) and
+					(
+						global.$kCHC.$validFactions.indexof.{$kCHC_victimShipStation.trueowner} or
+						(
+							[faction.ownerless, null].indexof.{$kCHC_victimShipStation.trueowner} or
+							$kCHC_crime == relationchangereason.boardedobject
+						)
+					) and
+					(not global.$kCHC.$pirateFactions.indexof.{$kCHC_victimShipStation.trueowner})" />
+			</actions>
+			<actions name="kCHC_FindWitnesses">
+				<!-- required: $kCHC_victimShipStation -->
+				<set_value name="$kCHC_witnesses" exact="[]" />
+				<do_if value="
+					$kCHC_victimShipStation.trueowner != faction.player and
+					global.$kCHC.$validFactions.indexof.{$kCHC_victimShipStation.trueowner} and
+					(not global.$kCHC.$pirateFactions.indexof.{$kCHC_victimShipStation.trueowner})">
+					<append_to_list name="$kCHC_witnesses" exact="$kCHC_victimShipStation" />
+					<find_station_by_true_owner name="$kCHC_stationWitnesses" faction="$kCHC_victimShipStation.trueowner" space="$kCHC_victimShipStation.sector" multiple="true" />
+					<debug_text text="'$kCHC_stationWitnesses.count: ' + $kCHC_stationWitnesses.count" chance="global.$kCHC.$debugChance" />
+					<do_for_each name="$kCHC_stationWitness" in="$kCHC_stationWitnesses">
+						<do_if value="$kCHC_stationWitness.distanceto.{$kCHC_victimShipStation} le $kCHC_stationWitness.maxradarrange">
+							<append_to_list name="$kCHC_witnesses" exact="$kCHC_stationWitness" />
+							<break />
+						</do_if>
+					</do_for_each>
+					<debug_text text="'$kCHC_witnesses.count (stations): ' + $kCHC_witnesses.count" chance="global.$kCHC.$debugChance" />
+					<do_if value="$kCHC_witnesses.count">
+						<!-- at this point, there's a station witness. no need for other witnesses, as the crime will immediately be reported. -->
+					</do_if>
+					<do_else>
+						<find_ship_by_true_owner name="$kCHC_shipWitnesses" faction="$kCHC_victimShipStation.trueowner" space="$kCHC_victimShipStation.sector" class="[class.ship_s, class.ship_m, class.ship_l, class.ship_xl]" multiple="true">
+							<match_distance object="$kCHC_victimShipStation" max="$kCHC_victimShipStation.maxradarrange * 2" />
+						</find_ship_by_true_owner>
+						<debug_text text="'$kCHC_shipWitnesses.count: ' + $kCHC_shipWitnesses.count" chance="global.$kCHC.$debugChance" />
+						<do_for_each name="$kCHC_shipWitness" in="$kCHC_shipWitnesses">
+							<do_if value="
+								$kCHC_shipWitness != $kCHC_victimShipStation and
+								(not @$kCHC_shipWitness.islasertower) and
+								(not @$kCHC_shipWitness.isunit)">
+								<do_if value="$kCHC_shipWitness.distanceto.{$kCHC_victimShipStation} le $kCHC_shipWitness.maxradarrange">
+									<append_to_list name="$kCHC_witnesses" exact="$kCHC_shipWitness" />
+								</do_if>
+							</do_if>
+						</do_for_each>
+						<debug_text text="'$kCHC_witnesses.count (ships): ' + $kCHC_witnesses.count" chance="global.$kCHC.$debugChance" />
+					</do_else>
+				</do_if>
+				<debug_text text="'$kCHC_witnesses.count (final): ' + $kCHC_witnesses.count" chance="global.$kCHC.$debugChance" />
+			</actions>
+			<actions name="kCHC_ReportAnyWitnessedCriminals">
+				<!-- required: $kCHC_witness -->
+				<set_value comment="search for 'hacking outcomes compatibililty' to find other instances of this test"
+					name="$kCHC_HackingOutcomes_isStationHacked" exact="
+					@$kCHC_witness.isclass.station and
+					$kCHC_witness.isoperational and
+					@md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{$kCHC_witness} and 
+					player.age le @md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{$kCHC_witness} + 1h" />
+				<do_if value="not $kCHC_HackingOutcomes_isStationHacked">
+					<set_value name="$kCHC_witnessEntity" exact="$kCHC_witness.pilot" />
+					<do_if value="not $kCHC_witnessEntity">
+						<set_value name="$kCHC_witnessEntity" exact="$kCHC_witness.defencenpc" />
+					</do_if>
+					<do_if value="$kCHC_witnessEntity">
+						<do_if value="@$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed.count">
+							<find_station_by_true_owner name="$kCHC_station" faction="$kCHC_witness.trueowner" space="$kCHC_witness.sector" sortbydistanceto="$kCHC_witness" />
+							<do_if value="@$kCHC_station.isoperational and $kCHC_station.distanceto.{$kCHC_witness} le $kCHC_station.maxradarrange">
+								<signal_objects object="player.galaxy" param="'kCHC_report_crime'" param2="table[$witness = $kCHC_witness, $station = $kCHC_station]" />
+							</do_if>
+						</do_if>
+					</do_if>
+				</do_if>
+			</actions>
+		</library>
+	</interrupts>
+</aiscript>

@@ -16,6 +16,7 @@
         <set_value name="$MissionRewardReducer" exact="16" />
         <set_value name="$Paycheck" exact="0" />
         <set_value name="$PayInterval" exact="15m" />
+        <set_value name="$IsPirate" exact="false" />
         <!--
         GettingAJob.$Factions.{$faction} = table[
           $missionGroup = missiongroup.gaj_factionname,
@@ -586,6 +587,9 @@
               <set_value name="$Factions.{$faction}.$active" exact="true" />
               <set_value name="$Factions.{$faction}.$missionGroup" exact="$MissionGroups.{$faction}" />
               <set_value name="$Factions.{$faction}.$bonusMultiplier" exact="$MissionGroups.{$faction}" />
+              <do_if value="$faction.hastag.pirate and not $IsPirate">
+                <set_value name="$IsPirate" exact="true" />
+              </do_if>
               <find_sector name="$sectors" owner="$faction" multiple="true" />
               <set_value name="$sectorMacros" exact="[]" />
               <do_for_each name="$sector" in="$sectors">

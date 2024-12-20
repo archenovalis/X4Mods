@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+<!--
+<set_relation_boost object="this" otherobject="$target" value="this.owner.relation.kill.min" reason="$relationchangereason" decay="1" delay="5min" />
+-->
+	<add pos="before" sel="//set_relation_boost[@object=&quot;this&quot;][@otherobject=&quot;$target&quot;][@value=&quot;this.owner.relation.kill.min&quot;][@reason=&quot;$relationchangereason&quot;][@decay=&quot;1&quot;][@delay=&quot;5min&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="$target.isplayerowned and $relationchangereason == relationchangereason.illegalcargo">
+				<do_if value="$target.isplayerowned">
+					<set_value name="$kCHC_crime" exact="relationchangereason.illegalcargo" />
+					<set_value name="$kCHC_criminalShip" exact="$target" />
+					<set_value name="$kCHC_victimShipStation" exact="this.assignedcontrolled" />
+					<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+				</do_if>
+			</do_if>
+		</do_if>
+	</add>
+</diff>

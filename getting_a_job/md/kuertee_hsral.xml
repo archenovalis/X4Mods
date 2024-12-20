@@ -1,0 +1,2540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_hsral" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<cues>
+		<cue name="kHSRAL" namespace="this" version="8">
+			<conditions>
+				<check_any>
+					<event_cue_signalled cue="md.Setup.GameStart" />
+					<event_game_loaded />
+				</check_any>
+				<check_value value="not @player.allmodules.{player.module}.isscenario" />
+			</conditions>
+			<actions>
+				<debug_text text="'event.name: ' + event.name" />
+				<set_value name="$debugChance" exact="100" />
+				<set_value name="$isDoDebug1" exact="false" />
+				<set_value name="$isDoDebug2" exact="false" />
+				<set_value name="kHSRAL.$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+			</actions>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, state: ' + this.state" />
+				<set_value name="kHSRAL.$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+			</patch>
+			<patch sinceversion="4">
+				<debug_text text="'patch sinceversion 4, state: ' + this.state" />
+				<reset_cue cue="K_ArriveAndLeaveStations" />
+			</patch>
+			<patch sinceversion="5">
+				<debug_text text="'patch sinceversion 5, state: ' + this.state" />
+				<set_value name="$userKeyCostRewardPerc" exact="10" />
+			</patch>
+			<patch sinceversion="6">
+				<debug_text text="'patch sinceversion 6, state: ' + this.state" />
+				<remove_value name="kHSRAL.$newBlackMarketeerCostsByStation" />
+			</patch>
+			<patch sinceversion="8">
+				<debug_text text="'patch sinceversion 8, state: ' + this.state" />
+				<set_value name="$isDoDebug1" exact="false" />
+				<set_value name="$isDoDebug2" exact="false" />
+			</patch>
+			<cues>
+				<cue name="Init">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<do_if value="not $debugChance?">
+							<set_value name="$debugChance" exact="0" />
+						</do_if>
+						<debug_text text="'$debugChance: ' + $debugChance" />
+						<do_if value="not $userHackingDifficultyLevel?">
+							<set_value name="$userHackingDifficultyLevel" exact="level.medium" />
+							<set_value name="$userKeyCostRewardPerc" exact="10" />
+						</do_if>
+						<do_if value="not $keys?">
+							<set_value name="$keys" exact="table[]" />
+							<!-- $keys.{$station}.$roomTypes.{$roomType} = table[$accessType, $timeAcquired] -->
+						</do_if>
+						<do_if value="not $availableKeys?">
+							<set_value name="$availableKeys" exact="table[]" />
+							<!-- $availableKeys.{$station}.$roomTypes.{$roomType} = [available access types] -->
+							<!-- e.g. $availableKeys.{$station}.$roomTypes.{$roomType} = [1, 2] = only access type 1 and 2 are available-->
+						</do_if>
+						<do_if value="not $newKey?">
+							<set_value name="$newKey" exact="table[
+								$roomType = null,
+								$station = null,
+								$accessType = null,
+								$accessTypeCosts = null,
+								$timeAcquired = null,
+								$codePhrase = null,
+								$codePhraseLine = null,
+								$codePhraseReply = null,
+								$codePhraseReplyLine = null,
+								$isConfirmed = false,
+								$isMissionCreated = false,
+								$isCancelled = false,
+								$isFailed = false
+							]" />
+						</do_if>
+						<do_if value="not $securedRooms?">
+							<create_group groupname="$securedRooms" />
+						</do_if>
+						<do_if value="not $securedRoomsData?">
+							<set_value name="$securedRoomsData" exact="table[]" />
+						</do_if>
+						<do_if value="not $unlockedRoomsData?">
+							<set_value name="$unlockedRoomsData" exact="table[]" />
+						</do_if>
+						<do_if value="not $station?">
+							<set_value name="$station" exact="null" />
+						</do_if>
+						<set_value name="player.entity.$securedRoomsData" exact="$securedRoomsData" />
+						<set_value name="player.entity.$unlockedRoomsData" exact="$unlockedRoomsData" />
+						<get_factions_by_tag result="kHSRAL.$validFactions" tag="tag.economic" />
+						<do_if value="not $lastRoom?">
+							<set_value name="$lastRoom" exact="null" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnPlayerStartStopControl">
+					<conditions>
+						<check_any>
+							<event_player_started_control />
+							<event_player_stopped_control />
+						</check_any>
+					</conditions>
+					<actions>
+						<set_value name="player.entity.$securedRoomsData" exact="$securedRoomsData" />
+						<set_value name="player.entity.$unlockedRoomsData" exact="$unlockedRoomsData" />
+						<do_if value="ValidateSecuredAndUnlockedRoomsData.state == cuestate.waiting">
+							<signal_cue_instantly cue="ValidateSecuredAndUnlockedRoomsData" />
+						</do_if>
+						<debug_text text="'$securedRoomsData: ' + player.entity.$securedRoomsData" chance="$debugChance" />
+						<debug_text text="'$unlockedRoomsData: ' + player.entity.$unlockedRoomsData" chance="$debugChance" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnPlayerDockedAtStation">
+					<conditions>
+						<check_any>
+							<check_all>
+								<event_object_changed_room object="player.entity" />
+								<check_value value="player.station" />
+							</check_all>
+							<check_all>
+								<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+								<check_any>
+									<check_value value="@event.param2.$teleportTo.isclass.station" />
+									<check_value value="@event.param2.$dockAt.isclass.station" />
+								</check_any>
+							</check_all>
+						</check_any>
+					</conditions>
+					<actions>
+						<debug_text text="'event.name: ' + event.name" chance="$debugChance" />
+						<debug_text text="'$securedRooms: ' + $securedRooms" chance="kHSRAL.$debugChance" />
+						<debug_text text="'ChangeStation.state: ' + ChangeStation.state" chance="kHSRAL.$debugChance" />
+						<debug_text text="'CleanUpStation.state: ' + CleanUpStation.state" chance="kHSRAL.$debugChance" />
+						<set_value name="$station_possible" exact="null" />
+						<do_if value="event.name == 'event_object_changed_room'">
+							<set_value name="$station_possible" exact="player.station" />
+						</do_if>
+						<do_elseif value="event.name == 'event_object_signalled'">
+							<set_value name="$station_possible" exact="@event.param2.$teleportTo" />
+							<do_if value="not @$station_possible.exists">
+								<set_value name="$station_possible" exact="@event.param2.$dockAt" />
+							</do_if>
+						</do_elseif>
+						<do_if value="CleanUpStation.state == cuestate.disabled">
+							<reset_cue cue="CleanUpStation" />
+						</do_if>
+					</actions>
+					<cues>
+						<cue name="OnPlayerDockedAtStation2">
+							<actions>
+								<debug_text text="'$station_possible: ' + $station_possible.knownname" chance="kHSRAL.$debugChance" />
+								<debug_text text="'ChangeStation.state: ' + ChangeStation.state" chance="kHSRAL.$debugChance" />
+								<debug_text text="'CleanUpStation.state: ' + CleanUpStation.state" chance="kHSRAL.$debugChance" />
+								<debug_text text="'ClearHighSecurityRooms.state: ' + ClearHighSecurityRooms.state" chance="kHSRAL.$debugChance" />
+								<do_if value="@$station_possible.exists">
+									<do_if value="$station_possible != $station or not $securedRooms.count">
+										<do_if value="ChangeStation.state != cuestate.waiting">
+											<do_if value="CleanUpStation.state == cuestate.waiting">
+												<signal_cue_instantly cue="CleanUpStation" />
+											</do_if>
+											<do_elseif value="ClearHighSecurityRooms.state == cuestate.waiting">
+												<signal_cue_instantly cue="ClearHighSecurityRooms" />
+											</do_elseif>
+										</do_if>
+										<signal_cue_instantly cue="MoveMissionNPCAwayFromSecuredRooms" />
+									</do_if>
+									<do_else>
+										<signal_cue_instantly cue="MoveMissionNPCAwayFromSecuredRooms" />
+										<reset_cue cue="parent" />
+									</do_else>
+								</do_if>
+								<do_else>
+									<reset_cue cue="parent" />
+								</do_else>
+							</actions>
+							<cues>
+								<cue name="OnPlayerDockedAtStation3_20220101">
+									<actions>
+										<debug_text text="'ChangeStation.state: ' + ChangeStation.state" chance="kHSRAL.$debugChance" />
+										<do_if value="ChangeStation.state == cuestate.waiting">
+											<signal_cue_instantly cue="ChangeStation" param="table[$station = $station_possible]" />
+										</do_if>
+										<reset_cue cue="OnPlayerDockedAtStation" />
+										<cancel_cue cue="parent" />
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="ChangeStation">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$station" exact="event.param.$station" />
+						<debug_text text="'$station: ' + $station + ' (' + $station.name + ')'" chance="$debugChance" />
+						<signal_cue_instantly cue="CleanMissionNPCRooms" />
+						<signal_cue_instantly cue="ClearHighSecurityRooms" />
+						<do_if value="@$station.owner != faction.player">
+							<signal_cue cue="AddHighSecurityRooms" />
+						</do_if>
+						<set_value name="$availableKeys" exact="table[]" /><!-- always clear available keys on station exit so that new ones can be offered by the shadyguy -->
+					</actions>
+					<cues>
+						<cue name="CleanUpStation">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<check_all>
+										<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+										<check_any>
+											<check_value value="@event.param2.$leaveFrom == $station" />
+											<check_value value="@event.param2.$undockFrom == $station" />
+										</check_any>
+									</check_all>
+								</check_any>
+							</conditions>
+							<actions>
+								<debug_text text="'event.name: ' + event.name" chance="$debugChance" />
+								<debug_text text="'signal_cue_instantly ' + ClearHighSecurityRooms" chance="$debugChance" />
+								<signal_cue_instantly cue="ClearHighSecurityRooms" />
+								<remove_value name="kHSRAL.$otherBlackMarketeerCostsByStation" />
+								<set_value name="$station" exact="null" />
+								<reset_cue cue="parent" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="AddHighSecurityRooms">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<do_if value="$station">
+							<find_room name="$highSecRooms" object="$station" multiple="true" roomtype="roomtype.infrastructure" />
+							<find_room name="$highSecRooms" object="$station" multiple="true" roomtype="roomtype.security" append="true" />
+							<debug_text text="'$highSecRooms: ' + $highSecRooms" chance="$debugChance" />
+							<do_all counter="$i" exact="$highSecRooms.count">
+								<add_to_group groupname="$securedRooms" object="$highSecRooms.{$i}" />
+								<!-- <add_to_group groupname="$securedRooms" object="$highSecRooms.{$i}.dynamicinterior" /> -->
+								<do_all counter="$j" exact="$highSecRooms.{$i}.dynamicinterior.rooms.count">
+									<debug_text text="'$highSecRooms.{$i}.dynamicinterior.rooms.{$j}: ' + $highSecRooms.{$i}.dynamicinterior.rooms.{$j}" chance="$debugChance" />
+									<add_to_group groupname="$securedRooms" object="$highSecRooms.{$i}.dynamicinterior.rooms.{$j}" />
+								</do_all>
+								<set_value name="$securedRoomsData.{$highSecRooms.{$i}}" exact="$highSecRooms.{$i}.dynamicinterior" />
+							</do_all>
+							<debug_text text="'$securedRooms: ' + $securedRooms" chance="$debugChance" />
+							<debug_text text="'$securedRoomsData: ' + $securedRoomsData" chance="$debugChance" />
+							<do_if value="ValidateSecuredAndUnlockedRoomsData.state == cuestate.waiting">
+								<signal_cue_instantly cue="ValidateSecuredAndUnlockedRoomsData" />
+							</do_if>
+							<set_value name="player.entity.$securedRoomsData" exact="$securedRoomsData" />
+							<debug_text text="'player.entity.$securedRoomsData: ' + player.entity.$securedRoomsData" chance="$debugChance" />
+							<remove_value name="$highSecRooms" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="ClearHighSecurityRooms">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<check_all>
+								<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+								<check_value value="event.param3.$text == 'hsral debug ClearHighSecurityRooms'" />
+							</check_all>
+						</check_any>
+					</conditions>
+					<actions>
+						<do_if value="event.name == 'event_ui_triggered'">
+							<debug_text text="'event.param3: ' + @event.param3" />
+						</do_if>
+						<clear_group group="$securedRooms" />
+						<debug_text text="'clear_group $securedRooms: ' + $securedRooms" chance="$debugChance" />
+						<set_value name="$securedRoomsData" exact="table[]" />
+						<debug_text text="'$securedRoomsData: ' + $securedRoomsData" chance="$debugChance" />
+						<set_value name="player.entity.$securedRoomsData" exact="$securedRoomsData" />
+						<debug_text text="'player.entity.$securedRoomsData: ' + player.entity.$securedRoomsData" chance="$debugChance" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="ValidateSecuredAndUnlockedRoomsData">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<do_all counter="$i" exact="$securedRoomsData.keys.count" reverse="true">
+							<set_value name="$highSecRoom" exact="$securedRoomsData.keys.{$i}" />
+							<do_if value="not $highSecRoom.exists or not $securedRoomsData.{$highSecRoom}.exists">
+								<remove_value name="$securedRoomsData.{$highSecRoom}" />
+							</do_if>
+						</do_all>
+						<do_all counter="$i" exact="$unlockedRoomsData.keys.count" reverse="true">
+							<set_value name="$highSecRoom" exact="$unlockedRoomsData.keys.{$i}" />
+							<do_if value="not $highSecRoom.exists or not $unlockedRoomsData.{$highSecRoom}.exists">
+								<remove_value name="$unlockedRoomsData.{$highSecRoom}" />
+							</do_if>
+						</do_all>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConversationStarted">
+					<conditions>
+						<check_all>
+							<check_any>
+								<event_conversation_started conversation="default" />
+								<event_conversation_returned_to_section section="default" />
+							</check_any>
+							<check_value value="@event.object.isshadyguy" />
+						</check_all>
+						<check_value value="player.station == $station" />
+					</conditions>
+					<actions>
+						<debug_text text="'event.name: ' + event.name" chance="kHSRAL.$debugChance" />
+						<do_if value="OnConversationFinished.state != cuestate.waiting">
+							<reset_cue cue="OnConversationFinished" />
+						</do_if>
+						<do_if value="$debugChance">
+							<set_value name="$availableKeys" exact="table[]" />
+							<debug_text text="'$availableKeys: ' + $availableKeys" chance="$debugChance" />
+						</do_if>
+						<do_if value="@md.ExtendedConversationMenu.Main.exists">
+							<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kHSRAL_INeedAccess" exact="table[
+								$signalCue = OnConversationStarted_INeedAccess
+							]" />
+						</do_if>
+						<do_else>
+							<signal_cue_instantly cue="OnConversationStarted_INeedAccess" />
+						</do_else>
+						<include_actions ref="SetUpNewContactSectors" />
+						<debug_text text="'kHSRAL.$otherBlackMarketeerCostsByStation: ' + @kHSRAL.$otherBlackMarketeerCostsByStation + ', ' + kHSRAL.$otherBlackMarketeerCostsByStation.keys.list.count" chance="kHSRAL.$debugChance" />
+						<do_if value="kHSRAL.$otherBlackMarketeerCostsByStation.keys.list.count">
+							<do_if value="@md.ExtendedConversationMenu.Main.exists">
+								<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kHSRAL_OtherBlackMarketeer" exact="table[
+									$signalCue = OnConversationStarted_OtherBlackMarketeer
+								]" />
+							</do_if>
+							<do_else>
+								<signal_cue_instantly cue="OnConversationStarted_OtherBlackMarketeer" />
+							</do_else>
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConversationStarted_INeedAccess">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$newKey" exact="table[
+							$roomType = null,
+							$station = null,
+							$accessType = null,
+							$accessTypeCosts = null,
+							$timeAcquired = null,
+							$codePhrase = null,
+							$codePhraseLine = null,
+							$codePhraseReply = null,
+							$codePhraseReplyLine = null,
+							$isConfirmed = false,
+							$isMissionCreated = false,
+							$isCancelled = false,
+							$isFailed = false
+						]" />
+						<add_player_choice_sub text="{81918112, 100}" section="kHSRAL_get_station" comment="i need access to a high security room" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConversationStarted_OtherBlackMarketeer">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<!-- <t id="601">Contact in another sector?</t> -->
+						<add_player_choice_sub text="{81918112, 601}" section="kHSRAL_new_contact_0" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<library name="kHSRAL_get_station_player_choices">
+					<actions>
+						<add_player_choice text="{81918112, 101}" section="kHSRAL_get_room_type" choiceparam="$station" comment="of this station" />
+						<add_player_choice text="{81918112, 102}" section="kHSRAL_get_room_type" comment="in another station" />
+						<add_player_choice_return text="{81918112, 103}" position="bottom_right" comment="i don't want this access anymore" />
+					</actions>
+				</library>
+				<library name="GetCodePhrases">
+					<actions>
+						<do_if value="not $newKey.$codePhraseLine">
+							<set_value name="$newKey.$codePhraseLine" min="0" max="19" />
+							<set_value name="$newKey.$codePhraseLine" exact="11100 + ($newKey.$codePhraseLine * 2)" />
+							<set_value name="$newKey.$codePhraseReplyLine" exact="$newKey.$codePhraseLine + 1" />
+							<debug_text text="'$newKey.$codePhraseLine: ' + $newKey.$codePhraseLine" chance="kHSRAL.$debugChance" />
+							<debug_text text="'$newKey.$codePhraseReplyLine: ' + $newKey.$codePhraseReplyLine" chance="kHSRAL.$debugChance" />
+							<set_value name="$newKey.$codePhrase" exact="readtext.{81918112}.{$newKey.$codePhraseLine}" />
+							<set_value name="$newKey.$codePhraseReply" exact="readtext.{81918112}.{$newKey.$codePhraseReplyLine}" />
+							<debug_text text="'$newKey.$codePhrase: ' + $newKey.$codePhrase" chance="kHSRAL.$debugChance" />
+							<debug_text text="'$newKey.$codePhraseReply: ' + $newKey.$codePhraseReply" chance="kHSRAL.$debugChance" />
+						</do_if>
+					</actions>
+				</library>
+				<library name="CreateAccessMission">
+					<actions>
+						<debug_text text="'$newKey: ' + $newKey" chance="$debugChance" />
+						<debug_text text="'transfer_money OUT: ' + $newKey.$accessTypeCosts.{$newKey.$accessType}" chance="kHSRAL.$debugChance" />
+						<!-- <transfer_money from="faction.player" to="$npc.trueowner" amount="$newKey.$accessTypeCosts.{$newKey.$accessType} * 1ct" /> -->
+						<do_if value="@md.VerboseTransactionLog.TransferMoney.exists">
+							<do_if value="$newKey.$accessType == 1">
+								<signal_cue_instantly cue="md.VerboseTransactionLog.TransferMoney" param="table[
+									$amount = $newKey.$accessTypeCosts.{$newKey.$accessType} * 1ct,
+									$description = {81918112, 801},
+									$from = faction.player,
+									$to = $npc.trueowner,
+								]" />
+							</do_if>
+							<do_elseif value="$newKey.$accessType == 2">
+								<signal_cue_instantly cue="md.VerboseTransactionLog.TransferMoney" param="table[
+									$amount = $newKey.$accessTypeCosts.{$newKey.$accessType} * 1ct,
+									$description = {81918112, 802},
+									$from = faction.player,
+									$to = $npc.trueowner,
+								]" />
+							</do_elseif>
+							<do_elseif value="$newKey.$accessType == 3">
+								<signal_cue_instantly cue="md.VerboseTransactionLog.TransferMoney" param="table[
+									$amount = $newKey.$accessTypeCosts.{$newKey.$accessType} * 1ct,
+									$description = {81918112, 803},
+									$from = faction.player,
+									$to = $npc.trueowner,
+								]" />
+							</do_elseif>
+						</do_if>
+						<do_else>
+							<transfer_money from="faction.player" to="$npc.trueowner" amount="$newKey.$accessTypeCosts.{$newKey.$accessType} * 1ct" />
+						</do_else>
+						<!-- start add to $keys: -->
+						<do_if value="not $keys.{$newKey.$station}?">
+							<set_value name="$keys.{$newKey.$station}" exact="table[]" />
+						</do_if>
+						<do_if value="not $keys.{$newKey.$station}.$roomTypes?">
+							<set_value name="$keys.{$newKey.$station}.$roomTypes" exact="table[]" />
+						</do_if>
+						<do_if value="not $keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}?">
+							<set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}" exact="table[]" />
+						</do_if>
+						<set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.$accessType" exact="$newKey.$accessType" />
+						<set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.$timeAcquired" exact="player.age" />
+						<!-- end add to $keys: -->
+						<do_if value="$newKey.$accessType == 1">
+							<signal_cue_instantly cue="MissionAccessType1" param="table[
+								$station = $newKey.$station,
+								$roomType = $newKey.$roomType,
+								$codePhrase = $newKey.$codePhrase,
+								$codePhraseLine = $newKey.$codePhraseLine,
+								$codePhraseReply = $newKey.$codePhraseReply,
+								$codePhraseReplyLine = $newKey.$codePhraseReplyLine
+							]" />
+						</do_if>
+						<do_elseif value="$newKey.$accessType == 2">
+							<signal_cue_instantly cue="MissionAccessType2" param="table[
+								$station = $newKey.$station,
+								$roomType = $newKey.$roomType,
+								$codePhrase = $newKey.$codePhrase,
+								$codePhraseLine = $newKey.$codePhraseLine,
+								$codePhraseReply = $newKey.$codePhraseReply,
+								$codePhraseReplyLine = $newKey.$codePhraseReplyLine
+							]" />
+						</do_elseif>
+						<do_elseif value="$newKey.$accessType == 3">
+							<signal_cue_instantly cue="MissionAccessType3" param="table[
+								$station = $newKey.$station,
+								$roomType = $newKey.$roomType,
+								$codePhrase = $newKey.$codePhrase,
+								$codePhraseLine = $newKey.$codePhraseLine,
+								$codePhraseReply = $newKey.$codePhraseReply,
+								$codePhraseReplyLine = $newKey.$codePhraseReplyLine
+							]" />
+						</do_elseif>
+					</actions>
+				</library>
+				<library name="SetUpNewContactSectors">
+					<actions>
+						<debug_text text="'kHSRAL.$otherBlackMarketeerCostsByStation: ' + @kHSRAL.$otherBlackMarketeerCostsByStation" chance="kHSRAL.$debugChance" />
+						<!-- <do_if value="not @kHSRAL.$otherBlackMarketeerCostsByStation.keys.count"> -->
+						<set_value name="kHSRAL.$otherBlackMarketeerCostsByStation" exact="table[]" />
+						<!-- <find_sector_in_range name="$sectors_adjacent" multiple="true" object="player.sector" maxdistance="1" known="false"/> -->
+						<find_sector name="$sectors_adjacent" space="player.galaxy" multiple="true">
+							<match_gate_distance object="player.entity" min="0" max="1" />
+						</find_sector>
+						<debug_text text="'$sectors_adjacent: ' + $sectors_adjacent" chance="kHSRAL.$debugChance" />
+						<do_for_each name="$sector_inList" in="$sectors_adjacent">
+							<do_if value="$sector_inList != player.sector">
+								<debug_text text="'$sector_inList: ' + $sector_inList.knownname" chance="kHSRAL.$debugChance" />
+								<find_station name="$stations" space="$sector_inList" multiple="true">
+									<match owner="[faction.khaak, faction.xenon]" negate="true" />
+								</find_station>
+								<do_if value="$stations.count">
+									<create_group groupname="$stations_withShadyGuy" />
+									<do_for_each name="$station_inList" in="$stations">
+										<debug_text text="'$station_inList: ' + $station_inList.knownname + ', ' + @$station_inList.controlentity.{controlpost.shadyguy}" chance="kHSRAL.$debugChance" />
+										<!-- <do_if value="
+												$station_inList.shadyguy and
+												$station_inList.hasrelation.dock.{faction.player} and
+												(not @BlackMarketeerContacts.$missions.{$station_inList})
+											"> -->
+										<do_if value="
+												$station_inList.controlentity.{controlpost.shadyguy} and
+												(not $station_inList.controlentity.{controlpost.shadyguy}.tradesvisible) and
+												$station_inList.hasrelation.dock.{faction.player} and
+												(not @BlackMarketeerContacts.$missions.{$station_inList})
+											">
+											<debug_text text="'$station_inList: ' + $station_inList.sector.knownname + ', ' + $station_inList.knownname + ', ' + @$station_inList.shadyguy + ', ' + @$station_inList.shadyguy.name + ', ' + @$station_inList.shadyguy.room" chance="kHSRAL.$debugChance" />
+											<add_to_group groupname="$stations_withShadyGuy" object="$station_inList" />
+										</do_if>
+									</do_for_each>
+									<debug_text text="'$stations_withShadyGuy.count: ' + $stations_withShadyGuy.count" chance="kHSRAL.$debugChance" />
+									<do_if value="$stations_withShadyGuy.count">
+										<set_value name="$station_inList" exact="$stations_withShadyGuy.random" />
+										<debug_text text="'$station_inList (selected): ' + $station_inList.sector.knownname + ', ' + $station_inList.knownname + ', ' + @$station_inList.shadyguy + ', ' + @$station_inList.shadyguy.name" chance="kHSRAL.$debugChance" />
+									</do_if>
+									<do_else>
+										<set_value name="$station_inList" exact="$stations.random" />
+										<signal_cue_instantly cue="md.NPC_ShadyGuy.AddShadyGuys" param="table[$stations = [$station_inList]]" />
+										<debug_text text="'$station_inList (added): ' + $station_inList.sector.knownname + ', ' + $station_inList.knownname + ', ' + @$station_inList.shadyguy + ', ' + @$station_inList.shadyguy.name" chance="kHSRAL.$debugChance" />
+									</do_else>
+									<set_value name="$MissionThread" exact="null" />
+									<set_value name="$OfferType" exact="null" />
+									<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[namespace, level.easy, 1, $station_inList.trueowner]" comment="basic reward credits" />
+									<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus" />
+									<set_value name="kHSRAL.$otherBlackMarketeerCostsByStation.{$station_inList}" exact="namespace.$Reward_Money__Result_Multiplied" />
+								</do_if>
+							</do_if>
+						</do_for_each>
+						<!-- </do_if> -->
+					</actions>
+				</library>
+				<cue name="OnConversationNextSection">
+					<conditions>
+						<event_conversation_next_section sectionprefix="kHSRAL_" />
+						<check_value value="@event.object.isshadyguy" />
+					</conditions>
+					<actions>
+						<set_value name="$npc" exact="event.object" />
+						<set_value name="$section" exact="event.param" />
+						<set_value name="$choiceparam" exact="event.param2" />
+						<debug_text text="'$npc: ' + $npc" chance="$debugChance" />
+						<debug_text text="'$section: ' + $section" chance="$debugChance" />
+						<debug_text text="'$choiceparam: ' + $choiceparam" chance="$debugChance" />
+						<do_if value="$section == 'kHSRAL_get_station'">
+							<include_actions ref="kHSRAL_get_station_player_choices" />
+						</do_if>
+						<do_elseif value="$section == 'kHSRAL_get_room_type'">
+							<do_if value="$choiceparam">
+								<do_if value="typeof $choiceparam == datatype.list">
+									<!-- return from open_conversation_menu menu="MapMenu" is a list -->
+									<set_value name="$newKey.$station" exact="$choiceparam.{1}" />
+									<do_if value="not $newKey.$station">
+										<include_actions ref="kHSRAL_get_station_player_choices" />
+									</do_if>
+								</do_if>
+								<do_else>
+									<set_value name="$newKey.$station" exact="$choiceparam" />
+								</do_else>
+								<do_if value="$newKey.$station.sector != player.sector">
+									<add_npc_line actor="$npc" page="81918112" line="104" hidechoices="true" comment="that is outside my authority" />
+									<include_actions ref="kHSRAL_get_station_player_choices" />
+								</do_if>
+								<do_else>
+									<debug_text text="'$newKey.$station: ' + $newKey.$station + ' (' + $newKey.$station.name + ')'" chance="$debugChance" />
+									<set_value name="$isAnyRoomsLocked" exact="false" />
+									<do_if value="player.station == $newKey.$station">
+										<find_room name="$infrastructureRooms" object="$newKey.$station" multiple="true" roomtype="roomtype.infrastructure" />
+										<find_room name="$securityRooms" object="$newKey.$station" multiple="true" roomtype="roomtype.security" />
+										<do_if value="$infrastructureRooms.count or $securityRooms.count">
+											<do_if value="$infrastructureRooms.count and not @$keys.{$newKey.$station}.$roomTypes.{roomtype.infrastructure}">
+												<set_value name="$isAnyRoomsLocked" exact="true" />
+												<add_player_choice text="'... ' + {20007, 1051} + ' ...'" section="kHSRAL_get_access_type" choiceparam="roomtype.infrastructure" comment="engineering section" />
+											</do_if>
+											<do_if value="$securityRooms.count and not @$keys.{$newKey.$station}.$roomTypes.{roomtype.security}">
+												<set_value name="$isAnyRoomsLocked" exact="true" />
+												<add_player_choice text="'... ' + {20007, 1041} + ' ...'" section="kHSRAL_get_access_type" choiceparam="roomtype.security" comment="security office" />
+											</do_if>
+											<do_if value="$isAnyRoomsLocked">
+												<add_player_choice_return text="{81918112, 103}" position="bottom_right" comment="i don't want this access anymore" />
+											</do_if>
+											<do_else>
+												<add_npc_line actor="$npc" page="81918112" line="106" hidechoices="true" comment="There are no locked high security rooms in this station." />
+												<include_actions ref="kHSRAL_get_station_player_choices" />
+											</do_else>
+										</do_if>
+										<do_else>
+											<add_npc_line actor="$npc" page="81918112" line="107" hidechoices="true" comment="There are no high security rooms in this station." />
+											<include_actions ref="kHSRAL_get_station_player_choices" />
+										</do_else>
+										<remove_value name="$infrastructureRooms" />
+										<remove_value name="$securityRooms" />
+									</do_if>
+									<do_else>
+										<do_if value="not $keys.{$newKey.$station}.$roomTypes.{roomtype.infrastructure}?">
+											<set_value name="$isAnyRoomsLocked" exact="true" />
+											<add_player_choice text="'... ' + {20007, 1051} + ' ...'" section="kHSRAL_get_access_type" choiceparam="roomtype.infrastructure" comment="engineering section" />
+										</do_if>
+										<do_if value="not $keys.{$newKey.$station}.$roomTypes.{roomtype.security}?">
+											<set_value name="$isAnyRoomsLocked" exact="true" />
+											<add_player_choice text="'... ' + {20007, 1041} + ' ...'" section="kHSRAL_get_access_type" choiceparam="roomtype.security" comment="security office" />
+										</do_if>
+										<do_if value="$isAnyRoomsLocked">
+											<add_player_choice_return text="{81918112, 103}" position="bottom_right" comment="i don't want this access anymore" />
+										</do_if>
+										<do_else>
+											<add_npc_line actor="$npc" page="81918112" line="108" hidechoices="true" comment="There are no locked high security rooms in this station." />
+											<include_actions ref="kHSRAL_get_station_player_choices" />
+										</do_else>
+									</do_else>
+									<remove_value name="$isAnyRoomsLocked" />
+								</do_else>
+							</do_if>
+							<do_else>
+								<!-- menu_map.lua:
+								section == gMain_map
+								param == { 0, 0, showzone, focuscomponent [, history] [, mode, modeparam] }
+								 
+								modes: - "orderparam_object",	param: { returnfunction, paramdata, toprow, ordercontrollable } 
+										  - "orderparam_position",	param: { returnfunction, paramdata, toprow, ordercontrollable } 
+										  - "selectbuildlocation",	param: { returnsection, { 0, 0, trader, buildership_or_module, object, macro } }
+										  - "tradecontext",			param: { station, initialtradingship, iswareexchange, shadyOnly }
+										  - "selectCV",				param: { buildstorage }
+										  - "infomode",				param: { mode, ... }
+										  - "boardingcontext",		param: { target, boardingships }
+										  - "hire",					param: { returnsection, npc_or_context, ishiring[, npctemplate] }
+										  - "sellships",			param: { shipyard, ships }
+										  - "dropwarescontext",		param: { mode, entity }
+										  - "renamecontext",		param: { component, renamefleet }
+										  - "selectComponent",		param: { returnsection, classlist[, category][, playerowned][, customheading] }
+										  - "crewtransfercontext",	param: { othership, ship } -->
+								<!--
+								this closes the map on selection
+								elseif menu.mode == "selectComponent" then
+									if menu.checkForSelectComponent(menu.contextMenuData.component) then
+										Helper.closeMenuForSection(menu, menu.modeparam[1], { ConvertStringToLuaID(tostring(menu.contextMenuData.component)) })
+										menu.cleanup()
+									end
+								end
+								-->
+								<!--
+								Helper.lua:
+								this triggers event_conversation_next_section
+								function Helper.closeMenuForSection(menu, nextsection, choiceparam)
+									closeMenu(menu, function() ProceedFromMenu(nextsection, Helper.convertComponentIDs(choiceparam)) end, false)
+								end
+								-->
+								<open_conversation_menu menu="MapMenu" param="[0, 0, true, $station, null, 'selectComponent', ['kHSRAL_get_room_type', [class.station]]]" />
+							</do_else>
+						</do_elseif>
+						<do_elseif value="$section == 'kHSRAL_get_access_type'">
+							<set_value name="$newKey.$roomType" exact="$choiceparam" />
+							<!-- <add_npc_line actor="$npc" page="81918112" line="200" hidechoices="true" comment="i have these access available"/> -->
+							<!-- start: cost -->
+							<!-- from gm_hackpanel.xml -->
+							<!-- use cost as if hacking any panel but turrets -->
+							<set_value name="$ResultCue" exact="namespace" />
+							<!-- <set_value name="$Difficulty" exact="level.medium" /> -->
+							<set_value name="$Difficulty" exact="$userHackingDifficultyLevel" />
+							<set_value name="$MissionLevel" exact="1" />
+							<set_value name="$Faction" exact="$station.owner" /><!-- higher the relation to the player, higher the cost-->
+							<set_value name="$MissionThread" exact="null" />
+							<set_value name="$OfferType" exact="null" />
+							<set_value name="$PanelType" exact="null" />
+							<!--event.param: [$ResultCue, $Difficulty, $MissionLevel, $Faction]
+							e.g.
+							[MyCue, level.medium, 5, faction.argon]
+							Result saved to $ResultCue.$Reward_Money__Result-->
+							<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[$ResultCue, $Difficulty, $MissionLevel, $Faction]" comment="basic reward credits" />
+							<!-- input: $OfferType, $MissionThread, $Reward_Money__Result output: $Reward_Money__Result_Multiplied -->
+							<debug_text text="'$Reward_Money__Result: ' + $Reward_Money__Result" chance="$debugChance" />
+							<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus" />
+							<debug_text text="'$Reward_Money__Result_Multiplied: ' + $Reward_Money__Result_Multiplied" chance="$debugChance" />
+							<!-- input: $PanelType, output: $ResourceCost__Result -->
+							<include_actions ref="md.GM_HackPanel.CalculateResourceCost" comment="cost of required items" />
+							<debug_text text="'$ResourceCost__Result: ' + $ResourceCost__Result" chance="$debugChance" />
+							<set_value name="$RewardCr" exact="$Reward_Money__Result_Multiplied + $ResourceCost__Result" />
+							<!-- cost is 50% of reward -->
+							<debug_text text="'pre $RewardCr: ' + $RewardCr" chance="$debugChance" />
+							<set_value name="$RewardCr" exact="(($RewardCr)f * ($userKeyCostRewardPerc / 100.0))ct" />
+							<debug_text text="'post $RewardCr as ct: ' + $RewardCr" chance="$debugChance" />
+							<debug_text text="'post $RewardCr as Cr: ' + $RewardCr.formatted.{'%s %Cr'}" chance="$debugChance" />
+							<!-- cost of type 1 access is full, easiest -->
+							<!-- cost of type 2 access is 75%, easier -->
+							<!-- cost of type 3 access is 50%, hardest -->
+							<do_if value="$newKey.$station == player.station">
+								<!-- hacker is more difficult because the player needs to exit the station to find the signal leak -->
+								<!-- so it's cheaper -->
+								<set_value name="$newKey.$accessTypeCosts" exact="[$RewardCr, (($RewardCr)f * 0.5)ct, (($RewardCr)f * 0.75)ct]" />
+							</do_if>
+							<do_else>
+								<set_value name="$newKey.$accessTypeCosts" exact="[$RewardCr, (($RewardCr)f * 0.75)ct, (($RewardCr)f * 0.5)ct]" />
+							</do_else>
+							<!-- end: cost -->
+							<do_if value="not $availableKeys.{$newKey.$station}?">
+								<set_value name="$availableKeys.{$newKey.$station}" exact="table[]" />
+							</do_if>
+							<do_if value="not $availableKeys.{$newKey.$station}.$roomTypes?">
+								<set_value name="$availableKeys.{$newKey.$station}.$roomTypes" exact="table[]" />
+							</do_if>
+							<do_if value="not $availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}?">
+								<set_value name="$availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}" exact="[]" />
+							</do_if>
+							<do_if value="$availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.count gt 3">
+								<set_value name="$availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}" exact="[]" />
+							</do_if>
+							<do_if value="not $availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.count">
+								<set_value name="$numAvailable" min="1" max="3" />
+								<debug_text text="'$numAvailable: ' + $numAvailable" chance="$debugChance" />
+								<set_value name="$accesses" exact="[1, 2, 3]" />
+								<do_all counter="$i" exact="$numAvailable">
+									<set_value name="$thisAccess" exact="$accesses.random" />
+									<remove_from_list name="$accesses" exact="$thisAccess" />
+									<append_to_list name="$availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}" exact="$thisAccess" />
+								</do_all>
+								<remove_value name="$numAvailable" />
+								<remove_value name="$accesses" />
+							</do_if>
+							<do_if value="$debugChance">
+								<add_player_choice text="{81918112, 201} + '. ' + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{1}.formatted.{'%s %Cr'}" section="kHSRAL_confirm_all" choiceparam="1" comment="entry code" />
+								<add_player_choice text="{81918112, 202} + '. ' + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{2}.formatted.{'%s %Cr'}" section="kHSRAL_confirm_all" choiceparam="2" comment="hacker" />
+								<add_player_choice text="{81918112, 203} + '. ' + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{3}.formatted.{'%s %Cr'}" section="kHSRAL_confirm_all" choiceparam="3" comment="agent" />
+								<show_notification text="'available access: ' + $availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}" />
+							</do_if>
+							<do_else>
+								<do_if value="$availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.indexof.{1}">
+									<add_player_choice text="{81918112, 201} + '. ' + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{1}.formatted.{'%s %Cr'}" section="kHSRAL_confirm_all" choiceparam="1" comment="entry code" />
+								</do_if>
+								<do_if value="$availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.indexof.{2}">
+									<add_player_choice text="{81918112, 202} + '. ' + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{2}.formatted.{'%s %Cr'}" section="kHSRAL_confirm_all" choiceparam="2" comment="hacker" />
+								</do_if>
+								<do_if value="$availableKeys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.indexof.{3}">
+									<add_player_choice text="{81918112, 203} + '. ' + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{3}.formatted.{'%s %Cr'}" section="kHSRAL_confirm_all" choiceparam="3" comment="agent" />
+								</do_if>
+							</do_else>
+							<add_player_choice_return text="{81918112, 103}" position="bottom_right" comment="i don't want this access anymore" />
+						</do_elseif>
+						<do_elseif value="$section == 'kHSRAL_confirm_all'">
+							<set_value name="$newKey.$accessType" exact="$choiceparam" />
+							<!-- <set_value name="$title" exact="{81918112, 300}" /> -->
+							<set_value name="$title" exact="{81918112, 10000}" />
+							<set_value name="$question" exact="''" />
+							<set_value name="$question" exact="$question + {81918112, 302} + ': '" comment="access type" />
+							<do_if value="$newKey.$accessType == 1">
+								<set_value name="$question" exact="$question + {81918112, 303} + '\n'" comment="entry code" />
+								<set_value name="$question" exact="$question + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{1}.formatted.{'%s %Cr'} + '\n'" />
+							</do_if>
+							<do_elseif value="$newKey.$accessType == 2">
+								<set_value name="$question" exact="$question + {81918112, 304} + '\n'" comment="hacker" />
+								<set_value name="$question" exact="$question + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{2}.formatted.{'%s %Cr'} + '\n'" />
+							</do_elseif>
+							<do_elseif value="$newKey.$accessType == 3">
+								<set_value name="$question" exact="$question + {81918112, 305} + '\n'" comment="inside operative" />
+								<set_value name="$question" exact="$question + {81918112, 204} + ': ' + $newKey.$accessTypeCosts.{3}.formatted.{'%s %Cr'} + '\n'" />
+							</do_elseif>
+							<do_if value="$newKey.$roomType == roomtype.infrastructure">
+								<set_value name="$question" exact="$question + {81918112, 301} + ': ' + {20007, 1051} + '\n'" comment="{81918112, 301} = high security room, {20007, 1051} = engineering section" />
+							</do_if>
+							<do_elseif value="$newKey.$roomType == roomtype.security">
+								<set_value name="$question" exact="$question + {81918112, 301} + ': ' + {20007, 1041} + '\n'" comment="{81918112, 301} = high security room, {20007, 1041} = security office" />
+							</do_elseif>
+							<set_value name="$question" exact="$question + {1001, 3}  + ': ' + $newKey.$station.name + ' (' + $newKey.$station.idcode + ')\n'" comment="station" />
+							<set_value name="$question" exact="$question + '\n' + {81918112, 306}" comment="are you sure" />
+							<!-- menu_userquestion.lua:
+							param == { 0, 0, mode, modeparam }
+							modes: - "hackpanel",		param: { panelcomponent, panelconnection, paneltype }
+									  - "abortupgrade",		param: { container, task, price }
+									  - "transporter",		param: { transportercomponent, transporterconnection }
+									  - "custom",			param: { title, question, { leftoptionid, leftoptionname[, uicallbackparam, ...] }, { rightoptionid, rightoptionname[, uicallbackparam, ...] }[, uicallbackmode][, preselectoption ("left"|"right")] }
+										uicallbackmodes:	- "invertinput",				param: { rangeid, configname, value }
+															- "autoroll",					param: { value }
+															- "mouse_steering_adaptive",	param: { value }
+															- "stick_steering_adaptive",	param: { value } -->
+							<!-- <set_conversation_return_section section="default" /> -->
+							<!-- <debug_text text="'OnConfirmAll.state: ' + OnConfirmAll.state" chance="$debugChance" />
+							<reset_cue cue="OnConfirmAll" /> -->
+							<open_conversation_menu menu="UserQuestionMenu" param="[0, 0, 'custom', [$title, $question, ['kuertee_hsral_no', {1001, 2618}], ['kuertee_hsral_yes', {1001, 2617}], null, 'right']]" />
+							<!-- <set_conversation_return_section section="kHSRAL_get_access_type" /> -->
+						</do_elseif>
+						<do_elseif value="$section == 'kHSRAL_give_passphrase'">
+							<set_value name="$newKey.$isConfirmed" exact="true" />
+							<include_actions ref="GetCodePhrases" />
+							<add_npc_line actor="$npc" page="81918112" line="$newKey.$codePhraseReplyLine" hidechoices="true" comment="$codePhraseReply" />
+							<add_player_choice text="{81918112, 500}" section="kHSRAL_give_passphrase" comment="What do I say?" />
+							<add_player_choice_return text="{81918112, 501}" section="kHSRAL_give_passphrase" position="bottom_right" comment="Ok." />
+							<reset_cue cue="this" />
+						</do_elseif>
+						<do_elseif value="$section == 'kHSRAL_new_contact_0'">
+							<!-- <t id="602">%(name), %s(sector): %s(cost)</t> -->
+							<do_for_each name="$station_inList" in="kHSRAL.$otherBlackMarketeerCostsByStation.keys.list">
+								<add_player_choice text="{81918112, 602}.[$station_inList.shadyguy.knownname, $station_inList.sector.knownname, kHSRAL.$otherBlackMarketeerCostsByStation.{$station_inList}.formatted.{'%s %Cr'}]" section="kHSRAL_new_contact_1_station" choiceparam="$station_inList" />
+							</do_for_each>
+						</do_elseif>
+						<do_elseif value="$section == 'kHSRAL_new_contact_1_station'">
+							<debug_text text="'player.money: ' + player.money + ' $otherBlackMarketeerCostsByStation: ' + @kHSRAL.$otherBlackMarketeerCostsByStation.{event.param2} + ' event.param2: ' + @event.param2.knownname" />
+							<do_if value="player.money ge kHSRAL.$otherBlackMarketeerCostsByStation.{event.param2}">
+								<!-- <t id="603">Remember: You didn't get their contact from me.</t> -->
+								<add_npc_line actor="$npc" page="81918112" line="603" hidechoices="true" />
+							</do_if>
+							<do_else>
+								<add_npc_line actor="$npc" page="81918112" line="400" hidechoices="true" comment="you can't afford that" />
+							</do_else>
+						</do_elseif>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConfirmAll">
+					<conditions>
+						<event_ui_triggered screen="'UserQuestionMenu'" control="'selected'" />
+						<check_value value="event.param3 == 'kuertee_hsral_no' or event.param3 == 'kuertee_hsral_yes'" />
+						<!-- <event_ui_triggered screen="'UserQuestionMenu'" />
+						<event_ui_triggered screen="'UserQuestionMenu'" control="'selected'" /> -->
+					</conditions>
+					<actions>
+						<debug_text text="'param: ' + event.param + ' param2: ' + event.param2 + ' param3: ' + event.param3" chance="$debugChance" />
+						<do_if value="event.param3 == 'kuertee_hsral_yes'">
+							<debug_text text="'player.money: ' + player.money" chance="$debugChance" />
+							<debug_text text="'$accessTypeCosts: ' + $newKey.$accessTypeCosts.{$newKey.$accessType} * 1ct" chance="$debugChance" />
+							<do_if value="player.money ge $newKey.$accessTypeCosts.{$newKey.$accessType} * 1ct">
+								<debug_text text="'$accessType: ' + $newKey.$accessType" chance="$debugChance" />
+								<do_if value="$newKey.$accessType gt 1">
+									<debug_text text="'start_conversation kHSRAL_confirmed'" chance="$debugChance" />
+									<start_conversation actor="$npc" conversation="kHSRAL_confirmed" />
+								</do_if>
+								<do_else>
+									<set_value name="$newKey.$isConfirmed" exact="true" />
+								</do_else>
+							</do_if>
+							<do_else>
+								<set_value name="$newKey.$isFailed" exact="true" />
+								<add_npc_line actor="$npc" page="81918112" line="400" hidechoices="true" comment="you can't afford that" />
+							</do_else>
+						</do_if>
+						<do_else>
+							<set_value name="$newKey.$isCancelled" exact="true" />
+						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConversationStartedAfterConfirmAll">
+					<conditions>
+						<event_conversation_started conversation="kHSRAL_confirmed" />
+						<check_value value="event.object.isshadyguy" />
+						<check_value value="player.station == $station" />
+					</conditions>
+					<actions>
+						<!-- <do_if value="$newKey.$accessType == 2">
+							<add_npc_line actor="$npc" page="81918112" line="401" hidechoices="true" comment="The hacker needs to know I sent you."/>
+						</do_if>
+						<do_elseif value="$newKey.$accessType == 3">
+							<add_npc_line actor="$npc" page="81918112" line="402" hidechoices="true" comment="The operative needs to know I sent you."/>
+						</do_elseif> -->
+						<add_player_choice text="{81918112, 500}" section="kHSRAL_give_passphrase" comment="What's the contact's password?" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnConversationFinished">
+					<conditions>
+						<event_conversation_finished />
+						<check_value value="@event.object.isshadyguy" />
+					</conditions>
+					<actions>
+						<debug_text text="'event.param: ' + @event.param + ' event.param2: ' + @event.param2" />
+						<do_if value="event.param == 'kHSRAL_new_contact_1_station'">
+							<!-- kHSRAL.$otherBlackMarketeerCostsByStation.{$station_inList} -->
+							<do_if value="player.money ge kHSRAL.$otherBlackMarketeerCostsByStation.{event.param2}">
+								<!-- <transfer_money from="faction.player" to="event.object.trueowner" amount="kHSRAL.$otherBlackMarketeerCostsByStation.{event.param2} * 1ct" /> -->
+								<do_if value="@md.VerboseTransactionLog.TransferMoney.exists">
+									<signal_cue_instantly cue="md.VerboseTransactionLog.TransferMoney" param="table[
+										$amount = kHSRAL.$otherBlackMarketeerCostsByStation.{event.param2} * 1ct,
+										$description = {81918112, 804},
+										$from = faction.player,
+										$to = event.object,
+									]" />
+								</do_if>
+								<do_else>
+									<transfer_money from="faction.player" to="event.object.trueowner" amount="kHSRAL.$otherBlackMarketeerCostsByStation.{event.param2} * 1ct" />
+								</do_else>
+								<signal_cue_instantly cue="BlackMarketeerContacts_New" param="table[$station = event.param2]" />
+							</do_if>
+						</do_if>
+						<do_else>
+							<do_if value="$newKey.$isConfirmed and not $newKey.$isMissionCreated">
+								<set_value name="$newKey.$isMissionCreated" exact="true" />
+								<include_actions ref="CreateAccessMission" />
+							</do_if>
+							<do_if value="$newKey.$isMissionCreated or $newKey.$isCancelled or $newKey.$isFailed">
+								<debug_text text="'$newKey: ' + $newKey" chance="$debugChance" />
+								<set_value name="$newKey" exact="table[
+									$roomType = null,
+									$station = null,
+									$accessType = null,
+									$accessTypeCosts = null,
+									$timeAcquired = null,
+									$codePhrase = null,
+									$codePhraseLine = null,
+									$codePhraseReply = null,
+									$codePhraseReplyLine = null,
+									$isConfirmed = false,
+									$isMissionCreated = false,
+									$isCancelled = false,
+									$isFailed = false
+								]" />
+							</do_if>
+							<debug_text text="'$newKey: ' + $newKey" chance="$debugChance" />
+						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="MoveMissionNPCAwayFromSecuredRooms">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<do_all counter="$i" exact="$securedRooms.count">
+							<!-- <debug_text text="'$securedRooms.{$i}: ' + $securedRooms.{$i}.knownname" chance="kHSRAL.$debugChance" /> -->
+							<find_object_component name="$npcsInRoom" class="class.npc" object="$securedRooms.{$i}" multiple="true" />
+							<do_all counter="$j" exact="$npcsInRoom.count">
+								<set_value name="$npcInRoom" exact="$npcsInRoom.{$j}" />
+								<set_value name="$npcInRoom.$kHSRAL_originalRoom" exact="$npcInRoom.room" />
+								<debug_text text="'$npcInRoom: ' + $npcInRoom.knownname + ' ismissionactor: ' + $npcInRoom.ismissionactor" chance="kHSRAL.$debugChance" />
+								<do_if value="$npcInRoom.ismissionactor">
+									<signal_cue_instantly cue="AddNPCToNewRoom" param="table[$cue = namespace, $npcInRoom = $npcInRoom, $stationOfRoom = player.station]" />
+								</do_if>
+							</do_all>
+						</do_all>
+						<remove_value name="$i" />
+						<remove_value name="$j" />
+						<remove_value name="$npcInRoom" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="MoveMissionNPCAwayFromNewRooms">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<do_if value="not $missionNPCRooms?">
+							<set_value name="$missionNPCRooms" exact="[]" />
+						</do_if>
+						<do_all counter="$i" exact="$missionNPCRooms.count">
+							<find_object_component name="$npcsInRoom" class="class.npc" object="$missionNPCRooms.{$i}" multiple="true" />
+							<do_all counter="$j" exact="$npcsInRoom.count">
+								<set_value name="$npcInRoom" exact="$npcsInRoom.{$j}" />
+								<debug_text text="'$npcInRoom: ' + $npcInRoom.knownname + ' ismissionactor: ' + $npcInRoom.ismissionactor" chance="kHSRAL.$debugChance" />
+								<signal_cue_instantly cue="AddNPCToNewRoom" param="table[$cue = namespace, $npcInRoom = $npcInRoom, $isMoveToOriginalRoom = true]" />
+							</do_all>
+						</do_all>
+						<remove_value name="$i" />
+						<remove_value name="$j" />
+						<remove_value name="$npcInRoom" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="AddNPCToNewRoom" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$cue" exact="event.param.$cue" />
+						<set_value name="$npcInRoom" exact="event.param.$npcInRoom" />
+						<set_value name="$stationOfRoom" exact="$npcInRoom.station" />
+						<do_if value="not $stationOfRoom">
+							<set_value name="$stationOfRoom" exact="@event.param.$stationOfRoom" />
+							<do_if value="not $stationOfRoom">
+								<set_value name="$stationOfRoom" exact="player.station" />
+							</do_if>
+						</do_if>
+						<set_value name="$isMoveToOriginalRoom" exact="@event.param.$isMoveToOriginalRoom" />
+						<do_if value="not $isMoveToOriginalRoom">
+							<!-- create room and add npc to it -->
+							<get_room_definition macro="$corridorMacro" race="$stationOfRoom.owner.primaryrace" tags="tag.corridor" />
+							<do_if value="not $corridorMacro">
+								<get_room_definition macro="$corridorMacro" race="faction.argon.primaryrace" tags="tag.corridor" />
+							</do_if>
+							<get_room_definition macro="$roomMacro" race="$stationOfRoom.owner.primaryrace" tags="tag.office" />
+							<do_if value="not $roomMacro">
+								<get_room_definition macro="$roomMacro" race="faction.argon.primaryrace" tags="tag.office" />
+							</do_if>
+							<set_value name="$interiorNames" exact="[
+								1061, 1071, 1081, 1091, 1101,
+								1111, 1121, 1131, 1141, 1431
+							]" />
+							<set_value name="$roomName" exact="readtext.{20007}.{$interiorNames.random}" />
+							<create_dynamic_interior object="$stationOfRoom"
+								name="$roomName"
+								corridor="$corridorMacro" room="$roomMacro"
+								interiorname="$interior" corridorname="$corridor" roomname="$room" roomtype="roomtype.office"
+								seed="$stationOfRoom.seed + lookup.roomtype.list.indexof.{roomtype.office}" />
+							<do_if value="$interior and $corridor and $room">
+								<find_npc_slot name="$roomSlot" object="$room" tags="tag.stand" />
+								<do_if value="$roomSlot">
+									<do_if value="$cue">
+										<add_actor_to_room actor="$npcInRoom" slot="$roomSlot" result="$cue.$isActorInRoom" />
+										<debug_text text="'$npcInRoom: ' + $npcInRoom + ' (' + $npcInRoom.name + ') moved to $roomName: ' + $roomName" chance="kHSRAL.$debugChance" />
+										<set_value name="$cue.$npcSlot" exact="$roomSlot" />
+									</do_if>
+									<do_else>
+										<add_actor_to_room actor="$npcInRoom" slot="$roomSlot" />
+									</do_else>
+								</do_if>
+								<do_if value="not $missionNPCRooms?">
+									<set_value name="$missionNPCRooms" exact="[]" />
+								</do_if>
+								<append_to_list name="$missionNPCRooms" exact="$interior" />
+								<debug_text text="'$missionNPCRooms: ' + $missionNPCRooms" chance="kHSRAL.$debugChance" />
+							</do_if>
+						</do_if>
+						<do_else>
+							<set_value name="$room" exact="@$npcInRoom.$kHSRAL_originalRoom" />
+							<do_if value="not $room">
+								<find_room name="$room" object="$stationOfRoom" roomtype="roomtype.infrastructure" />
+								<do_if value="not $room">
+									<find_room name="$room" object="$stationOfRoom" roomtype="roomtype.security" />
+								</do_if>
+								<do_if value="not $room">
+									<find_room name="$rooms" object="$stationOfRoom" multiple="true" roomtype="roomtype.office" />
+									<do_for_each name="$room_inList" in="$rooms">
+										<do_if value="not $missionNPCRooms.indexof.{$room}">
+											<set_value name="$room" exact="$room_inList" />
+											<break />
+										</do_if>
+									</do_for_each>
+								</do_if>
+							</do_if>
+							<find_npc_slot name="$roomSlot" object="$room" tags="tag.stand" />
+							<do_if value="$roomSlot">
+								<add_actor_to_room actor="$npcInRoom" slot="$roomSlot" />
+								<debug_text text="'$npcInRoom: ' + $npcInRoom + ' (' + $npcInRoom.name + ') moved to original $room: ' + $room.name" chance="kHSRAL.$debugChance" />
+							</do_if>
+						</do_else>
+						<remove_value name="$cue" />
+						<remove_value name="$npcInRoom" />
+						<remove_value name="$corridorMacro" />
+						<remove_value name="$interiorNames" />
+						<remove_value name="$roomMacro" />
+						<remove_value name="$interior" />
+						<remove_value name="$roomSlot" />
+						<cancel_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="CleanMissionNPCRooms">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<signal_cue_instantly cue="MoveMissionNPCAwayFromNewRooms" />
+						<do_if value="not $missionNPCRooms?">
+							<set_value name="$missionNPCRooms" exact="[]" />
+						</do_if>
+						<do_all counter="$i" exact="$missionNPCRooms.count">
+							<set_value name="$interior" exact="$missionNPCRooms.{$i}" />
+							<do_if value="$interior.exists">
+								<remove_dynamic_interior object="$station" interior="$interior" />
+							</do_if>
+						</do_all>
+						<remove_value name="$i" />
+						<set_value name="$missionNPCRooms" exact="[]" />
+						<debug_text text="'$missionNPCRooms: ' + $missionNPCRooms" chance="kHSRAL.$debugChance" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="K_ArriveAndLeaveStations" namespace="this">
+					<actions>
+						<set_value name="$attentionNearbyAndNearer" exact="[attention.nearby, attention.adjacentroom, attention.inroom]" />
+						<set_value name="$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+						<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_station_old" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_station_current" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
+					</actions>
+					<cues>
+						<cue name="K_ArriveStation" instantiate="true">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<check_all>
+										<!-- Event for the specified object changing attention level (object = attention changing object, param = new attention level, param2 = previous attention level) -->
+										<event_object_changed_attention group="md.NPC_Instantiation.Instantiation.$TrackedObjects" />
+										<check_value value="event.object.isclass.station" />
+										<check_value value="@event.object.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.object.macro != @macro.torus_maze_macro" />
+									</check_all>
+									<check_all>
+										<!-- Event for when the player successfully teleports. (param = new room, param2 = old room, param3 = is shortcut instead of real teleport) -->
+										<event_player_teleport_successful />
+									</check_all>
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$isOk" exact="false" />
+								<set_value name="$isAlreadyActive" exact="false" />
+								<set_value name="$isTeleport" exact="false" />
+								<do_if value="event.name == 'event_cue_signalled'">
+									<set_value name="$station_this" exact="event.param.$station" />
+									<set_value name="$isAlreadyActive" exact="event.param.$isAlreadyActive" />
+									<set_value name="$isOk" exact="true" />
+								</do_if>
+								<do_elseif value="event.name == 'event_object_changed_attention'">
+									<do_if value="event.object.isclass.station">
+										<set_value name="$station_this" exact="event.object" />
+										<set_value name="$isOk" exact="
+											$attentionNearbyAndNearer.indexof.{event.param}
+											and
+											(not $attentionNearbyAndNearer.indexof.{event.param2})
+											and
+											$station_this != md.Notifications.Init.$kuertee_station_current
+										" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="event.name == 'event_player_teleport_successful'">
+									<set_value name="$isTeleport" exact="true" />
+									<do_if value="player.station">
+										<set_value name="$station_this" exact="player.station" />
+										<set_value name="$isOk" exact="
+											(
+												(not @md.Notifications.Init.$kuertee_station_current)
+												or
+												(not @param.hascontext.{@md.Notifications.Init.$kuertee_station_current})
+											)
+											and
+											$station_this != md.Notifications.Init.$kuertee_station_current
+										" />
+									</do_if>
+								</do_elseif>
+								<do_if value="$isOk">
+									<do_if value="not $isAlreadyActive">
+										<do_if value="md.Notifications.Init.$kuertee_Cue_departOldStation.exists">
+											<do_if value="md.Notifications.Init.$kuertee_Cue_departOldStation.state == cuestate.waiting">
+												<signal_cue_instantly cue="md.Notifications.Init.$kuertee_Cue_departOldStation" />
+											</do_if>
+										</do_if>
+										<set_value name="md.Notifications.Init.$kuertee_station_new" exact="$station_this" />
+										<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+									</do_if>
+									<do_else>
+										<set_value name="md.Notifications.Init.$kuertee_station_new" exact="$station_this" />
+										<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation $isAlreadyActive at: ' + @md.Notifications.Init.$kuertee_station_current.knownname" />
+										<debug_text text="'K_ArriveStation $isAlreadyActive at: ' + @md.Notifications.Init.$kuertee_station_current.knownname" />
+									</do_else>
+								</do_if>
+								<do_else>
+									<cancel_cue cue="this" />
+								</do_else>
+							</actions>
+							<cues>
+								<cue name="K_DepartStation">
+									<conditions>
+										<check_any>
+											<event_cue_signalled />
+											<event_object_changed_attention object="md.Notifications.Init.$kuertee_station_current" />
+										</check_any>
+									</conditions>
+									<actions>
+										<set_value name="$isOk" exact="false" />
+										<set_value name="$isOk" exact="
+											event.name == 'event_cue_signalled'
+											or
+											(
+												(not @$attentionNearbyAndNearer.indexof.{@event.param})
+												and
+												@$attentionNearbyAndNearer.indexof.{@event.param2}
+											)
+										" />
+										<do_if value="$isOk">
+											<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
+											<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+											<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<cancel_cue cue="parent" />
+											<reset_cue cue="this" />
+										</do_if>
+										<do_else>
+											<reset_cue cue="this" />
+										</do_else>
+									</actions>
+								</cue>
+								<cue name="K_ArriveStation2">
+									<actions>
+										<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="K_DepartStation" />
+										<do_if value="$isTeleport">
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$teleportTo = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+										</do_if>
+										<do_else>
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$arriveAt = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+										</do_else>
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="K_DockedAtStation">
+									<conditions>
+										<!-- Event for the specified object docking (object = docking object, param = dock object, param2 = zone) -->
+										<event_object_docked group="global.$PlayerContainerGroup" />
+										<check_value value="event.param.isclass.station" />
+										<check_value value="@event.param.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
+									</conditions>
+									<actions>
+										<!-- <raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation player.station ' + @$player.station.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" /> -->
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
+										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$dockAt = md.Notifications.Init.$kuertee_station_current]" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_DockedAtStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="K_UndockedFromStation">
+									<conditions>
+										<!-- Event for the specified object undocking (object = undocking object, param = dock, param2 = zone) -->
+										<event_object_undocked group="global.$PlayerContainerGroup" />
+										<check_value value="event.param.isclass.station" />
+										<check_value value="@event.param.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
+									</conditions>
+									<actions>
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
+										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$undockFrom = md.Notifications.Init.$kuertee_station_current]" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_UndockedFromStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_UndockedFromStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+						<cue name="K_ArriveAndLeaveStations_Debug" namespace="this">
+							<conditions>
+								<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+								<check_value value="event.param3.$text == 'kuertee debug K_ArriveAndLeaveStations'" />
+							</conditions>
+							<actions>
+								<debug_text text="@event.param3" />
+								<raise_lua_event name="'Chat_Window_API.Print'" param="@event.param3.$text" />
+								<do_if value="@md.Notifications.Init.$kuertee_debugChance">
+									<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
+								</do_if>
+								<do_else>
+									<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="100" />
+								</do_else>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="K_ArriveAndLeaveStations_Init2" namespace="this">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<!-- save station current -->
+						<set_value name="$station_current" exact="@md.Notifications.Init.$kuertee_station_current" />
+						<do_if value="not @$station_current.exists">
+							<set_value name="$station_current" exact="@K_ArriveAndLeaveStations.$kuertee_station_current" />
+							<do_if value="not @$station_current.exists">
+								<set_value name="$station_current" exact="@K_ArriveAndLeaveStations.$station_current" />
+							</do_if>
+						</do_if>
+						<debug_text text="'$station_current: ' + $station_current + ' (' + @$station_current.knownname + ')'" />
+						<do_if value="@md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
+							<!-- deregister at every load -->
+							<remove_value name="md.Notifications.Init.$kuertee_ArriveAndLeaveStations" />
+						</do_if>
+						<set_value name="$initDelay" min="0.0s" max="1.0s" />
+						<debug_text text="'$initDelay: ' + $initDelay" />
+						<!-- reset cue at every load -->
+						<reset_cue cue="K_ArriveAndLeaveStations" />
+					</actions>
+					<cues>
+						<cue name="K_ArriveAndLeaveStations_Init3" checktime="player.age + $initDelay">
+							<actions>
+								<do_if value="not @md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
+									<!-- no K_ArriveAndLeaveStations registered -->
+									<!-- register this K_ArriveAndLeaveStations -->
+									<set_value name="md.Notifications.Init.$kuertee_ArriveAndLeaveStations" exact="K_ArriveAndLeaveStations" />
+									<debug_text text="'$kuertee_ArriveAndLeaveStations: ' + @md.Notifications.Init.$kuertee_ArriveAndLeaveStations" />
+								</do_if>
+								<do_else>
+									<!-- cancel this K_ArriveAndLeaveStations, so only one exists -->
+									<debug_text text="'cancel_cue ' + K_ArriveAndLeaveStations" />
+									<cancel_cue cue="K_ArriveAndLeaveStations" />
+									<reset_cue cue="parent" />
+								</do_else>
+							</actions>
+							<cues>
+								<cue name="K_ArriveAndLeaveStations_Init4">
+									<actions>
+										<do_if value="not @$station_current.exists">
+											<find_station name="$station" sortbydistanceto="player.entity" />
+											<do_if value="[attention.nearby, attention.adjacentroom, attention.inroom].indexof.{$station.attention}">
+												<set_value name="$station_current" exact="$station" />
+												<debug_text text="'$station_current (found nearby): ' + $station_current + ' (' + $station_current.knownname + ')'" />
+											</do_if>
+											<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
+										</do_if>
+										<do_if value="@$station_current.exists">
+											<!-- if there was a $station_current, prepare K_ArriveAndLeaveStations with it -->
+											<!-- this is required so that K_DepartStation can continue with $station_current -->
+											<!-- <debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" /> -->
+											<!-- <signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" /> -->
+											<!-- <reset_cue cue="K_ArriveAndLeaveStations_Init2" /> -->
+										</do_if>
+									</actions>
+									<cues>
+										<cue name="K_ArriveAndLeaveStations_Init5">
+											<actions>
+												<debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" />
+												<signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" />
+												<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
+											</actions>
+										</cue>
+									</cues>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="K_ArriveAndLeaveStations_FirstRun2">
+					<actions>
+						<signal_cue cue="K_ArriveAndLeaveStations_Init2" />
+					</actions>
+				</cue>
+				<cue name="OnModInstall">
+					<actions>
+						<debug_text text="'$debugChance: ' + $debugChance" />
+						<signal_cue_instantly cue="Init" />
+					</actions>
+				</cue>
+				<cue name="OnModInstallComplete" checktime="player.age + 1s">
+					<actions>
+						<set_value name="$debugChance" exact="0" />
+						<debug_text text="'$debugChance: ' + $debugChance" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+		<library name="UnlockRooms">
+			<actions>
+				<debug_text text="'UnlockRooms'" chance="kHSRAL.$debugChance" />
+				<debug_text text="'$key.$station: ' + $key.$station + ' (' + $key.$station.name + ')'" chance="kHSRAL.$debugChance" />
+				<do_if value="$key.$roomType == roomtype.infrastructure">
+					<find_room name="$highSecRooms" object="$key.$station" multiple="true" roomtype="roomtype.infrastructure" />
+				</do_if>
+				<do_else value="$key.$roomType == roomtype.security">
+					<find_room name="$highSecRooms" object="$key.$station" multiple="true" roomtype="roomtype.security" />
+				</do_else>
+				<do_all counter="$i" exact="$highSecRooms.count">
+					<set_value name="kHSRAL.$unlockedRoomsData.{$highSecRooms.{$i}}" exact="$highSecRooms.{$i}.dynamicinterior" />
+				</do_all>
+				<do_if value="ValidateSecuredAndUnlockedRoomsData.state == cuestate.waiting">
+					<signal_cue_instantly cue="ValidateSecuredAndUnlockedRoomsData" />
+				</do_if>
+				<set_value name="player.entity.$unlockedRoomsData" exact="kHSRAL.$unlockedRoomsData" />
+				<debug_text text="'player.entity.$unlockedRoomsData: ' + player.entity.$unlockedRoomsData" chance="kHSRAL.$debugChance" />
+			</actions>
+		</library>
+		<library name="RelockRooms">
+			<actions>
+				<debug_text text="'RelockRooms'" chance="kHSRAL.$debugChance" />
+				<debug_text text="'$key.$station: ' + $key.$station + ' (' + $key.$station.name + ')'" chance="kHSRAL.$debugChance" />
+				<do_if value="$key.$roomType == roomtype.infrastructure">
+					<find_room name="$highSecRooms" object="$key.$station" multiple="true" roomtype="roomtype.infrastructure" />
+				</do_if>
+				<do_else value="$key.$roomType == roomtype.security">
+					<find_room name="$highSecRooms" object="$key.$station" multiple="true" roomtype="roomtype.security" />
+				</do_else>
+				<do_all counter="$i" exact="$highSecRooms.count">
+					<remove_value name="kHSRAL.$unlockedRoomsData.{$highSecRooms.{$i}}" />
+				</do_all>
+				<do_if value="ValidateSecuredAndUnlockedRoomsData.state == cuestate.waiting">
+					<signal_cue_instantly cue="ValidateSecuredAndUnlockedRoomsData" />
+				</do_if>
+				<set_value name="player.entity.$unlockedRoomsData" exact="kHSRAL.$unlockedRoomsData" />
+				<debug_text text="'player.entity.$unlockedRoomsData: ' + player.entity.$unlockedRoomsData" chance="kHSRAL.$debugChance" />
+			</actions>
+		</library>
+		<library name="RemoveKey">
+			<actions>
+				<debug_text text="'$key.$station: ' + $key.$station + ' (' + $key.$station.name + ')'" chance="kHSRAL.$debugChance" />
+				<debug_text text="'kHSRAL.$keys.{$key.$station}: ' + kHSRAL.$keys.{$key.$station}" chance="kHSRAL.$debugChance" />
+				<remove_value name="kHSRAL.$keys.{$key.$station}.$roomTypes.{$key.$roomType}" />
+				<do_if value="not kHSRAL.$keys.{$key.$station}.$roomTypes.keys.count">
+					<remove_value name="kHSRAL.$keys.{$key.$station}" />
+				</do_if>
+				<debug_text text="'kHSRAL.$keys.{$key.$station}: ' + @kHSRAL.$keys.{$key.$station}" chance="kHSRAL.$debugChance" />
+			</actions>
+		</library>
+		<library name="CreateNPC">
+			<actions>
+				<set_value name="$economicFactions" exact="kHSRAL.$validFactions" />
+				<get_factions_by_relation result="$factionsNeutral" relation="neutral" faction="$key.$station.owner" />
+				<set_value name="$validFactions" exact="[]" />
+				<do_all counter="$i" exact="$factionsNeutral.count">
+					<do_if value="$economicFactions.indexof.{$factionsNeutral.{$i}}">
+						<append_to_list name="$validFactions" exact="$factionsNeutral.{$i}" />
+					</do_if>
+				</do_all>
+				<set_value name="$factionNeutral" exact="$validFactions.random" />
+				<set_value name="$factionNonFriendly" exact="$factionNeutral" />
+				<create_cue_actor cue="namespace" name="$npc">
+					<select faction="$factionNonFriendly" />
+					<owner exact="$factionNonFriendly" />
+				</create_cue_actor>
+				<set_entity_type entity="$npc" type="entitytype.crowd" />
+				<!-- <set_entity_role entity="$npc" role="entityrole.service"/> -->
+				<set_entity_traits entity="$npc" missionactor="true" />
+				<debug_text text="'$npc: ' + $npc + ' owner: ' + @$npc.owner" chance="kHSRAL.$debugChance" />
+			</actions>
+		</library>
+		<library name="GetMissionData">
+			<actions>
+				<set_value name="$missionName" exact="{81918112, 301} + ': ' + $key.$station.name + ' (' + $key.$station.idcode + ')'" comment="{81918112, 301} = high security room" />
+				<set_value name="$missionDescription" exact="''" />
+				<do_if value="$key.$roomType == roomtype.infrastructure">
+					<set_value name="$missionDescription" exact="$missionDescription + {81918112, 301} + ': ' + {20007, 1051} + '\n'" comment="{81918112, 301} = high security room, {20007, 1051} = engineering section" />
+				</do_if>
+				<do_elseif value="$key.$roomType == roomtype.security">
+					<set_value name="$missionDescription" exact="$missionDescription + {81918112, 301} + ': ' + {20007, 1041} + '\n'" comment="{81918112, 301} = high security room, {20007, 1041} = security office" />
+				</do_elseif>
+				<set_value name="$missionDescription" exact="$missionDescription + {1001, 3}  + ': ' + $key.$station.name + ' (' + $key.$station.idcode + ')\n'" comment="station" />
+				<set_value name="$missionEndTime" exact="10min" />
+			</actions>
+		</library>
+		<cue name="MissionAccessType1" instantiate="true" namespace="this" version="4">
+			<patch sinceversion="2">
+				<debug_text text="'patch sinceversion 2, this.state: ' + this.state" />
+				<set_value name="kHSRAL.$debugChance" exact="100" />
+				<signal_cue cue="AccessType1CleanUp" />
+				<set_value name="kHSRAL.$debugChance" exact="0" />
+			</patch>
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<set_value name="$key" exact="event.param" />
+				<debug_text text="'$key: ' + $key" chance="kHSRAL.$debugChance" />
+				<include_actions ref="GetMissionData" />
+				<create_mission cue="namespace"
+					name="$missionName"
+					faction="faction.player"
+					type="missiontype.other"
+					description="{81918112, 10100} + '\n' + $missionDescription"
+					endtime="player.age + $missionEndTime"
+					comment="{81918112, 10100} = use the transporter room entry code">
+					<briefing>
+						<objective step="1"
+							action="objective.custom"
+							customaction="{81918112, 10101}"
+							comment="{81918112, 10101} = Use the Transporter Room" />
+					</briefing>
+				</create_mission>
+				<set_value name="$isRoomUnlocked" exact="true" />
+				<include_actions ref="UnlockRooms" />
+				<set_value name="$lastRoom" exact="player.room" />
+				<set_value name="$objectiveVer" exact="0" />
+			</actions>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, this.state: ' + this.state" />
+				<set_value name="$lastRoom" exact="player.room" />
+			</patch>
+			<patch sinceversion="4">
+				<debug_text text="'patch sinceversion 4, this.state: ' + this.state" />
+				<set_value name="$objectiveVer" exact="0" />
+			</patch>
+			<cues>
+				<cue name="AccessType1Update">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_object_docking_started group="global.$PlayerOccupiedShipGroup" dock="$key.$station" />
+							<check_all>
+								<event_object_changed_room object="player.entity" />
+								<check_value value="player.station == $key.$station" />
+								<check_value value="player.room != $lastRoom" />
+							</check_all>
+							<event_object_undocking_started group="global.$PlayerOccupiedShipGroup" dock="$key.$station" />
+						</check_any>
+					</conditions>
+					<actions>
+						<debug_text text="'event.name: ' + event.name + ' event.param: ' + event.param + ' (' + @event.param.knownname + ')'" chance="kHSRAL.$debugChance" />
+						<set_value name="$lastRoom" exact="player.room" />
+						<do_if value="event.name == 'event_object_docking_started' or event.name == 'event_object_changed_room'">
+							<do_if value="$isRoomUnlocked">
+								<include_actions ref="UnlockRooms" />
+							</do_if>
+						</do_if>
+						<do_elseif value="event.name == 'event_object_undocking_started'">
+							<include_actions ref="RelockRooms" />
+						</do_elseif>
+						<do_if value="(event.name == 'event_object_undocking_started' or player.station != $key.$station) and $objectiveVer != 1">
+							<set_value name="$objectiveVer" exact="1" />
+							<set_objective cue="namespace" step="1"
+								action="objective.dockat"
+								object="$key.$station" />
+						</do_if>
+						<do_elseif value="$objectiveVer != 2">
+							<find_room groupname="$lockedRooms" object="$key.$station" multiple="true" roomtype="$key.$roomType" />
+							<set_value name="$objectiveVer" exact="2" />
+							<set_objective cue="namespace" step="1"
+								action="objective.goto"
+								object="$lockedRooms.{1}.dynamicinterior"
+								comment="{81918112, 10101} = Use the Transporter Room" />
+						</do_elseif>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="SignalAccessType1Update">
+					<actions>
+						<signal_cue_instantly cue="AccessType1Update" />
+						<cancel_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="AccessType1CleanUp">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_mission_aborted cue="namespace" />
+						</check_any>
+					</conditions>
+					<actions>
+						<include_actions ref="RelockRooms" />
+						<include_actions ref="RemoveKey" />
+						<remove_mission cue="namespace" />
+						<reset_cue cue="this" />
+						<cancel_cue cue="namespace" />
+					</actions>
+				</cue>
+				<cue name="AccessType1Timer" checktime="player.age + $missionEndTime">
+					<actions>
+						<signal_cue cue="AccessType1CleanUp" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="MissionAccessType2" instantiate="true" namespace="this" version="3">
+			<patch sinceversion="2">
+				<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+				<set_value name="kHSRAL.$debugChance" exact="100" />
+				<signal_cue cue="AccessType2CleanUp" />
+				<set_value name="kHSRAL.$debugChance" exact="0" />
+			</patch>
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<set_value name="$key" exact="event.param" />
+				<debug_text text="'$key: ' + $key" chance="kHSRAL.$debugChance" />
+				<set_value name="$npc" exact="null" />
+				<find_signalleak_location name="$slot" container="$key.$station" />
+				<create_signal_leak name="$hackerSignalLeak" type="signalleaktype.voice" object="$key.$station" slot="$slot" macro="macro.signalleak_s_standard_01_macro" />
+				<set_value name="$isRoomUnlocked" exact="false" />
+				<set_value name="$signalLeakUnlocked" exact="null" />
+				<set_value name="$lastRoom" exact="player.room" />
+				<set_value name="$objectiveVer" exact="0" />
+			</actions>
+			<patch sinceversion="2">
+				<debug_text text="'patch sinceversion 2, this.state: ' + this.state" />
+				<set_value name="$lastRoom" exact="player.room" />
+			</patch>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, this.state: ' + this.state" />
+				<set_value name="$objectiveVer" exact="0" />
+			</patch>
+			<cues>
+				<cue name="AccessType2Update">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_object_docking_started group="global.$PlayerOccupiedShipGroup" dock="$key.$station" />
+							<check_all>
+								<event_object_changed_room object="player.entity" />
+								<check_value value="player.station == $key.$station" />
+								<check_value value="player.room != $lastRoom" />
+							</check_all>
+							<event_object_undocking_started group="global.$PlayerOccupiedShipGroup" dock="$key.$station" />
+						</check_any>
+					</conditions>
+					<actions>
+						<debug_text text="'event.name: ' + event.name + ' event.param: ' + event.param + ' (' + @event.param.knownname + ')'" chance="kHSRAL.$debugChance" />
+						<set_value name="$lastRoom" exact="player.room" />
+						<do_if value="event.name == 'event_object_docking_started' or event.name == 'event_object_changed_room'">
+							<do_if value="$isRoomUnlocked">
+								<include_actions ref="UnlockRooms" />
+							</do_if>
+						</do_if>
+						<do_elseif value="event.name == 'event_object_undocking_started'">
+							<include_actions ref="RelockRooms" />
+						</do_elseif>
+						<do_if value="not namespace.hasmission">
+							<include_actions ref="GetMissionData" />
+							<create_mission cue="namespace"
+								name="$missionName"
+								faction="faction.player"
+								type="missiontype.scan"
+								description="{81918112, 10200} + '\n' + $missionDescription"
+								comment="{81918112, 10200} = Contact the hacker and they will hack the Transporter Room">
+								<briefing>
+									<objective step="1"
+										action="objective.scan"
+										object="$hackerSignalLeak"
+										text="{81918112, 10201}"
+										comment="{81918112, 10201} = Contact the Transporter Room hacker" />
+									<objective step="2"
+										action="objective.custom"
+										customaction="{81918112, 10101}"
+										comment="{81918112, 10101} = Use the Transporter Room" />
+								</briefing>
+							</create_mission>
+						</do_if>
+						<set_value name="$objectiveStep" exact="1" />
+						<do_if value="$isRoomUnlocked">
+							<set_value name="$objectiveStep" exact="2" />
+						</do_if>
+						<do_if value="$objectiveStep == 1 and $objectiveVer != 1">
+							<set_value name="$objectiveVer" exact="1" />
+							<set_objective cue="namespace" step="$objectiveStep"
+								action="objective.scan"
+								object="$hackerSignalLeak"
+								comment="{81918112, 10201} = Contact the Transporter Room hacker" />
+						</do_if>
+						<do_elseif value="$signalLeakUnlocked">
+							<do_if value="(event.name == 'event_object_undocking_started' or player.station != $key.$station) and $objectiveVer != 2">
+								<set_value name="$objectiveVer" exact="2" />
+								<set_objective cue="namespace" step="$objectiveStep"
+									action="objective.dockat"
+									object="$key.$station" />
+							</do_if>
+							<do_elseif value="$objectiveVer != 3">
+								<set_value name="$objectiveVer" exact="3" />
+								<find_room groupname="$lockedRooms" object="$key.$station" multiple="true" roomtype="$key.$roomType" />
+								<set_objective cue="namespace" step="$objectiveStep"
+									action="objective.goto"
+									object="$lockedRooms.{1}.dynamicinterior"
+									comment="{81918112, 10101} = Use the Transporter Room" />
+							</do_elseif>
+						</do_elseif>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="SignalAccessType2Update">
+					<actions>
+						<signal_cue_instantly cue="AccessType2Update" />
+					</actions>
+				</cue>
+				<cue name="AccessType2CleanUp">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_mission_aborted cue="namespace" />
+						</check_any>
+					</conditions>
+					<actions>
+						<include_actions ref="RelockRooms" />
+						<include_actions ref="RemoveKey" />
+						<remove_mission cue="namespace" />
+						<destroy_object object="$hackerSignalLeak" />
+						<do_if value="$npc">
+							<destroy_object object="$npc" />
+						</do_if>
+						<reset_cue cue="this" />
+						<debug_text text="'cancel_cue ' + namespace" chance="kHSRAL.$debugChance" />
+						<cancel_cue cue="namespace" />
+					</actions>
+				</cue>
+				<cue name="OnAccessType2HackerSignalScanned">
+					<conditions>
+						<event_player_signal_unlock_finished signal="$hackerSignalLeak" />
+					</conditions>
+					<actions>
+						<debug_text text="'event.param: ' + event.param" chance="kHSRAL.$debugChance" />
+						<debug_text text="'$hackerSignalLeak: ' + $hackerSignalLeak" chance="kHSRAL.$debugChance" />
+						<do_if value="event.param == $hackerSignalLeak">
+							<set_value name="$signalLeakUnlocked" exact="event.param" />
+							<include_actions ref="CreateNPC" />
+							<set_value name="$caption" exact="$key.$codePhrase" />
+							<signal_cue_instantly cue="PilotCutscenePlay" param="table[$cue = namespace, $caption = $caption, $npc = $npc, $interactionParam = 'OnAccessType2StartConversation', $interactionParam2 = $hackerSignalLeak]" />
+						</do_if>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnAccessType2StartConversation">
+					<conditions>
+						<event_player_interaction param="'OnAccessType2StartConversation'" param2="$hackerSignalLeak" />
+					</conditions>
+					<actions>
+						<debug_text text="'event.param2: ' + event.param2" chance="kHSRAL.$debugChance" />
+						<debug_text text="'$hackerSignalLeak: ' + $hackerSignalLeak" chance="kHSRAL.$debugChance" />
+						<do_if value="$cutscene">
+							<stop_cutscene cutscene="$cutscene" />
+						</do_if>
+						<start_conversation actor="$npc" conversation="kHSRALAccessType2_passphrase_conversation" convparam="$hackerSignalLeak" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnAccessType2ConversationStarted">
+					<conditions>
+						<check_any>
+							<event_conversation_started conversation="kHSRALAccessType2_passphrase_conversation" convparam="$hackerSignalLeak" />
+							<event_conversation_next_section section="kHSRALAccessType2_passphrase_what" choiceparam="$hackerSignalLeak" />
+						</check_any>
+					</conditions>
+					<actions>
+						<do_if value="event.name == 'event_conversation_next_section'">
+							<add_npc_line actor="$npc" page="81918112" line="$key.$codePhraseLine" hidechoices="true" />
+						</do_if>
+						<add_player_choice text="$key.$codePhraseReply" section="kHSRALAccessType2_passphrase_reply" choiceparam="$hackerSignalLeak" />
+						<add_player_choice text="{81918112, 11000}" position="bottom_right" section="kHSRALAccessType2_passphrase_what" choiceparam="$hackerSignalLeak" comment="What?" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnAccessType2PassphraseReply">
+					<conditions>
+						<event_conversation_next_section section="kHSRALAccessType2_passphrase_reply" choiceparam="$hackerSignalLeak" />
+					</conditions>
+					<actions>
+						<do_if value="$signalLeakUnlocked == $hackerSignalLeak">
+							<set_value name="$caption" exact="{81918112, 11001}" comment="Ok, the Transporter Room is hacked." />
+							<signal_cue_instantly cue="PilotCutscenePlay" param="table[$cue = namespace, $caption = $caption, $npc = $npc]" />
+							<do_if value="not $isRoomUnlocked">
+								<signal_cue cue="AccessType2StartTimeout" param="table[$station = $key.$station]" />
+							</do_if>
+							<reset_cue cue="this" />
+						</do_if>
+					</actions>
+				</cue>
+				<cue name="AccessType2StartTimeout">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_conversation_finished outcome="kHSRALAccessType2_passphrase_conversation" outcomeparam="$hackerSignalLeak" />
+							<event_conversation_finished outcome="kHSRALAccessType2_passphrase_reply" outcomeparam="$hackerSignalLeak" />
+							<event_conversation_finished outcome="kHSRALAccessType2_passphrase_what" outcomeparam="$hackerSignalLeak" />
+						</check_any>
+						<check_value value="not $isRoomUnlocked" />
+					</conditions>
+					<actions>
+						<destroy_object object="$hackerSignalLeak" />
+						<destroy_object object="$npc" />
+						<set_value name="$isRoomUnlocked" exact="true" />
+						<signal_cue_instantly cue="AccessType2Update" />
+						<update_mission cue="namespace" endtime="player.age + $missionEndTime" />
+					</actions>
+					<cues>
+						<cue name="AccessType2Timeout" checktime="player.age + $missionEndTime">
+							<actions>
+								<signal_cue cue="AccessType2CleanUp" />
+								<reset_cue cue="this" />
+								<reset_cue cue="parent" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+			</cues>
+		</cue>
+		<library name="AddNPCToMeetingRoom">
+			<actions>
+				<find_object_component name="$npcsInStation" class="class.npc" object="$key.$station" multiple="true" />
+				<!-- <set_value name="$rooms" exact="table[$room = null, $npcCount = 0, $npcSlots = []]" /> -->
+				<set_value name="$rooms" exact="table[]" />
+				<set_value name="$npcInStation" exact="null" />
+				<set_value name="$mostNPCCount" exact="0" />
+				<set_value name="$mostCrowdedRoom" exact="null" />
+				<do_all counter="$i" exact="$npcsInStation.count">
+					<set_value name="$npcInStation" exact="$npcsInStation.{$i}" />
+					<do_if value="$npcInStation.roomslot">
+						<set_value name="$room" exact="$npcInStation.roomslot.component" />
+						<do_if value="not kHSRAL.$securedRooms.indexof.{$room}">
+							<do_if value="$room.type != roomtype.bar and $room.type != roomtype.manager and $room.type != roomtype.factionrep and $room.type != roomtype.prison">
+								<do_if value="kHSRAL.$debugChance and not @$npc">
+									<set_value name="$npc" exact="$npcInStation" />
+								</do_if>
+								<do_if value="not $rooms.{$room}?">
+									<set_value name="$rooms.{$room}" exact="table[$npcCount = 0]" />
+								</do_if>
+								<set_value name="$rooms.{$room}.$npcCount" exact="$rooms.{$room}.$npcCount + 1" />
+								<do_if value="$rooms.{$room}.$npcCount ge $mostNPCCount">
+									<set_value name="$mostNPCCount" exact="$rooms.{$room}.$npcCount" />
+									<set_value name="$mostCrowdedRoom" exact="$room" />
+								</do_if>
+							</do_if>
+						</do_if>
+					</do_if>
+				</do_all>
+				<set_value name="$meetingRoom" exact="$mostCrowdedRoom" />
+				<debug_text text="'$mostNPCCount: ' + $mostNPCCount" chance="kHSRAL.$debugChance" />
+				<debug_text text="'$meetingRoom: ' + $meetingRoom + ' (' + @$meetingRoom.name + ')'" chance="kHSRAL.$debugChance" />
+				<remove_value name="$npcsInStation" />
+				<remove_value name="$rooms" />
+				<remove_value name="$npcInStation" />
+				<remove_value name="$mostNPCCount" />
+				<remove_value name="$mostCrowdedRoom" />
+				<set_value name="$meetingRoomSlot" exact="null" />
+				<do_if value="$meetingRoom">
+					<find_npc_slot name="$roomSlots" object="$meetingRoom" multiple="true" />
+					<find_npc_waypoint name="$roomSlots" object="$meetingRoom" multiple="true" append="true" />
+					<debug_text text="'$roomSlots: ' + $roomSlots" chance="kHSRAL.$debugChance" />
+					<shuffle_list list="$roomSlots" />
+					<do_all counter="$i" exact="$roomSlots.count">
+						<do_if value="not $roomSlots.{$i}.tags.indexof.{tag.npctransport} and not $roomSlots.{$i}.tags.indexof.{tag.airmarshal}">
+							<set_value name="$meetingRoomSlot" exact="$roomSlots.{$i}" />
+							<break />
+						</do_if>
+					</do_all>
+					<debug_text text="'$meetingRoomSlot: ' + $meetingRoomSlot + ' $meetingRoomSlot.tags: ' + @$meetingRoomSlot.tags" chance="kHSRAL.$debugChance" />
+					<remove_value name="$roomSlots" />
+				</do_if>
+				<do_if value="$meetingRoomSlot">
+					<add_actor_to_room actor="$npc" slot="$meetingRoomSlot" result="$isActorInRoom" />
+					<!-- <remove_value name="$meetingRoomSlot" /> -->
+					<!-- <add_actor_to_room actor="$npc" room="$meetingRoom" /> -->
+				</do_if>
+				<do_else>
+					<signal_cue_instantly cue="AddNPCToNewRoom" param="table[$cue = namespace, $npcInRoom = $npc, $stationOfRoom = $key.$station]" />
+					<set_value name="$meetingRoomSlot" exact="$npcSlot" />
+				</do_else>
+			</actions>
+		</library>
+		<cue name="MissionAccessType3" instantiate="true" namespace="this" version="5">
+			<patch sinceversion="2">
+				<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+				<set_value name="kHSRAL.$debugChance" exact="100" />
+				<signal_cue cue="AccessType3CleanUp" />
+				<set_value name="kHSRAL.$debugChance" exact="0" />
+			</patch>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, state: ' + this.state" />
+				<set_value name="$transporterSlot" exact="null" />
+			</patch>
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<set_value name="$key" exact="event.param" />
+				<debug_text text="'$key: ' + $key" chance="kHSRAL.$debugChance" />
+				<include_actions ref="CreateNPC" />
+				<set_value name="$meetingRoomSlot" exact="null" />
+				<set_value name="$meetingRoom" exact="null" />
+				<set_value name="$isPassphraseCheckComplete" exact="false" />
+				<set_value name="$isRoomUnlocked" exact="false" />
+				<set_value name="$isActorInRoom" exact="false" />
+				<set_value name="$transporterSlot" exact="null" />
+				<!-- <create_group groupname="$npcsInRoom" /> -->
+				<do_if value="player.station == $key.$station">
+					<include_actions ref="AddNPCToMeetingRoom" />
+				</do_if>
+				<set_value name="$lastRoom" exact="player.room" />
+				<set_value name="$objectiveVer" exact="0" />
+			</actions>
+			<patch sinceversion="4">
+				<debug_text text="'patch sinceversion 4, this.state: ' + this.state" />
+				<set_value name="$lastRoom" exact="player.room" />
+			</patch>
+			<patch sinceversion="5">
+				<debug_text text="'patch sinceversion 5, this.state: ' + this.state" />
+				<set_value name="$objectiveVer" exact="0" />
+			</patch>
+			<cues>
+				<cue name="AccessType3Update">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_object_docking_started group="global.$PlayerOccupiedShipGroup" dock="$key.$station" />
+							<check_all>
+								<event_object_changed_room object="player.entity" />
+								<check_value value="player.station == $key.$station" />
+								<check_value value="player.room != $lastRoom" />
+							</check_all>
+							<event_object_undocking_started group="global.$PlayerOccupiedShipGroup" dock="$key.$station" />
+						</check_any>
+					</conditions>
+					<actions>
+						<debug_text text="'event.name: ' + event.name + ' event.param: ' + event.param + ' (' + @event.param.knownname + ')'" chance="kHSRAL.$debugChance" />
+						<set_value name="$lastRoom" exact="player.room" />
+						<do_if value="event.name == 'event_object_docking_started' or event.name == 'event_object_changed_room'">
+							<do_if value="$isRoomUnlocked">
+								<include_actions ref="UnlockRooms" />
+							</do_if>
+							<do_if value="not $isActorInRoom">
+								<include_actions ref="AddNPCToMeetingRoom" />
+							</do_if>
+						</do_if>
+						<do_elseif value="event.name == 'event_object_undocking_started'">
+							<include_actions ref="RelockRooms" />
+							<set_value name="$isActorInRoom" exact="false" />
+							<remove_actor_from_room actor="$npc" />
+							<do_if value="not $isRoomUnlocked">
+								<set_value name="$isPassphraseCheckComplete" exact="false" />
+								<reset_cue cue="OnAccessType3PassphraseReply" />
+							</do_if>
+						</do_elseif>
+						<do_if value="not namespace.hasmission">
+							<include_actions ref="GetMissionData" />
+							<create_mission cue="namespace"
+								name="$missionName"
+								faction="faction.player"
+								type="missiontype.talkto"
+								description="{81918112, 10300} + '\n' + $missionDescription"
+								comment="{81918112, 10300} = Contact the inside operative to allow you through the Transporter Room">
+								<briefing>
+									<objective step="1"
+										action="objective.talkto"
+										object="$npc"
+										text="{81918112, 10301}"
+										comment="{81918112, 10301} = Make contact with the operative" />
+									<objective step="2"
+										action="objective.custom"
+										customaction="{81918112, 10302}"
+										comment="{81918112, 10302} = Wait for the operative's signal" />
+									<objective step="3"
+										action="objective.custom"
+										customaction="{81918112, 10101}"
+										comment="{81918112, 10101} = Use the Transporter Room" />
+								</briefing>
+							</create_mission>
+						</do_if>
+						<set_value name="$objectiveStep" exact="1" />
+						<debug_text text="'$isRoomUnlocked: ' + $isRoomUnlocked" chance="kHSRAL.$debugChance" />
+						<debug_text text="'$isPassphraseCheckComplete: ' + $isPassphraseCheckComplete" chance="kHSRAL.$debugChance" />
+						<do_if value="$isRoomUnlocked">
+							<set_value name="$objectiveStep" exact="3" />
+						</do_if>
+						<do_elseif value="$isPassphraseCheckComplete">
+							<set_value name="$objectiveStep" exact="2" />
+						</do_elseif>
+						<do_if value="(event.name == 'event_object_undocking_started' or player.station != $key.$station) and $objectiveVer != 1">
+							<set_value name="$objectiveVer" exact="1" />
+							<set_objective cue="namespace" step="$objectiveStep"
+								action="objective.dockat"
+								object="$key.$station" />
+						</do_if>
+						<do_else>
+							<debug_text text="'$objectiveStep: ' + $objectiveStep" chance="kHSRAL.$debugChance" />
+							<debug_text text="'$objectiveVer: ' + $objectiveVer" chance="kHSRAL.$debugChance" />
+							<do_if value="$objectiveStep == 1 and $objectiveVer != 2">
+								<set_value name="$objectiveVer" exact="2" />
+								<set_objective cue="namespace" step="1"
+									action="objective.talkto"
+									object="$npc"
+									comment="{81918112, 10301} = Make contact with the operative" />
+							</do_if>
+							<do_elseif value="$objectiveStep == 2 and $objectiveVer != 3">
+								<set_value name="$objectiveVer" exact="3" />
+								<set_objective cue="namespace" step="2"
+									action="objective.custom"
+									customaction="{81918112, 10302}"
+									comment="{81918112, 10302} = Wait for the operative's signal" />
+							</do_elseif>
+							<do_elseif value="$objectiveStep == 3 and $objectiveVer != 4">
+								<find_room groupname="$lockedRooms" object="$key.$station" multiple="true" roomtype="$key.$roomType" />
+								<set_value name="$objectiveVer" exact="4" />
+								<set_objective cue="namespace" step="3"
+									action="objective.goto"
+									object="$lockedRooms.{1}.dynamicinterior"
+									comment="{81918112, 10101} = Use the Transporter Room" />
+							</do_elseif>
+						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="SignalAccessType3Update">
+					<actions>
+						<signal_cue_instantly cue="AccessType3Update" />
+					</actions>
+				</cue>
+				<cue name="AccessType3CleanUp">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_mission_aborted cue="namespace" />
+						</check_any>
+					</conditions>
+					<actions>
+						<include_actions ref="RelockRooms" />
+						<include_actions ref="RemoveKey" />
+						<remove_mission cue="namespace" />
+						<do_if value="$npc">
+							<signal_cue_instantly cue="md.NPC_Instantiation.NPC_Placement_Manager" param="['remove_request', $npc, namespace]" />
+							<destroy_object object="$npc" />
+						</do_if>
+						<reset_cue cue="this" />
+						<cancel_cue cue="namespace" />
+					</actions>
+				</cue>
+				<cue name="OnAccessType3ConversationStarted">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<check_all>
+								<check_any>
+									<event_conversation_started conversation="default" />
+									<!-- <event_conversation_next_section section="kHSRALAccessType3_passphrase_what" />
+									<event_conversation_next_section section="kHSRALAccessType3_spawn_elsewhere" /> -->
+									<event_conversation_next_section sectionprefix="kHSRALAccessType3_" />
+								</check_any>
+								<check_value value="event.object == $npc" />
+								<check_value value="event.param != 'kHSRALAccessType3_passphrase_reply'" />
+							</check_all>
+						</check_any>
+						<check_value value="not $isPassphraseCheckComplete" />
+					</conditions>
+					<actions>
+						<do_if value="event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists">
+							<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kHSRAL_operative" exact="table[
+								$signalCue = OnAccessType3ConversationStarted,
+								$params = event.param
+							]" />
+						</do_if>
+						<do_else>
+							<do_if value="event.param == 'kHSRALAccessType3_spawn_elsewhere'">
+								<set_value name="$isActorInRoom" exact="false" />
+								<include_actions ref="AddNPCToMeetingRoom" />
+								<signal_cue_instantly cue="AccessType3Update" />
+							</do_if>
+							<do_else>
+								<add_npc_line actor="$npc" page="81918112" line="$key.$codePhraseLine" hidechoices="true" />
+								<add_player_choice text="$key.$codePhraseReply" section="kHSRALAccessType3_passphrase_reply" comment="2" />
+								<add_player_choice text="{81918112, 11000}" position="bottom_right" section="kHSRALAccessType3_passphrase_what" comment="What?" />
+								<do_if value="kHSRAL.$debugChance">
+									<add_player_choice text="'debug: spawn elsewhere'" section="kHSRALAccessType3_spawn_elsewhere" />
+								</do_if>
+							</do_else>
+						</do_else>
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="OnAccessType3PassphraseReply" version="2">
+					<conditions>
+						<check_any>
+							<event_conversation_next_section section="kHSRALAccessType3_passphrase_reply" />
+							<event_conversation_finished outcome="kHSRALAccessType3_passphrase_reply" />
+						</check_any>
+						<check_value value="event.object == $npc" />
+						<check_value value="not $isPassphraseCheckComplete" />
+					</conditions>
+					<actions>
+						<add_npc_line actor="$npc" page="81918112" line="11002" hidechoices="true" comment="Ok, wait for my Comm." />
+						<find_room name="$lockedRooms" object="$key.$station" multiple="true" roomtype="$key.$roomType" />
+						<set_value name="$npcSlots" exact="[]" />
+						<!-- <do_all counter="$i" exact="$lockedRooms.count">
+							<debug_text text="'$lockedRooms.{$i}: ' + $lockedRooms.{$i} + ' ' + $lockedRooms.{$i}.knownname" chance="kHSRAL.$debugChance" />
+							<do_if value="$lockedRooms.{$i}.dynamicinterior">
+								<do_all counter="$j" exact="$lockedRooms.{$i}.dynamicinterior.rooms.count">
+									<debug_text text="'$lockedRooms.{$i}.dynamicinterior.rooms.{$j}: ' + $lockedRooms.{$i}.dynamicinterior.rooms.{$j} + ' ' + $lockedRooms.{$i}.dynamicinterior.rooms.{$j}.knownname" chance="kHSRAL.$debugChance" />
+									<find_npc_slot name="$npcSlots" object="$lockedRooms.{$i}.dynamicinterior.rooms.{$j}" excludefilled="false" multiple="true" append="true" />
+									<debug_text text="'$npcSlots (post find in dynamicinterior).count: ' + $npcSlots.count" chance="kHSRAL.$debugChance" />
+								</do_all>
+							</do_if>
+						</do_all> -->
+						<find_room name="$rooms" object="$key.$station" multiple="true" />
+						<do_for_each name="$room" in="$rooms">
+							<debug_text text="'$room: ' + $room + ' ' + $room.knownname" chance="kHSRAL.$debugChance" />
+							<do_if value="$room.dynamicinterior">
+								<find_npc_slot name="$npcSlots" object="$room" excludefilled="false" multiple="true" append="true" />
+								<debug_text text="'$npcSlots.count: ' + $npcSlots.count" chance="kHSRAL.$debugChance" />
+							</do_if>
+						</do_for_each>
+						<debug_text text="'$npcSlots: ' + $npcSlots" chance="kHSRAL.$debugChance" />
+						<set_value name="$npcSlot" exact="$npcSlots.random" />
+						<debug_text text="'$npcSlot: ' + $npcSlot" chance="kHSRAL.$debugChance" />
+						<debug_text text="'$npcSlot.component: ' + $npcSlot.component + ' ' + $npcSlot.component.knownname" chance="kHSRAL.$debugChance" />
+						<set_value name="$npcMovementTable" exact="table[$slot = $npcSlot]" />
+						<!-- <signal_objects object="$npc" param="'npc_move_to'" param2="$npcMovementTable.clone"/> -->
+						<set_value name="$Yaw" min="1" max="360" />
+						<set_value name="$Pitch" exact="0" />
+						<create_position name="$pos"
+							x="$npcSlot.offset.x + 0.25m * sin($Yaw * pi / 180) * cos($Pitch * pi / 180)"
+							y="$npcSlot.offset.y + 0.25m * sin($Pitch * pi / 180)"
+							z="$npcSlot.offset.z + 0.25m * cos($Yaw * pi / 180) * cos($Pitch * pi / 180)" />
+						<signal_cue_instantly cue="md.NPC_Instantiation.NPC_Placement_Manager" param="
+							['add_definition', $npc,
+								table[
+									$requestercue = this.namespace,
+									$priority = 100,
+									$location = $npcSlot.component,
+									$position = $pos,
+									$debugchance = kHSRAL.$debugChance]
+							]" />
+						<set_value name="$isPassphraseCheckComplete" exact="true" />
+						<signal_cue_instantly cue="AccessType3Update" />
+						<remove_value name="$lockedRooms" />
+						<remove_value name="$transporterSlots" />
+						<remove_value name="$npcMovementTable" />
+					</actions>
+					<!-- <patch sinceversion="2">
+						<set_value name="kHSRAL.$debugChance" exact="100" />
+						<debug_text text="'patch sinceversion 2'" chance="kHSRAL.$debugChance" />
+						<find_room name="$lockedRooms" object="$key.$station" multiple="true" roomtype="$key.$roomType" />
+						<set_value name="$npcSlots" exact="[]" />
+						<do_all counter="$i" exact="$lockedRooms.count">
+							<find_npc_slot name="$npcSlots" object="$lockedRooms.{$i}" excludefilled="true" multiple="true" />
+							<debug_text text="'$npcSlots.count: ' + $npcSlots.count" chance="kHSRAL.$debugChance" />
+							<do_if value="$lockedRooms.{$i}.dynamicinterior">
+								<do_all counter="$j" exact="$lockedRooms.{$i}.dynamicinterior.rooms.count">
+									<find_npc_slot name="$npcSlots" object="$lockedRooms.{$i}.dynamicinterior.rooms.{$j}" excludefilled="true" multiple="true" />
+									<debug_text text="'$npcSlots (post find in dynamicinterior).count: ' + $npcSlots.count" chance="kHSRAL.$debugChance" />
+								</do_all>
+							</do_if>
+						</do_all>
+						<debug_text text="'$npcSlots: ' + $npcSlots" chance="kHSRAL.$debugChance" />
+						<set_value name="$npcSlot" exact="$npcSlots.random" />
+						<debug_text text="'$npcSlot: ' + $npcSlot" chance="kHSRAL.$debugChance" />
+						<debug_text text="'$npcSlot.component: ' + $npcSlot.component" chance="kHSRAL.$debugChance" />
+						<set_value name="$npcMovementTable" exact="table[$slot = $npcSlot]" />
+						<signal_objects object="$npc" param="'npc_move_to'" param2="$npcMovementTable.clone"/>
+						<set_value name="kHSRAL.$debugChance" exact="0" />
+					</patch> -->
+					<cues>
+						<cue name="OnAccessType3NPCMoveToTimeout" checktime="player.age + 5min">
+							<actions>
+								<do_if value="not $isRoomUnlocked">
+									<signal_cue_instantly cue="OnAccessType3NPCChangeRoom" />
+								</do_if>
+								<reset_cue cue="this" />
+								<reset_cue cue="parent" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="OnAccessType3NPCChangeRoom">
+					<conditions>
+						<check_any>
+							<event_object_changed_room object="$npc" />
+							<event_cue_signalled />
+						</check_any>
+						<check_value value="$npc.room == $npcSlot.component" />
+						<check_value value="@player.station == $key.$station" />
+						<check_value value="not $isRoomUnlocked" />
+					</conditions>
+					<actions>
+						<debug_text text="'event.name: ' + event.name + ' event.param: ' + event.param + ' (' + event.param.name + ')'" chance="kHSRAL.$debugChance" />
+						<debug_text text="'$transporterSlot.component: ' + @$transporterSlot.component + ' (' + @$transporterSlot.component.name + ')'" chance="kHSRAL.$debugChance" />
+						<!-- <do_if value="@$transporterSlot.component == event.param"> -->
+						<!-- <speak actor="$npc" page="81918112" line="11003" comment="Ok, the Transporter Room is unlocked." /> -->
+						<signal_cue_instantly cue="PilotCutscenePlay" param="table[$caption = {81918112, 11003}, $npc = $npc]" />
+						<set_value name="$isRoomUnlocked" exact="true" />
+						<include_actions ref="UnlockRooms" />
+						<signal_cue_instantly cue="AccessType3Update" />
+						<signal_cue cue="AccessType3StartTimeout" />
+						<!-- </do_if> -->
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="AccessType3StartTimeout">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="'$missionEndTime: ' + $missionEndTime" chance="kHSRAL.$debugChance" />
+						<update_mission cue="namespace" endtime="player.age + $missionEndTime" />
+					</actions>
+					<cues>
+						<cue name="AccessType3Timeout" checktime="player.age + $missionEndTime">
+							<actions>
+								<debug_text text="'event.name: ' + event.name" chance="kHSRAL.$debugChance" />
+								<signal_cue cue="AccessType3CleanUp" />
+								<reset_cue cue="this" />
+								<reset_cue cue="parent" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="BlackMarketeerContacts" namespace="this" version="3">
+			<actions>
+				<set_value name="$missions" exact="table[]" />
+				<set_value name="$cue_bringItemMission" exact="null" />
+				<set_value name="$leak" exact="null" />
+			</actions>
+			<patch sinceversion="2">
+				<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+				<set_value name="$missions" exact="table[]" />
+			</patch>
+			<patch sinceversion="3">
+				<debug_text text="'patch sinceversion 3, state: ' + this.state" />
+				<set_value name="$cue_bringItemMission" exact="null" />
+				<set_value name="$leak" exact="null" />
+			</patch>
+			<cues>
+				<cue name="BlackMarketeerContacts_SignalCreated" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<debug_text text="'event.param.$station: ' + event.param.$station + ', ' + event.param.$station.knownname" chance="kHSRAL.$debugChance" />
+						<set_value name="$cue_SignalCreated" exact="@$missions.{event.param.$station}.$cue_signalCreated" />
+						<debug_text text="'$cue_SignalCreated: ' + $cue_SignalCreated + ', exists: ' + $cue_SignalCreated.exists" chance="kHSRAL.$debugChance" />
+						<do_if value="@$cue_SignalCreated.exists">
+							<set_value name="$cue_bringItemMission" exact="event.param.$cue_mission" />
+							<signal_cue_instantly cue="$cue_SignalCreated" param="table[$leak = event.param.$leak]" />
+						</do_if>
+						<do_else>
+							<debug_text text="'$cue_SignalCreated: ' + $cue_SignalCreated" chance="kHSRAL.$debugChance" />
+						</do_else>
+						<cancel_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="BlackMarketeerContacts_SignalRemoved" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$Cue_SignalRemoved" exact="@$missions.{event.param.$station}.$cue_signalRemoved" />
+						<do_if value="@$Cue_SignalRemoved.exists">
+							<debug_text text="'event.param.$station: ' + event.param.$station + ', ' + event.param.$station.knownname" chance="kHSRAL.$debugChance" />
+							<signal_cue cue="$Cue_SignalRemoved" />
+						</do_if>
+						<do_else>
+							<debug_text text="'$Cue_SignalRemoved: ' + $Cue_SignalRemoved" chance="kHSRAL.$debugChance" />
+						</do_else>
+						<cancel_cue cue="this" />
+					</actions>
+				</cue>
+				<cue name="BlackMarketeerContacts_New" instantiate="true" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$station" exact="event.param.$station" />
+						<!-- create mission -->
+						<!-- <t id="701">Black Marketeer in %s(sector)</t> -->
+						<create_mission cue="namespace"
+							name="{81918112, 701}.[$station.sector.knownname]"
+							faction="faction.player"
+							type="missiontype.scan"
+							description="{81918112, 701}.[$station.sector.knownname]">
+							<briefing>
+								<objective step="1" object="$station" action="objective.approach" />
+								<objective step="2" object="$station" action="objective.scan" />
+							</briefing>
+							<objective step="1" action="objective.approach" object="$station" />
+						</create_mission>
+					</actions>
+					<cues>
+						<cue name="BlackMarketeerContacts_New_SignalCreated">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$leak" exact="event.param.$leak" />
+								<set_objective cue="namespace" step="2" object="$leak" action="objective.scan" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="BlackMarketeerContacts_New_CleanUp">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<event_mission_aborted cue="namespace" />
+									<check_all>
+										<!-- Event is raised when the player has successfully unlock a signal leak (param = signal leak being unlocked, param2 = object that the signal leak was attached to) -->
+										<event_player_signal_unlock_finished />
+										<check_value value="event.param == $leak" />
+									</check_all>
+								</check_any>
+							</conditions>
+							<actions>
+								<remove_value name="BlackMarketeerContacts.$missions.{$station}" />
+								<remove_offer cue="parent" />
+								<remove_mission cue="parent" />
+								<do_if value="@$cue_bringItemMission.exists">
+									<activate_mission cue="$cue_bringItemMission" />
+								</do_if>
+								<cancel_cue cue="parent" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+						<!-- <cue name="BlackMarketeerContacts_New_Arrive">
+							<conditions>
+								<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+								<check_any>
+									<check_value value="@event.param2.$arriveAt == $station" />
+									<check_value value="@event.param2.$teleportTo == $station" />
+									<check_value value="@event.param2.$dockAt == $station" />
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$LeakObject" exact="$station"/>
+								<include_actions ref="md.Signal_Leaks.GetLeakSlots"/>
+								<set_value name="$Slot" exact="$LeakLocations.random"/>
+								<set_value name="$ShadyGuyMissionTable" exact="table[
+									{md.Signal_Leaks.GM_BringItems__Trigger} = table[
+										$MissionType = missiontype.deliver, $Page = 30135, $TextOffset = [1000, 1100], $Station = $LeakObject, $debugchance = kHSRAL.$debugChance
+									]
+								]" />
+								<set_value name="$SelectedTable" exact="$ShadyGuyMissionTable.clone"/>
+								<signal_cue_instantly cue="md.Signal_Leaks.PlaceMissionLeakOnSurface" param="[$Slot, $SelectedTable]" />
+							</actions>
+						</cue> -->
+						<cue name="BlackMarketeerContacts_New_RunOnce">
+							<actions>
+								<set_value name="BlackMarketeerContacts.$missions.{$station}" exact="table[
+									$cue = this,
+									$cue_signalCreated = BlackMarketeerContacts_New_SignalCreated,
+									$cue_signalRemoved = BlackMarketeerContacts_New_CleanUp
+								]" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="PilotCutscene" namespace="this">
+			<cues>
+				<cue name="PilotCutscenePlay" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$debugChance" exact="kHSRAL.$debugChance" />
+						<set_value name="$caption" exact="event.param.$caption" />
+						<set_value name="$npc" exact="event.param.$npc" />
+						<set_value name="$forcedNPCName" exact="@event.param.$forcedNPCName" />
+						<set_value name="$forcedContainerName" exact="@event.param.$forcedContainerName" />
+						<set_value name="$forcedNPCFaction" exact="@event.param.$forcedNPCFaction" />
+						<do_if value="$forcedNPCName">
+							<set_value name="$extraCaption" exact="$forcedNPCName + ' '" />
+						</do_if>
+						<do_else>
+							<set_value name="$extraCaption" exact="$npc.knownname + ' '" />
+						</do_else>
+						<set_value name="$npcOwner" exact="$npc.owner" />
+						<do_if value="$forcedNPCFaction">
+							<set_value name="$npcOwner" exact="$forcedNPCFaction" />
+						</do_if>
+						<do_if value="$npcOwner == faction.player">
+							<set_value name="$extraCaption" exact="$extraCaption + '(' + {81918112, 11004} + ')'" />
+						</do_if>
+						<do_else>
+							<set_value name="$extraCaption" exact="$extraCaption + '(' + $npcOwner + ')'" />
+						</do_else>
+						<do_if value="$forcedContainerName">
+							<set_value name="$extraCaption" exact="$extraCaption + '\n'" />
+							<set_value name="$extraCaption" exact="$extraCaption + $forcedContainerName" />
+						</do_if>
+						<do_else>
+							<do_if value="$npc.container">
+								<set_value name="$extraCaption" exact="$extraCaption + '\n'" />
+								<do_if value="$npc.container.idcode">
+									<set_value name="$extraCaption" exact="$extraCaption + $npc.container.idcode + ' '" />
+								</do_if>
+								<do_if value="@$npc.container.type">
+									<set_value name="$extraCaption" exact="$extraCaption + '(' + $npc.container.type + ') '" />
+								</do_if>
+								<set_value name="$extraCaption" exact="$extraCaption + $npc.container.knownname" />
+							</do_if>
+						</do_else>
+						<set_value name="$extraCaption" exact="$extraCaption + ':\n'" />
+						<set_value name="$caption" exact="$extraCaption + $caption" />
+						<debug_text text="'$caption: ' + $caption" chance="$debugChance" />
+						<remove_value name="$forcedNPCName" />
+						<remove_value name="$forcedContainerName" />
+						<remove_value name="$forcedNPCFaction" />
+						<remove_value name="$extraCaption" />
+						<remove_value name="$npcOwner" />
+						<set_value name="$page" exact="@event.param.$page" />
+						<set_value name="$line" exact="@event.param.$line" />
+						<set_value name="$isSpeak" exact="@event.param.$isSpeak" />
+						<set_value name="$fromCue" exact="@event.param.$cue" />
+						<set_value name="$callback" exact="@event.param.$callback" />
+						<set_value name="$callbackParam" exact="@event.param.$callbackParam" />
+						<set_value name="$interactionText" exact="@event.param.$interactionText" />
+						<set_value name="$interactionParam" exact="@event.param.$interactionParam" />
+						<set_value name="$interactionParam2" exact="@event.param.$interactionParam2" />
+						<!-- <do_if value="@$cutscene">
+							<stop_cutscene cutscene="$cutscene" />
+						</do_if> -->
+						<stop_cutscene key="'ShowPilot'" />
+						<stop_cutscene key="'ShowNPCFace'" />
+						<stop_cutscene key="'ShowNPCFaceArgon'" />
+						<stop_cutscene key="'ShowNPCFaceBoron'" />
+						<stop_cutscene key="'ShowNPCFaceParanid'" />
+						<stop_cutscene key="'ShowNPCFaceSplit'" />
+						<stop_cutscene key="'ShowNPCFaceTeladi'" />
+					</actions>
+					<cues>
+						<cue name="PilotCutscenePlayActualSignal">
+							<delay exact="1s" />
+							<actions>
+								<debug_text text="'$cutscene: ' + @$cutscene + ' PilotCutscenePlayActual.state: ' + PilotCutscenePlayActual.state" chance="$debugChance" />
+								<do_if value="(not $cutscene?) and PilotCutscenePlayActual.state == cuestate.waiting">
+									<signal_cue_instantly cue="PilotCutscenePlayActual" param="table[
+										$npc = $npc,
+										$caption = $caption,
+										$page = $page,
+										$line = $line,
+										$isSpeak = $isSpeak,
+										$fromCue = $fromCue,
+										$callback = $callback,
+										$callbackParam = $callbackParam,
+										$interactionText = $interactionText,
+										$interactionParam = $interactionParam,
+										$interactionParam2 = $interactionParam2
+									]" />
+								</do_if>
+								<remove_value name="$npc" />
+								<remove_value name="$caption" />
+								<remove_value name="$page" />
+								<remove_value name="$line" />
+								<remove_value name="$isSpeak" />
+								<remove_value name="$fromCue" />
+								<remove_value name="$callback" />
+								<remove_value name="$callbackParam" />
+								<remove_value name="$interactionText" />
+								<remove_value name="$interactionParam" />
+								<remove_value name="$interactionParam2" />
+								<cancel_cue cue="parent" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="PilotCutscenePlayActual" namespace="this">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$caption" exact="event.param.$caption" />
+						<set_value name="$npc" exact="event.param.$npc" />
+						<set_value name="$page" exact="event.param.$page" />
+						<set_value name="$line" exact="event.param.$line" />
+						<set_value name="$isSpeak" exact="event.param.$isSpeak" />
+						<set_value name="$fromCue" exact="@event.param.$fromCue" />
+						<set_value name="$callback" exact="@event.param.$callback" />
+						<set_value name="$callbackParam" exact="@event.param.$callbackParam" />
+						<set_value name="$interactionText" exact="@event.param.$interactionText" />
+						<set_value name="$interactionParam" exact="@event.param.$interactionParam" />
+						<set_value name="$interactionParam2" exact="@event.param.$interactionParam2" />
+						<do_if value="not $interactionText">
+							<set_value name="$interactionText" exact="''" />
+						</do_if>
+						<set_value name="$cutsceneKey" exact="if $npc.room.iswalkable then (
+							if @$npc.race.facecutscene then $npc.race.facecutscene else 'ShowNPCFace'
+						) else 'ShowPilot'" />
+						<do_if value="$interactionParam">
+							<play_cutscene result="$cutscene" key="$cutsceneKey" targetmonitor="true" timeout="10s + 100ms"
+								caption="$caption"
+								sound="notification_conversationstart">
+								<interaction text="$interactionText" param="$interactionParam" param2="$interactionParam2" />
+								<param name="npcref" object="$npc" />
+							</play_cutscene>
+						</do_if>
+						<do_else>
+							<play_cutscene result="$cutscene" key="$cutsceneKey" targetmonitor="true" timeout="10s + 100ms"
+								caption="$caption"
+								sound="notification_conversationstart">
+								<param name="npcref" object="$npc" />
+							</play_cutscene>
+						</do_else>
+						<do_if value="$fromCue">
+							<set_value name="$fromCue.$cutscene" exact="$cutscene" />
+						</do_if>
+						<debug_text text="'$cutscene: ' + $cutscene" chance="namespace.parent.$debugChance" />
+						<do_if value="$isSpeak">
+							<speak actor="$npc" page="$page" line="$line" />
+						</do_if>
+						<remove_value name="$npc" />
+						<remove_value name="$caption" />
+						<remove_value name="$page" />
+						<remove_value name="$line" />
+						<remove_value name="$isSpeak" />
+						<remove_value name="$fromCue" />
+					</actions>
+					<cues>
+						<cue name="PilotCutsceneStop">
+							<conditions>
+								<event_cutscene_stopped key="$cutsceneKey" />
+							</conditions>
+							<actions>
+								<debug_text text="'$cutscene: ' + $cutscene" chance="namespace.parent.$debugChance" />
+								<set_value name="$cutscene" exact="null" />
+								<debug_text text="'$cutscene: ' + $cutscene" chance="namespace.parent.$debugChance" />
+								<do_if value="$callback">
+									<signal_cue_instantly cue="$callback" param="$callbackParam" />
+									<set_value name="$callback" exact="null" />
+								</do_if>
+								<reset_cue cue="parent" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+			</cues>
+		</cue>
+		<cue name="OptionsMenu" namespace="this">
+			<conditions>
+				<event_ui_triggered screen="'OptionsMenu'" control="'menu_close'" />
+			</conditions>
+			<actions>
+				<debug_text text="'kHSRAL.$isDoDebug1: ' + kHSRAL.$isDoDebug1 + ' kHSRAL.$isDoDebug2: ' + kHSRAL.$isDoDebug2" chance="kHSRAL.$debugChance" />
+				<do_if value="kHSRAL.$isDoDebug1">
+					<!-- <find_station name="$station" sortbydistanceto="player.entity" />
+					<debug_text text="'$station: ' + @$station.knownname + ', ' + @$station.idcode" />
+					<signal_objects object="player.galaxy" param="'k_find_shady_guy_leak'" param2="$station" /> -->
+				</do_if>
+				<do_elseif value="kHSRAL.$isDoDebug2">
+					<!-- <debug_text text="'player.ship.isindestructible: ' + player.ship.isindestructible" /> -->
+					<debug_text text="'md.Signal_Leaks.Manager.$SuppressSignalLeakGeneration: ' + @md.Signal_Leaks.Manager.$SuppressSignalLeakGeneration" />
+				</do_elseif>
+				<set_value name="kHSRAL.$isDoDebug1" exact="false" />
+				<set_value name="kHSRAL.$isDoDebug2" exact="false" />
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+	</cues>
+</mdscript>

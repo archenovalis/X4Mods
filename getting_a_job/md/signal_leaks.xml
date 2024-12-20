@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+
+	<!-- hacking outcomes -->
+	<!-- add. purpose: debug
+<do_if value="$MissionLeakCount">
+	<set_value name="$GenericMissionTable" exact="table[...]" />
+-->
+	<!-- <add pos="after" sel="//do_if[@value=&quot;$MissionLeakCount&quot;]/set_value[@name=&quot;$GenericMissionTable&quot;]">
+		<set_value name="$GenericMissionTable" exact="table[
+			{GM_HackPanel__Trigger} = table[$MissionType = missiontype.kill, $Page = 30145, $TextOffset = [1000, 1100, 1200, 1300, 1400], $Station = event.param, $debugchance = $DebugChance]
+		]" />
+	</add> -->
+
+
+	<!-- high security rooms are locked -->
+	<!--
+		purpose: ensure 50% of stations in sector has a shadyguy
+		<cue name="PlayerChangesSpace" instantiate="true">
+			<find_station groupname="$SectorObjects" multiple="true" excluded="$ExcludedObjects" checkoperational="false" space="$PlayerSpace.{1}">
+	-->
+	<add pos="after" sel="//cue[@name=&quot;PlayerChangesSpace&quot;]//find_station">
+		<!-- <run_actions ref="k_50PercShadyGuyPopulation">
+			<param name="SectorObjects" value="$SectorObjects" />
+		</run_actions> -->
+	</add>
+	<add pos="after" sel="//cue[@name=&quot;PlayerChangesSpace&quot;]">
+		<library name="k_50PercShadyGuyPopulation" purpose="run_actions">
+			<params>
+				<param name="SectorObjects" />
+			</params>
+			<actions>
+				<do_if value="not @player.allmodules.{player.module}.isscenario">
+					<create_group groupname="$k_withShadyGuy" />
+					<create_group groupname="$k_noShadyGuy" />
+					<do_for_each name="$k_station" in="$SectorObjects">
+						<do_if value="$k_station.controlentity.{controlpost.shadyguy}">
+							<add_to_group groupname="$k_withShadyGuy" object="$k_station" />
+						</do_if>
+						<do_else>
+							<add_to_group groupname="$k_noShadyGuy" object="$k_station" />
+						</do_else>
+					</do_for_each>
+					<set_value name="$k_popPerc" exact="$k_withShadyGuy.count / ($SectorObjects.count)f" />
+					<debug_text text="'kuertee $k_popPerc: ' + $k_popPerc" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+					<do_if value="$k_popPerc lt 0.5">
+						<shuffle_group group="$k_noShadyGuy" />
+						<do_for_each name="$k_station" in="$k_noShadyGuy">
+							<debug_text text="'kuertee signal_cue_instantly: ' + md.NPC_ShadyGuy.AddShadyGuys + ' on ' + $k_station.knownname" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+							<signal_cue_instantly cue="md.NPC_ShadyGuy.AddShadyGuys" param="table[$stations = [$k_station]]" />
+							<add_to_group groupname="$k_withShadyGuy" object="$k_station" />
+							<set_value name="$k_popPerc" exact="$k_withShadyGuy.count / ($SectorObjects.count)f" />
+							<debug_text text="'kuertee $k_popPerc (post added one): ' + $k_popPerc" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+							<do_if value="$k_popPerc ge 0.5">
+								<break />
+							</do_if>
+						</do_for_each>
+					</do_if>
+					<clear_group group="$k_withShadyGuy" />
+					<clear_group group="$k_noShadyGuy" />
+					<do_for_each name="$k_station" in="$SectorObjects">
+						<do_if value="$k_station.controlentity.{controlpost.shadyguy}">
+							<add_to_group groupname="$k_withShadyGuy" object="$k_station" />
+						</do_if>
+						<do_else>
+							<add_to_group groupname="$k_noShadyGuy" object="$k_station" />
+						</do_else>
+					</do_for_each>
+					<set_value name="$k_popPerc" exact="$k_withShadyGuy.count / ($SectorObjects.count)f" />
+					<debug_text text="'kuertee $k_popPerc (final): ' + $k_popPerc" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				</do_if>
+			</actions>
+		</library>
+	</add>
+	<!--
+		purpose: debug
+		<cue name="PlayerChangesSpace" instantiate="true">
+			<do_all exact="$SectorObjects.count" counter="$i">
+	-->
+	<add pos="before" sel="(//cue[@name=&quot;PlayerChangesSpace&quot;]//do_all[@exact=&quot;$SectorObjects.count&quot;])[2]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="@md.kuertee_hsral.kHSRAL.$debugChance">
+				<debug_text text="'kuertee $ObjectsWithLeaks.count: ' + $ObjectsWithLeaks.count" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<do_for_each name="$k_station" valuename="$k_mission" in="md.kuertee_hsral.BlackMarketeerContacts.$missions">
+					<debug_text text="'kuertee     $k_station: ' + $k_station.knownname + ', ' + $k_station.idcode + ' attention: ' + $k_station.attention + ' has leaks: ' + @$ObjectsWithLeaks.indexof.{$k_station} + ' for cleanup: ' + @$CleanupTable.{$k_station}" />
+				</do_for_each>
+			</do_if>
+		</do_if>
+	</add>
+	<!--
+		purpose: debug
+		<library name="CalculateLeakCounts" purpose="run_actions">
+			...
+			<do_if value="$LeakLocations.count">
+				...
+				<find_object_component name="$ExistingLeaks" object="$LeakObject" class="class.signalleak" multiple="true"/>
+			...
+			<return value="table[$dataleakcount = $DataLeakCount, $missionleakcount = $MissionLeakCount]" />
+	-->
+	<!-- <add pos="before" sel="//library[@name=&quot;CalculateLeakCounts&quot;]//do_if[@value=&quot;$LeakLocations.count&quot;]">
+		<debug_text text="'kuertee     $LeakLocations: ' + $LeakLocations" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+	</add>
+	<add pos="after" sel="//library[@name=&quot;CalculateLeakCounts&quot;]//find_object_component[@name=&quot;$ExistingLeaks&quot;]">
+		<debug_text text="'kuertee     $ExistingLeaks: ' + $ExistingLeaks" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+		<debug_text text="'kuertee     @md.Signal_Leaks.Manager.$SuppressSignalLeakGeneration: ' + @md.Signal_Leaks.Manager.$SuppressSignalLeakGeneration" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+	</add> -->
+	<replace sel="//library[@name=&quot;CalculateLeakCounts&quot;]//return[@value=&quot;table[$dataleakcount = $DataLeakCount, $missionleakcount = $MissionLeakCount]&quot;]">
+		<return value="table[$dataleakcount = $DataLeakCount, $missionleakcount = $MissionLeakCount, $existingleaks = @$ExistingLeaks]" />
+	</replace>
+	<!--
+		<cue name="ObjectChangedAttention" instantiate="true">
+			<actions>
+				...
+				<do_if value="event.param ge attention.visible and event.param2 lt attention.visible">
+	-->
+	<add pos="prepend" sel="//cue[@name=&quot;ObjectChangedAttention&quot;]/actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<debug_text text="'kuertee: ' + event.object + ' ' + event.object.knownname + ', ' + event.object.idcode + ' attention: ' + event.param2 + ' to ' + event.param" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+		</do_if>
+	</add>
+	<add sel="//cue[@name=&quot;ObjectChangedAttention&quot;]//do_if[@value=&quot;event.param ge attention.visible and event.param2 lt attention.visible&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="not event.object.controlentity.{controlpost.shadyguy}">
+				<debug_text text="'kuertee--already has leaks, but no shady guy at station'" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+			</do_if>
+			<do_else>
+				<debug_text text="'kuertee--already has leaks, find shady guy leak'" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<signal_objects object="player.galaxy" param="'k_find_shady_guy_leak'" param2="event.object" />
+			</do_else>
+		</do_if>
+	</add>
+	<!-- add. purpose: debug
+	<cue name="GenerateSignalLeaks" instantiate="true">
+		...
+		<do_if value="$i == 1 and $LeakObject.isclass.station and $LeakObject.controlentity.{controlpost.shadyguy}">
+			<set_value name="$SelectedTable" exact="$ShadyGuyMissionTable.clone"/>
+	-->
+	<add pos="prepend" sel="//cue[@name=&quot;GenerateSignalLeaks&quot;]//actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<debug_text text="'kuertee event.name: ' + event.name + ' event.param: ' + @event.param.knownname + ', ' + @event.param.idcode" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+		</do_if>
+	</add>
+	<add pos="before" sel="//cue[@name=&quot;GenerateSignalLeaks&quot;]//do_if[@value=&quot;$CleanupTable.{event.param}?&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<debug_text text="'kuertee-----$CleanupTable.{event.param}: ' + @$CleanupTable.{event.param}" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+		</do_if>
+	</add>
+	<add pos="before" sel="//cue[@name=&quot;GenerateSignalLeaks&quot;]//remove_value[@name=&quot;$LeakCountsTable&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<set_value name="$ExistingLeaks" exact="$LeakCountsTable.$existingleaks" />
+			<debug_text text="'kuertee-----$ExistingLeaks: ' + $ExistingLeaks" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+			<debug_text text="'kuertee-----$DataLeakCount: ' + $DataLeakCount" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+			<debug_text text="'kuertee-----$MissionLeakCount: ' + $MissionLeakCount" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+			<do_if value="(not @$ExistingLeaks.count) and $MissionLeakCount le 0 and @md.kuertee_hsral.BlackMarketeerContacts.$missions.{$LeakObject}">
+				<set_value name="$MissionLeakCount" exact="1" />
+			</do_if>
+		</do_if>
+	</add>
+	<add pos="after" sel="//set_value[@name=&quot;$SelectedTable&quot;][@exact=&quot;$ShadyGuyMissionTable.clone&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<debug_text text="'kuertee-----$ShadyGuyMissionTable: ' + $ShadyGuyMissionTable" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+		</do_if>
+	</add>
+	<!-- add after. purpose: signal shady guy mission created.
+		<cue name="GM_BringItems__Trigger" instantiate="true" namespace="this">
+			...
+			<set_value name="$Valid" exact="2"/>
+			...
+			<cues>
+	-->
+	<add sel="//cue[@name=&quot;GM_BringItems__Trigger&quot;]//cues">
+		<cue name="GM_BringItems__Trigger_RunOnce">
+			<actions>
+				<do_if value="not @player.allmodules.{player.module}.isscenario">
+					<debug_text text="'kuertee $Station: ' + $Station + ', ' + $Station.knownname + ', $Leak: ' + $Definition.$Leak + ', ' + GM_BringItems__Ref" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+					<signal_cue_instantly cue="md.kuertee_hsral.BlackMarketeerContacts_SignalCreated" param="table[$cue_mission = GM_BringItems__Ref, $station = $Station, $leak = $Definition.$Leak]" />
+				</do_if>
+			</actions>
+		</cue>
+		<cue name="GM_PrisonBreak__Trigger_FindShadyGuyLeak">
+			<conditions>
+				<event_object_signalled object="player.galaxy" param="'k_find_shady_guy_leak'" />
+				<!-- <check_value value="event.param == 'k_find_shady_guy_leak'" />
+				<check_value value="event.param2 == $Station" /> -->
+				<check_value value="not @player.allmodules.{player.module}.isscenario" />
+			</conditions>
+			<actions>
+				<debug_text text="'kuertee event.name: ' + event.name + ', params: ' + event.param + ' ' + event.param2 + ' ' + @event.param2.knownname + ' ' + @event.param2.idcode" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<debug_text text="'kuertee     $Station: ' + @$Station.knownname + ' ' + @$Station.idcode + ', $leak: ' + @$Definition.$Leak" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<do_if value="event.param == 'k_find_shady_guy_leak' and event.param2 == $Station">
+					<signal_cue_instantly cue="md.kuertee_hsral.BlackMarketeerContacts_SignalCreated" param="table[$cue_mission = GM_BringItems__Ref, $station = $Station, $leak = $Definition.$Leak]" />
+				</do_if>
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+	</add>
+	<!-- add prepend. purpose: signal shady guy mission clean-up.
+		<cue name="MissionLeak_Cleanup">
+			<actions>
+	-->
+	<add pos="prepend" sel="//cue[@name=&quot;MissionLeak_Cleanup&quot;]//actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<debug_text text="'kuertee $Station: ' + $MissionDefinition.$Station + ', ' + $MissionDefinition.$Station.knownname + ', $Leak: ' + $MissionDefinition.$Leak" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+			<signal_cue_instantly cue="md.kuertee_hsral.BlackMarketeerContacts_SignalRemoved" param="table[$station = $MissionDefinition.$Station, $leak = $MissionDefinition.$Leak]" />
+		</do_if>
+	</add>
+
+</diff>

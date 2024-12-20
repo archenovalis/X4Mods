@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_hsral_config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<cues>
+		<cue name="StartSMO" instantiate="true">
+			<conditions>
+				<event_cue_signalled cue="md.Simple_Menu_Options.Reloaded" />
+			</conditions>
+			<actions>
+				<!-- <debug_text text="'signal_cue_instantly ' + @md.Simple_Menu_API.Register_Options_Menu" /> -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Register_Options_Menu"
+					param="table[
+						$id = 'kuertee_hsral_extension_options_menu',
+						$columns = 2,
+						$title = {81918112, 20000},
+						$onOpen = BuildOptionsMenu
+					]" />
+				<cancel_cue cue="this" />
+			</actions>
+		</cue>
+		<cue name="BuildOptionsMenu" instantiate="true">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<debug_text text="''" />
+				<set_value name="$levels" exact="[
+					level.trivial,
+					level.veryeasy,
+					level.easy,
+					level.medium,
+					level.hard,
+					level.veryhard,
+					level.impossible
+				]" />
+				<set_value name="$rewardEgTextByLevels" exact="table[]" />
+				<do_all counter="$i" exact="$levels.count">
+					<set_value name="$MissionThread" exact="null" />
+					<set_value name="$OfferType" exact="null" />
+					<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[namespace, $levels.{$i}, 1, faction.argon]" comment="basic reward credits"/>
+					<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus"/>
+					<!-- <debug_text text="$levels.{$i} + ': ' + $Reward_Money__Result_Multiplied.formatted.{'%s %Cr'}" /> -->
+					<set_value name="$rewardEgTextByLevels.{$levels.{$i}}" exact="$Reward_Money__Result_Multiplied.formatted.{'%s %Cr'}" />
+					<remove_value name="$MissionThread" />
+					<remove_value name="$OfferType" />
+				</do_all>
+				<remove_value name="$levels" />
+
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={81918112, 20001}]"/>
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userHackingDifficultyLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + $rewardEgTextByLevels.{level.trivial} + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + $rewardEgTextByLevels.{level.veryeasy} + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + $rewardEgTextByLevels.{level.easy} + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + $rewardEgTextByLevels.{level.medium} + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + $rewardEgTextByLevels.{level.hard} + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + $rewardEgTextByLevels.{level.veryhard} + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + $rewardEgTextByLevels.{level.impossible} + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_hsral.kHSRAL.$userHackingDifficultyLevel == level.trivial then 1 else (
+							if md.kuertee_hsral.kHSRAL.$userHackingDifficultyLevel == level.veryeasy then 2 else (
+								if md.kuertee_hsral.kHSRAL.$userHackingDifficultyLevel == level.easy then 3 else (
+									if md.kuertee_hsral.kHSRAL.$userHackingDifficultyLevel == level.medium then 4 else (
+										if md.kuertee_hsral.kHSRAL.$userHackingDifficultyLevel == level.hard then 5 else (
+											if md.kuertee_hsral.kHSRAL.$userHackingDifficultyLevel == level.veryhard then 6 else (
+												if md.kuertee_hsral.kHSRAL.$userHackingDifficultyLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001,2661} + ': ' + {1001, 4004} + '. ' + {81918112, 20006},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={81918112, 20003}]" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userKeyCostRewardPerc',
+						$start = md.kuertee_hsral.kHSRAL.$userKeyCostRewardPerc,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0, $max = 100, $step = 1, $suffix='%',
+						$default = 1,
+						$mouseOverText = {1001,2661} + ': 1%',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={81918112, 20004}, $color='Helper.color.red']" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'debugChance',
+						$checked = if md.kuertee_hsral.kHSRAL.$debugChance == 100 then true else false,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$bgColor = 'Helper.color.red',
+						$onClick = OnSMOCheckboxChange
+					]" />
+				<do_if value="md.kuertee_hsral.kHSRAL.$debugChance">
+					<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+					<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={161815, 3}, $color='Helper.color.red']" />
+					<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+						param = "table[
+							$id = 'isDoDebug1',
+							$checked = md.kuertee_hsral.kHSRAL.$isDoDebug1,
+							$col = 2,
+							$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+							$bgColor = 'Helper.color.red',
+							$onClick = OnSMOCheckboxChange
+						]" />
+					<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+					<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={161815, 3}, $color='Helper.color.red']" />
+					<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+						param = "table[
+							$id = 'isDoDebug2',
+							$checked = md.kuertee_hsral.kHSRAL.$isDoDebug2,
+							$col = 2,
+							$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+							$bgColor = 'Helper.color.red',
+							$onClick = OnSMOCheckboxChange
+						]" />
+				</do_if>
+			</actions>
+		</cue>
+		<cue name="OnSMOSliderChange" instantiate="true">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<set_value name="md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" exact="event.param.$value" />
+				<debug_text text="event.param.$id + ' post: ' + md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<cancel_cue cue = "this" />
+			</actions>
+		</cue>
+		<cue name="OnSMOCheckboxChange" instantiate="true">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<do_if value="event.param.$id == 'debugChance'">
+					<set_value name="md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" exact="if event.param.$checked then 100 else 0" />
+					<signal_cue_instantly cue="md.Simple_Menu_API.Refresh_Menu"/>
+				</do_if>
+				<do_else>
+					<set_value name="md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" exact="event.param.$checked" />
+				</do_else>
+				<debug_text text="event.param.$id + ' post: ' + md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<cancel_cue cue = "this" />
+			</actions>
+		</cue>
+		<cue name="onDropDownConfirmed" instantiate="true">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<debug_text text="event.param.$id + ' to: ' + @event.param.$option.$text + ' value: ' + @event.param.$option.$value" />
+				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<set_value name="md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" exact="(event.param.$option.$value)" />
+				<debug_text text="event.param.$id + ' post: ' + md.kuertee_hsral.kHSRAL.{'$' + event.param.$id}" chance="md.kuertee_hsral.kHSRAL.$debugChance" />
+				<cancel_cue cue = "this" />
+			</actions>
+		</cue>
+	</cues>
+</mdscript>

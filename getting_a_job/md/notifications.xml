@@ -27,6 +27,45 @@
 		</do_if>
 	</replace>
 
+	<!-- hacking outcomes -->
+	<add pos="before" sel="//cue[@name=&quot;AttackResponse&quot;]//do_if[@value=&quot;@$responsetype and (player.age ge ($responderdata.{6} + @$responseinterval))&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<debug_text text="'md.kuertee_hacking_outcomes: ' + @md.kuertee_hacking_outcomes" chance="md.kuertee_hacking_outcomes.HackingOutcomes.$debugChance" />
+			<debug_text text="'md.kuertee_hacking_outcomes.HackingOutcomes: ' + @md.kuertee_hacking_outcomes.HackingOutcomes" chance="md.kuertee_hacking_outcomes.HackingOutcomes.$debugChance" />
+			<debug_text text="'md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations: ' + @md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations" chance="md.kuertee_hacking_outcomes.HackingOutcomes.$debugChance" />
+			<debug_text text="'md.kuertee_hacking_outcomes:$tradenpc.container: ' + @$tradenpc.container + ' (' + $responderdata.{1}.knownname + ')'" chance="md.kuertee_hacking_outcomes.HackingOutcomes.$debugChance" />
+			<set_value name="$kHO_isStationHacked" exact="
+				@md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{$tradenpc.container} and 
+				player.age le @md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{$tradenpc.container} + 1h" />
+			<debug_text text="'player.age: ' + player.age + ' $hackedStations.{$station} + 1h: ' + HackingOutcomes.$hackedStations.{$station} + 1h" chance="md.kuertee_hacking_outcomes.HackingOutcomes.$debugChance" />
+			<debug_text text="'md.kuertee_hacking_outcomes:$kHO_isStationHacked: ' + $kHO_isStationHacked" chance="md.kuertee_hacking_outcomes.HackingOutcomes.$debugChance" />
+			<debug_text text="'md.kuertee_hacking_outcomes:$lawnpc: ' + $lawnpc" chance="md.kuertee_hacking_outcomes.HackingOutcomes.$debugChance" />
+			<do_if value="$kHO_isStationHacked">
+				<set_value name="$responsetype" exact="null" />
+				<do_if value="$tradenpc and $tradenpc.container != @md.kuertee_hacking_outcomes.HackingOutcomes.$hackedConversation_lastStation">
+					<!-- station is still hacked -->
+					<!-- <t id="5027">Sorry, I'm busy right now.</t> -->
+					<set_value name="md.kuertee_hacking_outcomes.HackingOutcomes.$hackedConversation_lastStation" exact="@$tradenpc.container" />
+					<set_value name="$responderdata.{10}" exact="4" comment="response_state = reported" />
+					<start_conversation actor="$tradenpc" conversation="HackedStations_AttackResponse"
+						convparam="[$responderdata, event.param, $protectordata and not $commander, $lawnpc, @$relchange, player.entity.coverowner != null, event.param.{15}]"
+						comment="responderdata, victimdata, is_3rd_party_victim, lawnpc, relchange, has_cover, relationchangreason" />
+				</do_if>
+			</do_if>
+			<do_else>
+				<debug_text text="'md.kuertee_hacking_outcomes:not hacked. executing AttackResponse.'" chance="md.kuertee_hacking_outcomes.HackingOutcomes.$debugChance" />
+			</do_else>
+		</do_if>
+	</add>
+	<!-- stop TempRelationDropped events on stations if security console was hacked -->
+	<add sel="//cue[@name=&quot;TempRelationDropped&quot;]/conditions">
+		<check_any>
+			<check_value value="@player.allmodules.{player.module}.isscenario" />
+			<check_value value="not @md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{event.object}" />
+			<check_value value="player.age gt @md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{event.object} + 1h" />
+		</check_any>
+	</add>
+
 	<!-- alternatives to death -->
 	<add sel="//cue[@name=&quot;ChangedJurisdiction&quot;]/conditions">
 		<check_value value="not @md.kuertee_atd.kATD.$isHideNotifications" />
@@ -54,4 +93,344 @@
 	</add>
 
 
+	<!-- Crime Has Consequences -->
+	<!--
+		purpose: debug
+		<cue name="DistressDroneReportsAttack" instantiate="true" namespace="this">
+              <conditions>
+                <event_object_signalled object="player.galaxy" param="'report_attack'"/>
+                <check_value value="@event.param2.{1} and @event.param2.{2} and @event.param2.{3} and @event.param2.{4} and @event.param2.{5} and @event.param2.{6}"/>
+                <debug_text text="'attack report received. attacked object: %s %s %s, kill method: %s, attacked component: %s %s %s, attacker: %s %s %s'.[@event.param2.{1}.idcode, @event.param2.{1}.knownname, event.param2.{1}, event.param2.{2}, @event.param2.{3}.idcode, @event.param2.{3}.knownname, @event.param2.{3}, @event.param2.{4}.idcode, @event.param2.{4}.knownname, @event.param2.{4}]" debugchance="0"/>
+                <check_value value="event.param2.{1}.owner and (event.param2.{1}.owner != faction.player) and (event.param2.{1}.owner != faction.ownerless)"/>
+                <check_value value="@event.param2.{4}.isplayerowned"/>
+			event.param = [ responderdata, victimdata, is_3rd_party_victim, lawnpc, relchange, has_cover, relationchangereason, attacker ]
+	-->
+	<add pos="after" sel="//cue[@name=&quot;DistressDroneReportsAttack&quot;]/conditions/event_object_signalled">
+		<debug_text text="'conditions 1: ' + event.name" debugchance="@md.kuertee_chc.kCHC.$debugChance" />
+	</add>
+	<add pos="after" sel="(//cue[@name=&quot;DistressDroneReportsAttack&quot;]/conditions/check_value)[1]">
+		<debug_text text="'conditions 2: ' + (@event.param2.{1} and @event.param2.{2} and @event.param2.{3} and @event.param2.{4} and @event.param2.{5} and @event.param2.{6})" debugchance="@md.kuertee_chc.kCHC.$debugChance" />
+	</add>
+	<add pos="after" sel="(//cue[@name=&quot;DistressDroneReportsAttack&quot;]/conditions/check_value)[2]">
+		<debug_text text="'conditions 3: ' + (event.param2.{1}.owner and (event.param2.{1}.owner != faction.player) and (event.param2.{1}.owner != faction.ownerless))" debugchance="@md.kuertee_chc.kCHC.$debugChance" />
+	</add>
+	<add pos="after" sel="(//cue[@name=&quot;DistressDroneReportsAttack&quot;]/conditions/check_value)[3]">
+		<debug_text text="'conditions 4: ' + (@event.param2.{4}.isplayerowned)" debugchance="@md.kuertee_chc.kCHC.$debugChance" />
+	</add>
+	<add pos="after" sel="//cue[@name=&quot;DistressDroneReportsAttack&quot;]/actions">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<set_value name="$debugchance" exact="@md.kuertee_chc.kCHC.$debugChance" />
+			<do_if value="@md.kuertee_chc.kCHC.$debugChance">
+				<!-- <set_value name="$attackedobject" exact="event.param2.{1}"/>
+				<set_value name="$killmethod" exact="event.param2.{2}"/>
+				<set_value name="$attackedcomponent" exact="event.param2.{3}"/>
+				<set_value name="$attacker" exact="event.param2.{4}"/>
+				<set_value name="$reporter" exact="event.param2.{5}"/>
+				<set_value name="$protector" exact="event.param2.{6}"/> -->
+				<debug_text text="'$attackedobject: ' + $attackedobject + ' ' + @$attackedobject.knownname + ' ' + @$attackedobject.idcode" />
+				<debug_text text="'$killmethod: ' + $killmethod" />
+				<debug_text text="'$attackedcomponent: ' + $attackedcomponent + ' ' + @$attackedcomponent.knownname + ' ' + @$attackedcomponent.idcode" />
+				<debug_text text="'$attacker: ' + $attacker + ' ' + @$attacker.knownname + ' ' + @$attacker.idcode" />
+				<debug_text text="'$reporter: ' + $reporter + ' ' + @$reporter.knownname + ' ' + @$reporter.idcode" />
+				<debug_text text="'$protector: ' + $protector + ' ' + @$protector.knownname + ' ' + @$protector.idcode" />
+			</do_if>
+		</do_if>
+	</add>
+	<!--
+		purpose: debug
+		<cue name="AttackResponse" instantiate="true" namespace="this">
+			event.param = [ responderdata, victimdata, is_3rd_party_victim, lawnpc, relchange, has_cover, relationchangereason, attacker ]
+	-->
+	<add pos="after" sel="//cue[@name=&quot;AttackResponse&quot;]/actions/set_value[@name=&quot;$debugchance&quot;][@exact=&quot;0&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<set_value name="$debugchance" exact="@md.kuertee_chc.kCHC.$debugChance" />
+		</do_if>
+	</add>
+	<!--
+		purpose: init crime reporting
+		<cue name="AttackResponse" instantiate="true" namespace="this">
+			<actions>
+	-->
+	<add pos="prepend" sel="//cue[@name=&quot;AttackResponse&quot;]/actions">
+		<set_value name="$kCHC_isDistressDrone" exact="false" />
+		<set_value name="$kCHC_isRecordCrimeInVictimBlackBox" exact="false" comment="record a crime on the victim's 'black box'" />
+		<set_value name="$kCHC_isReportCrimeAtStation" exact="false" comment="report a crime at the station, only used for distress drone (in $refobject) signals to AttackResponse" />
+		<set_value name="$kCHC_HackingOutcomes_isStationHacked" exact="false" />
+		<set_value name="$kCHC_isWaitForResponseUseCase" exact="false" />
+		<set_value name="$kCHC_criminalShip" exact="null" />
+		<set_value name="$kCHC_victimShipStation" exact="null" />
+		<set_value name="$kCHC_crime" exact="null" />
+		<set_value name="$kCHC_isSelfDefense" exact="null" />
+		<set_value name="$kCHC_witness" exact="null" />
+		<set_value name="$kCHC_witnessEntity" exact="null" />
+		<set_value name="$kCHC_eventId" exact="null" />
+		<set_value name="$kCHC_isEventAlreadyProcessed" exact="false" />
+		<do_if value="not AttackResponse.static.$kCHC_eventId_lastProcessed?">
+			<set_value name="AttackResponse.static.$kCHC_eventId_lastProcessed" exact="null" />
+		</do_if>
+	</add>
+	<!--
+		purpose: get event id so that it can be saved and tested against to prevent processing the same event multiple times
+		<cue name="AttackResponse" instantiate="true" namespace="this">
+			<do_if value="(player.age ge event.param.{5} + IllegalActivity.$timeout) or (event.param.{9} and not event.param.{9}.exists)">
+	-->
+	<add pos="before" sel="//cue[@name=&quot;AttackResponse&quot;]//do_if[@value=&quot;(player.age ge event.param.{5} + IllegalActivity.$timeout) or (event.param.{9} and not event.param.{9}.exists)&quot;]">
+		<set_value name="$kCHC_crime" exact="@event.param.{2}" />
+		<do_if value="['event_player_attacked_object', 'event_player_owned_attacked_object', 'report_attack'].indexof.{$kCHC_crime}"
+			comment="search for 'crime validation' to find other instances of this test">
+			<set_value name="$kCHC_crime" exact="relationchangereason.attackedobject" />
+		</do_if>
+		<do_elseif value="['event_player_killed_object', 'event_player_owned_killed_object'].indexof.{$kCHC_crime}">
+			<set_value name="$kCHC_crime" exact="relationchangereason.killedobject" />
+		</do_elseif>
+		<do_elseif value="['boarding started', 'boarding ended'].indexof.{$kCHC_crime}">
+			<set_value name="$kCHC_crime" exact="relationchangereason.boardedobject" />
+		</do_elseif>
+		<set_value name="$kCHC_criminalShip" exact="$attacker" />
+		<run_actions ref="md.kuertee_chc.Step1_GetCriminalShip" result="$kCHC_criminalShip">
+			<param name="kCHC_criminalShip" value="$kCHC_criminalShip" />
+		</run_actions>
+		<!-- start: get victim. refer to $objectdefensible -->
+		<set_value name="$kCHC_victimShipStation" exact="$object" />
+		<do_if value="event.param.{4}">
+			<set_value name="$kCHC_victimShipStation" exact="event.param.{4}" />
+		</do_if>
+		<do_if value="(not $kCHC_victimShipStation.isrealclass.defensible) and $kCHC_victimShipStation.defensible">
+			<set_value name="$kCHC_victimShipStation" exact="$kCHC_victimShipStation.defensible" />
+		</do_if>
+		<!-- end: get victim. refer to $objectdefensible -->
+		<run_actions ref="md.kuertee_chc.Step1_GetVictimShipStation" result="$kCHC_victimShipStation">
+			<param name="kCHC_victimShipStation" value="$kCHC_victimShipStation" />
+		</run_actions>
+		<set_value name="$kCHC_eventId" exact="$kCHC_criminalShip.idcode + '_' + $kCHC_crime + '_' + $kCHC_victimShipStation.idcode" />
+		<set_value name="$kCHC_isEventAlreadyProcessed" exact="AttackResponse.static.$kCHC_eventId_lastProcessed == $kCHC_eventId" />
+		<do_if value="not $kCHC_isEventAlreadyProcessed">
+			<debug_text text="'$kCHC_eventId: ' + $kCHC_eventId" chance="@md.kuertee_chc.kCHC.$debugChance" />
+			<debug_text text="'$kCHC_crime: ' + $kCHC_crime" chance="@md.kuertee_chc.kCHC.$debugChance" />
+			<debug_text text="'$kCHC_criminalShip: ' + $kCHC_criminalShip + ' ' + @$kCHC_criminalShip.knownname + ' ' + @$kCHC_criminalShip.idcode" chance="@md.kuertee_chc.kCHC.$debugChance" />
+			<debug_text text="'$kCHC_victimShipStation: ' + $kCHC_victimShipStation + ' ' + @$kCHC_victimShipStation.knownname + ' ' + @$kCHC_victimShipStation.idcode" chance="@md.kuertee_chc.kCHC.$debugChance" />
+			<set_value name="AttackResponse.static.$kCHC_eventId_lastProcessed" exact="$kCHC_eventId" />
+		</do_if>
+	</add>
+	<!--
+		purpose: record or report crime
+		<cue name="AttackResponse" instantiate="true" namespace="this">
+			<event_cue_signalled />
+      event.param = [
+        object (1), event (2), killmethod (3), component (4),
+        last_time_attacked (5), last_time_responded (6),
+        object_is_attacked (7), object_protects_3rd_party (8), protector (9), response_state (10),
+        oldrelation (11), newrelation (12), relchange (13), first_time_attacked (14),
+        relationchangereason (15), refobject (16), attacker (17) (only if refobject is present)
+        *****
+        object_protects_3rd_party =0 (not protecting), =1 (protecting, not warned yet), =2 (protecting, player has been warned)
+        response_state =0 (not warned/reported yet), =1 (tried to warn), =2 (warned, not reported yet), =3 (tried to report but failed), =4 (reported)
+      ]
+			<set_value name="$tradenpc" exact="@$responderdata.{1}.tradenpc" />
+			<do_if value="$tradenpc and @$tradenpc.page != 0 and not @$tradenpc.owner.hasrelation.kill.{faction.player}">
+				<do_if value="@$responsetype and (player.age ge ($responderdata.{6} + @$responseinterval))">
+	-->
+	<add pos="after" sel="//cue[@name=&quot;AttackResponse&quot;]/actions//set_value[@name=&quot;$tradenpc&quot;][@exact=&quot;@$responderdata.{1}.tradenpc&quot;]"
+		comment="CRIME HAS BEEN COMMITTED. RECORD IT IN THE VICTIM'S BLACK BOX. $kCHC_isRecordCrimeInVictimBlackBox">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="not $kCHC_isEventAlreadyProcessed">
+				<do_if value="@md.kuertee_chc.kCHC.$debugChance">
+					<do_all counter="$kCHC_i" exact="@event.param.count">
+						<debug_text text="'event.param.{' + $kCHC_i + '}: ' + event.param.{$kCHC_i} + ' ' + @event.param.{$kCHC_i}.knownname + ' ' + @event.param.{$kCHC_i}.idcode" />
+					</do_all>
+					<debug_text text="'$object: ' + $object + ' ' + @$object.knownname + ' ' + @$object.idcode" />
+					<debug_text text="'$refobject: ' + $refobject + ' ' + @$refobject.knownname + ' ' + @$refobject.idcode" />
+					<debug_text text="'$attacker: ' + $attacker + ' ' + @$attacker.knownname + ' ' + @$attacker.idcode" />
+					<debug_text text="'$responderdata.{1} (station?): ' + @$responderdata.{1} + ' ' + @$responderdata.{1}.knownname + ' ' + @$responderdata.{1}.idcode" />
+					<debug_text text="'$responderdata.{1}.distanceto.{$refobject}: ' + @$responderdata.{1}.distanceto.{$refobject}" />
+					<debug_text text="'$responderdata.{1}.distanceto.{$attacker}: ' + @$responderdata.{1}.distanceto.{$attacker}" />
+					<debug_text text="'$tradenpc: ' + $tradenpc + ' ' + @$tradenpc.knownname + ' ' + @$tradenpc.idcode" />
+				</do_if>
+				<set_value name="$kCHC_isDistressDrone" exact="@$refobject.type == shiptype.distressdrone" />
+				<debug_text text="'$kCHC_isDistressDrone: ' + $kCHC_isDistressDrone" chance="@md.kuertee_chc.kCHC.$debugChance" />
+				<set_value name="$kCHC_isRecordCrimeInVictimBlackBox" exact="true" />
+				<debug_text text="'$kCHC_isRecordCrimeInVictimBlackBox: ' + $kCHC_isRecordCrimeInVictimBlackBox" chance="@md.kuertee_chc.kCHC.$debugChance" />
+			</do_if>
+		</do_if>
+	</add>
+	<add pos="prepend" sel="//cue[@name=&quot;AttackResponse&quot;]/actions//do_if[@value=&quot;$tradenpc and @$tradenpc.page != 0 and not @$tradenpc.owner.hasrelation.kill.{faction.player}&quot;]"
+		comment="THERE'S A NEARBY STATION, REPORT THE CRIME IF POSSIBLE. $kCHC_isReportCrimeAtStation">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="not $kCHC_isEventAlreadyProcessed">
+				<set_value comment="search for 'hacking outcomes compatibililty' to find other instances of this test"
+					name="$kCHC_HackingOutcomes_isStationHacked" exact="
+					@$tradenpc.container.isclass.station and
+					$tradenpc.container.isoperational and
+					@md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{$tradenpc.container} and 
+					player.age le @md.kuertee_hacking_outcomes.HackingOutcomes.$hackedStations.{$tradenpc.container} + 1h" />
+				<debug_text text="'$kCHC_HackingOutcomes_isStationHacked: ' + $kCHC_HackingOutcomes_isStationHacked" chance="@md.kuertee_chc.kCHC.$debugChance" />
+				<set_value name="$kCHC_isReportCrimeAtStation" exact="not $kCHC_HackingOutcomes_isStationHacked" />
+				<debug_text text="'$kCHC_isReportCrimeAtStation: ' + $kCHC_isReportCrimeAtStation" chance="@md.kuertee_chc.kCHC.$debugChance" />
+			</do_if>
+		</do_if>
+	</add>
+	<add pos="before" sel="//cue[@name=&quot;AttackResponse&quot;]/actions//do_if[@value=&quot;@$responsetype and (player.age ge ($responderdata.{6} + @$responseinterval))&quot;]">
+		<do_if value="not $kCHC_isEventAlreadyProcessed">
+			<debug_text text="'$responsetype: ' + @$responsetype" chance="@md.kuertee_chc.kCHC.$debugChance" />
+		</do_if>
+	</add>
+	<add pos="prepend" sel="//cue[@name=&quot;AttackResponse&quot;]/actions//do_if[@value=&quot;@$responsetype and (player.age ge ($responderdata.{6} + @$responseinterval))&quot;]"
+		comment="STATION SECURITY USECASE WILL BE ACTIVATED. $kCHC_isWaitForResponseUseCase">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="not $kCHC_isEventAlreadyProcessed">
+				<set_value name="$kCHC_isWaitForResponseUseCase" exact="true" />
+			</do_if>
+		</do_if>
+	</add>
+	<!--
+		purpose: report crime if not delayed
+		<cue name="AttackResponse" instantiate="true" namespace="this">
+			<actions>
+	-->
+	<add sel="//cue[@name=&quot;AttackResponse&quot;]/actions"
+		comment="RECORD THE CRIME IN THE VICTIM'S BLACK BOX AND/OR REPORT THE CRIME AT THE NEARBY STATION.">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="not $kCHC_isEventAlreadyProcessed">
+				<debug_text text="'$kCHC_isRecordCrimeInVictimBlackBox (final): ' + $kCHC_isRecordCrimeInVictimBlackBox" chance="@md.kuertee_chc.kCHC.$debugChance" />
+				<debug_text text="'$kCHC_isReportCrimeAtStation (final): ' + $kCHC_isReportCrimeAtStation" chance="@md.kuertee_chc.kCHC.$debugChance" />
+				<debug_text text="'$kCHC_isWaitForResponseUseCase (final): ' + $kCHC_isWaitForResponseUseCase" chance="@md.kuertee_chc.kCHC.$debugChance" />
+				<do_if value="$kCHC_isRecordCrimeInVictimBlackBox">
+					<do_if comment="search for 'criminal validation' to find other instances of this test"
+						value="$kCHC_criminalShip.isplayerowned and
+						($kCHC_criminalShip.isclass.entity or $kCHC_criminalShip.isclass.ship) and
+						(not $kCHC_criminalShip.islasertower) and
+						(
+							global.$kCHC.$userIsAllowAttackCrimesInLowAttention or
+							$kCHC_criminalShip.attention ge attention.adjacentzone
+						)">
+						<do_if comment="search for 'victim validation' to find other instances of this test"
+							value="
+							(
+								(not $kCHC_victimShipStation.isplayerowned) or
+								$kCHC_crime == relationchangereason.boardedobject
+							) and
+							$kCHC_victimShipStation.isrealclass.[class.ship, class.station] and
+							(not [shiptype.xsdrone, shiptype.distressdrone].indexof.{@$kCHC_victimShipStation.shiptype}) and
+							@$kCHC_victimShipStation.pilot.race != race.drone and
+							(not $kCHC_victimShipStation.isunit) and
+							(
+								global.$kCHC.$userIsAllowAttackCrimesInLowAttention or
+								$kCHC_victimShipStation.attention ge attention.adjacentzone
+							) and
+							(
+								global.$kCHC.$validFactions.indexof.{$kCHC_victimShipStation.trueowner} or
+								(
+									[faction.ownerless, null].indexof.{$kCHC_victimShipStation.trueowner} or
+									$kCHC_crime == relationchangereason.boardedobject
+								)
+							) and
+							(not global.$kCHC.$pirateFactions.indexof.{$kCHC_victimShipStation.trueowner})">
+							<do_if value="$kCHC_victimShipStation.isrealclass.station">
+								<signal_cue_instantly cue="md.kuertee_chc.LargeOperationStarted" param="table[$target = $kCHC_victimShipStation]" />
+							</do_if>
+							<run_actions ref="md.kuertee_chc.Step2_GetIsSelfDefense" result="$kCHC_isSelfDefense">
+								<param name="kCHC_criminalShip" value="$kCHC_criminalShip" />
+								<param name="kCHC_victimShipStation" value="$kCHC_victimShipStation" />
+								<param name="kCHC_crime" value="$kCHC_crime" />
+							</run_actions>
+							<debug_text text="'$kCHC_isSelfDefense: ' + $kCHC_isSelfDefense" chance="@md.kuertee_chc.kCHC.$debugChance" />
+							<run_actions ref="md.kuertee_chc.Step3_RecordCrime">
+								<param name="kCHC_criminalShip" value="$kCHC_criminalShip" />
+								<param name="kCHC_victimShipStation" value="$kCHC_victimShipStation" />
+								<param name="kCHC_crime" value="$kCHC_crime" />
+								<param name="kCHC_isSelfDefense" value="$kCHC_isSelfDefense" />
+							</run_actions>
+						</do_if>
+					</do_if>
+				</do_if>
+				<do_if value="$kCHC_isReportCrimeAtStation">
+					<set_value name="$kCHC_witnessBackup" exact="$responderdata.{1}" />
+					<do_if value="$kCHC_isDistressDrone">
+						<set_value name="$kCHC_witness" exact="$refobject" />
+						<debug_text text="'$kCHC_witness ($refobject, shiptype.distressdrone): ' + $kCHC_witness + ' ' + @$kCHC_witness.knownname + ' ' + @$kCHC_witness.idcode" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					</do_if>
+					<do_if value="(not $kCHC_witness) and $kCHC_victimShipStation">
+						<set_value name="$kCHC_witness" exact="$kCHC_victimShipStation" />
+						<debug_text text="'$kCHC_witness ($kCHC_victimShipStation): ' + $kCHC_witness + ' ' + @$kCHC_witness.knownname + ' ' + @$kCHC_witness.idcode" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					</do_if>
+					<do_if value="$kCHC_witness">
+						<set_value name="$kCHC_witnessEntity" exact="$kCHC_witness.pilot" />
+						<do_if value="not $kCHC_witnessEntity">
+							<set_value name="$kCHC_witnessEntity" exact="$kCHC_witness.defencenpc" />
+						</do_if>
+						<debug_text text="'$kCHC_witnessEntity: ' + $kCHC_witnessEntity + ' ' + @$kCHC_witnessEntity.knownname + ' $kCHC_criminalIdsWitnessed: ' + @$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed" chance="@md.kuertee_chc.kCHC.$debugChance" />
+						<set_value name="$kCHC_isReportCrimeAtStation" exact="@$kCHC_witnessEntity.$kCHC_criminalIdsWitnessed.count gt 0" />
+						<debug_text text="'$kCHC_isReportCrimeAtStation (post kCHC_criminalIdsWitnessed test): ' + $kCHC_isReportCrimeAtStation" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					</do_if>
+					<do_if value="
+						$kCHC_criminalShip == player.occupiedship and
+						(not $kCHC_isDistressDrone) and
+						(not $kCHC_victimShipStation.isrealclass.station) and
+						(not @$responsetype)">
+						<set_value name="$kCHC_isReportCrimeAtStation" exact="false" />
+						<debug_text text="'$kCHC_isReportCrimeAtStation (post player-criminal test): ' + $kCHC_isReportCrimeAtStation" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					</do_if>
+					<do_if value="$kCHC_isReportCrimeAtStation and (not $kCHC_isWaitForResponseUseCase)">
+						<run_actions ref="md.kuertee_chc.Step5_ReportCrimes">
+							<param name="Witness" value="$kCHC_witness" />
+							<param name="Station" value="$responderdata.{1}" />
+						</run_actions>
+					</do_if>
+				</do_if>
+			</do_if>
+		</do_if>
+		<do_if value="$kCHC_isEventAlreadyProcessed or (not $kCHC_isReportCrimeAtStation) or (not $kCHC_isWaitForResponseUseCase)">
+			<cancel_cue cue="AttackResponse" />
+		</do_if>
+	</add>
+	<!--
+		purpose: report crime on delay
+		<cue name="AttackResponse" instantiate="true" namespace="this">
+			<actions>
+	-->
+	<add pos="after" sel="//cue[@name=&quot;AttackResponse&quot;]/actions">
+		<cues>
+			<cue name="kCHC_ReportCrimeAfterResponse" version="2">
+				<conditions>
+					<check_any>
+						<event_cue_signalled />
+						<event_cue_signalled cue="IllegalActivityWarn" />
+						<event_cue_signalled cue="IllegalActivityRetaliate" />
+					</check_any>
+					<check_value value="$kCHC_isReportCrimeAtStation" />
+					<check_value value="$kCHC_isWaitForResponseUseCase" />
+				</conditions>
+				<actions>
+					<debug_text text="event.name + ' ' + @event.object" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					<debug_text text="'$kCHC_isRecordCrimeInVictimBlackBox (continued): ' + $kCHC_isRecordCrimeInVictimBlackBox" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					<debug_text text="'$kCHC_isReportCrimeAtStation (continued): ' + $kCHC_isReportCrimeAtStation" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					<debug_text text="'$kCHC_isWaitForResponseUseCase (continued): ' + $kCHC_isWaitForResponseUseCase" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					<do_if value="(not $kCHC_witness.isoperational) or ((not $kCHC_witness.pilot) and (not $kCHC_witness.defencenpc))">
+						<set_value name="$kCHC_witness" exact="$kCHC_witnessBackup" />
+					</do_if>
+					<run_actions ref="md.kuertee_chc.Step5_ReportCrimes">
+						<param name="Witness" value="$kCHC_witness" />
+						<param name="Station" value="$responderdata.{1}" />
+					</run_actions>
+					<cancel_cue cue="AttackResponse" />
+				</actions>
+				<patch sinceversion="2">
+					<debug_text text="'patch sinceversion 2, state: ' + this.state" />
+					<cancel_cue cue="AttackResponse" />
+				</patch>
+			</cue>
+			<cue name="kCHC_ReportCrimeAfterResponse_TimeOut" checktime="player.age + 30s" comment="in case UseCases are not triggered">
+				<actions>
+					<debug_text text="event.name" chance="@md.kuertee_chc.kCHC.$debugChance" />
+					<signal_cue cue="kCHC_ReportCrimeAfterResponse" />
+				</actions>
+			</cue>
+		</cues>
+	</add>
+	<!--
+		purpose: prevent welcome on dock if ship is getting impounded
+	-->
+	<add sel="//cue[@name=&quot;DockGreeting&quot;]/conditions">
+		<check_value value="not @md.kuertee_chc.kCHC.$isImpoundingPlayerShip" />
+	</add>
 </diff>

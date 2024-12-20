@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+	<!--
+		<cue name="UpdateBriefing" instantiate="true" comment="Called each time a briefing-update is needed">
+			<actions>
+	-->
+	<add pos="prepend" sel="//cue[@name=&quot;UpdateBriefing&quot;]/actions">
+		<do_if value="@$TargetStation and [@namespace.parent.namespace.$Client.owner, @namespace.parent.namespace.$ClientOwner].indexof.{$TargetStation.owner}">
+			<debug_text text="'$TargetStation: ' + $TargetStation.knownname + ' ' + $TargetStation.idcode" chance="md.kuertee_chc.kCHC.$debugChance" />
+			<signal_cue_instantly cue="md.kuertee_chc.Sanctions_SanctionScan" param="table[$scanTarget = $TargetStation]" />
+		</do_if>
+		<do_elseif value="@$TargetModule and [@namespace.parent.namespace.$Client.owner, @namespace.parent.namespace.$ClientOwner].indexof.{$TargetModule.owner}">
+			<debug_text text="'$TargetModule: ' + @$TargetModule.knownname + ' ' + @$TargetModule.idcode" chance="md.kuertee_chc.kCHC.$debugChance" />
+			<signal_cue_instantly cue="md.kuertee_chc.Sanctions_SanctionScan" param="table[$scanTarget = $TargetModule]" />
+		</do_elseif>
+		<do_elseif value="@$TargetShip and [@namespace.parent.namespace.$Client.owner, @namespace.parent.namespace.$ClientOwner].indexof.{$TargetShip.owner}">
+			<debug_text text="'$TargetModule: ' + $TargetShip.knownname + ' ' + $TargetShip.idcode" chance="md.kuertee_chc.kCHC.$debugChance" />
+			<signal_cue_instantly cue="md.kuertee_chc.Sanctions_SanctionScan" param="table[$scanTarget = $TargetShip]" />
+		</do_elseif>
+	</add>
+	<!--
+		<cue name="Cleanup">
+			<actions>
+	-->
+	<add pos="prepend" sel="//cue[@name=&quot;Cleanup&quot;]/actions">
+		<do_if value="@$TargetStation and [@namespace.parent.namespace.$Client.owner, @namespace.parent.namespace.$ClientOwner].indexof.{$TargetStation.owner}">
+			<debug_text text="'$TargetStation: ' + $TargetStation.knownname + ' ' + $TargetStation.idcode" chance="md.kuertee_chc.kCHC.$debugChance" />
+			<signal_cue_instantly cue="md.kuertee_chc.Sanctions_UnsanctionScan" param="table[$scanTarget = $TargetStation]" />
+		</do_if>
+		<do_elseif value="@$TargetModule and [@namespace.parent.namespace.$Client.owner, @namespace.parent.namespace.$ClientOwner].indexof.{$TargetModule.owner}">
+			<debug_text text="'$TargetModule: ' + @$TargetModule.knownname + ' ' + @$TargetModule.idcode" chance="md.kuertee_chc.kCHC.$debugChance" />
+			<signal_cue_instantly cue="md.kuertee_chc.Sanctions_UnsanctionScan" param="table[$scanTarget = $TargetModule]" />
+		</do_elseif>
+		<do_elseif value="@$TargetShip and [@namespace.parent.namespace.$Client.owner, @namespace.parent.namespace.$ClientOwner].indexof.{$TargetShip.owner}">
+			<debug_text text="'$TargetModule: ' + $TargetShip.knownname + ' ' + $TargetShip.idcode" chance="md.kuertee_chc.kCHC.$debugChance" />
+			<signal_cue_instantly cue="md.kuertee_chc.Sanctions_UnsanctionScan" param="table[$scanTarget = $TargetShip]" />
+		</do_elseif>
+	</add>
+</diff>

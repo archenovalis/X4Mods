@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+	<attention min="unknown">
+	<actions>
+	<do_if value="@$response">
+	<do_elseif value="$response == 'attack' or $response == 'flee'">
+	 -->
+	<!-- <add sel="//attention[@min=&quot;unknown&quot;]/actions/do_if[@value=&quot;@$response&quot;]/do_elseif[@value=&quot;$response == &apos;attack&apos; or $response == &apos;flee&apos;&quot;]">
+		<do_if value="$mode == 'policehalt'">
+			<do_if value="this.isplayerowned">
+				<signal_objects object="player.galaxy" param="'kuertee_chc_crime_illegal_cargo'" param2="table[
+					$criminalShip = this.ship,
+					$victimShipStation = $inspector
+				]"/>
+			</do_if>
+		</do_if>
+	</add> -->
+	<!--
+	<attention min="unknown">
+		<actions>
+			<do_if value="@$response">
+				<do_elseif value="$response == 'attack' or $response == 'flee'">
+
+	-->
+	<add sel="//do_elseif[@value=&quot;$response == 'attack' or $response == 'flee' or $response == 'distract'&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="$mode == 'policehalt'">
+				<do_if value="this.inventory.illegalto.{this.zone.policefaction} or this.assignedcontrolled.cargo.illegalto.{this.zone.policefaction}">
+					<do_if value="this.isplayerowned">
+						<set_value name="$kCHC_crime" exact="relationchangereason.illegalcargo" />
+						<set_value name="$kCHC_criminalShip" exact="this.assignedcontrolled" />
+						<set_value name="$kCHC_victimShipStation" exact="$inspector" />
+						<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+					</do_if>
+				</do_if>
+			</do_if>
+		</do_if>
+	</add>
+</diff>

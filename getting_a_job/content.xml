@@ -16,9 +16,11 @@
 	<dependency id="swi_heroes" optional="true" name="Heroes for SWI" />
 
 	<!-- integrated -->
-	<!-- <dependency id="kuerteeTeleportFromTransporterRoom" optional="true" name="kuertee: Teleport from transporter room" /> -->
-	<!-- <dependency id="kuerteeAlternativesToDeath" optional="false" name="kuertee: Alternatives to death" /> -->
-	<!-- <dependency id="kuerteeCrimeHasConsequences" optional="false" name="kuertee: Crime has consequences" /> -->
-	<!-- <dependency id="kuerteeNPCReactions" optional="false" name="kuertee: NPC reactions" /> -->
+	<!-- <dependency id="kuerteeAlternativesToDeath" optional="true" name="kuertee: Alternatives to death" version="710" date="2024-12-03" /> -->
+	<!-- <dependency id="kuerteeCrimeHasConsequences" optional="true" name="kuertee: Crime has consequences" version="710" date="2024-12-03"/> -->
+	<!-- <dependency id="kuertee_hacking_outcomes" optional="true" name="kuertee: Hacking outcomes" version="700" date="2024-10-10" /> -->
+	<!-- <dependency id="kuerteeHighSecurityRoomsAreLocked optional="true" name="kuertee: High security rooms are locked" version="710" date="2024-07-13" /> -->
+	<!-- <dependency id="kuerteeNPCReactions" optional="true" name="kuertee: NPC reactions" version="710" date="2024-12-03" /> -->
+	<!-- <dependency id="kuerteeTeleportFromTransporterRoom" optional="true" name="kuertee: Teleport from transporter room" version="710" date="2024-11-02" /> -->
 
 </content>

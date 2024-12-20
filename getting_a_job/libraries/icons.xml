@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE icons SYSTEM "icons.dtd">
+<diff>
+  <add sel="/icons">
+    <icon name="mapst_chc" texture="extensions\getting_a_job\assets\fx\gui\textures\map_sidebar_tabs\mapst_chc.tga" height="128" width="128"></icon>
+  </add>
+</diff>

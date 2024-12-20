@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<diff>
+	<!--
+		<attention min="visible">
+		<actions>
+		<do_if value="this.ship == $target">
+		<do_if value="this.isplayerowned">
+	-->
+	<add sel="//attention[@min=&quot;visible&quot;]/actions/do_if[@value=&quot;this.ship == $target&quot;]/do_if[@value=&quot;this.isplayerowned&quot;]">
+		<!-- <signal_cue_instantly cue="md.kuertee_chc.CrimeClaimShip" param="[$criminalShip = this, $claimedShip = $target]" /> -->
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="this.isplayerowned">
+				<set_value name="$kCHC_crime" exact="relationchangereason.boardedobject" />
+				<set_value name="$kCHC_criminalShip" exact="this" />
+				<set_value name="$kCHC_victimShipStation" exact="$target" />
+				<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+			</do_if>
+		</do_if>
+	</add>
+	<!--
+		<attention min="unknown">
+		<actions>
+		<do_if value="this.ship == $target">
+		<do_if value="this.isplayerowned">
+	-->
+	<add sel="//attention[@min=&quot;unknown&quot;]/actions/do_if[@value=&quot;this.ship == $target&quot;]/do_if[@value=&quot;this.isplayerowned&quot;]">
+		<!-- <signal_cue_instantly cue="md.kuertee_chc.CrimeClaimShip" param="[$criminalShip = this, $claimedShip = $target]" /> -->
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="this.isplayerowned">
+				<set_value name="$kCHC_crime" exact="relationchangereason.boardedobject" />
+				<set_value name="$kCHC_criminalShip" exact="this" />
+				<set_value name="$kCHC_victimShipStation" exact="$target" />
+				<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+			</do_if>
+		</do_if>
+	</add>
+</diff>

@@ -1,0 +1,843 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="kuertee_chc_config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+	<cues>
+		<cue name="Config" namespace="this" version="1">
+		</cue>
+		<cue name="StartSMO" instantiate="true">
+			<conditions>
+				<event_cue_signalled cue="md.Simple_Menu_Options.Reloaded" />
+			</conditions>
+			<actions>
+				<!-- <debug_text text="'signal_cue_instantly ' + @md.Simple_Menu_API.Register_Options_Menu" /> -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Register_Options_Menu"
+					param="table[
+						$id = 'kuertee_chc_extension_options_menu',
+						$columns = 2,
+						$title = {11383, 1},
+						$onOpen = BuildOptionsMenu
+					]" />
+				<cancel_cue cue="this" />
+			</actions>
+		</cue>
+		<cue name="BuildOptionsMenu" instantiate="true">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<debug_text text="''" />
+				<set_value name="$levels" exact="[
+					level.trivial,
+					level.veryeasy,
+					level.easy,
+					level.medium,
+					level.hard,
+					level.veryhard,
+					level.impossible
+				]" />
+				<set_value name="$rewardEgTextByLevels" exact="table[]" />
+				<do_all counter="$i" exact="$levels.count">
+					<set_value name="$MissionThread" exact="null" />
+					<set_value name="$OfferType" exact="null" />
+					<signal_cue_instantly cue="md.LIB_Reward_Balancing.Reward_Money" param="[namespace, $levels.{$i}, 1, faction.argon]" comment="basic reward credits"/>
+					<include_actions ref="md.LIB_Reward_Balancing.Apply_RewardMultiplier" comment="signal leak and mission thread bonus"/>
+					<!-- <debug_text text="$levels.{$i} + ': ' + $Reward_Money__Result_Multiplied.formatted.{'%s %Cr'}" /> -->
+					<set_value name="$rewardEgTextByLevels.{$levels.{$i}}" exact="$Reward_Money__Result_Multiplied.formatted.{'%s %Cr'}" />
+					<remove_value name="$MissionThread" />
+					<remove_value name="$OfferType" />
+				</do_all>
+				<remove_value name="$levels" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=2, $text={11383, 4}]" comment="Fines" />
+
+
+
+
+
+				<!-- attacks -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 5}, $color = 'Helper.color.blue']" comment="Attacks" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 6}]" comment="Beacons, probes, laser towers, and satellites" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeAttackedOtherFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeAttackedOtherFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeAttackedOtherFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 0.5,
+						$mouseOverText = {1001,2661} + ': 0.5',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 7}]" comment="Ship attacks" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeAttackedShipFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeAttackedShipFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeAttackedShipFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeAttackedShipFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeAttackedShipFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeAttackedShipFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeAttackedShipFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeAttackedShipFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeAttackedShipFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeAttackedShipFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 1.00,
+						$mouseOverText = {1001,2661} + ': 1.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 8}]" comment="Station attacks" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeAttackedStationFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeAttackedStationFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeAttackedStationFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeAttackedStationFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeAttackedStationFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeAttackedStationFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeAttackedStationFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeAttackedStationFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeAttackedStationFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeAttackedStationFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 2.00,
+						$mouseOverText = {1001,2661} + ': 2.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+
+
+
+
+
+				<!-- thievery -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 9}, $color = 'Helper.color.blue']" comment="Thievery" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 10}]"/>
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeBoardedObjectFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeBoardedObjectFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeBoardedObjectFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 2.00,
+						$mouseOverText = {1001,2661} + ': 2.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+
+
+
+
+
+				<!-- kills -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 11}, $color = 'Helper.color.blue']" comment="Kills" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 12}]" comment="Beacons, probes, laser towers, and satellites" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeDestroyedOtherFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeDestroyedOtherFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeDestroyedOtherFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 1.00,
+						$mouseOverText = {1001,2661} + ': 1.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 13}]" comment="Ship kills" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeKilledShipFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeKilledShipFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeKilledShipFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeKilledShipFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeKilledShipFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeKilledShipFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeKilledShipFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeKilledShipFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeKilledShipFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeKilledShipFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 3.00,
+						$mouseOverText = {1001,2661} + ': 3.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 14}]" comment="Station destructions" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeDestroyedStationFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeDestroyedStationFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeDestroyedStationFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 4.00,
+						$mouseOverText = {1001,2661} + ': 4.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+
+
+
+
+
+				<!-- other -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 15}, $color = 'Helper.color.blue']" comment="Other types" />
+				<!-- <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 16}]" comment="Hacks" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeHackingDiscoveredFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeHackingDiscoveredFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeHackingDiscoveredFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeHackingDiscoveredFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeHackingDiscoveredFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeHackingDiscoveredFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeHackingDiscoveredFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeHackingDiscoveredFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4004},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeHackingDiscoveredFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeHackingDiscoveredFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 1.0,
+						$mouseOverText = {1001,2661} + ': 1.0',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" /> -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 17}]" comment="Illegal scans" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeScanningDiscoveredFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4002},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeScanningDiscoveredFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeScanningDiscoveredFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 1.00,
+						$mouseOverText = {1001,2661} + ': 1.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 18}]" comment="Illegal cargo/inventory" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeIllegalCargoFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4002},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeIllegalCargoFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeIllegalCargoFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 1.00,
+						$mouseOverText = {1001,2661} + ': 1.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 19}]" comment="Illegal build plots" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Dropdown"
+					param = "table[
+						$id = 'userCrimeIllegalPlotFineLevel',
+						$col = 2,
+						$options = [
+							table[$text={1001, 4001} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.trivial}] + ')', $value=level.trivial],
+							table[$text={1001, 4002} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryeasy}] + ')', $value=level.veryeasy],
+							table[$text={1001, 4003} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.easy}] + ')', $value=level.easy],
+							table[$text={1001, 4004} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.medium}] + ')', $value=level.medium],
+							table[$text={1001, 4005} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.hard}] + ')', $value=level.hard],
+							table[$text={1001, 4006} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.veryhard}] + ')', $value=level.veryhard],
+							table[$text={1001, 4007} + ' (' + {11383, 30}.[$rewardEgTextByLevels.{level.impossible}] + ')', $value=level.impossible]
+						],
+						$startOption = if md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineLevel == level.trivial then 1 else (
+							if md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineLevel == level.veryeasy then 2 else (
+								if md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineLevel == level.easy then 3 else (
+									if md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineLevel == level.medium then 4 else (
+										if md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineLevel == level.hard then 5 else (
+											if md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineLevel == level.veryhard then 6 else (
+												if md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineLevel == level.impossible then 7
+											)
+										)
+									)
+								)
+							)
+						),
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 4003},
+						$onDropDownConfirmed = onDropDownConfirmed
+					]"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userCrimeIllegalPlotFineMult',
+						$start = md.kuertee_chc.kCHC.$userCrimeIllegalPlotFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.25, $suffix='x',
+						$default = 1.00,
+						$mouseOverText = {1001,2661} + ': 1.00',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+
+
+
+
+
+				<!-- vars -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"/>
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 20}, $color = 'Helper.color.blue']" comment="Other features" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 35}]" comment="Allow attack and kill crimes in low attention" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userIsAllowAttackCrimesInLowAttention',
+						$checked = md.kuertee_chc.kCHC.$userIsAllowAttackCrimesInLowAttention,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = true,
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 21}, $mouseOverText = {11383, 31} + ' ' + {1001, 2661} + ': 0.1.']" comment="Fines multiplier in large operation areas" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userInLargeOperationFineMult',
+						$start = md.kuertee_chc.kCHC.$userInLargeOperationFineMult,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 5.00, $step = 0.10, $suffix='x',
+						$default = 0.10,
+						$mouseOverText = {11383, 31} + ' ' + {1001, 2661} + ': 0.10.',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 22}]" comment="Imopund ship on dock" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userIsImpoundShipOnDock',
+						$checked = md.kuertee_chc.kCHC.$userIsImpoundShipOnDock,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = true,
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 23}, $halign = 'right']" comment="Imopund player ship on dock" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userIsImpoundPlayerShipOnDock',
+						$checked = md.kuertee_chc.kCHC.$userIsImpoundPlayerShipOnDock,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = false,
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 24}, $halign = 'right']" comment="Impound player ship on dock on any fines" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userIsImpoundPlayerShipOnDockAnyFine',
+						$checked = md.kuertee_chc.kCHC.$userIsImpoundPlayerShipOnDockAnyFine,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = false,
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 2649},
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 25}]" comment="Impound ship at hull percentage" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userShipHullPercImpound',
+						$start = md.kuertee_chc.kCHC.$userShipHullPercImpound,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0.00, $max = 100.00, $step = 5.00, $suffix='%',
+						$default = 25.00,
+						$mouseOverText = {1001, 2661} + ': 25.00%',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 26}, $halign = 'right']" comment="Impound player ship on attack" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userIsImpoundPlayerShipOnAttack',
+						$checked = md.kuertee_chc.kCHC.$userIsImpoundPlayerShipOnAttack,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = false,
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 27}, $halign = 'right']" comment="Impound player ship on attack on any fines" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userIsImpoundPlayerShipOnAttackAnyFine',
+						$checked = md.kuertee_chc.kCHC.$userIsImpoundPlayerShipOnAttackAnyFine,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = false,
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 2649},
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 33}]" comment="Hours to forfeit impounded ships" />
+				<signal_cue_instantly
+					cue = "md.Simple_Menu_API.Make_Slider"
+					param = "table[
+						$id = 'userHoursToForfeitImpounds',
+						$start = md.kuertee_chc.kCHC.$userHoursToForfeitImpounds,
+						$col = 2,
+						$text = table[$text=''],
+						$min = 0, $max = 100, $step = 1, $suffix='h',
+						$default = 24,
+						$mouseOverText = {1001, 2661} + ': 14h',
+						$onSliderCellChanged = OnSMOSliderChange
+					]" />
+
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 28}, $mouseOverText = {11383, 32} + ' ' + {1001, 2661} + ': ' + {1001, 2648} + '.']" comment="Separate wingmen crimes" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userSeparateWingmanCrimes',
+						$checked = md.kuertee_chc.kCHC.$userSeparateWingmanCrimes,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = false,
+						$mouseOverText = {11383, 32} + ' ' + {1001, 2661} + ': ' + {1001, 2649} + '.',
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 29}]" comment="Accumulate crimes on enemy factions" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userIsDetectCrimesOnEnemy',
+						$checked = md.kuertee_chc.kCHC.$userIsDetectCrimesOnEnemy,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = true,
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 34}]" comment="Accumulate crimes on enemy factions" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'userIsDetectCrimesOnPirate',
+						$checked = md.kuertee_chc.kCHC.$userIsDetectCrimesOnPirate,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$default = true,
+						$mouseOverText = {1001, 2661} + ': ' + {1001, 2648},
+						$onClick = OnSMOCheckboxChange
+					]" comment="2661 = Defaults, 2649 = 'off', 2648 = 'on'" />
+
+
+
+
+
+				<!-- debug -->
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+				<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={11383, 2}, $color='Helper.color.red']" />
+				<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+					param = "table[
+						$id = 'debugChance',
+						$checked = if md.kuertee_chc.kCHC.$debugChance == 100 then true else false,
+						$col = 2,
+						$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+						$bgColor = 'Helper.color.red',
+						$onClick = OnSMOCheckboxChange
+					]" />
+				<do_if value="md.kuertee_chc.kCHC.$debugChance">
+					<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+					<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={161815, 3}, $color='Helper.color.red']" />
+					<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+						param = "table[
+							$id = 'isDoDebug1',
+							$checked = md.kuertee_chc.kCHC.$isDoDebug1,
+							$col = 2,
+							$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+							$bgColor = 'Helper.color.red',
+							$onClick = OnSMOCheckboxChange
+						]" />
+					<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+					<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text={161815, 3}, $color='Helper.color.red']" />
+					<signal_cue_instantly cue = "md.Simple_Menu_API.Make_CheckBox"
+						param = "table[
+							$id = 'isDoDebug2',
+							$checked = md.kuertee_chc.kCHC.$isDoDebug2,
+							$col = 2,
+							$width = 'Helper.standardButtonHeight', $height = 'Helper.standardButtonHeight',
+							$bgColor = 'Helper.color.red',
+							$onClick = OnSMOCheckboxChange
+						]" />
+				</do_if>
+				<remove_value name="$rewardEgTextByLevels" />
+			</actions>
+		</cue>
+		<cue name="OnSMOSliderChange" instantiate="true">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
+				<set_value name="md.kuertee_chc.kCHC.{'$' + event.param.$id}" exact="event.param.$value" />
+				<debug_text text="event.param.$id + ' post: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
+				<cancel_cue cue = "this" />
+			</actions>
+		</cue>
+		<cue name="OnSMOCheckboxChange" instantiate="true">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
+				<do_if value="event.param.$id == 'debugChance'">
+					<set_value name="md.kuertee_chc.kCHC.{'$' + event.param.$id}" exact="if event.param.$checked then 100 else 0" />
+					<signal_cue_instantly cue="md.Simple_Menu_API.Refresh_Menu"/>
+				</do_if>
+				<do_else>
+					<set_value name="md.kuertee_chc.kCHC.{'$' + event.param.$id}" exact="event.param.$checked" />
+				</do_else>
+				<debug_text text="event.param.$id + ' post: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
+				<cancel_cue cue = "this" />
+			</actions>
+		</cue>
+		<cue name="onDropDownConfirmed" instantiate="true">
+			<conditions>
+				<event_cue_signalled />
+			</conditions>
+			<actions>
+				<debug_text text="event.param.$id + ' to: ' + @event.param.$option.$text + ' value: ' + @event.param.$option.$value" chance="md.kuertee_chc.kCHC.$debugChance" />
+				<debug_text text="event.param.$id + ' pre: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
+				<set_value name="md.kuertee_chc.kCHC.{'$' + event.param.$id}" exact="(event.param.$option.$value)" />
+				<debug_text text="event.param.$id + ' post: ' + md.kuertee_chc.kCHC.{'$' + event.param.$id}" chance="md.kuertee_chc.kCHC.$debugChance" />
+				<cancel_cue cue = "this" />
+			</actions>
+		</cue>
+	</cues>
+</mdscript>

@@ -1,6 +1,19 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <diff>
-<!-- add. purpose: params.
+	<!-- Crime Has Consequences -->
+	<add pos="before" sel="//set_relation_boost[@object=&quot;this&quot;][@otherobject=&quot;$localtarget&quot;][@value=&quot;-1.0&quot;][@decay=&quot;1&quot;][@delay=&quot;5min&quot;][@reason=&quot;relationchangereason.illegalcargo&quot;]">
+		<do_if value="not @player.allmodules.{player.module}.isscenario">
+			<do_if value="$localtarget.isplayerowned">
+				<set_value name="$kCHC_crime" exact="relationchangereason.illegalcargo" />
+				<set_value name="$kCHC_criminalShip" exact="$localtarget" />
+				<set_value name="$kCHC_victimShipStation" exact="this.assignedcontrolled" />
+				<include_interrupt_actions ref="kCHC_AddWitnessedCrime" />
+			</do_if>
+		</do_if>
+	</add>
+
+	<!-- NPC Reactions -->
+	<!-- add. purpose: params.
 	<params>
 -->
 	<!-- <t id="690001">Report Small And Medium Enemies</t>
@@ -17,15 +30,15 @@
 			then true else false" />
 		<param name="kNPCRParam_doNotEngage" required="false" default="if $holdfire? then $holdfire else false" type="bool" text="{1416318, 690003}" />
 	</add>
-<!-- add. purpose: send params to move.generic.
+	<!-- add. purpose: send params to move.generic.
 	<run_script name="'move.seekenemies'">
 -->
 	<add sel="//run_script[@name=&quot;'move.seekenemies'&quot;]">
-		<param name="kNPCRParam_reportEnemies_small" value="@$kNPCRParam_reportEnemies_small"/>
-		<param name="kNPCRParam_reportEnemies_large" value="@$kNPCRParam_reportEnemies_large"/>
-		<param name="kNPCRParam_doNotEngage" value="@$kNPCRParam_doNotEngage"/>
+		<param name="kNPCRParam_reportEnemies_small" value="@$kNPCRParam_reportEnemies_small" />
+		<param name="kNPCRParam_reportEnemies_large" value="@$kNPCRParam_reportEnemies_large" />
+		<param name="kNPCRParam_doNotEngage" value="@$kNPCRParam_doNotEngage" />
 	</add>
-<!-- add. purpose: flee instead of attack.
+	<!-- add. purpose: flee instead of attack.
 	<do_if value="@$attacker.isoperational">
 		<create_order id="'Attack'" object="this.assignedcontrolled" immediate="true">
 -->
@@ -53,7 +66,7 @@
 			</do_if>
 		</do_if>
 	</add>
-<!-- add. purpose: flee instead of attack.
+	<!-- add. purpose: flee instead of attack.
 	<do_if value="$trouble?">
 		<create_order id="'Attack'" object="this.ship" immediate="true">
 -->

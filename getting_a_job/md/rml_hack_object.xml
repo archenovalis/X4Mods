@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+<!-- add. purpose: debug
+	<cue name="Update_Objective" instantiate="true">
+		<actions>
+	<cue name="HackingPanelRoomHint" instantiate="true">
+		<actions>
+	<cue name="TargetHacked" instantiate="true">
+		<actions>
+-->
+	<!-- <add sel="(//cue[@name=&quot;Update_Objective&quot;]/actions)[1]">
+		<debug_text text="'kuertee_hacking_outcomes event.name: ' + event.name" />
+	</add>
+	<add sel="(//cue[@name=&quot;HackingPanelRoomHint&quot;]/actions)[1]">
+		<debug_text text="'kuertee_hacking_outcomes event.name: ' + event.name" />
+	</add>
+	<add sel="//cue[@name=&quot;TargetHacked&quot;]/actions">
+		<debug_text text="'kuertee_hacking_outcomes event.name: ' + event.name" />
+		<debug_text text="'kuertee_hacking_outcomes event.param: ' + event.param + ' ' + @event.param.knownname" />
+		<debug_text text="'kuertee_hacking_outcomes event.param2: ' + event.param2 + ' ' + @event.param.knownname" />
+		<debug_text text="'kuertee_hacking_outcomes event.param3: ' + event.param3" />
+	</add> -->
+</diff>
