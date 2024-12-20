@@ -2,11 +2,10 @@
 <content id="intergalactic_bank"
 	name="InterGalactic Bank" description="Invest with the InterGalactic Banking Clan"
 	version="70"
-	date="2024-12-13"
+	date="2024-12-17"
 	save="0" enabled="1"
 	author="Archie">
 
 	<dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" />
 	<dependency id="SW Interworlds" optional="false" name="SW Interworlds" />
-	<dependency id="kuerteeNPCReactions" optional="true" name="kuertee: NPC reactions" />
 </content>

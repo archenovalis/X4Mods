@@ -61,6 +61,7 @@ icons, cleanup, menu improvement
 still needs a clean install, v0.7 will overwrite beta installs
 
 v0.7:
+some minor factions have their own banks
 added sw credits icon
 started implementing loot box opening
 added more loot box wares
