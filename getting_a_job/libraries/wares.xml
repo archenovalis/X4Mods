@@ -629,534 +629,534 @@
   <!-- price divided by 5 -->
   <!-- spread divided by 8 -->
   <replace sel="//ware[@id='bomb_player_limpet_emp_01_mk1']/price">
-    <price min="23750.0" average="24000" max="24250" />
+    <price min="23750" average="24000" max="24250" />
   </replace>
   <replace sel="//ware[@id='bomb_player_limpet_mine_01_mk1']/price">
-    <price min="17875.0" average="18000" max="18250" />
+    <price min="17875" average="18000" max="18250" />
   </replace>
   <replace sel="//ware[@id='engine_gen_spacesuit_01_mk1']/price">
-    <price min="195.0" average="200" max="205" />
+    <price min="195" average="200" max="205" />
   </replace>
   <replace sel="//ware[@id='engine_gen_spacesuit_01_mk2']/price">
-    <price min="11625.0" average="12000" max="12375" />
+    <price min="11625" average="12000" max="12375" />
   </replace>
   <replace sel="//ware[@id='inv_advancedtargetingmodule']/price">
-    <price min="1973.0" average="2011" max="2048" />
+    <price min="1973" average="2011" max="2048" />
   </replace>
   <replace sel="//ware[@id='inv_agidevice_01']/price">
-    <price min="2050.0" average="2117" max="2183" />
+    <price min="2050" average="2117" max="2183" />
   </replace>
   <replace sel="//ware[@id='inv_agidevice_02']/price">
-    <price min="894.0" average="912" max="929" />
+    <price min="894" average="912" max="929" />
   </replace>
   <replace sel="//ware[@id='inv_agidevice_03']/price">
-    <price min="1933.0" average="1996" max="2058" />
+    <price min="1933" average="1996" max="2058" />
   </replace>
   <replace sel="//ware[@id='inv_algaescrubber']/price">
-    <price min="170.0" average="174" max="177" />
+    <price min="170" average="174" max="177" />
   </replace>
   <replace sel="//ware[@id='inv_argnusteak']/price">
-    <price min="148.0" average="151" max="153" />
+    <price min="148" average="151" max="153" />
   </replace>
   <replace sel="//ware[@id='inv_bandages']/price">
-    <price min="21.0" average="22" max="22" />
+    <price min="21" average="22" max="22" />
   </replace>
   <replace sel="//ware[@id='inv_carbonfilter']/price">
-    <price min="159.0" average="162" max="165" />
+    <price min="159" average="162" max="165" />
   </replace>
   <replace sel="//ware[@id='inv_crystalbit']/price">
-    <price min="190.0" average="194" max="197" />
+    <price min="190" average="194" max="197" />
   </replace>
   <replace sel="//ware[@id='inv_crystal_01']/price">
-    <price min="196.0" average="200" max="203" />
+    <price min="196" average="200" max="203" />
   </replace>
   <replace sel="//ware[@id='inv_crystal_02']/price">
-    <price min="1962.0" average="2000" max="2037" />
+    <price min="1962" average="2000" max="2037" />
   </replace>
   <replace sel="//ware[@id='inv_crystal_03']/price">
-    <price min="2925.0" average="3000" max="3050" />
+    <price min="2925" average="3000" max="3050" />
   </replace>
   <replace sel="//ware[@id='inv_crystal_04']/price">
-    <price min="3888.0" average="4000" max="4112" />
+    <price min="3888" average="4000" max="4112" />
   </replace>
   <replace sel="//ware[@id='inv_crystal_05']/price">
-    <price min="24375.0" average="25000" max="25625" />
+    <price min="24375" average="25000" max="25625" />
   </replace>
   <replace sel="//ware[@id='inv_damagedsingularityengine']/price">
-    <price min="22961.0" average="23702" max="24442" />
+    <price min="2296" average="2370" max="2444" />
   </replace>
   <replace sel="//ware[@id='inv_decryptionmodule']/price">
-    <price min="1770.0" average="1804" max="1837" />
+    <price min="1770" average="1804" max="1837" />
   </replace>
   <replace sel="//ware[@id='inv_digitalseminar_boarding']/price">
-    <price min="19.0" average="20" max="20" />
+    <price min="19" average="20" max="20" />
   </replace>
   <replace sel="//ware[@id='inv_digitalseminar_engineering']/price">
-    <price min="19.0" average="20" max="20" />
+    <price min="19" average="20" max="20" />
   </replace>
   <replace sel="//ware[@id='inv_digitalseminar_management']/price">
-    <price min="19.0" average="20" max="20" />
+    <price min="19" average="20" max="20" />
   </replace>
   <replace sel="//ware[@id='inv_digitalseminar_morale']/price">
-    <price min="19.0" average="20" max="20" />
+    <price min="19" average="20" max="20" />
   </replace>
   <replace sel="//ware[@id='inv_digitalseminar_piloting']/price">
-    <price min="19.0" average="20" max="20" />
+    <price min="19" average="20" max="20" />
   </replace>
   <replace sel="//ware[@id='inv_electronics']/price">
-    <price min="3557.0" average="3625" max="3692" />
+    <price min="3557" average="3625" max="3692" />
   </replace>
   <replace sel="//ware[@id='inv_finemeal']/price">
-    <price min="2951.0" average="3008" max="3064" />
+    <price min="2951" average="3008" max="3064" />
   </replace>
   <replace sel="//ware[@id='inv_firstaidkit']/price">
-    <price min="2064.0" average="2104" max="2143" />
+    <price min="2064" average="2104" max="2143" />
   </replace>
   <replace sel="//ware[@id='inv_fluxcapacitor']/price">
-    <price min="25151.0" average="25963" max="26774" />
+    <price min="2515" average="2596" max="2677" />
   </replace>
   <replace sel="//ware[@id='inv_hallucinogenics']/price">
-    <price min="1617.0" average="1670" max="1722" />
+    <price min="1617" average="1670" max="1722" />
   </replace>
   <replace sel="//ware[@id='inv_harddrug_01']/price">
-    <price min="11798.0" average="12179" max="12559" />
+    <price min="11798" average="12179" max="12559" />
   </replace>
   <replace sel="//ware[@id='inv_head_of_split']/price">
-    <price min="1962500.0" average="2000000" max="2037500" />
+    <price min="1962500" average="2000000" max="2037500" />
   </replace>
   <replace sel="//ware[@id='inv_herbicide']/price">
-    <price min="46.0" average="47" max="47" />
+    <price min="46" average="47" max="47" />
   </replace>
   <replace sel="//ware[@id='inv_hydraulicpump']/price">
-    <price min="93.0" average="95" max="96" />
+    <price min="93" average="95" max="96" />
   </replace>
   <replace sel="//ware[@id='inv_interfaceunit']/price">
-    <price min="186.0" average="190" max="193" />
+    <price min="186" average="190" max="193" />
   </replace>
   <replace sel="//ware[@id='inv_kyondevice_01']/price">
-    <price min="3878.0" average="4004" max="4129" />
+    <price min="3878" average="4004" max="4129" />
   </replace>
   <replace sel="//ware[@id='inv_kyondevice_02']/price">
-    <price min="7974.0" average="8127" max="8279" />
+    <price min="7974" average="8127" max="8279" />
   </replace>
   <replace sel="//ware[@id='inv_kyondevice_03']/price">
-    <price min="15605.0" average="16109" max="16612" />
+    <price min="15605" average="16109" max="16612" />
   </replace>
   <replace sel="//ware[@id='inv_magneticmaterial']/price">
-    <price min="9.0" average="10" max="10" />
+    <price min="9" average="10" max="10" />
   </replace>
   <replace sel="//ware[@id='inv_majaglit']/price">
-    <price min="235.0" average="240" max="244" />
+    <price min="235" average="240" max="244" />
   </replace>
   <replace sel="//ware[@id='inv_microgimble']/price">
-    <price min="127.0" average="130" max="132" />
+    <price min="127" average="130" max="132" />
   </replace>
   <replace sel="//ware[@id='inv_micromotor']/price">
-    <price min="110.0" average="113" max="115" />
+    <price min="110" average="113" max="115" />
   </replace>
   <replace sel="//ware[@id='inv_mixedfruit']/price">
-    <price min="78.0" average="80" max="81" />
+    <price min="78" average="80" max="81" />
   </replace>
   <replace sel="//ware[@id='inv_modulartrigger']/price">
-    <price min="110.0" average="113" max="115" />
+    <price min="110" average="113" max="115" />
   </replace>
   <replace sel="//ware[@id='inv_needle']/price">
-    <price min="125.0" average="128" max="130" />
+    <price min="125" average="128" max="130" />
   </replace>
   <replace sel="//ware[@id='inv_processing_panel_12G']/price">
-    <price min="9243.0" average="9349" max="9454" />
+    <price min="9243" average="9349" max="9454" />
   </replace>
   <replace sel="//ware[@id='inv_processing_panel_19L']/price">
-    <price min="4716.0" average="4770" max="4823" />
+    <price min="4716" average="4770" max="4823" />
   </replace>
   <replace sel="//ware[@id='inv_processing_panel_46B']/price">
-    <price min="1320.0" average="1335" max="1350" />
+    <price min="1320" average="1335" max="1350" />
   </replace>
   <replace sel="//ware[@id='inv_processing_panel_7A']/price">
-    <price min="565.0" average="572" max="578" />
+    <price min="565" average="572" max="578" />
   </replace>
   <replace sel="//ware[@id='inv_processing_panel_8X']/price">
-    <price min="2452.0" average="2480" max="2507" />
+    <price min="2452" average="2480" max="2507" />
   </replace>
   <replace sel="//ware[@id='inv_programmablefieldarray']/price">
-    <price min="27352.0" average="28235" max="29117" />
+    <price min="2735" average="2823" max="2911" />
   </replace>
   <replace sel="//ware[@id='inv_quantum_data_shard']/price">
-    <price min="10997.0" average="11208" max="11418" />
+    <price min="10997" average="11208" max="11418" />
   </replace>
   <replace sel="//ware[@id='inv_rapidsandfilter']/price">
-    <price min="155.0" average="158" max="161" />
+    <price min="155" average="158" max="161" />
   </replace>
   <replace sel="//ware[@id='inv_rarespices']/price">
-    <price min="188.0" average="192" max="195" />
+    <price min="188" average="192" max="195" />
   </replace>
   <replace sel="//ware[@id='inv_remotedetonator']/price">
-    <price min="3119.0" average="3179" max="3238" />
+    <price min="3119" average="3179" max="3238" />
   </replace>
   <replace sel="//ware[@id='inv_salvagedelectronics']/price">
-    <price min="28.0" average="29" max="29" />
+    <price min="28" average="29" max="29" />
   </replace>
   <replace sel="//ware[@id='inv_securecontainer']/price">
-    <price min="894.0" average="912" max="929" />
+    <price min="894" average="912" max="929" />
   </replace>
   <replace sel="//ware[@id='inv_securitybypasssystem']/price">
-    <price min="30773.0" average="31121" max="31468" />
+    <price min="30773" average="31121" max="31468" />
   </replace>
   <replace sel="//ware[@id='inv_securitydecryptionsystem']/price">
-    <price min="32773.0" average="33121" max="33468" />
+    <price min="32773" average="33121" max="33468" />
   </replace>
   <replace sel="//ware[@id='inv_securityslicer']/price">
-    <price min="31598.0" average="31921" max="32568" />
+    <price min="31598" average="31921" max="32568" />
   </replace>
   <replace sel="//ware[@id='inv_sedative']/price">
-    <price min="51.0" average="52" max="53" />
+    <price min="51" average="52" max="53" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_management_0']/price">
-    <price min="906.0" average="924" max="941" />
+    <price min="906" average="924" max="941" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_management_1']/price">
-    <price min="1942.0" average="1980" max="2017" />
+    <price min="1942" average="1980" max="2017" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_management_2']/price">
-    <price min="3485.0" average="3936" max="4009" />
+    <price min="3485" average="3936" max="4009" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_management_3']/price">
-    <price min="12834.0" average="13080" max="13325" />
+    <price min="12834" average="13080" max="13325" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_management_4']/price">
-    <price min="20017.0" average="20400" max="20782" />
+    <price min="20017" average="20400" max="20782" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_piloting_0']/price">
-    <price min="841.0" average="858" max="874" />
+    <price min="841" average="858" max="874" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_piloting_1']/price">
-    <price min="1766.0" average="1800" max="1833" />
+    <price min="1766" average="1800" max="1833" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_piloting_2']/price">
-    <price min="3485.0" average="3552" max="3618" />
+    <price min="3485" average="3552" max="3618" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_piloting_3']/price">
-    <price min="11539.0" average="11760" max="11980" />
+    <price min="11539" average="11760" max="11980" />
   </replace>
   <replace sel="//ware[@id='inv_seminar_piloting_4']/price">
-    <price min="17956.0" average="18300" max="18643" />
+    <price min="17956" average="18300" max="18643" />
   </replace>
   <replace sel="//ware[@id='inv_spaceflycaviar']/price">
-    <price min="207436.0" average="211400" max="215363" />
+    <price min="207436" average="211400" max="215363" />
   </replace>
   <replace sel="//ware[@id='inv_spaceflyeggs']/price">
-    <price min="2074.0" average="2114" max="2153" />
+    <price min="2074" average="2114" max="2153" />
   </replace>
   <replace sel="//ware[@id='inv_split_ceremonial_dagger']/price">
-    <price min="2943750.0" average="3000000" max="3056250" />
+    <price min="2943750" average="3000000" max="3056250" />
   </replace>
   <replace sel="//ware[@id='inv_timewarp']/price">
-    <price min="382205.0" average="389509" max="396812" />
+    <price min="38220" average="38950" max="39681" />
   </replace>
   <replace sel="//ware[@id='inv_unstablecrystal']/price">
-    <price min="1054.0" average="1088" max="1122" />
+    <price min="1054" average="1088" max="1122" />
   </replace>
   <replace sel="//ware[@id='mod_engine_boostduration_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_engine_boostthrust_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_engine_boostthrust_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_engine_boostthrust_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_engine_forwardthrust_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_engine_forwardthrust_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_engine_forwardthrust_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_engine_forwardthrust_02_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_engine_rotationthrust_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_engine_rotationthrust_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_engine_travelthrust_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_engine_travelthrust_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_engine_travelthrust_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_shield_capacity_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_shield_capacity_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_shield_capacity_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_shield_capacity_02_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_shield_rechargedelay_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_shield_rechargerate_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_shield_rechargerate_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_shield_rechargerate_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_ship_countermeasurecapacity_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_ship_deployablecapacity_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_ship_drag_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_ship_hidecargo_01']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_ship_mass_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_ship_mass_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_ship_mass_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_ship_maxhull_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_ship_missilecapacity_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_ship_radarcloak_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_ship_radarcloak_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_ship_radarcloak_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_ship_radarrange_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_beamlength_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_cooling_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_cooling_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_cooling_02_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_cooling_02_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_02_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_02_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_02_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_03_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_damage_04_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_lifetime_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_mining_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_mining_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_reload_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_rotationspeed_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_speed_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_speed_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_surfaceelement_01_mk1']/price">
-    <price min="9812.0" average="10000" max="10187" />
+    <price min="9812" average="10000" max="10187" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_surfaceelement_01_mk2']/price">
-    <price min="49062.0" average="50000" max="50937" />
+    <price min="49062" average="50000" max="50937" />
   </replace>
   <replace sel="//ware[@id='mod_weapon_surfaceelement_01_mk3']/price">
-    <price min="245312.0" average="250000" max="254687" />
+    <price min="245312" average="250000" max="254687" />
   </replace>
   <replace sel="//ware[@id='resourceprobe_01']/price">
-    <price min="1211.0" average="1235" max="1258" />
+    <price min="1211" average="1235" max="1258" />
   </replace>
   <replace sel="//ware[@id='satellite_mk1']/price">
-    <price min="958.0" average="977" max="995" />
+    <price min="958" average="977" max="995" />
   </replace>
   <replace sel="//ware[@id='satellite_mk2']/price">
-    <price min="10247.0" average="10443" max="10638" />
+    <price min="10247" average="10443" max="10638" />
   </replace>
   <replace sel="//ware[@id='ship_arg_xs_police_01_a']/price">
-    <price min="2241.0" average="2284" max="2326" />
+    <price min="2241" average="2284" max="2326" />
   </replace>
   <replace sel="//ware[@id='ship_gen_m_transdrone_container_01_a']/price">
-    <price min="9145.0" average="9320" max="9494" />
+    <price min="9145" average="9320" max="9494" />
   </replace>
   <replace sel="//ware[@id='ship_gen_s_miningdrone_liquid_01_a']/price">
-    <price min="2720.0" average="2772" max="2823" />
+    <price min="2720" average="2772" max="2823" />
   </replace>
   <replace sel="//ware[@id='ship_gen_s_miningdrone_solid_01_a']/price">
-    <price min="2720.0" average="2772" max="2823" />
+    <price min="2720" average="2772" max="2823" />
   </replace>
   <replace sel="//ware[@id='ship_gen_s_transdrone_container_01_a']/price">
-    <price min="4572.0" average="4660" max="4747" />
+    <price min="4572" average="4660" max="4747" />
   </replace>
   <replace sel="//ware[@id='ship_gen_xs_buildingdrone_01_a']/price">
-    <price min="2996.0" average="3054" max="3111" />
+    <price min="2996" average="3054" max="3111" />
   </replace>
   <replace sel="//ware[@id='ship_gen_xs_cargodrone_empty_01_a']/price">
-    <price min="3169.0" average="3230" max="3290" />
+    <price min="3169" average="3230" max="3290" />
   </replace>
   <replace sel="//ware[@id='ship_gen_xs_repairdrone_01_a']/price">
-    <price min="2996.0" average="3054" max="3111" />
+    <price min="2996" average="3054" max="3111" />
   </replace>
   <replace sel="//ware[@id='ship_par_xs_police_01_a']/price">
-    <price min="2241.0" average="2284" max="2326" />
+    <price min="2241" average="2284" max="2326" />
   </replace>
   <replace sel="//ware[@id='ship_tel_xs_police_01_a']/price">
-    <price min="2241.0" average="2284" max="2326" />
+    <price min="2241" average="2284" max="2326" />
   </replace>
   <replace sel="//ware[@id='ship_tel_xs_police_02_a']/price">
-    <price min="2241.0" average="2284" max="2326" />
+    <price min="2241" average="2284" max="2326" />
   </replace>
   <replace sel="//ware[@id='ship_tel_xs_police_03_a']/price">
-    <price min="2241.0" average="2284" max="2326" />
+    <price min="2241" average="2284" max="2326" />
   </replace>
   <replace sel="//ware[@id='software_dockmk1']/price">
-    <price min="1437.0" average="1500" max="1562" />
+    <price min="1437" average="1500" max="1562" />
   </replace>
   <replace sel="//ware[@id='software_dockmk2']/price">
-    <price min="6348.0" average="6553" max="6757" />
+    <price min="6348" average="6553" max="6757" />
   </replace>
   <replace sel="//ware[@id='software_economymk1']/price">
-    <price min="1437.0" average="1500" max="1562" />
+    <price min="1437" average="1500" max="1562" />
   </replace>
   <replace sel="//ware[@id='software_flightassistmk1']/price">
-    <price min="1763.0" average="1820" max="1876" />
+    <price min="1763" average="1820" max="1876" />
   </replace>
   <replace sel="//ware[@id='software_scannerlongrangemk1']/price">
-    <price min="6423.0" average="6505" max="6586" />
+    <price min="6423" average="6505" max="6586" />
   </replace>
   <replace sel="//ware[@id='software_scannerlongrangemk2']/price">
-    <price min="12847.0" average="13010" max="13172" />
+    <price min="12847" average="13010" max="13172" />
   </replace>
   <replace sel="//ware[@id='software_scannerminingmk1']/price">
-    <price min="4786.0" average="4847" max="4907" />
+    <price min="4786" average="4847" max="4907" />
   </replace>
   <replace sel="//ware[@id='software_scannerminingmk2']/price">
-    <price min="14284.0" average="14465" max="14645" />
+    <price min="14284" average="14465" max="14645" />
   </replace>
   <replace sel="//ware[@id='software_scannerobjectmk1']/price">
-    <price min="2392.0" average="2423" max="2453" />
+    <price min="2392" average="2423" max="2453" />
   </replace>
   <replace sel="//ware[@id='software_scannerobjectmk2']/price">
-    <price min="8060.0" average="8163" max="8265" />
+    <price min="8060" average="8163" max="8265" />
   </replace>
   <replace sel="//ware[@id='software_scannerobjectmk3']/price">
-    <price min="195.0" average="200" max="205" />
+    <price min="195" average="200" max="205" />
   </replace>
   <replace sel="//ware[@id='software_targetmk1']/price">
-    <price min="1586.0" average="1638" max="1689" />
+    <price min="1586" average="1638" max="1689" />
   </replace>
   <replace sel="//ware[@id='software_targetmk2']/price">
-    <price min="1437.0" average="1500" max="1562" />
+    <price min="1437" average="1500" max="1562" />
   </replace>
   <replace sel="//ware[@id='software_trademk1']/price">
-    <price min="2179.0" average="2250" max="2320" />
+    <price min="2179" average="2250" max="2320" />
   </replace>
   <replace sel="//ware[@id='software_trademk2']/price">
-    <price min="1437.0" average="1500" max="1562" />
+    <price min="1437" average="1500" max="1562" />
   </replace>
   <replace sel="//ware[@id='software_trademk3']/price">
-    <price min="1437.0" average="1500" max="1562" />
+    <price min="1437" average="1500" max="1562" />
   </replace>
   <replace sel="//ware[@id='weapon_gen_spacesuit_demolition_01_mk1']/price">
-    <price min="39375.0" average="40000" max="40625" />
+    <price min="39375" average="40000" max="40625" />
   </replace>
   <replace sel="//ware[@id='weapon_gen_spacesuit_laser_01_mk1']/price">
-    <price min="11625.0" average="12000" max="12375" />
+    <price min="11625" average="12000" max="12375" />
   </replace>
   <replace sel="//ware[@id='weapon_gen_spacesuit_laser_02_mk1']/price">
-    <price min="19500.0" average="20000" max="20500" />
+    <price min="19500" average="20000" max="20500" />
   </replace>
   <replace sel="//ware[@id='weapon_gen_spacesuit_repairlaser_01_mk1']/price">
-    <price min="195.0" average="200" max="205" />
+    <price min="195" average="200" max="205" />
   </replace>
   <replace sel="//ware[@id='imp_probe_droid']/price">
-    <price min="4294.0" average="4420" max="4595" />
+    <price min="4294" average="4420" max="4595" />
   </replace>
   <replace sel="//ware[@id='inv_medal_of_kamino']/price">
-    <price min="4875000.0" average="5000000" max="5125000" />
+    <price min="4875000" average="5000000" max="5125000" />
   </replace>
   <replace sel="//ware[@id='inv_palpatin_lightsaber']/price">
-    <price min="4875000.0" average="5000000" max="5125000" />
+    <price min="4875000" average="5000000" max="5125000" />
   </replace>
   <replace sel="//ware[@id='inv_vaders_helmet']/price">
-    <price min="4875000.0" average="5000000" max="5125000" />
+    <price min="4875000" average="5000000" max="5125000" />
   </replace>
   <replace sel="//ware[@id='inv_sith_holocron']/price">
-    <price min="4875000.0" average="5000000" max="5125000" />
+    <price min="4875000" average="5000000" max="5125000" />
   </replace>
   <replace sel="//ware[@id='inv_darksaber']/price">
-    <price min="4875000.0" average="5000000" max="5125000" />
+    <price min="4875000" average="5000000" max="5125000" />
   </replace>
   <replace sel="//ware[@id='inv_mandohelmet']/price">
-    <price min="4875000.0" average="5000000" max="5125000" />
+    <price min="4875000" average="5000000" max="5125000" />
   </replace>
   <replace sel="//ware[@id='inv_kyber_crystal']/price">
-    <price min="4875000.0" average="5000000" max="5125000" />
+    <price min="4875000" average="5000000" max="5125000" />
   </replace>
   <replace sel="//ware[@id='inv_kyondevice_03']/price">
-    <price min="35605.0" average="36109" max="36612" />
+    <price min="35605" average="36109" max="36612" />
   </replace>
 </diff>
