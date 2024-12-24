@@ -22,6 +22,8 @@
 		<t id="1019">Bomb</t>
 		<t id="1020">Security Bypass failed.</t>
 		<t id="1021">Critical Security Bypass failure, the box has fused itself shut.</t>
+		<t id="1022">Obtained</t>
+		<t id="1023">As you open the lootbox, you detect a broadcast containing your identity.</t>
 
 		<!-- hacking interaction menu -->
 		<t id="404404">Hacking</t>

@@ -147,7 +147,7 @@
 					$inheritanceTax = 0
 				]" />
 
-				<!-- factions with branch vaults and offices -->
+				<!-- factions with operational branch vaults -->
 				<set_value name="$MajorFactionList" exact="table[
 					{faction.galempire} = true,
 					{faction.ascendancy} = true,
@@ -619,144 +619,186 @@
 					</actions>
 				</cue>
 
-				<!-- todo: the clone lab creates and cleans up office better -->
-				<cue name="Bank_Remove" instantiate="true">
-					<conditions>
-						<event_cue_signalled />
-					</conditions>
-					<actions>
-						<set_value name="$object" exact="event.param.{1}" />
-						<set_value name="$Interior" exact="event.param.{2}" />
-						<do_if value="$Banker">
-							<remove_actor_from_room actor="$Banker" />
-							<destroy_object object="$Banker" />
-						</do_if>
-						<remove_dynamic_interior object="$object" interior="$Interior" />
-						<destroy_object object="$Interior" />
-						<remove_value name="$Interior" />
-						<remove_value name="$Corridor" />
-						<remove_value name="$Room" />
-						<remove_value name="$Banker" />
-					</actions>
-				</cue>
-
-				<cue name="Add_Office">
-					<conditions>
-						<event_object_changed_object object="player.entity" />
-						<check_value value="player.station" />
-					</conditions>
-					<actions>
-						<set_value name="$station" exact="player.station" />
-						<do_if value="$MajorFactionList.{$station.sector.owner} or $Accounts.keys.list.indexof.{$station.owner}">
-							<set_value name="$stationFaction" exact="$station.owner" />
-
-							<!-- clean old office -->
-							<do_if value="$StationInterior">
-								<signal_cue_instantly cue="Bank_Remove" param="[$StationTable, $StationInterior]" />
-							</do_if>
-
-							<!-- vault office -->
-							<do_if value="$stationFaction == faction.bankingclan">
-								<set_value name="$faction" exact="faction.bankingclan" />
-								<set_value name="$officeName" exact="'{20777, 1001} {20777, 1005} - {20777, 1004} {20777, 1007} '" />
-							</do_if>
-							<!-- branch office -->
-							<do_elseif value="not $Accounts.keys.list.indexof.{$stationFaction}">
-								<set_value name="$faction" exact="faction.bankingclan" />
-								<set_value name="$officeName" exact="'{20777, 1001} {20777, 1005} - {20777, 1006} {20777, 1007} '" />
-							</do_elseif>
-							<!-- use station manager -->
-							<do_else>
-								<set_value name="$faction" exact="$stationFaction" />
-							</do_else>
-
-							<!-- setup office -->
-							<do_if value="@$officeName">
-								<create_cue_actor name="$Banker" cue="this">
-									<select faction="faction.bankingclan" />
-									<owner exact="faction.bankingclan" />
-								</create_cue_actor>
-								<set_entity_traits entity="$Banker" missionactor="true" />
-								<set_entity_overrides entity="$Banker" icon="'specialist'" />
-								<get_room_definition macro="$CorridorMacro" race="$station.owner.primaryrace"
-									tags="tag.corridor" />
-								<do_if value="not $CorridorMacro">
-									<get_room_definition macro="$CorridorMacro" race="faction.argon.primaryrace"
-										tags="tag.corridor" />
-								</do_if>
-								<get_room_definition macro="$roomMacro" race="faction.argon.primaryrace"
-									tags="tag.office" />
-								<create_dynamic_interior object="$station"
-									corridor="$CorridorMacro" room="$roomMacro"
-									name="$officeName"
-									interiorname="$Interior" corridorname="$Corridor" roomname="$Room"
-									roomtype="roomtype.office"
-									seed="$station.seed + lookup.roomtype.list.indexof.{roomtype.office}" />
-								<do_if value="$Interior and $Corridor and $Room">
-									<find_npc_slot name="$roomSlot" object="$Room" tags="tag.control" />
-									<do_if value="$roomSlot">
-										<add_actor_to_room actor="$Banker" slot="$roomSlot" />
-									</do_if>
-								</do_if>
-								<set_value name="$StationTable" exact="$station" />
-								<set_value name="$StationInterior" exact="$Interior" />
-								<set_value name="$Interior" exact="null" />
-							</do_if>
-						</do_if>
-					</actions>
+				<cue name="BankOffice" namespace="this">
 					<cues>
-						<cue name="BankerConversationStart">
+						<cue name="BankOfficeAddToStation" version="2">
 							<conditions>
+								<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
 								<check_any>
-									<event_cue_signalled />
-									<event_conversation_started conversation="default" />
-								</check_any>
-								<check_any>
-									<check_value value="event.object == player.container.tradenpc?" />
-									<check_value value="event.object == $Banker?" />
+									<check_all>
+										<check_value value="@event.param2.$teleportTo.exists" />
+										<check_value value="not @event.param2.$teleportTo.isplayerowned" />
+									</check_all>
+									<check_all>
+										<check_value value="@event.param2.$dockAt.exists" />
+										<check_value value="not @event.param2.$dockAt.isplayerowned" />
+									</check_all>
 								</check_any>
 							</conditions>
 							<actions>
-								<set_value name="$Banker" exact="event.object" />
-								<do_if value="event.name == 'event_cue_signalled'">
-									<set_value name="$convoOption_Banker_Account"
-										exact="@event.param.$convoOption_Banker_Account" />
+								<set_value name="$station" exact="@event.param2.$teleportTo" />
+								<do_if value="not @$station.exists">
+									<set_value name="$station" exact="@event.param2.$dockAt" />
 								</do_if>
-								<do_else>
-									<set_value name="$convoOption_Banker_Account" exact="true" />
-								</do_else>
-								<do_if
-									value="event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists">
-									<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$Banker"
-										exact="table[
-										$signalCue = BankerConversationStart,
-										$params = table[$convoOption_Banker_Account = @$convoOption_Banker_Account]
-									]" />
-								</do_if>
-								<do_else>
-									<do_if value="$convoOption_Banker_Account">
-										<add_player_choice text="'Access Account'" section="Banker_Account" />
+								<!-- add bank office if vault or faction has a vault -->
+								<do_if value="$station.owner == faction.bankingclan or @$MajorFactionList.{$station.owner}">
+									<set_value name="$bankStation" exact="@$bankStations.{$station}" />
+									<do_if value="not $bankStation">
+										<set_value name="$random" min="1" max="100" />
+										<set_value name="$bankStations.{$station}" exact="table[$hasOffice = $random gt 50, $balance = 0, $interestRate = 0.02, $isSpawned = false]" />
+										<set_value name="$bankStation" exact="@$bankStations.{$station}" />
 									</do_if>
-								</do_else>
-								<reset_cue cue="this" />
-							</actions>
-						</cue>
-						<cue name="BankerConversationNext">
-							<conditions>
-								<event_conversation_next_section sectionprefix="Banker_" />
-							</conditions>
-							<actions>
-								<do_if value="event.param == 'Banker_Account'">
-									<signal_cue_instantly cue="Bank_Menu_Open" />
+									<do_if value="$bankStation.$hasOffice or $debugChance">
+										<do_if value="not $bankStation.$isSpawned">
+											<set_value name="$bankStation.$isSpawned" exact="true" />
+											<set_value name="$bankManager" exact="@$bankStation.$bankManager" />
+											<do_if value="(not $bankManager) or (not $bankManager.exists)">
+												<set_value name="$factions" exact="$validFactions" />
+												<set_value name="$owner" exact="$station.owner" />
+												<create_cue_actor name="$bankManager" cue="this">
+													<select faction="$factions.random" />
+													<owner exact="$owner" />
+												</create_cue_actor>
+												<set_entity_traits entity="$bankManager" missionactor="true" />
+												<set_entity_overrides entity="$bankManager" icon="'specialist'" />
+												<set_value name="$bankStation.$bankManager" exact="$bankManager" />
+											</do_if>
+											<set_value name="$dockArea" exact="@$bankStation.$dockArea" />
+											<do_if value="not $dockArea">
+												<find_object_component name="$dockArea" object="$station" class="class.walkablemodule" />
+												<set_value name="$bankStation.$dockArea" exact="$dockArea" />
+											</do_if>
+											<do_if value="$dockArea">
+												<get_room_definition macro="$corridorMacro" race="$owner.primaryrace" tags="tag.corridor" />
+												<do_if value="not $corridorMacro">
+													<get_room_definition macro="$corridorMacro" race="faction.argon.primaryrace" tags="tag.corridor" />
+												</do_if>
+												<get_room_definition macro="$roomMacro" race="$owner.primaryrace" tags="tag.office" />
+												<do_if value="not $roomMacro">
+													<get_room_definition macro="$roomMacro" race="faction.argon.primaryrace" tags="tag.office" />
+												</do_if>
+												<!-- vault office -->
+												<do_if value="$owner == faction.bankingclan">
+													<set_value name="$roomName" exact="'{20777, 1001} {20777, 1005} - {20777, 1004} {20777, 1007}'" />
+												</do_if>
+												<!-- branch office -->
+												<do_else>
+													<set_value name="$roomName" exact="'{20777, 1001} {20777, 1005} - {20777, 1006} {20777, 1007}'" />
+												</do_else>
+												<create_dynamic_interior object="$station"
+													corridor="$corridorMacro" room="$roomMacro"
+													name="$roomName"
+													interiorname="$interior" corridorname="$corridor" roomname="$room" roomtype="roomtype.office"
+													seed="$station.seed + lookup.roomtype.list.indexof.{roomtype.office}" />
+												<do_if value="$interior and $corridor and $room">
+													<find_npc_slot name="$roomSlot" object="$room" tags="tag.control" />
+													<do_if value="$roomSlot">
+														<add_actor_to_room actor="$bankManager" slot="$roomSlot" />
+													</do_if>
+												</do_if>
+											</do_if>
+										</do_if>
+									</do_if>
+									<do_else>
+										<reset_cue cue="this" />
+									</do_else>
 								</do_if>
-								<reset_cue cue="this" />
 							</actions>
+							<cues>
+								<!-- Cleanup when the player leaves the station -->
+								<cue name="BankOfficeCleanUp">
+									<conditions>
+										<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+										<check_any>
+											<check_value value="@event.param2.$leaveFrom == $station" />
+											<check_value value="@event.param2.$undockFrom == $station" />
+										</check_any>
+									</conditions>
+									<actions>
+										<do_if value="$bankManager">
+											<remove_actor_from_room actor="$bankManager" />
+											<destroy_object object="$bankManager" />
+										</do_if>
+										<do_if value="$interior">
+											<remove_dynamic_interior object="$station" interior="$interior" />
+											<destroy_object object="$interior" />
+										</do_if>
+										<destroy_object object="$room" />
+										<set_value name="$bankStations.{$station}.$isSpawned" exact="false" />
+										<do_if value="not $bankStations.{$station}.$hasOffice">
+											<remove_value name="$bankStations.{$station}" />
+										</do_if>
+										<reset_cue cue="parent" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<!-- conversation cues -->
+								<cue name="BankerConversationStart">
+									<conditions>
+										<check_any>
+											<event_cue_signalled />
+											<event_conversation_started conversation="default" />
+										</check_any>
+										<check_any>
+											<check_value value="event.object == $bankManager?" />
+											<check_all>
+												<check_value value="event.object == player.container.tradenpc?" />
+												<check_value value="@$Accounts.keys.list.indexof.{$owner}" />
+											</check_all>
+										</check_any>
+									</conditions>
+									<actions>
+										<set_value name="$Banker" exact="if $bankManager? then $BankManager else event.object" />
+										<do_if value="event.name == 'event_cue_signalled'">
+											<set_value name="$convoOption_Banker_Account" exact="@event.param.$convoOption_Banker_Account" />
+										</do_if>
+										<do_else>
+											<set_value name="$convoOption_Banker_Account" exact="true" />
+										</do_else>
+										<do_if value="event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists">
+											<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$Banker" exact="table[
+												$signalCue = BankerConversationStart,
+												$params = table[$convoOption_Banker_Account = @$convoOption_Banker_Account]
+											]" />
+										</do_if>
+										<do_else>
+											<do_if value="$convoOption_Banker_Account">
+												<add_player_choice text="'Access Account'" section="Banker_Account" />
+												<!-- todo: find docked ships with lootboxes -->
+												<do_if value="@player.entity.inventory.{inv_bank_lootbox}.exists or @$ships">
+													<add_player_choice text="'Return Lootbox(s)'" section="Banker_Return" />
+												</do_if>
+											</do_if>
+										</do_else>
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="BankerConversationNext">
+									<conditions>
+										<event_conversation_next_section sectionprefix="Banker_" />
+									</conditions>
+									<actions>
+										<do_if value="event.param == 'Banker_Account'">
+											<signal_cue_instantly cue="Bank_Menu_Open" />
+										</do_if>
+										<do_if value="event.param == 'Banker_Return'">
+											<set_value name="$lootboxes" exact="@player.entity.inventory.{inv_bank_lootbox}.count" />
+											<set_value name="$largelootboxes" exact="@$ship.cargo.{inv_bank_lootbox}.count" />
+											<set_value name="$reward" exact="$lootboxes * 1000 + $largelootboxes * 20000" />
+											<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="$lootboxes * 0.00082 + $largelootboxes * 0.0032" reason="relationchangereason.missioncompleted" />
+											<write_incoming_message source="faction.bankingclan" title="'We Greatly Appreciate You'" text="'Thank you for returning '+$lootboxes+$largelootboxes+' lootboxes. We have deposited: '+$reward+'Cr into your account.'" />
+											<signal_cue_instantly cue="Transfer" param="table[$faction = faction.bankingclan, $money = ($reward)Cr]" />
+										</do_if>
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
 						</cue>
 					</cues>
 				</cue>
 
 				<!-- ui account access interaction button -->
-				<cue name="Vault_AccountMenu">
+				<cue name="Vault_AccountInteractMenu">
 					<conditions>
 						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
 						<check_value value="@event.param.$object.sector == player.sector" />
@@ -1039,7 +1081,7 @@
 				</cue>
 
 				<!-- ui open lootbox interaction button -->
-				<cue name="Vault_LootboxMenu">
+				<cue name="Vault_LootboxInteractMenu">
 					<conditions>
 						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
 						<check_any>
@@ -1255,14 +1297,20 @@
 													<add_inventory ware="ware.inv_bank_lootbox_fused" />
 													<set_value name="$Lootboxes" operation="subtract" exact="1" />
 													<set_value name="$LootboxesFused" operation="add" exact="1" />
+													<set_value name="$size" exact="1" />
 												</do_if>
 												<do_else>
 													<remove_cargo object="$Ship" ware="ware.bank_large_lootbox" exact="1" />
 													<add_cargo object="$Ship" ware="ware.bank_large_lootbox_fused" exact="1" />
 													<set_value name="$LargeLootboxes" operation="subtract" exact="1" />
 													<set_value name="$LargeLootboxesFused" operation="add" exact="1" />
+													<set_value name="$size" exact="2" />
 												</do_else>
 											</do_elseif>
+											<!-- successful bypass -->
+											<do_else>
+												<set_value name="$bypassed" exact="true" />
+											</do_else>
 										</do_if>
 										<!-- Open it, unless bypass failed -->
 										<!-- reward the credits -->
@@ -1283,6 +1331,7 @@
 															<set_value name="$reward" min='1000' max='50000' />
 														</do_if>
 													</do_if>
+													<set_value name="$size" exact="1" />
 												</do_if>
 												<do_else>
 													<do_if value="$id == 'LargeLootbox'">
@@ -1297,9 +1346,22 @@
 													<do_if value="not @$reward">
 														<set_value name="$reward" min='20000' max='1000000' />
 													</do_if>
+													<set_value name="$size" exact="2" />
+												</do_else>
+												<!-- 50% chance lootbox hacks and broadcasts player's identity to banking clan -->
+												<do_if value="not $bypassed and $size == 1" chance="50">
+													<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="-0.0032" reason="relationchangereason.hackingdiscovered" />
+													<show_notification text="'{20777,2023} {20777,2022}: '+$reward+'Cr'" />
+												</do_if>
+												<do_elseif value="not $bypassed and $size== 2" chance="50">
+													<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="-0.01" reason="relationchangereason.hackingdiscovered" />
+													<show_notification text="'{20777,2023} {20777,2022}: '+$reward+'Cr'" />
+												</do_elseif>
+												<!-- Success -->
+												<do_else>
+													<show_notification text="'{20777,2022}: '+$reward+'Cr'" />
 												</do_else>
 												<reward_player money="($reward)Cr" />
-												<show_notification text="'Obtained: '+$reward+'Cr'" />
 											</do_if>
 											<!-- bomb -->
 											<do_else>
@@ -1340,6 +1402,12 @@
 										<do_else>
 											<!-- show bypass failed message -->
 											<do_if value="$criticalFail">
+												<do_if value="not $bypassed and $size == 1" chance="50">
+													<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="-0.0032" reason="relationchangereason.hackingdiscovered" />
+												</do_if>
+												<do_elseif value="not $bypassed and $size== 2" chance="50">
+													<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="-0.01" reason="relationchangereason.hackingdiscovered" />
+												</do_elseif>
 												<show_notification text="{20777,1021}" />
 											</do_if>
 											<do_else>
@@ -1402,6 +1470,305 @@
 						<reset_cue cue="this" />
 					</actions>
 				</cue>
+
+				<!-- kuertee's atd room creation tracking, only active when atd not installed -->
+				<cue name="K_ArriveAndLeaveStations" namespace="this">
+					<actions>
+						<do_if value="not md.kuertee_atd.kATD.exists">
+							<set_value name="$attentionNearbyAndNearer" exact="[attention.nearby, attention.adjacentroom, attention.inroom]" />
+							<set_value name="$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+							<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
+							<set_value name="md.Notifications.Init.$kuertee_station_old" exact="null" />
+							<set_value name="md.Notifications.Init.$kuertee_station_current" exact="null" />
+							<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="null" />
+							<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
+						</do_if>
+					</actions>
+					<cues>
+						<cue name="K_ArriveStation" instantiate="true">
+							<conditions>
+								<check_any>
+									<event_cue_signalled />
+									<check_all>
+										<!-- Event for the specified object changing attention level (object = attention changing object, param = new attention level, param2 = previous attention level) -->
+										<event_object_changed_attention group="md.NPC_Instantiation.Instantiation.$TrackedObjects" />
+										<check_value value="not md.kuertee_atd.kATD.exists" />
+										<check_value value="event.object.isclass.station" />
+										<check_value value="@event.object.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.object.macro != @macro.torus_maze_macro" />
+									</check_all>
+									<check_all>
+										<!-- Event for when the player successfully teleports. (param = new room, param2 = old room, param3 = is shortcut instead of real teleport) -->
+										<event_player_teleport_successful />
+									</check_all>
+								</check_any>
+							</conditions>
+							<actions>
+								<set_value name="$isOk" exact="false" />
+								<set_value name="$isAlreadyActive" exact="false" />
+								<set_value name="$isTeleport" exact="false" />
+								<do_if value="event.name == 'event_cue_signalled'">
+									<set_value name="$station_this" exact="event.param.$station" />
+									<set_value name="$isAlreadyActive" exact="event.param.$isAlreadyActive" />
+									<set_value name="$isOk" exact="true" />
+								</do_if>
+								<do_elseif value="event.name == 'event_object_changed_attention'">
+									<do_if value="event.object.isclass.station">
+										<set_value name="$station_this" exact="event.object" />
+										<set_value name="$isOk" exact="
+											$attentionNearbyAndNearer.indexof.{event.param}
+											and
+											(not $attentionNearbyAndNearer.indexof.{event.param2})
+											and
+											$station_this != md.Notifications.Init.$kuertee_station_current
+										" />
+									</do_if>
+								</do_elseif>
+								<do_elseif value="event.name == 'event_player_teleport_successful'">
+									<set_value name="$isTeleport" exact="true" />
+									<do_if value="player.station">
+										<set_value name="$station_this" exact="player.station" />
+										<set_value name="$isOk" exact="
+											(
+												(not @md.Notifications.Init.$kuertee_station_current)
+												or
+												(not @param.hascontext.{@md.Notifications.Init.$kuertee_station_current})
+											)
+											and
+											$station_this != md.Notifications.Init.$kuertee_station_current
+										" />
+									</do_if>
+								</do_elseif>
+								<do_if value="$isOk">
+									<do_if value="not $isAlreadyActive">
+										<do_if value="md.Notifications.Init.$kuertee_Cue_departOldStation.exists">
+											<do_if value="md.Notifications.Init.$kuertee_Cue_departOldStation.state == cuestate.waiting">
+												<signal_cue_instantly cue="md.Notifications.Init.$kuertee_Cue_departOldStation" />
+											</do_if>
+										</do_if>
+										<set_value name="md.Notifications.Init.$kuertee_station_new" exact="$station_this" />
+										<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+									</do_if>
+									<do_else>
+										<set_value name="md.Notifications.Init.$kuertee_station_new" exact="$station_this" />
+										<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation $isAlreadyActive at: ' + @md.Notifications.Init.$kuertee_station_current.knownname" />
+										<debug_text text="'K_ArriveStation $isAlreadyActive at: ' + @md.Notifications.Init.$kuertee_station_current.knownname" />
+									</do_else>
+								</do_if>
+								<do_else>
+									<cancel_cue cue="this" />
+								</do_else>
+							</actions>
+							<cues>
+								<cue name="K_DepartStation">
+									<conditions>
+										<check_any>
+											<event_cue_signalled />
+											<event_object_changed_attention object="md.Notifications.Init.$kuertee_station_current" />
+											<check_value value="not md.kuertee_atd.kATD.exists" />
+										</check_any>
+									</conditions>
+									<actions>
+										<set_value name="$isOk" exact="false" />
+										<set_value name="$isOk" exact="
+											event.name == 'event_cue_signalled'
+											or
+											(
+												(not @$attentionNearbyAndNearer.indexof.{@event.param})
+												and
+												@$attentionNearbyAndNearer.indexof.{@event.param2}
+											)
+										" />
+										<do_if value="$isOk">
+											<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
+											<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+											<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<cancel_cue cue="parent" />
+											<reset_cue cue="this" />
+										</do_if>
+										<do_else>
+											<reset_cue cue="this" />
+										</do_else>
+									</actions>
+								</cue>
+								<cue name="K_ArriveStation2">
+									<actions>
+										<do_if value="not md.kuertee_atd.kATD.exists">
+											<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="K_DepartStation" />
+											<do_if value="$isTeleport">
+												<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$teleportTo = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+											</do_if>
+											<do_else>
+												<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$arriveAt = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+											</do_else>
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<debug_text text="'kuertee K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<cancel_cue cue="this" />
+										</do_if>
+									</actions>
+								</cue>
+								<cue name="K_DockedAtStation">
+									<conditions>
+										<!-- Event for the specified object docking (object = docking object, param = dock object, param2 = zone) -->
+										<event_object_docked group="global.$PlayerContainerGroup" />
+										<check_value value="not md.kuertee_atd.kATD.exists" />
+										<check_value value="event.param.isclass.station" />
+										<check_value value="@event.param.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
+									</conditions>
+									<actions>
+										<!-- <raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation player.station ' + @$player.station.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" /> -->
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
+										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$dockAt = md.Notifications.Init.$kuertee_station_current]" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_DockedAtStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+								<cue name="K_UndockedFromStation">
+									<conditions>
+										<!-- Event for the specified object undocking (object = undocking object, param = dock, param2 = zone) -->
+										<event_object_undocked group="global.$PlayerContainerGroup" />
+										<check_value value="not md.kuertee_atd.kATD.exists" />
+										<check_value value="event.param.isclass.station" />
+										<check_value value="@event.param.macro != @macro.landmarks_par_monument_01_macro" />
+										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
+									</conditions>
+									<actions>
+										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
+										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$undockFrom = md.Notifications.Init.$kuertee_station_current]" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_UndockedFromStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_UndockedFromStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<reset_cue cue="this" />
+									</actions>
+								</cue>
+							</cues>
+						</cue>
+						<cue name="K_ArriveAndLeaveStations_Debug" namespace="this">
+							<conditions>
+								<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
+								<check_value value="not md.kuertee_atd.kATD.exists" />
+								<check_value value="event.param3.$text == 'kuertee debug K_ArriveAndLeaveStations'" />
+							</conditions>
+							<actions>
+								<debug_text text="@event.param3" />
+								<raise_lua_event name="'Chat_Window_API.Print'" param="@event.param3.$text" />
+								<do_if value="@md.Notifications.Init.$kuertee_debugChance">
+									<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
+								</do_if>
+								<do_else>
+									<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="100" />
+								</do_else>
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="K_ArriveAndLeaveStations_Init2" namespace="this">
+					<conditions>
+						<check_any>
+							<event_cue_signalled />
+							<event_game_loaded />
+						</check_any>
+						<check_value value="not md.kuertee_atd.kATD.exists" />
+						<check_value value="not @player.allmodules.{player.module}.isscenario" />
+					</conditions>
+					<actions>
+						<!-- save station current -->
+						<set_value name="$station_current" exact="@md.Notifications.Init.$kuertee_station_current" />
+						<do_if value="not @$station_current.exists">
+							<set_value name="$station_current" exact="@K_ArriveAndLeaveStations.$kuertee_station_current" />
+							<do_if value="not @$station_current.exists">
+								<set_value name="$station_current" exact="@K_ArriveAndLeaveStations.$station_current" />
+							</do_if>
+						</do_if>
+						<debug_text text="'$station_current: ' + $station_current + ' (' + @$station_current.knownname + ')'" />
+						<do_if value="@md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
+							<!-- deregister at every load -->
+							<remove_value name="md.Notifications.Init.$kuertee_ArriveAndLeaveStations" />
+						</do_if>
+						<set_value name="$initDelay" min="0.0s" max="1.0s" />
+						<debug_text text="'$initDelay: ' + $initDelay" />
+						<!-- reset cue at every load -->
+						<reset_cue cue="K_ArriveAndLeaveStations" />
+					</actions>
+					<cues>
+						<cue name="K_ArriveAndLeaveStations_Init3" checktime="player.age + $initDelay">
+							<actions>
+								<do_if value="not md.kuertee_atd.kATD.exists">
+									<do_if value="not @md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
+										<!-- no K_ArriveAndLeaveStations registered -->
+										<!-- register this K_ArriveAndLeaveStations -->
+										<set_value name="md.Notifications.Init.$kuertee_ArriveAndLeaveStations" exact="K_ArriveAndLeaveStations" />
+										<debug_text text="'$kuertee_ArriveAndLeaveStations: ' + @md.Notifications.Init.$kuertee_ArriveAndLeaveStations" />
+									</do_if>
+									<do_else>
+										<!-- cancel this K_ArriveAndLeaveStations, so only one exists -->
+										<debug_text text="'cancel_cue ' + K_ArriveAndLeaveStations" />
+										<cancel_cue cue="K_ArriveAndLeaveStations" />
+										<reset_cue cue="parent" />
+									</do_else>
+								</do_if>
+							</actions>
+							<cues>
+								<cue name="K_ArriveAndLeaveStations_Init4">
+									<actions>
+										<do_if value="not md.kuertee_atd.kATD.exists">
+											<do_if value="not @$station_current.exists">
+												<find_station name="$station" sortbydistanceto="player.entity" space="player.sector" />
+												<do_if value="[attention.nearby, attention.adjacentroom, attention.inroom].indexof.{$station.attention}">
+													<set_value name="$station_current" exact="$station" />
+													<debug_text text="'$station_current (found nearby): ' + $station_current + ' (' + $station_current.knownname + ')'" />
+												</do_if>
+												<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
+											</do_if>
+											<do_if value="@$station_current.exists">
+												<!-- if there was a $station_current, prepare K_ArriveAndLeaveStations with it -->
+												<!-- this is required so that K_DepartStation can continue with $station_current -->
+												<!-- <debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" /> -->
+												<!-- <signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" /> -->
+												<!-- <reset_cue cue="K_ArriveAndLeaveStations_Init2" /> -->
+											</do_if>
+										</do_if>
+									</actions>
+									<cues>
+										<cue name="K_ArriveAndLeaveStations_Init5">
+											<actions>
+												<do_if value="not md.kuertee_atd.kATD.exists">
+													<debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" />
+													<signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" />
+													<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
+												</do_if>
+											</actions>
+										</cue>
+									</cues>
+								</cue>
+							</cues>
+						</cue>
+					</cues>
+				</cue>
+				<cue name="K_ArriveAndLeaveStations_FirstRun2">
+					<actions>
+						<do_if value="not md.kuertee_atd.kATD.exists">
+							<signal_cue cue="K_ArriveAndLeaveStations_Init2" />
+						</do_if>
+					</actions>
+				</cue>
+
 			</cues>
 		</cue>
 		<cue name="OnLuaLoaderReady">

@@ -1,19 +1,14 @@
 # modifications
-- galactic bank office
-  - use clone room as example
-  - limit offices to stations owned by factions that have a branch vault station needs check that sets $MajorFactionList.{$vault.sector.owner} to false when a vault is destroyed. needs check that sets $MajorFactionList.{$vault.sector.owner} to true when rebuilt station isoperational.
+- galactic bank branch offices only when vault is operational
+  - $MajorFactionList.{$vault.sector.owner} to false when a vault is not operational.
+  - $MajorFactionList.{$vault.sector.owner} to true when rebuilt station isoperational.
 
 # new features
-- add citizenship requirements?
-  - period by status: standard 20hr; 1 defense station 15hr, 3 defense stations 12hr, 4 defense stations 10hr (branch defense stations count as half)
-
 - add credit loot boxes for destroyed vaults (solid storage modules)
 add drop to component macro? check if component destroyed?
 
 - Lootbox
-  - Risk, reduce bankingclan relationship when opened without bypass
-  - add player relation increase with banking clan for returning picked up looted credit boxes to banking clan office
-  - needs banking manager conversation item added when player's inventory contains lootbox
+  - banking manager conversation and player-owned ship docked with large in cargo
 
 - bounty hunters hunt player at -10
 
