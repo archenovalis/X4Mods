@@ -1,0 +1,42 @@
+<check_value value="@player.station and @player.station.owner != faction.player" />
+
+<set_value name="$newKey.$accessType" exact="1" />
+<set_value name="$newKey.$station" exact="player.station" />
+
+<!-- hacking menu choice -->
+<set_value name="$newKey.$roomType" exact="roomtype.infrastructure" />
+<set_value name="$newKey.$roomType" exact="roomtype.security" />
+
+<set_value name="$newKey.$codePhraseLine" min="0" max="19" />
+<set_value name="$newKey.$codePhraseLine" exact="11100 + ($newKey.$codePhraseLine * 2)" />
+<set_value name="$newKey.$codePhraseReplyLine" exact="$newKey.$codePhraseLine + 1" />
+<set_value name="$newKey.$codePhrase" exact="readtext.{81918112}.{$newKey.$codePhraseLine}" />
+<set_value name="$newKey.$codePhraseReply" exact="readtext.{81918112}.{$newKey.$codePhraseReplyLine}" />
+
+<set_value name="$newKey.$codePhrase" exact="roomtype.security" />
+<set_value name="$newKey.$codePhraseLine" exact="roomtype.security" />
+<set_value name="$newKey.$codePhraseReply" exact="roomtype.security" />
+<set_value name="$newKey.$codePhraseReplyLine" exact="roomtype.security" />
+
+<set_value name="$newKey.$isConfirmed" exact="true" />
+
+<do_if value="not $keys.{$newKey.$station}?">
+  <set_value name="$keys.{$newKey.$station}" exact="table[]" />
+</do_if>
+<do_if value="not $keys.{$newKey.$station}.$roomTypes?">
+  <set_value name="$keys.{$newKey.$station}.$roomTypes" exact="table[]" />
+</do_if>
+<do_if value="not $keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}?">
+  <set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}" exact="table[]" />
+</do_if>
+<set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.$accessType" exact="$newKey.$accessType" />
+<set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.$timeAcquired" exact="player.age" />
+
+<signal_cue_instantly cue="MissionAccessType1" param="table[
+	$station = $newKey.$station,
+	$roomType = $newKey.$roomType,
+	$codePhrase = $newKey.$codePhrase,
+	$codePhraseLine = $newKey.$codePhraseLine,
+	$codePhraseReply = $newKey.$codePhraseReply,
+	$codePhraseReplyLine = $newKey.$codePhraseReplyLine
+]" />

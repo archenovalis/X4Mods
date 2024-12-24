@@ -1,18 +1,12 @@
-# customize integrated mods
-- hacking-outcomes
-  - add spy/sabotage missions
-
+### Early Game
+## UI
 - high-security-rooms-are-locked
-  - create hacking ui
   - enable opening rooms bypass
 
+## Rooms
 - bar
   - use clone room as example
   - modify vanilla bar missions to use the bar
-
-# Features
-- military and police ships detect player's stolen ships
-  - stolen ships get attacked on sight by 
 
 ## Statuses
 -  Deserter, not completing any military or support missions within last (60/120/240)? minutes. Consequence: Paycheck paused until next mission is completed.
@@ -21,26 +15,49 @@
 -  Traitor, while working for or after quitting/retiring, being seen by a military ship after joining and while participating in an enemy factions military or support mission.  Consequence: No more paycheck or pension. Relation set to -25.
 * accepted work missions need to add a faction flag, then military job ships that detect player with flag marked as traitor?
 
-## Jobs
+## Pensions and Descendants
+- Pension transfered to descendant
+  - Pension% based on faction relations.
+  - Track total paid
+
+## Pirate Start 
+- Missions
+  - assassinate missions (combat focused criminals)
+  - smuggling (trade focused criminals)
+  - raids (attack ships, get them to drop credits instead of destroying them)
+  - board ships
+  - sell stolen ship's and their cargo to the pirate station manager instead of normal (they'd pay maybe 25% or 50% of the cargo's average price, but buy everything) 
+  - transfer purchased cargo to the nearest tradestation by pirate cargo ships... or magic
+- increase contraband profitability when working for a pirate faction
+event check sold ware by player contraband increase by 25%?
+
+
+### Stealing Ships Phase
+- military and police ships detect player's stolen ships
+  - stolen ships get attacked on sight by 
+- sell ships
+  - verify ai scripts run correctly
+  - ships must be docked at a station to sell them (stolen ships are forfeited upon docking depending upon station faction)
+  - player selling ships to the ai's stations, be the vanilla 100% price
+
+
+### Spy Phase
+# customize integrated mods
+- hacking-outcomes
+  - add spy/sabotage missions
+
+- Receive bribes to switch allegiance, become a spy for another faction.
+* random, after 20?
 
 -  Spy, allows joining enemy factions (will still become a traitor if participating in a military mission against your primary faction, and traitor status by the other faction as normal). Consequence: Spy bonus added to paycheck from main faction plus paycheck from other faction.
 * Requires relationship 25
   -  increase sabotage missions when spy
 * disable turrets, shields, (kuertee's professions list?)
 
--  Receive bribes to switch allegiance, become a spy for another faction.
-* random, after 20?
 
+### Late Game
 ## Player Economy Changes
 - Research costs increased to 2x module's and 10x ship's sell price (same as buying blueprint from factionrep).
-
-- increase contraband profitability when working for a pirate faction
-event check sold ware by player contraband increase by 25%?
-
-- sell ships
-  - verify ai scripts run correctly
-  - ships must be docked at a station to sell them (stolen ships are forfeited upon docking depending upon station faction)
-  - player selling ships to the ai's stations, be the vanilla 100% price
 
 - lootboxes
   - bank
@@ -48,17 +65,3 @@ event check sold ware by player contraband increase by 25%?
     - hmm boarding them could transfer more lootboxes to the player, or nearest player-owned ship if the player isn't nearby.
   - npc ships drop credits + cargo
     - boarding cargo ships... could give credits and the ship when succesful
-
-## Pensions and Descendants
-- Pension transfered to descendant
-  - Pension based on total pay received.
-  - 1% per mission isn't that much... 1000 = 10 vs 10000 paycheck... 
-
-## Piracy
-- missions
-  - assassinate missions (combat focused criminals)
-  - smuggling (trade focused criminals)
-  - raids (attack ships, get them to drop credits instead of destroying them)
-  - board ships
-  - sell stolen ship's and their cargo to the pirate station manager instead of normal (they'd pay maybe 25% or 50% of the cargo's average price, but buy everything) 
-  - transfer purchased cargo to the nearest tradestation by pirate cargo ships... or magic
