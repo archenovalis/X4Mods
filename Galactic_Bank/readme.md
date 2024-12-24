@@ -68,3 +68,6 @@ added more loot box wares
 started testing dropping loot boxes when vaults are destroyed
 added inheritance tax (for use with kuertee's alternatives to death)
 should be compatible with prior versions
+
+v0.71:
+add hacking menu and lootbox opening logic (inventory lootboxes and container lootboxes)

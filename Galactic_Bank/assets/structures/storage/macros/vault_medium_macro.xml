@@ -2,6 +2,7 @@
   <component ref="storage_par_m_solid_01" />
   <properties>
     <identification name="{20777,1014} {20777, 1004}" shortname="{20777,1014} {20777, 1004}" makerrace="bankingclan" size="medium" description="{20777,1016}" />
+    <cargo max="7250" tags="container" />
     <build>
       <sets>
         <set ref="factory" />

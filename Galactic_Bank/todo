@@ -1,26 +1,20 @@
-Todo:
+# modifications
+- galactic bank office
+  - use clone room as example
+  - limit offices to stations owned by factions that have a branch vault station needs check that sets $MajorFactionList.{$vault.sector.owner} to false when a vault is destroyed. needs check that sets $MajorFactionList.{$vault.sector.owner} to true when rebuilt station isoperational.
 
-- period by status: standard 20hr; 1 defense station 15hr, 3 defense stations 12hr, 4 defense stations 10hr (branch defense stations count as half)
-add citizenship requirements?
-
-- limit offices to stations owned by factions that have a branch vault station
-needs check that sets $MajorFactionList.{$vault.sector.owner} to false when a vault is destroyed.
-needs check that sets $MajorFactionList.{$vault.sector.owner} to true when rebuilt station isoperational.
+# new features
+- add citizenship requirements?
+  - period by status: standard 20hr; 1 defense station 15hr, 3 defense stations 12hr, 4 defense stations 10hr (branch defense stations count as half)
 
 - add credit loot boxes for destroyed vaults (solid storage modules)
 add drop to component macro? check if component destroyed?
 
-- add opening lootboxes with risk
-menu started, need menu layout and logic
+- Lootbox
+  - Risk, reduce bankingclan relationship when opened without bypass
+  - add player relation increase with banking clan for returning picked up looted credit boxes to banking clan office
+  - needs banking manager conversation item added when player's inventory contains lootbox
 
-- add player relation decrease with banking clan for (if seen) picking up looted credit boxes
-needs cue object picked up check?
+- bounty hunters hunt player at -10
 
-- add player relation increase with banking clan for returning picked up looted credit boxes to banking clan office
-needs banking manager conversation item added when player's inventory contains lootbox
-
-- implement cloning lab style office
-refactor add_office cue also do getting a job's bar integration
-
-- manually add factionrep to main vault when main vault is functional
-no faction rep required for now
+- banking clan associated factions hunt player when -20

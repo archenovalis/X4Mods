@@ -1,25 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
-  <remove sel="//jobs/job[@id='bankingclan_techsupport_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_bio_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_energycell_trader_l']" />
-  <remove sel="//jobs/job[@id='bankingclan_energycell_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_equipment_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_ship_construction_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_refinedgas_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_refinedmineral_trader_l']" />
-  <remove sel="//jobs/job[@id='bankingclan_refinedmineral_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_tech_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_food_trader_m']" />
-  <remove sel="//jobs/job[@id='bankingclan_free_miner_m_liquid']" />
-  <remove sel="//jobs/job[@id='bankingclan_free_miner_m_mineral']" />
-  <remove sel="//jobs/job[@id='bankingclan_free_miner_m_rhydonium']" />
-  <remove sel="//jobs/job[@id='bankingclan_free_miner_l_ice']" />
-  <remove sel="//jobs/job[@id='bankingclan_free_miner_m_ice']" />
+  <remove sel="//job[@id='bankingclan_techsupport_trader_m']" />
+  <remove sel="//job[@id='bankingclan_bio_trader_m']" />
+  <remove sel="//job[@id='bankingclan_energycell_trader_l']" />
+  <remove sel="//job[@id='bankingclan_energycell_trader_m']" />
+  <remove sel="//job[@id='bankingclan_equipment_trader_m']" />
+  <remove sel="//job[@id='bankingclan_ship_construction_trader_m']" />
+  <remove sel="//job[@id='bankingclan_refinedgas_trader_m']" />
+  <remove sel="//job[@id='bankingclan_refinedmineral_trader_l']" />
+  <remove sel="//job[@id='bankingclan_refinedmineral_trader_m']" />
+  <remove sel="//job[@id='bankingclan_tech_trader_m']" />
+  <remove sel="//job[@id='bankingclan_food_trader_m']" />
+  <remove sel="//job[@id='bankingclan_free_miner_m_liquid']" />
+  <remove sel="//job[@id='bankingclan_free_miner_m_mineral']" />
+  <remove sel="//job[@id='bankingclan_free_miner_m_rhydonium']" />
+  <remove sel="//job[@id='bankingclan_free_miner_l_ice']" />
+  <remove sel="//job[@id='bankingclan_free_miner_m_ice']" />
+  <remove sel="//job[@id='bankingclan_construction_vessel_l']" />
+  <remove sel="//job[@id='bankingclan_construction_vessel_l_playeronly']" />
 
   <add sel="//jobs">
-    <job id="bankingclan_banker_m" name="'{20777,1002} {20777,1008}'">
+    <job id="bankingclan_transport_m" name="'{20777,1002} {20777,1008}'">
       <modifiers rebuild="true" commandeerable="true" />
       <orders>
         <order order="SWBankTransport" default="true" />
@@ -37,7 +39,7 @@
       </ship>
     </job>
 
-    <job id="bankingclan_banker_l" name="'{20777,1002} {20777,1008}'">
+    <job id="bankingclan_transport_l" name="'{20777,1002} {20777,1008}'">
       <modifiers rebuild="true" commandeerable="true" />
       <orders>
         <order order="SWBankTransport" default="true" />
@@ -55,47 +57,4 @@
       </ship>
     </job>
   </add>
-  <replace sel="//job[@id='bankingclan_construction_vessel_l']">
-    <job id="bankingclan_construction_vessel_l" name="{20204,5101}">
-      <modifiers commandeerable="true" />
-      <orders>
-        <order order="FindBuildTasks" default="true">
-          <param name="maxjumps" value="8" />
-        </order>
-      </orders>
-      <category faction="bankingclan" tags="[builder]" size="ship_l" />
-      <quota galaxy="5" cluster="1" />
-      <location class="galaxy" macro="swi_galaxy_macro" faction="galempire" relation="member" comparison="ge" matchextension="false" />
-      <environment buildatshipyard="true" />
-      <ship>
-        <select faction="bankingclan" tags="[builder]" size="ship_l" />
-        <loadout>
-          <level exact="1" />
-        </loadout>
-        <owner exact="bankingclan" overridenpc="true" />
-      </ship>
-    </job>
-  </replace>
-  <replace sel="//job[@id='bankingclan_construction_vessel_l_playeronly']">
-    <job id="bankingclan_construction_vessel_l_playeronly" name="{20204,5101}">
-      <modifiers commandeerable="true" />
-      <orders>
-        <order order="FindBuildTasks" default="true">
-          <param name="maxjumps" value="5" />
-          <param name="playeronly" value="true" />
-        </order>
-      </orders>
-      <category faction="bankingclan" tags="[builder]" size="ship_l" />
-      <quota galaxy="2" cluster="1" />
-      <location class="galaxy" macro="swi_galaxy_macro" faction="galempire" relation="member" comparison="ge" matchextension="false" />
-      <environment buildatshipyard="true" />
-      <ship>
-        <select faction="bankingclan" tags="[builder]" size="ship_l" />
-        <loadout>
-          <level exact="1" />
-        </loadout>
-        <owner exact="bankingclan" overridenpc="true" />
-      </ship>
-    </job>
-  </replace>
 </diff>

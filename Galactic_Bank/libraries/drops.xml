@@ -10,7 +10,7 @@
         <collectable>
           <wares selection="random">
             <select weight="1">
-              <ware ware="bank_large_credit_lootbox" min="2" max="4" />
+              <ware ware="bank_large_lootbox" min="1" max="5" /> <!-- 5m -->
             </select>
           </wares>
         </collectable>
@@ -22,7 +22,7 @@
         <collectable>
           <wares selection="random">
             <select weight="1">
-              <ware ware="bank_large_credit_lootbox" min="8" max="16" />
+              <ware ware="bank_large_lootbox" min="1" max="20" /> <!-- 20m -->
             </select>
           </wares>
         </collectable>
@@ -34,7 +34,8 @@
         <collectable>
           <wares selection="random">
             <select weight="1">
-              <ware ware="bank_credit_lootbox" min="2" max="4" />
+              <ware ware="inv_bank_lootbox" min="0" max="5" /> <!-- max 250k -->
+              <ware ware="bank_large_lootbox" min="0" max="1" /> <!-- 1m -->
             </select>
           </wares>
         </collectable>
@@ -79,7 +80,8 @@
         <collectable>
           <wares selection="random">
             <select weight="1">
-              <ware ware="bank_credit_lootbox" min="8" max="16" />
+              <ware ware="inv_bank_lootbox" min="0" max="20" /> <!-- max 1m -->
+              <ware ware="bank_large_lootbox" min="0" max="9" /> <!-- 9m -->
             </select>
           </wares>
         </collectable>

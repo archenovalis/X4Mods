@@ -2,7 +2,7 @@
 <aiscript name="order.sw.bank.transport"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="1">
-  <order id="SWBankTransport" name="{20777, 1011}" description="{20777, 1012}"
+  <order id="SWBankTransport" name="{20777, 1001} {20777, 1005} {20777, 1008}" description="{20777, 1012}"
     category="internal" />
 
   <attention min="unknown">

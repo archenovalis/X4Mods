@@ -3,21 +3,12 @@
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <replace sel="//groups/group[@name='bankingclan_trader_container_l']">
     <group name="bankingclan_transport_l">
-      <select macro="quasar_imp_macro" />
       <select macro="vindicator_macro" />
-      <select macro="enforcer_macro" />
-      <select macro="imp_light_cruiser_macro" />
-      <select macro="immobilizer_418_macro" />
-      <select macro="vsd2_macro" />
-      <select macro="lancerfrigate_macro" />
-      <select macro="arrestor_cruiser_macro" />
     </group>
   </replace>
   <replace sel="//groups/group[@name='bankingclan_trader_container_m']">
     <group name="bankingclan_transport_m">
-      <select macro="impgozanti_cr_macro" />
       <select macro="customs_corvette_macro" />
-      <select macro="raider_macro" />
     </group>
   </replace>
 </diff>

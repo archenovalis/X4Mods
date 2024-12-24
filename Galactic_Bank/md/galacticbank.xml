@@ -1042,17 +1042,20 @@
 				<cue name="Vault_LootboxMenu">
 					<conditions>
 						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
-						<check_value value="@event.param.$object.sector == player.sector" />
-						<check_value value="@event.param.$object.isclass.{class.station}" />
-						<check_value value="$Accounts.keys.list.indexof.{@event.param.$object.owner} or $MajorFactionList.{@event.param.$object.sector.owner}" />
-						<check_value value="@event.param.$object.owner.relationto.{faction.player} gt -0.01" />
-						<check_value value="@event.param.$object.distanceto.{player.entity} le 10km" />
+						<check_any>
+							<check_value value="player.entity.inventory.{inv_bank_lootbox}.exists" />
+							<check_value value="player.entity.inventory.{inv_bank_lootbox_fused}.exists" />
+							<check_value value="player.ship.cargo.{bank_largecredit_lootbox}.exists" />
+							<check_value value="player.ship.cargo.{bank_largecredit_lootbox_fused}.exists" />
+							<check_value value="player.station.cargo.{bank_largecredit_lootbox}.exists and player.station.owner == faction.player" />
+							<check_value value="player.station.cargo.{bank_largecredit_lootbox_fused}.exists and player.station.owner == faction.player" />
+						</check_any>
 					</conditions>
 					<actions>
 						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
 							$id = 'Vault_LootboxMenu',
-							$section = 'main',
-							$text = 'Open Lootbox',
+							$section = 'hacking_menu',
+							$text = ,
 							$icon = 'menu_swi_credits',
 							$callback = Lootbox_Menu,
 							$echo = table[$faction = event.param.$object.owner]
@@ -1067,157 +1070,162 @@
 					</conditions>
 					<delay exact="1ms" />
 					<actions>
-						<!-- undocked -->
-						<do_if value="event.param.$echo.$faction?">
-							<set_value name="$Faction" exact="event.param.$echo.$faction" />
+						<set_value name="$Bypasses" exact="0" />
+						<set_value name="$Lootboxes" exact="0" />
+						<set_value name="$LargeLootboxes" exact="0" />
+						<set_value name="$LootboxesFused" exact="0" />
+						<set_value name="$LargeLootboxesFused" exact="0" />
+						<set_value name="$UseBypass" exact="true" />
+						<set_value name="$inventory" exact="player.entity.inventory" />
+						<do_if value="player.ship">
+							<set_value name="$Ship" exact="player.ship" />
 						</do_if>
-						<!-- docked -->
-						<do_else>
-							<set_value name="$Faction" exact="event.object.trueowner" />
-						</do_else>
-						<!-- determine account -->
-						<do_if value="$Faction == faction.bankingclan">
-							<set_value name="$Title" exact="'InterGalactic Bank Account'" />
-						</do_if>
-						<do_elseif value="$Accounts.keys.list.indexof.{$Faction}">
-							<set_value name="$Title" exact="$Faction+': Account'" />
+						<do_elseif value="player.station and player.station.owner == faction.player">
+							<set_value name="$Ship" exact="player.station" />
 						</do_elseif>
-						<do_else>
-							<set_value name="$Faction" exact="faction.bankingclan" />
-							<set_value name="$Title" exact="'InterGalactic Bank Account'" />
-						</do_else>
-						<set_value name="$account" exact="$Accounts.{$Faction}" />
-						<!-- set cue variablse -->
-						<set_value name="$Fee" exact="$account.$fee + $account.$undockedFee" />
-						<set_value name="$Rate" exact="$account.$rate" />
-						<set_value name="$Period" exact="$account.$period" />
-						<!-- update interest -->
-						<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
-						<do_if value="$timeSinceInterest> 1">
-							<set_value name="$newBalance" exact="$account.$balance * ((1 + $Rate)^($timeSinceInterest / $Period))" />
-							<set_value name="$Interest_amount" exact="$newBalance - $account.$balance" />
-							<set_value name="$Accounts.{$Faction}.$balance" exact="$account.$balance + $interest_amount" />
-							<set_value name="$Withdraw_amount" exact="0" />
-							<set_value name="$newBalance" exact="$account.$balance" />
-							<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
+						<!-- Bypasses available -->
+						<do_if value="$inventory.{inv_securitybypasssystem}.exists">
+							<set_value name="$Bypasses" exact="$inventory.{inv_securitybypasssystem}.count" />
+						</do_if>
+						<!-- Lootboxes -->
+						<do_if value="$inventory.{inv_bank_lootbox}.exists">
+							<set_value name="$Lootboxes" exact="$inventory.{inv_bank_lootbox}.count" />
+						</do_if>
+						<do_if value="$inventory.{inv_bank_lootbox_fused}.exists">
+							<set_value name="$Lootboxes" exact="$inventory.{inv_bank_lootbox_fused}.count" />
+						</do_if>
+						<do_if value="@$Ship">
+							<do_if value="$Ship.cargo.{bank_large_lootbox}.exists">
+								<set_value name="$LargeLootboxes" exact="$Ship.cargo.{bank_large_lootbox}.count" />
+							</do_if>
+							<do_if value="$Ship.cargo.{bank_large_lootbox_fused}.exists">
+								<set_value name="$LargeLootboxes" exact="$Ship.cargo.{bank_large_lootbox_fused}.count" />
+							</do_if>
 						</do_if>
 						<signal_cue cue="Lootbox_Menu_Open" />
 					</actions>
 					<cues>
-
 						<cue name="Lootbox_Menu_Open" instantiate="true">
 							<conditions>
 								<event_cue_signalled />
 							</conditions>
+							<delay exact="1ms" />
 							<actions>
-								<set_value name="$account" exact="$Accounts.{$Faction}" />
-								<set_value name="$Deposit_amount" exact="0" />
-								<set_value name="$Withdraw_amount" exact="0" />
+								<!-- can't use bypass on fused boxes -->
+								<do_if value="$Lootboxes == 0 and $LargeLootboxes == 0">
+									<set_value name="$UseBypass" exact="false" />
+								</do_if>
 								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu"
 									param="table[
 									$id = 'Lootbox_Menu',
-									$columns = 1,
+									$columns = 2,
 									$title = $Title,
 									$height = 400,
 									$width = 300
 								]" />
-								<signal_cue_instantly
-									cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-								<signal_cue_instantly
-									cue="md.Simple_Menu_API.Make_Text"
-									param="table[$col=1, $halign='center', $text='Status']" />
-								<do_if value="$Fee gt 0">
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $halign='center', $color='Helper.color.red', $text='('+{20777, 1006}+' Fee: '+ $Fee*100 + '%)']" />
-								</do_if>
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
-									param="table[$interactive=false]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
-									param="table[$col=1, $text='']" />
-								<signal_cue_instantly
-									cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-								<signal_cue_instantly
-									cue="md.Simple_Menu_API.Make_Text" param="table[
-											$col=1, $halign='center',
-											$text=$Rate * 100 + '% interest per ' + $Period / 60 / 60 + ' hours.']" />
-								<do_if value="$account.$balance gt 0">
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Add_Row"
-										param="table[$interactive=false]" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $text='']" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Add_Row"
-										param="table[$interactive=false]" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $halign='right', $text='Interest earned since last update:']" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Add_Row"
-										param="table[$interactive=false]" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $halign='right', $text=$Interest_amount+'Cr']" />
-								</do_if>
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
-									param="table[$interactive=false]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
-									param="table[$col=1, $text='']" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
-									$start = 0,
-									$col = 1,
-									$text = table[$text=''],
-									$min = 0, $max = player.money, $step = 1, $suffix='Cr',
-									$default = 0,
-									$onSliderCellChanged = Bank_Menu_Deposit_Amount
+								<!-- show lootbox warning label -->
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+									$colspan=2,
+									$color='Helper.color.red',
+									$halign='center',
+									$text={20777,1010}
 								]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-									$col = 1,
-									$text = table[$text='Deposit'],
-									$onClick = Bank_Menu_Deposit
-								]" />
-								<do_if value="$account.$balance gt 0">
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
-										param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $text='']" />
-									<do_if value="$Fee gt 0">
-										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
-											param="table[$interactive=false]" />
-										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
-											param="table[$col=1, $halign='right', $text='Max withdrawal after '+{20777, 1006}+' Fee:']" />
-									</do_if>
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
-										$start = 0,
-										$col = 1,
-										$text = table[$text=''],
-										$min = 0, $max = $account.$balance / (1+$Fee), $step = 1, $suffix='Cr',
-										$default = 0,
-										$onSliderCellChanged = Bank_Menu_Withdraw_Amount
+								<!-- show use bypass checkbox (Use Bypass: Checkbox -->
+								<do_if value="$Bypasses gt 0">
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='left',
+										$text='Attempt Security Bypass?'
 									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox" param="table[
+                    $checked = $UseBypass,
+                    $col = 2,
+                    $width = 20,
+                    $text = table[$text=''],
+                    $onClick = UseBypassCheckbox
+                  ]" />
+								</do_if>
+								<!-- show lootboxes (NxType: OpenButton) -->
+								<do_if value="$Lootboxes gt 0">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='left',
+										$text=$Lootboxes+'x Lootbox'
+									]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-										$col = 1,
-										$text = table[$text='Withdraw'],
-										$onClick = Bank_Menu_Withdraw
+										$id='Lootbox',
+										$col = 2,
+										$text = table[$text='Open One'],
+										$onClick = OpenLootbox
 									]" />
+								</do_if>
+								<do_if value="$LargeLootboxes gt 0">
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='left',
+										$text=$LargeLootboxes+'x Large Lootbox'
+									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+										$id='LargeLootbox',
+										$col = 2,
+										$text = table[$text='Open One'],
+										$onClick = OpenLootbox
+									]" />
+								</do_if>
+								<!-- fused boxes -->
+								<do_if value="$LootboxesFused gt 0 or $LargeLootboxesFused gt 0">
+									<!-- show fused lootbox warning -->
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$text='']" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$colspan=2,
+										$color='Helper.color.red',
+										$halign='center',
+										$text={20777,1011}
+									]" />
+									<do_if value="$LootboxesFused gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$halign='left',
+											$text=$LootboxesFused+'x Fused Lootbox'
+										]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+											$id='Fused',
+											$col = 2,
+											$text = table[$text='Force Open?'],
+											$onClick = OpenLootbox
+										]" />
+									</do_if>
+									<do_if value="$LargeLootboxesFused gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$halign='left',
+											$text=$LargeLootboxesFused+'x Fused Large Lootbox'
+										]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+											$id='LargeFused',
+											$col = 2,
+											$text = table[$text='Force Open?'],
+											$onClick = OpenLootbox
+										]" />
+									</do_if>
 								</do_if>
 							</actions>
 							<cues>
 								<!-- checkbox -->
-								<cue name="UseSecurityOverrideCheckbox" instantiate="true">
+								<cue name="UseBypassCheckbox" instantiate="true">
 									<conditions>
 										<event_cue_signalled />
 									</conditions>
 									<actions>
-										<set_value name="$UseSecurityOverride" exact="event.param.$value" />
+										<set_value name="$UseBypass" exact="event.param.$value" />
 										<cancel_cue cue="this" />
 									</actions>
 								</cue>
@@ -1228,24 +1236,118 @@
 										<event_cue_signalled />
 									</conditions>
 									<actions>
-										<set_value name="$account" exact="$Accounts.{$Faction}" />
-										<do_if value="player.money ge $Deposit_amount">
-											<do_if value="$account.$balance == 0">
-												<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
+										<set_value name="$id" exact="event.param.$id" />
+										<set_value name="$bomb" exact="true" chance="5" />
+										<set_value name="$roll" min="1" max="20" />
+										<!-- bypass used? -->
+										<do_if value="$UseBypass">
+											<remove_inventory ware="ware.inv_securitybypasssystem" />
+											<set_value name="$Bypasses" operation="subtract" exact="1" />
+											<!-- 50% success -->
+											<do_if value="$roll lt 11">
+												<set_value name="$bypassFail" exact="true" />
 											</do_if>
+											<!-- critinal fail -->
+											<do_elseif value="$roll == 1">
+												<set_value name="$criticalFail" exact="true" />
+												<do_if value="$id == 'Lootbox'">
+													<remove_inventory ware="ware.inv_bank_lootbox" />
+													<add_inventory ware="ware.inv_bank_lootbox_fused" />
+													<set_value name="$Lootboxes" operation="subtract" exact="1" />
+													<set_value name="$LootboxesFused" operation="add" exact="1" />
+												</do_if>
+												<do_else>
+													<remove_cargo object="$Ship" ware="ware.bank_large_lootbox" exact="1" />
+													<add_cargo object="$Ship" ware="ware.bank_large_lootbox_fused" exact="1" />
+													<set_value name="$LargeLootboxes" operation="subtract" exact="1" />
+													<set_value name="$LargeLootboxesFused" operation="add" exact="1" />
+												</do_else>
+											</do_elseif>
+										</do_if>
+										<!-- Open it, unless bypass failed -->
+										<!-- reward the credits -->
+										<do_if value="not @$bypassFail">
+											<do_if value="not @$bomb">
+												<do_if value="$id == 'Lootbox' or $id == 'Fused'">
+													<do_if value="$id == 'Lootbox'">
+														<remove_inventory ware="ware.inv_bank_lootbox" />
+														<set_value name="$Lootboxes" operation="subtract" exact="1" />
+													</do_if>
+													<do_else>
+														<remove_inventory ware="ware.inv_bank_lootbox_fused" />
+														<set_value name="$LootboxesFused" operation="subtract" exact="1" />
+													</do_else>
+													<do_if value="not @$bomb">
+														<set_value name="$reward" exact="50000" chance="10" />
+														<do_if value="not @$reward">
+															<set_value name="$reward" min='1000' max='50000' />
+														</do_if>
+													</do_if>
+												</do_if>
+												<do_else>
+													<do_if value="$id == 'LargeLootbox'">
+														<remove_cargo object="$ship" ware="ware.bank_large_lootbox" exact="1" />
+														<set_value name="$LargeLootboxes" operation="subtract" exact="1" />
+													</do_if>
+													<do_else>
+														<remove_cargo object="$ship" ware="ware.bank_large_lootbox_fused" exact="1" />
+														<set_value name="$LargeLootboxesFused" operation="subtract" exact="1" />
+													</do_else>
+													<set_value name="$reward" exact="1000000" chance="10" />
+													<do_if value="not @$reward">
+														<set_value name="$reward" min='20000' max='1000000' />
+													</do_if>
+												</do_else>
+												<reward_player money="($reward)Cr" />
+												<show_notification text="'Obtained: '+$reward+'Cr'" />
+											</do_if>
+											<!-- bomb -->
 											<do_else>
-												<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
-												<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
-												<set_value name="$Interest_amount" exact="$account.$balance * ((1 + $Rate)^($timeSinceInterest / $Period) - 1)" />
+												<do_if value="$UseBypass">
+													<do_if value="$id == 'Lootbox'">
+														<remove_inventory ware="ware.inv_bank_lootbox" />
+														<set_value name="$Lootboxes" operation="subtract" exact="1" />
+														<set_value name="$bombs" exact="1" />
+													</do_if>
+													<do_else>
+														<remove_cargo object="$Ship" ware="ware.bank_large_lootbox" exact="1" />
+														<set_value name="$LargeLootboxes" operation="subtract" exact="1" />
+														<set_value name="$bombs" exact="5" />
+													</do_else>
+													<add_inventory ware="ware.bomb_player_limpet_mine_01_mk1" exact="$bombs" />
+													<show_notification text="'{20777,1018} '+$bombs+'x {20777,1019}'" />
+												</do_if>
+												<!-- boom -->
+												<do_elseif value="not $UseBypass">
+													<!-- if ATD then kill player -->
+													<do_if value="@md.kuertee_atd.kATD.exists">
+														<signal_cue_instantly cue="md.kuertee_atd.kATD.PlayerDeath" param="table[$ship = $Ship, $attackerFaction = $attackerFaction, $isSaveShip = true]" />
+													</do_if>
+													<!-- if large then destroy ship, damage station -->
+													<do_if value="$id == 'LargeLootbox' or $id == 'LargeFused'">
+														<do_if value="$Ship.isclass.ship">
+															<destroy_object object="$Ship" explosion="true" />
+														</do_if>
+														<do_else>
+															<find_module waretransport="waretransport.container" name="$module" functional="true" object="$Ship" />
+														</do_else>
+														<destroy_object object="$module" explosion="true" />
+													</do_if>
+													<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+												</do_elseif>
 											</do_else>
-											<reward_player money="($Deposit_amount)Cr * -1" />
-											<set_value name="$Accounts.{$Faction}.$balance" operation="add" exact="$Deposit_amount + $Interest_amount" />
-											<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-											<signal_cue_instantly cue="Bank_Menu_Open" />
 										</do_if>
 										<do_else>
-											<cancel_cue cue="this" />
+											<!-- show bypass failed message -->
+											<do_if value="$criticalFail">
+												<show_notification text="{20777,1021}" />
+											</do_if>
+											<do_else>
+												<show_notification text="{20777,1020}" />
+											</do_else>
 										</do_else>
+										<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+										<signal_cue_instantly cue="Lootbox_Menu_Open" />
 									</actions>
 								</cue>
 							</cues>
@@ -1301,6 +1403,26 @@
 					</actions>
 				</cue>
 			</cues>
+		</cue>
+		<cue name="OnLuaLoaderReady">
+			<conditions>
+				<event_ui_triggered screen="'Lua_Loader'" control="'Ready'" />
+			</conditions>
+			<actions>
+				<raise_lua_event name="'Lua_Loader.Load'" param="'extensions.kuertee_ui_extensions.ui.kuertee_menu_interactmenu'" />
+				<raise_lua_event name="'Interact_Menu_API.Add_Custom_Actions_Group_Id'" param="'hacking_menu'" />
+				<raise_lua_event name="'Interact_Menu_API.Add_Custom_Actions_Group_Text'" param="{20777, 404404}" />
+			</actions>
+		</cue>
+
+		<cue name="OnLuaLoaderReadyCompleted">
+			<conditions>
+				<event_cue_completed cue="OnLuaLoaderReady" />
+			</conditions>
+			<actions>
+				<reset_cue cue="OnLuaLoaderReady" />
+				<reset_cue cue="this" />
+			</actions>
 		</cue>
 	</cues>
 </mdscript>

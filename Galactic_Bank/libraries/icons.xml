@@ -6,5 +6,6 @@
     <icon name="mapob_bankingclan_vault" texture="extensions\galactic_bank\assets\fx\gui\textures\map_objects\mapob_bankingclan_vault.tga" height="256" width="256" />
     <icon name="si_bankingclan_vault" texture="extensions\galactic_bank\assets\fx\gui\textures\stationicon\si_bankingclan_vault.tga" height="128" width="128" />
     <icon name="menu_swi_credits" texture="extensions\galactic_bank\assets\fx\gui\textures\menu\menu_swi_credits.tga" height="32" width="32" />
+    <icon name="ware_swi_credit" texture="extensions\galactic_bank\assets\fx\gui\textures\wares\ware_swi_credits.tga" height="128" width="128" />
   </add>
 </diff>
