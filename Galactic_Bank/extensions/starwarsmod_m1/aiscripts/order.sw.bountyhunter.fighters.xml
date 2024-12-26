@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='utf-8'?>
+<diff>
+  <replace sel="/aiscript">
+    <aiscript name="order.sw.bountyhunter.fighters" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../xsd/aiscripts.xsd" version="1">
+      <order id="SWBountyHunterFighters" name="{1041, 361}" description="{1041, 362}" category="internal">
+        <params>
+          <param name="timeout" type="time" default="0s" infinitevalue="0s" text="{1041, 10034}" advanced="true" comment="Duration">
+            <input_param name="max" value="1h" />
+            <input_param name="step" value="30s" />
+          </param>
+          <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
+            <input_param name="truevalue" value="0" />
+          </param>
+        </params>
+        <requires>
+          <match shiptype="shiptype.lasertower" negate="true" />
+        </requires>
+      </order>
+      <interrupts>
+        <handler ref="TargetInvalidHandler" />
+        <handler ref="AttackHandler" />
+        <handler ref="MissileLockHandler" />
+        <handler ref="ScannedHandler" />
+        <handler ref="InspectedHandler" />
+        <handler ref="ResupplyHandler" />
+      </interrupts>
+      <init>
+        <set_order_syncpoint_reached order="this.ship.order" />
+      </init>
+      <!-- find ships -->
+      <attention min="unknown">
+        <actions>
+          <label name="start" />
+          <!-- todo: scale based on bounty amount -->
+          <set_value name="$Pilot" exact="global.$Bounties.$pilots.random" />
+          <set_value name="$RandomShip" exact="$Pilot.ship" />
+          <!-- <debug_to_file name="'bountyhunters'" directory="'sw_debug'" text="'%1 is random ship from list.'.[$RandomShip.ship]" output="false" append="true" /> -->
+          <label name="player_wait" />
+          <wait min="1min" max="2min" />
+
+          <do_if value="not ($Pilot == player.entity)">
+            <do_if value="$RandomShip == null">
+              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) failed to pick from list, restaring.'.[this.ship.knownname, this.ship.idcode]" output="false" append="true" chance="$debugchance" />
+              <remove_value name="$RandomShip" />
+              <resume label="start" />
+            </do_if>
+            <do_elseif value="$RandomShip.isclass.[class.ship_l, class.ship_xl]">
+              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) chose %3 but its L or XL, restarting.'.[this.ship.knownname, this.ship, $RandomShip.knownname]" output="false" append="true" chance="$debugchance" />
+              <remove_value name="$RandomShip" />
+              <resume label="start" />
+            </do_elseif>
+            <do_elseif value="$RandomShip.commander and $RandomShip.commander.isclass.[class.ship_l, class.ship_xl]">
+              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) chose %3 but its commander %4 is L or XL, restarting.'.[this.ship.knownname, this.ship, $RandomShip.knownname, $RandomShip.commander.knownname]" output="false" append="true" chance="$debugchance" />
+              <remove_value name="$RandomShip" />
+              <resume label="start" />
+            </do_elseif>
+            <debug_to_file name="'bountyhunters_attack'" directory="'sw_debug'" text="'TIME: %1 \nShip: %2 ID: %3 \nENEMY: %4 ID:%8 FACTION: %6  ENEMYSECTOR: %5 HUNTERSECTOR: %7 \n\n'.[player.age, this.ship.knownname, this.ship.idcode, $RandomShip.knownname, $RandomShip.sector.knownname, $RandomShip.trueowner, this.sector.knownname, $RandomShip.idcode]" output="false" append="true" chance="$debugchance" />
+            <run_script name="'order.fight.attack.object'">
+              <param name="primarytarget" value="$RandomShip" />
+              <param name="pursuetargets" value="true" />
+              <param name="checkrelation" value="false" />
+              <param name="allowothertargets" value="true" />
+              <param name="forceprimarytarget" value="true" />
+            </run_script>
+          </do_if>
+          <!-- if player, wait until player is in a S or M ship then hunt player -->
+          <do_else>
+            <do_if value="player.ship == null or not player.ship.isplayerowned">
+              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) player not in playerowned ship, waiting.'.[this.ship.knownname, this.ship.idcode]" output="false" append="true" chance="$debugchance" />
+              <resume label="player_wait" />
+            </do_if>
+            <do_elseif value="player.ship.isclass.[class.ship_l, class.ship_xl]">
+              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) player in %3 but its L or XL, waiting.'.[this.ship.knownname, this.ship, $RandomShip.knownname]" output="false" append="true" chance="$debugchance" />
+              <resume label="player_wait" />
+            </do_elseif>
+            <do_elseif value="player.ship.commander and player.ship.commander.isclass.[class.ship_l, class.ship_xl]">
+              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) player in %3 but its commander %4 is L or XL, waiting.'.[this.ship.knownname, this.ship, $RandomShip.knownname, $RandomShip.commander.knownname]" output="false" append="true" chance="$debugchance" />
+              <resume label="player_wait" />
+            </do_elseif>
+            <debug_to_file name="'bountyhunters_attack'" directory="'sw_debug'" text="'TIME: %1 \nShip: %2 ID: %3 \nENEMY: %4 ID:%8 FACTION: %6  ENEMYSECTOR: %5 HUNTERSECTOR: %7 \n\n'.[player.age, this.ship.knownname, this.ship.idcode, $RandomShip.knownname, $RandomShip.sector.knownname, $RandomShip.trueowner, this.sector.knownname, $RandomShip.idcode]" output="false" append="true" chance="$debugchance" />
+            <run_script name="'order.fight.attack.object'">
+              <param name="primarytarget" value="player.ship" />
+              <param name="pursuetargets" value="true" />
+              <param name="checkrelation" value="false" />
+              <param name="allowothertargets" value="true" />
+              <param name="forceprimarytarget" value="true" />
+            </run_script>
+          </do_else>
+          <remove_value name="$Pilot" />
+          <remove_value name="$RandomShip" />
+        </actions>
+      </attention>
+    </aiscript>
+  </replace>
+</diff>

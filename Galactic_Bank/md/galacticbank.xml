@@ -63,7 +63,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.2
+					$inheritanceTax = 0.2,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.hapes}" exact="table[
 					$balance = 0,
@@ -72,7 +73,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.25
+					$inheritanceTax = 0.25,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.huttpirates}" exact="table[
 					$balance = 0,
@@ -81,7 +83,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.5
+					$inheritanceTax = 0.75,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.mandoraiders}" exact="table[
 					$balance = 0,
@@ -90,7 +93,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.5
+					$inheritanceTax = 0.75,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.valarian}" exact="table[
 					$balance = 0,
@@ -99,7 +103,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.5
+					$inheritanceTax = 0.75,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.blacksun}" exact="table[
 					$balance = 0,
@@ -108,7 +113,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.5
+					$inheritanceTax = 0.75,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.naboo}" exact="table[
 					$balance = 0,
@@ -117,7 +123,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.1
+					$inheritanceTax = 0.1,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.kamino}" exact="table[
 					$balance = 0,
@@ -126,7 +133,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.25
+					$inheritanceTax = 0.25,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.rebelalliance}" exact="table[
 					$balance = 0,
@@ -135,7 +143,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0.25
+					$inheritanceTax = 0.25,
+					$closed = false
 				]" />
 				<set_value name="$Accounts.{faction.sith}" exact="table[
 					$balance = 0,
@@ -144,7 +153,8 @@
 					$period = 20h,
 					$interest_time = null,
 					$undockedFee = 0.0025,
-					$inheritanceTax = 0
+					$inheritanceTax = 0,
+					$closed = false
 				]" />
 
 				<!-- factions with operational branch vaults -->
@@ -561,9 +571,6 @@
 							<set_value name="$account.$rate" exact="$Rate9" />
 							<set_value name="$account.$period" exact="$Period9" />
 							<set_value name="$change" exact="true" />
-							<do_if value="$newRelation gt -0.01 and $Relation le -0.01">
-								<set_value name="$open" exact="true" />
-							</do_if>
 						</do_elseif>
 						<do_elseif
 							value="($newRelation le -0.01 and $Relation gt -0.01)">
@@ -573,6 +580,9 @@
 							<set_value name="$account.$balance" exact="0" />
 							<set_value name="$change" exact="true" />
 							<set_value name="$closed" exact="true" />
+							<run_actions ref="md.kuertee_emergent_missions.Bounties.Bounties_RegisterPilot">
+								<param name="Pilot" value="player.entity" />
+							</run_actions>
 						</do_elseif>
 						<set_value name="$Relation" exact="$newRelation" />
 						<do_if value="$change and $account.$balance gt 0">
@@ -581,7 +591,6 @@
 							<do_if value="$closed">
 								<set_value name="$text"
 									exact="'Your account has been closed.\n\nIn accordance with your account contract:\n\nArticle 1530.69201.56882\nClause 831\n\nYou assets held by the InterGalactic Banking Clan have been permanently forfeited.\n\nWe wish you well.'" />
-								<remove_value name="$closed" />
 							</do_if>
 							<do_else>
 								<set_value name="$data"
@@ -640,6 +649,7 @@
 								<do_if value="not @$station.exists">
 									<set_value name="$station" exact="@event.param2.$dockAt" />
 								</do_if>
+								<set_value name="$Ships" exact="null" />
 								<!-- add bank office if vault or faction has a vault -->
 								<do_if value="$station.owner == faction.bankingclan or @$MajorFactionList.{$station.owner}">
 									<set_value name="$bankStation" exact="@$bankStations.{$station}" />
@@ -765,7 +775,10 @@
 											<do_if value="$convoOption_Banker_Account">
 												<add_player_choice text="'Access Account'" section="Banker_Account" />
 												<!-- todo: find docked ships with lootboxes -->
-												<do_if value="@player.entity.inventory.{inv_bank_lootbox}.exists or @$ships">
+												<find_ship name="$Ships" owner="faction.player" space="player.container.zone" docked="true" multiple="true" recursive="true">
+													<match_any_cargo wares="ware.bank_large_lootbox" />
+												</find_ship>
+												<do_if value="@player.entity.inventory.{inv_bank_lootbox}.exists or $Ships.count gt 0">
 													<add_player_choice text="'Return Lootbox(s)'" section="Banker_Return" />
 												</do_if>
 											</do_if>
@@ -783,7 +796,10 @@
 										</do_if>
 										<do_if value="event.param == 'Banker_Return'">
 											<set_value name="$lootboxes" exact="@player.entity.inventory.{inv_bank_lootbox}.count" />
-											<set_value name="$largelootboxes" exact="@$ship.cargo.{inv_bank_lootbox}.count" />
+											<set_value name="$largelootboxes" exact="0" />
+											<do_for_each name="$ship" in="$Ships">
+												<set_value name="$largelootboxes" operation="add" exact="@$ship.cargo.{bank_large_lootbox}.count" />
+											</do_for_each>
 											<set_value name="$reward" exact="$lootboxes * 1000 + $largelootboxes * 20000" />
 											<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="$lootboxes * 0.00082 + $largelootboxes * 0.0032" reason="relationchangereason.missioncompleted" />
 											<write_incoming_message source="faction.bankingclan" title="'We Greatly Appreciate You'" text="'Thank you for returning '+$lootboxes+$largelootboxes+' lootboxes. We have deposited: '+$reward+'Cr into your account.'" />
@@ -870,104 +886,116 @@
 							</conditions>
 							<actions>
 								<set_value name="$account" exact="$Accounts.{$Faction}" />
-								<set_value name="$Deposit_amount" exact="0" />
-								<set_value name="$Withdraw_amount" exact="0" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu"
-									param="table[
-									$id = 'bank_menu',
-									$columns = 1,
-									$title = $Title,
-									$height = 400,
-									$width = 300
-								]" />
-								<signal_cue_instantly
-									cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-								<signal_cue_instantly
-									cue="md.Simple_Menu_API.Make_Text"
-									param="table[$col=1, $halign='center', $text='Status']" />
-								<do_if value="$Fee gt 0">
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $halign='center', $color='Helper.color.red', $text='('+{20777, 1006}+' Fee: '+ $Fee*100 + '%)']" />
+								<do_if value="$account.$closed">
+									<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
+										$id = 'bank_menu',
+										$columns = 1,
+										$title = $Title,
+										$height = 400,
+										$width = 300
+									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='center',
+										$color='Helper.color.red',
+										$text={20777, 1024}
+									]" />
 								</do_if>
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
-									param="table[$interactive=false]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
-									param="table[$col=1, $text='']" />
-								<signal_cue_instantly
-									cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-								<signal_cue_instantly
-									cue="md.Simple_Menu_API.Make_Text" param="table[
-											$col=1, $halign='center',
-											$text=$Rate * 100 + '% interest per ' + $Period / 60 / 60 + ' hours.']" />
-								<do_if value="$account.$balance gt 0">
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Add_Row"
-										param="table[$interactive=false]" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $text='']" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Add_Row"
-										param="table[$interactive=false]" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $halign='right', $text='Interest earned since last update:']" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Add_Row"
-										param="table[$interactive=false]" />
-									<signal_cue_instantly
-										cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $halign='right', $text=$Interest_amount+'Cr']" />
-								</do_if>
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
-									param="table[$interactive=false]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
-									param="table[$col=1, $text='']" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
-									$start = 0,
-									$col = 1,
-									$text = table[$text=''],
-									$min = 0, $max = player.money, $step = 1, $suffix='Cr',
-									$default = 0,
-									$onSliderCellChanged = Bank_Menu_Deposit_Amount
-								]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-									$col = 1,
-									$text = table[$text='Deposit'],
-									$onClick = Bank_Menu_Deposit
-								]" />
-								<do_if value="$account.$balance gt 0">
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
-										param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
-										param="table[$col=1, $text='']" />
+								<do_else>
+									<set_value name="$Deposit_amount" exact="0" />
+									<set_value name="$Withdraw_amount" exact="0" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
+										$id = 'bank_menu',
+										$columns = 1,
+										$title = $Title,
+										$height = 400,
+										$width = 300
+									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='center',
+										$text='Status'
+									]" />
 									<do_if value="$Fee gt 0">
-										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row"
-											param="table[$interactive=false]" />
-										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text"
-											param="table[$col=1, $halign='right', $text='Max withdrawal after '+{20777, 1006}+' Fee:']" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$halign='center',
+											$color='Helper.color.red',
+											$text='('+{20777, 1006}+' Fee: '+ $Fee*100 + '%)'
+										]" />
 									</do_if>
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$halign='center',
+											$text=$Rate * 100 + '% interest per ' + $Period / 60 / 60 + ' hours.'
+										]" />
+									<do_if value="$account.$balance gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$halign='right',
+											$text='Interest earned since last update:'
+										]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$halign='right',
+											$text=$Interest_amount+'Cr'
+										]" />
+									</do_if>
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
 										$start = 0,
 										$col = 1,
 										$text = table[$text=''],
-										$min = 0, $max = $account.$balance / (1+$Fee), $step = 1, $suffix='Cr',
+										$min = 0, $max = player.money, $step = 1, $suffix='Cr',
 										$default = 0,
-										$onSliderCellChanged = Bank_Menu_Withdraw_Amount
+										$onSliderCellChanged = Bank_Menu_Deposit_Amount
 									]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 										$col = 1,
-										$text = table[$text='Withdraw'],
-										$onClick = Bank_Menu_Withdraw
+										$text = table[$text='Deposit'],
+										$onClick = Bank_Menu_Deposit
 									]" />
-								</do_if>
+									<do_if value="$account.$balance gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+										<do_if value="$Fee gt 0">
+											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+												$col=1,
+												$halign='right',
+												$text='Max withdrawal after '+{20777, 1006}+' Fee:'
+											]" />
+										</do_if>
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+											$start = 0,
+											$col = 1,
+											$text = table[$text=''],
+											$min = 0, $max = $account.$balance / (1+$Fee), $step = 1, $suffix='Cr',
+											$default = 0,
+											$onSliderCellChanged = Bank_Menu_Withdraw_Amount
+										]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+											$col = 1,
+											$text = table[$text='Withdraw'],
+											$onClick = Bank_Menu_Withdraw
+										]" />
+									</do_if>
+								</do_else>
 							</actions>
 							<cues>
 								<!-- sliders -->
@@ -1471,18 +1499,15 @@
 					</actions>
 				</cue>
 
-				<!-- kuertee's atd room creation tracking, only active when atd not installed -->
 				<cue name="K_ArriveAndLeaveStations" namespace="this">
 					<actions>
-						<do_if value="not md.kuertee_atd.kATD.exists">
-							<set_value name="$attentionNearbyAndNearer" exact="[attention.nearby, attention.adjacentroom, attention.inroom]" />
-							<set_value name="$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
-							<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
-							<set_value name="md.Notifications.Init.$kuertee_station_old" exact="null" />
-							<set_value name="md.Notifications.Init.$kuertee_station_current" exact="null" />
-							<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="null" />
-							<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
-						</do_if>
+						<set_value name="$attentionNearbyAndNearer" exact="[attention.nearby, attention.adjacentroom, attention.inroom]" />
+						<set_value name="$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
+						<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_station_old" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_station_current" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="null" />
+						<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
 					</actions>
 					<cues>
 						<cue name="K_ArriveStation" instantiate="true">
@@ -1492,7 +1517,6 @@
 									<check_all>
 										<!-- Event for the specified object changing attention level (object = attention changing object, param = new attention level, param2 = previous attention level) -->
 										<event_object_changed_attention group="md.NPC_Instantiation.Instantiation.$TrackedObjects" />
-										<check_value value="not md.kuertee_atd.kATD.exists" />
 										<check_value value="event.object.isclass.station" />
 										<check_value value="@event.object.macro != @macro.landmarks_par_monument_01_macro" />
 										<check_value value="@event.object.macro != @macro.torus_maze_macro" />
@@ -1568,7 +1592,6 @@
 										<check_any>
 											<event_cue_signalled />
 											<event_object_changed_attention object="md.Notifications.Init.$kuertee_station_current" />
-											<check_value value="not md.kuertee_atd.kATD.exists" />
 										</check_any>
 									</conditions>
 									<actions>
@@ -1625,7 +1648,6 @@
 									<conditions>
 										<!-- Event for the specified object docking (object = docking object, param = dock object, param2 = zone) -->
 										<event_object_docked group="global.$PlayerContainerGroup" />
-										<check_value value="not md.kuertee_atd.kATD.exists" />
 										<check_value value="event.param.isclass.station" />
 										<check_value value="@event.param.macro != @macro.landmarks_par_monument_01_macro" />
 										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
@@ -1643,7 +1665,6 @@
 									<conditions>
 										<!-- Event for the specified object undocking (object = undocking object, param = dock, param2 = zone) -->
 										<event_object_undocked group="global.$PlayerContainerGroup" />
-										<check_value value="not md.kuertee_atd.kATD.exists" />
 										<check_value value="event.param.isclass.station" />
 										<check_value value="@event.param.macro != @macro.landmarks_par_monument_01_macro" />
 										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
@@ -1661,7 +1682,6 @@
 						<cue name="K_ArriveAndLeaveStations_Debug" namespace="this">
 							<conditions>
 								<event_ui_triggered screen="'Chat_Window_API'" control="'text_entered'" />
-								<check_value value="not md.kuertee_atd.kATD.exists" />
 								<check_value value="event.param3.$text == 'kuertee debug K_ArriveAndLeaveStations'" />
 							</conditions>
 							<actions>
@@ -1684,7 +1704,6 @@
 							<event_cue_signalled />
 							<event_game_loaded />
 						</check_any>
-						<check_value value="not md.kuertee_atd.kATD.exists" />
 						<check_value value="not @player.allmodules.{player.module}.isscenario" />
 					</conditions>
 					<actions>

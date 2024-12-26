@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
+  xsi:noNamespaceSchemaLocation="../../xsd/librariesdiff.xsd">
   <remove sel="//job[@id='bankingclan_techsupport_trader_m']" />
   <remove sel="//job[@id='bankingclan_bio_trader_m']" />
   <remove sel="//job[@id='bankingclan_energycell_trader_l']" />
@@ -21,15 +21,37 @@
   <remove sel="//job[@id='bankingclan_construction_vessel_l_playeronly']" />
 
   <add sel="//jobs">
+    <job id="bankingclan_transport_l" name="'{20777,1002} {20777,1008}'">
+      <modifiers rebuild="true" commandeerable="true" />
+      <orders>
+        <order order="SWBankTransport" default="true" />
+      </orders>
+      <category faction="bankingclan" tags="[factionlogic]" size="ship_l" />
+      <quota galaxy="8" sector="1" />
+      <location class="galaxy" macro="swi_galaxy_macro" />
+      <environment buildatshipyard="true" />
+      <ship>
+        <select faction="bankingclan" tags="[banking]" size="ship_l" />
+        <loadout>
+          <level exact="1" />
+        </loadout>
+        <owner exact="bankingclan" overridenpc="true" />
+      </ship>
+      <subordinates>
+        <subordinate job="bankingclan_transport_m" assignment="defence" />
+      </subordinates>
+    </job>
+
     <job id="bankingclan_transport_m" name="'{20777,1002} {20777,1008}'">
       <modifiers rebuild="true" commandeerable="true" />
       <orders>
         <order order="SWBankTransport" default="true" />
       </orders>
       <category faction="bankingclan" tags="[factionlogic]" size="ship_m" />
-      <quota galaxy="20" sector="1" />
+      <quota wing="2" />
       <location class="galaxy" macro="swi_galaxy_macro" />
       <environment buildatshipyard="true" />
+      <modifiers subordinate="true" />
       <ship>
         <select faction="bankingclan" tags="[banking]" size="ship_m" />
         <loadout>
@@ -37,21 +59,28 @@
         </loadout>
         <owner exact="bankingclan" overridenpc="true" />
       </ship>
+      <subordinates>
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
+      </subordinates>
     </job>
-
-    <job id="bankingclan_transport_l" name="'{20777,1002} {20777,1008}'">
-      <modifiers rebuild="true" commandeerable="true" />
+    
+    <job id="bankingclan_tied_trio_leader" name="{999840,613410}" startactive="false">
       <orders>
-        <order order="SWBankTransport" default="true" />
+        <order order="Escort" default="true">
+          <param name="formation" value="formationshape.triangle" />
+          <param name="overrideformationskill" value="true" />
+        </order>
       </orders>
-      <category faction="bankingclan" tags="[factionlogic]" size="ship_l" />
-      <quota galaxy="5" sector="1" />
-      <location class="galaxy" macro="swi_galaxy_macro" />
-      <environment buildatshipyard="true" />
-      <ship>
-        <select faction="bankingclan" tags="[banking]" size="ship_l" />
+        <quota wing="3" />
+        <category faction="galempire" tags="[military, tied]" size="ship_s" />
+        <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
+        <environment buildatshipyard="true" />
+        <modifiers subordinate="true" />
+        <ship>
+        <select faction="galempire" tags="[military, tied]" size="ship_s" />
         <loadout>
-          <level exact="1" />
+          <level exact="1.0" />
         </loadout>
         <owner exact="bankingclan" overridenpc="true" />
       </ship>

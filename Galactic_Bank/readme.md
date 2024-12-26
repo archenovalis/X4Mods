@@ -71,3 +71,6 @@ should be compatible with prior versions
 
 v0.71:
 add hacking menu and lootbox opening logic (inventory lootboxes and container lootboxes)
+
+v0.8:
+at -10 relation, bank confiscates money, closes account, hires bounty hunters to hunt player 
