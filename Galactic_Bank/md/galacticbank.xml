@@ -1626,22 +1626,20 @@
 								</cue>
 								<cue name="K_ArriveStation2">
 									<actions>
-										<do_if value="not md.kuertee_atd.kATD.exists">
-											<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="K_DepartStation" />
-											<do_if value="$isTeleport">
-												<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$teleportTo = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
-											</do_if>
-											<do_else>
-												<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$arriveAt = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
-											</do_else>
-											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<debug_text text="'kuertee K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<debug_text text="'kuertee K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<debug_text text="'kuertee K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<cancel_cue cue="this" />
+										<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="K_DepartStation" />
+										<do_if value="$isTeleport">
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$teleportTo = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
 										</do_if>
+										<do_else>
+											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$arriveAt = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
+										</do_else>
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<debug_text text="'kuertee K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<cancel_cue cue="this" />
 									</actions>
 								</cue>
 								<cue name="K_DockedAtStation">
@@ -1728,50 +1726,44 @@
 					<cues>
 						<cue name="K_ArriveAndLeaveStations_Init3" checktime="player.age + $initDelay">
 							<actions>
-								<do_if value="not md.kuertee_atd.kATD.exists">
-									<do_if value="not @md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
-										<!-- no K_ArriveAndLeaveStations registered -->
-										<!-- register this K_ArriveAndLeaveStations -->
-										<set_value name="md.Notifications.Init.$kuertee_ArriveAndLeaveStations" exact="K_ArriveAndLeaveStations" />
-										<debug_text text="'$kuertee_ArriveAndLeaveStations: ' + @md.Notifications.Init.$kuertee_ArriveAndLeaveStations" />
-									</do_if>
-									<do_else>
-										<!-- cancel this K_ArriveAndLeaveStations, so only one exists -->
-										<debug_text text="'cancel_cue ' + K_ArriveAndLeaveStations" />
-										<cancel_cue cue="K_ArriveAndLeaveStations" />
-										<reset_cue cue="parent" />
-									</do_else>
+								<do_if value="not @md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
+									<!-- no K_ArriveAndLeaveStations registered -->
+									<!-- register this K_ArriveAndLeaveStations -->
+									<set_value name="md.Notifications.Init.$kuertee_ArriveAndLeaveStations" exact="K_ArriveAndLeaveStations" />
+									<debug_text text="'$kuertee_ArriveAndLeaveStations: ' + @md.Notifications.Init.$kuertee_ArriveAndLeaveStations" />
 								</do_if>
+								<do_else>
+									<!-- cancel this K_ArriveAndLeaveStations, so only one exists -->
+									<debug_text text="'cancel_cue ' + K_ArriveAndLeaveStations" />
+									<cancel_cue cue="K_ArriveAndLeaveStations" />
+									<reset_cue cue="parent" />
+								</do_else>
 							</actions>
 							<cues>
 								<cue name="K_ArriveAndLeaveStations_Init4">
 									<actions>
-										<do_if value="not md.kuertee_atd.kATD.exists">
-											<do_if value="not @$station_current.exists">
-												<find_station name="$station" sortbydistanceto="player.entity" space="player.sector" />
-												<do_if value="[attention.nearby, attention.adjacentroom, attention.inroom].indexof.{$station.attention}">
-													<set_value name="$station_current" exact="$station" />
-													<debug_text text="'$station_current (found nearby): ' + $station_current + ' (' + $station_current.knownname + ')'" />
-												</do_if>
-												<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
+										<do_if value="not @$station_current.exists">
+											<find_station name="$station" sortbydistanceto="player.entity" space="player.sector" />
+											<do_if value="[attention.nearby, attention.adjacentroom, attention.inroom].indexof.{$station.attention}">
+												<set_value name="$station_current" exact="$station" />
+												<debug_text text="'$station_current (found nearby): ' + $station_current + ' (' + $station_current.knownname + ')'" />
 											</do_if>
-											<do_if value="@$station_current.exists">
-												<!-- if there was a $station_current, prepare K_ArriveAndLeaveStations with it -->
-												<!-- this is required so that K_DepartStation can continue with $station_current -->
-												<!-- <debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" /> -->
-												<!-- <signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" /> -->
-												<!-- <reset_cue cue="K_ArriveAndLeaveStations_Init2" /> -->
-											</do_if>
+											<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
+										</do_if>
+										<do_if value="@$station_current.exists">
+											<!-- if there was a $station_current, prepare K_ArriveAndLeaveStations with it -->
+											<!-- this is required so that K_DepartStation can continue with $station_current -->
+											<!-- <debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" /> -->
+											<!-- <signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" /> -->
+											<!-- <reset_cue cue="K_ArriveAndLeaveStations_Init2" /> -->
 										</do_if>
 									</actions>
 									<cues>
 										<cue name="K_ArriveAndLeaveStations_Init5">
 											<actions>
-												<do_if value="not md.kuertee_atd.kATD.exists">
-													<debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" />
-													<signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" />
-													<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
-												</do_if>
+												<debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" />
+												<signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" />
+												<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
 											</actions>
 										</cue>
 									</cues>
@@ -1782,9 +1774,7 @@
 				</cue>
 				<cue name="K_ArriveAndLeaveStations_FirstRun2">
 					<actions>
-						<do_if value="not md.kuertee_atd.kATD.exists">
-							<signal_cue cue="K_ArriveAndLeaveStations_Init2" />
-						</do_if>
+						<signal_cue cue="K_ArriveAndLeaveStations_Init2" />
 					</actions>
 				</cue>
 
