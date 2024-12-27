@@ -2,10 +2,40 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <!-- new wares -->
   <add sel="//wares">
-    <ware id="mod_ship_spy" name="''" description="''" shortname="''" transport="inventory" volume="1" tags="missiononly equipmentmod">
+    <ware id="mod_ship_spy" name="'{20777,404408}'" description="'{20777,404408}'" shortname="'{20777,404408}'" transport="inventory" volume="1" tags="missiononly equipmentmod">
       <price min="1" average="1" max="1" />
     </ware>
-    <ware id="inv_spydevice" name="''" description="''" shortname="''" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw naboo kamino" tags="missiononly inventory">
+    <ware id="inv_hackingdevice" name="'{20777,404407}'" description="'{20777,404407}'" shortname="'{20777,404407}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_newrepublic" name="'{20777,2004} {20777,404406}'" description="'{20777,2004} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_rebelalliance" name="'{20777,2031} {20777,404406}'" description="'{20777,2004} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_galempire" name="'{20777,2002} {20777,404406}'" description="'{20777,2002} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_ascendancy" name="'{20777,2014} {20777,404406}'" description="'{20777,2014} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire corporate commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_corporate" name="'{20777,2008} {20777,404406}'" description="'{20777,2008} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_commerceguild" name="'{20777,2010} {20777,404406}'" description="'{20777,2010} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_mandodw" name="'{20777,2006} {20777,404406}'" description="'{20777,2006} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_anoat" name="'{20777,2016} {20777,404406}'" description="'{20777,2016} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_huttcartel" name="'{20777,2012} {20777,404406}'" description="'{20777,2012} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat hapes kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_sith" name="'{20777,2019} {20777,404406}'" description="'{20777,2019} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo" tags="missiononly inventory">
       <price min="1" average="1" max="1" />
     </ware>
   </add>

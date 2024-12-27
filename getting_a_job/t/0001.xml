@@ -24,9 +24,15 @@
 		<t id="1020">Security Bypass failed.</t>
 		<t id="1021">Critical Security Bypass failure, the box has fused itself shut.</t>
 
+		<!-- kuertee: teleport from transporter room -->
+		<t id="404">Invalid Transporter Codes</t>
+
 		<!-- hacking interaction menu -->
 		<t id="404404">Hacking</t>
 		<t id="404405">Access Lootbox</t>
+		<t id="404406">Spy Device</t>
+		<t id="404407">Hacking Device</t>
+		<t id="404408">Stealth Plating</t>
 
 		<!-- getting a job -->
 		<t id="2001">Getting A Job</t>
@@ -62,10 +68,6 @@
 		<t id="2030">Born in the Naboo sector.</t>
 		<t id="2031">Rebal Alliance</t>
 		<t id="2032">Born in the Alderaan sector.</t>
-
-
-		<!-- kuertee: teleport from transporter room -->
-		<t id="404">Invalid Transporter Codes</t>
 	</page>
 
 

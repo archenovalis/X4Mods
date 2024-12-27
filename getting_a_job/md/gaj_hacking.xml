@@ -11,22 +11,41 @@
 						<check_value value="@event.param.$object.class.station" />
 						<check_value value="@event.param.$object.isoperational" />
 						<check_value value="not @event.param.$object.isplayerowned" />
-						<check_value value="player.entity.inventory.{inv_spydevice}.exists" />
 						<check_value value="player.entity.inventory.{inv_securitybypasssytem}.exists" />
-						<check_value value="@event.param.$object.distanceto.{player.entity} le 20km" />
+						<check_any>
+							<check_all>
+								<check_value value="player.entity.inventory.{inv_hackingdevice}.exists" />
+								<check_value value="@event.param.$object.distanceto.{player.entity} le 8km" />
+							</check_all>
+							<check_all>
+								<check_any>
+									<check_value value="player.entity.inventory.{inv_spydevice_newrepublic}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_rebelalliance}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_galempire}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_ascendancy}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_corporate}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_commerceguild}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_mandodw}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_anoat}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_huttcartel}.exists" />
+									<check_value value="player.entity.inventory.{inv_spydevice_sith}.exists" />
+								</check_any>
+								<check_value value="@event.param.$object.distanceto.{player.entity} le 25km" />
+							</check_all>
+						</check_any>
 					</conditions>
 					<actions>
 						<set_value name="$Station" exact="event.param.$object" />
 						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
 							$section = 'hacking',
-							$text = 'Engineering',
+							$text = 'Hack Engineering Room',
 							$icon = '',
 							$callback = Initiate_Hack,
 							$echo = table[$roomType = roomtype.infrastructure]
 						]" />
 						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
 							$section = 'hacking',
-							$text = 'Security',
+							$text = 'Hack Security Office',
 							$icon = '',
 							$callback = Initiate_Hack,
 							$echo = table[$roomType = roomtype.security]
@@ -42,21 +61,6 @@
 					<delay exact="1ms" />
 					<actions>
 						<remove_inventory ware="ware.inv_securitybypasssytem" />
-						<set_value name="$newKey" exact="table[
-							$roomType = null,
-							$station = null,
-							$accessType = null,
-							$accessTypeCosts = null,
-							$timeAcquired = null,
-							$codePhrase = null,
-							$codePhraseLine = null,
-							$codePhraseReply = null,
-							$codePhraseReplyLine = null,
-							$isConfirmed = false,
-							$isMissionCreated = false,
-							$isCancelled = false,
-							$isFailed = false
-						]" />
 						<set_value name="$roomType" exact="event.param.$roomType" />
 						<set_value name="$codePhraseLine" min="0" max="19" />
 						<set_value name="$codePhraseLine" exact="11100 + ($codePhraseLine * 2)" />
