@@ -1,42 +1,110 @@
-<check_value value="@player.station and @player.station.owner != faction.player" />
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="GAJ_Hacking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+	<cues>
+		<cue name="Hacking" namespace="this" version="1">
+			<cues>
+				<!-- ui interaction button -->
+				<cue name="InteractMenu">
+					<conditions>
+						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
+						<check_value value="@event.param.$object.class.station" />
+						<check_value value="@event.param.$object.isoperational" />
+						<check_value value="not @event.param.$object.isplayerowned" />
+						<check_value value="player.entity.inventory.{inv_spydevice}.exists" />
+						<check_value value="player.entity.inventory.{inv_securitybypasssytem}.exists" />
+						<check_value value="@event.param.$object.distanceto.{player.entity} le 20km" />
+					</conditions>
+					<actions>
+						<set_value name="$Station" exact="event.param.$object" />
+						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
+							$section = 'hacking',
+							$text = 'Engineering',
+							$icon = '',
+							$callback = Initiate_Hack,
+							$echo = table[$roomType = roomtype.infrastructure]
+						]" />
+						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
+							$section = 'hacking',
+							$text = 'Security',
+							$icon = '',
+							$callback = Initiate_Hack,
+							$echo = table[$roomType = roomtype.security]
+						]" />
+						<reset_cue cue="this" />
+					</actions>
+				</cue>
 
-<set_value name="$newKey.$accessType" exact="1" />
-<set_value name="$newKey.$station" exact="player.station" />
+				<cue name="Initiate_Hack" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<delay exact="1ms" />
+					<actions>
+						<remove_inventory ware="ware.inv_securitybypasssytem" />
+						<set_value name="$newKey" exact="table[
+							$roomType = null,
+							$station = null,
+							$accessType = null,
+							$accessTypeCosts = null,
+							$timeAcquired = null,
+							$codePhrase = null,
+							$codePhraseLine = null,
+							$codePhraseReply = null,
+							$codePhraseReplyLine = null,
+							$isConfirmed = false,
+							$isMissionCreated = false,
+							$isCancelled = false,
+							$isFailed = false
+						]" />
+						<set_value name="$roomType" exact="event.param.$roomType" />
+						<set_value name="$codePhraseLine" min="0" max="19" />
+						<set_value name="$codePhraseLine" exact="11100 + ($codePhraseLine * 2)" />
+						<set_value name="$codePhraseReplyLine" exact="$codePhraseLine + 1" />
+						<set_value name="$codePhrase" exact="readtext.{81918112}.{$codePhraseLine}" />
+						<set_value name="$codePhraseReply" exact="readtext.{81918112}.{$codePhraseReplyLine}" />
 
-<!-- hacking menu choice -->
-<set_value name="$newKey.$roomType" exact="roomtype.infrastructure" />
-<set_value name="$newKey.$roomType" exact="roomtype.security" />
+						<do_if value="not md.kuertee_hsral.kHSRAL.$keys.{$Station}?">
+							<set_value name="md.kuertee_hsral.kHSRAL.$keys.{$Station}" exact="table[]" />
+						</do_if>
+						<do_if value="not md.kuertee_hsral.kHSRAL.$keys.{$Station}.$roomTypes?">
+							<set_value name="md.kuertee_hsral.kHSRAL.$keys.{$Station}.$roomTypes" exact="table[]" />
+						</do_if>
+						<do_if value="not md.kuertee_hsral.kHSRAL.$keys.{$Station}.$roomTypes.{$roomType}?">
+							<set_value name="md.kuertee_hsral.kHSRAL.$keys.{$Station}.$roomTypes.{$roomType}" exact="table[]" />
+						</do_if>
+						<set_value name="md.kuertee_hsral.kHSRAL.$keys.{$Station}.$roomTypes.{$roomType}.$accessType" exact="1" />
+						<set_value name="md.kuertee_hsral.kHSRAL.$keys.{$Station}.$roomTypes.{$roomType}.$timeAcquired" exact="player.age" />
 
-<set_value name="$newKey.$codePhraseLine" min="0" max="19" />
-<set_value name="$newKey.$codePhraseLine" exact="11100 + ($newKey.$codePhraseLine * 2)" />
-<set_value name="$newKey.$codePhraseReplyLine" exact="$newKey.$codePhraseLine + 1" />
-<set_value name="$newKey.$codePhrase" exact="readtext.{81918112}.{$newKey.$codePhraseLine}" />
-<set_value name="$newKey.$codePhraseReply" exact="readtext.{81918112}.{$newKey.$codePhraseReplyLine}" />
+						<signal_cue_instantly cue="MissionAccessType1" param="table[
+							$station = $Station,
+							$roomType = $roomType,
+							$codePhrase = $codePhrase,
+							$codePhraseLine = $codePhraseLine,
+							$codePhraseReply = $codePhraseReply,
+							$codePhraseReplyLine = $codePhraseReplyLine
+						]" />
+					</actions>
+				</cue>
+			</cues>
+		</cue>
 
-<set_value name="$newKey.$codePhrase" exact="roomtype.security" />
-<set_value name="$newKey.$codePhraseLine" exact="roomtype.security" />
-<set_value name="$newKey.$codePhraseReply" exact="roomtype.security" />
-<set_value name="$newKey.$codePhraseReplyLine" exact="roomtype.security" />
-
-<set_value name="$newKey.$isConfirmed" exact="true" />
-
-<do_if value="not $keys.{$newKey.$station}?">
-  <set_value name="$keys.{$newKey.$station}" exact="table[]" />
-</do_if>
-<do_if value="not $keys.{$newKey.$station}.$roomTypes?">
-  <set_value name="$keys.{$newKey.$station}.$roomTypes" exact="table[]" />
-</do_if>
-<do_if value="not $keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}?">
-  <set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}" exact="table[]" />
-</do_if>
-<set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.$accessType" exact="$newKey.$accessType" />
-<set_value name="$keys.{$newKey.$station}.$roomTypes.{$newKey.$roomType}.$timeAcquired" exact="player.age" />
-
-<signal_cue_instantly cue="MissionAccessType1" param="table[
-	$station = $newKey.$station,
-	$roomType = $newKey.$roomType,
-	$codePhrase = $newKey.$codePhrase,
-	$codePhraseLine = $newKey.$codePhraseLine,
-	$codePhraseReply = $newKey.$codePhraseReply,
-	$codePhraseReplyLine = $newKey.$codePhraseReplyLine
-]" />
+		<cue name="OnLuaLoaderReady">
+			<conditions>
+				<event_ui_triggered screen="'Lua_Loader'" control="'Ready'" />
+			</conditions>
+			<actions>
+				<raise_lua_event name="'Lua_Loader.Load'" param="'extensions.kuertee_ui_extensions.ui.kuertee_menu_interactmenu'" />
+			</actions>
+		</cue>
+		<cue name="OnLuaLoaderReadyCompleted">
+			<conditions>
+				<event_cue_completed cue="OnLuaLoaderReady" />
+			</conditions>
+			<actions>
+				<reset_cue cue="OnLuaLoaderReady" />
+				<reset_cue cue="this" />
+			</actions>
+		</cue>
+	</cues>
+</mdscript>

@@ -45,9 +45,17 @@
           <actions>
             <set_value name="$interact_ships" exact="event.param.$selectedplayerships" />
             <set_value name="$Interact_target" exact="event.param.$object" />
+            <!-- limit ships to same sector -->
+            <do_for_each name="$ship" in="$interact_ships">
+              <do_if value="$ship.sector != $Interact_target.sector">
+                <remove_from_list name="$interact_ships" exact="$ship" />
+              </do_if>
+            </do_for_each>
+            <do_if value="not ($interact_ships ge 1)">
+              <cancel_cue cue="this" />
+            </do_if>
+
             <!-- determine station's docking compatabilities -->
-
-
             <find_object_component groupname="$WharfModules" object="$Interact_target" class="class.buildmodule">
               <match_any>
                 <match canbuildclass="class.ship_s" />
