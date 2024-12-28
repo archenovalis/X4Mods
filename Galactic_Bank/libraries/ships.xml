@@ -2,15 +2,6 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="//ships/ship[@id='bankingclan_builder_l']" pos="before">
-    <ship id="bankingclan_builder_l" group="civilian_builder_l">
-      <category tags="[builder, mission]" faction="bankingclan" size="ship_l" />
-      <pilot>
-        <select faction="bankingclan" tags="elitepilot" />
-      </pilot>
-      <drop ref="ship_large_civilian" />
-      <people ref="bankingclan_elite_freighter_crew" />
-    </ship>
-
     <ship id="bankingclan_transport_l" group="bankingclan_transport_l">
       <category tags="[banking]" faction="bankingclan" size="ship_l" />
       <pilot>

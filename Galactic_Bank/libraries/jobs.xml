@@ -39,6 +39,8 @@
       </ship>
       <subordinates>
         <subordinate job="bankingclan_transport_m" assignment="defence" />
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
       </subordinates>
     </job>
 
@@ -47,9 +49,9 @@
       <orders>
         <order order="SWBankTransport" default="true" />
       </orders>
+      <quota galaxy="16" sector="1" />
       <category faction="bankingclan" tags="[factionlogic]" size="ship_m" />
-      <quota wing="2" />
-      <location class="galaxy" macro="swi_galaxy_macro" />
+      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
       <environment buildatshipyard="true" />
       <modifiers subordinate="true" />
       <ship>
@@ -61,6 +63,27 @@
       </ship>
       <subordinates>
         <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
+      </subordinates>
+    </job>
+
+    <job id="bankingclan_transport_m_escort" name="'{20777,1002} {20777,1008}'">
+      <modifiers commandeerable="true" />
+      <orders>
+        <order order="Escort" default="true" />
+      </orders>
+      <quota wing="2" />
+      <category faction="bankingclan" tags="[factionlogic]" size="ship_m" />
+      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
+      <environment buildatshipyard="true" />
+      <modifiers subordinate="true" />
+      <ship>
+        <select faction="bankingclan" tags="[banking]" size="ship_m" />
+        <loadout>
+          <level exact="1" />
+        </loadout>
+        <owner exact="bankingclan" overridenpc="true" />
+      </ship>
+      <subordinates>
         <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
       </subordinates>
     </job>
@@ -72,12 +95,12 @@
           <param name="overrideformationskill" value="true" />
         </order>
       </orders>
-        <quota wing="3" />
-        <category faction="galempire" tags="[military, tied]" size="ship_s" />
-        <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
-        <environment buildatshipyard="true" />
-        <modifiers subordinate="true" />
-        <ship>
+      <quota wing="3" />
+      <category faction="galempire" tags="[military, tied]" size="ship_s" />
+      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
+      <environment buildatshipyard="true" />
+      <modifiers subordinate="true" />
+      <ship>
         <select faction="galempire" tags="[military, tied]" size="ship_s" />
         <loadout>
           <level exact="1.0" />

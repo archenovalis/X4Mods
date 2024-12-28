@@ -778,7 +778,7 @@
 												<find_ship name="$Ships" owner="faction.player" space="player.container.zone" docked="true" multiple="true" recursive="true">
 													<match_any_cargo wares="ware.bank_large_lootbox" />
 												</find_ship>
-												<do_if value="@player.entity.inventory.{inv_bank_lootbox}.exists or $Ships.count gt 0">
+												<do_if value="@player.entity.inventory.{ware.inv_bank_lootbox}.exists or $Ships.count gt 0">
 													<add_player_choice text="'Return Lootbox(s)'" section="Banker_Return" />
 												</do_if>
 											</do_if>
@@ -795,10 +795,10 @@
 											<signal_cue_instantly cue="Bank_Menu_Open" />
 										</do_if>
 										<do_if value="event.param == 'Banker_Return'">
-											<set_value name="$lootboxes" exact="@player.entity.inventory.{inv_bank_lootbox}.count" />
+											<set_value name="$lootboxes" exact="@player.entity.inventory.{ware.inv_bank_lootbox}.count" />
 											<set_value name="$largelootboxes" exact="0" />
 											<do_for_each name="$ship" in="$Ships">
-												<set_value name="$largelootboxes" operation="add" exact="@$ship.cargo.{bank_large_lootbox}.count" />
+												<set_value name="$largelootboxes" operation="add" exact="@$ship.cargo.{ware.bank_large_lootbox}.count" />
 											</do_for_each>
 											<set_value name="$reward" exact="$lootboxes * 1000 + $largelootboxes * 20000" />
 											<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="$lootboxes * 0.00082 + $largelootboxes * 0.0032" reason="relationchangereason.missioncompleted" />
@@ -824,14 +824,16 @@
 						<check_value value="@event.param.$object.distanceto.{player.entity} le 10km" />
 					</conditions>
 					<actions>
-						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
-							$id = 'Vault_AccountMenu',
-							$section = 'main',
-							$text = 'Access Account',
-							$icon = 'menu_swi_credits',
-							$callback = Bank_Menu,
-							$echo = table[$faction = event.param.$object.owner]
-						]" />
+						<do_if value="($MajorFactionList.{@event.param.$object.sector.owner} and $Accounts.{faction.bankingclan}.$balance gt 0) or $Accounts.{event.param.$object.owner}.$balance gt 0">
+							<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
+								$id = 'Vault_AccountMenu',
+								$section = 'main',
+								$text = 'Access Account',
+								$icon = 'menu_swi_credits',
+								$callback = Bank_Menu,
+								$echo = table[$faction = event.param.$object.owner]
+							]" />
+						</do_if>
 						<reset_cue cue="this" />
 					</actions>
 				</cue>
@@ -1113,19 +1115,19 @@
 					<conditions>
 						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
 						<check_any>
-							<check_value value="player.entity.inventory.{inv_bank_lootbox}.exists" />
-							<check_value value="player.entity.inventory.{inv_bank_lootbox_fused}.exists" />
-							<check_value value="player.ship.cargo.{bank_largecredit_lootbox}.exists" />
-							<check_value value="player.ship.cargo.{bank_largecredit_lootbox_fused}.exists" />
-							<check_value value="player.station.cargo.{bank_largecredit_lootbox}.exists and player.station.owner == faction.player" />
-							<check_value value="player.station.cargo.{bank_largecredit_lootbox_fused}.exists and player.station.owner == faction.player" />
+							<check_value value="player.entity.inventory.{ware.inv_bank_lootbox}.exists" />
+							<check_value value="player.entity.inventory.{ware.inv_bank_lootbox_fused}.exists" />
+							<check_value value="@player.ship.cargo.{ware.bank_large_lootbox}.exists" />
+							<check_value value="@player.ship.cargo.{ware.bank_large_lootbox_fused}.exists" />
+							<check_value value="@player.station.cargo.{ware.bank_large_lootbox}.exists and @player.station.owner == faction.player" />
+							<check_value value="@player.station.cargo.{ware.bank_large_lootbox_fused}.exists and @player.station.owner == faction.player" />
 						</check_any>
 					</conditions>
 					<actions>
 						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
 							$id = 'Vault_LootboxMenu',
 							$section = 'hacking_menu',
-							$text = ,
+							$text = 'Access Lootbox',
 							$icon = 'menu_swi_credits',
 							$callback = Lootbox_Menu,
 							$echo = table[$faction = event.param.$object.owner]
@@ -1154,22 +1156,22 @@
 							<set_value name="$Ship" exact="player.station" />
 						</do_elseif>
 						<!-- Bypasses available -->
-						<do_if value="$inventory.{inv_securitybypasssystem}.exists">
-							<set_value name="$Bypasses" exact="$inventory.{inv_securitybypasssystem}.count" />
+						<do_if value="$inventory.{ware.inv_securitybypasssystem}.exists">
+							<set_value name="$Bypasses" exact="$inventory.{ware.inv_securitybypasssystem}.count" />
 						</do_if>
 						<!-- Lootboxes -->
-						<do_if value="$inventory.{inv_bank_lootbox}.exists">
-							<set_value name="$Lootboxes" exact="$inventory.{inv_bank_lootbox}.count" />
+						<do_if value="$inventory.{ware.inv_bank_lootbox}.exists">
+							<set_value name="$Lootboxes" exact="$inventory.{ware.inv_bank_lootbox}.count" />
 						</do_if>
-						<do_if value="$inventory.{inv_bank_lootbox_fused}.exists">
-							<set_value name="$Lootboxes" exact="$inventory.{inv_bank_lootbox_fused}.count" />
+						<do_if value="$inventory.{ware.inv_bank_lootbox_fused}.exists">
+							<set_value name="$Lootboxes" exact="$inventory.{ware.inv_bank_lootbox_fused}.count" />
 						</do_if>
 						<do_if value="@$Ship">
-							<do_if value="$Ship.cargo.{bank_large_lootbox}.exists">
-								<set_value name="$LargeLootboxes" exact="$Ship.cargo.{bank_large_lootbox}.count" />
+							<do_if value="$Ship.cargo.{ware.bank_large_lootbox}.exists">
+								<set_value name="$LargeLootboxes" exact="$Ship.cargo.{ware.bank_large_lootbox}.count" />
 							</do_if>
-							<do_if value="$Ship.cargo.{bank_large_lootbox_fused}.exists">
-								<set_value name="$LargeLootboxes" exact="$Ship.cargo.{bank_large_lootbox_fused}.count" />
+							<do_if value="$Ship.cargo.{ware.bank_large_lootbox_fused}.exists">
+								<set_value name="$LargeLootboxes" exact="$Ship.cargo.{ware.bank_large_lootbox_fused}.count" />
 							</do_if>
 						</do_if>
 						<signal_cue cue="Lootbox_Menu_Open" />
@@ -1493,7 +1495,7 @@
 							<add_object_velocity object="$lootbox">
 								<linear x="$TargetVelocityX" y="$TargetVelocityY" z="$TargetVelocityZ" />
 							</add_object_velocity>
-							<add_cargo object="$lootbox" ware="ware.bank_large_credit_lootbox" exact="[1,2,3].random" />
+							<add_cargo object="$lootbox" ware="ware.bank_large_lootbox" exact="[1,2,3].random" />
 						</do_all>
 						<reset_cue cue="this" />
 					</actions>
