@@ -51,7 +51,7 @@
                 <remove_from_list name="$interact_ships" exact="$ship" />
               </do_if>
             </do_for_each>
-            <do_if value="not ($interact_ships ge 1)">
+            <do_if value="not ($interact_ships.count ge 1)">
               <cancel_cue cue="this" />
             </do_if>
 

@@ -51,12 +51,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" recommendation="10" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clusterbastion_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.7" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clusterbastion_sector001_macro" />
       <player macro="character_player_tutorial_macro" money="15000" name="{999840,600330}">
         <ship macro="tie_fighter_van_macro">
           <loadout>
@@ -140,12 +135,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" recommendation="10" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clustercoruscant_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.7" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clustercoruscant_sector001_macro" />
       <player macro="character_player_tutorial_macro" money="15000" name="{999840,600130}">
         <ship macro="ewing_macro">
           <loadout>
@@ -233,12 +223,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clustermandalore_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.7" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clustermandalore_sector001_macro" />
       <player macro="character_player_split_gamestart2_macro" money="15000" name="{999840,600830}">
         <ship macro="m4_dune_macro">
           <loadout>
@@ -328,12 +313,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clusterhypori_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.7" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clusterhypori_sector001_macro" />
       <player macro="character_player_discover_macro" money="15000" name="{999840,600930}">
         <ship macro="sheathipede_macro">
           <loadout>
@@ -411,7 +391,7 @@
       </universe>
     </gamestart>
 
-    <gamestart id="gaj_corporate" name="{999840,2008}" description="{999840,2009}" image="gamestart_csd" group="4">
+    <gamestart id="gaj_corporate" name="{20777,2008}" description="{20777,2009}" image="gamestart_csd" group="4">
       <info>
         <item name="{1021,8}" value="{999840,600730}" />
         <item name="{1021,1}" value="{999840,902701}" />
@@ -419,12 +399,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clustercantonica_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.5" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clustercantonica_sector001_macro" />
       <player macro="character_player_scenario_combat_argon_macro" money="15000" name="{999840,600730}">
         <ship macro="arc170_macro">
           <loadout>
@@ -513,12 +488,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clusteranpath_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.5" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clusteranpath_sector001_macro" />
       <player macro="character_player_scenario_combat_argon_macro" money="15000" name="{999840,601030}">
         <ship macro="scurrg_h6_macro">
           <loadout>
@@ -615,12 +585,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clustereriadu_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.5" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clustereriadu_sector001_macro" />
       <player macro="character_player_tutorial_macro" money="15000" name="{999840,602130}">
         <ship macro="tie_striker_macro">
           <loadout>
@@ -708,12 +673,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clusternarshadda_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.5" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clusternarshadda_sector001_macro" />
       <player macro="character_player_pirate_gamestart2_male_macro" money="15000" name="{999840,603030}">
         <ship macro="delta7_red_macro">
           <loadout>
@@ -794,99 +754,6 @@
 
     <!-- Minor Faction Starts -->
 
-    <gamestart id="gaj_valarian" name="{20777,2025}" description="{20777,2026}" image="gamestart_mando_outcast" group="5">
-      <info>
-        <item name="{1021,8}" value="{999840,601330}" />
-        <item name="{1021,1}" value="{999840,912701}" />
-        <item name="{1021,2}" value="{999840,601350}" />
-        <item name="{1021,3}" value="15000" />
-      </info>
-      <type name="{999840,699006}" description="{999840,699006}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clusternazzri_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.5" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
-      <player macro="character_player_scenario_combat_argon_macro" money="15000" name="{999840,601330}">
-        <ship macro="gauntlet_macro">
-          <loadout>
-            <macros>
-              <engine macro="engine_gauntlet_macro" path="../con_engine_01" />
-              <engine macro="engine_gauntlet_macro" path="../con_engine_02" />
-              <weapon macro="weapon_am_m_laser_macro" path="../con_weapon_01" optional="true" />
-              <weapon macro="weapon_am_m_laser_macro" path="../con_weapon_02" optional="true" />
-              <weapon macro="weapon_mediumconclauncher_macro" path="../con_weapon_03" optional="true" />
-              <weapon macro="weapon_mediumconclauncher_macro" path="../con_weapon_04" optional="true" />
-              <turret macro="turret_s_gauntlet_macro" path="../con_turret_01" optional="true" />
-              <shield macro="shield_m_cec600yt_01_macro" path="../con_shield_01" optional="1" />
-              <shield macro="shield_m_cec600yt_01_macro" path="../con_shield_02" optional="1" />
-            </macros>
-            <ammunition>
-              <ammunition macro="countermeasure_flares_01_macro" exact="15" />
-              <ammunition macro="missile_concussion_medium_macro" exact="50" />
-            </ammunition>
-            <software>
-              <software ware="software_flightassistmk1" />
-              <software ware="software_scannerlongrangemk1" />
-              <software ware="software_scannerobjectmk1" />
-              <software ware="software_targetmk1" />
-            </software>
-            <virtualmacros>
-              <thruster macro="thruster_gen_m_allround_01_mk3_macro" />
-            </virtualmacros>
-          </loadout>
-        </ship>
-        <inventory>
-          <ware ware="weapon_gen_spacesuit_repairlaser_01_mk1" amount="1" />
-          <ware ware="software_scannerobjectmk3" amount="1" />
-          <ware ware="inv_timewarp" amount="1" />
-        </inventory>
-        <blueprints>
-          <ware ware="clothingmod_0001" />
-          <ware ware="clothingmod_0002" />
-          <ware ware="module_arg_dock_m_01_lowtech" />
-          <ware ware="module_arg_pier_l_01" />
-          <ware ware="module_arg_stor_container_s_01" />
-          <ware ware="module_arg_conn_base_01" />
-          <ware ware="module_arg_conn_cross_01" />
-          <ware ware="module_arg_conn_vertical_01" />
-          <ware ware="module_gen_prod_energycells_01" />
-          <ware ware="paintmod_0006" />
-          <ware ware="paintmod_0048" />
-          <ware ware="paintmod_0049" />
-          <ware ware="paintmod_0050" />
-          <ware ware="paintmod_0097" />
-          <ware ware="paintmod_0098" />
-          <ware ware="paintmod_0099" />
-          <ware ware="paintmod_0100" />
-        </blueprints>
-        <research>
-          <ware ware="research_teleportation" />
-          <ware ware="research_radioreceiver" />
-          <ware ware="research_sensorbooster" />
-          <ware ware="research_tradeinterface" />
-          <ware ware="research_mod_engine_mk1" />
-          <ware ware="research_mod_shield_mk1" />
-          <ware ware="research_mod_ship_mk1" />
-          <ware ware="research_mod_weapon_mk1" />
-          <ware ware="research_module_welfare_1_pre" />
-          <ware ware="research_module_welfare_1" />
-        </research>
-        <encyclopedia>
-          <entry type="warebasket" ref="research_gamestart_common" />
-        </encyclopedia>
-        <theme paint="painttheme_player_01" />
-      </player>
-      <universe>
-        <factions>
-          <relations>
-            <relation faction="valarian" otherfaction="player" relation="0.01593" />
-          </relations>
-        </factions>
-      </universe>
-    </gamestart>
-
     <gamestart id="gaj_hapes" name="{20777,2021}" description="{20777,2022}" image="gamestart_hapes_noble" group="5">
       <info>
         <item name="{1021,8}" value="{999840,603130}" />
@@ -894,14 +761,8 @@
         <item name="{1021,2}" value="{999840,603150}" />
         <item name="{1021,3}" value="15000" />
       </info>
-      <cutscene ref="gamestart_sw_blank" voice="x4ep1_sw_hapes_noble_selected" />
       <type name="{1021,94}" description="{1021,95}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clusterhapes_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.5" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clusterhapes_sector001_macro" />
       <player macro="character_player_scenario_combat_argon_macro" money="15000" name="{999840,603130}">
         <ship macro="hapan_s_macro">
           <loadout>
@@ -988,12 +849,7 @@
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" />
-      <location galaxy="swi_galaxy_macro" sector="swi_clusterfusai_sector001_macro" room="dockingbay_invis_s_macro" station="station_gen_factory_base_01_macro">
-        <player>
-          <position x="-2.7" y="1.7" z="21" />
-          <rotation yaw="145" pitch="0" roll="0" />
-        </player>
-      </location>
+      <location galaxy="swi_galaxy_macro" sector="swi_clusterfusai_sector001_macro" />
       <player macro="character_player_pirate_gamestart2_macro" money="15000" name="{999840,601130}">
         <ship macro="scarab_bomber_macro">
           <loadout>
@@ -1069,5 +925,120 @@
         </factions>
       </universe>
     </gamestart>
+
+    <gamestart id="gaj_valarian" name="{20777,2025}" description="{20777,2026}" image="gamestart_mando_outcast" group="5">
+      <info>
+        <item name="{1021,8}" value="{999840,601330}" />
+        <item name="{1021,1}" value="{999840,912701}" />
+        <item name="{1021,2}" value="{999840,601350}" />
+        <item name="{1021,3}" value="15000" />
+      </info>
+      <type name="{1021,94}" description="{1021,95}" />
+      <location galaxy="swi_galaxy_macro" sector="swi_clusternazzri_sector001_macro" />
+      <player macro="character_player_scenario_combat_argon_macro" money="15000" name="{999840,601330}">
+        <ship macro="gauntlet_macro">
+          <loadout>
+            <macros>
+              <engine macro="engine_gauntlet_macro" path="../con_engine_01" />
+              <engine macro="engine_gauntlet_macro" path="../con_engine_02" />
+              <weapon macro="weapon_am_m_laser_macro" path="../con_weapon_01" optional="true" />
+              <weapon macro="weapon_am_m_laser_macro" path="../con_weapon_02" optional="true" />
+              <weapon macro="weapon_mediumconclauncher_macro" path="../con_weapon_03" optional="true" />
+              <weapon macro="weapon_mediumconclauncher_macro" path="../con_weapon_04" optional="true" />
+              <turret macro="turret_s_gauntlet_macro" path="../con_turret_01" optional="true" />
+              <shield macro="shield_m_cec600yt_01_macro" path="../con_shield_01" optional="1" />
+              <shield macro="shield_m_cec600yt_01_macro" path="../con_shield_02" optional="1" />
+            </macros>
+            <ammunition>
+              <ammunition macro="countermeasure_flares_01_macro" exact="15" />
+              <ammunition macro="missile_concussion_medium_macro" exact="50" />
+            </ammunition>
+            <software>
+              <software ware="software_flightassistmk1" />
+              <software ware="software_scannerlongrangemk1" />
+              <software ware="software_scannerobjectmk1" />
+              <software ware="software_targetmk1" />
+            </software>
+            <virtualmacros>
+              <thruster macro="thruster_gen_m_allround_01_mk3_macro" />
+            </virtualmacros>
+          </loadout>
+        </ship>
+        <inventory>
+          <ware ware="weapon_gen_spacesuit_repairlaser_01_mk1" amount="1" />
+          <ware ware="software_scannerobjectmk3" amount="1" />
+          <ware ware="inv_timewarp" amount="1" />
+        </inventory>
+        <blueprints>
+          <ware ware="clothingmod_0001" />
+          <ware ware="clothingmod_0002" />
+          <ware ware="module_arg_dock_m_01_lowtech" />
+          <ware ware="module_arg_pier_l_01" />
+          <ware ware="module_arg_stor_container_s_01" />
+          <ware ware="module_arg_conn_base_01" />
+          <ware ware="module_arg_conn_cross_01" />
+          <ware ware="module_arg_conn_vertical_01" />
+          <ware ware="module_gen_prod_energycells_01" />
+          <ware ware="paintmod_0006" />
+          <ware ware="paintmod_0048" />
+          <ware ware="paintmod_0049" />
+          <ware ware="paintmod_0050" />
+          <ware ware="paintmod_0097" />
+          <ware ware="paintmod_0098" />
+          <ware ware="paintmod_0099" />
+          <ware ware="paintmod_0100" />
+        </blueprints>
+        <research>
+          <ware ware="research_teleportation" />
+          <ware ware="research_radioreceiver" />
+          <ware ware="research_sensorbooster" />
+          <ware ware="research_tradeinterface" />
+          <ware ware="research_mod_engine_mk1" />
+          <ware ware="research_mod_shield_mk1" />
+          <ware ware="research_mod_ship_mk1" />
+          <ware ware="research_mod_weapon_mk1" />
+          <ware ware="research_module_welfare_1_pre" />
+          <ware ware="research_module_welfare_1" />
+        </research>
+        <encyclopedia>
+          <entry type="warebasket" ref="research_gamestart_common" />
+        </encyclopedia>
+        <theme paint="painttheme_player_01" />
+      </player>
+      <universe>
+        <factions>
+          <relations>
+            <relation faction="valarian" otherfaction="player" relation="0.01593" />
+          </relations>
+        </factions>
+      </universe>
+    </gamestart>
   </add>
+
+  <remove sel="//gamestart[@id='x4ep1_sw_emp_navypilot']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_rep_cadet']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_rep_trader']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_emp_trader']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_kuat']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_mando_fighter']" />
+  <remove sel="//gamestart[@id='x4ep1_gamestart_cis_trader']" />
+  <remove sel="//gamestart[@id='x4ep1_gamestart_cis_prisoner']" />
+  <remove sel="//gamestart[@id='x4ep1_gamestart_csd']" />
+  <remove sel="//gamestart[@id='x4ep1_gamestart_anoat']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_bhg']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_ascendancy']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_hutt_yacht']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_hapes_noble']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_rogue_captain']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_mc80r']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_venator']" />
+  <remove sel="//gamestart[@id='x4ep1_sw_mando_outcust']" />
+
+  <remove sel="//gamestart[@id='sws_showcase']" />
+  <remove sel="//gamestart[@id='sws_showcase_capital']" />
+  <remove sel="//gamestart[@id='sws_battle_imp']" />
+  <remove sel="//gamestart[@id='sws_battle_reb']" />
+  <remove sel="//gamestart[@id='sws_battle_clone']" />
+  <remove sel="//gamestart[@id='sws_battle_cis']" />
+  <remove sel="//gamestart[@id='sws_battle_anakin']" />
 </diff>

@@ -33,7 +33,7 @@
 								and
 								player.ship.isclass.{class.ship_s}
 							) or
-							player.ship.hasshipmod.{$SpyMod}
+							player.ship.hasshipmod.{ware.mod_ship_spy}
 						)
 					)
 				" />
@@ -42,7 +42,7 @@
 				<reset_cue cue="this" />
 			</actions>
 		</cue>
-		<cue name="kTFTR" namespace="this" version="2">
+		<cue name="kTFTR" namespace="this" version="3">
 			<conditions>
 				<check_any>
 					<event_cue_signalled cue="md.Setup.GameStart" />
@@ -55,10 +55,23 @@
 				<set_value name="$debugChance" exact="100" />
 				<set_value name="$isDoDebug1" exact="false" />
 				<set_value name="$isDoDebug2" exact="false" />
+				<set_value name="$userIsRemoveTeleportCommandFromMap" exact="true" />
+				<set_value name="$userIsAllowTeleportFromFriend" exact="true" />
+				<!-- getting a job changes -->
+				<!-- teleporting from stations -->
+				<!-- spy: needs special inventory item to teleport from enemy stations -->
+				<!-- <set_value name="$SpyDevice" exact="ware.inv_spydevice" /> -->
+
+				<!-- teleporting from ships -->
+				<!-- spy: ships with special ship mod installed by faction representative -->
+				<!-- <set_value name="$SpyMod" exact="ware.mod_ship_spy" /> -->
+				<!-- research teleport level 1: XL, XXL -->
+				<!-- research teleport level 2: L, M -->
+				<!-- research teleport level 3: S -->
 			</actions>
-			<patch sinceversion="2">
-				<set_value name="$userIsTeleportOnlyToHQ" exact="false" />
-				<set_value name="$userIsTeleportOnlyToStations" exact="true" />
+			<patch sinceversion="3">
+				<set_value name="$userIsRemoveTeleportCommandFromMap" exact="true" />
+				<set_value name="$userIsAllowTeleportFromFriend" exact="true" />
 			</patch>
 			<cues>
 				<cue name="Init">
@@ -76,23 +89,6 @@
 						<debug_text text="'$debugChance: ' + $debugChance" />
 						<set_value name="$isDoDebug1" exact="false" />
 						<set_value name="$isDoDebug2" exact="false" />
-						<do_if value="not $isConfigSet?">
-							<set_value name="$isConfigSet" exact="true" />
-							<!-- getting a job changes -->
-							<set_value name="$userIsRemoveTeleportCommandFromMap" exact="true" /> <!-- original variable -->
-
-							<!-- teleporting from stations -->
-							<set_value name="$userIsAllowTeleportFromFriend" exact="true" /> <!-- original variable -->
-							<!-- spy: needs special inventory item to teleport from enemy stations -->
-							<set_value name="$SpyDevice" exact="ware.inv_spydevice" />
-
-							<!-- teleporting from ships -->
-							<!-- spy: ships with special ship mod installed by faction representative -->
-							<set_value name="$SpyMod" exact="ware.mod_ship_spy" />
-							<!-- research teleport level 1: XL, XXL -->
-							<!-- research teleport level 2: L, M -->
-							<!-- research teleport level 3: S -->
-						</do_if>
 						<reset_cue cue="this" />
 					</actions>
 				</cue>
@@ -105,6 +101,22 @@
 						</check_any>
 					</conditions>
 					<actions>
+						<set_value name="$HasDevice" exact="false" />
+						<do_if value="
+							player.entity.inventory.{ware.inv_hackingdevice}.exists or
+							player.entity.inventory.{ware.inv_spydevice_newrepublic}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_rebelalliance}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_galempire}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_ascendancy}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_corporate}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_commerceguild}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_mandodw}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_anoat}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_huttcartel}.exists or 
+							player.entity.inventory.{ware.inv_spydevice_sith}.exists
+						">
+							<set_value name="$HasDevice" exact="true" />
+						</do_if>
 						<!-- ware.research_teleportation
 						ware.research_teleportation_range_01
 						ware.research_teleportation_range_02
@@ -121,7 +133,7 @@
 										or
 										player.container.hasrelation.friend.{faction.player}
 										or
-										@player.entity.inventory.{$SpyDevice}
+										$HasDevice
 									)
 								) or
 								(
@@ -146,7 +158,7 @@
 												and
 												player.ship.isclass.{class.ship_s}
 											) or
-											player.ship.hasshipmod.{$SpyMod}
+											player.ship.hasshipmod.{ware.mod_ship_spy}
 										)
 									)
 								)
@@ -184,7 +196,7 @@
 											and
 											player.ship.isclass.{class.ship_s}
 										) or
-										player.ship.hasshipmod.{$SpyMod}
+										player.ship.hasshipmod.{ware.mod_ship_spy}
 									)
 								)
 							" />
@@ -218,7 +230,7 @@
 								or
 								$destination.owner.relationto.{faction.player} ge $destination.owner.relation.friend.min
 								or
-								@player.entity.inventory.{$SpyDevice}
+								$HasDevice
 							" comment="allow teleport to destination">
 							</do_if>
 							<do_else>
@@ -283,7 +295,7 @@
 										and
 										player.ship.isclass.{class.ship_s}
 									) or
-									player.ship.hasshipmod.{$SpyMod}
+									player.ship.hasshipmod.{ware.mod_ship_spy}
 								)
 							)
 						" />

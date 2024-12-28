@@ -11,24 +11,24 @@
 						<check_value value="@event.param.$object.class.station" />
 						<check_value value="@event.param.$object.isoperational" />
 						<check_value value="not @event.param.$object.isplayerowned" />
-						<check_value value="player.entity.inventory.{inv_securitybypasssytem}.exists" />
+						<check_value value="player.entity.inventory.{ware.inv_securitybypasssystem}.exists" />
 						<check_any>
 							<check_all>
-								<check_value value="player.entity.inventory.{inv_hackingdevice}.exists" />
+								<check_value value="player.entity.inventory.{ware.inv_hackingdevice}.exists" />
 								<check_value value="@event.param.$object.distanceto.{player.entity} le 8km" />
 							</check_all>
 							<check_all>
 								<check_any>
-									<check_value value="player.entity.inventory.{inv_spydevice_newrepublic}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_rebelalliance}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_galempire}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_ascendancy}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_corporate}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_commerceguild}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_mandodw}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_anoat}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_huttcartel}.exists" />
-									<check_value value="player.entity.inventory.{inv_spydevice_sith}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_newrepublic}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_rebelalliance}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_galempire}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_ascendancy}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_corporate}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_commerceguild}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_mandodw}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_anoat}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_huttcartel}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_sith}.exists" />
 								</check_any>
 								<check_value value="@event.param.$object.distanceto.{player.entity} le 25km" />
 							</check_all>

@@ -76,7 +76,7 @@
           {faction.sienar} = missiongroup.gaj_sienar,
           {faction.sith} = missiongroup.gaj_sith,
           {faction.tagge} = missiongroup.gaj_tagge,
-          {faction.thebankingclan} = missiongroup.gaj_thebankingclan,
+          {faction.bankingclan} = missiongroup.gaj_bankingclan,
           {faction.tradefederation} = missiongroup.gaj_tradefederation,
           {faction.transgalmeg} = missiongroup.gaj_transgalmeg,
           {faction.twinsuns} = missiongroup.gaj_twinsuns,
@@ -121,7 +121,7 @@
                       <do_if value="$taggedFactions.indexof.{$faction}">
                         <set_value name="$pay" exact="$BasePayTags.{$tag}" />
                         <set_value name="$bonusMultiplier" exact="$BonusTags.{$tag}" />
-                        <set_value name="$payFactor" exact="$payFactors.{$tag}" />
+                        <set_value name="$payFactor" exact="$PayFactors.{$tag}" />
                         <break />
                       </do_if>
                     </do_for_each>
@@ -374,7 +374,7 @@
                   $mission_defendPirate_req_relLevel  = md.kuertee_emergent_missions.UserSettings.$req_rel_neutral,
                   $mission_defendPirate_req_repuLevel = md.kuertee_emergent_missions.UserSettings.$req_none
                 ]" />
-                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.thebankingclan}" exact="table[
+                <set_value name="md.kuertee_emergent_missions_requirements_by_faction.Requirements.$ByFaction.{faction.bankingclan}" exact="table[
                   $isDisabled                         = false,
                   $mission_escort_req_relLevel        = md.kuertee_emergent_missions.UserSettings.$req_rel_friend,
                   $mission_escort_req_repuLevel       = md.kuertee_emergent_missions.UserSettings.$req_none,

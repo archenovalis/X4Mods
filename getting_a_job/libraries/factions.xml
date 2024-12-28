@@ -6,7 +6,6 @@
   <remove sel="//faction[@id='baobab']/relations/@locked" />
   <remove sel="//faction[@id='tradefederation']/relations/@locked" />
   <remove sel="//faction[@id='tagge']/relations/@locked" />
-  <remove sel="//faction[@id='bankingclan']/relations/@locked" />
 
   <!-- npc reactions -->
   <add sel="/factions">
