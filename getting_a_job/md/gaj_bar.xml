@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="GAJ_Bar"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+	<!-- original by Shamon -->
+	<cues>
+		<cue name="Bar" namespace="this">
+			<conditions>
+				<check_any>
+					<event_game_loaded />
+					<event_game_started />
+					<event_player_created />
+					<event_cue_signalled cue="md.Setup.Start" />
+				</check_any>
+				<check_value value="not @player.allmodules.{player.module}.isscenario" />
+			</conditions>
+			<actions>
+				<!-- md.GAJ_Bar.Bar.$MissionNPCs.{$station}.list of mission npc actors -->
+				<set_value name="$MissionNPCs" exact="table[]" />
+			</actions>
+			<cues>
+				<cue name="BarAddToStation" version="1">
+					<conditions>
+						<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+						<check_any>
+							<check_all>
+								<check_value value="@event.param2.$teleportTo.exists" />
+								<check_value value="not @event.param2.$teleportTo.isplayerowned" />
+							</check_all>
+							<check_all>
+								<check_value value="@event.param2.$dockAt.exists" />
+								<check_value value="not @event.param2.$dockAt.isplayerowned" />
+							</check_all>
+						</check_any>
+					</conditions>
+					<actions>
+						<set_value name="$station" exact="@event.param2.$teleportTo" />
+						<do_if value="not @$station.exists">
+							<set_value name="$station" exact="@event.param2.$dockAt" />
+						</do_if>
+
+						<!-- Logic for adding a bar -->
+						<set_value name="$Seed" exact="$station.seed + lookup.roomtype.list.indexof.{roomtype.bar}" />
+						<set_value name="$Race" exact="$station.owner.primaryrace" />
+						<get_room_definition macro="$CorridorMacro" race="$Race" tags="tag.entertainmentcorridor" seed="$Seed" />
+						<get_room_definition macro="$CorridorMacro" tags="tag.entertainmentcorridor" seed="$Seed" chance="if $CorridorMacro then 0 else 100" />
+						<get_room_definition macro="$CorridorMacro" race="$Race" tags="tag.corridor" seed="$Seed" chance="if $CorridorMacro then 0 else 100" />
+						<get_room_definition macro="$CorridorMacro" tags="tag.corridor" seed="$Seed" chance="if $CorridorMacro then 0 else 100" />
+						<get_room_definition macro="$RoomMacro" tags="tag.bar" seed="$Seed" />
+						<create_dynamic_interior object="$station"
+							corridor="$CorridorMacro" room="$RoomMacro"
+							name="'{20007,1031}'"
+							interiorname="$Interior" corridorname="$Corridor" roomname="$Room" roomtype="roomtype.bar"
+							seed="$Seed" />
+
+						<!-- Handle ShadyGuy or pirate trader -->
+						<find_object_component name="$ShadyGuyBar" object="$station" controlpost="controlpost.shadyguy" />
+						<do_if value="$ShadyGuyBar">
+							<find_npc_slot name="$roomSlot" object="$Room" tags="tag.stand_leanrail_f" />
+							<add_actor_to_room actor="$ShadyGuyBar" slot="$roomSlot" result="$TraderMoved" />
+							<do_if value="$TraderMoved">
+								<set_value name="$ShadyGuyBar.$itemtrader_dockarea" exact="$ShadyGuyBar.dockarea" />
+								<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$ShadyGuyBar]" />
+							</do_if>
+						</do_if>
+
+						<!-- add pirate trader -->
+						<do_if value="not $ShadyGuyBar" chance="2.5">
+							<do_any>
+								<set_value name="$shadyOwner" exact="faction.valarian" weight="50" />
+								<set_value name="$shadyOwner" exact="faction.blacksun" weight="50" />
+							</do_any>
+							<create_cue_actor name="$PirateTrader" cue="this">
+								<select tags="tag.shadyguy" />
+								<owner exact="$shadyOwner" />
+							</create_cue_actor>
+							<set_entity_type entity="$PirateTrader" type="entitytype.shadyguy" />
+							<set_stock_reference entity="$PirateTrader" stock="'pirate_trader'" />
+							<find_npc_slot name="$roomSlot" object="$Room" tags="tag.stand_leanrail_f" />
+							<add_actor_to_room actor="$PirateTrader" slot="$roomSlot" result="$TraderMoved" />
+							<do_if value="$TraderMoved">
+								<set_value name="$PirateTrader.$itemtrader_dockarea" exact="$PirateTrader.dockarea" />
+								<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$PirateTrader]" />
+							</do_if>
+						</do_if>
+
+						<!-- add hutt trader -->
+						<create_cue_actor name="$HuttTrader" cue="this" chance="2.5">
+							<select tags="tag.trader" />
+							<owner exact="faction.huttcartel" />
+						</create_cue_actor>
+						<do_if value="$HuttTrader">
+							<set_entity_type entity="$HuttTrader" type="entitytype.trader" />
+							<set_stock_reference entity="$HuttTrader" stock="'hutt_trader'" />
+							<find_npc_slot name="$roomSlot" object="$Room" />
+							<add_actor_to_room actor="$HuttTrader" slot="$roomSlot" result="$TraderMoved" />
+							<do_if value="$TraderMoved">
+								<set_value name="$HuttTrader.$itemtrader_dockarea" exact="$HuttTrader.dockarea" />
+								<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$HuttTrader]" />
+							</do_if>
+						</do_if>
+
+					</actions>
+					<cues>
+						<!-- Cleanup when the player leaves the station -->
+						<cue name="BarCleanUp">
+							<conditions>
+								<event_object_signalled object="player.entity" param="'K_ArriveAndLeaveStations'" />
+								<check_any>
+									<check_value value="@event.param2.$leaveFrom == $station" />
+									<check_value value="@event.param2.$undockFrom == $station" />
+								</check_any>
+							</conditions>
+							<actions>
+								<do_if value="$ShadyGuyBar">
+									<remove_actor_from_room actor="$ShadyGuyBar" />
+								</do_if>
+								<do_if value="$PirateTrader">
+									<remove_actor_from_room actor="$PirateTrader" />
+									<destroy_object object="$PirateTrader" />
+								</do_if>
+								<do_if value="$HuttTrader">
+									<remove_actor_from_room actor="$HuttTrader" />
+									<destroy_object object="$HuttTrader" />
+								</do_if>
+								<do_if value="$Interior">
+									<remove_dynamic_interior object="$station" interior="$Interior" />
+									<destroy_object object="$Interior" />
+								</do_if>
+								<destroy_object object="$Room" />
+								<reset_cue cue="parent" />
+								<reset_cue cue="this" />
+							</actions>
+						</cue>
+					</cues>
+				</cue>
+			</cues>
+		</cue>
+	</cues>
+</mdscript>

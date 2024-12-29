@@ -1,10 +1,5 @@
 ### Early Game
 
-## Rooms
-- bar
-  - use clone room as example
-  - modify vanilla bar missions to use the bar
-
 ## Statuses
 -  Deserter, not completing any military or support missions within last (60/120/240)? minutes. Consequence: Paycheck paused until next mission is completed.
 * reset delay cue when mission complete
@@ -23,10 +18,12 @@
   - smuggling (trade focused criminals)
   - raids (attack ships, get them to drop credits instead of destroying them)
   - board ships
-  - sell stolen ship's and their cargo to the pirate station manager instead of normal (they'd pay maybe 25% or 50% of the cargo's average price, but buy everything) 
-  - transfer purchased cargo to the nearest tradestation by pirate cargo ships... or magic
-- increase contraband profitability when working for a pirate faction
-event check sold ware by player contraband increase by 25%?
+- Selling to station manager (buy anything for 25% average price)
+  - ships 
+    - magically recycle ship into materials? add scrapyard to every pirate station?
+  - cargo
+    - transfer purchased cargo to the nearest tradestation/factory by pirate cargo ships... or magic
+- Buy contraband from station manager for special low price from manager, based on quantity purchased
 
 
 ### Stealing Ships Phase

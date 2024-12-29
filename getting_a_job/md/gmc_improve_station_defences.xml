@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
+
+  <!-- bar ~automated diff~ -->
+  <replace sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='Passenger_Transport']/cues/cue[@name='Passenger_Transport_End']/cues/cue/actions/create_dynamic_interior">
+    <do_if value="$InteriorName" exact="'{20007,1031}'">
+      <find_room object="$Station" name="$Room">
+        <match roomtype="roomtype.bar" />
+      </find_room>
+    </do_if>
+  </replace>
+  <add sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='Passenger_Transport']/cues/cue[@name='Passenger_Transport_End']/cues/cue/actions/comment()[2]" pos="before">
+    <do_if value="not $Room">
+      <create_dynamic_interior object="$Station" name="$InteriorName" corridor="$InteriorCorridorMacro" door="if $InteriorDoors then $InteriorDoors.random else null" room="$InteriorRoomMacro" roomname="$Room" corridorname="$Corridor" interiorname="$Interior" persistent="true" />
+    </do_if>
+  </add>
+
+
+  <!-- mission groups -->
   <!-- ADD:
     <library name="Start">
       <params>

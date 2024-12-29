@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <remove sel="/mdscript/cues/cue/cues/library/actions/do_else/do_any/set_value[@name='$Owner'][@exact='$Station.owner']" />
+</diff>

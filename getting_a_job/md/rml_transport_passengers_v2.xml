@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<diff>
+  <!-- bar ~automated diff~ -->
+  <replace sel="/mdscript/cues/library[@name='TransportPassengers_V2']/cues/cue[@name='StartMission']/cues/cue[@name='Pick_Up_Passenger']/cues/cue[@name='Pick_Up_Passenger_Patch']/actions/do_if">
+    <do_if value="$StartInteriorName" exact="'{20007,1031}'">
+      <find_room object="$StartObject" name="$Bar">
+        <match roomtype="roomtype.bar" />
+      </find_room>
+      <do_if value="$Bar?">
+        <set_value name="$Room" exact="$Bar" />
+      </do_if>
+    </do_if>
+  </replace>
+  <replace sel="/mdscript/cues/library[@name='TransportPassengers_V2']/cues/cue[@name='StartMission']/cues/cue[@name='Pick_Up_Passenger']/cues/cue[@name='Pick_Up_Passenger_Patch']/actions/do_else">
+    <do_if value="not $Bar?">
+      <do_if value="$InteriorTable.$Patch_Interior and $InteriorTable.$Patch_Corridor and $InteriorTable.$Patch_Room">
+        <set_value name="$Interior" exact="$InteriorTable.$Patch_Interior" />
+        <set_value name="$Corridor" exact="$InteriorTable.$Patch_Corridor" />
+        <set_value name="$Room" exact="$InteriorTable.$Patch_Room" />
+        <debug_text text="'Mission has a room generated from an outdated library. Make the interior persistent. Interior: ' + $Interior + ' ' + $Interior.knownname" filter="savegame" />
+        <set_dynamic_interior_persistent object="$Interior.object" interior="$Interior" persistent="true" />
+      </do_if>
+      <do_else>
+        <create_dynamic_interior object="$StartObject" name="$StartInteriorName" corridor="$StartCorridorMacro" door="$StartDoor" room="$StartRoomMacro" roomname="$Room" corridorname="$Corridor" interiorname="$Interior" persistent="true" />
+      </do_else>
+    </do_if>
+  </replace>
+  <replace sel="/mdscript/cues/library[@name='TransportPassengers_V2']/cues/cue[@name='StartMission']/cues/cue[@name='Pick_Up_Passenger']/cues/cue[@name='Pick_Up_Passenger_Init']/actions/do_if/do_if/create_dynamic_interior">
+    <do_if value="$StartInteriorName" exact="'{20007,1031}'">
+      <find_room object="$StartObject" name="$Bar">
+        <match roomtype="roomtype.bar" />
+      </find_room>
+      <do_if value="$Bar?">
+        <set_value name="$Room" exact="$Bar" />
+      </do_if>
+    </do_if>
+  </replace>
+  <add sel="/mdscript/cues/library[@name='TransportPassengers_V2']/cues/cue[@name='StartMission']/cues/cue[@name='Pick_Up_Passenger']/cues/cue[@name='Pick_Up_Passenger_Init']/actions/do_if/do_if">
+    <do_if value="not $Bar?">
+      <create_dynamic_interior object="$StartObject" name="$StartInteriorName" corridor="$StartCorridorMacro" door="$StartDoor" room="$StartRoomMacro" roomname="$Room" corridorname="$Corridor" interiorname="$Interior" persistent="true" />
+    </do_if>
+  </add>
+</diff>

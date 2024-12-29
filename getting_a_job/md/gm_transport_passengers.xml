@@ -2,6 +2,50 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
 
+  <!-- bar ~automated diff~ -->
+  <add sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='PlaceLeadPassenger']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior_Create']/actions" pos="before">
+    <delay exact="1s" />
+  </add>
+
+  <replace sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='PlaceLeadPassenger']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior_Create']/actions/create_dynamic_interior">
+    <do_if value="$StartRoomName" exact="'{20007,1031}'">
+      <find_room object="$StartContainer" name="$Bar">
+        <match roomtype="roomtype.bar" />
+      </find_room>
+      <do_if value="$Bar">
+        <find_npc_slot name="$NPC_Slot" object="$Bar" tags="tag.npc_generic" />
+        <do_if value="$NPC_Slot">
+          <include_actions ref="PlaceLeadPassenger_Placement" />
+        </do_if>
+      </do_if>
+    </do_if>
+  </replace>
+  <replace sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='PlaceLeadPassenger']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior_Create']/actions/do_if[@value='$DynamicInterior']/@value">not $NPC_Slot</replace>
+  <replace sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='PlaceLeadPassenger']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior_Create']/actions/do_if[@value='not $NPC_Slot']/debug_text">
+    <create_dynamic_interior object="$StartContainer" corridor="$StartCorridorMacro" room="$StartRoomMacro" name="$StartRoomName" interiorname="$DynamicInterior" corridorname="$DynamicCorridor" roomname="$DynamicRoom" seed="$DynamicInteriorSeed" />
+  </replace>
+  <replace sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='PlaceLeadPassenger']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior_Create']/actions/do_if[@value='not $NPC_Slot']/set_dynamic_interior_private">
+    <do_if value="$DynamicInterior">
+      <debug_text text="'Created interior ' + $DynamicInterior + ' ' + $DynamicInterior.knownname" chance="$DebugChance" />
+      <set_dynamic_interior_private object="$StartContainer" interior="$DynamicInterior" private="true" />
+      <find_npc_slot name="$NPC_Slot" object="$DynamicRoom" tags="tag.npc_generic" />
+      <do_if value="$NPC_Slot">
+        <include_actions ref="PlaceLeadPassenger_Placement" />
+      </do_if>
+    </do_if>
+  </replace>
+  <replace sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='PlaceLeadPassenger']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior_Create']/actions/do_if[@value='not $NPC_Slot']/find_npc_slot">
+    <do_else>
+      <!--TODO @Owen error code-->
+      <debug_text text="'Unable to create dynamic interior'" />
+      <assert value="false" text="'Unable to create dynamic interior'" />
+    </do_else>
+  </replace>
+  <remove sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='PlaceLeadPassenger']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior_Create']/actions/do_if[@value='not $NPC_Slot']/do_if[@value='$NPC_Slot']" />
+  <remove sel="/mdscript/cues/library[@name='Start']/cues/cue[@name='Do_Start_Mission']/cues/cue[@name='MissionAccepted']/cues/cue[@name='ActivateMission']/cues/cue[@name='PlaceLeadPassenger']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior']/cues/cue[@name='PlaceLeadPassenger_WithinDynamicInterior_Create']/actions/do_else" />
+
+
+  <!-- mission groups -->
   <add pos="before" sel="//create_offer[@cue=&quot;$MissionCue&quot;]">
     <do_if value="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$active?">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$missionGroup" />

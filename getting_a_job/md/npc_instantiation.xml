@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<diff>
+  <!-- bar ~automated diff~ -->
+  <replace sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/comment()[1]">
+    <find_room object="this.$Object" name="this.$Room">
+      <match roomtype="roomtype.bar" />
+    </find_room>
+  </replace>
+  <replace sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/set_value[@name='this.$Race']">
+    <do_if value="this.$Room">
+      <find_npc_slot name="this.$RoomSlot" object="this.$Room" />
+      <do_if value="this.$RoomSlot">
+        <debug_text text="'We have found a room slot on which to place the shady guy'" chance="@$debugchance" />
+        <add_actor_to_room actor="this.$ShadyGuy" slot="this.$RoomSlot" />
+      </do_if>
+    </do_if>
+  </replace>
+  <replace sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/set_value">
+    <do_if value="not this.$RoomSlot">
+      <!-- Define interior -->
+      <set_value name="this.$Race" exact="this.$Object.owner.primaryrace" />
+      <set_value name="this.$Seed" exact="this.$Object.seed + lookup.roomtype.list.indexof.{roomtype.bar}" />
+      <get_room_definition macro="this.$CorridorMacro" race="this.$Race" tags="tag.entertainmentcorridor" seed="this.$Seed" />
+      <get_room_definition macro="this.$CorridorMacro" race="this.$Race" tags="tag.corridor" seed="this.$Seed" chance="if this.$CorridorMacro then 0 else 100" />
+      <get_room_definition macro="this.$CorridorMacro" tags="tag.entertainmentcorridor" seed="this.$Seed" chance="if this.$CorridorMacro then 0 else 100" />
+      <get_room_definition macro="this.$CorridorMacro" tags="tag.corridor" seed="this.$Seed" chance="if this.$CorridorMacro then 0 else 100" />
+      <get_room_definition macro="this.$RoomMacro" tags="tag.bar" seed="this.$Seed" />
+      <!-- Create interior -->
+      <create_dynamic_interior object="this.$Object" corridor="this.$CorridorMacro" room="this.$RoomMacro" name="'{20007,1031}'" interiorname="this.$Interior" corridorname="this.$Corridor" roomname="this.$Room" roomtype="roomtype.bar" seed="this.$Seed" />
+      <do_if value="this.$Interior and this.$Corridor and this.$Room">
+        <debug_text text="'Interior for shady guy has been created'" chance="@$debugchance" />
+        <find_npc_slot name="this.$RoomSlot" object="this.$Room" />
+        <do_if value="this.$RoomSlot">
+          <debug_text text="'We have found a room slot on which to place the shady guy'" chance="@$debugchance" />
+          <add_actor_to_room actor="this.$ShadyGuy" slot="this.$RoomSlot" />
+        </do_if>
+      </do_if>
+      <do_else>
+        <debug_text text="'Unable to generate a shady guy room for ' + this.$Object + ' ' + this.$Object.knownname" filter="error" />
+        <cancel_cue cue="this" />
+      </do_else>
+    </do_if>
+  </replace>
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/get_room_definition[@macro='this.$CorridorMacro'][@race='this.$Race'][@tags='tag.entertainmentcorridor']" />
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/get_room_definition[@macro='this.$CorridorMacro'][@race='this.$Race']" />
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/get_room_definition[@macro='this.$CorridorMacro'][@tags='tag.entertainmentcorridor']" />
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/get_room_definition[@macro='this.$CorridorMacro']" />
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/get_room_definition" />
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/comment()[1]" />
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/create_dynamic_interior" />
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/do_if[@value='this.$Interior and this.$Corridor and this.$Room']" />
+  <remove sel="/mdscript/cues/cue[@name='Instantiation']/cues/cue[@name='PlaceShadyGuy']/actions/do_if[@value='this.$Instantiate']/do_else" />
+</diff>
