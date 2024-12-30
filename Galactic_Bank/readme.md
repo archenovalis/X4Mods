@@ -24,7 +24,7 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
 - Closed Bank Offices
 Branch offices will only be in stations owned by major factions with a functioning branch vault station.
 
-Download: https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.8
+Download: https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.8.2
 
 ## Changelog
 
