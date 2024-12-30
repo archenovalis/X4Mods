@@ -15,7 +15,7 @@
 
   <!-- getting a job -->
   <add pos="before" sel="//create_offer">
-    <do_if value="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$active?">
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$hired">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$missionGroup" />
     </do_if>
   </add>

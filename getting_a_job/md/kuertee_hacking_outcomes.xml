@@ -84,7 +84,9 @@
 						<do_if value="not @$hacker">
 							<set_value name="$controlPanelType" exact="event.param3" />
 							<debug_text text="'$controlPanelType: ' + @$controlPanelType" chance="$debugChance" />
-							<do_if value="@$controlPanelType">
+							<!-- TODO: Getting A Job: Spy mission player choice goes here -->
+							<!-- getting a job: hacking missions disabled unless using hacking device -->
+							<do_if value="@$controlPanelType and player.entity.inventory.{ware.inv_hackingdevice}.exists">
 								<start_conversation actor="player.computer" conversation="HackingOutcomesConversation" />
 							</do_if>
 						</do_if>
@@ -221,9 +223,6 @@
 						<event_conversation_started conversation="HackingOutcomesConversation" />
 					</conditions>
 					<actions>
-						<!-- TODO: Getting A Job: Spy mission player choice goes here -->
-						<!-- getting a job: hacking missions disabled unless working for pirates -->
-						<!-- <do_if value="md.GettingAJob.GAJ.$IsPirate"> -->
 						<!-- <t id="688845">Browse files</t>-->
 						<add_player_choice text="{11815,688845}" section="hacking_browse_files" position="left" />
 						<!-- </do_if> -->
@@ -502,7 +501,7 @@
 							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_unusual_01_macro" />
 							<set_value name="$LockboxMacro" exact="macro.sm_gen_lockbox_special_01_macro" />
 						</do_any>
-						<create_lockbox name="$TargetObject" macro="$LockboxMacro" sector="$TargetSector" allowyaxis="false">
+						<create_lockbox name="$TargetObject" macro="$LockboxMacro" sector="$TargetSector">
 							<safepos value="$TargetOffset" min="0" max="$TargetRadius" allowyaxis="false" />
 							<rotation pitch="($Pitch)deg" yaw="($Yaw)deg" roll="($Roll)deg" />
 						</create_lockbox>

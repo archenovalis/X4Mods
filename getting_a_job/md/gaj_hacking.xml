@@ -29,6 +29,9 @@
 									<check_value value="player.entity.inventory.{ware.inv_spydevice_anoat}.exists" />
 									<check_value value="player.entity.inventory.{ware.inv_spydevice_huttcartel}.exists" />
 									<check_value value="player.entity.inventory.{ware.inv_spydevice_sith}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_hapes}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_kamino}.exists" />
+									<check_value value="player.entity.inventory.{ware.inv_spydevice_naboo}.exists" />
 								</check_any>
 								<check_value value="@event.param.$object.distanceto.{player.entity} le 25km" />
 							</check_all>

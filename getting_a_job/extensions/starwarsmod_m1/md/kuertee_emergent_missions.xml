@@ -7,8 +7,8 @@
     <set_value name="$MissionGroup" exact="null" />
   </add>
   <add pos="before" sel="//cue[@name='Mission_Mayday']//create_offer[@cue=&quot;namespace&quot;]">
-    <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
-      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$Faction}.$hired">
+      <set_value name="$MissionGroup" exact="md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
     </do_if>
   </add>
   <add sel="//cue[@name='Mission_Mayday']//create_offer[@cue=&quot;namespace&quot;]" type="@group">$MissionGroup</add>
@@ -17,27 +17,26 @@
     <set_value name="$MissionGroup" exact="null" />
   </add>
   <add pos="before" sel="//cue[@name='Mission_Escort']//create_offer[@cue=&quot;namespace&quot;]">
-    <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
-      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$Faction}.$hired">
+      <set_value name="$MissionGroup" exact="md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
     </do_if>
   </add>
   <add sel="//cue[@name='Mission_Escort']//create_offer[@cue=&quot;namespace&quot;]" type="@group">$MissionGroup</add>
 
   <add pos="before" sel="//cue[@name='Mission_SectorRaid_CreateOffer_IfInRange']//create_offer[@cue=&quot;$Cue_Mission&quot;]">
-    <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
-      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$Faction}.$hired">
+      <set_value name="$MissionGroup" exact="md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
     </do_if>
   </add>
 
   <add pos="before" sel="//cue[@name='Mission_Hunt']//create_offer[@cue=&quot;$Cue_Mission&quot;]">
-    <do_if value="md.GettingAJob.GAJ.$Factions.{$Faction}.$active?">
-      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$Faction}.$hired">
+      <set_value name="$MissionGroup" exact="md.GettingAJob.GAJ.$Factions.{$Faction}.$missionGroup" />
     </do_if>
   </add>
 
   <replace sel="//reward_player[@money='$Cue_Mission.$RewardCr']">
     <do_if value="not @player.allmodules.{player.module}.isscenario">
-      <set_value name="$GAJ_isWork" exact="false" />
       <do_if value="[
           missiongroup.gaj_anoat,
           missiongroup.gaj_ascendancy,
@@ -76,11 +75,7 @@
       </do_if>
       <set_value name="$faction" exact="$Cue_Mission.$Faction" />
       <do_if value="$GAJ_isWork">
-        <set_value name="$account" exact="md.GettingAJob.GAJ.$Factions.{$faction}" />
-        <set_value name="$workBonus" exact="$Cue_Mission.$RewardCr * $account.$bonusMultiplier" />
-        <set_value name="$RewardCr" exact="$Cue_Mission.$RewardCr + $workBonus" />
-        <set_value name="$account.$totalRewards" exact="$RewardCr" />
-        <set_value name="$account.$pay" operation="add" exact="$RewardCr * $account.$payMultipler" />
+        <signal_cue_instantly cue="md.GettingAJob.GAJ.LogWork" param="table[$faction = $faction, $RewardCr = $Cue_Mission.$RewardCr]" />
       </do_if>
       <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $Cue_Mission.$RewardCr]" />
     </do_if>

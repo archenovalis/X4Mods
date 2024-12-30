@@ -5,8 +5,26 @@
     <ware id="mod_ship_spy" name="'{20777,404408}'" description="'{20777,404408}'" shortname="'{20777,404408}'" transport="inventory" volume="1" tags="missiononly equipmentmod">
       <price min="1" average="1" max="1" />
     </ware>
-    <ware id="inv_hackingdevice" name="'{20777,404407}'" description="'{20777,404407}'" shortname="'{20777,404407}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
+    <ware id="inv_shieldedcontainer" name="{20777,404409}" description="{20777,404409}" transport="inventory" volume="1" tags="crafting inventory">
       <price min="1" average="1" max="1" />
+      <container ref="sm_gen_wares_common_01_macro" />
+      <icon video="ware_inventory_sealedvacuumtubes_macro" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="modpart_shipnanoweave_t1" amount="1" />
+          <ware ware="inv_securecontainer" amount="1" />
+        </primary>
+      </production>
+    </ware>
+    <ware id="inv_hackingdevice" name="'{20777,404407}'" description="'{20777,404407}'" shortname="'{20777,404407}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="craftable inventory">
+      <price min="1" average="1" max="1" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="inv_securitybypasssystem" amount="1" />
+          <ware ware="inv_securitydecryptionsystem" amount="1" />
+          <ware ware="inv_securityslicer" amount="1" />
+        </primary>
+      </production>
     </ware>
     <ware id="inv_spydevice_newrepublic" name="'{20777,2004} {20777,404406}'" description="'{20777,2004} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo sith" tags="missiononly inventory">
       <price min="1" average="1" max="1" />
@@ -36,6 +54,15 @@
       <price min="1" average="1" max="1" />
     </ware>
     <ware id="inv_spydevice_sith" name="'{20777,2019} {20777,404406}'" description="'{20777,2019} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino naboo" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_hapes" name="'{20777,2021} {20777,404406}'" description="'{20777,2021} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel kamino naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_kamino" name="'{20777,2027} {20777,404406}'" description="'{20777,2027} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes naboo sith" tags="missiononly inventory">
+      <price min="1" average="1" max="1" />
+    </ware>
+    <ware id="inv_spydevice_naboo" name="'{20777,2029} {20777,404406}'" description="'{20777,2029} {20777,404406}'" shortname="'{20777,404406}'" transport="inventory" volume="1" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw anoat huttcartel hapes kamino sith" tags="missiononly inventory">
       <price min="1" average="1" max="1" />
     </ware>
   </add>

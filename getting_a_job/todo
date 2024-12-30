@@ -1,31 +1,33 @@
-### Early Game
-
-## Notifications
-- Inactive
-- Paycheck
-
-## Pensions and Descendants
-- Pension transfered to descendant
-  - Pension% based on faction relations.
+# Early Game
+- Localize all text
+- Change text based on faction
 
 ## Pirate Start 
+### Integrate Mod
+- Better Piracy
+
+### Features
 - Missions
   - assassinate missions (combat focused criminals)
   - smuggling (trade focused criminals)
   - raids (attack ships, get them to drop credits instead of destroying them)
   - board ships
-- Selling to station manager (buy anything for 25% average price)
-  - ships 
-    - magically recycle ship into materials? add scrapyard to every pirate station?
-  - cargo
-    - transfer purchased cargo to the nearest tradestation/factory by pirate cargo ships... or magic
-- Buy contraband from station manager for special low price from manager, based on quantity purchased
+- Pirate faction station managers
+  - Buys anything for 25% average price
+    - ships 
+      - magically recycle ship into materials? add scrapyard to every pirate station?
+    - cargo
+      - transfer purchased cargo to the nearest tradestation/factory by pirate cargo ships... or magic
+  - Sells contraband
+    - price based on quantity purchased
+- Contraband Economy
 
 ## Statuses
 -  Traitor, while working for or after quitting/retiring, being seen by a military ship after joining and while participating in an enemy factions military or support mission.  Consequence: No more paycheck or pension. Relation set to -25.
 * accepted work missions need to add a faction flag, then military job ships that detect player with flag marked as traitor?
 
-### Stealing Ships Phase
+
+# Stealing Ships Phase
 - military and police ships detect player's stolen ships
   - stolen ships get attacked on sight by 
 - sell ships
@@ -34,13 +36,17 @@
   - player selling ships to the ai's stations, be the vanilla 100% price
 
 
-### Spy Phase
-# customize integrated mods
+# Spy Phase
+## customize integrated mods
 - hacking-outcomes
   - add spy/sabotage missions
 
+## Features
 - Receive bribes to switch allegiance, become a spy for another faction.
 * random, after 20?
+
+- Shielded Container Logic
+  - Store hacking/spy devices
 
 -  Spy, allows joining enemy factions (will still become a traitor if participating in a military mission against your primary faction, and traitor status by the other faction as normal). Consequence: Spy bonus added to paycheck from main faction plus paycheck from other faction.
 * Requires relationship 25
@@ -48,7 +54,7 @@
 * disable turrets, shields, (kuertee's professions list?)
 
 
-### Late Game
+# Late Game
 ## Player Economy Changes
 - Research costs increased to 2x module's and 10x ship's sell price (same as buying blueprint from factionrep).
 

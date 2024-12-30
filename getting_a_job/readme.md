@@ -4,11 +4,15 @@ Life isn't easy. It's a grind. The rich get richer and the poor...slowly get ric
 ## Features
 ### Get A Job
 Work for a faction's government, available at 12 relationship.
-* Receive a paycheck deposited direct to your InterGalactic Bank account every 15 minutes. Basic paycheck for joining based on faction type (major=10k, peaceful=25k, pirate=4k).
+* Receive a paycheck direct deposited to your bank account every 15 minutes.
 * Paycheck increases by a 1% of all work missions while employed for a faction.
 * Work missions pay more: 40-250% bonus (major=100%, peaceful=40%, pirate=250%).
+## Pensions and Descendants
+* Pension transfered to descendants
+  * Pension% based on faction relations.
 ### Become A Spy
 Use a stealth ship to teleport onto stations and ships. Conduct sabotage missions. Help your faction by harming their enemies.
+* Spy Pay added to paycheck
 * Stealth ship mod and teleportation inventory hacker
 * (Planned) Ship and station sabotage missions
 * (Planned) Faction police and military ships detect when you are working for other factions
@@ -51,12 +55,10 @@ Cash in accounts are reduced by the account's inheritance tax
 * [Mod Support APIs](https://www.nexusmods.com/x4foundations/mods/503)
 * [Kuertee: UI Extensions and HUD](https://github.com/kuertee/x4-mod-ui-extensions/releases)
 ## Installation
-* Download: https://github.com/archenovalis/X4Mods/releases/tag/Getting_A_Job_v0.7
+* Download: https://github.com/archenovalis/X4Mods/releases/tag/Getting_A_Job_v0.8
 * Extract to extensions directory.
 ## Planned Features
 * **New Statuses**
-  * Deserter: not completing any work missions within last 120 minutes.
-    * Consequence: Paycheck paused until next mission is completed.
   * Traitor: while working for or after retiring from a faction, and being seen by one of their military ships while participating in a non-ally faction's mission.
     * Consequence: No more paycheck or pension. Relation set to -25 (spy: -30)
   * Spy: (requires relationship 25), allows joining enemy factions (will still become a traitor if participating in a military mission against your primary faction, and traitor status by the other faction as normal).
@@ -77,3 +79,4 @@ Cash in accounts are reduced by the account's inheritance tax
 - v0.55: integrated kuertee emergent missions and faction requirements, replaced all vanilla rewards with bank transfers
 - v0.60: sell ships implemented
 - v0.7: NPC Reactions, Teleport from Transporter Room, and Alternatives to Death customized and integrated. Escape Pod mod created and integrated. Death causes you to lose all cash on hand, keep it safe in a bank. Clones are expensive, but no penalties upon death. Descendants will also cost reputation, starting your paycheck over (pensions will persist), and incur inheritance taxes
+- v0.8: Customized gamestarts. Hack locked doors from hacking menu. Selling ships must be in same sector as sold to station. Added bar to every station. Vanilla Bar missions use the Bar. Pension transfered to descendant. Pension% based on faction relations. Spy pay added. Shielded Container ware added (store hacking devices inside it). Hacking outcomes, releasing impounded ships requires hacking device. Paycheck inactive after 120m of last completed work mission.

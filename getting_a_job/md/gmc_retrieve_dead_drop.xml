@@ -17,17 +17,17 @@
 
   <!-- getting a job -->
   <add pos="before" sel="//do_if[@value='$TransportStartToDeadDrop and $TransportDeadDropToTarget']/create_offer[@cue=&quot;$MissionCue&quot;]">
-    <do_if value="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$active?">
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$hired">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$missionGroup" />
     </do_if>
   </add>
   <add pos="before" sel="//do_elseif/create_offer[@cue=&quot;$MissionCue&quot;]">
-    <do_if value="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$active?">
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$hired">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$missionGroup" />
     </do_if>
   </add>
   <add pos="before" sel="//do_else/create_offer[@cue=&quot;$MissionCue&quot;]">
-    <do_if value="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$active?">
+    <do_if value="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$hired">
       <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$missionGroup" />
     </do_if>
   </add>

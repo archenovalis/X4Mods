@@ -973,7 +973,7 @@
 							<create_group groupname="$TargetObjects" />
 							<add_to_group groupname="$TargetObjects" object="$TargetObject" />
 							<set_value name="$MissionGroup" exact="null" />
-							<do_if value="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$active?">
+							<do_if value="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$hired">
 								<set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$missionGroup" />
 							</do_if>
 							<create_group groupname="$DroppedObjects" />

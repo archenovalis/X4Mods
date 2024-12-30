@@ -2,8 +2,8 @@
 <content id="getting_a_job"
 	name="Getting A Job"
 	description="Due to a terrible legal loophole, your cat received the majority of your inheritance. And now even worse the trustee representing your cat has kicked you out of her house. Now you need to find a job. Yup, go find a job."
-	version="70"
-	date="2024-12-16"
+	version="80"
+	date="2024-12-30"
 	save="1" enabled="1"
 	author="Archie">
 
