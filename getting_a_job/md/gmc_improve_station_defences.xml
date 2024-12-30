@@ -39,7 +39,6 @@
 
   <replace sel="//reward_player[@money='$RewardCr']">
     <do_if value="not @player.allmodules.{player.module}.isscenario">
-      <set_value name="$GAJ_isWork" exact="false" />
       <do_if value="[
         missiongroup.gaj_anoat,
         missiongroup.gaj_ascendancy,
@@ -76,11 +75,8 @@
       ].indexof.{@$MissionGroup}">
         <set_value name="$GAJ_isWork" exact="true" />
       </do_if>
-      <do_if value="$GAJ_isWork">
-        <set_value name="$workBonus" exact="$RewardCr * md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$bonusMultiplier" />
-        <set_value name="$RewardCr" exact="$RewardCr + $workBonus" />
-        <set_value name="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$totalRewards" exact="$RewardCr" />
-        <set_value name="md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$pay" operation="add" exact="$RewardCr * md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$payMultipler" />
+      <do_if value="$GAJ_isWork?">
+        <signal_cue_instantly cue="md.GettingAJob.GAJ.LogWork" param="table[$faction = $ClientOwner, $RewardCr = $RewardCr]" />
       </do_if>
       <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
     </do_if>

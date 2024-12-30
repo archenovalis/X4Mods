@@ -1,16 +1,12 @@
 ### Early Game
 
-## Statuses
--  Deserter, not completing any military or support missions within last (60/120/240)? minutes. Consequence: Paycheck paused until next mission is completed.
-* reset delay cue when mission complete
-
--  Traitor, while working for or after quitting/retiring, being seen by a military ship after joining and while participating in an enemy factions military or support mission.  Consequence: No more paycheck or pension. Relation set to -25.
-* accepted work missions need to add a faction flag, then military job ships that detect player with flag marked as traitor?
+## Notifications
+- Inactive
+- Paycheck
 
 ## Pensions and Descendants
 - Pension transfered to descendant
   - Pension% based on faction relations.
-  - Track total paid
 
 ## Pirate Start 
 - Missions
@@ -25,6 +21,9 @@
     - transfer purchased cargo to the nearest tradestation/factory by pirate cargo ships... or magic
 - Buy contraband from station manager for special low price from manager, based on quantity purchased
 
+## Statuses
+-  Traitor, while working for or after quitting/retiring, being seen by a military ship after joining and while participating in an enemy factions military or support mission.  Consequence: No more paycheck or pension. Relation set to -25.
+* accepted work missions need to add a faction flag, then military job ships that detect player with flag marked as traitor?
 
 ### Stealing Ships Phase
 - military and police ships detect player's stolen ships

@@ -14,19 +14,19 @@
       </conditions>
       <actions>
         <set_value name="$MissionRewardReducer" exact="16" />
-        <set_value name="$Paycheck" exact="0" />
         <set_value name="$PayInterval" exact="15m" />
+        <set_value name="$InactiveTime" exact="120m" />
         <set_value name="$IsPirate" exact="false" />
         <!--
         GettingAJob.$Factions.{$faction} = table[
           $missionGroup = missiongroup.gaj_factionname,
           $pay = float,
           $payMultipler = float,
-          $lastMission = time,
+          $missionTime = time,
           $totalRewards = int,
           $pensionTier = int,
-          $jobOffered = bool,
-          $spyOffered = bool,
+          $offerJob = bool,
+          $offerSpy = bool,
           $status = string { hired || quit || retired || traitor || spy },
           $active = bool
         ] -->
@@ -111,11 +111,10 @@
               </conditions>
               <delay exact="1ms" />
               <actions>
-                <!-- find factions with ge 12 relation -->
+                <!-- send job offer to factions with ge 12 relation -->
                 <do_for_each name="$faction" in="md.$FactionData.keys.list">
                   <do_if value="$faction.relationto.{faction.player} ge 0.01592425">
                     <set_value name="$Factions.{$faction}" exact="table[]" />
-                    <set_value name="$Factions.{$faction}.$jobOffered" exact="true" />
                     <do_for_each name="$tag" in="$BasePayTags.keys.list">
                       <get_factions_by_tag tag="$tag" result="$taggedFactions" />
                       <do_if value="$taggedFactions.indexof.{$faction}">
@@ -513,11 +512,64 @@
           <actions>
             <do_for_each name="$faction" in="$Factions.keys.list">
               <do_if value="$Factions.{$faction}.$active">
-                <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $Factions.{$faction}.$pay]" />
-                <!-- todo: generate paycheck notification, add ability to disable notifications -->
+                <!-- get last mission payout time, if greater than $InactiveTime then set to inactive and don't pay out -->
+                <do_if value="player.age - $Factions.{$faction}.$missionTime ge $InactiveTime">
+                  <set_value name="$Factions.{$faction}.$active" exact="false" />
+                  <!-- todo: send inactive notification -->
+                </do_if>
+                <do_else>
+                  <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $Factions.{$faction}.$pay]" />
+                  <!-- todo: generate paycheck notification, add ability to disable notifications -->
+                </do_else>
               </do_if>
             </do_for_each>
             <signal_cue_instantly cue="this" />
+          </actions>
+        </cue>
+
+        <!-- send job offer -->
+        <cue name="JobOffer">
+          <conditions>
+            <event_player_relation_changed />
+            <check_value value="event.object == null and event.param != null" />
+            <check_value value="not @$Factions.{event.param}" />
+            <check_value value="event.param.relationto.{faction.player} ge 0.01592425" />
+          </conditions>
+          <actions>
+            <set_value name="$faction" exact="event.param" />
+            <set_value name="$Factions.{$faction}" exact="table[]" />
+            <set_value name="$Factions.{$faction}.$offerJob" exact="true" />
+            <do_for_each name="$tag" in="$BasePayTags.keys.list">
+              <get_factions_by_tag tag="$tag" result="$taggedFactions" />
+              <do_if value="$taggedFactions.indexof.{$faction}">
+                <set_value name="$pay" exact="$BasePayTags.{$tag}" />
+                <set_value name="$bonusMultiplier" exact="$BonusTags.{$tag}" />
+                <set_value name="$payFactor" exact="$PayFactors.{$tag}" />
+                <break />
+              </do_if>
+            </do_for_each>
+            <set_value name="$Factions.{$faction}.$pay" exact="$pay" />
+            <set_value name="$offer" exact="'Pay: '+$pay+'Cr / '+$PayInterval+'min\nMission Reward Bonus: '+$bonusMultiplier*100+'%'" />
+            <write_incoming_message highpriority="true" source="$faction.name" title="$faction.name+': Job Offer'" text="'We are please to inform you that we are offering a job to you. Please see one of our station managers to accept the position.\n\n'+$offer" />
+          </actions>
+        </cue>
+
+        <!-- param=table[
+          $faction = $ClientOwner,
+          $RewardCr = $RewardCr
+        ] -->
+        <cue name="LogWork" instantiate="true">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <set_value name="$faction" exact="event.param.$faction" />
+            <set_value name="$RewardCr" exact="event.param.$RewardCr" />
+            <set_value name="$workBonus" exact="$RewardCr * $Factions.{$faction}.$bonusMultiplier" />
+            <set_value name="$RewardCr" exact="$RewardCr + $workBonus" />
+            <set_value name="$Factions.{$faction}.$missionTime" exact="player.age" />
+            <set_value name="$Factions.{$faction}.$totalRewards" exact="$RewardCr" />
+            <set_value name="$Factions.{$faction}.$pay" operation="add" exact="$RewardCr * $Factions.{$faction}.$payFactor" />
           </actions>
         </cue>
 
@@ -547,7 +599,7 @@
               <set_value name="$faction" exact="$manager.trueowner" />
               <set_value name="$convoOption_isGetHired" exact="false" />
               <set_value name="$convoOption_isBecomeSpy" exact="false" />
-              <do_if value="@$Factions.{$faction}.$jobOffered">
+              <do_if value="$Factions.{$faction}.$offerJob">
                 <set_value name="$convoOption_isGetHired" exact="true" />
               </do_if>
               <do_elseif value="@$Factions.{$faction}.$spyOffered">
@@ -583,6 +635,7 @@
           <actions>
             <set_value name="$faction" exact="event.object.trueowner" />
             <do_if value="event.param == 'GAJ_get_hired'">
+              <set_value name="$Factions.{$faction}.$offerJob" exact="false" />
               <set_value name="$Factions.{$faction}.$status" exact="'hired'" />
               <set_value name="$Factions.{$faction}.$active" exact="true" />
               <set_value name="$Factions.{$faction}.$missionGroup" exact="$MissionGroups.{$faction}" />
@@ -599,10 +652,9 @@
                 <param name="InitialMap" value="$sectorMacros" />
                 <param name="UncoverStationFaction" value="$faction" />
               </run_actions>
-              <do_if value="$Paycheck" exact="0">
+              <do_if value="IssuePaycheck.state == cuestate.waiting">
                 <signal_cue_instantly cue="IssuePaycheck" />
               </do_if>
-              <set_value name="$Paycheck" operation="add" exact="$Factions.{$faction}.$pay" />
               <!-- todo: <write_incoming_message source="" title="" text=""/> -->
             </do_if>
             <do_elseif value="event.param == 'GAJ_become_spy'">
@@ -613,6 +665,7 @@
         </cue>
       </cues>
     </cue>
+
     <cue name="OnLuaLoaderReady">
       <conditions>
         <event_ui_triggered screen="'Lua_Loader'" control="'Ready'" />
