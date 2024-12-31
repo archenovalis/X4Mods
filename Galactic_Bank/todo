@@ -1,3 +1,6 @@
+# Issues
+- What happens when a vault's sector changes ownership?
+
 # modifications
 - galactic bank branch offices only when vault is operational
   - $MajorFactionList.{$vault.sector.owner} to false when a vault is not operational.

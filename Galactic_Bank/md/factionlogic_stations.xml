@@ -3,13 +3,6 @@
 <!-- remove banking clan from normal tradestation faction logic-->
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  <add
-    sel="/mdscript/cues/library[@name='Manage_Stations']/cues/cue[@name='Process']/cues/cue[@name='Analyse_Stations']/actions/do_elseif[@value='@$DesiredTradeStationPatchMarker']"
-    pos="after">
-    <do_elseif value="$Faction == faction.bankingclan">
-      <set_value name="$DesiredTradeStation" exact="0" />
-    </do_elseif>
-  </add>
 
   <!--   <mdscript name="FactionLogic_Stations" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
@@ -22,14 +15,13 @@
       <actions>
         <debug_text
           text="$DebugText + 'Prepare to analyse known stations. Number of relevant sectors: ' +
-$RelevantSectors.count"
+          $RelevantSectors.count"
           chance="$DebugChance" context="false" />
         <set_value name="$PreferredSectors" exact="[]" /> -->
 
   <add sel="//set_value[@name='$PreferredSectors']">
     <!-- BEGIN Banking Clan's Vault -->
-    <do_if
-      value="$Faction == faction.bankingclan">
+    <do_if value="$Faction == faction.bankingclan">
 
       <set_value name="$DesiredTradeStation" exact="9" />
       <do_if value="$TradeStationCount lt $DesiredTradeStation">
@@ -62,79 +54,64 @@ $RelevantSectors.count"
               functional="true"
               faction="$Faction" space="player.galaxy" multiple="true" />
             <remove_value name="$hq" />
-            <set_value
-              name="$factionlist"
+            <set_value name="$factionlist"
               exact="[faction.galempire, faction.ascendancy, faction.newrepublic, faction.commerceguild, faction.corporate, faction.huttcartel, faction.anoat, faction.mandodw]" />
             <do_all
               exact="$stations.count" counter="$i">
               <remove_from_list name="$factionlist" exact="stations.{$i}.sector.owner" />
             </do_all>
-            <set_value
-              name="$relevantFaction" exact="$factionlist.random" />
+            <set_value name="$relevantFaction" exact="$factionlist.random" />
 
             <!-- set preferred sector -->
-            <do_if
-              value="$relevantFaction == faction.galempire">
+            <do_if value="$relevantFaction == faction.galempire">
               <find_sector name="$sector"
                 macro="macro.swi_clusterbastion_sector001_macro" />
               <append_to_list
                 name="$PreferredSectors"
                 exact="$sector" />
             </do_if>
-            <do_elseif
-              value="$relevantFaction == faction.ascendancy">
+            <do_elseif value="$relevantFaction == faction.ascendancy">
               <find_sector name="$sector"
                 macro="macro.swi_clustereriadu_sector001_macro" />
-              <append_to_list
-                name="$PreferredSectors"
+              <append_to_list name="$PreferredSectors"
                 exact="$sector" />
             </do_elseif>
-            <do_elseif
-              value="$relevantFaction == faction.newrepublic">
+            <do_elseif value="$relevantFaction == faction.newrepublic">
               <find_sector name="$sector"
                 macro="macro.swi_clustercoruscant_sector001_macro" />
-              <append_to_list
-                name="$PreferredSectors"
+              <append_to_list name="$PreferredSectors"
                 exact="$sector" />
             </do_elseif>
-            <do_elseif
-              value="$relevantFaction == faction.commerceguild">
+            <do_elseif value="$relevantFaction == faction.commerceguild">
               <find_sector name="$sector"
                 macro="macro.swi_clusterhypori_sector001_macro" />
               <append_to_list
                 name="$PreferredSectors"
                 exact="$sector" />
             </do_elseif>
-            <do_elseif
-              value="$relevantFaction == faction.corporate">
+            <do_elseif value="$relevantFaction == faction.corporate">
               <find_sector name="$sector"
                 macro="macro.swi_clustercantonica_sector001_macro" />
-              <append_to_list
-                name="$PreferredSectors"
+              <append_to_list name="$PreferredSectors"
                 exact="$sector" />
             </do_elseif>
-            <do_elseif
-              value="$relevantFaction == faction.huttcartel">
+            <do_elseif value="$relevantFaction == faction.huttcartel">
               <find_sector name="$sector"
                 macro="macro.swi_clusternarshadda_sector001_macro" />
               <append_to_list
                 name="$PreferredSectors"
                 exact="$sector" />
             </do_elseif>
-            <do_elseif
-              value="$relevantFaction == faction.anoat">
+            <do_elseif value="$relevantFaction == faction.anoat">
               <find_sector name="$sector"
                 macro="macro.swi_clusteranpath_sector001_macro" />
-              <append_to_list
-                name="$PreferredSectors"
+              <append_to_list name="$PreferredSectors"
                 exact="$sector" />
             </do_elseif>
-            <do_elseif
-              value="$relevantFaction == faction.mandodw">
+            <do_elseif value="$relevantFaction == faction.mandodw">
               <find_sector name="$sector"
                 macro="macro.swi_clustermandalore_sector001_macro" />
-              <append_to_list
-                name="$PreferredSectors"
+              <append_to_list name="$PreferredSectors"
                 exact="$sector" />
             </do_elseif>
 

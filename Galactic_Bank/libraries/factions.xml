@@ -40,8 +40,8 @@
         <relation faction="mandoraiders" relation="-0.1" />
         <relation faction="valarian" relation="-0.1" />
         <relation faction="blacksun" relation="-0.1" />
-        <relation faction="naboo" relation="-0.1" />
-        <relation faction="hapes" relation="0.2" />
+        <relation faction="naboo" relation="0.2" />
+        <relation faction="hapes" relation="-0.1" />
         <relation faction="kamino" relation="0.2" />
         <relation faction="kuat" relation="0.2" />
         <relation faction="sienar" relation="0.2" />
