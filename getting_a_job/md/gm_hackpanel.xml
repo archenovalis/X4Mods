@@ -3,8 +3,8 @@
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
 
   <add pos="before" sel="//create_offer[@cue=&quot;$MissionCue&quot;]">
-    <do_if value="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$hired">
-      <set_value name="$MissionGroup" exact="@md.GettingAJob.GAJ.$Factions.{$ClientOwner}.$missionGroup" />
+    <do_if value="@md.GettingAJob.Work.$Factions.{$ClientOwner}.$hired">
+      <set_value name="$MissionGroup" exact="@md.GettingAJob.Work.$Factions.{$ClientOwner}.$missionGroup" />
     </do_if>
   </add>
 
@@ -47,7 +47,7 @@
         <set_value name="$GAJ_isWork" exact="true" />
       </do_if>
       <do_if value="$GAJ_isWork?">
-        <signal_cue_instantly cue="md.GettingAJob.GAJ.LogWork" param="table[$faction = $ClientOwner, $RewardCr = $RewardCr]" />
+        <signal_cue_instantly cue="md.GettingAJob.Work.LogWork" param="table[$faction = $ClientOwner, $RewardCr = $RewardCr]" />
       </do_if>
       <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
     </do_if>

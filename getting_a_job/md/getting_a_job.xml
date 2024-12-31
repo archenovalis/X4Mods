@@ -2,7 +2,7 @@
 <mdscript name="GettingAJob" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
   <cues>
-    <cue name="GAJ" namespace="this" version="1">
+    <cue name="Work" namespace="this" version="1">
       <conditions>
         <check_any>
           <event_game_loaded />
@@ -719,7 +719,7 @@
           </actions>
         </cue>
 
-        <!-- Manager Conversation -->
+        <!-- Non-Pirate Manager Conversation -->
         <cue name="Convo_Start">
           <conditions>
             <check_any>
@@ -729,6 +729,7 @@
                 <check_value value="not @event.object.hasrelation.enemy.{faction.player}" />
                 <check_value value="event.object == @player.container.tradenpc" />
                 <check_value value="event.object.trueowner != faction.player" />
+                <check_value value="not event.object.trueowner.hastag.pirate" />
                 <check_value value="event.object.owner.relationto.{faction.player} ge 0.01585" />
               </check_all>
             </check_any>
@@ -745,10 +746,10 @@
               <set_value name="$faction" exact="$manager.trueowner" />
               <set_value name="$convoOption_isGetHired" exact="false" />
               <set_value name="$convoOption_isBecomeSpy" exact="false" />
-              <do_if value="$Factions.{$faction}.$offerJob">
+              <do_if value="@$Factions.{$faction}.$offerJob">
                 <set_value name="$convoOption_isGetHired" exact="true" />
               </do_if>
-              <do_elseif value="$Factions.{$faction}.$offerSpy">
+              <do_elseif value="@$Factions.{$faction}.$offerSpy">
                 <set_value name="$convoOption_isBecomeSpy" exact="true" />
               </do_elseif>
             </do_else>
@@ -757,7 +758,7 @@
                   and
                   (@$convoOption_isGetHired or @$convoOption_isBecomeSpy)
                 ">
-              <set_value name="md.ExtendedConversationMenu.Main.$convOptions.$kNPCBankLoans" exact="table[
+              <set_value name="md.ExtendedConversationMenu.Main.$convOptions.$GAJ_GettingAJob" exact="table[
                     $signalCue = Convo_Start,
                     $params = table[$manager = $manager, $convoOption_isGetHired = @$convoOption_isGetHired, $convoOption_isBecomeSpy = @$convoOption_isBecomeSpy]
                   ]" />
@@ -800,82 +801,104 @@
                 $offerSpy = bool, (true when manager offers spy position)
               ] -->
             <do_if value="event.param == 'GAJ_get_hired'">
-              <set_value name="$Factions.{$faction}.$offerJob" exact="false" />
-              <set_value name="$Factions.{$faction}.$hired" exact="true" />
-              <set_value name="$Factions.{$faction}.$missionTime" exact="player.age" />
-              <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="$Factions.{$faction}.$pension" />
-              <do_if value="$faction.hastag.pirate and not $IsPirate">
-                <set_value name="$IsPirate" exact="true" />
-              </do_if>
-              <find_sector name="$sectors" owner="$faction" multiple="true" />
-              <set_value name="$sectorMacros" exact="[]" />
-              <do_for_each name="$sector" in="$sectors">
-                <append_to_list name="$sector.macro" />
-              </do_for_each>
-              <run_actions ref="md.LIB_Generic.UncoverMap_SectorsAndGates">
-                <param name="InitialMap" value="$sectorMacros" />
-                <param name="UncoverStationFaction" value="$faction" />
-              </run_actions>
-              <do_if value="IssuePaycheck.state == cuestate.waiting">
-                <signal_cue_instantly cue="IssuePaycheck" />
-              </do_if>
-              <set_value name="$message" exact="'
-                Paycheck: '+$data.$paycheck+'\n
-                Mission Pay Bonus: '+$data.$bonusMultiplier*100+'%'+'\n
-                % of Mission Pay added to Paycheck: '+$data.$paycheckFactor*100+'%'
-              " />
-              <do_if value="$data.$pension gt 0">
-                <set_value name="$message" exact="$message+'\n
-                  Active Pension (included in paycheck): '+$data.$pension
-                " />
-              </do_if>
-              <write_incoming_message highpriority="true" source="$faction" title="'New Hire: '+$faction" text="$message" />
+              <signal_cue_instantly cue="GetHired" />
             </do_if>
-
             <do_elseif value="event.param == 'GAJ_become_spy'">
-              <set_value name="$Factions.{$faction}.$offerSpy" exact="false" />
-              <set_value name="$Factions.{$faction}.$isSpy" exact="true" />
-              <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="$Factions.{$faction}.$spyPay" />
-              <add_inventory ware="ware.mod_ship_spy" />
-              <add_inventory ware="$HackingDeviceList.{$faction}" />
-              <write_incoming_message highpriority="true" source="$faction" title="$faction+': ~Top Secret: New Spy~'" text="
-                $Factions.{$faction}.$spyPay'+' has been added to your paycheck.
-              " />
+              <signal_cue_instantly cue="BecomeSpy" />
             </do_elseif>
-
             <do_elseif value="event.param == 'GAJ_status'">
-              <set_value name="$data" exact="$Factions.{$faction}" />
-              <set_value name="$message" exact="'
-                Hired: '+$data.$hired+'\n
-                Inactive: '+$data.$inactive+'\n
-                Mission Pay Bonus: '+$data.$bonusMultiplier*100+'%'+'\n
-                % of Mission Pay added to Paycheck: '+$data.$paycheckFactor*100+'%'+'\n
-                Paycheck: '+$data.$paycheck+'\n
-                Pension Tier: '+$data.$pensionFactor*$data.$pensionTier*100+'%'+'\n
-                Pension Tiers: 0%, '+$data.$pensionFactor*100+'%, '+$data.$pensionFactor*2*100+'%, '+$data.$pensionFactor*3*100+'%, '+$data.$pensionFactor*4*100+'%'
-              " />
-              <do_if value="$data.$pensionTier ge 1">
-                <set_value name="$message" exact="$message+'\n
-                  % of Paycheck added to Pension: '+$data.$pensionTier * $data.$pensionFactor+'\n
-                  Pension After Death: '+$data.$pension + ($data.$paycheck - $data.$pension) * $data.$pensionTier * $data.$pensionFactor
-                " />
-              </do_if>
-              <set_value name="$message" exact="$message+'\n
-                Last Mission Completed: '+(player.age - $data.$missionTime)*60
-              " />
-              <do_if value="$pension gt 0">
-                <set_value name="$message" exact="$message+'\n
-                  Active Pension (included in paycheck): '+$data.$pension
-                " />
-              </do_if>
-              <do_if value="$data.$isSpy">
-                <set_value name="$message" exact="$message+'\n
-                  Spy Status: Active'
-                " />
-              </do_if>
-              <write_incoming_message source="$faction" title="'Job Status: '+$faction" text="$message" />
+              <signal_cue_instantly cue="GetJobStatus" />
             </do_elseif>
             <reset_cue cue="this" />
+          </actions>
+        </cue>
+
+        <cue name="GetHired" instantiate="true">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <set_value name="$faction" exact="event.param" />
+            <set_value name="$Factions.{$faction}.$offerJob" exact="false" />
+            <set_value name="$Factions.{$faction}.$hired" exact="true" />
+            <set_value name="$Factions.{$faction}.$missionTime" exact="player.age" />
+            <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="$Factions.{$faction}.$pension" />
+            <find_sector name="$sectors" owner="$faction" multiple="true" />
+            <set_value name="$sectorMacros" exact="[]" />
+            <do_for_each name="$sector" in="$sectors">
+              <append_to_list name="$sector.macro" />
+            </do_for_each>
+            <run_actions ref="md.LIB_Generic.UncoverMap_SectorsAndGates">
+              <param name="InitialMap" value="$sectorMacros" />
+              <param name="UncoverStationFaction" value="$faction" />
+            </run_actions>
+            <set_value name="$message" exact="'
+              Paycheck: '+$data.$paycheck+'\n
+              Mission Pay Bonus: '+$data.$bonusMultiplier*100+'%'+'\n
+              % of Mission Pay added to Paycheck: '+$data.$paycheckFactor*100+'%'
+            " />
+            <do_if value="$data.$pension gt 0">
+              <set_value name="$message" exact="$message+'\n
+                Active Pension (included in paycheck): '+$data.$pension
+              " />
+            </do_if>
+            <write_incoming_message highpriority="true" source="$faction" title="'New Hire: '+$faction" text="$message" />
+          </actions>
+        </cue>
+
+        <cue name="BecomeSpy" instantiate="true">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <set_value name="$faction" exact="event.param" />
+            <set_value name="$Factions.{$faction}.$offerSpy" exact="false" />
+            <set_value name="$Factions.{$faction}.$isSpy" exact="true" />
+            <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="$Factions.{$faction}.$spyPay" />
+            <add_inventory ware="ware.mod_ship_spy" />
+            <add_inventory ware="$HackingDeviceList.{$faction}" />
+            <write_incoming_message highpriority="true" source="$faction" title="$faction+': ~Top Secret: New Spy~'" text="
+                $Factions.{$faction}.$spyPay'+' has been added to your paycheck.
+              " />
+          </actions>
+        </cue>
+
+        <cue name="GetJobStatus" instantiate="true">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <set_value name="$faction" exact="event.param" />
+            <set_value name="$data" exact="$Factions.{$faction}" />
+            <set_value name="$message" exact="'
+              Hired: '+$data.$hired+'\n
+              Inactive: '+$data.$inactive+'\n
+              Mission Pay Bonus: '+$data.$bonusMultiplier*100+'%'+'\n
+              % of Mission Pay added to Paycheck: '+$data.$paycheckFactor*100+'%'+'\n
+              Paycheck: '+$data.$paycheck+'\n
+              Pension Tier: '+$data.$pensionFactor*$data.$pensionTier*100+'%'+'\n
+              Pension Tiers: 0%, '+$data.$pensionFactor*100+'%, '+$data.$pensionFactor*2*100+'%, '+$data.$pensionFactor*3*100+'%, '+$data.$pensionFactor*4*100+'%'
+            " />
+            <do_if value="$data.$pensionTier ge 1">
+              <set_value name="$message" exact="$message+'\n
+                % of Paycheck added to Pension: '+$data.$pensionTier * $data.$pensionFactor+'\n
+                Pension After Death: '+$data.$pension + ($data.$paycheck - $data.$pension) * $data.$pensionTier * $data.$pensionFactor
+              " />
+            </do_if>
+            <set_value name="$message" exact="$message+'\n
+              Last Mission Completed: '+(player.age - $data.$missionTime)*60
+            " />
+            <do_if value="$pension gt 0">
+              <set_value name="$message" exact="$message+'\n
+                Active Pension (included in paycheck): '+$data.$pension
+              " />
+            </do_if>
+            <do_if value="$data.$isSpy">
+              <set_value name="$message" exact="$message+'\n
+                Spy Status: Active'
+              " />
+            </do_if>
+            <write_incoming_message source="$faction" title="'Job Status: '+$faction" text="$message" />
           </actions>
         </cue>
       </cues>
