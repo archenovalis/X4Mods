@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="GAJ_Piracy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+  <cues>
+    <cue name="Yar" namespace="this" version="1">
+      <cues>
+        <!-- Pirate Manager Conversation -->
+        <cue name="Convo_Start">
+          <conditions>
+            <check_any>
+              <event_cue_signalled />
+              <check_all>
+                <event_conversation_started conversation="default" />
+                <check_value value="not @event.object.hasrelation.enemy.{faction.player}" />
+                <check_value value="event.object == @player.container.tradenpc" />
+                <check_value value="event.object.trueowner.hastag.pirate" />
+              </check_all>
+            </check_any>
+            <check_value value="player.container.isclass.station" />
+          </conditions>
+          <actions>
+            <do_if value="event.name == 'event_cue_signalled'">
+              <set_value name="$manager" exact="@event.param.$manager" />
+              <set_value name="$convoOption_isGetHired" exact="@event.param.$convoOption_isGetHired" />
+              <set_value name="$convoOption_isBecomeSpy" exact="@event.param.$convoOption_isBecomeSpy" />
+              <set_value name="$convoOption_isHired" exact="@event.param.$convoOption_isHired" />
+            </do_if>
+            <do_else>
+              <set_value name="$manager" exact="event.object" />
+              <set_value name="$faction" exact="$manager.trueowner" />
+              <set_value name="$convoOption_isGetHired" exact="false" />
+              <set_value name="$convoOption_isBecomeSpy" exact="false" />
+              <set_value name="$convoOption_isHired" exact="false" />
+              <do_if value="@md.GettingAJob.Work.$Factions.{event.object.trueowner}.hired">
+                <set_value name="$convoOption_isHired" exact="true" />
+              </do_if>
+              <do_if value="@$Factions.{$faction}.$offerJob">
+                <set_value name="$convoOption_isGetHired" exact="true" />
+              </do_if>
+              <do_elseif value="@$Factions.{$faction}.$offerSpy">
+                <set_value name="$convoOption_isBecomeSpy" exact="true" />
+              </do_elseif>
+            </do_else>
+            <do_if value="
+                  event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists
+                  and
+                  (@$convoOption_isGetHired or @$convoOption_isBecomeSpy or @$convoOption_isHired)
+                ">
+              <set_value name="md.ExtendedConversationMenu.Main.$convOptions.$GAJPiracy" exact="table[
+                    $signalCue = Convo_Start,
+                    $params = table[
+                      $manager = $manager,
+                      $convoOption_isHired = @$convoOption_isHired,
+                      $convoOption_isGetHired = @$convoOption_isGetHired,
+                      $convoOption_isBecomeSpy = @$convoOption_isBecomeSpy
+                    ]
+                  ]" />
+            </do_if>
+            <do_else>
+              <do_if value="$convoOption_isGetHired">
+                <add_player_choice text="'Job Offer'" section="GAJPiracy_get_hired" />
+              </do_if>
+              <do_if value="$convoOption_isBecomeSpy">
+                <add_player_choice text="'Become a Spy'" section="GAJPiracy_become_spy" />
+              </do_if>
+              <do_if value="$convoOption_isHired">
+                <add_player_choice text="'Buy Contraband'" section="GAJPiracy_Buying" />
+                <add_player_choice text="'Sell Ships'" section="GAJPiracy_SellShips" />
+                <add_player_choice text="'Sell Cargo'" section="GAJPiracy_SellCargo" />
+              </do_if>
+              <add_player_choice text="'Job Status'" section="GAJPiracy_status" />
+            </do_else>
+            <reset_cue cue="this" />
+          </actions>
+          <cues>
+            <cue name="Convo_Continue">
+              <conditions>
+                <event_conversation_next_section sectionprefix="GAJPiracy_" />
+              </conditions>
+              <actions>
+                <set_value name="$faction" exact="event.object.trueowner" />
+                <do_if value="event.param == 'GAJPiracy_get_hired'">
+                  <signal_cue_instantly cue="md.GettingAJob.Work.GetHired" param="$faction" />
+                </do_if>
+                <do_elseif value="event.param == 'GAJPiracy_become_spy'">
+                  <signal_cue_instantly cue="md.GettingAJob.Work.BecomeSpy" param="$faction" />
+                </do_elseif>
+                <do_elseif value="event.param == 'GAJPiracy_status'">
+                  <signal_cue_instantly cue="md.GettingAJob.Work.GetJobStatus" param="$faction" />
+                </do_elseif>
+                <do_elseif value="event.param == 'GAJPiracy_Buying'">
+                  <signal_cue_instantly cue="BuyContraband" />
+                </do_elseif>
+                <do_elseif value="event.param == 'GAJPiracy_SellShips'">
+                  <signal_cue_instantly cue="SellShips" />
+                </do_elseif>
+                <do_elseif value="event.param == 'GAJPiracy_SellCargo'">
+                  <signal_cue_instantly cue="SellCargo" />
+                </do_elseif>
+                <reset_cue cue="this" />
+              </actions>
+            </cue>
+          </cues>
+        </cue>
+        <!-- Buy Contraband -->
+        <!-- list of docked player ships, set contraband sliders to max units per ship -->
+
+        <!-- adjust slider max values based on current slider values -->
+        <!-- max = remaining_space / unit_volume + current selected units -->
+
+        <!-- adjust cost per by total purchased across all ships -->
+        <!-- qty > x then cost  -->
+
+        <!-- update total price -->
+        <!--
+        <signal_cue_instantly cue="md.Simple_Menu_API.Update_Widget" param="table[
+          $id = 'contraband_'+$type',
+          $text = table[$text=''+$quanity*$cost],
+        ]" /> -->
+
+        <!-- 
+        <signal_cue_instantly cue="md.Simple_Menu_API.Update_Widget" param="table[
+          $id = 'slider_contraband_'+$type+$i,
+          $max = floor(remaining_space / unit_volume) + current_units,
+        ]" /> -->
+
+        <!-- Sell Ships -->
+        <!-- Use GAJ_SellShips (modified, ignore build capabilities, just destroy it and transfer the wares necessary to build it to the station) -->
+        <!-- checkboxes, update total price on check -->
+
+        <!-- Sell Cargo -->
+        <!-- list of docked player ships, slider per cargo type -->
+
+      </cues>
+    </cue>
+  </cues>
+</mdscript>

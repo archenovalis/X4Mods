@@ -46,7 +46,7 @@
 * random, after 20?
 
 - Shielded Container Logic
-  - Store hacking/spy devices
+  - Store hacking/spy devices, 50% chance reduction of hacking/spy device being detected
 
 -  Spy, allows joining enemy factions (will still become a traitor if participating in a military mission against your primary faction, and traitor status by the other faction as normal). Consequence: Spy bonus added to paycheck from main faction plus paycheck from other faction.
 * Requires relationship 25
