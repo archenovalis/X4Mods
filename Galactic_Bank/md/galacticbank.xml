@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="GalacticBank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mdscript name="GalacticBankTest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
 		<cue name="Vault" namespace="this" version="1">
@@ -14,7 +14,12 @@
 			</conditions>
 			<delay exact="1ms" />
 			<actions>
+				<find_object name="$objects" owner="faction.bankingclan" multiple="true" space="player.galaxy" />
+				<do_for_each name="$object" in="$objects">
+					<destroy_object object="$object" explosion="false" />
+				</do_for_each>
 				<set_value name="md.$FactionData.{faction.bankingclan}" exact="table[]" />
+				<set_value name="$BankStations" exact="table[]" />
 				<set_value name="$SetupComplete" exact="false" />
 
 				<!-- settings affecting all accounts -->
@@ -40,7 +45,10 @@
 							$fee = float,
 							$rate = float,
 							$period = time,
-							$interest_time = time
+							$interest_time = time,
+							$undockedFee = float,
+							$inheritanceTax = float,
+							$closed = bool
             ]
           ]
         -->
@@ -168,15 +176,6 @@
 					{faction.anoat} = true,
 					{faction.mandodw} = true
 				]" />
-
-				<!-- temp variables -->
-				<set_value name="$Relation" exact="0" />
-				<set_value name="$Interior" exact="null" />
-				<set_value name="$Corridor" exact="null" />
-				<set_value name="$Room" exact="null" />
-				<set_value name="$Banker" exact="null" />
-				<set_value name="$StationTable" exact="null" />
-				<set_value name="$StationInterior" exact="null" />
 			</actions>
 			<cues>
 				<cue name="Init">
@@ -628,7 +627,7 @@
 					</actions>
 				</cue>
 
-				<cue name="BankOffice" namespace="this">
+				<cue name="BankOffice">
 					<cues>
 						<cue name="BankOfficeAddToStation" version="2">
 							<conditions>
@@ -645,74 +644,72 @@
 								</check_any>
 							</conditions>
 							<actions>
+								<set_value name="$BankManager" exact="null" />
 								<set_value name="$station" exact="@event.param2.$teleportTo" />
 								<do_if value="not @$station.exists">
 									<set_value name="$station" exact="@event.param2.$dockAt" />
 								</do_if>
-								<set_value name="$Ships" exact="null" />
 								<!-- add bank office if vault or faction has a vault -->
-								<do_if value="$station.owner == faction.bankingclan or @$MajorFactionList.{$station.owner}">
-									<set_value name="$bankStation" exact="@$bankStations.{$station}" />
+								<set_value name="$owner" exact="$station.owner" />
+								<do_if value="$owner == faction.bankingclan or @$MajorFactionList.{$owner}">
+									<set_value name="$faction" exact="faction.bankingclan" />
+									<set_value name="$bankStation" exact="@$BankStations.{$station}" />
 									<do_if value="not $bankStation">
-										<set_value name="$random" min="1" max="100" />
-										<set_value name="$bankStations.{$station}" exact="table[$hasOffice = $random gt 50, $balance = 0, $interestRate = 0.02, $isSpawned = false]" />
-										<set_value name="$bankStation" exact="@$bankStations.{$station}" />
+										<set_value name="$BankStations.{$station}" exact="table[$isSpawned = false]" />
+										<set_value name="$bankStation" exact="@$BankStations.{$station}" />
 									</do_if>
-									<do_if value="$bankStation.$hasOffice or $debugChance">
-										<do_if value="not $bankStation.$isSpawned">
-											<set_value name="$bankStation.$isSpawned" exact="true" />
-											<set_value name="$bankManager" exact="@$bankStation.$bankManager" />
-											<do_if value="(not $bankManager) or (not $bankManager.exists)">
-												<set_value name="$factions" exact="$validFactions" />
-												<set_value name="$owner" exact="$station.owner" />
-												<create_cue_actor name="$bankManager" cue="this">
-													<select faction="$factions.random" />
-													<owner exact="$owner" />
-												</create_cue_actor>
-												<set_entity_traits entity="$bankManager" missionactor="true" />
-												<set_entity_overrides entity="$bankManager" icon="'specialist'" />
-												<set_value name="$bankStation.$bankManager" exact="$bankManager" />
+									<do_if value="not $bankStation.$isSpawned">
+										<set_value name="$bankStation.$isSpawned" exact="true" />
+										<set_value name="$BankManager" exact="@$bankStation.$BankManager" />
+										<do_if value="not $BankManager?">
+											<create_cue_actor name="$BankManager" cue="this">
+												<select faction="$owner" />
+												<owner exact="$faction" />
+											</create_cue_actor>
+											<set_entity_traits entity="$BankManager" missionactor="true" />
+											<set_entity_overrides entity="$BankManager" icon="'specialist'" />
+										</do_if>
+										<set_value name="$dockArea" exact="@$bankStation.$dockArea" />
+										<do_if value="not $dockArea">
+											<find_object_component name="$dockArea" object="$station" class="class.walkablemodule" />
+											<set_value name="$bankStation.$dockArea" exact="$dockArea" />
+										</do_if>
+										<do_if value="$dockArea">
+											<set_value name="$seed" exact="@$bankStation.$seed" />
+											<do_if value="not $seed">
+												<set_value name="$seed" exact="$station.seed + lookup.roomtype.list.indexof.{roomtype.office}" />
+												<set_value name="$bankStation.$seed" exact="$seed" />
 											</do_if>
-											<set_value name="$dockArea" exact="@$bankStation.$dockArea" />
-											<do_if value="not $dockArea">
-												<find_object_component name="$dockArea" object="$station" class="class.walkablemodule" />
-												<set_value name="$bankStation.$dockArea" exact="$dockArea" />
+											<set_value name="$race" exact="$station.owner.primaryrace" />
+											<get_room_definition macro="$corridorMacro" race="$race" tags="tag.corridor" seed="$seed" />
+											<get_room_definition macro="$corridorMacro" tags="tag.corridor" seed="$seed" chance="if $corridorMacro then 0 else 100" />
+											<get_room_definition macro="$roomMacro" race="$race" tags="tag.office" seed="$seed" />
+											<get_room_definition macro="$roomMacro" tags="tag.office" seed="$seed" chance="if $roomMacro then 0 else 100" />
+											<!-- vault office -->
+											<do_if value="$owner == faction.bankingclan">
+												<set_value name="$roomName" exact="'{20777, 1001} {20777, 1005} - {20777, 1004} {20777, 1007}'" />
 											</do_if>
-											<do_if value="$dockArea">
-												<get_room_definition macro="$corridorMacro" race="$owner.primaryrace" tags="tag.corridor" />
-												<do_if value="not $corridorMacro">
-													<get_room_definition macro="$corridorMacro" race="faction.argon.primaryrace" tags="tag.corridor" />
-												</do_if>
-												<get_room_definition macro="$roomMacro" race="$owner.primaryrace" tags="tag.office" />
-												<do_if value="not $roomMacro">
-													<get_room_definition macro="$roomMacro" race="faction.argon.primaryrace" tags="tag.office" />
-												</do_if>
-												<!-- vault office -->
-												<do_if value="$owner == faction.bankingclan">
-													<set_value name="$roomName" exact="'{20777, 1001} {20777, 1005} - {20777, 1004} {20777, 1007}'" />
-												</do_if>
-												<!-- branch office -->
-												<do_else>
-													<set_value name="$roomName" exact="'{20777, 1001} {20777, 1005} - {20777, 1006} {20777, 1007}'" />
-												</do_else>
-												<create_dynamic_interior object="$station"
-													corridor="$corridorMacro" room="$roomMacro"
-													name="$roomName"
-													interiorname="$interior" corridorname="$corridor" roomname="$room" roomtype="roomtype.office"
-													seed="$station.seed + lookup.roomtype.list.indexof.{roomtype.office}" />
-												<do_if value="$interior and $corridor and $room">
-													<find_npc_slot name="$roomSlot" object="$room" tags="tag.control" />
-													<do_if value="$roomSlot">
-														<add_actor_to_room actor="$bankManager" slot="$roomSlot" />
-													</do_if>
+											<!-- branch office -->
+											<do_else>
+												<set_value name="$roomName" exact="'{20777, 1001} {20777, 1005} - {20777, 1006} {20777, 1007}'" />
+											</do_else>
+											<create_dynamic_interior object="$station"
+												corridor="$corridorMacro" room="$roomMacro"
+												name="$roomName"
+												interiorname="$interior" corridorname="$corridor" roomname="$room" roomtype="roomtype.office"
+												seed="$seed" />
+											<do_if value="$interior and $corridor and $room">
+												<find_npc_slot name="$roomSlot" object="$room" tags="tag.control" />
+												<do_if value="$roomSlot">
+													<add_actor_to_room actor="$BankManager" slot="$roomSlot" />
 												</do_if>
 											</do_if>
 										</do_if>
 									</do_if>
-									<do_else>
-										<reset_cue cue="this" />
-									</do_else>
 								</do_if>
+								<do_elseif value="@$Accounts.keys.list.indexof.{player.container.tradenpc.trueowner}">
+									<set_value name="$BankManager" exact="player.container.tradenpc" />
+								</do_elseif>
 							</actions>
 							<cues>
 								<!-- Cleanup when the player leaves the station -->
@@ -725,19 +722,15 @@
 										</check_any>
 									</conditions>
 									<actions>
-										<do_if value="$bankManager">
-											<remove_actor_from_room actor="$bankManager" />
-											<destroy_object object="$bankManager" />
+										<do_if value="$BankManager">
+											<remove_actor_from_room actor="$BankManager" />
 										</do_if>
 										<do_if value="$interior">
 											<remove_dynamic_interior object="$station" interior="$interior" />
 											<destroy_object object="$interior" />
 										</do_if>
 										<destroy_object object="$room" />
-										<set_value name="$bankStations.{$station}.$isSpawned" exact="false" />
-										<do_if value="not $bankStations.{$station}.$hasOffice">
-											<remove_value name="$bankStations.{$station}" />
-										</do_if>
+										<set_value name="$BankStations.{$station}.$isSpawned" exact="false" />
 										<reset_cue cue="parent" />
 										<reset_cue cue="this" />
 									</actions>
@@ -747,18 +740,10 @@
 									<conditions>
 										<check_any>
 											<event_cue_signalled />
-											<event_conversation_started conversation="default" />
-										</check_any>
-										<check_any>
-											<check_value value="event.object == $bankManager?" />
-											<check_all>
-												<check_value value="event.object == player.container.tradenpc?" />
-												<check_value value="@$Accounts.keys.list.indexof.{$owner}" />
-											</check_all>
+											<event_conversation_started actor="$BankManager" conversation="default" />
 										</check_any>
 									</conditions>
 									<actions>
-										<set_value name="$Banker" exact="if $bankManager? then $BankManager else event.object" />
 										<do_if value="event.name == 'event_cue_signalled'">
 											<set_value name="$convoOption_Banker_Account" exact="@event.param.$convoOption_Banker_Account" />
 										</do_if>
@@ -766,7 +751,7 @@
 											<set_value name="$convoOption_Banker_Account" exact="true" />
 										</do_else>
 										<do_if value="event.name == 'event_conversation_started' and @md.ExtendedConversationMenu.Main.exists">
-											<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$Banker" exact="table[
+											<set_value name="md.ExtendedConversationMenu.Main.$convOptions.$BankManager" exact="table[
 												$signalCue = BankerConversationStart,
 												$params = table[$convoOption_Banker_Account = @$convoOption_Banker_Account]
 											]" />
@@ -792,7 +777,7 @@
 									</conditions>
 									<actions>
 										<do_if value="event.param == 'Banker_Account'">
-											<signal_cue_instantly cue="Bank_Menu_Open" />
+											<signal_cue_instantly cue="Bank_Menu" param="$BankManager" />
 										</do_if>
 										<do_if value="event.param == 'Banker_Return'">
 											<set_value name="$lootboxes" exact="@player.entity.inventory.{ware.inv_bank_lootbox}.count" />
@@ -803,7 +788,7 @@
 											<set_value name="$reward" exact="$lootboxes * 1000 + $largelootboxes * 20000" />
 											<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="$lootboxes * 0.00082 + $largelootboxes * 0.0032" reason="relationchangereason.missioncompleted" />
 											<write_incoming_message source="faction.bankingclan" title="'We Greatly Appreciate You'" text="'Thank you for returning '+$lootboxes+$largelootboxes+' lootboxes. We have deposited: '+$reward+'Cr into your account.'" />
-											<signal_cue_instantly cue="Transfer" param="table[$faction = faction.bankingclan, $money = ($reward)Cr]" />
+											<signal_cue_instantly cue="Transfer" param="table[$faction = faction.bankingclan, $money = $reward]" />
 										</do_if>
 										<reset_cue cue="this" />
 									</actions>
@@ -819,12 +804,12 @@
 						<event_cue_signalled cue="md.Interact_Menu_API.Get_Actions" />
 						<check_value value="@event.param.$object.sector == player.sector" />
 						<check_value value="@event.param.$object.isclass.{class.station}" />
-						<check_value value="$Accounts.keys.list.indexof.{@event.param.$object.owner} or $MajorFactionList.{@event.param.$object.sector.owner}" />
+						<check_value value="@$Accounts.keys.list.indexof.{event.param.$object.owner} or @$MajorFactionList.{event.param.$object.sector.owner}" />
 						<check_value value="@event.param.$object.owner.relationto.{faction.player} gt -0.01" />
 						<check_value value="@event.param.$object.distanceto.{player.entity} le 10km" />
 					</conditions>
 					<actions>
-						<do_if value="($MajorFactionList.{@event.param.$object.sector.owner} and $Accounts.{faction.bankingclan}.$balance gt 0) or $Accounts.{event.param.$object.owner}.$balance gt 0">
+						<do_if value="(@$MajorFactionList.{event.param.$object.sector.owner} and $Accounts.{faction.bankingclan}.$balance gt 0) or @$Accounts.{event.param.$object.owner}.$balance gt 0">
 							<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
 								$id = 'Vault_AccountMenu',
 								$section = 'main',
@@ -845,47 +830,50 @@
 					<delay exact="1ms" />
 					<actions>
 						<!-- undocked -->
-						<do_if value="event.param.$echo.$faction?">
+						<do_if value="event.param.$echo?">
 							<set_value name="$Faction" exact="event.param.$echo.$faction" />
+							<set_value name="$Fee" exact="$account.$undockedFee" />
+							<do_if value="not ($Faction == faction.bankingclan)">
+								<set_value name="$Fee" operation="add" exact="$account.$fee" />
+							</do_if>
 						</do_if>
 						<!-- docked -->
 						<do_else>
-							<set_value name="$Faction" exact="event.object.trueowner" />
+							<set_value name="$Faction" exact="event.param.trueowner" />
+							<do_if value="not (player.station.owner == faction.bankingclan)">
+								<set_value name="$Fee" exact="$account.$fee" />
+							</do_if>
 						</do_else>
+						<!-- set cue variablse -->
+						<do_if value="@$MajorFactionList.{$Faction}">
+							<set_value name="$Faction" exact="faction.bankingclan" />
+						</do_if>
+						<set_value name="$account" exact="$Accounts.{$Faction}" />
+						<set_value name="$Rate" exact="$account.$rate" />
+						<set_value name="$Period" exact="$account.$period" />
+						<set_value name="$Fee" exact="0" />
 						<!-- determine account -->
 						<do_if value="$Faction == faction.bankingclan">
 							<set_value name="$Title" exact="'InterGalactic Bank Account'" />
 						</do_if>
-						<do_elseif value="$Accounts.keys.list.indexof.{$Faction}">
-							<set_value name="$Title" exact="$Faction+': Account'" />
-						</do_elseif>
 						<do_else>
-							<set_value name="$Faction" exact="faction.bankingclan" />
-							<set_value name="$Title" exact="'InterGalactic Bank Account'" />
+							<set_value name="$Title" exact="$Faction+': Account'" />
 						</do_else>
-						<set_value name="$account" exact="$Accounts.{$Faction}" />
-						<!-- set cue variablse -->
-						<set_value name="$Fee" exact="$account.$fee + $account.$undockedFee" />
-						<set_value name="$Rate" exact="$account.$rate" />
-						<set_value name="$Period" exact="$account.$period" />
 						<!-- update interest -->
 						<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
 						<do_if value="$timeSinceInterest> 1">
-							<set_value name="$newBalance" exact="$account.$balance * ((1 + $Rate)^($timeSinceInterest / $Period))" />
-							<set_value name="$Interest_amount" exact="$newBalance - $account.$balance" />
-							<set_value name="$Accounts.{$Faction}.$balance" exact="$account.$balance + $interest_amount" />
-							<set_value name="$Withdraw_amount" exact="0" />
-							<set_value name="$newBalance" exact="$account.$balance" />
-							<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
+							<set_value name="$Interest_amount" exact="$account.$balance * (($Rate)^($timeSinceInterest / $Period))" />
+							<set_value name="$account.$balance" exact="$account.$balance + $Interest_amount" />
+							<set_value name="$account.$interest_time" exact="player.age" />
 						</do_if>
 						<signal_cue cue="Bank_Menu_Open" />
 					</actions>
 					<cues>
-
 						<cue name="Bank_Menu_Open" instantiate="true">
 							<conditions>
 								<event_cue_signalled />
 							</conditions>
+							<delay exact="1ms" />
 							<actions>
 								<set_value name="$account" exact="$Accounts.{$Faction}" />
 								<do_if value="$account.$closed">
@@ -957,6 +945,7 @@
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+										$id = 'sliderDeposit',
 										$start = 0,
 										$col = 1,
 										$text = table[$text=''],
@@ -983,6 +972,7 @@
 										</do_if>
 										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+											$id = 'sliderWithdraw',
 											$start = 0,
 											$col = 1,
 											$text = table[$text=''],
@@ -1027,19 +1017,17 @@
 									</conditions>
 									<actions>
 										<set_value name="$account" exact="$Accounts.{$Faction}" />
-										<do_if value="player.money ge $Deposit_amount">
+										<do_if value="player.money ge ($Deposit_amount)Cr">
 											<do_if value="$account.$balance == 0">
-												<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
+												<set_value name="$account.$interest_time" exact="player.age" />
 											</do_if>
 											<do_else>
 												<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
-												<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
-												<set_value name="$Interest_amount" exact="$account.$balance * ((1 + $Rate)^($timeSinceInterest / $Period) - 1)" />
+												<set_value name="$account.$interest_time" exact="player.age" />
+												<set_value name="$Interest_amount" exact="$account.$balance * (($Rate)^($timeSinceInterest / $Period) - 1)" />
 											</do_else>
 											<reward_player money="($Deposit_amount)Cr * -1" />
-											<set_value name="$Accounts.{$Faction}.$balance" operation="add" exact="$Deposit_amount + $Interest_amount" />
-											<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-											<signal_cue_instantly cue="Bank_Menu_Open" />
+											<set_value name="$account.$balance" operation="add" exact="($Deposit_amount)Cr + $Interest_amount" />
 										</do_if>
 										<do_else>
 											<cancel_cue cue="this" />
@@ -1052,20 +1040,18 @@
 									</conditions>
 									<actions>
 										<set_value name="$account" exact="$Accounts.{$Faction}" />
-										<do_if value="$account.$balance ge $Withdraw_amount">
+										<do_if value="$account.$balance ge ($Withdraw_amount)Cr">
 											<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
-											<set_value name="$Accounts.{$Faction}.$interest_time" exact="player.age" />
-											<set_value name="$Interest_amount" exact="$account.$balance * ((1 + $Rate)^($timeSinceInterest / $Period) - 1)" />
-											<do_if value="$account.$balance - $Withdraw_amount * (1+$Fee) lt 1">
-												<reward_player money="($Withdraw_amount * 100)ct + $Interest_amount" />
-												<set_value name="$Accounts.{$Faction}.$balance" exact="0" />
+											<set_value name="$account.$interest_time" exact="player.age" />
+											<set_value name="$Interest_amount" exact="$account.$balance * (($Rate)^($timeSinceInterest / $Period) - 1)" />
+											<do_if value="$account.$balance - ($Withdraw_amount)Cr * (1+$Fee) lt 100">
+												<reward_player money="($Withdraw_amount)Cr + $Interest_amount" />
+												<set_value name="$account.$balance" exact="0" />
 											</do_if>
 											<do_else>
 												<reward_player money="($Withdraw_amount)Cr" />
-												<set_value name="$Accounts.{$Faction}.$balance" operation="add" exact="$Interest_amount - $Withdraw_amount * (1+$Fee)" />
+												<set_value name="$account.$balance" operation="add" exact="$Interest_amount - ($Withdraw_amount)Cr * (1+$Fee)" />
 											</do_else>
-											<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-											<signal_cue_instantly cue="Bank_Menu_Open" />
 										</do_if>
 										<do_else>
 											<cancel_cue cue="this" />
@@ -1092,19 +1078,20 @@
 							</do_if>
 							<set_value name="$account" exact="$Accounts.{$faction}" />
 							<do_if value="$account.$balance == 0">
-								<set_value name="$Accounts.{$faction}.$interest_time" exact="player.age" />
+								<set_value name="$account.$interest_time" exact="player.age" />
 							</do_if>
 							<do_else>
 								<set_value name="$timeSinceInterest" exact="player.age - $account.$interest_time" />
-								<set_value name="$Accounts.{$faction}.$interest_time" exact="player.age" />
-								<set_value name="$interest_amount" exact="$account.$balance * ((1 + $account.$rate)^($timeSinceInterest / $account.$period) - 1)" />
-								<set_value name="$Accounts.{$faction}.$balance" operation="add" exact="$interest_amount" />
+								<set_value name="$account.$interest_time" exact="player.age" />
+								<set_value name="$Interest_amount" exact="$account.$balance * (($account.$rate)^($timeSinceInterest / $account.$period) - 1)" />
+								<set_value name="$account.$balance" operation="add" exact="$Interest_amount" />
 							</do_else>
-							<set_value name="$Accounts.{$faction}.$balance" operation="add" exact="event.param.$money" />
+							<set_value name="$account.$balance" operation="add" exact="event.param.$money" />
+							<show_notification text="$faction+' Deposit: '+event.param.$money" />
 						</do_if>
 						<!-- catch all for civilian, criminal, smuggler, etc factions -->
 						<do_else>
-							<reward_player money="event.param.$money" />
+							<reward_player money="(event.param.$money)Cr" />
 						</do_else>
 						<reset_cue cue="this" />
 					</actions>
@@ -1391,7 +1378,7 @@
 												<do_else>
 													<show_notification text="'{20777,2022}: '+$reward+'Cr'" />
 												</do_else>
-												<reward_player money="($reward)Cr" />
+												<reward_player money="$reward" />
 											</do_if>
 											<!-- bomb -->
 											<do_else>

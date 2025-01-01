@@ -5,7 +5,8 @@
     <entry name="station_bankingclan_branchvault_macro" value="extensions\galactic_bank\assets\structures\macros\station_bankingclan_branchvault_macro" />
     <entry name="station_bankingclan_mainvault_macro" value="extensions\galactic_bank\assets\structures\macros\station_bankingclan_mainvault_macro" />
     <entry name="bank_wares_macro" value="extensions\galactic_bank\assets\props\StorageModules\macros\bank_wares_macro" />
-    <entry name="vault_medium_macro" value="extensions\galactic_bank\assets\structures\storage\macros\vault_medium_macro" />
-    <entry name="vault_large_macro" value="extensions\galactic_bank\assets\structures\storage\macros\vault_large_macro" />
+    <entry name="struct_vault_imp_foodrations_macro" value="extensions\galactic_bank\assets\structures\connectionmodules\macros\struct_vault_imp_foodrations_macro" />
+    <entry name="storage_vault_small_macro" value="extensions\galactic_bank\assets\structures\storage\macros\storage_vault_small_macro" />
+    <entry name="storage_vault_large_macro" value="extensions\galactic_bank\assets\structures\storage\macros\storage_vault_large_macro" />
   </add>
 </diff>

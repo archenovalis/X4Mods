@@ -15,7 +15,7 @@
       <actions>
         <debug_text
           text="$DebugText + 'Prepare to analyse known stations. Number of relevant sectors: ' +
-          $RelevantSectors.count"
+$RelevantSectors.count"
           chance="$DebugChance" context="false" />
         <set_value name="$PreferredSectors" exact="[]" /> -->
 

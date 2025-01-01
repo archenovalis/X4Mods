@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<macros>
+  <macro name="struct_vault_imp_foodrations_macro" class="connectionmodule">
+    <component ref="prod_ter_mre" />
+    <properties>
+      <identification name="'Vault Connection'" shortname="'Vault Connection'" makerrace="bankingclan" description="'Vault Connection'" />
+      <build>
+        <sets>
+          <set ref="vault" />
+        </sets>
+      </build>
+      <explosiondamage value="1000" shield="5000" />
+      <hull max="233000" />
+    </properties>
+  </macro>
+</macros>

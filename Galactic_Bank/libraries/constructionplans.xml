@@ -27,7 +27,7 @@
           <rotation yaw="149.69884" pitch="0.602155" />
         </offset>
       </entry>
-      <entry index="4" macro="storage_hap_s_solid_01_macro" connection="connectionsnap002">
+      <entry index="4" macro="storage_vault_small_macro" connection="connectionsnap002">
         <predecessor index="3" connection="connectionsnap006" />
         <offset>
           <position x="2525.939" y="332.445" z="1501.889" />
@@ -48,7 +48,7 @@
           <rotation yaw="-90.30478" pitch="-2.13284" />
         </offset>
       </entry>
-      <entry index="7" macro="storage_hap_s_solid_01_macro" connection="connectionsnap002">
+      <entry index="7" macro="storage_vault_small_macro" connection="connectionsnap002">
         <predecessor index="6" connection="connectionsnap006" />
         <offset>
           <position x="89.069" y="332.319" z="-2754.39" />
@@ -69,7 +69,7 @@
           <rotation yaw="29.69156" pitch="2.2107" />
         </offset>
       </entry>
-      <entry index="10" macro="storage_hap_s_solid_01_macro" connection="connectionsnap002">
+      <entry index="10" macro="storage_vault_small_macro" connection="connectionsnap002">
         <predecessor index="9" connection="connectionsnap006" />
         <offset>
           <position x="-2382.89" y="332.306" z="1467.254" />
@@ -131,14 +131,14 @@
           <rotation yaw="148.28911" roll="-179.99998" />
         </offset>
       </entry>
-      <entry index="19" macro="storage_hap_l_solid_01_macro" connection="connectionsnap001">
+      <entry index="19" macro="storage_vault_large_macro" connection="connectionsnap001">
         <predecessor index="18" connection="connectionsnap02" />
         <offset>
           <position x="81.44" y="5283.758" z="78.743" />
           <rotation yaw="88.11387" roll="179.99995" />
         </offset>
       </entry>
-      <entry index="20" macro="prod_imp_foodrations_macro" connection="connectionsnap001">
+      <entry index="20" macro="struct_vault_imp_foodrations_macro" connection="connectionsnap001">
         <predecessor index="5" connection="connectionsnap006" />
         <offset>
           <position x="63.548" y="931.903" z="-2154.596" />
@@ -152,14 +152,14 @@
           <rotation yaw="2.10107" />
         </offset>
       </entry>
-      <entry index="22" macro="prod_imp_foodrations_macro" connection="connectionsnap001">
+      <entry index="22" macro="struct_vault_imp_foodrations_macro" connection="connectionsnap001">
         <predecessor index="8" connection="connectionsnap006" />
         <offset>
           <position x="-1873.234" y="931.86" z="1150.008" />
           <rotation yaw="29.61783" pitch="2.21071" roll="-0.00285864" />
         </offset>
       </entry>
-      <entry index="23" macro="prod_imp_foodrations_macro" connection="connectionsnap001">
+      <entry index="23" macro="struct_vault_imp_foodrations_macro" connection="connectionsnap001">
         <predecessor index="2" connection="connectionsnap006" />
         <offset>
           <position x="2004.795" y="932.411" z="1204.647" />

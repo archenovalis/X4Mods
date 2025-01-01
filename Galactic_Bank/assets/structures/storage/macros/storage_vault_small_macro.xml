@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<macros>
+  <macro name="storage_vault_small_macro" class="storage">
+    <component ref="storage_par_s_solid_01" />
+    <properties>
+      <identification name="{20777,1014} {20777, 1004}" shortname="{20777,1014} {20777, 1004}" makerrace="bankingclan" size="small" description="{20777,1016}" />
+      <cargo max="7250" tags="container" />
+      <build>
+        <sets>
+          <set ref="vault" />
+        </sets>
+      </build>
+      <explosiondamage value="0" shield="0" />
+      <hull max="500000" />
+      <secrecy level="2" />
+      <drop ref="vault_small" />
+    </properties>
+  </macro>
+</macros>

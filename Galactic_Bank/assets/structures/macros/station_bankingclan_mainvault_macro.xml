@@ -9,6 +9,7 @@
         race="bankingclanhq" type="tradestation" />
       <build>
         <sets>
+          <set ref="vault" />
           <set ref="factory" />
         </sets>
       </build>

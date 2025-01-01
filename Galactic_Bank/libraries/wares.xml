@@ -34,18 +34,28 @@
       <restriction licence="station_gen_advanced" />
       <owner faction="bankingclan" />
     </ware>
-    <ware id="vault_medium" name="{20777,1014} {20777, 1004}" description="{20777,1014} {20777, 1004}" transport="container" volume="1" tags="module">
-      <price min="445475" average="524088" max="602701" />
+    <ware id="vault_small" name="{20777,1014} {20777, 1004}" description="{20777,1014} {20777, 1004}" transport="container" volume="1" tags="module">
+      <price min="225475" average="264088" max="302701" />
       <production time="414" amount="1" method="default" name="{20206,101}">
         <primary>
-          <ware ware="claytronics" amount="82" />
-          <ware ware="energycells" amount="163" />
-          <ware ware="hullparts" amount="495" />
+          <ware ware="claytronics" amount="41" />
+          <ware ware="energycells" amount="82" />
+          <ware ware="hullparts" amount="248" />
         </primary>
       </production>
-      <component ref="vault_medium_macro" amount="1" />
+      <component ref="vault_small_macro" amount="1" />
       <restriction licence="station_gen_intermediate" />
       <owner faction="bankingclan" />
     </ware>
+  </add>
+
+  <add sel="//ware[@id='tie_defender']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='customs_corvette']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='vindicator']">
+    <owner faction="bankingclan" />
   </add>
 </diff>

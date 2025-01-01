@@ -24,7 +24,7 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
 - Closed Bank Offices
 Branch offices will only be in stations owned by major factions with a functioning branch vault station.
 
-Download: https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.8.3
+Download: https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.8.4
 
 ## Changelog
 
@@ -70,3 +70,5 @@ add hacking menu and lootbox opening logic (inventory lootboxes and container lo
 
 v0.8:
 at -10 relation, bank confiscates money, closes account, hires bounty hunters to hunt player 
+(0.81,0.82,0.83, 0.84) bug fixes
+(0.84) vault no longer produces food or stores solids, now uses vault modules

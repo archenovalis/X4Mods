@@ -66,7 +66,7 @@
       </subordinates>
     </job>
 
-    <job id="bankingclan_transport_m_escort" name="'{20777,1002} {20777,1008}'">
+    <job id="bankingclan_transport_m_escort" name="'{20777,1002} {20777,1008}'" startactive="false">
       <modifiers commandeerable="true" />
       <orders>
         <order order="Escort" default="true" />
