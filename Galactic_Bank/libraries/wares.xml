@@ -49,13 +49,711 @@
     </ware>
   </add>
 
-  <add sel="//ware[@id='tie_defender']">
+
+  <!-- add ship and equipment ownership -->
+  <add sel="//ware[@id='tie_fighter']/owner[@faction='ascendancy']" pos="before">
     <owner faction="bankingclan" />
   </add>
-  <add sel="//ware[@id='customs_corvette']">
+  <add sel="//ware[@id='tie_brute']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_fighter_van']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_interceptor']/owner[@faction='kuat']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_interceptor_rg']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_advanced']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_phantom']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_defender']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_scimitar']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_striker']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_bomber']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='tie_shuttle']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='imp_probe_droid']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='theta']/owner[@faction='corporate']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='lambda_shuttle']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='berea_shuttle']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='berea_shuttle_gas']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='customs_corvette']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='impgozanti_at']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='impgozanti_cr']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='raider']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='acclamator1']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='quasar_imp']/owner[@faction='anoat']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='heraklon_solid']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='heraklon_liquid']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='vsd2']/owner[@faction='corporate']" pos="before">
     <owner faction="bankingclan" />
   </add>
   <add sel="//ware[@id='vindicator']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='enforcer']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='immobilizer_418']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='imp_light_cruiser']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='imp_cruiser_546']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='arrestor_cruiser']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='neutronstar_builder']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='lancerfrigate']/owner[@faction='kuat']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='isd_1']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='isd_2']/comment()[1]" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='ship_imperial_xxl_executer_proto']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='ship_imperial_xxl_executer']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_mining_drill']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_blaster_s_laser']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_ls1_s_laser']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_ls7_s_laser']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_ls9_s_laser']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_brute']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_nk3_s_laser']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_krupx_s_guided']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_heavyprotonlauncher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_mediumconclauncher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_protonlauncher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_mg2launcher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_mg1launcher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_hm6launcher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_light_rocket_launcher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_medium_rocket_launcher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_mg9launcher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_flexlauncher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_bomblauncher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_ts5protonlauncher']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_xx3_m_laser']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='weapon_ga60_m_laser']/owner[@faction='bountyhunters']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_sw_mining_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_sw_mining_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ag1g_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ag2g_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ag2g_green_lancer']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_h9single_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_h9single_green_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_h9dual_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_h9dual_green_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_xx9single_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_xx9dual_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_octuple_turbolaser_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_station_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_doublelr_turbolaser_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_doublelr_turbolaser546_green']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_double_turbolaser_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_quadkdd_turbolaser_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ion_nk7']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ion_nk5']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ion_nk7_ball']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_double_ionsv200']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_llaser_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_llaser_green_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_duallaser_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_duallaser_green_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_quadlaser_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_quadlaser_green_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_quadlaserlancer_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_quadlaserlancer_green_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ltbdual_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ltbdual_green_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ltbquad_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_ltbquad_green_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_mtbdualven_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_mtbdual_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_flak_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_mtbquad_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_mtbsingle_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_s_lambda']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_vcx100_shorttractor']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_tractor_heavy']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_arrestor_dish']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_gravity_well']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_conctube']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_conctubelight']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_torptube']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_s_imp_exe_quad_tl_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_m_imp_exe_tri_ball_ic']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_imp_exe_single_ion_ball']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_imp_exe_quad_ball_01_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_imp_exe_quad_ball_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_l_imp_exe_quad_tl_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_xl_imp_exe_dual_tl_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='turret_xl_imp_bella_dual_tl_green']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_incom']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_incomh']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_tie']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_tiehd']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_tiesilencer']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_lambda']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_berea']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_theta']/owner[@faction='corporate']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_gozanti_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_rendili_isd']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_imperial_executer']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_vindicator']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_kontos']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_imp_light_cruiser']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_lancerfrigate']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_546']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_generic_red']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_genericdr_red']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_s_starslinger']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_s_starscreamer']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_m_gg0']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_raider']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_imp_m_travel']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_imp_m_combat']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_ml_ter80']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_ml_galaxy15']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_l_starliner']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_neutron']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_l_gemon4']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_l_imp_acc']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_xl_igt10']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_xl_destroyeri']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_mc75']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_xl_destroyerii']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_xl_goliath']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='engine_harrower']">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_l_station_imp']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_gnkastro']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_p12']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_novaldex40']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_novaldex45']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_quintadq2']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_cec1077']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_auxtie']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_novaldex60']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_r4astro']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_s_q7astro']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_m_novaldexga21_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_m_novaldexga21_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_m_novaldexga30_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_m_novaldexga30_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_m_cec500x_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_m_cec500x_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_m_kuatrc_01']/owner[@faction='kuat']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_m_kuatrc_02']/owner[@faction='kuat']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_ll_dz9']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_ll_440palisade']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_ll_kuat680']/owner[@faction='kuat']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_light_l_imp']/owner[@faction='kuat']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_lh_880palisade']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_lh_tablyvb']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_lh_kuat900']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_lh_kontos']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_xll_afdoublestrobe']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_xlh_tabgyvx']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_xl_isd_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_xl_isd_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_lh_vsd']/owner[@faction='corporate']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_imperial_xxl_executer_ship']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='shield_imperial_xxl_executer_component']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='buildmodule_sw_ship_xxl']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='module_imp_equip_dockarea_m_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='module_imp_build_dockarea_m_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='module_imp_equip_dockarea_m_01_new']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='module_imp_build_dockarea_m_01_new']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='module_storage_liquid_imperial_tradestation']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='module_imperial_tradestation_dock_ms']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='module_imperial_tradestation_habitat']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='hab_imp_l_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='hab_imp_m_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='hab_imp_s_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_l_container_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_m_container_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_s_container_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_l_liquid_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_m_liquid_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_s_liquid_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_l_solid_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_m_solid_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='storage_imp_s_solid_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='dockarea_imp_m_station_01_hightech']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='struct_imp_base_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='struct_imp_base_02_']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='struct_imp_base_03']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='struct_imp_cross_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='struct_imp_vertical_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='struct_imp_vertical_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='pier_imp_harbor_01']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='pier_imp_harbor_02']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='pier_imp_harbor_03']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='pier_imp_harbor_04']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='pier_imp_harbor']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='prod_imp_claytronics']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='prod_imp_energycells']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='prod_imp_foodrations']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='prod_imp_hullparts']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='prod_imp_meat']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='prod_imp_medicalsupplies']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='prod_imp_advancedelectronics']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='prod_imp_wheat']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='defence_imp_tube_01']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='defence_imp_disc_01']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='defence_imp_trade']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='defence_imp_claim_02']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='defence_imp_claim_ring']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='buildmodule_imp_ships_l']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='buildmodule_imp_ships_xl']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='buildmodule_imp_equip_l']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="//ware[@id='buildmodule_imp_equip_xl']/owner[@faction='sienar']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="/diff/add[@sel='/wares'][2]/ware[@id='prod_imp_shipsupplies']/owner[@faction='ascendancy']" pos="before">
+    <owner faction="bankingclan" />
+  </add>
+  <add sel="/diff/add[@sel='/wares'][2]/ware[@id='prod_imp_rhydoniumcell']/owner[@faction='ascendancy']" pos="before">
     <owner faction="bankingclan" />
   </add>
 </diff>

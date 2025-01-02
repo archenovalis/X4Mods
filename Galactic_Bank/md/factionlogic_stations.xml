@@ -19,7 +19,7 @@ $RelevantSectors.count"
           chance="$DebugChance" context="false" />
         <set_value name="$PreferredSectors" exact="[]" /> -->
 
-  <add sel="//set_value[@name='$PreferredSectors']">
+  <add sel="//set_value[@name='$PreferredSectors']" pos="after">
     <!-- BEGIN Banking Clan's Vault -->
     <do_if value="$Faction == faction.bankingclan">
 
