@@ -1,3 +1,4 @@
 {
-  "filetypes": [".xml", ".txt", ".tga"]
+  "filetypes": [".xml", ".txt", ".tga"],
+  "exclude": ["DEV_"]
 }
