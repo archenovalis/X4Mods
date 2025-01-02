@@ -11,8 +11,11 @@
   <attention min="unknown">
     <actions>
       <label name="newRoute" />
-
-      <find_station_by_true_owner name="$stations" faction="this.trueowner" space="player.galaxy" checkoperational="true" multiple="true" append="true" />
+      <find_station_by_true_owner name="$stations" faction="faction.bankingclan" space="player.galaxy" functional="true" multiple="true" append="true" />
+      <do_if value="$stations == [] or $stations.count lt 2">
+        <wait exact="10s" />
+        <resume label="newRoute" />
+      </do_if>
       <set_value name="$stationA" exact="$stations.random" />
       <remove_from_list name="$stations" exact="$stationA" />
       <set_value name="$stationB" exact="$stations.random" />
@@ -21,7 +24,7 @@
       <label name="continueRoute" />
 
       <!-- Travel to the station -->
-      <set_value name="$wait" min="5m" max="15m" />
+      <set_value name="$wait" min="2m" max="10m" />
       <create_order id="'DockAndWait'" object="this.ship" immediate="true">
         <param name="destination" value="$currentStation" />
         <param name="waittime" value="$wait" />
@@ -29,8 +32,6 @@
         <!-- <param name="internalorder" value="$internalorder" />
         <param name="debugchance" value="$debugchance" /> -->
       </create_order>
-
-      <wait min="60s" max="300s" />
 
       <!-- Change Route? -->
       <set_value name="$new" exact="true" chance="10" />
@@ -49,7 +50,7 @@
         </do_else>
 
         <!-- Verify destination -->
-        <find_station_by_true_owner name="$check" faction="this.trueowner" space="$currentStation.sector" functional="true" />
+        <find_station_by_true_owner name="$check" faction="faction.bankingclan" space="$currentStation.sector" functional="true" />
         <do_if value="$check.count gt 0">
           <resume label="continueRoute" />
         </do_if>

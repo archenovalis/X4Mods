@@ -3,7 +3,7 @@
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="//plans">
     <plan id="vault_bankingclan" name="{20777,1002} {20777,1004}"
-      description="">
+      description="" tags="vault">
       <patches>
         <patch extension="SW Interworlds" version="83" name="SW Interworlds" />
       </patches>

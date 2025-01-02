@@ -63,6 +63,7 @@
       </ship>
       <subordinates>
         <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
       </subordinates>
     </job>
 
@@ -84,6 +85,7 @@
         <owner exact="bankingclan" overridenpc="true" />
       </ship>
       <subordinates>
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
         <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
       </subordinates>
     </job>

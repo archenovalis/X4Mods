@@ -20,6 +20,7 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
 - [SW Interworlds](https://sites.google.com/view/swinterworlds/Home)
 
 ## Planned Features
+- Bank Loans (collateral requirement based on relations, fear the repo man)
 - Lootboxes drop when destroying vaults
 - Closed Bank Offices
 Branch offices will only be in stations owned by major factions with a functioning branch vault station.
@@ -73,3 +74,4 @@ at -10 relation, bank confiscates money, closes account, hires bounty hunters to
 (0.81,0.82,0.83, 0.84) bug fixes
 (0.84) vault no longer produces food or stores solids, now uses vault modules
 (0.85) reworked bank office logic and updated wares for aiscript
+(0.86) updated bank transport aiscript and factionlogic_stations

@@ -5,12 +5,10 @@
     <properties>
       <identification name="'{20777,1006} {20777,1004}'"
         icon="mapob_bankingclan_vault"
-        factionhqicon="mapob_bankingclan_vaulthq" hudicon="si_bankingclan_vault"
-        race="bankingclan" type="tradestation" />
+        factionhqicon="mapob_bankingclan_vaulthq" hudicon="si_bankingclan_vault" type="factory" />
       <build>
         <sets>
-          <set ref="vault" />
-          <set ref="factory" />
+          <set ref="branchvault" />
         </sets>
       </build>
     </properties>

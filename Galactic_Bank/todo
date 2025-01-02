@@ -1,12 +1,15 @@
 # Issues
-- What happens when a vault's sector changes ownership?
+- What happens when a vault's sector changes ownership? dismantle station if new owner already has station?
+
+# Loans
+- Bank Loans (collateral requirement based on relations, fear the repo man)
 
 # modifications
 - galactic bank branch offices only when vault is operational
   - $MajorFactionList.{$vault.sector.owner} to false when a vault is not operational.
   - $MajorFactionList.{$vault.sector.owner} to true when rebuilt station isoperational.
 
-# new features
+# Piracy
 - add credit loot boxes for destroyed vaults (solid storage modules)
 add drop to component macro? check if component destroyed?
 
