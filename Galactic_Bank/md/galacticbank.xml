@@ -2,7 +2,7 @@
 <mdscript name="GalacticBankTest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="Vault" namespace="this" version="1">
+		<cue name="Vault" namespace="this" version="2">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -41,14 +41,20 @@
 				<!--
           Vault.$Accounts = table[
             {$faction} = table[
-							$balance = (float)ct,
+							$balance = (int)ct,
 							$fee = float,
 							$rate = float,
 							$period = time,
 							$interest_time = time,
 							$undockedFee = float,
 							$inheritanceTax = float,
-							$closed = bool
+							$closed = bool,
+							$relation = float,
+							$loan_interest = [float],
+							$loan_period = [time],
+							$loan_ammount = float,
+							$loan_collateral = [float],
+							$collateral = [ships]
             ]
           ]
         -->
@@ -186,7 +192,11 @@
 					{faction.anoat} = true,
 					{faction.mandodw} = true
 				]" />
+
 			</actions>
+			<patch sinceversion="2">
+				<set_value name="$SetupComplete" exact="false" />
+			</patch>
 			<cues>
 				<cue name="Init">
 					<conditions>
@@ -224,308 +234,312 @@
 								</do_for_each>
 
 								<!-- Setup Banking Clan-->
-								<set_space_faction_logic_allowed space="player.galaxy" allow="true" />
 								<set_faction_relation_locked faction="faction.bankingclan" locked="false" />
+
 								<!-- set faction relations -->
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.anoat"
-									value="0.2" />
-								<set_faction_relation faction="faction.anoat"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.mandodw"
-									value="0.2" />
-								<set_faction_relation faction="faction.mandodw"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.huttcartel"
-									value="0.2" />
-								<set_faction_relation faction="faction.huttcartel"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.corporate"
-									value="0.2" />
-								<set_faction_relation faction="faction.corporate"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.commerceguild"
-									value="0.2" />
-								<set_faction_relation faction="faction.commerceguild"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.rebelalliance"
-									value="0.2" />
-								<set_faction_relation faction="faction.rebelalliance"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.newrepublic"
-									value="0.2" />
-								<set_faction_relation faction="faction.newrepublic"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.ascendancy"
-									value="0.2" />
-								<set_faction_relation faction="faction.ascendancy"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.sith"
-									value="0.2" />
-								<set_faction_relation faction="faction.sith"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.galempire"
-									value="0.2" />
-								<set_faction_relation faction="faction.galempire"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.sienar"
-									value="0.2" />
-								<set_faction_relation faction="faction.sienar"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.blacksun"
-									value="-0.1" />
-								<set_faction_relation faction="faction.blacksun"
-									otherfaction="faction.bankingclan"
-									value="-0.1" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.valarian"
-									value="-0.1" />
-								<set_faction_relation faction="faction.valarian"
-									otherfaction="faction.bankingclan"
-									value="-0.1" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.mandoraiders"
-									value="-0.1" />
-								<set_faction_relation faction="faction.mandoraiders"
-									otherfaction="faction.bankingclan"
-									value="-0.1" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.huttpirates"
-									value="-0.1" />
-								<set_faction_relation faction="faction.huttpirates"
-									otherfaction="faction.bankingclan"
-									value="-0.1" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.hapes"
-									value="-0.1" />
-								<set_faction_relation faction="faction.hapes"
-									otherfaction="faction.bankingclan"
-									value="-0.1" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.transgalmeg"
-									value="0.2" />
-								<set_faction_relation faction="faction.transgalmeg"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.rendili"
-									value="0.2" />
-								<set_faction_relation faction="faction.rendili"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.naboo"
-									value="0.2" />
-								<set_faction_relation faction="faction.naboo"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.moncal"
-									value="0.2" />
-								<set_faction_relation faction="faction.moncal"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.kuat"
-									value="0.2" />
-								<set_faction_relation faction="faction.kuat"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.kamino"
-									value="0.2" />
-								<set_faction_relation faction="faction.kamino"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.incom"
-									value="0.2" />
-								<set_faction_relation faction="faction.incom"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.tagge"
-									value="0.2" />
-								<set_faction_relation faction="faction.tagge"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.tradefederation"
-									value="0.2" />
-								<set_faction_relation faction="faction.tradefederation"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.baobab"
-									value="0.2" />
-								<set_faction_relation faction="faction.baobab"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.twinsuns"
-									value="0.2" />
-								<set_faction_relation faction="faction.twinsuns"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.indibhg"
-									value="0.2" />
-								<set_faction_relation faction="faction.indibhg"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.corellia"
-									value="0.2" />
-								<set_faction_relation faction="faction.corellia"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
-								<set_faction_relation faction="faction.bankingclan"
-									otherfaction="faction.hoersh"
-									value="0.2" />
-								<set_faction_relation faction="faction.hoersh"
-									otherfaction="faction.bankingclan"
-									value="0.2" />
+								<do_if value="true">
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.anoat"
+										value="0.2" />
+									<set_faction_relation faction="faction.anoat"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.mandodw"
+										value="0.2" />
+									<set_faction_relation faction="faction.mandodw"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.huttcartel"
+										value="0.2" />
+									<set_faction_relation faction="faction.huttcartel"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.corporate"
+										value="0.2" />
+									<set_faction_relation faction="faction.corporate"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.commerceguild"
+										value="0.2" />
+									<set_faction_relation faction="faction.commerceguild"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.rebelalliance"
+										value="0.2" />
+									<set_faction_relation faction="faction.rebelalliance"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.newrepublic"
+										value="0.2" />
+									<set_faction_relation faction="faction.newrepublic"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.ascendancy"
+										value="0.2" />
+									<set_faction_relation faction="faction.ascendancy"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.sith"
+										value="0.2" />
+									<set_faction_relation faction="faction.sith"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.galempire"
+										value="0.2" />
+									<set_faction_relation faction="faction.galempire"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.sienar"
+										value="0.2" />
+									<set_faction_relation faction="faction.sienar"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.blacksun"
+										value="-0.1" />
+									<set_faction_relation faction="faction.blacksun"
+										otherfaction="faction.bankingclan"
+										value="-0.1" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.valarian"
+										value="-0.1" />
+									<set_faction_relation faction="faction.valarian"
+										otherfaction="faction.bankingclan"
+										value="-0.1" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.mandoraiders"
+										value="-0.1" />
+									<set_faction_relation faction="faction.mandoraiders"
+										otherfaction="faction.bankingclan"
+										value="-0.1" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.huttpirates"
+										value="-0.1" />
+									<set_faction_relation faction="faction.huttpirates"
+										otherfaction="faction.bankingclan"
+										value="-0.1" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.hapes"
+										value="-0.1" />
+									<set_faction_relation faction="faction.hapes"
+										otherfaction="faction.bankingclan"
+										value="-0.1" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.transgalmeg"
+										value="0.2" />
+									<set_faction_relation faction="faction.transgalmeg"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.rendili"
+										value="0.2" />
+									<set_faction_relation faction="faction.rendili"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.naboo"
+										value="0.2" />
+									<set_faction_relation faction="faction.naboo"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.moncal"
+										value="0.2" />
+									<set_faction_relation faction="faction.moncal"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.kuat"
+										value="0.2" />
+									<set_faction_relation faction="faction.kuat"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.kamino"
+										value="0.2" />
+									<set_faction_relation faction="faction.kamino"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.incom"
+										value="0.2" />
+									<set_faction_relation faction="faction.incom"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.tagge"
+										value="0.2" />
+									<set_faction_relation faction="faction.tagge"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.tradefederation"
+										value="0.2" />
+									<set_faction_relation faction="faction.tradefederation"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.baobab"
+										value="0.2" />
+									<set_faction_relation faction="faction.baobab"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.twinsuns"
+										value="0.2" />
+									<set_faction_relation faction="faction.twinsuns"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.indibhg"
+										value="0.2" />
+									<set_faction_relation faction="faction.indibhg"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.corellia"
+										value="0.2" />
+									<set_faction_relation faction="faction.corellia"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+									<set_faction_relation faction="faction.bankingclan"
+										otherfaction="faction.hoersh"
+										value="0.2" />
+									<set_faction_relation faction="faction.hoersh"
+										otherfaction="faction.bankingclan"
+										value="0.2" />
+								</do_if>
 
 								<!-- Create Stations -->
-								<create_position name="$Position" max="20km" />
-								<set_value name="$Y_Position" min="-5km" max="5km" />
-								<set_value name="$Position" exact="position.[$Position.x, $Y_Position, $Position.z]" />
-								<find_sector name="$sector" macro="macro.swi_clusterscipio_sector001_macro" />
-								<create_station rawname="'{20777,1001} {20777,1005} - {20777,1003} {20777,1004}'"
-									state="componentstate.operational"
-									encyclopedia="true"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_mainvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_faction_headquarters faction="faction.bankingclan" station="$station" />
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<set_value name="$name"
-									exact="'{20777,1001} {20777,1005} - {20777,1006} {20777,1004}'" />
-								<find_sector name="$sector" macro="macro.swi_clusterbastion_sector001_macro" />
-								<create_station rawname="$name" state="componentstate.operational"
-									encyclopedia="true"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<find_sector name="$sector" macro="macro.swi_clustereriadu_sector001_macro" />
-								<create_station rawname="$name" state="componentstate.operational"
-									encyclopedia="false"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<find_sector name="$sector" macro="macro.swi_clustercoruscant_sector001_macro" />
-								<create_station rawname="$name" state="componentstate.operational"
-									encyclopedia="false"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<find_sector name="$sector" macro="macro.swi_clustercantonica_sector001_macro" />
-								<create_station rawname="$name" state="componentstate.operational"
-									encyclopedia="false"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<find_sector name="$sector" macro="macro.swi_clusterhypori_sector001_macro" />
-								<create_station rawname="$name" state="componentstate.operational"
-									encyclopedia="false"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<find_sector name="$sector" macro="macro.swi_clusternarshadda_sector001_macro" />
-								<create_station rawname="$name" state="componentstate.operational"
-									encyclopedia="false"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<find_sector name="$sector" macro="macro.swi_clusteranpath_sector001_macro" />
-								<create_station rawname="$name" state="componentstate.operational"
-									encyclopedia="false"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<find_sector name="$sector" macro="macro.swi_clustermandalore_sector001_macro" />
-								<create_station rawname="$name" state="componentstate.operational"
-									encyclopedia="false"
-									name="$station"
-									sector="$sector"
-									owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-									constructionplan="'vault_bankingclan'">
-									<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
-								</create_station>
-								<set_loadout_level object="$station" exact="0.9" />
-								<signal_objects object="player.galaxy" param="'init station'" param2="$station"
-									param3="false" />
-								<remove_value name="$sector" />
-								<remove_value name="$station" />
+								<do_if value="false">
+									<create_position name="$Position" max="20km" />
+									<set_value name="$Y_Position" min="-5km" max="5km" />
+									<set_value name="$Position" exact="position.[$Position.x, $Y_Position, $Position.z]" />
+									<find_sector name="$sector" macro="macro.swi_clusterscipio_sector001_macro" />
+									<create_station rawname="'{20777,1001} {20777,1005} - {20777,1003} {20777,1004}'"
+										state="componentstate.operational"
+										encyclopedia="true"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_mainvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_faction_headquarters faction="faction.bankingclan" station="$station" />
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<set_value name="$name"
+										exact="'{20777,1001} {20777,1005} - {20777,1006} {20777,1004}'" />
+									<find_sector name="$sector" macro="macro.swi_clusterbastion_sector001_macro" />
+									<create_station rawname="$name" state="componentstate.operational"
+										encyclopedia="true"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<find_sector name="$sector" macro="macro.swi_clustereriadu_sector001_macro" />
+									<create_station rawname="$name" state="componentstate.operational"
+										encyclopedia="false"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<find_sector name="$sector" macro="macro.swi_clustercoruscant_sector001_macro" />
+									<create_station rawname="$name" state="componentstate.operational"
+										encyclopedia="false"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<find_sector name="$sector" macro="macro.swi_clustercantonica_sector001_macro" />
+									<create_station rawname="$name" state="componentstate.operational"
+										encyclopedia="false"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<find_sector name="$sector" macro="macro.swi_clusterhypori_sector001_macro" />
+									<create_station rawname="$name" state="componentstate.operational"
+										encyclopedia="false"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<find_sector name="$sector" macro="macro.swi_clusternarshadda_sector001_macro" />
+									<create_station rawname="$name" state="componentstate.operational"
+										encyclopedia="false"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<find_sector name="$sector" macro="macro.swi_clusteranpath_sector001_macro" />
+									<create_station rawname="$name" state="componentstate.operational"
+										encyclopedia="false"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<find_sector name="$sector" macro="macro.swi_clustermandalore_sector001_macro" />
+									<create_station rawname="$name" state="componentstate.operational"
+										encyclopedia="false"
+										name="$station"
+										sector="$sector"
+										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
+										constructionplan="'vault_bankingclan'">
+										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
+									</create_station>
+									<set_loadout_level object="$station" exact="0.9" />
+									<signal_objects object="player.galaxy" param="'init station'" param2="$station"
+										param3="false" />
+									<remove_value name="$sector" />
+									<remove_value name="$station" />
+								</do_if>
 
 								<!-- Complete -->
 								<set_value name="$SetupComplete" exact="true" />
@@ -871,6 +885,9 @@
 						<set_value name="$Account" exact="$Accounts.{$Faction}" />
 						<set_value name="$Rate" exact="$Account.$rate" />
 						<set_value name="$Period" exact="$Account.$period" />
+						<set_value name="$Deposit_amount" exact="0" />
+						<set_value name="$Withdraw_amount" exact="0" />
+						<set_value name="$Interest_amount" exact="0" />
 
 						<!-- set withdrawal fee -->
 						<set_value name="$Fee" exact="if $vault then 0 else $Account.$fee" />
@@ -879,7 +896,7 @@
 						<!-- update interest -->
 						<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 						<do_if value="$timeSinceInterest> 1">
-							<set_value name="$Interest_amount" exact="$Account.$balance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+							<set_value name="$Interest_amount" exact="($Account.$balance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 							<set_value name="$Account.$balance" exact="$Account.$balance + $Interest_amount" />
 							<set_value name="$Account.$interest_time" exact="player.age" />
 						</do_if>
@@ -955,7 +972,7 @@
 										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 											$col=1,
 											$halign='right',
-											$text=$Interest_amount+'Cr'
+											$text=$Interest_amount/100+'Cr'
 										]" />
 									</do_if>
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -1006,83 +1023,100 @@
 									</do_if>
 								</do_else>
 							</actions>
-							<cues>
-								<!-- sliders -->
-								<cue name="Bank_Menu_Deposit_Amount" instantiate="true">
-									<conditions>
-										<event_cue_signalled />
-									</conditions>
-									<actions>
-										<set_value name="$Deposit_amount" exact="event.param.$value" />
-										<cancel_cue cue="this" />
-									</actions>
-								</cue>
-								<cue name="Bank_Menu_Withdraw_Amount" instantiate="true">
-									<conditions>
-										<event_cue_signalled />
-									</conditions>
-									<actions>
-										<set_value name="$Withdraw_amount" exact="event.param.$value" />
-										<cancel_cue cue="this" />
-									</actions>
-								</cue>
+						</cue>
+						<!-- sliders -->
+						<cue name="Bank_Menu_Deposit_Amount" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$Deposit_amount" exact="event.param.$value" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
+						<cue name="Bank_Menu_Withdraw_Amount" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$Withdraw_amount" exact="event.param.$value" />
+								<cancel_cue cue="this" />
+							</actions>
+						</cue>
 
-								<!-- actions -->
-								<cue name="Bank_Menu_Deposit" instantiate="true">
-									<conditions>
-										<event_cue_signalled />
-									</conditions>
-									<actions>
-										<set_value name="$Account" exact="$Accounts.{$Faction}" />
-										<do_if value="player.money ge ($Deposit_amount)Cr">
-											<do_if value="$Account.$balance == 0">
-												<set_value name="$Account.$interest_time" exact="player.age" />
-											</do_if>
-											<do_else>
-												<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
-												<set_value name="$Account.$interest_time" exact="player.age" />
-												<set_value name="$Interest_amount" exact="$Account.$balance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
-											</do_else>
-											<reward_player money="($Deposit_amount)Cr * -1" />
-											<set_value name="$Account.$balance" operation="add" exact="($Deposit_amount)Cr + $Interest_amount" />
-											<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-											<signal_cue_instantly cue="Bank_Menu_Open" />
-										</do_if>
-										<do_else>
-											<cancel_cue cue="this" />
-										</do_else>
-									</actions>
-								</cue>
-								<cue name="Bank_Menu_Withdraw" instantiate="true">
-									<conditions>
-										<event_cue_signalled />
-									</conditions>
-									<actions>
-										<set_value name="$Account" exact="$Accounts.{$Faction}" />
-										<do_if value="$Account.$balance ge ($Withdraw_amount)Cr">
-											<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
-											<set_value name="$Account.$interest_time" exact="player.age" />
-											<set_value name="$Interest_amount" exact="$Account.$balance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
-											<do_if value="$Account.$balance - ($Withdraw_amount)Cr * (1+$Fee) lt 100">
-												<reward_player money="($Withdraw_amount)Cr + $Interest_amount" />
-												<set_value name="$Account.$balance" exact="0" />
-											</do_if>
-											<do_else>
-												<reward_player money="($Withdraw_amount)Cr" />
-												<set_value name="$Account.$balance" operation="add" exact="$Interest_amount - ($Withdraw_amount)Cr * (1+$Fee)" />
-											</do_else>
-											<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-											<signal_cue_instantly cue="Bank_Menu_Open" />
-										</do_if>
-										<do_else>
-											<cancel_cue cue="this" />
-										</do_else>
-									</actions>
-								</cue>
-							</cues>
+						<!-- actions -->
+						<cue name="Bank_Menu_Deposit" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$Account" exact="$Accounts.{$Faction}" />
+								<do_if value="player.money ge ($Deposit_amount)Cr">
+									<do_if value="$Account.$balance == 0">
+										<set_value name="$Account.$interest_time" exact="player.age" />
+									</do_if>
+									<do_else>
+										<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
+										<set_value name="$Account.$interest_time" exact="player.age" />
+										<set_value name="$Interest_amount" exact="($Account.$balance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+									</do_else>
+									<reward_player money="($Deposit_amount)Cr * -1" />
+									<set_value name="$Account.$balance" operation="add" exact="($Deposit_amount)Cr + $Interest_amount" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+									<signal_cue_instantly cue="Bank_Menu_Open" />
+								</do_if>
+								<do_else>
+									<cancel_cue cue="this" />
+								</do_else>
+							</actions>
+						</cue>
+						<cue name="Bank_Menu_Withdraw" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$Account" exact="$Accounts.{$Faction}" />
+								<do_if value="$Account.$balance ge ($Withdraw_amount)Cr">
+									<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
+									<set_value name="$Account.$interest_time" exact="player.age" />
+									<set_value name="$Interest_amount" exact="($Account.$balance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+									<do_if value="$Account.$balance - ($Withdraw_amount)Cr * (1+$Fee) lt 100">
+										<reward_player money="($Withdraw_amount)Cr + $Interest_amount" />
+										<set_value name="$Account.$balance" exact="0" />
+									</do_if>
+									<do_else>
+										<reward_player money="($Withdraw_amount)Cr" />
+										<set_value name="$Account.$balance" operation="add" exact="$Interest_amount - ($Withdraw_amount)Cr * (1+$Fee)" />
+									</do_else>
+									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+									<signal_cue_instantly cue="Bank_Menu_Open" />
+								</do_if>
+								<do_else>
+									<cancel_cue cue="this" />
+								</do_else>
+							</actions>
 						</cue>
 					</cues>
 				</cue>
+
+				<!-- 
+				$loan_interest = [float],
+				$loan_period = [time],
+				$loan_ammount = float,
+				$loan_collateral = [float],
+				$collateral = [ships]
+				-->
+				<!-- <cue name="Loan">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$Account" exact="$Accounts.{event.param.$faction}" />
+						<append_to_list name="$Account.$collateral"
+							exact="event.param.$ships" create="true" />
+
+					</actions>
+				</cue> -->
 
 				<!-- api -->
 				<!-- param: table[$faction = $faction, $money = $money] -->
@@ -1104,7 +1138,7 @@
 							<do_else>
 								<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 								<set_value name="$Account.$interest_time" exact="player.age" />
-								<set_value name="$Interest_amount" exact="$Account.$balance * ((1+$Account.$rate)^($timeSinceInterest / $Account.$period) - 1)" />
+								<set_value name="$Interest_amount" exact="($Account.$balance)f * ((1+$Account.$rate)^($timeSinceInterest / $Account.$period) - 1)" />
 								<set_value name="$Account.$balance" operation="add" exact="$Interest_amount" />
 							</do_else>
 							<set_value name="$Account.$balance" operation="add" exact="event.param.$money" />

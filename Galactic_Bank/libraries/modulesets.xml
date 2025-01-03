@@ -4,7 +4,7 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="/modulesets">
-    <set id="mainvault" name="'{20777,2003} {20777,2004}'" type="factory" macro="station_arg_tradestation_base_01" player="true" constructionvesselrequired="true" />
-    <set id="branchvault" name="'{20777,2006} {20777,2004}'" type="factory" macro="station_arg_tradestation_base_01" player="true" constructionvesselrequired="true" />
+    <set id="mainvault" name="'{20777,2003} {20777,2004}'" type="factory" macro="station_arg_tradestation_base_01_macro" player="true" constructionvesselrequired="true" />
+    <set id="branchvault" name="'{20777,2006} {20777,2004}'" type="factory" macro="station_arg_tradestation_base_01_macro" player="true" constructionvesselrequired="true" />
   </add>
 </diff>

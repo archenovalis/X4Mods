@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
-  <replace sel="/mdscript/cues/cue/cues/cue[@name='ReactiveApplyRepPenalty']/actions/set_value[@name='$IgnoredListofEnemies']/@exact">[faction.civilian, faction.criminal, faction.khaak, faction.smuggler, faction.visitor, faction.xenon, faction.huttpirates, faction.mandoraiders, faction.valarian, faction.blacksun, faction.naboo, faction.kuat, faction.corellia, faction.sienar, faction.hoersh, faction.rendili, faction.incom, faction.transgalmeg, faction.moncal, faction.twinsuns, faction.baobab, faction.tradefederation, faction.tagge, faction.bankingclan, faction.bountyhunters, faction.miningguild, faction.sith, faction.hapes]</replace>
-</diff>

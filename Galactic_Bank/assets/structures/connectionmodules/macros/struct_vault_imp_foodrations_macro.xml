@@ -3,10 +3,11 @@
   <macro name="struct_vault_imp_foodrations_macro" class="connectionmodule">
     <component ref="prod_ter_mre" />
     <properties>
-      <identification name="'Vault Connection'" shortname="'Vault Connection'" makerrace="bankingclan" description="'Vault Connection'" />
+      <identification name="'Vault Tower Connection'" shortname="'Vault Tower Connection'" description="'Vault Tower Connection'" />
       <build>
         <sets>
-          <set ref="vault" />
+          <set ref="mainvault" />
+          <set ref="branchvault" />
         </sets>
       </build>
       <explosiondamage value="1000" shield="5000" />

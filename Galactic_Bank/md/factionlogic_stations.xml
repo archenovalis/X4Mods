@@ -34,7 +34,7 @@
         <set_value name="$factionlist"
           exact="[faction.galempire, faction.ascendancy, faction.newrepublic, faction.commerceguild, faction.corporate, faction.huttcartel, faction.anoat, faction.mandodw]" />
         <do_all exact="$stations.count" counter="$i">
-          <remove_from_list name="$factionlist" exact="stations.{$i}.sector.owner" />
+          <remove_from_list name="$factionlist" exact="$stations.{$i}.sector.owner" />
         </do_all>
         <do_if value="$factionlist.count gt 0">
           <set_value name="$set" exact="'branchvault'" />
@@ -97,7 +97,7 @@
           space="player.galaxy" />
       </do_else>
 
-      <do_if value="not $set == null">
+      <do_if value="not ($set == null)">
         <get_module_set_macro set="$set" result="$ModuleSetMacro" />
         <do_if value="$ModuleSetMacro">
           <get_construction_plan result="$ConstructionPlan"

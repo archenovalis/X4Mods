@@ -3,11 +3,12 @@
   <macro name="storage_vault_small_macro" class="storage">
     <component ref="storage_par_s_solid_01" />
     <properties>
-      <identification name="{20777,1014} {20777, 1004}" shortname="{20777,1014} {20777, 1004}" makerrace="bankingclan" size="small" description="{20777,1016}" />
+      <identification name="{20777,1014} {20777, 1004}" shortname="{20777,1014} {20777, 1004}" size="small" description="{20777,1016}" />
       <cargo max="7250" tags="container" />
       <build>
         <sets>
-          <set ref="vault" />
+          <set ref="mainvault" />
+          <set ref="branchvault" />
         </sets>
       </build>
       <explosiondamage value="0" shield="0" />

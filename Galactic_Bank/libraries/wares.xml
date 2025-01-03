@@ -20,8 +20,8 @@
       <price min="1" average="1" max="1" />
       <icon active="ware_swi_credit" />
     </ware>
-    
-    <ware id="vault_large" name="{20777,1013} {20777, 1004}" description="{20777,1013} {20777, 1004}" transport="container" volume="1" tags="module">
+
+    <ware id="module_storage_vault_large" name="{20777,1013} {20777, 1004}" description="{20777,1013} {20777, 1004}" transport="container" volume="1" tags="module">
       <price min="625503" average="735886" max="846269" />
       <production time="582" amount="1" method="default" name="{20206,101}">
         <primary>
@@ -30,11 +30,11 @@
           <ware ware="hullparts" amount="700" />
         </primary>
       </production>
-      <component ref="vault_large_macro" amount="1" />
+      <component ref="storage_vault_large_macro" amount="1" />
       <restriction licence="station_gen_advanced" />
       <owner faction="bankingclan" />
     </ware>
-    <ware id="vault_small" name="{20777,1014} {20777, 1004}" description="{20777,1014} {20777, 1004}" transport="container" volume="1" tags="module">
+    <ware id="module_storage_vault_small" name="{20777,1014} {20777, 1004}" description="{20777,1014} {20777, 1004}" transport="container" volume="1" tags="module">
       <price min="225475" average="264088" max="302701" />
       <production time="414" amount="1" method="default" name="{20206,101}">
         <primary>
@@ -43,7 +43,20 @@
           <ware ware="hullparts" amount="248" />
         </primary>
       </production>
-      <component ref="vault_small_macro" amount="1" />
+      <component ref="storage_vault_small_macro" amount="1" />
+      <restriction licence="station_gen_intermediate" />
+      <owner faction="bankingclan" />
+    </ware>
+    <ware id="module_struct_vault_imp_foodrations" name="'Vault Tower Connection'" description="'Vault Tower Connection'" transport="container" volume="1" tags="module">
+      <price min="54125" average="63676" max="73227" />
+      <production time="38" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="claytronics" amount="10" />
+          <ware ware="energycells" amount="20" />
+          <ware ware="hullparts" amount="36" />
+        </primary>
+      </production>
+      <component ref="struct_vault_imp_foodrations_macro" amount="1" />
       <restriction licence="station_gen_intermediate" />
       <owner faction="bankingclan" />
     </ware>
