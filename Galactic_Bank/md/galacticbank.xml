@@ -879,7 +879,7 @@
 						<!-- update interest -->
 						<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 						<do_if value="$timeSinceInterest> 1">
-							<set_value name="$Interest_amount" exact="$Account.$balance * ((1+$Rate)^($timeSinceInterest / $Period))" />
+							<set_value name="$Interest_amount" exact="$Account.$balance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 							<set_value name="$Account.$balance" exact="$Account.$balance + $Interest_amount" />
 							<set_value name="$Account.$interest_time" exact="player.age" />
 						</do_if>
@@ -1045,6 +1045,8 @@
 											</do_else>
 											<reward_player money="($Deposit_amount)Cr * -1" />
 											<set_value name="$Account.$balance" operation="add" exact="($Deposit_amount)Cr + $Interest_amount" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+											<signal_cue_instantly cue="Bank_Menu_Open" />
 										</do_if>
 										<do_else>
 											<cancel_cue cue="this" />
@@ -1069,6 +1071,8 @@
 												<reward_player money="($Withdraw_amount)Cr" />
 												<set_value name="$Account.$balance" operation="add" exact="$Interest_amount - ($Withdraw_amount)Cr * (1+$Fee)" />
 											</do_else>
+											<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+											<signal_cue_instantly cue="Bank_Menu_Open" />
 										</do_if>
 										<do_else>
 											<cancel_cue cue="this" />
