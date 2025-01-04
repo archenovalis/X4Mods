@@ -227,8 +227,10 @@
 							</conditions>
 							<actions>
 								<!-- Clear old BNC ships and objects -->
-								<find_object owner="[faction.bankingclan]" space="player.galaxy"
+								<find_object owner="[faction.bankingclan]" space="player.galaxy" class="class.ship"
 									name="$objects" multiple="true" />
+								<find_object owner="[faction.bankingclan]" space="player.galaxy" class="class.station"
+									name="$objects" multiple="true" append="true" />
 								<do_for_each name="$object" in="$objects">
 									<destroy_object object="$object" />
 								</do_for_each>
@@ -421,7 +423,7 @@
 								</do_if>
 
 								<!-- Create Stations -->
-								<do_if value="false">
+								<do_if value="true">
 									<create_position name="$Position" max="20km" />
 									<set_value name="$Y_Position" min="-5km" max="5km" />
 									<set_value name="$Position" exact="position.[$Position.x, $Y_Position, $Position.z]" />
@@ -432,7 +434,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_mainvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_main'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_faction_headquarters faction="faction.bankingclan" station="$station" />
@@ -447,7 +449,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_branch'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_loadout_level object="$station" exact="0.9" />
@@ -459,7 +461,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_branch'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_loadout_level object="$station" exact="0.9" />
@@ -471,7 +473,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_branch'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_loadout_level object="$station" exact="0.9" />
@@ -483,7 +485,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_branch'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_loadout_level object="$station" exact="0.9" />
@@ -495,7 +497,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_branch'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_loadout_level object="$station" exact="0.9" />
@@ -507,7 +509,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_branch'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_loadout_level object="$station" exact="0.9" />
@@ -519,7 +521,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_branch'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_loadout_level object="$station" exact="0.9" />
@@ -531,7 +533,7 @@
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
-										constructionplan="'vault_bankingclan'">
+										constructionplan="'vault_bankingclan_branch'">
 										<safepos allowyaxis="false" value="$Position" includeplotbox="true" />
 									</create_station>
 									<set_loadout_level object="$station" exact="0.9" />

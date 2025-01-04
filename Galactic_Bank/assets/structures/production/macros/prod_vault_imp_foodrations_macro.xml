@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <macros>
-  <macro name="struct_vault_imp_foodrations_macro" class="connectionmodule">
+  <macro name="prod_vault_imp_foodrations_macro" class="production">
     <component ref="prod_ter_mre" />
     <properties>
-      <identification name="'Vault Tower Connection'" shortname="'Vault Tower Connection'" description="'Vault Tower Connection'" />
+      <identification name="'Vault Lootbox Production'" shortname="'Vault Lootbox Production'" description="'Vault Lootbox Production'" />
       <build>
         <sets>
           <set ref="mainvault" />
@@ -12,6 +12,10 @@
       </build>
       <explosiondamage value="1000" shield="5000" />
       <hull max="233000" />
+      <secrecy level="4" />
+      <production wares="bank_large_lootbox">
+        <queue ware="bank_large_lootbox" />
+      </production>
     </properties>
   </macro>
 </macros>

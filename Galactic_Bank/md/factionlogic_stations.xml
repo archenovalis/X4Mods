@@ -5,17 +5,28 @@
   <add sel="//set_value[@name='$PreferredSectors']" pos="after">
     <!-- BEGIN Banking Clan's Vault -->
     <do_if value="$Faction == faction.bankingclan">
+      <debug_text text="'begin bankingclan stations'" />
       <set_value name="$set" exact="null" />
       <set_value name="$StationDefinitions" exact="[]" />
+
       <find_station_by_true_owner name="$hq"
         macro="macro.station_bankingclan_mainvault_macro"
-        functional="true" faction="$Faction" space="player.galaxy" />
-      <do_if value="$hq == null or $hq == []">
+        faction="faction.bankingclan" space="player.galaxy" />
+      <debug_text text="'found operational hq: '+$hq" />
+      <find_station_by_true_owner name="$hq" chance="if $hq == null then 100 else 0"
+        macro="macro.station_bankingclan_mainvault_macro" checkoperational="false"
+        faction="faction.bankingclan" space="player.galaxy" state="componentstate.construction" />
+      <debug_text text="'found constructing hq: '+$hq" />
+
+      <do_if value="$hq == null">
         <set_value name="$set" exact="'mainvault'" />
+        <set_value name="$tag" exact="tag.mainvault" />
+        <set_value name="$StationMacro" exact="[macro.station_bankingclan_mainvault_macro]" />
         <find_sector name="$sector"
           macro="macro.swi_clusterscipio_sector001_macro" />
         <append_to_list name="$PreferredSectors"
           exact="$sector" />
+        <debug_text text="'found PreferredSector : '+$sector" />
         <!-- set relevant sectors -->
         <find_sector name="$RelevantSectors" multiple="true"
           owner="faction.galempire"
@@ -25,12 +36,16 @@
             owner="[faction.ascendancy, faction.newrepublic, faction.commerceguild, faction.corporate, faction.huttcartel, faction.anoat, faction.mandodw]"
             space="player.galaxy" />
         </do_if>
+        <debug_text text="'found RelevantSectors: '+$RelevantSectors" />
       </do_if>
       <do_else>
         <find_station_by_true_owner name="$stations"
           macro="macro.station_bankingclan_branchvault_macro"
-          functional="true" excluded="$hq"
-          faction="$Faction" space="player.galaxy" multiple="true" />
+          faction="faction.bankingclan" space="player.galaxy" multiple="true" />
+        <find_station_by_true_owner name="$stations" checkoperational="false"
+          macro="macro.station_bankingclan_branchvault_macro" state="componentstate.construction"
+          faction="faction.bankingclan" space="player.galaxy" multiple="true" append="true" />
+        <debug_text text="'found branches: '+$stations.count" />
         <set_value name="$factionlist"
           exact="[faction.galempire, faction.ascendancy, faction.newrepublic, faction.commerceguild, faction.corporate, faction.huttcartel, faction.anoat, faction.mandodw]" />
         <do_all exact="$stations.count" counter="$i">
@@ -38,6 +53,8 @@
         </do_all>
         <do_if value="$factionlist.count gt 0">
           <set_value name="$set" exact="'branchvault'" />
+          <set_value name="$tag" exact="tag.branchvault" />
+          <set_value name="$StationMacro" exact="[macro.station_bankingclan_branchvault_macro]" />
           <set_value name="$relevantFaction" exact="$factionlist.random" />
 
           <!-- set preferred sector -->
@@ -89,22 +106,23 @@
             <append_to_list name="$PreferredSectors"
               exact="$sector" />
           </do_elseif>
+          <debug_text text="'found PreferredSector: '+$sector" />
+          <!-- set relevant sectors -->
+          <find_sector name="$RelevantSectors" multiple="true"
+            owner="$relevantFaction"
+            space="player.galaxy" />
+          <debug_text text="'found RelevantSectors: '+$RelevantSectors" />
         </do_if>
-
-        <!-- set relevant sectors -->
-        <find_sector name="$RelevantSectors" multiple="true"
-          owner="$relevantFaction"
-          space="player.galaxy" />
       </do_else>
 
       <do_if value="not ($set == null)">
         <get_module_set_macro set="$set" result="$ModuleSetMacro" />
+        <debug_text text="'found ModuleSetMacro: '+$set" />
         <do_if value="$ModuleSetMacro">
           <get_construction_plan result="$ConstructionPlan"
             rawname="$ConstructionPlanName"
-            faction="$Faction" tags="tag.vault" />
-          <append_to_list name="$StationDefinitions"
-            exact="[$ConstructionPlan, $ConstructionPlanName]" />
+            faction="$Faction" tags="$tag" />
+          <debug_text text="'found '+$ConstructionPlanName+': '+$ConstructionPlan" />
         </do_if>
 
         <do_if value="$PastStationMaxScoreTableOverrides.$IsTradeStation?">
@@ -121,10 +139,10 @@
                                $WasWharf = 0.25f]" />
         </do_else>
 
-        <do_if value="$StationDefinitions.count">
-          <debug_text
-            text="$DebugText + 'Faction is capable of constructing a trade station. Will now search for a location'"
-            chance="$DebugChance" context="false" />
+        <debug_text text="'Macro '+$StationMacro.count" />
+
+        <do_if value="$StationMacro.count gt 0">
+          <debug_text text="'Building '+$StationMacro" />
 
           <run_actions ref="Find_Location_And_Build_Station" result="$NewStations">
             <!--Faction params-->
@@ -136,8 +154,8 @@
             <param name="PreferredSectors" value="$PreferredSectors" />
 
             <!--Station params-->
-            <param name="NumStations" value="$StationDefinitions.count" />
-            <param name="StationDefinitions" value="$StationDefinitions" />
+            <param name="NumStations" value="1" />
+            <param name="StationDefinitions" value="$StationMacro" />
             <param name="ModuleSetMacro" value="$ModuleSetMacro" />
             <!--TODO @Owen base the loadout level on the sector / station type-->
             <param name="LoadoutLevel" value="1" />

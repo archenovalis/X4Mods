@@ -1,20 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<aiscript name="order.sw.bank.transport"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="1">
-  <order id="SWBankTransport" name="{20777, 1001} {20777, 1005} {20777, 1008}" description="{20777, 1012}" category="internal" infinite="true" />
+<aiscript name="order.sw.bank.transport" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="2">
+  <order id="SWBankTransport" name="{20777, 1001} {20777, 1005} {20777, 1008}" description="{20777, 1012}" category="internal" allowinloop="false" infinite="true">
+    <params>
+      <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
+        <input_param name="truevalue" value="100" />
+      </param>
+    </params>
+  </order>
+
+  <interrupts>
+    <handler comment="unable to continue. finish.">
+      <conditions>
+        <event_object_changed_true_owner object="this.ship" check="false" />
+      </conditions>
+      <actions>
+        <debug_text text="'unable to continue. event: %s. cleaning up.'.[event.name]" chance="$debugchance" />
+        <abort_called_scripts resume="finish" />
+      </actions>
+    </handler>
+  </interrupts>
 
   <init>
-    <set_order_syncpoint_reached order="this.ship.order" />
+
   </init>
 
   <attention min="unknown">
     <actions>
-      <label name="newRoute" />
-      <find_station_by_true_owner name="$stations" faction="faction.bankingclan" space="player.galaxy" functional="true" multiple="true" append="true" />
-      <do_if value="$stations == [] or $stations.count lt 2">
-        <wait exact="10s" />
-        <resume label="newRoute" />
+      <label name="init" />
+      <debug_text text="'starting new route from '+this.sector.name" />
+      <set_value name="$stations" exact="[]" />
+      <find_station_by_true_owner name="$stations" multiple="true" append="true"
+        macro="macro.station_bankingclan_branchvault_macro"
+        faction="faction.bankingclan" space="player.galaxy" />
+      <debug_text text="'found operational branches: '+$stations.count" />
+      <find_station_by_true_owner name="$stationsC" multiple="true" append="true" checkoperational="false"
+        macro="macro.station_bankingclan_branchvault_macro" state="componentstate.construction"
+        faction="faction.bankingclan" space="player.galaxy" />
+      <do_if value="$stationsC.count gt 0">
+        <append_to_list name="$stations" exact="$stationsC" />
+        <debug_text text="'found constructing branches: '+$stationsC.count" />
+      </do_if>
+      <find_station_by_true_owner name="$hq" multiple="true" append="true"
+        macro="macro.station_bankingclan_mainvault_macro"
+        faction="faction.bankingclan" space="player.galaxy" />
+      <do_if value="$hq.count gt 0">
+        <append_to_list name="$stations" exact="$hq" />
+        <debug_text text="'found operational hq: '+$hq.count" />
+      </do_if>
+      <debug_text text="'found operational hq: '+$hq.count" />
+      <find_station_by_true_owner name="$hqC" multiple="true" append="true" checkoperational="false"
+        macro="macro.station_bankingclan_mainvault_macro" state="componentstate.construction"
+        faction="faction.bankingclan" space="player.galaxy" />
+      <do_if value="$hqC.count gt 0">
+        <append_to_list name="$stations" exact="$hqC" />
+        <debug_text text="'found constructing hq: '+$hqC.count" />
+      </do_if>
+      <debug_text text="'found constructing hq: '+$hq.count" />
+      <debug_text text="'found hq: '+$stations.count" />
+      <do_if value="$stations == null or $stations.count lt 2">
+        <debug_text text="'waiting'" />
+        <wait exact="100ms" resume="true" />
+        <debug_text text="'resuming'" />
+        <resume label="init" />
       </do_if>
       <set_value name="$stationA" exact="$stations.random" />
       <remove_from_list name="$stations" exact="$stationA" />
@@ -22,6 +69,7 @@
       <set_value name="$currentStation" exact="$stationA" />
 
       <label name="continueRoute" />
+      <debug_text text="'continueRoute between: '+$stationA+' and '+$stationB+' next: '+$currentStation" />
 
       <!-- Travel to the station -->
       <set_value name="$wait" min="2m" max="10m" />
@@ -32,16 +80,18 @@
         <!-- <param name="internalorder" value="$internalorder" />
         <param name="debugchance" value="$debugchance" /> -->
       </create_order>
+      <debug_text text="'docked'" />
 
       <!-- Change Route? -->
       <set_value name="$new" exact="true" chance="10" />
       <do_if value="$new">
         <set_value name="$new" exact="false" />
-        <resume label="newRoute" />
+        <resume label="init" />
       </do_if>
 
       <do_else>
         <!-- Toggle destination -->
+        <debug_text text="'toggle destination'" />
         <do_if value="$currentStation == $stationA">
           <set_value name="$currentStation" exact="$stationB" />
         </do_if>
@@ -52,12 +102,25 @@
         <!-- Verify destination -->
         <find_station_by_true_owner name="$check" faction="faction.bankingclan" space="$currentStation.sector" functional="true" />
         <do_if value="$check.count gt 0">
+          <debug_text text="'destination found'" />
           <resume label="continueRoute" />
         </do_if>
         <do_else>
-          <resume label="newRoute" />
+          <debug_text text="'destination destroyed'" />
+          <resume label="init" />
         </do_else>
       </do_else>
+
+      <resume label="init" />
+      <label name="finish" />
+      <set_order_syncpoint_reached order="this.ship.order" />
+
     </actions>
   </attention>
+
+  <on_abort>
+    <do_if value="this.ship.isoperational">
+      <create_order object="this.ship" id="'SWBankTransport'" default="true" />
+    </do_if>
+  </on_abort>
 </aiscript>

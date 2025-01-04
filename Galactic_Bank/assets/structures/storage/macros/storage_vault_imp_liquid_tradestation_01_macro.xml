@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<macros>
+  <macro name="storage_vault_imp_liquid_tradestation_01_macro" class="storage">
+    <component ref="storage_imp_liquid_tradestation_01" />
+    <properties>
+      <identification name="'Vault General Storage'" shortname="'Vault General Storage'" size="large" description="'Vault General Storage'" />
+      <cargo max="2000000" tags="container" />
+      <build>
+        <sets>
+          <set ref="mainvault" />
+          <set ref="branchvault" />
+        </sets>
+      </build>
+      <explosiondamage value="1000" shield="5000" />
+      <hull max="1900000" />
+      <secrecy level="3" />
+    </properties>
+  </macro>
+</macros>

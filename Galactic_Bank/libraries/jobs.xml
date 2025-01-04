@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/librariesdiff.xsd">
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/librariesdiff.xsd">
   <remove sel="//job[@id='bankingclan_techsupport_trader_m']" />
   <remove sel="//job[@id='bankingclan_bio_trader_m']" />
   <remove sel="//job[@id='bankingclan_energycell_trader_l']" />
@@ -28,7 +27,7 @@
       </orders>
       <category faction="bankingclan" tags="[factionlogic]" size="ship_l" />
       <quota galaxy="8" sector="1" />
-      <location class="galaxy" macro="swi_galaxy_macro" />
+      <location class="galaxy" macro="swi_galaxy_macro" faction="bankingclan" relation="friend" comparison="ge" matchextension="false" />
       <environment buildatshipyard="true" />
       <ship>
         <select faction="bankingclan" tags="[banking]" size="ship_l" />
@@ -38,6 +37,7 @@
         <owner exact="bankingclan" overridenpc="true" />
       </ship>
       <subordinates>
+        <subordinate job="bankingclan_transport_m" assignment="defence" />
         <subordinate job="bankingclan_transport_m" assignment="defence" />
         <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
         <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
@@ -51,7 +51,7 @@
       </orders>
       <quota galaxy="16" sector="1" />
       <category faction="bankingclan" tags="[factionlogic]" size="ship_m" />
-      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
+      <location class="galaxy" macro="swi_galaxy_macro" faction="bankingclan" relation="friend" comparison="ge" matchextension="false" />
       <environment buildatshipyard="true" />
       <modifiers subordinate="true" />
       <ship>
@@ -74,7 +74,7 @@
       </orders>
       <quota wing="2" />
       <category faction="bankingclan" tags="[factionlogic]" size="ship_m" />
-      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
+      <location class="galaxy" macro="swi_galaxy_macro" faction="bankingclan" relation="friend" comparison="ge" matchextension="false" />
       <environment buildatshipyard="true" />
       <modifiers subordinate="true" />
       <ship>
@@ -99,7 +99,7 @@
       </orders>
       <quota wing="3" />
       <category faction="galempire" tags="[military, tied]" size="ship_s" />
-      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
+      <location class="galaxy" macro="swi_galaxy_macro" faction="bankingclan" relation="friend" comparison="ge" matchextension="false" />
       <environment buildatshipyard="true" />
       <modifiers subordinate="true" />
       <ship>

@@ -13,7 +13,7 @@
       </build>
       <explosiondamage value="0" shield="0" />
       <hull max="2000000" />
-      <secrecy level="2" />
+      <secrecy level="3" />
       <drop ref="vault_large" />
     </properties>
   </macro>

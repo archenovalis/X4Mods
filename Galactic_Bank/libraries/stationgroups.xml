@@ -2,11 +2,11 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="//groups">
-    <group name="bankingclan_vault">
-      <select constructionplan="vault_bankingclan" />
+    <group name="bankingclan_vault_branch">
+      <select constructionplan="vault_bankingclan_branch" />
     </group>
-    <group name="bankingclan_vaulthq">
-      <select constructionplan="vault_bankingclan" />
+    <group name="bankingclan_vault_main">
+      <select constructionplan="vault_bankingclan_main" />
     </group>
   </add>
 </diff>
