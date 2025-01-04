@@ -2,7 +2,7 @@
 <mdscript name="GalacticBankTest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="Vault" namespace="this" version="2">
+		<cue name="Vault" namespace="this" version="4">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -194,7 +194,7 @@
 				]" />
 
 			</actions>
-			<patch sinceversion="2">
+			<patch sinceversion="4">
 				<set_value name="$SetupComplete" exact="false" />
 			</patch>
 			<cues>
