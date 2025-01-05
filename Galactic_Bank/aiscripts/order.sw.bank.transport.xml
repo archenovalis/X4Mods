@@ -9,6 +9,12 @@
   </order>
 
   <interrupts>
+    <handler ref="SectorChangeHandler" />
+    <handler ref="AttackHandler" />
+    <handler ref="MissileLockHandler" />
+    <handler ref="ScannedHandler" />
+    <handler ref="InspectedHandler" />
+    <handler ref="ResupplyHandler" />
     <handler comment="unable to continue. finish.">
       <conditions>
         <event_object_changed_true_owner object="this.ship" check="false" />
@@ -27,40 +33,45 @@
   <attention min="unknown">
     <actions>
       <label name="init" />
+      <do_if value="not this.ship.exists">
+        <debug_text text="'waiting to exist: '+this.name" />
+        <wait exact="30s" resume="true" />
+        <debug_text text="'resuming to exist'" />
+        <resume label="init" />
+      </do_if>
       <debug_text text="'starting new route from '+this.sector.name" />
-      <set_value name="$stations" exact="[]" />
-      <find_station_by_true_owner name="$stations" multiple="true" append="true"
+      <find_station_by_true_owner name="$stations" multiple="true"
         macro="macro.station_bankingclan_branchvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
-      <debug_text text="'found operational branches: '+$stations.count" />
-      <find_station_by_true_owner name="$stationsC" multiple="true" append="true" checkoperational="false"
+      <debug_text text="'found operational branches: '+$stations.count+' stationslist: '+$stations" />
+      <find_station_by_true_owner name="$stationsC" multiple="true" checkoperational="false"
         macro="macro.station_bankingclan_branchvault_macro" state="componentstate.construction"
         faction="faction.bankingclan" space="player.galaxy" />
       <do_if value="$stationsC.count gt 0">
         <append_to_list name="$stations" exact="$stationsC" />
-        <debug_text text="'found constructing branches: '+$stationsC.count" />
+        <debug_text text="'found constructing branches: '+$stationsC.count+' stationslist: '+$stationsC" />
       </do_if>
-      <find_station_by_true_owner name="$hq" multiple="true" append="true"
+      <find_station_by_true_owner name="$hq" multiple="true"
         macro="macro.station_bankingclan_mainvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
       <do_if value="$hq.count gt 0">
         <append_to_list name="$stations" exact="$hq" />
-        <debug_text text="'found operational hq: '+$hq.count" />
+        <debug_text text="'found operational hq: '+$hq.count+' stationslist: '+$hq" />
       </do_if>
-      <debug_text text="'found operational hq: '+$hq.count" />
-      <find_station_by_true_owner name="$hqC" multiple="true" append="true" checkoperational="false"
-        macro="macro.station_bankingclan_mainvault_macro" state="componentstate.construction"
-        faction="faction.bankingclan" space="player.galaxy" />
-      <do_if value="$hqC.count gt 0">
-        <append_to_list name="$stations" exact="$hqC" />
-        <debug_text text="'found constructing hq: '+$hqC.count" />
-      </do_if>
-      <debug_text text="'found constructing hq: '+$hq.count" />
-      <debug_text text="'found hq: '+$stations.count" />
+      <do_else>
+        <find_station_by_true_owner name="$hqC" multiple="true" checkoperational="false"
+          macro="macro.station_bankingclan_mainvault_macro" state="componentstate.construction"
+          faction="faction.bankingclan" space="player.galaxy" />
+        <do_if value="$hqC.count gt 0">
+          <append_to_list name="$stations" exact="$hqC" />
+          <debug_text text="'found constructing hq: '+$hqC.count+' stationslist: '+$hqC" />
+        </do_if>
+      </do_else>
+      <debug_text text="'found stations: '+$stations.count+' stationslist: '+$stations" />
       <do_if value="$stations == null or $stations.count lt 2">
-        <debug_text text="'waiting'" />
-        <wait exact="100ms" resume="true" />
-        <debug_text text="'resuming'" />
+        <debug_text text="'waiting for stations'" />
+        <wait exact="1m" resume="true" />
+        <debug_text text="'resuming for stations'" />
         <resume label="init" />
       </do_if>
       <set_value name="$stationA" exact="$stations.random" />
@@ -72,20 +83,26 @@
       <debug_text text="'continueRoute between: '+$stationA+' and '+$stationB+' next: '+$currentStation" />
 
       <!-- Travel to the station -->
-      <set_value name="$wait" min="2m" max="10m" />
-      <create_order id="'DockAndWait'" object="this.ship" immediate="true">
+      <move_to travel="true" object="this.assignedcontrolled" destination="$currentStation" />
+
+      <run_script name="'order.dock'" result="$docked">
         <param name="destination" value="$currentStation" />
-        <param name="waittime" value="$wait" />
-        <param name="callerid" value="this.assignedcontrolled.order" />
-        <!-- <param name="internalorder" value="$internalorder" />
-        <param name="debugchance" value="$debugchance" /> -->
-      </create_order>
-      <debug_text text="'docked'" />
+        <param name="dockfollowers" value="true" />
+        <param name="noattackresponse" value="true" />
+        <param name="internalorder" value="true" />
+      </run_script>
+      <do_if value="$docked">
+        <debug_text text="'docked'" />
+        <wait min="1m" max="9m" resume="true" />
+      </do_if>
+      <undock ship="this.assignedcontrolled" />
+      <debug_text text="'undocked'" />
 
       <!-- Change Route? -->
-      <set_value name="$new" exact="true" chance="10" />
-      <do_if value="$new">
-        <set_value name="$new" exact="false" />
+      <set_value name="$changeRoute" exact="false" />
+      <set_value name="$changeRoute" exact="true" chance="10" />
+      <do_if value="$changeRoute">
+        <set_value name="$changeRoute" exact="false" />
         <resume label="init" />
       </do_if>
 
@@ -101,7 +118,7 @@
 
         <!-- Verify destination -->
         <find_station_by_true_owner name="$check" faction="faction.bankingclan" space="$currentStation.sector" functional="true" />
-        <do_if value="$check.count gt 0">
+        <do_if value="$check">
           <debug_text text="'destination found'" />
           <resume label="continueRoute" />
         </do_if>
@@ -113,14 +130,14 @@
 
       <resume label="init" />
       <label name="finish" />
-      <set_order_syncpoint_reached order="this.ship.order" />
+      <set_order_syncpoint_reached order="this.assignedcontrolled.order" />
 
     </actions>
   </attention>
 
   <on_abort>
-    <do_if value="this.ship.isoperational">
-      <create_order object="this.ship" id="'SWBankTransport'" default="true" />
+    <do_if value="this.assignedcontrolled.isoperational and this.assignedcontrolled.trueowner == faction.bankingclan">
+      <create_order object="this.assignedcontrolled" id="'SWBankTransport'" default="true" />
     </do_if>
   </on_abort>
 </aiscript>

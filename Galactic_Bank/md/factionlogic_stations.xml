@@ -13,11 +13,12 @@
         macro="macro.station_bankingclan_mainvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
       <debug_text text="'found operational hq: '+$hq" />
-      <find_station_by_true_owner name="$hq" chance="if $hq == null then 100 else 0"
-        macro="macro.station_bankingclan_mainvault_macro" checkoperational="false"
-        faction="faction.bankingclan" space="player.galaxy" state="componentstate.construction" />
-      <debug_text text="'found constructing hq: '+$hq" />
-
+      <do_if value="true" chance="if $hq == null then 100 else 0">
+        <find_station_by_true_owner name="$hq"
+          macro="macro.station_bankingclan_mainvault_macro" checkoperational="false"
+          faction="faction.bankingclan" space="player.galaxy" state="componentstate.construction" />
+        <debug_text text="'found constructing hq: '+$hq" />
+      </do_if>
       <do_if value="$hq == null">
         <set_value name="$set" exact="'mainvault'" />
         <set_value name="$tag" exact="tag.mainvault" />

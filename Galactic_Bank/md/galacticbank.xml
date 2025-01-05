@@ -2,7 +2,7 @@
 <mdscript name="GalacticBankTest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="Vault" namespace="this" version="4">
+		<cue name="Vault" namespace="this" version="5">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -21,24 +21,30 @@
 				<set_value name="md.$FactionData.{faction.bankingclan}" exact="table[]" />
 				<set_value name="$BankStations" exact="table[]" />
 				<set_value name="$SetupComplete" exact="false" />
+				<set_value name="$CreateStations" exact="true" />
+				<set_value name="$CreateShips" exact="true" />
+
+				<set_value name="$RevealSectors" exact="false" />
 
 				<!-- settings affecting all accounts -->
-				<set_value name="$Fee30" exact="0" />
-				<set_value name="$Rate30" exact="0.015" />
-				<set_value name="$Period30" exact="5h" />
-				<set_value name="$Fee20" exact="0.0025" />
-				<set_value name="$Rate20" exact="0.0125" />
-				<set_value name="$Period20" exact="6h" />
-				<set_value name="$Fee10" exact="0.0025" />
-				<set_value name="$Rate10" exact="0.01" />
-				<set_value name="$Period10" exact="8h" />
-				<set_value name="$Fee0" exact="0.005" />
-				<set_value name="$Rate0" exact="0.0075" />
-				<set_value name="$Period0" exact="10h" />
-				<set_value name="$Fee9" exact="0.005" />
-				<set_value name="$Rate9" exact="0.005" />
-				<set_value name="$Period9" exact="12h" />
-				<!--
+				<do_if value="true">
+					<set_value name="$Fee30" exact="0" />
+					<set_value name="$Rate30" exact="0.015" />
+					<set_value name="$Period30" exact="5h" />
+					<set_value name="$Fee20" exact="0.0025" />
+					<set_value name="$Rate20" exact="0.0125" />
+					<set_value name="$Period20" exact="6h" />
+					<set_value name="$Fee10" exact="0.0025" />
+					<set_value name="$Rate10" exact="0.01" />
+					<set_value name="$Period10" exact="8h" />
+					<set_value name="$Fee0" exact="0.005" />
+					<set_value name="$Rate0" exact="0.0075" />
+					<set_value name="$Period0" exact="10h" />
+					<set_value name="$Fee9" exact="0.005" />
+					<set_value name="$Rate9" exact="0.005" />
+					<set_value name="$Period9" exact="12h" />
+
+					<!--
           Vault.$Accounts = table[
             {$faction} = table[
 							$balance = (int)ct,
@@ -58,128 +64,129 @@
             ]
           ]
         -->
-				<set_value name="$Accounts" exact="table[
-					{faction.bankingclan} = table[],
-					{faction.hapes} = table[],
-					{faction.huttpirates} = table[],
-					{faction.mandoraiders} = table[],
-					{faction.valarian} = table[],
-					{faction.blacksun} = table[],
-					{faction.naboo} = table[],
-					{faction.sith} = table[],
-					{faction.kamino} = table[],
-					{faction.rebelalliance} = table[]
-				]" />
-				<set_value name="$Accounts.{faction.bankingclan}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.2,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.hapes}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.25,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.huttpirates}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.75,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.mandoraiders}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.75,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.valarian}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.75,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.blacksun}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.75,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.naboo}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.1,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.kamino}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.25,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.rebelalliance}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0.25,
-					$closed = false,
-					$relation = 0
-				]" />
-				<set_value name="$Accounts.{faction.sith}" exact="table[
-					$balance = 0,
-					$fee = 0.0025,
-					$rate = 0.0075,
-					$period = 10h,
-					$interest_time = null,
-					$undockedFee = 0.0025,
-					$inheritanceTax = 0,
-					$closed = false,
-					$relation = 0
-				]" />
+					<set_value name="$Accounts" exact="table[
+						{faction.bankingclan} = table[],
+						{faction.hapes} = table[],
+						{faction.huttpirates} = table[],
+						{faction.mandoraiders} = table[],
+						{faction.valarian} = table[],
+						{faction.blacksun} = table[],
+						{faction.naboo} = table[],
+						{faction.sith} = table[],
+						{faction.kamino} = table[],
+						{faction.rebelalliance} = table[]
+					]" />
+					<set_value name="$Accounts.{faction.bankingclan}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.2,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.hapes}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.25,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.huttpirates}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.75,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.mandoraiders}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.75,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.valarian}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.75,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.blacksun}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.75,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.naboo}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.1,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.kamino}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.25,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.rebelalliance}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0.25,
+						$closed = false,
+						$relation = 0
+					]" />
+					<set_value name="$Accounts.{faction.sith}" exact="table[
+						$balance = 0,
+						$fee = 0.0025,
+						$rate = 0.0075,
+						$period = 10h,
+						$interest_time = null,
+						$undockedFee = 0.0025,
+						$inheritanceTax = 0,
+						$closed = false,
+						$relation = 0
+					]" />
+				</do_if>
 
 				<!-- factions with operational branch vaults -->
 				<set_value name="$MajorFactionList" exact="table[
@@ -194,8 +201,13 @@
 				]" />
 
 			</actions>
-			<patch sinceversion="4">
+			<patch sinceversion="5">
 				<set_value name="$SetupComplete" exact="false" />
+				<set_value name="$CreateStations" exact="true" />
+				<set_value name="$CreateShips" exact="true" />
+				<set_value name="$BankStations" exact="table[]" />
+
+				<set_value name="$RevealSectors" exact="false" />
 			</patch>
 			<cues>
 				<cue name="Init">
@@ -226,11 +238,18 @@
 								<check_value value="$SetupComplete == false" />
 							</conditions>
 							<actions>
-								<!-- Clear old BNC ships and objects -->
-								<find_object owner="[faction.bankingclan]" space="player.galaxy" class="class.ship"
+
+								<do_if value="$RevealSectors">
+									<find_sector name="$sectors" multiple="true" space="player.galaxy" />
+									<do_for_each name="$sector" in="$sectors">
+										<set_known object="$sector" known="true" />
+									</do_for_each>
+								</do_if>
+
+								<set_value name="$SetupComplete" exact="true" />
+								<!-- Clear old BNC objects -->
+								<find_object owner="[faction.bankingclan]" space="player.galaxy"
 									name="$objects" multiple="true" />
-								<find_object owner="[faction.bankingclan]" space="player.galaxy" class="class.station"
-									name="$objects" multiple="true" append="true" />
 								<do_for_each name="$object" in="$objects">
 									<destroy_object object="$object" />
 								</do_for_each>
@@ -423,14 +442,14 @@
 								</do_if>
 
 								<!-- Create Stations -->
-								<do_if value="true">
+								<do_if value="$CreateStations">
+									<set_value name="$CreateStations" exact="false" />
 									<create_position name="$Position" max="20km" />
 									<set_value name="$Y_Position" min="-5km" max="5km" />
 									<set_value name="$Position" exact="position.[$Position.x, $Y_Position, $Position.z]" />
 									<find_sector name="$sector" macro="macro.swi_clusterscipio_sector001_macro" />
 									<create_station rawname="'{20777,1001} {20777,1005} - {20777,1003} {20777,1004}'"
 										state="componentstate.operational"
-										encyclopedia="true"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_mainvault_macro"
@@ -445,7 +464,6 @@
 										exact="'{20777,1001} {20777,1005} - {20777,1006} {20777,1004}'" />
 									<find_sector name="$sector" macro="macro.swi_clusterbastion_sector001_macro" />
 									<create_station rawname="$name" state="componentstate.operational"
-										encyclopedia="true"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
@@ -457,7 +475,6 @@
 										param3="false" />
 									<find_sector name="$sector" macro="macro.swi_clustereriadu_sector001_macro" />
 									<create_station rawname="$name" state="componentstate.operational"
-										encyclopedia="false"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
@@ -469,7 +486,6 @@
 										param3="false" />
 									<find_sector name="$sector" macro="macro.swi_clustercoruscant_sector001_macro" />
 									<create_station rawname="$name" state="componentstate.operational"
-										encyclopedia="false"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
@@ -481,7 +497,6 @@
 										param3="false" />
 									<find_sector name="$sector" macro="macro.swi_clustercantonica_sector001_macro" />
 									<create_station rawname="$name" state="componentstate.operational"
-										encyclopedia="false"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
@@ -493,7 +508,6 @@
 										param3="false" />
 									<find_sector name="$sector" macro="macro.swi_clusterhypori_sector001_macro" />
 									<create_station rawname="$name" state="componentstate.operational"
-										encyclopedia="false"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
@@ -505,7 +519,6 @@
 										param3="false" />
 									<find_sector name="$sector" macro="macro.swi_clusternarshadda_sector001_macro" />
 									<create_station rawname="$name" state="componentstate.operational"
-										encyclopedia="false"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
@@ -517,7 +530,6 @@
 										param3="false" />
 									<find_sector name="$sector" macro="macro.swi_clusteranpath_sector001_macro" />
 									<create_station rawname="$name" state="componentstate.operational"
-										encyclopedia="false"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
@@ -529,7 +541,6 @@
 										param3="false" />
 									<find_sector name="$sector" macro="macro.swi_clustermandalore_sector001_macro" />
 									<create_station rawname="$name" state="componentstate.operational"
-										encyclopedia="false"
 										name="$station"
 										sector="$sector"
 										owner="faction.bankingclan" macro="macro.station_bankingclan_branchvault_macro"
@@ -543,8 +554,90 @@
 									<remove_value name="$station" />
 								</do_if>
 
-								<!-- Complete -->
-								<set_value name="$SetupComplete" exact="true" />
+								<!-- create ships -->
+								<do_if value="$CreateShips">
+									<set_value name="$CreateShips" exact="false" />
+									<set_value name="$sectorMacros" exact="[
+										macro.swi_clusterbastion_sector001_macro,
+										macro.swi_clustereriadu_sector001_macro, 
+										macro.swi_clustercoruscant_sector001_macro, 
+										macro.swi_clustercantonica_sector001_macro, 
+										macro.swi_clusterhypori_sector001_macro, 
+										macro.swi_clusternarshadda_sector001_macro, 
+										macro.swi_clusteranpath_sector001_macro, 
+										macro.swi_clustermandalore_sector001_macro
+									]" />
+									<do_all exact="8">
+										<set_value name="$macro" exact="$sectorMacros.random" />
+										<remove_from_list name="$sectorMacros" exact="$macro" />
+										<find_sector name="$sector" macro="$macro" />
+										<find_station_by_true_owner name="$station" checkoperational="false"
+											faction="faction.bankingclan" space="$sector" />
+										<request_job_ship name="$NewShip" job="'bankingclan_transport_m'" requester="$sector" />
+										<spawn_waiting_job_ship zone="$station.zone" ship="$NewShip">
+											<safepos object="$station" space="$sector" />
+										</spawn_waiting_job_ship>
+										<debug_text text="'commander: '+$sector.name+' '+$NewShip" />
+										<do_if value="$NewShip.exists">
+											<get_subordinate_jobs jobs="$subs" amount="$subsNum" commander="$NewShip" />
+											<do_all exact="$subs.count" counter="$i">
+												<do_all exact="$subsNum.{$i}">
+													<request_job_ship name="$NewSub" job="$subs.{$i}" requester="$sector" />
+													<spawn_waiting_job_ship zone="$NewShip.zone" ship="$NewSub">
+														<safepos object="$station" space="$sector" />
+													</spawn_waiting_job_ship>
+													<do_if value="$NewSub.exists">
+														<debug_text text="'sub: '+$sector.name+' '+$NewSub" />
+														<set_object_commander object="$NewSub" commander="$NewShip" />
+														<activate_waiting_job_ship ship="$NewSub" />
+													</do_if>
+												</do_all>
+											</do_all>
+											<activate_waiting_job_ship ship="$NewShip" />
+										</do_if>
+									</do_all>
+									<find_sector name="$sector" macro="macro.swi_clusterscipio_sector001_macro" />
+									<find_station_by_true_owner name="$station" checkoperational="false"
+										faction="faction.bankingclan" space="$sector" />
+									<do_all exact="4">
+										<request_job_ship name="$NewShip" job="'bankingclan_transport_l'" requester="$sector" />
+										<spawn_waiting_job_ship zone="$station.zone" ship="$NewShip">
+											<safepos object="$station" space="$sector" />
+										</spawn_waiting_job_ship>
+										<do_if value="$NewShip.exists">
+											<debug_text text="'commanderL: '+$sector.name+' '+$NewShip" />
+											<get_subordinate_jobs jobs="$subs" amount="$subsNum" commander="$NewShip" />
+											<do_all exact="$subs.count" counter="$i">
+												<do_all exact="$subsNum.{$i}">
+													<request_job_ship name="$NewSub" job="$subs.{$i}" requester="$sector" />
+													<spawn_waiting_job_ship zone="$NewShip.zone" ship="$NewSub">
+														<safepos object="$station" space="$sector" />
+													</spawn_waiting_job_ship>
+													<do_if value="$NewSub.exists">
+														<debug_text text="'subL: '+$sector.name+' '+$NewSub" />
+														<get_subordinate_jobs jobs="$subsSubs" amount="$subsSubsNum" commander="$NewSub" />
+														<do_all exact="$subsSubs.count" counter="$j">
+															<do_all exact="$subsSubsNum.{$j}">
+																<request_job_ship name="$NewSubSub" job="$subsSubs.{$j}" requester="$sector" />
+																<spawn_waiting_job_ship zone="$NewSub.zone" ship="$NewSubSub">
+																	<safepos object="$station" space="$sector" />
+																</spawn_waiting_job_ship>
+																<do_if value="$NewSubSub.exists">
+																	<debug_text text="'subsubL: '+$sector.name+' '+$NewSubSub" />
+																	<set_object_commander object="$NewSubSub" commander="$NewSub" />
+																	<activate_waiting_job_ship ship="$NewSubSub" />
+																</do_if>
+															</do_all>
+														</do_all>
+														<set_object_commander object="$NewSub" commander="$NewShip" />
+														<activate_waiting_job_ship ship="$NewSub" />
+													</do_if>
+												</do_all>
+											</do_all>
+											<activate_waiting_job_ship ship="$NewShip" />
+										</do_if>
+									</do_all>
+								</do_if>
 								<reset_cue cue="InitSetup" />
 							</actions>
 						</cue>
@@ -751,6 +844,7 @@
 									<actions>
 										<do_if value="$BankManager">
 											<remove_actor_from_room actor="$BankManager" />
+											<destroy_object object="$BankManager" />
 										</do_if>
 										<do_if value="$interior">
 											<remove_dynamic_interior object="$station" interior="$interior" />
@@ -899,7 +993,7 @@
 						<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 						<do_if value="$timeSinceInterest> 1">
 							<set_value name="$Interest_amount" exact="($Account.$balance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
-							<set_value name="$Account.$balance" exact="$Account.$balance + $Interest_amount" />
+							<set_value name="$Account.$balance" operation="add" exact="$Interest_amount" />
 							<set_value name="$Account.$interest_time" exact="player.age" />
 						</do_if>
 						<signal_cue cue="Bank_Menu_Open" />

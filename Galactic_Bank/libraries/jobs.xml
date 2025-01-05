@@ -21,14 +21,15 @@
 
   <add sel="//jobs">
     <job id="bankingclan_transport_l" name="'{20777,1002} {20777,1008}'">
-      <modifiers rebuild="true" commandeerable="true" />
+      <modifiers commandeerable="false" />
       <orders>
         <order order="SWBankTransport" default="true" />
       </orders>
-      <category faction="bankingclan" tags="[factionlogic]" size="ship_l" />
-      <quota galaxy="8" sector="1" />
-      <location class="galaxy" macro="swi_galaxy_macro" faction="bankingclan" relation="friend" comparison="ge" matchextension="false" />
-      <environment buildatshipyard="true" />
+      <time start="60" />
+      <category faction="bankingclan" tags="[banking]" size="ship_l" />
+      <quota galaxy="8" />
+      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
+      <environment buildatshipyard="true" preferbuilding="true" />
       <ship>
         <select faction="bankingclan" tags="[banking]" size="ship_l" />
         <loadout>
@@ -37,23 +38,25 @@
         <owner exact="bankingclan" overridenpc="true" />
       </ship>
       <subordinates>
-        <subordinate job="bankingclan_transport_m" assignment="defence" />
-        <subordinate job="bankingclan_transport_m" assignment="defence" />
-        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
-        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
+        <!-- 2x size M escorts and 12x Tie Defenders-->
+        <subordinate job="bankingclan_transport_m_escort" assignment="defence" rebuild="true" /> <!-- wing of 2 -->
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" rebuild="true" /> <!-- wing of 3 -->
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" rebuild="true" /> <!-- wing of 3 -->
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" rebuild="true" /> <!-- wing of 3 -->
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" rebuild="true" /> <!-- wing of 3 -->
       </subordinates>
     </job>
 
     <job id="bankingclan_transport_m" name="'{20777,1002} {20777,1008}'">
-      <modifiers rebuild="true" commandeerable="true" />
+      <modifiers commandeerable="false" />
       <orders>
         <order order="SWBankTransport" default="true" />
       </orders>
-      <quota galaxy="16" sector="1" />
-      <category faction="bankingclan" tags="[factionlogic]" size="ship_m" />
-      <location class="galaxy" macro="swi_galaxy_macro" faction="bankingclan" relation="friend" comparison="ge" matchextension="false" />
-      <environment buildatshipyard="true" />
-      <modifiers subordinate="true" />
+      <time start="60" />
+      <quota galaxy="16" />
+      <category faction="bankingclan" tags="[banking]" size="ship_m" />
+      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
+      <environment buildatshipyard="true" preferbuilding="true" />
       <ship>
         <select faction="bankingclan" tags="[banking]" size="ship_m" />
         <loadout>
@@ -62,21 +65,20 @@
         <owner exact="bankingclan" overridenpc="true" />
       </ship>
       <subordinates>
-        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
-        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" rebuild="true" /> <!-- wing of 3 -->
+        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" rebuild="true" /> <!-- wing of 3 -->
       </subordinates>
     </job>
 
     <job id="bankingclan_transport_m_escort" name="'{20777,1002} {20777,1008}'" startactive="false">
-      <modifiers commandeerable="true" />
       <orders>
         <order order="Escort" default="true" />
       </orders>
       <quota wing="2" />
-      <category faction="bankingclan" tags="[factionlogic]" size="ship_m" />
-      <location class="galaxy" macro="swi_galaxy_macro" faction="bankingclan" relation="friend" comparison="ge" matchextension="false" />
+      <category faction="bankingclan" tags="[banking]" size="ship_m" />
+      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
       <environment buildatshipyard="true" />
-      <modifiers subordinate="true" />
+      <modifiers subordinate="true" commandeerable="false" />
       <ship>
         <select faction="bankingclan" tags="[banking]" size="ship_m" />
         <loadout>
@@ -84,10 +86,6 @@
         </loadout>
         <owner exact="bankingclan" overridenpc="true" />
       </ship>
-      <subordinates>
-        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
-        <subordinate job="bankingclan_tied_trio_leader" assignment="defence" />
-      </subordinates>
     </job>
     
     <job id="bankingclan_tied_trio_leader" name="{999840,613410}" startactive="false">
@@ -99,9 +97,9 @@
       </orders>
       <quota wing="3" />
       <category faction="galempire" tags="[military, tied]" size="ship_s" />
-      <location class="galaxy" macro="swi_galaxy_macro" faction="bankingclan" relation="friend" comparison="ge" matchextension="false" />
+      <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
       <environment buildatshipyard="true" />
-      <modifiers subordinate="true" />
+      <modifiers subordinate="true" commandeerable="false" />
       <ship>
         <select faction="galempire" tags="[military, tied]" size="ship_s" />
         <loadout>
