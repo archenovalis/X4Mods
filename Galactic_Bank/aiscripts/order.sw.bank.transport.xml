@@ -35,7 +35,7 @@
       <label name="init" />
       <do_if value="not this.ship.exists">
         <debug_text text="'waiting to exist: '+this.name" />
-        <wait exact="30s" resume="true" />
+        <wait exact="30s" />
         <debug_text text="'resuming to exist'" />
         <resume label="init" />
       </do_if>
@@ -55,7 +55,7 @@
         macro="macro.station_bankingclan_mainvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
       <do_if value="$hq.count gt 0">
-        <append_to_list name="$stations" exact="$hq" />
+        <append_to_list name="$stations" exact="$hq.{1}" />
         <debug_text text="'found operational hq: '+$hq.count+' stationslist: '+$hq" />
       </do_if>
       <do_else>
@@ -63,14 +63,14 @@
           macro="macro.station_bankingclan_mainvault_macro" state="componentstate.construction"
           faction="faction.bankingclan" space="player.galaxy" />
         <do_if value="$hqC.count gt 0">
-          <append_to_list name="$stations" exact="$hqC" />
+          <append_to_list name="$stations" exact="$hqC.{1}" />
           <debug_text text="'found constructing hq: '+$hqC.count+' stationslist: '+$hqC" />
         </do_if>
       </do_else>
       <debug_text text="'found stations: '+$stations.count+' stationslist: '+$stations" />
       <do_if value="$stations == null or $stations.count lt 2">
         <debug_text text="'waiting for stations'" />
-        <wait exact="1m" resume="true" />
+        <wait exact="1min" />
         <debug_text text="'resuming for stations'" />
         <resume label="init" />
       </do_if>
@@ -80,10 +80,11 @@
       <set_value name="$currentStation" exact="$stationA" />
 
       <label name="continueRoute" />
-      <debug_text text="'continueRoute between: '+$stationA+' and '+$stationB+' next: '+$currentStation" />
+      <debug_text text="'continueRoute between: '+$stationA.sector.name+' and '+$stationB.sector.name+' next: '+$currentStation.sector.name" />
 
       <!-- Travel to the station -->
       <move_to travel="true" object="this.assignedcontrolled" destination="$currentStation" />
+      <debug_text text="'moved to: '+$currentStation.sector.name" />
 
       <run_script name="'order.dock'" result="$docked">
         <param name="destination" value="$currentStation" />
@@ -91,18 +92,21 @@
         <param name="noattackresponse" value="true" />
         <param name="internalorder" value="true" />
       </run_script>
+
+      <debug_text text="'docked at: '+$currentStation.sector.name" />
       <do_if value="$docked">
         <debug_text text="'docked'" />
-        <wait min="1m" max="9m" resume="true" />
+        <wait min="1min" max="9min" resume="true" />
       </do_if>
       <undock ship="this.assignedcontrolled" />
-      <debug_text text="'undocked'" />
+      <debug_text text="'undocked at: '+$currentStation.sector.name" />
 
       <!-- Change Route? -->
       <set_value name="$changeRoute" exact="false" />
       <set_value name="$changeRoute" exact="true" chance="10" />
       <do_if value="$changeRoute">
         <set_value name="$changeRoute" exact="false" />
+        <debug_text text="'route changed'" />
         <resume label="init" />
       </do_if>
 
