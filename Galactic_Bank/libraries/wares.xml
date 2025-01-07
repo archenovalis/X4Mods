@@ -3,21 +3,22 @@
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="//wares">
     <ware id="inv_bank_lootbox" name="{20777,1001} {20777,1005} {20777,1009}" description="{20777,1010}" transport="inventory" volume="1" tags="inventory missiononly">
-      <price min="1" average="1" max="1" />
+      <price min="500000" average="500000" max="500000" />
       <container ref="sm_gen_wares_common_01_macro" />
+      <restriction licence="militaryequipment" />
       <icon active="ware_swi_credit" />
     </ware>
     <ware id="bank_large_lootbox" name="{20777,1001} {20777,1005} {20777,1013} {20777,1009}" description="{20777,1010}" transport="container" volume="1450" tags="container missiononly">
-      <price min="1" average="1" max="1" />
+      <price min="10000000" average="10000000" max="10000000" />
       <production time="900" amount="1" method="default" name="{20206,101}">
         <primary>
-          <ware ware="bank_large_lootbox" amount="1" />
-          <ware ware="energycells" amount="1000" />
+          <ware ware="energycells" amount="5000" />
         </primary>
         <effects>
           <effect type="work" product="0.53" />
         </effects>
       </production>
+      <restriction licence="militaryequipment" />
       <icon active="ware_swi_credit" />
     </ware>
     <ware id="inv_bank_lootbox_fused" name="{20777,1001} {20777,1005} {20777,1009} {20777,1017}" description="{20777,1011}" transport="inventory" volume="1" tags="inventory missiononly">
@@ -53,10 +54,10 @@
         </primary>
       </production>
       <component ref="storage_vault_small_macro" amount="1" />
-      <restriction licence="station_gen_intermediate" />
+      <restriction licence="station_gen_advanced" />
       <owner faction="bankingclan" />
     </ware>
-    <ware id="module_struct_vault_imp_foodrations" name="'Vault Tower Connection'" description="'Vault Tower Connection'" transport="container" volume="1" tags="module">
+    <ware id="module_prod_vault_imp_foodrations" name="'Vault Lootbox Production'" description="'Vault Lootbox Production'" transport="container" volume="1" tags="module">
       <price min="54125" average="63676" max="73227" />
       <production time="38" amount="1" method="default" name="{20206,101}">
         <primary>
@@ -65,14 +66,14 @@
           <ware ware="hullparts" amount="36" />
         </primary>
       </production>
-      <component ref="struct_vault_imp_foodrations_macro" amount="1" />
-      <restriction licence="station_gen_intermediate" />
+      <component ref="prod_vault_imp_foodrations_macro" amount="1" />
+      <restriction licence="station_gen_advanced" />
       <owner faction="bankingclan" />
     </ware>
     
-<ware id="module_hab_vault_liquid_imperial_tradestation" name="'Vault Habitation'" description="'Vault Habitation'" transport="container" volume="1" tags="module">
+    <ware id="module_storage_vault_liquid_imperial_tradestation" name="'Vault General Storage'" description="'Vault General Storage'" transport="container" volume="1" tags="module">
       <price min="3025503" average="4035886" max="5046269" />
-      <production time="1" amount="1" method="default" name="{20206,101}">
+      <production time="800" amount="1" method="default" name="{20206,101}">
         <primary>
           <ware ware="claytronics" amount="560" />
           <ware ware="energycells" amount="12000" />
@@ -84,16 +85,13 @@
           <ware ware="research_module_habitation" />
         </research>
       </research>
-      <component ref="hab_vault_imp_liquid_tradestation_01_macro" amount="1" />
+      <component ref="storage_vault_imp_liquid_tradestation_01_macro" amount="1" />
       <restriction licence="station_gen_advanced" />
-      <owner faction="galempire" />
-      <owner faction="ascendancy" />
-      <owner faction="sienar" />
-      <owner faction="kuat" />
+      <owner faction="bankingclan" />
     </ware>
     <ware id="module_vault_imperial_tradestation_habitat" name="'Vault Habitation'" description="'Vault Habitation'" transport="container" volume="1" tags="module">
       <price min="10627714" average="12562016" max="16496318" />
-      <production time="2000" amount="1" method="default" name="{20206,101}">
+      <production time="800" amount="1" method="default" name="{20206,101}">
         <primary>
           <ware ware="claytronics" amount="750" />
           <ware ware="energycells" amount="15000" />
@@ -107,10 +105,7 @@
       </research>
       <component ref="hab_vault_imp_trade_macro" amount="1" />
       <restriction licence="station_gen_advanced" />
-      <owner faction="galempire" />
-      <owner faction="ascendancy" />
-      <owner faction="sienar" />
-      <owner faction="kuat" />
+      <owner faction="bankingclan" />
     </ware>
   </add>
 

@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<aiscript name="order.sw.bank.transport" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="2">
-  <order id="SWBankTransport" name="{20777, 1001} {20777, 1005} {20777, 1008}" description="{20777, 1012}" category="internal" allowinloop="false" infinite="true">
+<aiscript name="order.sw.bank.transport2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="1">
+  <order id="SWBankTransport" name="{20777, 1001} {20777, 1005} {20777, 1008}" description="{20777, 1012}" category="internal" allowinloop="false">
     <params>
+      <param name="destination" type="internal" default="false" text="{1041, 10027}" comment="Destination. can be a space or an object in a zone. Providing Sector and Cluster will attempt to find the nearest zone" />
+      <param name="cannotdock" type="internal" default="false" text="{1041, 10133}" comment="Unable to dock. used for error handling in case of inability to dock" />
       <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
         <input_param name="truevalue" value="100" />
       </param>
     </params>
+    <requires>
+      <match owner="faction.bankingclan" />
+      <match class="class.spacesuit" negate="true" />
+    </requires>
   </order>
-
   <interrupts>
+    <handler>
+      <conditions>
+        <check_any>
+          <event_object_destroyed object="this.assignedcontrolled" />
+        </check_any>
+      </conditions>
+      <actions>
+        <abort_called_scripts resume="finish" />
+      </actions>
+    </handler>
     <handler ref="SectorChangeHandler" />
     <handler ref="AttackHandler" />
     <handler ref="MissileLockHandler" />
     <handler ref="ScannedHandler" />
     <handler ref="InspectedHandler" />
     <handler ref="ResupplyHandler" />
-    <handler comment="unable to continue. finish.">
-      <conditions>
-        <event_object_changed_true_owner object="this.ship" check="false" />
-      </conditions>
-      <actions>
-        <debug_text text="'unable to continue. event: %s. cleaning up.'.[event.name]" chance="$debugchance" />
-        <abort_called_scripts resume="finish" />
-      </actions>
-    </handler>
+    <handler ref="TideHandler" />
   </interrupts>
-
   <init>
 
   </init>
 
   <attention min="unknown">
     <actions>
-      <label name="init" />
-      <do_if value="not this.ship.exists">
-        <debug_text text="'waiting to exist: '+this.name" />
-        <wait exact="30s" />
-        <debug_text text="'resuming to exist'" />
-        <resume label="init" />
-      </do_if>
-      <debug_text text="'starting new route from '+this.sector.name" />
+
+      <label name="start" />
+
       <find_station_by_true_owner name="$stations" multiple="true"
         macro="macro.station_bankingclan_branchvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
@@ -70,36 +71,53 @@
       <debug_text text="'found stations: '+$stations.count+' stationslist: '+$stations" />
       <do_if value="$stations == null or $stations.count lt 2">
         <debug_text text="'waiting for stations'" />
-        <wait exact="1min" />
+        <wait exact="1min" sinceversion="1" />
         <debug_text text="'resuming for stations'" />
-        <resume label="init" />
+        <resume label="start" />
       </do_if>
       <set_value name="$stationA" exact="$stations.random" />
       <remove_from_list name="$stations" exact="$stationA" />
       <set_value name="$stationB" exact="$stations.random" />
-      <set_value name="$currentStation" exact="$stationA" />
+      <set_value name="$destination" exact="$stationA" />
 
-      <label name="continueRoute" />
-      <debug_text text="'continueRoute between: '+$stationA.sector.name+' and '+$stationB.sector.name+' next: '+$currentStation.sector.name" />
+      <label name="move_to_destination" />
 
-      <!-- Travel to the station -->
-      <move_to travel="true" object="this.assignedcontrolled" destination="$currentStation" />
-      <debug_text text="'moved to: '+$currentStation.sector.name" />
-
-      <run_script name="'order.dock'" result="$docked">
-        <param name="destination" value="$currentStation" />
-        <param name="dockfollowers" value="true" />
-        <param name="noattackresponse" value="true" />
-        <param name="internalorder" value="true" />
-      </run_script>
-
-      <debug_text text="'docked at: '+$currentStation.sector.name" />
-      <do_if value="$docked">
-        <debug_text text="'docked'" />
-        <wait min="1min" max="9min" resume="true" />
+      <do_if value="not $destination.isoperational">
+        <resume label="start" />
       </do_if>
-      <undock ship="this.assignedcontrolled" />
-      <debug_text text="'undocked at: '+$currentStation.sector.name" />
+
+      <!-- <do_if value="this.assignedcontrolled.iscapitalship and not this.assignedcontrolled.availableunits.{unitcategory.transport}.count and not $destination.availableunits.{unitcategory.transport}.count">
+        <debug_text text="'%s %s %s is a capital ship that is about to trade but has no cargolifters. attempting to recover.'.[@this.assignedcontrolled.idcode, @this.assignedcontrolled.knownname, this.assignedcontrolled]" filter="error" chance="(not this.isplayerowned) * 100" />
+        <signal_objects object="this.assignedcontrolled" param="'resupply'" param2="[true]" param3="$debugchance" comment="param2 = [urgent?, resupplystationID], param3 = $debugchance" />
+        <wait exact="1s" sinceversion="1" />
+      </do_if> -->
+
+      <!-- skip the movement step if we are already there -->
+      <do_if value="(this.ship.dock and this.ship.dock.container == $destination) or (this.ship.parkedat and ((this.ship.parkedat == $destination) or this.ship.parkedat.hascontext.{$destination}))">
+        <debug_text text="'already docked at a trading dock at the destination %1 (%2)'.[$destination.knownname, $destination]" chance="$debugchance" />
+        <resume label="next" />
+      </do_if>
+
+      <!-- Docking procedure -->
+      <do_if value="not $cannotdock">
+        <do_if value="@this.ship.dock.container != $destination">
+          <debug_text text="player.age + ' moving to dock at ' + $destination.knownname" chance="$debugchance" />
+          <set_value name="$wait" min="1min" max="10min" />
+          <create_order id="'DockAndWait'" object="this.ship" immediate="true">
+            <param name="destination" value="$destination" />
+            <param name="waittime" value="$wait" />
+            <param name="callerid" value="this.assignedcontrolled.order" />
+            <param name="internalorder" value="$internalorder" />
+            <param name="debugchance" value="$debugchance" />
+          </create_order>
+          <return />
+        </do_if>
+        <do_else>
+          <debug_text text="player.age + ' docked at ' + $destination.knownname" chance="$debugchance" />
+        </do_else>
+      </do_if>
+
+      <label name="next" />
 
       <!-- Change Route? -->
       <set_value name="$changeRoute" exact="false" />
@@ -107,41 +125,22 @@
       <do_if value="$changeRoute">
         <set_value name="$changeRoute" exact="false" />
         <debug_text text="'route changed'" />
-        <resume label="init" />
+        <resume label="start" />
       </do_if>
 
       <do_else>
         <!-- Toggle destination -->
         <debug_text text="'toggle destination'" />
-        <do_if value="$currentStation == $stationA">
-          <set_value name="$currentStation" exact="$stationB" />
+        <do_if value="$destination == $stationA">
+          <set_value name="$destination" exact="$stationB" />
         </do_if>
         <do_else>
-          <set_value name="$currentStation" exact="$stationA" />
+          <set_value name="$destination" exact="$stationA" />
         </do_else>
 
-        <!-- Verify destination -->
-        <find_station_by_true_owner name="$check" faction="faction.bankingclan" space="$currentStation.sector" functional="true" />
-        <do_if value="$check">
-          <debug_text text="'destination found'" />
-          <resume label="continueRoute" />
-        </do_if>
-        <do_else>
-          <debug_text text="'destination destroyed'" />
-          <resume label="init" />
-        </do_else>
+        <resume label="move_to_destination" />
+
       </do_else>
-
-      <resume label="init" />
-      <label name="finish" />
-      <set_order_syncpoint_reached order="this.assignedcontrolled.order" />
-
     </actions>
   </attention>
-
-  <on_abort>
-    <do_if value="this.assignedcontrolled.isoperational and this.assignedcontrolled.trueowner == faction.bankingclan">
-      <create_order object="this.assignedcontrolled" id="'SWBankTransport'" default="true" />
-    </do_if>
-  </on_abort>
 </aiscript>

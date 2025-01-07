@@ -13,7 +13,7 @@
       <explosiondamage value="1000" shield="5000" />
       <hull max="2500000" />
       <secrecy level="3" />
-      <workforce race="imperial" capacity="2000" />
+      <workforce race="argon" capacity="2000" />
     </properties>
   </macro>
 </macros>

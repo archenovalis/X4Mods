@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+  <add sel="/baskets">
+    <basket id="bank_transport" name="Bank Transport" description="Basket for bank transports">
+      <wares>
+        <ware ware="bank_large_lootbox" />
+      </wares>
+    </basket>
+  </add>
+</diff>

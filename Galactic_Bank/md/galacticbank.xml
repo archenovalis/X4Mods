@@ -2,7 +2,7 @@
 <mdscript name="GalacticBankTest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="Vault" namespace="this" version="7">
+		<cue name="Vault" namespace="this" version="8">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -85,7 +85,7 @@
 				]" />
 
 			</actions>
-			<patch sinceversion="7">
+			<patch sinceversion="8">
 				<set_value name="$LoanInterestPeriod" exact="8h" />
 				<set_value name="$PaymentInterval" exact="30min" />
 
@@ -107,7 +107,7 @@
 				<set_value name="$ResetAccounts" exact="true" />
 				<set_value name="$ResetFactionRelations" exact="false" />
 
-				<set_value name="$RevealSectors" exact="true" />
+				<set_value name="$RevealSectors" exact="false" />
 			</patch>
 			<cues>
 				<cue name="Init">
@@ -129,6 +129,13 @@
 						<do_if value="@md.kuertee_npc_reactions.NPCReactions.exists">
 							<set_value name="md.kuertee_npc_reactions.NPCReactions.$userIsBankLoans" exact="false" />
 						</do_if>
+						<!-- debug reveal sectors -->
+						<do_if value="$RevealSectors">
+							<find_sector name="$sectors" multiple="true" space="player.galaxy" />
+							<do_for_each name="$sector" in="$sectors">
+								<set_known object="$sector" known="true" />
+							</do_for_each>
+						</do_if>
 						<reset_cue cue="Init" />
 					</actions>
 					<cues>
@@ -138,13 +145,6 @@
 								<check_value value="$SetupComplete == false" />
 							</conditions>
 							<actions>
-
-								<do_if value="$RevealSectors">
-									<find_sector name="$sectors" multiple="true" space="player.galaxy" />
-									<do_for_each name="$sector" in="$sectors">
-										<set_known object="$sector" known="true" />
-									</do_for_each>
-								</do_if>
 
 								<set_value name="$SetupComplete" exact="true" />
 
@@ -181,7 +181,10 @@
 										<set_value name="$account.$tier" exact="2" />
 										<set_value name="$account.$closed" exact="false" />
 										<set_value name="$account.$relation" exact="0" />
-										<set_value name="$account.$collateral" exact="[]" />
+										<set_value name="$account.$collateralXL" exact="[]" />
+										<set_value name="$account.$collateralL" exact="[]" />
+										<set_value name="$account.$collateralM" exact="[]" />
+										<set_value name="$account.$collateralS" exact="[]" />
 										<set_value name="$account.$interest_time" exact="null" />
 										<set_value name="$account.$fee" exact="$WithdrawFees.{2}" />
 										<set_value name="$account.$rate" exact="$Rates.{2}" />
@@ -1309,7 +1312,42 @@
 						<set_value name="$Period" exact="$Account.$period" />
 						<set_value name="$LoanRate" exact="$Account.$loan_rate" />
 						<set_value name="$LoanCollateralRate" exact="$Account.$loan_collateral_rate" />
-						<set_value name="$Collateral" exact="$Account.$collateral" />
+						<set_value name="$CollateralXL" exact="$Account.$collateralXL" />
+						<set_value name="$CollateralL" exact="$Account.$collateralL" />
+						<set_value name="$CollateralM" exact="$Account.$collateralM" />
+						<set_value name="$CollateralS" exact="$Account.$collateralS" />
+						<find_ship_by_true_owner name="$shipsXL" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_xl" />
+						<do_if value="$CollateralXL.count gt 0">
+							<do_for_each name="$ship" in="$CollateralXL">
+								<do_if value="$shipsXL.indexof.{$ship}">
+									<remove_from_list name="$shipsXL" exact="$ship" />
+								</do_if>
+							</do_for_each>
+						</do_if>
+						<find_ship_by_true_owner name="$shipsL" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_l" />
+						<do_if value="$CollateralL.count gt 0">
+							<do_for_each name="$ship" in="$CollateralL">
+								<do_if value="$shipsL.indexof.{$ship}">
+									<remove_from_list name="$shipsL" exact="$ship" />
+								</do_if>
+							</do_for_each>
+						</do_if>
+						<find_ship_by_true_owner name="$shipsM" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_m" />
+						<do_if value="$CollateralM.count gt 0">
+							<do_for_each name="$ship" in="$CollateralM">
+								<do_if value="$shipsM.indexof.{$ship}">
+									<remove_from_list name="$shipsM" exact="$ship" />
+								</do_if>
+							</do_for_each>
+						</do_if>
+						<find_ship_by_true_owner name="$shipsS" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_s" />
+						<do_if value="$CollateralS.count gt 0">
+							<do_for_each name="$ship" in="$CollateralS">
+								<do_if value="$shipsS.indexof.{$ship}">
+									<remove_from_list name="$shipsS" exact="$ship" />
+								</do_if>
+							</do_for_each>
+						</do_if>
 						<set_value name="$CollateralValue" exact="$Account.$collateral_value" />
 						<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
 						<set_value name="$LoanAmount" exact="0" />
@@ -1334,7 +1372,7 @@
 							<actions>
 								<set_value name="$LoanAmount" exact="0" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
-									$id = 'bank_menu',
+									$id = 'bank_loanmenu',
 									$columns = 2,
 									$title = $Title,
 									$height = 400,
@@ -1345,9 +1383,9 @@
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 									$col=1,
-									$colspan=2,
+									$colSpan=2,
 									$halign='center',
-									$text=$LoanRate * 100 + '% interest per ' + $LoanInterestPeriod / 60 / 60 + ' hours.'
+									$text=$LoanRate * 100 + '% interest per ' + $LoanInterestPeriod / 60 / 60 + ' hours. Payment: 2% of loan.'
 								]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
@@ -1361,33 +1399,113 @@
 									$text=$LoanBalance/100+'Cr'
 								]" />
 								<!-- current collateral -->
-								<do_if value="$Collateral.count gt 0">
+								<do_if value="$CollateralXL.count gt 0 or $CollateralL.count gt 0 or $CollateralM.count gt 0  or $CollateralS.count gt 0 ">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-										$col=1,
-										$colspan=2,
-										$halign='center',
-										$text='Collateral'
-									]" />
-									<do_for_each name="$ship" in="$Collateral">
-										<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+									<do_if value="$CollateralXL.count gt 0">
 										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 											$col=1,
-											$halign='left',
-											$text=$ship.name+': '+$value
+											$colSpan=2,
+											halign='center',
+											$text='XL Collateral'
 										]" />
-										<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
-											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-												$id = $ship,
-												$col = 2,
-												$text = table[$text='Remove'],
-												$onClick = Bank_LoanMenu_Remove_Collateral
+										<do_for_each name="$ship" in="$CollateralXL">
+											<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+												$col=1,
+												$halign='left',
+												$text=$ship.name+': '+($value/100) / $LoanCollateralRate
 											]" />
-										</do_if>
-									</do_for_each>
+											<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
+												<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+													$id = $ship,
+													$col = 2,
+													$text = table[$text='Remove'],
+													$onClick = Bank_LoanMenu_Remove_Collateral
+											]" />
+											</do_if>
+										</do_for_each>
+									</do_if>
+									<do_if value="$CollateralL.count gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$colSpan=2,
+											halign='center',
+											$text='L Collateral'
+										]" />
+										<do_for_each name="$ship" in="$CollateralL">
+											<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+												$col=1,
+												$halign='left',
+												$text=$ship.name+': '+($value/100) / $LoanCollateralRate
+											]" />
+											<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
+												<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+													$id = $ship,
+													$col = 2,
+													$text = table[$text='Remove'],
+													$onClick = Bank_LoanMenu_Remove_Collateral
+											]" />
+											</do_if>
+										</do_for_each>
+									</do_if>
+									<do_if value="$CollateralM.count gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$colSpan=2,
+											halign='center',
+											$text='M Collateral'
+										]" />
+										<do_for_each name="$ship" in="$CollateralM">
+											<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+												$col=1,
+												$halign='left',
+												$text=$ship.name+': '+($value/100) / $LoanCollateralRate
+											]" />
+											<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
+												<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+													$id = $ship,
+													$col = 2,
+													$text = table[$text='Remove'],
+													$onClick = Bank_LoanMenu_Remove_Collateral
+											]" />
+											</do_if>
+										</do_for_each>
+									</do_if>
+									<do_if value="$CollateralS.count gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+											$col=1,
+											$colSpan=2,
+											halign='center',
+											$text='S Collateral'
+										]" />
+										<do_for_each name="$ship" in="$CollateralS">
+											<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+												$col=1,
+												$halign='left',
+												$text=$ship.name+': '+($value/100) / $LoanCollateralRate
+											]" />
+											<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
+												<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+													$id = $ship,
+													$col = 2,
+													$text = table[$text='Remove'],
+													$onClick = Bank_LoanMenu_Remove_Collateral
+											]" />
+											</do_if>
+										</do_for_each>
+									</do_if>
 								</do_if>
 
 								<!-- add collateral -->
@@ -1396,54 +1514,78 @@
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 									$col=1,
-									$colspan=2,
+									$colSpan=2,
 									$halign='center',
 									$text='Add Collateral'
 								]" />
-								<find_ship_by_true_owner name="$ships" faction="faction.player" space="player.galaxy" multiple="true" />
-								<do_if value="$Collateral.count gt 0">
-									<do_for_each name="$ship" in="$Collateral">
-										<do_if value="$ships.indexof.{$ship}">
-											<remove_from_list name="$ships" exact="$ship" />
-										</do_if>
-									</do_for_each>
-								</do_if>
-								<do_if value="$ships.count gt 1">
-									<do_for_each name="$ship" in="$ships">
-										<set_value name="$value" exact="$ship.macro.ware.averageprice" />
-										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-											$col=1,
-											$halign='left',
-											$text=$ship.name+': '+$value
-										]" />
-										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-											$id = $ship,
-											$col = 2,
-											$text = table[$text='Add'],
-											$onClick = Bank_LoanMenu_Add_Collateral
-										]" />
-									</do_for_each>
-								</do_if>
-								<do_else>
-									<!-- can't collateral your last ship -->
+
+								<!-- can't collateral your last ship -->
+								<do_if value="$shipsXL.count + $shipsL.count + $shipsM.count + $shipsS.count lt 2">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 										$col=1,
-										$colspan=2,
+										$colSpan=2,
 										$halign='center',
-										$text='No ships available for collateral.'
+										$text='Cannot use all ships for collateral.'
 									]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+								</do_if>
+								<do_else>
+									<do_if value="$shipsXL.count gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+											$id = 'XL',
+											$col = 1,
+											$colSpan = 2,
+											$width = 100,
+											$text = table[$text='Add XL Ships'],
+											$onClick = Bank_LoanMenu_Find_Collateral
+										]" />
+									</do_if>
+									<do_if value="$shipsL.count gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+											$id = 'L',
+											$col = 1,
+											$colSpan = 2,
+											$width = 100,
+											$text = table[$text='Add L Ships'],
+											$onClick = Bank_LoanMenu_Find_Collateral
+										]" />
+									</do_if>
+									<do_if value="$shipsM.count gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+											$id = 'M',
+											$col = 1,
+											$colSpan = 2,
+											$width = 100,
+											$text = table[$text='Add M Ships'],
+											$onClick = Bank_LoanMenu_Find_Collateral
+										]" />
+									</do_if>
+									<do_if value="$shipsS.count gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+											$id = 'S',
+											$col = 1,
+											$colSpan = 2,
+											$width = 100,
+											$text = table[$text='Add S Ships'],
+											$onClick = Bank_LoanMenu_Find_Collateral
+										]" />
+									</do_if>
 								</do_else>
 
 								<!-- make loan -->
-								<do_if value="$Collateral.count gt 0">
+								<do_if value="$CollateralXL.count + $CollateralL.count + $CollateralM.count + $CollateralS.count gt 0 and $CollateralValue / $CollateralRate - $LoanBalance gt 0">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='Payment every '+$PaymentInterval+' is 2% of loan.']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
 										$id = 'sliderPayment',
@@ -1454,13 +1596,46 @@
 										$default = 0,
 										$onSliderCellChanged = Bank_LoanMenu_Loan_Amount
 									]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-										$col = 1,
+										$col = 2,
 										$text = table[$text='Accept'],
 										$onClick = Bank_LoanMenu_Issue_Loan
 									]" />
 								</do_if>
+							</actions>
+						</cue>
+
+						<!-- submenu -->
+						<cue name="Bank_LoanMenu_Find_Collateral" instantiate="true">
+							<conditions>
+								<event_cue_signalled />
+							</conditions>
+							<actions>
+								<set_value name="$size" exact="event.param.$id" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
+									$id = 'bank_loanmenu_collateral',
+									$columns = 2,
+									$title = 'Add '+$size+' Collateral',
+									$height = 400,
+									$width = 495
+								]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
+								<do_for_each name="$ship" in="{'$ships'+$size}">
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='left',
+										$text=$ship.name+': '+($ship.macro.ware.averageprice/100) / $LoanCollateralRate
+									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+										$id = $ship,
+										$col = 2,
+										$text = table[$text='Add'],
+										$onClick = Bank_LoanMenu_Add_Collateral
+									]" />
+								</do_for_each>
 							</actions>
 						</cue>
 						<!-- buttons -->
@@ -1470,9 +1645,26 @@
 							</conditions>
 							<actions>
 								<set_value name="$ship" exact="event.param.$id" />
-								<append_to_list name="$Collateral" exact="$ship" />
-								<set_value name="$CollateralValue" operation="add" exact="$ship.macro.ware.averageprice*100" />
-								<cancel_cue cue="this" />
+								<set_value name="$class" exact="$ship.class" />
+								<do_if value="$class == class.ship_xl">
+									<append_to_list name="$CollateralXL" exact="$ship" />
+									<remove_from_list name="$shipsXL" exact="$ship" />
+								</do_if>
+								<do_elseif value="$class == class.ship_l">
+									<append_to_list name="$CollateralL" exact="$ship" />
+									<remove_from_list name="$shipsL" exact="$ship" />
+								</do_elseif>
+								<do_elseif value="$class == class.ship_m">
+									<append_to_list name="$CollateralM" exact="$ship" />
+									<remove_from_list name="$shipsM" exact="$ship" />
+								</do_elseif>
+								<do_else>
+									<append_to_list name="$CollateralS" exact="$ship" />
+									<remove_from_list name="$shipsS" exact="$ship" />
+								</do_else>
+								<set_value name="$CollateralValue" operation="add" exact="$ship.macro.ware.averageprice" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+								<signal_cue_instantly cue="Bank_LoanMenu_Open" />
 							</actions>
 						</cue>
 						<cue name="Bank_LoanMenu_Remove_Collateral" instantiate="true">
@@ -1481,9 +1673,26 @@
 							</conditions>
 							<actions>
 								<set_value name="$ship" exact="event.param.$id" />
-								<remove_from_list name="$Collateral" exact="$ship" />
-								<set_value name="$CollateralValue" operation="subtract" exact="$ship.macro.ware.averageprice*100" />
-								<cancel_cue cue="this" />
+								<set_value name="$class" exact="$ship.class" />
+								<do_if value="$class == class.ship_xl">
+									<remove_from_list name="$CollateralXL" exact="$ship" />
+									<append_to_list name="$shipsXL" exact="$ship" />
+								</do_if>
+								<do_elseif value="$class == class.ship_l">
+									<remove_from_list name="$CollateralL" exact="$ship" />
+									<append_to_list name="$shipsL" exact="$ship" />
+								</do_elseif>
+								<do_elseif value="$class == class.ship_m">
+									<remove_from_list name="$CollateralM" exact="$ship" />
+									<append_to_list name="$shipsM" exact="$ship" />
+								</do_elseif>
+								<do_else>
+									<remove_from_list name="$CollateralS" exact="$ship" />
+									<append_to_list name="$shipsS" exact="$ship" />
+								</do_else>
+								<set_value name="$CollateralValue" operation="subtract" exact="$ship.macro.ware.averageprice" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+								<signal_cue_instantly cue="Bank_LoanMenu_Open" />
 							</actions>
 						</cue>
 
@@ -1511,11 +1720,11 @@
 								<set_value name="$LoanBalance" operation="add" exact="$LoanInterest_amount" />
 								<set_value name="$Account.$interest_time" exact="player.age" />
 								<do_if value="$CollateralValue / $CollateralRate - $LoanBalance ge ($LoanAmount)Cr">
-									<reward_player money="($LoanAmount)Cr" />
+									<set_value name="$Account.$balance" operation="add" exact="($LoanAmount)Cr" />
 									<set_value name="$LoanBalance" operation="add" exact="($LoanAmount)Cr" />
-									<set_value name="$Account.$payment" operation="add" exact="($LoanAmount)Cr / 50" /> <!-- payment = 2% -->
+									<set_value name="$Account.$payment" operation="add" exact="($LoanAmount / 50)Cr" /> <!-- payment = 2% -->
+									<write_incoming_message source="$faction" title="'New loan'" text="'Loan Amount: '+($LoanAmount)Cr+'\nPayment: '+($LoanAmount)Cr / 50+'deducted from your account every '+$PaymentInterval+' minutes.'" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-									<signal_cue_instantly cue="Bank_LoanMenu_Open" />
 								</do_if>
 								<do_else>
 									<cancel_cue cue="this" />
@@ -1693,7 +1902,7 @@
 								<!-- show lootbox warning label -->
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-									$colspan=2,
+									$colSpan=2,
 									$color='Helper.color.red',
 									$halign='center',
 									$text={20777,1010}
@@ -1750,7 +1959,7 @@
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$text='']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-										$colspan=2,
+										$colSpan=2,
 										$color='Helper.color.red',
 										$halign='center',
 										$text={20777,1011}

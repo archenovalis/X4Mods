@@ -4,7 +4,7 @@
     <component ref="storage_imp_liquid_tradestation_01" />
     <properties>
       <identification name="'Vault General Storage'" shortname="'Vault General Storage'" size="large" description="'Vault General Storage'" />
-      <cargo max="2000000" tags="container" />
+      <cargo max="200000" tags="container" />
       <build>
         <sets>
           <set ref="mainvault" />
