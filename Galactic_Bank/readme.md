@@ -28,7 +28,7 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
 - Closed Bank Offices
 Branch offices will only be in stations owned by major factions with a functioning branch vault station.
 
-Download: [](https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.2)
+Download: [https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.3](https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.3)
 
 ## Changelog
 
@@ -83,3 +83,4 @@ at -10 relation, bank confiscates money, closes account, hires bounty hunters to
 v0.91:
 cleaned code. reset accounts (withdraw money before installing). added bribe to reopen account. added loans
 (0.92) reworked aiscript. added wares to bnc transports. improved loan menu. 
+(0.93) Note: Accounts Reset, withdraw before updating. bug fixes. lootboxes persist for 24hrs. bankingclan rep locked. player loses bankingclan rep when attacking/destroying bank transports. faction rep increases every 30 minutes based on amount deposited in account and every loanpayment. lose faction rep when missing a payment due to not enough funds in account

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+  <add sel="//gamestart[@id='x4ep1_gamestart_workshop']//research">
+    <ware ware="research_module_vault" />
+  </add>
+</diff>

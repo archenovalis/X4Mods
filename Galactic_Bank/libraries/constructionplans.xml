@@ -10,7 +10,7 @@
       <entry index="1" macro="defence_imp_claim_ring_macro">
         <offset>
           <position x="81.44" y="165.364" z="78.741" />
-          <rotation yaw="179.69516" />
+          <rotation yaw="179.69513" />
         </offset>
       </entry>
       <entry index="2" macro="struct_imp_cross_01_macro" connection="connectionsnap003">
@@ -31,7 +31,7 @@
         <predecessor index="3" connection="connectionsnap006" />
         <offset>
           <position x="2525.939" y="332.445" z="1501.889" />
-          <rotation yaw="-28.5833" pitch="-0.601878" roll="179.98193" />
+          <rotation yaw="-28.5833" pitch="-0.601878" roll="179.98189" />
         </offset>
       </entry>
       <entry index="5" macro="struct_imp_cross_01_macro" connection="connectionsnap003">
@@ -45,21 +45,21 @@
         <predecessor index="5" connection="connectionsnap004" />
         <offset>
           <position x="96.512" y="132.457" z="-2754.351" />
-          <rotation yaw="-90.30478" pitch="-2.13284" />
+          <rotation yaw="-90.30476" pitch="-2.13284" />
         </offset>
       </entry>
       <entry index="7" macro="storage_vault_small_macro" connection="connectionsnap002">
         <predecessor index="6" connection="connectionsnap006" />
         <offset>
           <position x="89.069" y="332.319" z="-2754.39" />
-          <rotation yaw="91.41416" pitch="2.13189" roll="-179.93602" />
+          <rotation yaw="91.41416" pitch="2.13189" roll="-179.93599" />
         </offset>
       </entry>
       <entry index="8" macro="struct_imp_cross_01_macro" connection="connectionsnap003">
         <predecessor index="1" connection="connectionsnap002" />
         <offset>
           <position x="-1857.949" y="132.455" z="1176.816" />
-          <rotation yaw="-150.30841" pitch="-2.2107" />
+          <rotation yaw="-150.30836" pitch="-2.2107" />
         </offset>
       </entry>
       <entry index="9" macro="pier_imp_harbor_02_macro" connection="connectionsnap004">
@@ -73,7 +73,7 @@
         <predecessor index="9" connection="connectionsnap006" />
         <offset>
           <position x="-2382.89" y="332.306" z="1467.254" />
-          <rotation yaw="-148.58937" pitch="-2.2097" roll="179.93369" />
+          <rotation yaw="-148.58937" pitch="-2.2097" roll="179.93364" />
         </offset>
       </entry>
       <entry index="11" macro="struct_imp_cross_01_macro" connection="connectionsnap002">
@@ -122,20 +122,20 @@
         <predecessor index="1" connection="connectionsnap005" />
         <offset>
           <position x="81.44" y="220.828" z="78.741" />
-          <rotation yaw="179.69518" />
+          <rotation yaw="179.69513" />
         </offset>
       </entry>
       <entry index="18" macro="storage_vault_imp_liquid_tradestation_01_macro">
         <offset>
           <position x="81.44" y="2667.978" z="78.741" />
-          <rotation yaw="148.28911" roll="-179.99998" />
+          <rotation yaw="148.28906" roll="-179.99994" />
         </offset>
       </entry>
       <entry index="19" macro="storage_vault_large_macro" connection="connectionsnap001">
         <predecessor index="18" connection="connectionsnap02" />
         <offset>
           <position x="81.44" y="5283.758" z="78.743" />
-          <rotation yaw="88.11387" roll="179.99995" />
+          <rotation yaw="88.11387" roll="179.99991" />
         </offset>
       </entry>
       <entry index="20" macro="prod_vault_imp_foodrations_macro" connection="connectionsnap001">
@@ -169,7 +169,7 @@
       <entry index="24" macro="struct_imp_base_02_macro">
         <offset>
           <position x="1724.615" y="1742.747" z="1056.186" />
-          <rotation yaw="-120.41109" pitch="-0.241013" roll="-90.19545" />
+          <rotation yaw="-120.41108" pitch="-0.241013" roll="-90.19541" />
         </offset>
       </entry>
       <entry index="25" macro="struct_imp_base_02_macro">
@@ -201,7 +201,7 @@
         <predecessor index="28" connection="connectionsnap005" />
         <offset>
           <position x="81.441" y="-1123.006" z="78.74" />
-          <rotation yaw="-179.99989" roll="-179.99997" />
+          <rotation yaw="-179.99989" roll="-179.99992" />
         </offset>
       </entry>
       <entry index="30" macro="hab_imp_s_01_macro" connection="connectionsnap003">
@@ -230,48 +230,18 @@
           <rotation yaw="-0.304777" />
         </offset>
       </entry>
-      <entry index="34" macro="hab_imp_s_01_macro" connection="connectionsnap003">
-        <predecessor index="33" connection="connectionsnap004" />
-        <offset>
-          <position x="877.174" y="-723.006" z="882.984" />
-          <rotation yaw="-0.304763" />
-        </offset>
-      </entry>
-      <entry index="35" macro="hab_imp_s_01_macro" connection="connectionsnap003">
-        <predecessor index="32" connection="connectionsnap004" />
-        <offset>
-          <position x="885.664" y="-717.239" z="-716.994" />
-          <rotation yaw="-0.304777" pitch="0.00438739" roll="-0.41308" />
-        </offset>
-      </entry>
-      <entry index="36" macro="dockarea_arg_m_station_02_hightech_macro"
-        connection="connectionsnap001">
+      <entry index="34" macro="dockarea_arg_m_station_02_hightech_macro" connection="connectionsnap001">
         <predecessor index="28" connection="connectionsnap003" />
         <offset>
           <position x="-518.551" y="-723.006" z="75.548" />
-          <rotation yaw="179.69522" />
+          <rotation yaw="179.69518" />
         </offset>
       </entry>
-      <entry index="37" macro="dockarea_arg_m_station_02_hightech_macro"
-        connection="connectionsnap001">
+      <entry index="35" macro="dockarea_arg_m_station_02_hightech_macro" connection="connectionsnap001">
         <predecessor index="28" connection="connectionsnap004" />
         <offset>
           <position x="681.432" y="-723.006" z="81.931" />
           <rotation yaw="-0.304754" />
-        </offset>
-      </entry>
-      <entry index="38" macro="hab_imp_s_01_macro" connection="connectionsnap003">
-        <predecessor index="32" connection="connectionsnap003" />
-        <offset>
-          <position x="-714.272" y="-728.774" z="-725.504" />
-          <rotation yaw="179.69522" pitch="-0.00219926" roll="0.41308" />
-        </offset>
-      </entry>
-      <entry index="39" macro="hab_imp_s_01_macro" connection="connectionsnap003">
-        <predecessor index="33" connection="connectionsnap003" />
-        <offset>
-          <position x="-722.803" y="-723.006" z="874.473" />
-          <rotation yaw="179.69522" />
         </offset>
       </entry>
     </plan>
@@ -283,7 +253,7 @@
       <entry index="1" macro="defence_imp_claim_ring_macro">
         <offset>
           <position x="81.44" y="165.364" z="78.741" />
-          <rotation yaw="179.69516" />
+          <rotation yaw="179.69513" />
         </offset>
       </entry>
       <entry index="2" macro="struct_imp_cross_01_macro" connection="connectionsnap003">
@@ -304,7 +274,7 @@
         <predecessor index="3" connection="connectionsnap006" />
         <offset>
           <position x="2525.939" y="332.445" z="1501.889" />
-          <rotation yaw="-28.5833" pitch="-0.601878" roll="179.98193" />
+          <rotation yaw="-28.5833" pitch="-0.601878" roll="179.98189" />
         </offset>
       </entry>
       <entry index="5" macro="struct_imp_cross_01_macro" connection="connectionsnap003">
@@ -318,21 +288,21 @@
         <predecessor index="5" connection="connectionsnap004" />
         <offset>
           <position x="96.512" y="132.457" z="-2754.351" />
-          <rotation yaw="-90.30478" pitch="-2.13284" />
+          <rotation yaw="-90.30476" pitch="-2.13284" />
         </offset>
       </entry>
       <entry index="7" macro="storage_vault_small_macro" connection="connectionsnap002">
         <predecessor index="6" connection="connectionsnap006" />
         <offset>
           <position x="89.069" y="332.319" z="-2754.39" />
-          <rotation yaw="91.41416" pitch="2.13189" roll="-179.93602" />
+          <rotation yaw="91.41416" pitch="2.13189" roll="-179.93599" />
         </offset>
       </entry>
       <entry index="8" macro="struct_imp_cross_01_macro" connection="connectionsnap003">
         <predecessor index="1" connection="connectionsnap002" />
         <offset>
           <position x="-1857.949" y="132.455" z="1176.816" />
-          <rotation yaw="-150.30841" pitch="-2.2107" />
+          <rotation yaw="-150.30836" pitch="-2.2107" />
         </offset>
       </entry>
       <entry index="9" macro="pier_imp_harbor_02_macro" connection="connectionsnap004">
@@ -346,7 +316,7 @@
         <predecessor index="9" connection="connectionsnap006" />
         <offset>
           <position x="-2382.89" y="332.306" z="1467.254" />
-          <rotation yaw="-148.58937" pitch="-2.2097" roll="179.93369" />
+          <rotation yaw="-148.58937" pitch="-2.2097" roll="179.93364" />
         </offset>
       </entry>
       <entry index="11" macro="struct_imp_cross_01_macro" connection="connectionsnap002">
@@ -395,20 +365,20 @@
         <predecessor index="1" connection="connectionsnap005" />
         <offset>
           <position x="81.44" y="220.828" z="78.741" />
-          <rotation yaw="179.69518" />
+          <rotation yaw="179.69513" />
         </offset>
       </entry>
       <entry index="18" macro="storage_vault_imp_liquid_tradestation_01_macro">
         <offset>
           <position x="81.44" y="2667.978" z="78.741" />
-          <rotation yaw="148.28911" roll="-179.99998" />
+          <rotation yaw="148.28906" roll="-179.99994" />
         </offset>
       </entry>
       <entry index="19" macro="storage_vault_large_macro" connection="connectionsnap001">
         <predecessor index="18" connection="connectionsnap02" />
         <offset>
           <position x="81.44" y="5283.758" z="78.743" />
-          <rotation yaw="88.11387" roll="179.99995" />
+          <rotation yaw="88.11387" roll="179.99991" />
         </offset>
       </entry>
       <entry index="20" macro="prod_vault_imp_foodrations_macro" connection="connectionsnap001">
@@ -442,7 +412,7 @@
       <entry index="24" macro="struct_imp_base_02_macro">
         <offset>
           <position x="1724.615" y="1742.747" z="1056.186" />
-          <rotation yaw="-120.41109" pitch="-0.241013" roll="-90.19545" />
+          <rotation yaw="-120.41108" pitch="-0.241013" roll="-90.19541" />
         </offset>
       </entry>
       <entry index="25" macro="struct_imp_base_02_macro">
@@ -474,7 +444,7 @@
         <predecessor index="28" connection="connectionsnap005" />
         <offset>
           <position x="81.441" y="-1123.006" z="78.74" />
-          <rotation yaw="-179.99989" roll="-179.99997" />
+          <rotation yaw="-179.99989" roll="-179.99992" />
         </offset>
       </entry>
       <entry index="30" macro="hab_imp_s_01_macro" connection="connectionsnap003">
@@ -503,48 +473,18 @@
           <rotation yaw="-0.304777" />
         </offset>
       </entry>
-      <entry index="34" macro="hab_imp_s_01_macro" connection="connectionsnap003">
-        <predecessor index="33" connection="connectionsnap004" />
-        <offset>
-          <position x="877.174" y="-723.006" z="882.984" />
-          <rotation yaw="-0.304763" />
-        </offset>
-      </entry>
-      <entry index="35" macro="hab_imp_s_01_macro" connection="connectionsnap003">
-        <predecessor index="32" connection="connectionsnap004" />
-        <offset>
-          <position x="885.664" y="-717.239" z="-716.994" />
-          <rotation yaw="-0.304777" pitch="0.00438739" roll="-0.41308" />
-        </offset>
-      </entry>
-      <entry index="36" macro="dockarea_arg_m_station_02_hightech_macro"
-        connection="connectionsnap001">
+      <entry index="34" macro="dockarea_arg_m_station_02_hightech_macro" connection="connectionsnap001">
         <predecessor index="28" connection="connectionsnap003" />
         <offset>
           <position x="-518.551" y="-723.006" z="75.548" />
-          <rotation yaw="179.69522" />
+          <rotation yaw="179.69518" />
         </offset>
       </entry>
-      <entry index="37" macro="dockarea_arg_m_station_02_hightech_macro"
-        connection="connectionsnap001">
+      <entry index="35" macro="dockarea_arg_m_station_02_hightech_macro" connection="connectionsnap001">
         <predecessor index="28" connection="connectionsnap004" />
         <offset>
           <position x="681.432" y="-723.006" z="81.931" />
           <rotation yaw="-0.304754" />
-        </offset>
-      </entry>
-      <entry index="38" macro="hab_imp_s_01_macro" connection="connectionsnap003">
-        <predecessor index="32" connection="connectionsnap003" />
-        <offset>
-          <position x="-714.272" y="-728.774" z="-725.504" />
-          <rotation yaw="179.69522" pitch="-0.00219926" roll="0.41308" />
-        </offset>
-      </entry>
-      <entry index="39" macro="hab_imp_s_01_macro" connection="connectionsnap003">
-        <predecessor index="33" connection="connectionsnap003" />
-        <offset>
-          <position x="-722.803" y="-723.006" z="874.473" />
-          <rotation yaw="179.69522" />
         </offset>
       </entry>
     </plan>

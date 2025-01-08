@@ -29,6 +29,29 @@
       </drop>
     </droplist>
 
+    <droplist id="drop_inv_bank_lootbox">
+      <drop macro="bank_wares_macro">
+        <collectable>
+          <wares selection="random">
+            <select weight="1">
+              <ware ware="inv_bank_lootbox" min="1" max="1" /> <!-- 50m -->
+            </select>
+          </wares>
+        </collectable>
+      </drop>
+    </droplist>
+    <droplist id="drop_bank_large_lootbox">
+      <drop macro="bank_wares_macro">
+        <collectable>
+          <wares selection="random">
+            <select weight="1">
+              <ware ware="bank_large_lootbox" min="1" max="1" /> <!-- 50m -->
+            </select>
+          </wares>
+        </collectable>
+      </drop>
+    </droplist>
+
     <droplist id="ship_medium_banker">
       <drop macro="bank_wares_macro" min="1" max="1" chance="100">
         <collectable>
