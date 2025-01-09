@@ -622,56 +622,47 @@
 						<set_value name="$oldRelation" exact="$Account.$relation" />
 						<set_value name="$newRelation" exact="$faction.relationto.{faction.player}" />
 						<set_value name="$changeAmount" exact="event.param2.{1} - event.param2.{2}" />
-						<set_value name="$change" exact="false" />
+						<set_value name="$tierChange" exact="false" />
 						<!-- 30 -->
 						<do_if value="$newRelation ge 1 and $oldRelation lt 1">
-							<set_value name="$Account.$fee" exact="$Fee30" />
-							<set_value name="$Account.$rate" exact="$Rate30" />
-							<set_value name="$Account.$period" exact="$Period30" />
-							<set_value name="$change" exact="true" />
+							<set_value name="$Account.$tier" exact="5" />
+							<set_value name="$tierChange" exact="true" />
 						</do_if>
 						<!-- 20 -->
 						<do_elseif value="($newRelation ge 0.1 and $oldRelation lt 0.1) or ($newRelation lt 1 and $oldRelation ge 1)">
-							<set_value name="$Account.$fee" exact="$Fee20" />
-							<set_value name="$Account.$rate" exact="$Rate20" />
-							<set_value name="$Account.$period" exact="$Period20" />
-							<set_value name="$change" exact="true" />
+							<set_value name="$Account.$tier" exact="4" />
+							<set_value name="$tierChange" exact="true" />
 						</do_elseif>
 						<!-- 10 -->
 						<do_elseif value="($newRelation ge 0.01 and $oldRelation lt 0.01) or ($newRelation lt 0.1 and $oldRelation ge 0.1)">
-							<set_value name="$Account.$fee" exact="$Fee10" />
-							<set_value name="$Account.$rate" exact="$Rate10" />
-							<set_value name="$Account.$period" exact="$Period10" />
-							<set_value name="$change" exact="true" />
+							<set_value name="$Account.$tier" exact="3" />
+							<set_value name="$tierChange" exact="true" />
 						</do_elseif>
 						<!-- 0 -->
 						<do_elseif value="($newRelation ge 0 and $oldRelation lt 0) or ($newRelation lt 0.01 and $oldRelation ge 0.01)">
-							<set_value name="$Account.$fee" exact="$Fee0" />
-							<set_value name="$Account.$rate" exact="$Rate0" />
-							<set_value name="$Account.$period" exact="$Period0" />
-							<set_value name="$change" exact="true" />
+							<set_value name="$Account.$tier" exact="2" />
+							<set_value name="$tierChange" exact="true" />
 						</do_elseif>
 						<!-- -9 -->
 						<do_elseif value="($newRelation gt -0.01 and $oldRelation le -0.01) or ($newRelation lt 0 and $oldRelation ge 0)">
-							<set_value name="$Account.$fee" exact="$Fee9" />
-							<set_value name="$Account.$rate" exact="$Rate9" />
-							<set_value name="$Account.$period" exact="$Period9" />
-							<set_value name="$change" exact="true" />
+							<set_value name="$Account.$tier" exact="1" />
+							<set_value name="$tierChange" exact="true" />
 						</do_elseif>
 						<!-- -10 -->
 						<do_elseif value="($newRelation le -0.01 and $oldRelation gt -0.01)">
+							<set_value name="$Account.$tier" exact="0" />
 							<set_value name="$Account.$fee" exact="0" />
 							<set_value name="$Account.$rate" exact="0" />
 							<set_value name="$Account.$period" exact="0h" />
 							<set_value name="$Account.$balance" exact="0" />
-							<set_value name="$change" exact="true" />
+							<set_value name="$tierChange" exact="true" />
 							<set_value name="$Account.$closed" exact="true" />
 							<run_actions ref="md.kuertee_emergent_missions.Bounties.Bounties_RegisterPilot">
 								<param name="Pilot" value="player.entity" />
 							</run_actions>
 						</do_elseif>
 						<set_value name="$oldRelation" exact="$newRelation" />
-						<do_if value="$change and $Account.$balance gt 0">
+						<do_if value="$tierChange and $Account.$balance gt 0">
 							<set_value name="$opening"
 								exact="'This is a Priority Message from '+$faction.name+'.'" />
 							<do_if value="$Account.$closed">
@@ -680,7 +671,7 @@
 							</do_if>
 							<do_else>
 								<set_value name="$data"
-									exact="'Rate: '+$Account.$rate*100+'%\nPeriod: '+$Account.$period/3600+'hr\n\n'+{20777, 1006}+' Withdrawal Fee: '+$Account.$Fee*100+'%'" />
+									exact="'Rate: '+$Account.$rate*100+'%\nPeriod: '+$Account.$period/3600+'hr\n\n'+{20777, 1006}+' Withdrawal Fee: '+$Account.$fee*100+'%'" />
 								<do_if value="$changeAmount gt 0">
 									<do_if value="$open">
 										<set_value name="$statusText"
@@ -707,7 +698,7 @@
 							<show_notification
 								text="'You have received a Priority Message from '+$faction.name"
 								timeout="8s" sound="ui_mon_eve_money_up" />
-							<remove_value name="$change" />
+							<remove_value name="$tierChange" />
 							<remove_value name="$text" />
 						</do_if>
 						<reset_cue cue="this" />
@@ -994,6 +985,7 @@
 						<!-- set withdrawal fee -->
 						<set_value name="$Fee" exact="if $vault then 0 else $Account.$fee" />
 						<set_value name="$Fee" operation="add" exact="if $docked then 0 else $Account.$undocked_fee" />
+						<set_value name="$Account.$curFee" exact="$Fee" />
 
 						<!-- update interest -->
 						<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
@@ -1098,10 +1090,11 @@
 										$text=$interest_amount+'Cr'
 									]" />
 								</do_if>
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+								<do_if value="(player.money)i ge 1">
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
 									$id = 'sliderDeposit',
 									$start = 0,
 									$col = 1,
@@ -1110,13 +1103,14 @@
 									$default = 0,
 									$onSliderCellChanged = Bank_Menu_Deposit_Amount
 								]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 									$col = 1,
 									$text = table[$text='Deposit'],
 									$onClick = Bank_Menu_Deposit
 								]" />
-								<do_if value="$AccountBalance gt 0">
+								</do_if>
+								<do_if value="($AccountBalance)i ge 1">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<do_if value="$Fee gt 0">
@@ -1258,6 +1252,7 @@
 							</conditions>
 							<actions>
 								<set_value name="$Account" exact="$Accounts.{$Faction}" />
+								<set_value name="$Fee" exact="$Account.$curFee" />
 								<set_value name="$AccountBalance" exact="$Account.$balance" />
 								<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
 								<debug_text text="'Withdraw: '+$Faction.name+' '+$AccountBalance+' '+$LoanBalance+' '+player.money/100+' '+$Withdraw_amount" chance="global.$GB_Vault.$debug" />
@@ -1288,6 +1283,126 @@
 							</actions>
 						</cue>
 					</cues>
+				</cue>
+
+
+				<cue name="BankTransports" instantiate="true">
+					<conditions>
+						<check_any>
+							<event_job_ship_activated />
+							<event_object_destroyed group="global.$GB_Vault.$BankTransports" />
+						</check_any>
+					</conditions>
+					<actions>
+						<do_if value="event.name == 'event_job_ship_activated'">
+							<add_to_group groupname="global.$GB_Vault.$BankTransports" object="event.param" />
+						</do_if>
+						<do_elseif value="event.name == 'event_object_destroyed'">
+							<remove_from_group group="global.$GB_Vault.$BankTransports" object="event.object" />
+							<do_if value="event.param.trueowner == faction.player">
+								<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="-0.01" reason="relationchangereason.killedobject" />
+							</do_if>
+						</do_elseif>
+					</actions>
+				</cue>
+
+				<cue name="LootboxFinder" instantiate="true">
+					<conditions>
+						<event_object_dropped_objects group="global.$GB_Vault.$BankTransports" />
+					</conditions>
+					<actions>
+						<do_if value="not event.object.exists">
+							<remove_from_group group="global.$GB_Vault.$BankTransports" object="event.object" />
+						</do_if>
+						<do_for_each name="$drop" in="event.param">
+							<do_if value="$drop == ware.bank_large_lootbox or $drop == ware.inv_bank_lootbox">
+								<set_drop_persistence object="$drop" />
+								<set_value name="global.$GB_Vault.$LootboxDrops.{$drop}" exact="player.age" />
+							</do_if>
+						</do_for_each>
+					</actions>
+				</cue>
+
+				<cue name="DespawnLootboxes" instantiate="true" checkinterval="10s">
+					<conditions>
+						<check_age min="global.$GB_Vault.$DespawnLootboxes" />
+						<check_value value="global.$GB_Vault.$LootboxDrops.keys.list.count gt 0" />
+					</conditions>
+					<actions>
+						<set_value name="global.$GB_Vault.$DespawnLootboxes" exact="player.age + 120s" />
+						<do_for_each name="$drop" in="global.$GB_Vault.$LootboxDrops.keys.list">
+							<do_if value="$drop.exists and global.$GB_Vault.$LootboxDrops.{$drop} - player.age gt 24h">
+								<destroy_object object="$drop" />
+								<remove_value name="global.$GB_Vault.$LootboxDrops.{$drop}" />
+							</do_if>
+						</do_for_each>
+					</actions>
+				</cue>
+
+
+				<cue name="LoanPayment" instantiate="true" checkinterval="10s">
+					<conditions>
+						<check_age min="global.$GB_Vault.$NextPayment" />
+					</conditions>
+					<actions>
+						<set_value name="global.$GB_Vault.$NextPayment" exact="player.age + global.$GB_Vault.$PaymentInterval" />
+						<do_for_each name="$faction" in="global.$GB_Vault.$Accounts.keys.list">
+							<set_value name="$Account" exact="global.$GB_Vault.$Accounts.{$faction}" />
+							<set_value name="$AccountBalance" exact="$Account.$balance" />
+							<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
+							<set_value name="$PaymentsMissed" exact="$Account.$paymentsMissed" />
+							<set_value name="$Payment" exact="$Account.$payment" />
+							<do_if value="$Payment gt 0">
+								<do_if value="$AccountBalance lt $Payment
+									or
+									(
+										$Payment gt $LoanBalance
+										and
+										$AccountBalance lt $LoanBalance
+									)">
+									<show_help force="true" duration="8s"
+										custom="'You have received a Priority Message from '+$faction.name" position="20" />
+									<set_value name="$Account.$arrears" operation="add" exact="$Payment" />
+									<show_notification text="$faction+' Not enough funds for loan payment.'" />
+									<set_value name="$text" exact="'Your loan payment with '+$faction.name+' failed due to not enough funds in your account.\n\n'+
+										($Payment)i+'Cr is past due. Please make a manual payment of '+$Account.$arrears+'Cr.'" />
+
+									<set_value name="$Account.$paymentsMissed" operation="add" exact="1" />
+									<do_if value="$PaymentsMissed == 5">
+										<set_value name="$text" operation="add" exact="'\n\nYou have missed 5 payments. Thus, your collateral is now subject to confiscation.'" />
+									</do_if>
+									<do_elseif value="$PaymentsMissed gt 5">
+										<set_value name="$text" operation="add" exact="'\n\nReminder: Your collateral is subject to confiscation.'" />
+									</do_elseif>
+									<write_incoming_message highpriority="true"
+										source="$faction.name"
+										title="'Missed Loan Payment'"
+										text="$text" />
+									<add_faction_relation faction="$faction" otherfaction="faction.player" value="-0.001* if $PaymentsMissed gt 5 then 5 else $PaymentsMissed" reason="relationchangereason.missionfailed" />
+								</do_if>
+								<do_else>
+									<do_if value="$Payment ge $LoanBalance">
+										<set_value name="$Account.$balance" operation="subtract" exact="$LoanBalance" />
+										<set_value name="$Account.$loan_balance" exact="0" />
+										<set_value name="$Account.$payment" exact="0" />
+										<show_notification text="$faction+' Loan Paid-off: '+$money" />
+									</do_if>
+									<do_else>
+										<set_value name="$Account.$balance" operation="subtract" exact="$Payment" />
+										<set_value name="$Account.$loan_balance" operation="subtract" exact="$Payment" />
+										<show_notification text="$faction+' Loan Payment: '+$money" />
+									</do_else>
+								</do_else>
+								<!-- full gain at 1m Cr -->
+								<do_if value="$AccountBalance ge $Account.$maxRepCr*100">
+									<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
+								</do_if>
+								<do_elseif value="$AccountBalance gt 0">
+									<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate * $Account.$maxRepCr*100" reason="relationchangereason.missioncompleted" />
+								</do_elseif>
+							</do_if>
+						</do_for_each>
+					</actions>
 				</cue>
 
 				<!-- 

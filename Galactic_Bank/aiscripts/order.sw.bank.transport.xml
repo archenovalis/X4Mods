@@ -4,7 +4,7 @@
     <params>
       <param name="destination" type="internal" default="false" text="{1041, 10027}" comment="Destination. can be a space or an object in a zone. Providing Sector and Cluster will attempt to find the nearest zone" />
       <param name="cannotdock" type="internal" default="false" text="{1041, 10133}" comment="Unable to dock. used for error handling in case of inability to dock" />
-      <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
+      <param name="debugchance" type="bool" default="100" advanced="true" text="{1041, 10086}" comment="Print debug output">
         <input_param name="truevalue" value="100" />
       </param>
     </params>
@@ -46,20 +46,20 @@
       <find_station_by_true_owner name="$stations" multiple="true"
         macro="macro.station_bankingclan_branchvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
-      <debug_text text="'found operational branches: '+$stations.count+' stationslist: '+$stations" />
+      <debug_text text="'found operational branches: '+$stations.count+' stationslist: '+$stations" chance="$debugchance" />
       <find_station_by_true_owner name="$stationsC" multiple="true" checkoperational="false"
         macro="macro.station_bankingclan_branchvault_macro" state="componentstate.construction"
         faction="faction.bankingclan" space="player.galaxy" />
       <do_if value="$stationsC.count gt 0">
         <append_to_list name="$stations" exact="$stationsC" />
-        <debug_text text="'found constructing branches: '+$stationsC.count+' stationslist: '+$stationsC" />
+        <debug_text text="'found constructing branches: '+$stationsC.count+' stationslist: '+$stationsC" chance="$debugchance" />
       </do_if>
       <find_station_by_true_owner name="$hq" multiple="true"
         macro="macro.station_bankingclan_mainvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
       <do_if value="$hq.count gt 0">
         <append_to_list name="$stations" exact="$hq.{1}" />
-        <debug_text text="'found operational hq: '+$hq.count+' stationslist: '+$hq" />
+        <debug_text text="'found operational hq: '+$hq.count+' stationslist: '+$hq" chance="$debugchance" />
       </do_if>
       <do_else>
         <find_station_by_true_owner name="$hqC" multiple="true" checkoperational="false"
@@ -67,14 +67,14 @@
           faction="faction.bankingclan" space="player.galaxy" />
         <do_if value="$hqC.count gt 0">
           <append_to_list name="$stations" exact="$hqC.{1}" />
-          <debug_text text="'found constructing hq: '+$hqC.count+' stationslist: '+$hqC" />
+          <debug_text text="'found constructing hq: '+$hqC.count+' stationslist: '+$hqC" chance="$debugchance" />
         </do_if>
       </do_else>
-      <debug_text text="'found stations: '+$stations.count+' stationslist: '+$stations" />
+      <debug_text text="'found stations: '+$stations.count+' stationslist: '+$stations" chance="$debugchance" />
       <do_if value="$stations == null or $stations.count lt 2">
-        <debug_text text="'waiting for stations'" />
+        <debug_text text="'waiting for stations'" chance="$debugchance" />
         <wait exact="1min" sinceversion="1" />
-        <debug_text text="'resuming for stations'" />
+        <debug_text text="'resuming for stations'" chance="$debugchance" />
         <resume label="start" />
       </do_if>
       <set_value name="$stationA" exact="$stations.random" />
@@ -85,6 +85,7 @@
       <label name="move_to_destination" />
 
       <do_if value="not $destination.isoperational">
+        <debug_text text="'station not operational: '+$destination.sector.name" chance="$debugchance" />
         <resume label="start" />
       </do_if>
 
@@ -96,27 +97,76 @@
 
       <!-- skip the movement step if we are already there -->
       <do_if value="(this.ship.dock and this.ship.dock.container == $destination) or (this.ship.parkedat and ((this.ship.parkedat == $destination) or this.ship.parkedat.hascontext.{$destination}))">
-        <debug_text text="'already docked at a trading dock at the destination %1 (%2)'.[$destination.knownname, $destination]" chance="$debugchance" />
+        <debug_text text="'already docked at the destination %1 (%2)'.[$destination.knownname, $destination]" chance="$debugchance" />
         <resume label="next" />
       </do_if>
 
       <!-- Docking procedure -->
-      <do_if value="not $cannotdock">
-        <do_if value="@this.ship.dock.container != $destination">
-          <debug_text text="player.age + ' moving to dock at ' + $destination.knownname" chance="$debugchance" />
-          <set_value name="$wait" min="1min" max="10min" />
-          <create_order id="'DockAndWait'" object="this.ship" immediate="true">
-            <param name="destination" value="$destination" />
-            <param name="waittime" value="$wait" />
-            <param name="callerid" value="this.assignedcontrolled.order" />
-            <param name="internalorder" value="true" />
-            <param name="debugchance" value="$debugchance" />
-          </create_order>
-          <return />
+      <do_if value="@this.ship.dock.container != $destination">
+        <debug_text text="player.age + ' moving to dock at ' + $destination.knownname" chance="$debugchance" />
+        <set_value name="$wait" min="1min" max="10min" />
+        <create_order id="'DockAndWait'" object="this.ship" immediate="true">
+          <param name="destination" value="$destination" />
+          <param name="waittime" value="$wait" />
+          <param name="callerid" value="this.assignedcontrolled.order" />
+          <param name="internalorder" value="true" />
+          <param name="debugchance" value="$debugchance" />
+        </create_order>
+        <return />
+      </do_if>
+      <do_else>
+        <debug_text text="player.age + ' docked at ' + $destination.knownname" chance="$debugchance" />
+      </do_else>
+
+      <do_if value="$cannotdock">
+        <set_value name="$cannotdock" exact="false" />
+        <!-- try to free up a slot-->
+        <set_value name="$shipmacro" exact="$this.assignedcontrolled.macro" />
+        <debug_text text="'no free slot to build ' + $shipmacro" chance="$debugchance" />
+        <find_dockingbay object="$destination" name="$internaldocks" multiple="true">
+          <match_dock storage="true" free="true" size="$shipmacro.docksize" />
+        </find_dockingbay>
+        <set_value name="$freeslots" exact="0" />
+        <do_all exact="$internaldocks.count" counter="$d">
+          <set_value name="$freeslots" exact="$internaldocks.{$d}.shipstorage.free" operation="add" />
+        </do_all>
+        <do_if value="$freeslots gt 3">
+          <!-- we have enough slots in internal storage, so just store a ship away -->
+          <request_store_ship object="$destination" size="$shipmacro.docksize" faction="$destination.faction" />
         </do_if>
         <do_else>
-          <debug_text text="player.age + ' docked at ' + $destination.knownname" chance="$debugchance" />
+          <!-- not a lot of room left in internal storage so try and make a ship undock instead -->
+          <find_object_component name="$dockedships" class="$shipmacro.class" docked="true" object="$destination" includeobjects="true" multiple="true">
+            <match owner="faction.player" negate="true" />
+            <match_parent>
+              <match_dock storage="false" />
+            </match_parent>
+          </find_object_component>
+          <!-- second find so player ships can be found as well but are appended to the list and therefore only considered if there are no suitable NPC ships to send away -->
+          <find_object_component name="$dockedships" class="$shipmacro.class" docked="true" object="$destination" includeobjects="true" multiple="true" owner="faction.player" append="true">
+            <match_parent>
+              <match_dock storage="false" />
+            </match_parent>
+          </find_object_component>
+          <do_all exact="$dockedships.count" counter="$s">
+            <set_value name="$dockedship" exact="$dockedships.{$s}" />
+            <!-- now make sure this ship is not involved in any build/upgrade operation and actually able to fly away -->
+            <do_if value="@$dockedship.order.id == 'Wait' and $dockedship.order.$allowdocked and $dockedship.orders.count == 0 and $dockedship.isoperational and $dockedship.assignedpilot.exists">
+              <!-- all good, this ship should be fine when sent away -->
+              <debug_text text="'station forces %1 (%2) to undock'.[$dockedship.knownname, $dockedship.idcode]" chance="$debugchance" />
+              <create_order object="$dockedship" id="'Wait'" immediate="true">
+                <param name="allowdocked" value="false" />
+              </create_order>
+              <break />
+            </do_if>
+          </do_all>
+          <remove_value name="$dockedship" />
+          <remove_value name="$dockedships" />
         </do_else>
+        <remove_value name="$freeslots" />
+        <remove_value name="$internaldocks" />
+        <wait exact="10s" />
+        <resume label="move_to_destination" />
       </do_if>
 
       <label name="next" />
@@ -126,13 +176,13 @@
       <set_value name="$changeRoute" exact="true" chance="10" />
       <do_if value="$changeRoute">
         <set_value name="$changeRoute" exact="false" />
-        <debug_text text="'route changed'" />
+        <debug_text text="'route changed'" chance="$debugchance" />
         <resume label="start" />
       </do_if>
 
       <do_else>
         <!-- Toggle destination -->
-        <debug_text text="'toggle destination'" />
+        <debug_text text="'toggle destination'" chance="$debugchance" />
         <do_if value="$destination == $stationA">
           <set_value name="$destination" exact="$stationB" />
         </do_if>

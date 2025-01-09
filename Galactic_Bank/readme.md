@@ -6,6 +6,7 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
 ## Features
 - Banking Clan has Vault Stations in major faction home sectors.
 - Branch Offices are found in stations located within major faction-owned sectors.
+- Bank Loans (collateral requirement based on relations)
 - Interest Rate, Compounding Period, and Withdrawal Fee are set by player's reputation with Banking Clan.
 - Banking Clan's ships transport credit lootboxes between vaults.
 - Credit loot boxes drop from Banking Clan ships (do nothing for now, collect them for future profits).
@@ -23,12 +24,12 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
 - [SW Interworlds](https://sites.google.com/view/swinterworlds/Home)
 
 ## Planned Features
-- Bank Loans (collateral requirement based on relations, fear the repo man)
+- Bank Loans (fear the repo man)
 - Lootboxes drop when destroying vaults
 - Closed Bank Offices
 Branch offices will only be in stations owned by major factions with a functioning branch vault station.
 
-Download: [https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.3](https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.3)
+Download: [https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.4](https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.4)
 
 ## Changelog
 
@@ -84,3 +85,4 @@ v0.91:
 cleaned code. reset accounts (withdraw money before installing). added bribe to reopen account. added loans
 (0.92) reworked aiscript. added wares to bnc transports. improved loan menu. 
 (0.93) Note: Accounts Reset, withdraw before updating. bug fixes. lootboxes persist for 24hrs. bankingclan rep locked. player loses bankingclan rep when attacking/destroying bank transports. faction rep increases every 30 minutes based on amount deposited in account and every loanpayment. lose faction rep when missing a payment due to not enough funds in account
+(0.94) bug fixes. debug messages added.
