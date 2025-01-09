@@ -26,8 +26,8 @@
 			</conditions>
 			<actions>
 				<debug_text text="'event.name: ' + event.name" />
-				<set_value name="$DebugChance" exact="100" />
-				<set_value name="$DebugChance2" exact="100" />
+				<set_value name="$DebugChance" exact="0" />
+				<set_value name="$DebugChance2" exact="0" />
 				<set_value name="$isDoDebug1" exact="false" />
 				<set_value name="$isDoDebug2" exact="false" />
 			</actions>
@@ -70,8 +70,8 @@
 					<actions>
 						<set_value name="$DebugChance_old" exact="$DebugChance" />
 						<set_value name="$DebugChance2_old" exact="$DebugChance2" />
-						<set_value name="$DebugChance" exact="100" />
-						<set_value name="$DebugChance2" exact="100" />
+						<set_value name="$DebugChance" exact="0" />
+						<set_value name="$DebugChance2" exact="0" />
 						<debug_text text="'event.name: ' + event.name + ', DebugChance: ' + $DebugChance" />
 						<set_value name="$isDoDebug1" exact="false" />
 						<set_value name="$isDoDebug2" exact="false" />
@@ -692,7 +692,7 @@
 						<set_value name="$GenerateMissionCount" exact="0" />
 					</actions>
 					<patch sinceversion="2">
-						<set_value name="NPCReactions.$DebugChance" exact="100" />
+						<set_value name="NPCReactions.$DebugChance" exact="0" />
 						<debug_text text="'patch ' + this + ' version: ' + this.version + ' this.state: ' + this.state" />
 						<debug_text text="'patch ' + this + ' CleanRumourMissionGalaxy.state: ' + CleanRumourMissionGalaxy.state" />
 						<signal_cue_instantly cue="CleanRumourMissionGalaxy" param="table[$isFromPatch = true]" />
@@ -973,8 +973,8 @@
 							<create_group groupname="$TargetObjects" />
 							<add_to_group groupname="$TargetObjects" object="$TargetObject" />
 							<set_value name="$MissionGroup" exact="null" />
-							<do_if value="@md.GettingAJob.Work.$Factions.{$ClientOwner}.$hired">
-								<set_value name="$MissionGroup" exact="@md.GettingAJob.Work.$Factions.{$ClientOwner}.$missionGroup" />
+							<do_if value="@md.GettingAJobTest.Work.$Factions.{$ClientOwner}.$hired">
+								<set_value name="$MissionGroup" exact="@md.GettingAJobTest.Work.$Factions.{$ClientOwner}.$missionGroup" />
 							</do_if>
 							<create_group groupname="$DroppedObjects" />
 							<create_offer

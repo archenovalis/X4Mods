@@ -31,7 +31,7 @@
               <set_value name="$convoOption_isGetHired" exact="false" />
               <set_value name="$convoOption_isBecomeSpy" exact="false" />
               <set_value name="$convoOption_isHired" exact="false" />
-              <do_if value="@md.GettingAJob.Work.$Factions.{event.object.trueowner}.hired">
+              <do_if value="@md.GettingAJobTest.Work.$Factions.{event.object.trueowner}.hired">
                 <set_value name="$convoOption_isHired" exact="true" />
               </do_if>
               <do_if value="@$Factions.{$faction}.$offerJob">
@@ -58,49 +58,48 @@
             </do_if>
             <do_else>
               <do_if value="$convoOption_isGetHired">
-                <add_player_choice text="'Job Offer'" section="GAJPiracy_get_hired" />
+                <add_player_choice text="'Job Offer'" section="GAJPiracy_get_hired" choiceparam="$manager" />
               </do_if>
               <do_if value="$convoOption_isBecomeSpy">
-                <add_player_choice text="'Become a Spy'" section="GAJPiracy_become_spy" />
+                <add_player_choice text="'Become a Spy'" section="GAJPiracy_become_spy" choiceparam="$manager" />
               </do_if>
               <do_if value="$convoOption_isHired">
-                <add_player_choice text="'Buy Contraband'" section="GAJPiracy_Buying" />
-                <add_player_choice text="'Sell Ships'" section="GAJPiracy_SellShips" />
-                <add_player_choice text="'Sell Cargo'" section="GAJPiracy_SellCargo" />
+                <add_player_choice text="'Buy Contraband'" section="GAJPiracy_Buying" choiceparam="$manager" />
+                <add_player_choice text="'Sell Ships'" section="GAJPiracy_SellShips" choiceparam="$manager" />
+                <add_player_choice text="'Sell Cargo'" section="GAJPiracy_SellCargo" choiceparam="$manager" />
               </do_if>
-              <add_player_choice text="'Job Status'" section="GAJPiracy_status" />
+              <add_player_choice text="'Job Status'" section="GAJPiracy_status" choiceparam="$manager" />
             </do_else>
             <reset_cue cue="this" />
           </actions>
-          <cues>
-            <cue name="Convo_Continue">
-              <conditions>
-                <event_conversation_next_section sectionprefix="GAJPiracy_" />
-              </conditions>
-              <actions>
-                <set_value name="$faction" exact="event.object.trueowner" />
-                <do_if value="event.param == 'GAJPiracy_get_hired'">
-                  <signal_cue_instantly cue="md.GettingAJob.Work.GetHired" param="$faction" />
-                </do_if>
-                <do_elseif value="event.param == 'GAJPiracy_become_spy'">
-                  <signal_cue_instantly cue="md.GettingAJob.Work.BecomeSpy" param="$faction" />
-                </do_elseif>
-                <do_elseif value="event.param == 'GAJPiracy_status'">
-                  <signal_cue_instantly cue="md.GettingAJob.Work.GetJobStatus" param="$faction" />
-                </do_elseif>
-                <do_elseif value="event.param == 'GAJPiracy_Buying'">
-                  <signal_cue_instantly cue="BuyContraband" />
-                </do_elseif>
-                <do_elseif value="event.param == 'GAJPiracy_SellShips'">
-                  <signal_cue_instantly cue="SellShips" />
-                </do_elseif>
-                <do_elseif value="event.param == 'GAJPiracy_SellCargo'">
-                  <signal_cue_instantly cue="SellCargo" />
-                </do_elseif>
-                <reset_cue cue="this" />
-              </actions>
-            </cue>
-          </cues>
+        </cue>
+        <cue name="Convo_Continue">
+          <conditions>
+            <event_conversation_next_section sectionprefix="GAJPiracy_" />
+          </conditions>
+          <actions>
+            <set_value name="$manager" exact="event.param2" />
+            <set_value name="$faction" exact="$manager.trueowner" />
+            <do_if value="event.param == 'GAJPiracy_get_hired'">
+              <signal_cue_instantly cue="md.GettingAJobTest.Work.GetHired" param="$faction" />
+            </do_if>
+            <do_elseif value="event.param == 'GAJPiracy_become_spy'">
+              <signal_cue_instantly cue="md.GettingAJobTest.Work.BecomeSpy" param="$faction" />
+            </do_elseif>
+            <do_elseif value="event.param == 'GAJPiracy_status'">
+              <signal_cue_instantly cue="md.GettingAJobTest.Work.GetJobStatus" param="$faction" />
+            </do_elseif>
+            <do_elseif value="event.param == 'GAJPiracy_Buying'">
+              <signal_cue_instantly cue="BuyContraband" param="$manager" />
+            </do_elseif>
+            <do_elseif value="event.param == 'GAJPiracy_SellShips'">
+              <signal_cue_instantly cue="SellShips" param="$manager" />
+            </do_elseif>
+            <do_elseif value="event.param == 'GAJPiracy_SellCargo'">
+              <signal_cue_instantly cue="SellCargo" param="$manager" />
+            </do_elseif>
+            <reset_cue cue="this" />
+          </actions>
         </cue>
         <!-- Buy Contraband -->
         <!-- list of docked player ships, set contraband sliders to max units per ship -->

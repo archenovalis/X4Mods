@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="GettingAJob" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mdscript name="GettingAJobTest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
   <cues>
     <cue name="Work" namespace="this" version="1">
@@ -15,9 +15,8 @@
       <actions>
         <set_value name="$NextPaycheck" exact="player.age" />
         <set_value name="$MissionRewardReducer" exact="16" />
-        <set_value name="$PaycheckInterval" exact="15m" />
-        <set_value name="$InactiveTime" exact="120m" />
-        <set_value name="$IsPirate" exact="false" />
+        <set_value name="$PaycheckInterval" exact="(15 * 60)s" />
+        <set_value name="$InactiveTime" exact="(120 * 60)s" />
         <!--
         GettingAJob.$Factions.{$faction} = table[
         (dynamic variables):
@@ -550,7 +549,7 @@
         </cue>
 
         <!-- Paycheck -->
-        <cue name="IssuePaycheck" instantiate="true">
+        <cue name="IssuePaycheck" instantiate="true" checkinterval="5s">
           <conditions>
             <check_age min="$NextPaycheck" />
           </conditions>
@@ -561,23 +560,23 @@
                 <do_if value="player.age - $Factions.{$faction}.$missionTime ge $InactiveTime">
                   <set_value name="$Factions.{$faction}.$inactive" exact="true" />
                   <!-- todo: change text based on type of faction: police, peaceful, pirate, other? -->
-                  <write_incoming_message highpriority="true" source="$faction" title="'Inactive'" text="'
-                    Greetings 'player.name',\n
+                  <write_incoming_message highpriority="true" source="$faction.name" title="'Inactive'" text="'
+                    Greetings '+player.name+',\n
                     \n
                     Your paycheck has been paused until you complete a mission for us.\n
                     \n
-                    '+$faction+' Finance Department'" />
+                    ' +$faction+' Finance Department'" />
                 </do_if>
                 <do_else>
                   <set_value name="$money" exact="$Factions.{$faction}.$paycheck" />
-                  <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $money]" />
-                  <show_notification text="$faction' Paycheck: '+$money" />
+                  <signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction= $faction, $money= $money]" />
+                  <show_notification text="$faction+' Paycheck: '+$money" />
                 </do_else>
               </do_if>
               <do_elseif value="@$Factions.{$faction}.$pension gt 0">
                 <set_value name="$money" exact="$Factions.{$faction}.$pension" />
-                <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $money]" />
-                <show_notification text="$faction' Pension: '+$money" />
+                <signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction= $faction, $money= $money]" />
+                <show_notification text="$faction+' Pension: '+$money" />
               </do_elseif>
             </do_for_each>
           </actions>
@@ -599,7 +598,7 @@
           <actions>
             <set_value name="$faction" exact="event.param" />
             <set_value name="$Factions.{$faction}.$pensionTier" operation="add" exact="1" />
-            <write_incoming_message highpriority="true" source="$faction" title="$faction+': Pension Level '+$Factions.{$faction}.$pensionTier" text="'We are please to inform you that your pension percent has increased to: '++'\n\nWe hope that you live forever.'" />
+            <write_incoming_message highpriority="true" source="$faction.name" title="$faction+': Pension Level '+$Factions.{$faction}.$pensionTier" text="'We are please to inform you that your pension percent has increased to: '++'\n\nWe hope that you live forever.'" />
           </actions>
         </cue>
 
@@ -664,6 +663,9 @@
               <set_value name="$Factions.{$faction}.$inactive" exact="false" />
               <set_value name="$Factions.{$faction}.$offerSpy" exact="false" />
               <set_value name="$Factions.{$faction}.$pension" exact="0" />
+              <set_value name="$Factions.{$faction}.$pensionTier" exact="0" />
+              <set_value name="$Factions.{$faction}.$missionTime" exact="0" />
+              <set_value name="$Factions.{$faction}.$isSpy" exact="false" />
               <set_value name="$Factions.{$faction}.$missionGroup" exact="$MissionGroups.{$faction}" />
             </do_if>
             <set_value name="$Factions.{$faction}.$offerJob" exact="true" />
@@ -681,8 +683,8 @@
             <set_value name="$Factions.{$faction}.$basePay" exact="$paycheck" />
             <set_value name="$Factions.{$faction}.$paycheck" exact="$paycheck" />
             <set_value name="$Factions.{$faction}.$bonusMultiplier" exact="$bonusMultiplier" />
-            <set_value name="$offer" exact="'Pay: '+$paycheck+'Cr / '+$PayInterval+'min\nMission Reward Bonus: '+$bonusMultiplier*100+'%'" />
-            <write_incoming_message highpriority="true" source="$faction" title="$faction+': Job Offer'" text="'We are please to inform you that we are offering a job to you. Please see one of our station managers to accept the position.\n\n'+$offer" />
+            <set_value name="$offer" exact="'Pay: '+$paycheck+'Cr / '+$PaycheckInterval+'min\nMission Reward Bonus: '+$bonusMultiplier*100+'%'" />
+            <write_incoming_message highpriority="true" source="$faction.name" title="$faction+': Job Offer'" text="'We are please to inform you that we are offering a job to you. Please see one of our station managers to accept the position.\n\n'+$offer" />
           </actions>
         </cue>
 
@@ -697,7 +699,7 @@
           <actions>
             <set_value name="$faction" exact="event.param" />
             <set_value name="$Factions.{$faction}.$offerSpy" exact="true" />
-            <write_incoming_message highpriority="true" source="$faction" title="$faction+': Confidential Offer'" text="'Thank you for your loyalty. Please see one of our station managers.'" />
+            <write_incoming_message highpriority="true" source="$faction.name" title="$faction+': Confidential Offer'" text="'Thank you for your loyalty. Please see one of our station managers.'" />
           </actions>
         </cue>
 
@@ -738,6 +740,7 @@
           <actions>
             <do_if value="event.name == 'event_cue_signalled'">
               <set_value name="$manager" exact="@event.param.$manager" />
+              <set_value name="$faction" exact="$manager.trueowner" />
               <set_value name="$convoOption_isGetHired" exact="@event.param.$convoOption_isGetHired" />
               <set_value name="$convoOption_isBecomeSpy" exact="@event.param.$convoOption_isBecomeSpy" />
             </do_if>
@@ -765,13 +768,13 @@
             </do_if>
             <do_else>
               <do_if value="$convoOption_isGetHired">
-                <add_player_choice text="'Job Offer'" section="GAJ_get_hired" />
+                <add_player_choice text="'Job Offer'" section="GAJ_get_hired" choiceparam="$faction" />
               </do_if>
               <do_if value="$convoOption_isBecomeSpy">
                 <!-- spy pay logic goes here-->
-                <add_player_choice text="'Become a Spy'" section="GAJ_become_spy" />
+                <add_player_choice text="'Become a Spy'" section="GAJ_become_spy" choiceparam="$faction" />
               </do_if>
-              <add_player_choice text="'Job Status'" section="GAJ_status" />
+              <add_player_choice text="'Job Status'" section="GAJ_status" choiceparam="$faction" />
             </do_else>
             <reset_cue cue="this" />
           </actions>
@@ -781,7 +784,7 @@
             <event_conversation_next_section sectionprefix="GAJ_" />
           </conditions>
           <actions>
-            <set_value name="$faction" exact="event.object.trueowner" />
+            <set_value name="$faction" exact="event.param2" />
             <!--
               GettingAJob.$Factions.{$faction} = table[
               (dynamic variables):
@@ -801,13 +804,13 @@
                 $offerSpy = bool, (true when manager offers spy position)
               ] -->
             <do_if value="event.param == 'GAJ_get_hired'">
-              <signal_cue_instantly cue="GetHired" />
+              <signal_cue_instantly cue="GetHired" param="$faction" />
             </do_if>
             <do_elseif value="event.param == 'GAJ_become_spy'">
-              <signal_cue_instantly cue="BecomeSpy" />
+              <signal_cue_instantly cue="BecomeSpy" param="$faction" />
             </do_elseif>
             <do_elseif value="event.param == 'GAJ_status'">
-              <signal_cue_instantly cue="GetJobStatus" />
+              <signal_cue_instantly cue="GetJobStatus" param="$faction" />
             </do_elseif>
             <reset_cue cue="this" />
           </actions>
@@ -826,7 +829,7 @@
             <find_sector name="$sectors" owner="$faction" multiple="true" />
             <set_value name="$sectorMacros" exact="[]" />
             <do_for_each name="$sector" in="$sectors">
-              <append_to_list name="$sector.macro" />
+              <append_to_list name="$sectorMacros" exact="$sector.macro" />
             </do_for_each>
             <run_actions ref="md.LIB_Generic.UncoverMap_SectorsAndGates">
               <param name="InitialMap" value="$sectorMacros" />
@@ -842,7 +845,7 @@
                 Active Pension (included in paycheck): '+$data.$pension
               " />
             </do_if>
-            <write_incoming_message highpriority="true" source="$faction" title="'New Hire: '+$faction" text="$message" />
+            <write_incoming_message highpriority="true" source="$faction.name" title="'New Hire: '+$faction" text="$message" />
           </actions>
         </cue>
 
@@ -857,8 +860,8 @@
             <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="$Factions.{$faction}.$spyPay" />
             <add_inventory ware="ware.mod_ship_spy" />
             <add_inventory ware="$HackingDeviceList.{$faction}" />
-            <write_incoming_message highpriority="true" source="$faction" title="$faction+': ~Top Secret: New Spy~'" text="
-                $Factions.{$faction}.$spyPay'+' has been added to your paycheck.
+            <write_incoming_message highpriority="true" source="$faction.name" title="$faction+': ~Top Secret: New Spy~'" text="
+                'Your spy pay of '+$Factions.{$faction}.$spyPay+' has been added to your paycheck.'
               " />
           </actions>
         </cue>
@@ -871,8 +874,8 @@
             <set_value name="$faction" exact="event.param" />
             <set_value name="$data" exact="$Factions.{$faction}" />
             <set_value name="$message" exact="'
-              Hired: '+$data.$hired+'\n
-              Inactive: '+$data.$inactive+'\n
+              Hired: '+if $data.$hired then 'true' else 'false'+'\n
+              Inactive: '+if $data.$inactive then 'true' else 'false'+'\n
               Mission Pay Bonus: '+$data.$bonusMultiplier*100+'%'+'\n
               % of Mission Pay added to Paycheck: '+$data.$paycheckFactor*100+'%'+'\n
               Paycheck: '+$data.$paycheck+'\n
@@ -888,7 +891,7 @@
             <set_value name="$message" exact="$message+'\n
               Last Mission Completed: '+(player.age - $data.$missionTime)*60
             " />
-            <do_if value="$pension gt 0">
+            <do_if value="$data.$pension gt 0">
               <set_value name="$message" exact="$message+'\n
                 Active Pension (included in paycheck): '+$data.$pension
               " />
@@ -898,7 +901,7 @@
                 Spy Status: Active'
               " />
             </do_if>
-            <write_incoming_message source="$faction" title="'Job Status: '+$faction" text="$message" />
+            <write_incoming_message source="$faction.name" title="'Job Status: '+$faction" text="$message" />
           </actions>
         </cue>
       </cues>
@@ -911,7 +914,7 @@
       <actions>
         <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.kuertee_ui_extensions.ui.kuertee_menu_interactmenu'" />
         <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.getting_a_job.ui.menu_interactmenu_uix'" />
-        <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.getting_a_job.ui.sellships'" />
+        <!-- <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.getting_a_job.ui.sellships'" /> -->
         <raise_lua_event name="'Lua_Loader.Load'" param="'extensions.getting_a_job.ui.menu_transporter_uix'" />
       </actions>
     </cue>

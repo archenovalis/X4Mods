@@ -3,6 +3,6 @@
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
   <!-- rewards / 16 -->
   <add pos="before" sel="//set_value[@name='event.param.{1}.$Reward_Money__Result']">
-    <set_value name="$Value" exact="$Value / md.GettingAJob.Work.$MissionRewardReducer" />
+    <set_value name="$Value" exact="$Value / md.GettingAJobTest.Work.$MissionRewardReducer" />
   </add>
 </diff>

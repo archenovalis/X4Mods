@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<!-- original by Shamon -->
 	<cues>
-		<cue name="Bar" namespace="this">
+		<cue name="Bar" namespace="this" version="1">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -14,8 +14,7 @@
 				<check_value value="not @player.allmodules.{player.module}.isscenario" />
 			</conditions>
 			<actions>
-				<!-- md.GAJ_Bar.Bar.$MissionNPCs.{$station}.list of mission npc actors -->
-				<set_value name="$MissionNPCs" exact="table[]" />
+				<set_value name="$BarStations" exact="table[]" />
 			</actions>
 			<cues>
 				<cue name="BarAddToStation" version="1">
@@ -37,68 +36,86 @@
 						<do_if value="not @$station.exists">
 							<set_value name="$station" exact="@event.param2.$dockAt" />
 						</do_if>
+						<set_value name="$barStation" exact="@$BarStations.{$station}" />
+						<do_if value="not $barStation">
+							<set_value name="$random" min="1" max="100" />
+							<set_value name="$BarStations.{$station}" exact="table[$isSpawned = false]" />
+							<set_value name="$barStation" exact="@$BarStations.{$station}" />
+						</do_if>
+						<do_if value="not $barStation.$isSpawned">
+							<set_value name="$barStation.$isSpawned" exact="true" />
+							<set_value name="$dockArea" exact="@$barStation.$dockArea" />
+							<do_if value="not $dockArea">
+								<find_object_component name="$dockArea" object="$station" class="class.walkablemodule" />
+								<set_value name="$barStation.$dockArea" exact="$dockArea" />
+							</do_if>
+							<do_if value="$dockArea">
+								<set_value name="$seed" exact="@$barStation.$seed" />
+								<do_if value="not $seed">
+									<set_value name="$seed" exact="$station.seed + lookup.roomtype.list.indexof.{roomtype.bar}" />
+									<set_value name="$barStation.$seed" exact="$seed" />
+								</do_if>
+								<set_value name="$race" exact="$station.owner.primaryrace" />
+								<get_room_definition macro="$corridorMacro" race="$race" tags="tag.entertainmentcorridor" seed="$seed" />
+								<get_room_definition macro="$corridorMacro" tags="tag.entertainmentcorridor" seed="$seed" chance="if $corridorMacro then 0 else 100" />
+								<get_room_definition macro="$corridorMacro" race="$race" tags="tag.corridor" seed="$seed" chance="if $corridorMacro then 0 else 100" />
+								<get_room_definition macro="$corridorMacro" tags="tag.corridor" seed="$seed" chance="if $corridorMacro then 0 else 100" />
+								<get_room_definition macro="$roomMacro" race="$race" tags="tag.bar" seed="$seed" />
+								<get_room_definition macro="$roomMacro" tags="tag.bar" seed="$seed" chance="if $roomMacro then 0 else 100" />
+								<create_dynamic_interior object="$station"
+									corridor="$corridorMacro" room="$roomMacro"
+									name="'{20007,1031}'"
+									interiorname="$interior" corridorname="$Corridor" roomname="$room" roomtype="roomtype.bar"
+									seed="$seed" />
 
-						<!-- Logic for adding a bar -->
-						<set_value name="$Seed" exact="$station.seed + lookup.roomtype.list.indexof.{roomtype.bar}" />
-						<set_value name="$Race" exact="$station.owner.primaryrace" />
-						<get_room_definition macro="$CorridorMacro" race="$Race" tags="tag.entertainmentcorridor" seed="$Seed" />
-						<get_room_definition macro="$CorridorMacro" tags="tag.entertainmentcorridor" seed="$Seed" chance="if $CorridorMacro then 0 else 100" />
-						<get_room_definition macro="$CorridorMacro" race="$Race" tags="tag.corridor" seed="$Seed" chance="if $CorridorMacro then 0 else 100" />
-						<get_room_definition macro="$CorridorMacro" tags="tag.corridor" seed="$Seed" chance="if $CorridorMacro then 0 else 100" />
-						<get_room_definition macro="$RoomMacro" tags="tag.bar" seed="$Seed" />
-						<create_dynamic_interior object="$station"
-							corridor="$CorridorMacro" room="$RoomMacro"
-							name="'{20007,1031}'"
-							interiorname="$Interior" corridorname="$Corridor" roomname="$Room" roomtype="roomtype.bar"
-							seed="$Seed" />
+								<!-- Handle ShadyGuy or pirate trader -->
+								<find_object_component name="$shadyGuyBar" object="$station" controlpost="controlpost.shadyguy" />
+								<do_if value="@$shadyGuyBar">
+									<find_npc_slot name="$roomSlot" object="$room" tags="tag.stand_leanrail_f" />
+									<add_actor_to_room actor="$shadyGuyBar" slot="$roomSlot" result="$traderMoved" />
+									<do_if value="$traderMoved">
+										<set_value name="$shadyGuyBar.$itemtrader_dockarea" exact="$shadyGuyBar.dockarea" />
+										<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$shadyGuyBar]" />
+									</do_if>
+								</do_if>
 
-						<!-- Handle ShadyGuy or pirate trader -->
-						<find_object_component name="$ShadyGuyBar" object="$station" controlpost="controlpost.shadyguy" />
-						<do_if value="$ShadyGuyBar">
-							<find_npc_slot name="$roomSlot" object="$Room" tags="tag.stand_leanrail_f" />
-							<add_actor_to_room actor="$ShadyGuyBar" slot="$roomSlot" result="$TraderMoved" />
-							<do_if value="$TraderMoved">
-								<set_value name="$ShadyGuyBar.$itemtrader_dockarea" exact="$ShadyGuyBar.dockarea" />
-								<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$ShadyGuyBar]" />
+								<!-- add pirate trader -->
+								<do_if value="not @$shadyGuyBar" chance="2.5">
+									<do_any>
+										<set_value name="$shadyOwner" exact="faction.valarian" weight="50" />
+										<set_value name="$shadyOwner" exact="faction.blacksun" weight="50" />
+									</do_any>
+									<create_cue_actor name="$pirateTrader" cue="this">
+										<select tags="tag.shadyguy" />
+										<owner exact="$shadyOwner" />
+									</create_cue_actor>
+									<set_entity_type entity="$pirateTrader" type="entitytype.shadyguy" />
+									<set_stock_reference entity="$pirateTrader" stock="'pirate_trader'" />
+									<find_npc_slot name="$roomSlot" object="$room" tags="tag.stand_leanrail_f" />
+									<add_actor_to_room actor="$pirateTrader" slot="$roomSlot" result="$traderMoved" />
+									<do_if value="@$traderMoved">
+										<set_value name="$pirateTrader.$itemtrader_dockarea" exact="$pirateTrader.dockarea" />
+										<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$pirateTrader]" />
+									</do_if>
+								</do_if>
+
+								<!-- add hutt trader -->
+								<create_cue_actor name="$huttTrader" cue="this" chance="2.5">
+									<select tags="tag.trader" />
+									<owner exact="faction.huttcartel" />
+								</create_cue_actor>
+								<do_if value="@$huttTrader">
+									<set_entity_type entity="$huttTrader" type="entitytype.trader" />
+									<set_stock_reference entity="$huttTrader" stock="'hutt_trader'" />
+									<find_npc_slot name="$roomSlot" object="$room" />
+									<add_actor_to_room actor="$huttTrader" slot="$roomSlot" result="$traderMoved" />
+									<do_if value="$traderMoved">
+										<set_value name="$huttTrader.$itemtrader_dockarea" exact="$huttTrader.dockarea" />
+										<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$huttTrader]" />
+									</do_if>
+								</do_if>
 							</do_if>
 						</do_if>
-
-						<!-- add pirate trader -->
-						<do_if value="not $ShadyGuyBar" chance="2.5">
-							<do_any>
-								<set_value name="$shadyOwner" exact="faction.valarian" weight="50" />
-								<set_value name="$shadyOwner" exact="faction.blacksun" weight="50" />
-							</do_any>
-							<create_cue_actor name="$PirateTrader" cue="this">
-								<select tags="tag.shadyguy" />
-								<owner exact="$shadyOwner" />
-							</create_cue_actor>
-							<set_entity_type entity="$PirateTrader" type="entitytype.shadyguy" />
-							<set_stock_reference entity="$PirateTrader" stock="'pirate_trader'" />
-							<find_npc_slot name="$roomSlot" object="$Room" tags="tag.stand_leanrail_f" />
-							<add_actor_to_room actor="$PirateTrader" slot="$roomSlot" result="$TraderMoved" />
-							<do_if value="$TraderMoved">
-								<set_value name="$PirateTrader.$itemtrader_dockarea" exact="$PirateTrader.dockarea" />
-								<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$PirateTrader]" />
-							</do_if>
-						</do_if>
-
-						<!-- add hutt trader -->
-						<create_cue_actor name="$HuttTrader" cue="this" chance="2.5">
-							<select tags="tag.trader" />
-							<owner exact="faction.huttcartel" />
-						</create_cue_actor>
-						<do_if value="$HuttTrader">
-							<set_entity_type entity="$HuttTrader" type="entitytype.trader" />
-							<set_stock_reference entity="$HuttTrader" stock="'hutt_trader'" />
-							<find_npc_slot name="$roomSlot" object="$Room" />
-							<add_actor_to_room actor="$HuttTrader" slot="$roomSlot" result="$TraderMoved" />
-							<do_if value="$TraderMoved">
-								<set_value name="$HuttTrader.$itemtrader_dockarea" exact="$HuttTrader.dockarea" />
-								<signal_cue_instantly cue="md.NPC_Itemtrader.OnPlatformPopulation_Itemtrader" param="[$HuttTrader]" />
-							</do_if>
-						</do_if>
-
 					</actions>
 					<cues>
 						<!-- Cleanup when the player leaves the station -->
@@ -111,22 +128,22 @@
 								</check_any>
 							</conditions>
 							<actions>
-								<do_if value="$ShadyGuyBar">
-									<remove_actor_from_room actor="$ShadyGuyBar" />
+								<do_if value="@$shadyGuyBar">
+									<remove_actor_from_room actor="$shadyGuyBar" />
 								</do_if>
-								<do_if value="$PirateTrader">
-									<remove_actor_from_room actor="$PirateTrader" />
-									<destroy_object object="$PirateTrader" />
+								<do_if value="@$pirateTrader">
+									<remove_actor_from_room actor="$pirateTrader" />
+									<destroy_object object="$pirateTrader" />
 								</do_if>
-								<do_if value="$HuttTrader">
-									<remove_actor_from_room actor="$HuttTrader" />
-									<destroy_object object="$HuttTrader" />
+								<do_if value="@$huttTrader">
+									<remove_actor_from_room actor="$huttTrader" />
+									<destroy_object object="$huttTrader" />
 								</do_if>
-								<do_if value="$Interior">
-									<remove_dynamic_interior object="$station" interior="$Interior" />
-									<destroy_object object="$Interior" />
+								<do_if value="$interior">
+									<remove_dynamic_interior object="$station" interior="$interior" />
+									<destroy_object object="$interior" />
 								</do_if>
-								<destroy_object object="$Room" />
+								<destroy_object object="$room" />
 								<reset_cue cue="parent" />
 								<reset_cue cue="this" />
 							</actions>

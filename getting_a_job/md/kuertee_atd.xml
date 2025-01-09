@@ -1598,6 +1598,9 @@
 										<add_player_choice text="{111204, 402}" section="kATDInheritance_receive_inheritance" comment="My inheritance?" />
 									</do_else>
 								</do_if>
+								<do_else>
+									<add_player_choice selectable="false" text="{111204, 402}" section="kATDInheritance_receive_inheritance" comment="My inheritance?" />
+								</do_else>
 								<reset_cue cue="this" />
 							</actions>
 						</cue>
@@ -2388,6 +2391,9 @@
 											<do_if value="$convoOption_isBuyAClone">
 												<add_player_choice text="{111204, 302}.[kATD.$cloningStations.{$station}.$cloneCost.formatted.{'%s %Cr'}]" section="kATD_buy_a_clone" comment="Buy a clone: %1(cost)." />
 											</do_if>
+											<do_else>
+												<add_player_choice selectable="false" text="{111204, 302}.[kATD.$cloningStations.{$station}.$cloneCost.formatted.{'%s %Cr'}]" section="kATD_buy_a_clone" comment="Buy a clone: %1(cost)." />
+											</do_else>
 											<do_if value="$convoOption_isHowManyClones">
 												<add_player_choice text="{111204, 308}" section="kATD_how_many" comment="How many clones do I have?" />
 											</do_if>

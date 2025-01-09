@@ -178,9 +178,9 @@
                   $height = 400,
                   $width = 495
                 ]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
                 <do_for_each name="$ship" in="$ValidShips.keys.list">
-                  <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
-                  <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
                   <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
                   <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$text='']" />
                   <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
@@ -240,7 +240,7 @@
               <actions>
                 <!-- todo: add stolen ship checks. if ship stolen from enemy, then ok, otherwise: crime and forfeiture of ship and fines deducted from $SellTotal -->
                 <set_value name="$faction" exact="$Interact_target.owner" />
-                <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $SellTotal]" />
+                <signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction = $faction, $money = $SellTotal]" />
                 <!-- <reward_player money="$SellTotal" /> -->
                 <do_for_each name="$ship" in="$ValidShips.keys.list">
                   <do_if value="$ValidShips.{$ship}.$sell">

@@ -63,7 +63,7 @@
 					</conditions>
 					<delay exact="1ms" />
 					<actions>
-						<remove_inventory ware="ware.inv_securitybypasssytem" />
+						<remove_inventory ware="ware.inv_securitybypasssystem" />
 						<set_value name="$roomType" exact="event.param.$roomType" />
 						<set_value name="$codePhraseLine" min="0" max="19" />
 						<set_value name="$codePhraseLine" exact="11100 + ($codePhraseLine * 2)" />
