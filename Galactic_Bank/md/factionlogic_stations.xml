@@ -126,17 +126,17 @@
               <match locationtag="[tag.border]" negate="true" />
               <match contested="false" />
             </find_sector>
-            <do_if value="not $RelevantSectors? or $RelevantSectors == []">
+            <!-- <do_if value="not $RelevantSectors? or $RelevantSectors == []">
               <find_sector name="$RelevantSectors" multiple="true"
                 owner="$relevantFaction"
                 space="player.galaxy" />
-            </do_if>
+            </do_if> -->
             <debug_text text="'found RelevantSectors: '+$RelevantSectors" chance="$DebugChance" />
           </do_if>
         </do_if>
       </do_else>
 
-      <do_if value="not ($set == null)">
+      <do_if value="not ($set == null) and (not ($RelevantSectors == null) or $RelevantSectors.count gt 0)">
         <get_module_set_macro set="$set" result="$ModuleSetMacro" />
         <debug_text text="'found ModuleSetMacro: '+$set" chance="$DebugChance" />
         <do_if value="$ModuleSetMacro">

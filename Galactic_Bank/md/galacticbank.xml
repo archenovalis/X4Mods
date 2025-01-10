@@ -938,7 +938,7 @@
 											<set_value name="$reward" exact="$lootboxes * 1000 + $largelootboxes * 20000" />
 											<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="$lootboxes * 0.00082 + $largelootboxes * 0.0032" reason="relationchangereason.missioncompleted" />
 											<write_incoming_message source="faction.bankingclan" title="'We Greatly Appreciate You'" text="'Thank you for returning '+$lootboxes+$largelootboxes+' lootboxes. We have deposited: '+$reward+'Cr into your account.'" />
-											<signal_cue_instantly cue="Transfer" param="table[$faction = faction.bankingclan, $money = $reward]" />
+											<signal_cue_instantly cue="Transfer" param="table[$faction = faction.bankingclan, $money = ($reward)Cr]" />
 										</do_if>
 										<reset_cue cue="this" />
 									</actions>
@@ -1544,6 +1544,7 @@
 						<set_value name="$LoanRate" exact="$Account.$loan_rate" />
 						<set_value name="$LoanCollateralRate" exact="$Account.$loan_collateral_rate" />
 						<set_value name="$Collateral" exact="$Account.$collateral" />
+						<set_value name="$Ships" exact="table[]" />
 						<find_ship_by_true_owner name="$shipsXL" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_xl" />
 						<do_if value="$Collateral.$XL.count gt 0">
 							<do_for_each name="$ship" in="$Collateral.$XL">
@@ -1552,6 +1553,7 @@
 								</do_if>
 							</do_for_each>
 						</do_if>
+						<set_value name="$Ships.$XL" exact="$shipsXL" />
 						<find_ship_by_true_owner name="$shipsL" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_l" />
 						<do_if value="$Collateral.$L.count gt 0">
 							<do_for_each name="$ship" in="$Collateral.$L">
@@ -1560,6 +1562,7 @@
 								</do_if>
 							</do_for_each>
 						</do_if>
+						<set_value name="$Ships.$L" exact="$shipsL" />
 						<find_ship_by_true_owner name="$shipsM" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_m" />
 						<do_if value="$Collateral.$M.count gt 0">
 							<do_for_each name="$ship" in="$Collateral.$M">
@@ -1568,6 +1571,7 @@
 								</do_if>
 							</do_for_each>
 						</do_if>
+						<set_value name="$Ships.$M" exact="$shipsM" />
 						<find_ship_by_true_owner name="$shipsS" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_s" />
 						<do_if value="$Collateral.$S.count gt 0">
 							<do_for_each name="$ship" in="$Collateral.$S">
@@ -1576,6 +1580,7 @@
 								</do_if>
 							</do_for_each>
 						</do_if>
+						<set_value name="$Ships.$S" exact="$shipsS" />
 
 						<!-- update interest -->
 						<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
@@ -1843,7 +1848,7 @@
 								]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
-								<do_for_each name="$ship" in="$Collateral.{'$'+$size}">
+								<do_for_each name="$ship" in="$Ships.{'$'+$size}">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 										$col=1,
