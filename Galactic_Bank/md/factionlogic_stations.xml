@@ -24,7 +24,7 @@
         <do_if value="$hq" chance="$DebugChance">
           <debug_text text="'found construction hq: '+$hq.sector.name" />
         </do_if>
-        <do_else chance="$DebugChance">
+        <do_else>
           <debug_text text="'no hq found'" />
         </do_else>
       </do_if>
@@ -32,11 +32,14 @@
         <set_value name="$set" exact="'mainvault'" />
         <set_value name="$tag" exact="tag.mainvault" />
         <set_value name="$StationMacro" exact="[macro.station_bankingclan_mainvault_macro]" />
-        <find_sector name="$sector"
-          macro="macro.swi_clusterscipio_sector001_macro" />
-        <append_to_list name="$PreferredSectors"
-          exact="$sector" />
-        <debug_text text="'found PreferredSector : '+$sector.name" chance="$DebugChance" />
+        <find_sector name="$sector" macro="macro.swi_clusterscipio_sector001_macro" />
+        <do_if value="$sector.owner.relationto.{faction.bankingclan} ge 0.01">
+          <set_value name="$PreferredSectors" exact="[$sector]" />
+          <debug_text text="'found PreferredSector : '+$sector.name" chance="$DebugChance" />
+        </do_if>
+        <do_else>
+          <set_value name="$PreferredSectors" exact="[]" />
+        </do_else>
         <!-- set relevant sectors -->
         <find_sector name="$RelevantSectors" multiple="true"
           owner="faction.galempire"
@@ -52,13 +55,32 @@
         <find_station_by_true_owner name="$stations"
           macro="macro.station_bankingclan_branchvault_macro"
           faction="faction.bankingclan" space="player.galaxy" multiple="true" />
-        <debug_text text="'found branches: '+$stations.count" chance="$DebugChance" />
+        <do_if value="$stations.count gt 0">
+          <set_value name="$text" exact="''" />
+          <do_for_each name="$station" in="$stations" chance="$DebugChance">
+            <set_value name="$text" exact="$text+' | '+$station.sector.owner+': '+$station.name+' in '+$station.sector.name" />
+          </do_for_each>
+          <debug_text text="'found branches: '+$stations.count+' | '+$text" chance="$DebugChance" />
+        </do_if>
+        <do_else>
+          <debug_text text="'found branches: '+$stations.count" chance="$DebugChance" />
+        </do_else>
         <find_station_by_true_owner name="$stationsC" checkoperational="false"
           macro="macro.station_bankingclan_branchvault_macro" state="componentstate.construction"
           faction="faction.bankingclan" space="player.galaxy" multiple="true" />
-        <debug_text text="'found constructing branches: '+$stationsC.count" chance="$DebugChance" />
-        <set_value name="$factionlist" exact="global.$GB_Vault.$MajorFactionList.keys.list" />
-        <do_for_each name="$faction" in="$factionlist">
+        <do_if value="$stationsC.count gt 0">
+          <set_value name="$text" exact="''" />
+          <do_for_each name="$station" in="$stationsC" chance="$DebugChance">
+            <set_value name="$text" exact="$text+' | '+$station.sector.owner+': '+$station.name+' in '+$station.sector.name" />
+          </do_for_each>
+          <debug_text text="'found constructing branches: '+$stationsC.count+' | '+$text" chance="$DebugChance" />
+        </do_if>
+        <do_else>
+          <debug_text text="'found branches: '+$stationsC.count" chance="$DebugChance" />
+        </do_else>
+        <set_value name="$templist" exact="global.$GB_Vault.$MajorFactionList.keys.list" />
+        <set_value name="$factionlist" exact="$templist" />
+        <do_for_each name="$faction" in="$templist">
           <do_if value="not $faction.isactive">
             <remove_from_list name="$factionlist" exact="$faction" />
             <remove_value name="global.$GB_Vault.$MajorFactionList.{$faction}" />
@@ -68,77 +90,49 @@
           <do_if value="$factionlist.indexof.{$stations.{$i}.sector.owner}">
             <remove_from_list name="$factionlist" exact="$stations.{$i}.sector.owner" />
           </do_if>
+          <do_if value="$factionlist.count == 0">
+            <break />
+          </do_if>
         </do_all>
         <do_if value="$factionlist.count gt 0">
           <do_all exact="$stationsC.count" counter="$i">
             <do_if value="$factionlist.indexof.{$stationsC.{$i}.sector.owner}">
               <remove_from_list name="$factionlist" exact="$stationsC.{$i}.sector.owner" />
             </do_if>
+            <do_if value="$factionlist.count == 0">
+              <break />
+            </do_if>
           </do_all>
         </do_if>
-        <do_if value="$factionlist.count gt 0">
-          <debug_text text="'factions missing branches: '+factionlist" chance="$DebugChance" />
+        <debug_text text="'factionlist: '+$factionlist" chance="$DebugChance" />
+        <do_if value="$factionlist.count gt 0 and not ($factionlist == null)">
           <set_value name="$set" exact="'branchvault'" />
           <set_value name="$tag" exact="tag.branchvault" />
           <set_value name="$StationMacro" exact="[macro.station_bankingclan_branchvault_macro]" />
           <set_value name="$relevantFaction" exact="$factionlist.random" />
-          <debug_text text="'factions missing branches: '+factionlist" chance="$DebugChance" />
-
-          <!-- set preferred sector -->
-          <do_if value="$relevantFaction == faction.galempire">
-            <find_sector name="$sector"
-              macro="macro.swi_clusterbastion_sector001_macro" />
-            <append_to_list name="$PreferredSectors"
-              exact="$sector" />
+          <do_if value="$relevantFaction">
+            <debug_text text="'factions missing branches: '+$factionlist+' | '+$relevantFaction" chance="$DebugChance" />
+            <!-- set preferred sector -->
+            <set_value name="$PreferredSectors" exact="[$relevantFaction.headquarters.sector]" />
+            <debug_text text="'found PreferredSector: '+$relevantFaction+': '+$PreferredSectors.{1}.name" chance="$DebugChance" />
+            <do_if value="not ($PreferredSectors.{1}.owner == $relevantFaction)">
+              <debug_text text="'PreferredSector not owned by faction. owner: '+$PreferredSectors.{1}.owner" chance="$DebugChance" />
+              <set_value name="$PreferredSectors" exact="[]" />
+            </do_if>
+            <!-- set relevant sectors, prefer non-border and not contested sectors -->
+            <find_sector name="$RelevantSectors" multiple="true"
+              owner="$relevantFaction"
+              space="player.galaxy">
+              <match locationtag="[tag.border]" negate="true" />
+              <match contested="false" />
+            </find_sector>
+            <do_if value="not $RelevantSectors? or $RelevantSectors == []">
+              <find_sector name="$RelevantSectors" multiple="true"
+                owner="$relevantFaction"
+                space="player.galaxy" />
+            </do_if>
+            <debug_text text="'found RelevantSectors: '+$RelevantSectors" chance="$DebugChance" />
           </do_if>
-          <do_elseif value="$relevantFaction == faction.ascendancy">
-            <find_sector name="$sector"
-              macro="macro.swi_clustereriadu_sector001_macro" />
-            <append_to_list name="$PreferredSectors"
-              exact="$sector" />
-          </do_elseif>
-          <do_elseif value="$relevantFaction == faction.newrepublic">
-            <find_sector name="$sector"
-              macro="macro.swi_clustercoruscant_sector001_macro" />
-            <append_to_list name="$PreferredSectors"
-              exact="$sector" />
-          </do_elseif>
-          <do_elseif value="$relevantFaction == faction.commerceguild">
-            <find_sector name="$sector"
-              macro="macro.swi_clusterhypori_sector001_macro" />
-            <append_to_list name="$PreferredSectors"
-              exact="$sector" />
-          </do_elseif>
-          <do_elseif value="$relevantFaction == faction.corporate">
-            <find_sector name="$sector"
-              macro="macro.swi_clustercantonica_sector001_macro" />
-            <append_to_list name="$PreferredSectors"
-              exact="$sector" />
-          </do_elseif>
-          <do_elseif value="$relevantFaction == faction.huttcartel">
-            <find_sector name="$sector"
-              macro="macro.swi_clusternarshadda_sector001_macro" />
-            <append_to_list name="$PreferredSectors"
-              exact="$sector" />
-          </do_elseif>
-          <do_elseif value="$relevantFaction == faction.anoat">
-            <find_sector name="$sector"
-              macro="macro.swi_clusteranpath_sector001_macro" />
-            <append_to_list name="$PreferredSectors"
-              exact="$sector" />
-          </do_elseif>
-          <do_elseif value="$relevantFaction == faction.mandodw">
-            <find_sector name="$sector"
-              macro="macro.swi_clustermandalore_sector001_macro" />
-            <append_to_list name="$PreferredSectors"
-              exact="$sector" />
-          </do_elseif>
-          <debug_text text="'found PreferredSector: '+$sector" chance="$DebugChance" />
-          <!-- set relevant sectors -->
-          <find_sector name="$RelevantSectors" multiple="true"
-            owner="$relevantFaction"
-            space="player.galaxy" />
-          <debug_text text="'found RelevantSectors: '+$RelevantSectors" chance="$DebugChance" />
         </do_if>
       </do_else>
 

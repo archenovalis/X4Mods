@@ -2,7 +2,6 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="//index">
-    <entry name="station_bankingclan_vault"
-      value="extensions\galactic_bank\assets\structures\station_bankingclan_vault" />
+    <entry name="station_bankingclan_vault" value="extensions\galactic_bank\assets\structures\station_bankingclan_vault" />
   </add>
 </diff>

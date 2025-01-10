@@ -9,6 +9,7 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
 - Bank Loans (collateral requirement based on relations)
 - Interest Rate, Compounding Period, and Withdrawal Fee are set by player's reputation with Banking Clan.
 - Banking Clan's ships transport credit lootboxes between vaults.
+- Right click when near station to remotely access account.
 - Credit loot boxes drop from Banking Clan ships (do nothing for now, collect them for future profits).
 - Some minor factions have their own accounts.
 - Change Compounding Period to be based on Relation with Banking Clan
@@ -17,7 +18,7 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
   - Rewards and reputation for finding and turning in the credit loot boxes.
   - Chance of large reputation decrease for opening credit loot boxes (unknown amount of credits, usually a lot, might not be; same large reputation decrease regardless of amount)
   - Use a Security Bypass to attempt to open it without risk. Might succeed on first try. Might require multiple.
-- Bounty hunters will hunt you when your banking rep hits -10. 
+- Bounty hunters will hunt you when your banking rep hits -10. Find a way onto the station to bribe the banker.
 
 ## Requirements
 - [SirNukes Mod Support APIs](https://www.nexusmods.com/x4foundations/mods/503)
@@ -29,7 +30,7 @@ The Banking Clan's InterGalactic Bank is proud to announce a once in a lifetime,
 - Closed Bank Offices
 Branch offices will only be in stations owned by major factions with a functioning branch vault station.
 
-Download: [https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.4](https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.4)
+Download: [https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.5](https://github.com/archenovalis/X4Mods/releases/tag/Galactic_Bank_v0.9.5)
 
 ## Changelog
 
@@ -86,3 +87,4 @@ cleaned code. reset accounts (withdraw money before installing). added bribe to 
 (0.92) reworked aiscript. added wares to bnc transports. improved loan menu. 
 (0.93) Note: Accounts Reset, withdraw before updating. bug fixes. lootboxes persist for 24hrs. bankingclan rep locked. player loses bankingclan rep when attacking/destroying bank transports. faction rep increases every 30 minutes based on amount deposited in account and every loanpayment. lose faction rep when missing a payment due to not enough funds in account
 (0.94) bug fixes. debug messages added.
+(0.95) Note: Accounts Reset, withdraw before updating. bug fixes

@@ -4,7 +4,7 @@
     <params>
       <param name="destination" type="internal" default="false" text="{1041, 10027}" comment="Destination. can be a space or an object in a zone. Providing Sector and Cluster will attempt to find the nearest zone" />
       <param name="cannotdock" type="internal" default="false" text="{1041, 10133}" comment="Unable to dock. used for error handling in case of inability to dock" />
-      <param name="debugchance" type="bool" default="100" advanced="true" text="{1041, 10086}" comment="Print debug output">
+      <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
         <input_param name="truevalue" value="100" />
       </param>
     </params>
@@ -21,7 +21,7 @@
         </check_any>
       </conditions>
       <actions>
-        <remove_from_group group="md.GalacticBankTest2.Vault.$BankTransports" object="this.ship" />
+        <remove_from_group group="md.GalacticBankRC.Vault.$BankTransports" object="this.ship" />
         <abort_called_scripts resume="finish" />
       </actions>
     </handler> -->
@@ -47,13 +47,13 @@
         macro="macro.station_bankingclan_branchvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
       <debug_text text="'found operational branches: '+$stations.count+' stationslist: '+$stations" chance="$debugchance" />
-      <find_station_by_true_owner name="$stationsC" multiple="true" checkoperational="false"
+      <!-- <find_station_by_true_owner name="$stationsC" multiple="true" checkoperational="false"
         macro="macro.station_bankingclan_branchvault_macro" state="componentstate.construction"
         faction="faction.bankingclan" space="player.galaxy" />
       <do_if value="$stationsC.count gt 0">
         <append_to_list name="$stations" exact="$stationsC" />
         <debug_text text="'found constructing branches: '+$stationsC.count+' stationslist: '+$stationsC" chance="$debugchance" />
-      </do_if>
+      </do_if> -->
       <find_station_by_true_owner name="$hq" multiple="true"
         macro="macro.station_bankingclan_mainvault_macro"
         faction="faction.bankingclan" space="player.galaxy" />
@@ -84,7 +84,7 @@
 
       <label name="move_to_destination" />
 
-      <do_if value="not $destination.isoperational">
+      <do_if value="$destination == null or not $destination.isoperational">
         <debug_text text="'station not operational: '+$destination.sector.name" chance="$debugchance" />
         <resume label="start" />
       </do_if>
