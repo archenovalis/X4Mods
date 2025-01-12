@@ -21,7 +21,7 @@
         </check_any>
       </conditions>
       <actions>
-        <remove_from_group group="md.GalacticBankRC.Vault.$BankTransports" object="this.ship" />
+        <remove_from_group group="md.GalacticBankRC2.Vault.$BankTransports" object="this.ship" />
         <abort_called_scripts resume="finish" />
       </actions>
     </handler> -->

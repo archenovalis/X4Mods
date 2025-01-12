@@ -2,22 +2,22 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/factionsdiff.xsd">
   <add sel="//faction[@id='sith']/relations">
-    <relation faction="bankingclan" relation="0.2" />
+    <relation faction="bankingclan" relation="1" />
   </add>
   <add sel="//faction[@id='huttpirates']/relations">
-    <relation faction="bankingclan" relation="-0.1" />
+    <relation faction="bankingclan" relation="-1" />
   </add>
   <add sel="//faction[@id='mandoraiders']/relations">
-    <relation faction="bankingclan" relation="-0.1" />
+    <relation faction="bankingclan" relation="-1" />
   </add>
   <add sel="//faction[@id='valarian']/relations">
-    <relation faction="bankingclan" relation="-0.1" />
+    <relation faction="bankingclan" relation="-1" />
   </add>
   <add sel="//faction[@id='blacksun']/relations">
-    <relation faction="bankingclan" relation="-0.1" />
+    <relation faction="bankingclan" relation="-1" />
   </add>
   <add sel="//faction[@id='sienar']/relations">
-    <relation faction="bankingclan" relation="0.2" />
+    <relation faction="bankingclan" relation="1" />
   </add>
   <replace sel="//faction[@id='bankingclan']">
     <faction id="bankingclan" name="{999840,529110}" description="{999840,529130}" shortname="{999840,529120}" primaryrace="argon" behaviourset="default" known="1" tags="economic privateloadout publicloadout privateship peaceful">
@@ -27,38 +27,38 @@
         <relation faction="criminal" relation="-0.5" />
         <relation faction="khaak" relation="-1" />
         <relation faction="xenon" relation="-1" />
-        <relation faction="galempire" relation="0.2" />
-        <relation faction="ascendancy" relation="0.2" />
-        <relation faction="newrepublic" relation="0.2" />
-        <relation faction="rebelalliance" relation="0.2" />
-        <relation faction="corporate" relation="0.2" />
-        <relation faction="commerceguild" relation="0.2" />
-        <relation faction="huttcartel" relation="0.2" />
-        <relation faction="mandodw" relation="0.2" />
-        <relation faction="anoat" relation="0.2" />
-        <relation faction="huttpirates" relation="-0.1" />
-        <relation faction="mandoraiders" relation="-0.1" />
-        <relation faction="valarian" relation="-0.1" />
-        <relation faction="blacksun" relation="-0.1" />
-        <relation faction="naboo" relation="0.2" />
-        <relation faction="hapes" relation="-0.1" />
-        <relation faction="kamino" relation="0.2" />
-        <relation faction="kuat" relation="0.2" />
-        <relation faction="sienar" relation="0.2" />
-        <relation faction="hoersh" relation="0.2" />
-        <relation faction="rendili" relation="0.2" />
-        <relation faction="incom" relation="0.2" />
-        <relation faction="transgalmeg" relation="0.2" />
-        <relation faction="moncal" relation="0.2" />
-        <relation faction="twinsuns" relation="0.2" />
-        <relation faction="baobab" relation="0.2" />
-        <relation faction="tradefederation" relation="0.2" />
-        <relation faction="tagge" relation="0.2" />
-        <relation faction="bountyhunters" relation="0.2" />
-        <relation faction="miningguild" relation="0.2" />
-        <relation faction="corellia" relation="0.2" />
-        <relation faction="indibhg" relation="0.2" />
-        <relation faction="sith" relation="0.2" />
+        <relation faction="galempire" relation="1" />
+        <relation faction="ascendancy" relation="1" />
+        <relation faction="newrepublic" relation="1" />
+        <relation faction="rebelalliance" relation="1" />
+        <relation faction="corporate" relation="1" />
+        <relation faction="commerceguild" relation="1" />
+        <relation faction="huttcartel" relation="1" />
+        <relation faction="mandodw" relation="1" />
+        <relation faction="anoat" relation="1" />
+        <relation faction="huttpirates" relation="-1" />
+        <relation faction="mandoraiders" relation="-1" />
+        <relation faction="valarian" relation="-1" />
+        <relation faction="blacksun" relation="-1" />
+        <relation faction="naboo" relation="1" />
+        <relation faction="hapes" relation="-1" />
+        <relation faction="kamino" relation="1" />
+        <relation faction="kuat" relation="1" />
+        <relation faction="sienar" relation="1" />
+        <relation faction="hoersh" relation="1" />
+        <relation faction="rendili" relation="1" />
+        <relation faction="incom" relation="1" />
+        <relation faction="transgalmeg" relation="1" />
+        <relation faction="moncal" relation="1" />
+        <relation faction="twinsuns" relation="1" />
+        <relation faction="baobab" relation="1" />
+        <relation faction="tradefederation" relation="1" />
+        <relation faction="tagge" relation="1" />
+        <relation faction="bountyhunters" relation="1" />
+        <relation faction="miningguild" relation="1" />
+        <relation faction="corellia" relation="1" />
+        <relation faction="indibhg" relation="1" />
+        <relation faction="sith" relation="1" />
       </relations>
     </faction>
   </replace>

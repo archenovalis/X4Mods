@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="GalacticBankRC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mdscript name="GalacticBankRC2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
 		<cue name="Vault" namespace="this" version="1">
@@ -16,7 +16,6 @@
 				<set_value name="global.$GB_Vault" exact="this" />
 
 				<set_value name="Vault.$debug" exact="0" />
-
 				<set_value name="Vault.$BankStations" exact="table[]" />
 				<set_value name="Vault.$SetupComplete" exact="false" />
 				<set_value name="Vault.$ResetAccounts" exact="true" />
@@ -27,6 +26,7 @@
 				<set_value name="Vault.$LoanInterestPeriod" exact="8h" />
 				<set_value name="Vault.$PaymentInterval" exact="30min" />
 
+				<set_value name="Vault.$NextCreateJobShips" exact="player.age+60s" />
 
 				<!-- Lootbox -->
 				<create_group groupname="Vault.$BankTransports" />
@@ -106,6 +106,7 @@
 					</conditions>
 					<delay exact="1s" />
 					<actions>
+						<set_value name="$debug" exact="0" />
 						<!-- disable npc reactions bank loans -->
 						<do_if value="@md.kuertee_npc_reactions.NPCReactions.exists">
 							<set_value name="md.kuertee_npc_reactions.NPCReactions.$userIsBankLoans" exact="false" />
@@ -277,184 +278,184 @@
 								value="0" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.anoat"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.anoat"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.mandodw"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.mandodw"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.huttcartel"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.huttcartel"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.corporate"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.corporate"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.commerceguild"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.commerceguild"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.rebelalliance"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.rebelalliance"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.newrepublic"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.newrepublic"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.ascendancy"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.ascendancy"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.sith"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.sith"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.galempire"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.galempire"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.sienar"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.sienar"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.blacksun"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.blacksun"
 								otherfaction="faction.bankingclan"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.valarian"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.valarian"
 								otherfaction="faction.bankingclan"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.mandoraiders"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.mandoraiders"
 								otherfaction="faction.bankingclan"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.huttpirates"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.huttpirates"
 								otherfaction="faction.bankingclan"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.hapes"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.hapes"
 								otherfaction="faction.bankingclan"
-								value="-0.1" />
+								value="-1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.transgalmeg"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.transgalmeg"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.rendili"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.rendili"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.naboo"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.naboo"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.moncal"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.moncal"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.kuat"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.kuat"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.kamino"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.kamino"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.incom"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.incom"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.tagge"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.tagge"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.tradefederation"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.tradefederation"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.baobab"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.baobab"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.twinsuns"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.twinsuns"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.indibhg"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.indibhg"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.corellia"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.corellia"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.bankingclan"
 								otherfaction="faction.hoersh"
-								value="0.2" />
+								value="1" />
 							<set_faction_relation faction="faction.hoersh"
 								otherfaction="faction.bankingclan"
-								value="0.2" />
+								value="1" />
 						</do_if>
 
 						<!-- Create Stations -->
@@ -570,6 +571,9 @@
 							<remove_value name="$station" />
 						</do_if>
 
+						<set_job_active activate="true" job="'bankingclan_transport_l'" />
+						<set_job_active activate="true" job="'bankingclan_transport_m'" />
+
 						<!-- create ships -->
 						<do_if value="@$CreateShips">
 							<set_value name="$CreateShips" exact="false" />
@@ -593,7 +597,7 @@
 								<spawn_waiting_job_ship zone="$station.zone" ship="$NewShip">
 									<safepos object="$station" space="$sector" />
 								</spawn_waiting_job_ship>
-								<debug_text text="'commander: '+$sector.name+' '+$NewShip" />
+								<debug_text text="'commander: '+$sector.knownname+' '+$NewShip" />
 								<do_if value="$NewShip.exists">
 									<get_subordinate_jobs jobs="$subs" amount="$subsNum" commander="$NewShip" />
 									<do_all exact="$subs.count" counter="$i">
@@ -603,7 +607,7 @@
 												<safepos object="$station" space="$sector" />
 											</spawn_waiting_job_ship>
 											<do_if value="$NewSub.exists">
-												<debug_text text="'sub: '+$sector.name+' '+$NewSub" />
+												<debug_text text="'sub: '+$sector.knownname+' '+$NewSub" />
 												<set_object_commander object="$NewSub" commander="$NewShip" />
 												<activate_waiting_job_ship ship="$NewSub" />
 											</do_if>
@@ -621,7 +625,7 @@
 									<safepos object="$station" space="$sector" />
 								</spawn_waiting_job_ship>
 								<do_if value="$NewShip.exists">
-									<debug_text text="'commanderL: '+$sector.name+' '+$NewShip" />
+									<debug_text text="'commanderL: '+$sector.knownname+' '+$NewShip" />
 									<get_subordinate_jobs jobs="$subs" amount="$subsNum" commander="$NewShip" />
 									<do_all exact="$subs.count" counter="$i">
 										<do_all exact="$subsNum.{$i}">
@@ -630,7 +634,7 @@
 												<safepos object="$station" space="$sector" />
 											</spawn_waiting_job_ship>
 											<do_if value="$NewSub.exists">
-												<debug_text text="'subL: '+$sector.name+' '+$NewSub" />
+												<debug_text text="'subL: '+$sector.knownname+' '+$NewSub" />
 												<get_subordinate_jobs jobs="$subsSubs" amount="$subsSubsNum" commander="$NewSub" />
 												<do_all exact="$subsSubs.count" counter="$j">
 													<do_all exact="$subsSubsNum.{$j}">
@@ -639,7 +643,7 @@
 															<safepos object="$station" space="$sector" />
 														</spawn_waiting_job_ship>
 														<do_if value="$NewSubSub.exists">
-															<debug_text text="'subsubL: '+$sector.name+' '+$NewSubSub" />
+															<debug_text text="'subsubL: '+$sector.knownname+' '+$NewSubSub" />
 															<set_object_commander object="$NewSubSub" commander="$NewSub" />
 															<activate_waiting_job_ship ship="$NewSubSub" />
 														</do_if>
@@ -1034,17 +1038,6 @@
 						<!-- set withdrawal fee -->
 						<set_value name="$Fee" exact="if $vault then 0 else $Account.$fee" />
 						<set_value name="$Fee" operation="add" exact="if $docked then 0 else $Account.$undocked_fee" />
-						<set_value name="$Account.$curFee" exact="$Fee" />
-
-						<!-- update interest -->
-						<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
-						<do_if value="$timeSinceInterest ge 1">
-							<set_value name="$interest_amount" exact="($AccountBalance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
-							<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
-							<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
-							<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
-							<set_value name="$Account.$interest_time" exact="player.age" />
-						</do_if>
 						<signal_cue cue="Bank_Menu_Open" />
 					</actions>
 					<cues>
@@ -1054,8 +1047,17 @@
 							</conditions>
 							<delay exact="1ms" />
 							<actions>
-								<set_value name="$Account" exact="$Accounts.{$Faction}" />
-
+								<!-- update interest -->
+								<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
+								<do_if value="$timeSinceInterest ge 1">
+									<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+									<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
+									<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
+									<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
+									<set_value name="$Account.$interest_time" exact="player.age" />
+									<set_value name="$AccountBalance" exact="$Account.$balance" />
+									<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
+								</do_if>
 								<set_value name="$Deposit_amount" exact="0" />
 								<set_value name="$Withdraw_amount" exact="0" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
@@ -1123,7 +1125,7 @@
 									$halign='center',
 									$text=$Rate * 100 + '% interest per ' + $Period / 60 / 60 + ' hours.'
 								]" />
-								<do_if value="($AccountBalance)f gt 0">
+								<do_if value="$interest_amount gt 0">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -1139,27 +1141,27 @@
 										$text=$interest_amount+'Cr'
 									]" />
 								</do_if>
-								<do_if value="(player.money)i ge 1">
+								<do_if value="player.money ge 100">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
-									$id = 'sliderDeposit',
-									$start = 0,
-									$col = 1,
-									$text = table[$text=''],
-									$min = 0, $max = player.money, $step = 1, $suffix='Cr',
-									$default = 0,
-									$onSliderCellChanged = Bank_Menu_Deposit_Amount
-								]" />
+										$id = 'sliderDeposit',
+										$start = 0,
+										$col = 1,
+										$text = table[$text=''],
+										$min = 0, $max = player.money, $step = 1, $suffix='Cr',
+										$default = 0,
+										$onSliderCellChanged = Bank_Menu_Deposit_Amount
+									]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-									$col = 1,
-									$text = table[$text='Deposit'],
-									$onClick = Bank_Menu_Deposit
-								]" />
+										$col = 1,
+										$text = table[$text='Deposit'],
+										$onClick = Bank_Menu_Deposit
+									]" />
 								</do_if>
-								<do_if value="($AccountBalance)i ge 1">
+								<do_if value="$AccountBalance ge 1">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<do_if value="$Fee gt 0">
@@ -1176,7 +1178,7 @@
 										$start = 0,
 										$col = 1,
 										$text = table[$text=''],
-										$min = 0, $max = (($AccountBalance)f / (1+$Fee))i, $step = 1, $suffix='Cr',
+										$min = 0, $max = $AccountBalance / (1+$Fee), $step = 1, $suffix='Cr',
 										$default = 0,
 										$onSliderCellChanged = Bank_Menu_Withdraw_Amount
 									]" />
@@ -1224,14 +1226,11 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
-								<set_value name="$Account" exact="$Accounts.{$Faction}" />
-								<set_value name="$AccountBalance" exact="$Account.$balance" />
-								<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
 								<set_value name="$PaymentsMissed" exact="$Account.$paymentsMissed" />
 								<do_if value="$LoanBalance ge $Payment_amount">
 									<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 									<set_value name="$Account.$interest_time" exact="player.age" />
-									<set_value name="$interest_amount" exact="($AccountBalance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+									<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 									<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
 									<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 									<do_if value="$LoanBalance - $Payment_amount lt 1">
@@ -1254,6 +1253,8 @@
 											</do_else>
 										</do_if>
 									</do_else>
+									<set_value name="$AccountBalance" exact="$Account.$balance" />
+									<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
 									<signal_cue_instantly cue="Bank_Menu_Open" />
 								</do_if>
@@ -1267,26 +1268,24 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
-								<set_value name="$Account" exact="$Accounts.{$Faction}" />
-								<set_value name="$AccountBalance" exact="$Account.$balance" />
-								<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
-								<debug_text text="'Deposit: '+$Faction.name+' '+($AccountBalance)f+' '+$LoanBalance+' '+player.money/100+' '+$Deposit_amount" chance="global.$GB_Vault.$debug" />
+								<debug_text text="'Deposit: '+$Faction.knownname+' '+$AccountBalance+' '+$LoanBalance+' '+player.money/100+' '+$Deposit_amount" chance="global.$GB_Vault.$debug" />
 								<do_if value="player.money ge ($Deposit_amount)Cr">
-									<do_if value="($AccountBalance)f == 0 and $LoanBalance == 0">
+									<do_if value="$AccountBalance == 0 and $LoanBalance == 0">
 										<set_value name="$Account.$interest_time" exact="player.age" />
 									</do_if>
 									<do_else>
 										<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 										<set_value name="$Account.$interest_time" exact="player.age" />
-										<set_value name="$interest_amount" exact="($AccountBalance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+										<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+										<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
 										<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 										<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
 									</do_else>
 									<reward_player money="($Deposit_amount)Cr * -1" />
-									<set_value name="$Account.$balance" operation="add" exact="$Deposit_amount + $interest_amount" />
+									<set_value name="$Account.$balance" operation="add" exact="$Deposit_amount" />
 									<set_value name="$AccountBalance" exact="$Account.$balance" />
 									<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
-									<debug_text text="'Deposit: '+$Faction.name+' '+$Account.$balance+' '+$Account.$loan_balance+' '+player.money/100+' '+$Deposit_amount" chance="global.$GB_Vault.$debug" />
+									<debug_text text="'Deposit: '+$Faction.knownname+' '+$Account.$balance+' '+$Account.$loan_balance+' '+player.money/100+' '+$Deposit_amount" chance="global.$GB_Vault.$debug" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
 									<signal_cue_instantly cue="Bank_Menu_Open" />
 								</do_if>
@@ -1300,29 +1299,30 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
-								<set_value name="$Account" exact="$Accounts.{$Faction}" />
-								<set_value name="$Fee" exact="$Account.$curFee" />
-								<set_value name="$AccountBalance" exact="$Account.$balance" />
-								<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
-								<debug_text text="'Withdraw: '+$Faction.name+' '+($AccountBalance)f+' '+$LoanBalance+' '+player.money/100+' '+$Withdraw_amount" chance="global.$GB_Vault.$debug" />
-								<do_if value="($AccountBalance)f ge $Withdraw_amount">
+								<debug_text text="'Withdraw: '+$Faction.knownname+' '+$AccountBalance+' '+$LoanBalance+' '+player.money/100+' '+$Withdraw_amount" chance="global.$GB_Vault.$debug" />
+								<do_if value="$AccountBalance ge $Withdraw_amount">
 									<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 									<set_value name="$Account.$interest_time" exact="player.age" />
-									<set_value name="$interest_amount" exact="($AccountBalance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+									<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+									<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
 									<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 									<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
+									<debug_text text="$AccountBalance / (1+$Fee) +' | '+ $Withdraw_amount" chance="$debug" />
 									<!-- player wants to empty account -->
-									<do_if value="(($AccountBalance)f / (1+$Fee))i == $Withdraw_amount">
-										<reward_player money="($Account.$loan_balance)Cr" />
+									<do_if value="$Withdraw_amount gt $AccountBalance / (1+$Fee) - 1">
+										<reward_player money="($Account.$balance)Cr" />
 										<set_value name="$Account.$balance" exact="0" />
+										<do_if value="$LoanBalance == 0">
+											<set_value name="$Account.$interest_time" exact="null" />
+										</do_if>
 									</do_if>
 									<do_else>
 										<reward_player money="($Withdraw_amount)Cr" />
-										<set_value name="$Account.$balance" operation="add" exact="$interest_amount - $Withdraw_amount * (1+$Fee)" />
+										<set_value name="$Account.$balance" operation="subtract" exact="$Withdraw_amount * (1+$Fee)" />
 									</do_else>
-									<debug_text text="'Withdraw: '+$Faction.name+' '+$Account.$balance+' '+$Account.$loan_balance+' '+player.money/100+' '+$Withdraw_amount" chance="global.$GB_Vault.$debug" />
 									<set_value name="$AccountBalance" exact="$Account.$balance" />
 									<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
+									<debug_text text="'Withdraw: '+$Faction.knownname+' '+$Account.$balance+' '+$Account.$loan_balance+' '+player.money/100+' '+$Withdraw_amount" chance="global.$GB_Vault.$debug" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
 									<signal_cue_instantly cue="Bank_Menu_Open" />
 								</do_if>
@@ -1349,11 +1349,14 @@
 							<event_object_destroyed group="global.$GB_Vault.$BankTransports" />
 							<event_object_changed_owner group="global.$GB_Vault.$BankTransports" />
 						</check_any>
-
 					</conditions>
 					<actions>
 						<do_if value="event.name == 'event_job_ship_activated'">
-							<add_to_group groupname="global.$GB_Vault.$BankTransports" object="event.param" />
+							<set_value name="$ship" exact="event.param" />
+							<add_to_group groupname="global.$GB_Vault.$BankTransports" object="$ship" />
+							<set_value name="$capacity" exact="$ship.macro.cargo.capacity.container" />
+							<set_value name="$ware" exact="ware.bank_large_lootbox" />
+							<add_cargo exact="($capacity / $ware.volume)i" object="$ship" ware="$ware" />
 						</do_if>
 						<do_elseif value="event.name == 'event_object_destroyed'">
 							<remove_from_group group="global.$GB_Vault.$BankTransports" object="event.object" />
@@ -1403,6 +1406,272 @@
 					</actions>
 				</cue>
 
+				<cue name="CreateJobShips" instantiate="true" checkinterval="30s">
+					<conditions>
+						<check_age min="global.$GB_Vault.$NextCreateJobShips" />
+					</conditions>
+					<actions>
+						<set_value name="global.$GB_Vault.$NextCreateJobShips" exact="player.age + 20s" />
+						<debug_text text="'begin createjobships'" chance="$debug" />
+						<set_value name="$Faction" exact="faction.bankingclan" />
+						<set_value name="$Ship" exact="null" />
+						<find_station_by_true_owner name="$mainVault" faction="$Faction" space="player.galaxy" checkoperational="true"
+							macro="macro.station_bankingclan_mainvault_macro" />
+						<do_if value="@$mainVault.isoperational">
+							<set_value name="$Sector" exact="$mainVault.sector" />
+							<debug_text text="'Main Sector: '+$Sector.knownname" chance="$debug" />
+							<get_suitable_job result="$Job" faction="$Faction" tags="[tag.banking, tag.trader, tag.container]" size="class.ship_m" />
+							<do_if value="not ($Job == null)">
+								<find_station name="$Wharf" wharf="true" space="player.galaxy" checkoperational="true" sortbydistanceto="$Sector" comment="any wharf">
+									<match_relation_to faction="$Faction" comparison="ge" relation="neutral" />
+								</find_station>
+								<do_if value="@$Wharf.isoperational">
+									<set_value name="$Sector" exact="$Wharf.sector" />
+									<debug_text text="'Build at: '+$Sector.knownname+' | '+$Wharf.knownname" chance="$debug" />
+									<find_zone name="$Zone" space="$Sector">
+										<match_child class="class.station" checkoperational="true" />
+									</find_zone>
+								</do_if>
+							</do_if>
+							<do_else>
+								<get_suitable_job result="$Job" faction="$Faction" tags="[tag.banking, tag.trader, tag.container]" size="class.ship_l" />
+								<do_if value="not ($Job == null)">
+									<find_station name="$Shipyard" shipyard="true" space="player.galaxy" checkoperational="true" sortbydistanceto="$Sector" comment="any shipyard">
+										<match_relation_to faction="$Faction" comparison="ge" relation="neutral" />
+									</find_station>
+									<do_if value="@$Shipyard.isoperational">
+										<set_value name="$Sector" exact="$Shipyard.sector" />
+										<debug_text text="'Build at: '+$Sector.knownname+' | '+$Shipyard.knownname" chance="$debug" />
+										<find_zone name="$Zone" space="$Sector">
+											<match_child class="class.station" checkoperational="true" />
+										</find_zone>
+									</do_if>
+								</do_if>
+							</do_else>
+							<do_if value="@$Job">
+								<debug_text text="'Jobs: '+$Job" chance="$debug" />
+								<request_job_ship name="$Ship" job="$Job" requester="$Sector" zone="$Zone" />
+								<do_if value="@$Ship">
+									<activate_job_ship_orders ship="$Ship" />
+									<debug_text text="$Ship + ' ' + $Ship.knownname + ' requested from job ' + $Job" chance="$debug" />
+								</do_if>
+								<do_else>
+									<debug_text text="'ship unable to be requested for job ' + $Job" chance="$debug" />
+								</do_else>
+							</do_if>
+						</do_if>
+						<signal_cue_instantly cue="ProcessJobShips" />
+					</actions>
+				</cue>
+
+				<cue name="ProcessJobShips" instantiate="true">
+					<conditions>
+						<event_cue_signalled />
+					</conditions>
+					<actions>
+						<set_value name="$WaitTime" min="20s" max="40s" />
+						<set_value name="$Shipyards" exact="[]" />
+						<set_value name="$Faction" exact="faction.bankingclan" />
+
+						<!--Find waiting subordinate ships-->
+						<find_waiting_subordinate name="$ShipsToBuild" owner="$Faction" hasbuildingtask="false" multiple="true">
+							<match_parent negate="true" class="class.component" comment="Only interested in the disconnected ships" />
+						</find_waiting_subordinate>
+						<debug_text text="$Faction.knownname + ' has ' + $ShipsToBuild.count + ' waiting subordinate ships'" chance="$debug" />
+
+						<!--Find lead job ships
+              note: previously, lead job ships had a lower chance of being selected than subordinates to help commanders waiting too long
+              it is now an even chance to give more opportunity to construct economic ships. Further selection preferences may be needed in extreme circumstances-->
+						<find_waiting_job_ship name="$ShipsToBuild" owner="$Faction" hasbuildingtask="false" multiple="true" append="true">
+							<match_parent negate="true" class="class.component" comment="Only interested in the disconnected ships" />
+						</find_waiting_job_ship>
+						<debug_text text="$Faction.knownname + ' has ' + $ShipsToBuild.count + ' waiting ships'" chance="$debug" />
+
+						<do_if value="$ShipsToBuild.count">
+							<!--TODO @Owen should we be checking for the extension of the shipyard's sector-->
+							<!--TODO @Owen hasassignedcontrolentity-->
+							<find_station name="$Shipyards" canbuildships="true" canbuildfor="$Faction" hascontrolentity="controlpost.shiptrader" space="player.galaxy" multiple="true" />
+							<debug_text text="$Faction.knownname + ' ' + player.age + ' Finding shipyards'" chance="$debug" />
+
+							<!--Build a table with details on the shipyard so we don't have to query it too often-->
+							<set_value name="$ShipyardTable" exact="table[]" />
+							<do_all exact="$Shipyards.count" counter="$i" reverse="true">
+								<set_value name="$Shipyard" exact="$Shipyards.{$i}" />
+
+								<!--Check if the shipyard can build any ship macros for this faction-->
+								<get_ship_build_wares object="$Shipyards.{$i}" result="$BuildableShipWares" canbuild="true" />
+								<!--TODO @Owen use get_equipment_build_wares and check if the ship loadout is available at the shipyard-->
+								<do_if value="$BuildableShipWares.count == 0">
+									<remove_value name="$Shipyards.{$i}" />
+									<continue />
+								</do_if>
+
+								<set_value name="$FreeBuildModuleTable" exact="table[]" />
+								<!--TODO @Owen use freebuildprocessors?-->
+								<set_value name="$BuildModules" exact="$Shipyard.buildmodules" />
+								<do_if value="$BuildModules.count">
+									<set_value name="$QueuedBuilds" exact="$Shipyard.builds.queued" />
+									<!--The queued builds are used to check what non-busy processors could soon be assigned to. Remove any non-ship construction builds or those which already have an assigned processor but not yet started.-->
+									<do_all exact="$QueuedBuilds.count" counter="$j" reverse="true">
+										<do_if value="not $QueuedBuilds.{$j}.isshipbuild or ($QueuedBuilds.{$j}.buildobject.exists and $QueuedBuilds.{$j}.buildprocessor)">
+											<remove_value name="$QueuedBuilds.{$j}" />
+										</do_if>
+									</do_all>
+									<do_all exact="$BuildModules.count" counter="$j">
+										<find_object_component name="$FreeBuildProcessors" class="class.buildprocessor" busy="false" object="$BuildModules.{$j}" multiple="true" />
+										<do_if value="$FreeBuildProcessors.count">
+											<!--Go over the queued ship construction builds and see if this build module can accomodate one. If so, remove a processor as it is 'reserved' for a queued build.-->
+											<do_all exact="$QueuedBuilds.count" counter="$k" reverse="true">
+												<assert value="not $QueuedBuilds.{$k}.buildobject or $QueuedBuilds.{$k}.buildobject.state == componentstate.operational" text="'Queued build has a buildobject which is not operational: ' + $QueuedBuilds.{$k}.buildobject + ' ' + $QueuedBuilds.{$k}.buildobject.knownname + ' state: ' + $QueuedBuilds.{$k}.buildobject.state + ' Parent: ' + $QueuedBuilds.{$k}.buildobject.parent + ' [Owen]'" />
+												<do_if value="($QueuedBuilds.{$k}.buildobject and $BuildModules.{$j}.dock.{$QueuedBuilds.{$k}.buildobject.docksize}) or ($QueuedBuilds.{$k}.macro and $BuildModules.{$j}.dock.{$QueuedBuilds.{$k}.macro.docksize})">
+													<remove_value name="$FreeBuildProcessors.{1}" />
+												</do_if>
+												<do_if value="$FreeBuildProcessors.count == 0">
+													<break />
+												</do_if>
+											</do_all>
+
+											<do_if value="$FreeBuildProcessors.count">
+												<set_value name="$FreeBuildModuleTable.{$BuildModules.{$j}}" operation="add" exact="$FreeBuildProcessors.count" />
+											</do_if>
+										</do_if>
+									</do_all>
+								</do_if>
+
+								<do_if value="$FreeBuildModuleTable.keys.count">
+									<debug_text text="$Faction.knownname + ' Shipyard: ' + $Shipyards.{$i} + ' ' + $Shipyards.{$i}.knownname + ' in ' + $Shipyards.{$i}.sector.knownname + ' has build modules with free processors: ' + $FreeBuildModuleTable" chance="$debug" />
+									<set_value name="$ShipyardTable.{$Shipyard}" exact="table[]" />
+									<set_value name="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable" exact="$FreeBuildModuleTable" />
+									<set_value name="$ShipyardTable.{$Shipyard}.$BuildableShipWares" exact="$BuildableShipWares" />
+								</do_if>
+								<do_else>
+									<debug_text text="$Faction.knownname + ' Ignoring shipyard: ' + $Shipyards.{$i} + ' ' + $Shipyards.{$i}.knownname + ' in ' + $Shipyards.{$i}.sector.knownname + ' as it does not have enough free build processors'" chance="$debug" />
+									<remove_value name="$Shipyards.{$i}" />
+								</do_else>
+							</do_all>
+
+							<remove_value name="$BuildProcessors" />
+						</do_if>
+
+						<do_if value="$Shipyards.count">
+							<shuffle_list list="$ShipsToBuild" />
+
+							<set_value name="$SelectedShips" exact="[]" />
+							<set_value name="$ShipCostTable" exact="table[]" />
+							<set_value name="$ShipyardPriceTables" exact="table[]" />
+							<set_value name="$ShipyardDistanceTable" exact="table[]" />
+
+							<set_value name="$JumpCheckRange" exact="8" comment="Maximum range where distance of shipyard is taken into account. Futher shipyards have the same distance score." />
+							<do_all exact="$ShipsToBuild.count" counter="$i">
+								<do_if value="$Shipyards.count == 0">
+									<break />
+								</do_if>
+
+								<set_value name="$ShipToBuild" exact="$ShipsToBuild.{$i}" />
+								<debug_text text="$Faction.knownname + ' wants to build ' + $ShipToBuild.macro" chance="$debug" />
+								<do_if value="$i gt 40">
+									<!--Early out. We have concidered enough ships for this round.-->
+									<break />
+								</do_if>
+
+								<clear_table table="$ShipCostTable" />
+								<clear_table table="$ShipyardDistanceTable" />
+								<!--If the shipyard can build this ship, evaluate its suitability based on price and distance to job main zone-->
+								<!--TODO @Owen optimisation. Don't do all of this if there's only one shipyard-->
+								<do_all exact="$Shipyards.count" counter="$k">
+									<set_value name="$Shipyard" exact="$Shipyards.{$k}" />
+									<do_if value="$ShipyardTable.{$Shipyard}.$BuildableShipWares.indexof.{$ShipToBuild.macro.ware}">
+										<set_value name="$HasSuitableBuildModule" exact="false" />
+										<do_all exact="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.keys.count" counter="$o">
+											<!--Check if the build module with a free processor has a suitable dock for this ship (don't need to check if the dock is free yet)-->
+											<do_if value="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.keys.{$o}.dock.{$ShipToBuild.docksize}">
+												<set_value name="$HasSuitableBuildModule" exact="true" />
+												<break />
+											</do_if>
+										</do_all>
+										<do_if value="$HasSuitableBuildModule">
+											<do_if value="not $ShipyardPriceTables.{$Shipyard}?">
+												<set_value name="$ShipyardPriceTables.{$Shipyard}" exact="$Shipyard.buildbuyprices" />
+											</do_if>
+											<get_object_value result="$ShipValue" object="$ShipToBuild" pricetable="$ShipyardPriceTables.{$Shipyard}" />
+											<debug_text text="$ShipToBuild+' | '+$ShipValue" chance="$debug" />
+											<set_value name="$ShipCostTable.{$Shipyard}" exact="$ShipValue" />
+											<do_if value="not $ShipyardTable.{$Shipyard}.$DistanceTable?">
+												<find_cluster_in_range distances="$ShipyardTable.{$Shipyard}.$DistanceTable" object="$Shipyard" maxdistance="$JumpCheckRange" multiple="true" />
+											</do_if>
+
+											<set_value name="$JobCluster" exact="@$ShipToBuild.jobcommander.cluster" />
+											<do_if value="not $JobCluster">
+												<set_value name="$JobCluster" exact="@$ShipToBuild.jobmainsector.cluster" />
+											</do_if>
+											<debug_text text="'JobCluster: '+$JobCluster.knownname" chance="$debug" />
+											<do_if value="$JobCluster and $ShipyardTable.{$Shipyard}.$DistanceTable.{$JobCluster}? and $ShipyardTable.{$Shipyard}.$DistanceTable.{$JobCluster} ge 0">
+												<set_value name="$ShipyardDistanceTable.{$Shipyard}" exact="$ShipyardTable.{$Shipyard}.$DistanceTable.{$JobCluster}" />
+											</do_if>
+											<do_elseif value="$Shipyard.gatedistance.{$JobCluster} ge 0">
+												<!--Shipyard is a bit far. Don't exclude it but treat as a low chance.-->
+												<set_value name="$ShipyardDistanceTable.{$Shipyard}" exact="$JumpCheckRange + 1" />
+											</do_elseif>
+											<!--Else: No path between the JobCluster and the shipyard. Disregard shipyard.-->
+											<remove_value name="$JobCluster" />
+										</do_if>
+										<remove_value name="$HasSuitableBuildModule" />
+									</do_if>
+								</do_all>
+
+								<!--Score the shipyards by how they rank in both price and range. Lower is better.-->
+								<!--Note: Shipyards of the same distance / price may always be in the same order. The random selection of shipyard below should at least mitigate this a bit.-->
+								<set_value name="$ScoredShipyardTable" exact="table[]" />
+								<set_value name="$PriceOrder" exact="$ShipCostTable.keys.sorted" />
+								<set_value name="$DistanceOrder" exact="$ShipyardDistanceTable.keys.sorted" />
+								<debug_text text="'begin scoring: '+$PriceOrder.count+' | '+$DistanceOrder.count" chance="$debug" />
+								<do_all exact="$PriceOrder.count" counter="$k">
+									<do_if value="$DistanceOrder.indexof.{$PriceOrder.{$k}}">
+										<debug_text text="$Faction.knownname + ' - Shipyard: ' + $PriceOrder.{$k} + ' ' + $PriceOrder.{$k}.knownname + ' has price rank of ' + $k + ' distance rank of ' + $DistanceOrder.indexof.{$PriceOrder.{$k}}" chance="$debug" />
+										<set_value name="$ScoredShipyardTable.{$PriceOrder.{$k}}" exact="$k + $DistanceOrder.indexof.{$PriceOrder.{$k}}" />
+									</do_if>
+								</do_all>
+								<debug_text text="'process scores: '+$ScoredShipyardTable.keys.count" chance="$debug" />
+								<do_if value="$ScoredShipyardTable.keys.count">
+									<set_value name="$SelectedShipyardIndex" min="1" max="$ScoredShipyardTable.keys.count" profile="decreasing" />
+									<set_value name="$ScoreOrder" exact="$ScoredShipyardTable.keys.sorted" />
+									<set_value name="$Shipyard" exact="$ScoreOrder.{$SelectedShipyardIndex}" />
+
+									<add_build_to_construct_ship result="$Build" object="$Shipyard" buildobject="$ShipToBuild" faction="$Faction" price="if $Shipyard.isplayerowned then $ShipCostTable.{$Shipyard} else 0Cr" />
+									<debug_text text="$Faction.knownname + ' Added build order ' + $Build + ' for ship ' + $ShipToBuild.knownname + ' (' + $ShipToBuild + ') on shipyard: ' + $Shipyard + ' in ' + $Shipyard.sector.knownname" chance="$debug" />
+
+									<!--if shipyard is selected, reduce the count of processors and disregard if they get too low.-->
+									<set_value name="$SuitableBuildModule" exact="false" />
+									<do_all exact="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.keys.count" counter="$o">
+										<do_if value="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.keys.{$o}.dock.{$ShipToBuild.docksize}">
+											<set_value name="$SuitableBuildModule" exact="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.keys.{$o}" />
+											<break />
+										</do_if>
+									</do_all>
+									<assert value="$SuitableBuildModule" text="'Could not find a suitable build module while it should be guaranteed [Owen]'" />
+									<do_if value="$SuitableBuildModule">
+										<do_if value="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule} == 1">
+											<remove_value name="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule}" />
+											<debug_text text="'No more free processors on module ' + $SuitableBuildModule + ' ' + $SuitableBuildModule.knownname + '. Note, the builds are not assigned to the processors yet.'" chance="$debug" />
+										</do_if>
+										<do_else>
+											<set_value name="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule}" operation="subtract" />
+											<debug_text text="'Build module ' + $SuitableBuildModule + ' ' + $SuitableBuildModule.knownname + ' has ' + $ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule} + ' free processors left'" chance="$debug" />
+										</do_else>
+									</do_if>
+									<remove_value name="$SuitableBuildModule" />
+
+									<do_if value="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.keys.count == 0">
+										<debug_text text="'Shipyard ' + $Shipyard + ' ' + $Shipyard.knownname + ' has no more build modules with free processors. Removing from potential shipyard list.'" chance="$debug" />
+										<remove_from_list name="$Shipyards" exact="$Shipyard" multiple="false" />
+									</do_if>
+								</do_if>
+							</do_all>
+						</do_if>
+						<remove_value name="$ShipyardTable" />
+						<remove_value name="$Shipyards" />
+					</actions>
+				</cue>
 
 				<cue name="LoanPayment" instantiate="true" checkinterval="10s">
 					<conditions>
@@ -1417,12 +1686,12 @@
 							<set_value name="$PaymentsMissed" exact="$Account.$paymentsMissed" />
 							<set_value name="$Payment" exact="$Account.$payment" />
 							<do_if value="$Payment gt 0">
-								<do_if value="($AccountBalance)f lt $Payment
+								<do_if value="$AccountBalance lt $Payment
 									or
 									(
 										$Payment gt $LoanBalance
 										and
-										($AccountBalance)f lt $LoanBalance
+										$AccountBalance lt $LoanBalance
 									)">
 									<show_help force="true" duration="8s"
 										custom="'You have received a Priority Message from '+$faction.name" position="20" />
@@ -1461,28 +1730,28 @@
 									</do_else>
 								</do_else>
 								<!-- full gain at 10m Cr -->
-								<do_if value="($AccountBalance)f ge $Account.$maxRepCr*100">
+								<do_if value="$AccountBalance ge $Account.$maxRepCr*100">
 									<!-- max 30 -->
 									<do_if value="$faction.relationto.{faction.player} lt 1">
 										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_if>
-								<do_elseif value="($AccountBalance)f ge $Account.$maxRepCr*10">
+								<do_elseif value="$AccountBalance ge $Account.$maxRepCr*10">
 									<!-- max 25 -->
 									<do_if value="$faction.relationto.{faction.player} lt 0.32">
 										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_elseif>
-								<do_elseif value="($AccountBalance)f ge $Account.$maxRepCr">
+								<do_elseif value="$AccountBalance ge $Account.$maxRepCr">
 									<!-- max 20 -->
 									<do_if value="$faction.relationto.{faction.player} lt 0.1">
 										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_elseif>
-								<do_elseif value="($AccountBalance)f gt 0">
+								<do_elseif value="$AccountBalance gt 0">
 									<!-- max 15 -->
 									<do_if value="$faction.relationto.{faction.player} lt 0.032">
-										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate * ($AccountBalance)f / $Account.$maxRepCr" reason="relationchangereason.missioncompleted" />
+										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate * $AccountBalance / $Account.$maxRepCr" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_elseif>
 							</do_if>
@@ -1585,7 +1854,7 @@
 						<!-- update interest -->
 						<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 						<do_if value="$timeSinceInterest ge 1">
-							<set_value name="$interest_amount" exact="($AccountBalance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+							<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 							<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
 							<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 							<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
@@ -1940,7 +2209,7 @@
 							</conditions>
 							<actions>
 								<!-- update interest -->
-								<set_value name="$interest_amount" exact="($AccountBalance)f * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+								<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 								<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
 								<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 								<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
@@ -1996,7 +2265,7 @@
 							<do_else>
 								<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 								<set_value name="$Account.$interest_time" exact="player.age" />
-								<set_value name="$interest_amount" exact="($AccountBalance)f * ((1+$Account.$rate)^($timeSinceInterest / $Account.$period) - 1)" />
+								<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Account.$rate)^($timeSinceInterest / $Account.$period) - 1)" />
 								<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 								<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
 								<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
@@ -2416,7 +2685,7 @@
 						<set_value name="md.Notifications.Init.$kuertee_station_old" exact="null" />
 						<set_value name="md.Notifications.Init.$kuertee_station_current" exact="null" />
 						<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="null" />
-						<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
+						<set_value name="md.Notifications.Init.$kuertee_debug" exact="0" />
 					</actions>
 					<cues>
 						<cue name="K_ArriveStation" instantiate="true">
@@ -2519,12 +2788,12 @@
 											<set_value name="md.Notifications.Init.$kuertee_station_old" exact="md.Notifications.Init.$kuertee_station_current" />
 											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
 											<set_value name="md.Notifications.Init.$kuertee_station_current" exact="md.Notifications.Init.$kuertee_station_new" />
-											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<debug_text text="'kuertee K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<debug_text text="'kuertee K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-											<debug_text text="'kuertee K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+											<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+											<debug_text text="'kuertee K_DepartStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+											<debug_text text="'kuertee K_DepartStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+											<debug_text text="'kuertee K_DepartStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
 											<cancel_cue cue="parent" />
 											<reset_cue cue="this" />
 										</do_if>
@@ -2542,12 +2811,12 @@
 										<do_else>
 											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$arriveAt = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
 										</do_else>
-										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-										<debug_text text="'kuertee K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-										<debug_text text="'kuertee K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-										<debug_text text="'kuertee K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+										<debug_text text="'kuertee K_ArriveStation new ' + @md.Notifications.Init.$kuertee_station_new.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+										<debug_text text="'kuertee K_ArriveStation old ' + @md.Notifications.Init.$kuertee_station_old.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+										<debug_text text="'kuertee K_ArriveStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
 										<cancel_cue cue="this" />
 									</actions>
 								</cue>
@@ -2560,11 +2829,11 @@
 										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
 									</conditions>
 									<actions>
-										<!-- <raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation player.station ' + @$player.station.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" /> -->
+										<!-- <raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation player.station ' + @$player.station.knownname" chance="@md.Notifications.Init.$kuertee_debug" /> -->
 										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
 										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$dockAt = md.Notifications.Init.$kuertee_station_current]" />
-										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-										<debug_text text="'kuertee K_DockedAtStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+										<debug_text text="'kuertee K_DockedAtStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
 										<reset_cue cue="this" />
 									</actions>
 								</cue>
@@ -2579,8 +2848,8 @@
 									<actions>
 										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
 										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$undockFrom = md.Notifications.Init.$kuertee_station_current]" />
-										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_UndockedFromStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
-										<debug_text text="'kuertee K_UndockedFromStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debugChance" />
+										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_UndockedFromStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
+										<debug_text text="'kuertee K_UndockedFromStation current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
 										<reset_cue cue="this" />
 									</actions>
 								</cue>
@@ -2594,11 +2863,11 @@
 							<actions>
 								<debug_text text="@event.param3" />
 								<raise_lua_event name="'Chat_Window_API.Print'" param="@event.param3.$text" />
-								<do_if value="@md.Notifications.Init.$kuertee_debugChance">
-									<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="0" />
+								<do_if value="@md.Notifications.Init.$kuertee_debug">
+									<set_value name="md.Notifications.Init.$kuertee_debug" exact="0" />
 								</do_if>
 								<do_else>
-									<set_value name="md.Notifications.Init.$kuertee_debugChance" exact="100" />
+									<set_value name="md.Notifications.Init.$kuertee_debug" exact="100" />
 								</do_else>
 								<reset_cue cue="this" />
 							</actions>

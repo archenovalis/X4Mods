@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language>
+
+	<!-- vanilla -->
+	<page id="1015" title="Notifications" descr="0" voice="no">
+		<t id="7">Creds given: $MONEY$ Cr\nCreds on hand: $MONEY2$ Cr</t>
+		<t id="8">Creds received: $MONEY$ Cr\nCreds on hand: $MONEY2$ Cr</t>
+	</page>
+
 	<page id="20777" voice="no">
 		<t id="1001">InterGalactic</t>
 		<t id="1002">Banking Clan</t>

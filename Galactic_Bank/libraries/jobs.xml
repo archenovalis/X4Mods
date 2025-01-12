@@ -20,28 +20,21 @@
   <remove sel="//job[@id='bankingclan_construction_vessel_l_playeronly']" />
 
   <add sel="//jobs">
-    <job id="bankingclan_transport_l" name="'{20777,1008}'">
+    <job id="bankingclan_transport_l" name="'{20777,1008}'" startactive="false">
       <modifiers commandeerable="false" />
       <orders>
         <order order="SWBankTransport" />
       </orders>
-        <basket basket="bank_transport" />
-      <time start="60" />
-      <category faction="bankingclan" tags="[banking]" size="ship_l" />
+      <category faction="bankingclan" tags="[banking, trader, container]" size="ship_l" />
       <quota galaxy="8" />
       <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
       <environment buildatshipyard="true" preferbuilding="true" />
       <ship>
-        <select faction="bankingclan" tags="[banking]" size="ship_l" />
+        <select faction="bankingclan" tags="[banking, trader, container]" size="ship_l" />
         <loadout>
           <level exact="1" />
         </loadout>
         <owner exact="bankingclan" overridenpc="true" />
-        <cargo>
-          <wares>
-            <fillpercent min="100" />
-          </wares>
-        </cargo>
       </ship>
       <subordinates>
         <!-- 2x size M escorts and 12x Tie Defenders-->
@@ -53,28 +46,21 @@
       </subordinates>
     </job>
 
-    <job id="bankingclan_transport_m" name="'{20777,1008}'">
+    <job id="bankingclan_transport_m" name="'{20777,1008}'" startactive="false">
       <modifiers commandeerable="false" />
       <orders>
         <order order="SWBankTransport" />
       </orders>
-        <basket basket="bank_transport" />
-      <time start="60" />
       <quota galaxy="16" />
-      <category faction="bankingclan" tags="[banking]" size="ship_m" />
+      <category faction="bankingclan" tags="[banking, trader, container]" size="ship_m" />
       <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
       <environment buildatshipyard="true" preferbuilding="true" />
       <ship>
-        <select faction="bankingclan" tags="[banking]" size="ship_m" />
+        <select faction="bankingclan" tags="[banking, trader, container]" size="ship_m" />
         <loadout>
           <level exact="1" />
         </loadout>
         <owner exact="bankingclan" overridenpc="true" />
-        <cargo>
-          <wares>
-            <fillpercent min="100" />
-          </wares>
-        </cargo>
       </ship>
       <subordinates>
         <subordinate job="bankingclan_tied_trio_leader" assignment="defence" rebuild="true" /> <!-- wing of 3 -->
@@ -86,23 +72,17 @@
       <orders>
         <order order="Escort" default="true" />
       </orders>
-        <basket basket="bank_transport" />
       <quota wing="2" />
-      <category faction="bankingclan" tags="[banking]" size="ship_m" />
+      <category faction="bankingclan" tags="[banking, escort]" size="ship_m" />
       <location class="galaxy" macro="swi_galaxy_macro" matchextension="false" />
       <environment buildatshipyard="true" />
       <modifiers subordinate="true" commandeerable="false" />
       <ship>
-        <select faction="bankingclan" tags="[banking]" size="ship_m" />
+        <select faction="bankingclan" tags="[banking, escort]" size="ship_m" />
         <loadout>
           <level exact="1" />
         </loadout>
         <owner exact="bankingclan" overridenpc="true" />
-        <cargo>
-          <wares>
-            <fillpercent min="100" />
-          </wares>
-        </cargo>
       </ship>
     </job>
     

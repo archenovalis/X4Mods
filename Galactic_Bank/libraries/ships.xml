@@ -3,7 +3,7 @@
   xsi:noNamespaceSchemaLocation="../../xsd/diff.xsd">
   <add sel="//ships/ship[@id='bankingclan_builder_l']" pos="before">
     <ship id="bankingclan_transport_l" group="bankingclan_transport_l">
-      <category tags="[banking]" faction="bankingclan" size="ship_l" />
+      <category tags="[trader, container, banking]" faction="bankingclan" size="ship_l" />
       <pilot>
         <select faction="bankingclan" tags="elitepilot" />
       </pilot>
@@ -12,7 +12,7 @@
     </ship>
 
     <ship id="bankingclan_transport_m" group="bankingclan_transport_m">
-      <category tags="[banking]" faction="bankingclan" size="ship_m" />
+      <category tags="[trader, container, banking]" faction="bankingclan" size="ship_m" />
       <pilot>
         <select faction="bankingclan" tags="elitepilot" />
       </pilot>
