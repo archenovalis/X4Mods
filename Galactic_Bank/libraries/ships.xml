@@ -12,7 +12,7 @@
     </ship>
 
     <ship id="bankingclan_transport_m" group="bankingclan_transport_m">
-      <category tags="[trader, container, banking]" faction="bankingclan" size="ship_m" />
+      <category tags="[trader, container, escort, banking]" faction="bankingclan" size="ship_m" />
       <pilot>
         <select faction="bankingclan" tags="elitepilot" />
       </pilot>

@@ -13,6 +13,7 @@
 				<check_value value="not @player.allmodules.{player.module}.isscenario" />
 			</conditions>
 			<actions>
+				<debug_text text="'Vault: '+event.name" />
 				<set_value name="global.$GB_Vault" exact="this" />
 
 				<set_value name="Vault.$debug" exact="0" />
@@ -106,33 +107,11 @@
 					</conditions>
 					<delay exact="1s" />
 					<actions>
-						<set_value name="$debug" exact="0" />
+						<set_value name="global.$GB_Vault.$debug" exact="0" />
+						<debug_text text="'Init: '+event.name" chance="global.$GB_Vault.$debug" />
 						<!-- disable npc reactions bank loans -->
 						<do_if value="@md.kuertee_npc_reactions.NPCReactions.exists">
 							<set_value name="md.kuertee_npc_reactions.NPCReactions.$userIsBankLoans" exact="false" />
-						</do_if>
-						<!-- debug reveal sectors -->
-						<do_if value="$RevealSectors">
-							<find_cluster groupname="$Clusters" multiple="true" />
-							<find_sector groupname="$Sectors" space="player.galaxy" multiple="true" />
-							<find_zone groupname="$Zones" space="player.galaxy" multiple="true" />
-							<do_all exact="$Clusters.count" counter="$Counter">
-								<set_known object="$Clusters.{$Counter}" known="true" />
-							</do_all>
-							<do_all exact="$Sectors.count" counter="$Counter">
-								<set_known object="$Sectors.{$Counter}" known="true" />
-							</do_all>
-							<do_all exact="$Zones.count" counter="$Counter">
-								<set_known object="$Zones.{$Counter}" known="true" />
-							</do_all>
-							<find_gate name="$gates" space="player.galaxy" multiple="true" />
-							<do_all exact="$gates.count" counter="$i">
-								<set_known object="$gates.{$i}" known="true" />
-							</do_all>
-							<find_station name="$allstations" space="player.galaxy" multiple="true" />
-							<do_all exact="$allstations.count" counter="$i">
-								<set_known object="$allstations.{$i}" known="true" updatesnapshot="true" />
-							</do_all>
 						</do_if>
 
 						<!-- clear unnecessary bnc ships -->
@@ -173,12 +152,13 @@
 						<check_value value="$SetupComplete == false" />
 					</conditions>
 					<actions>
+						<debug_text text="'Init: '+event.name" chance="global.$GB_Vault.$debug" />
 
 						<set_value name="$SetupComplete" exact="true" />
 
 						<!-- Clear old BNC objects -->
 						<do_if value="$RemoveOld">
-							<show_notification text="'resetting all bnc objects'" chance="$debug" />
+							<show_notification text="'resetting all bnc objects'" chance="global.$GB_Vault.$debug" />
 							<set_value name="$RemoveOld" exact="false" />
 							<clear_group group="Vault.$BankTransports" />
 							<set_value name="$BankStations" exact="table[]" />
@@ -200,7 +180,7 @@
 
 						<!-- setup accounts -->
 						<do_if value="$ResetAccounts">
-							<show_notification text="'resetting accounts'" chance="$debug" />
+							<show_notification text="'resetting accounts'" chance="global.$GB_Vault.$debug" />
 							<set_value name="$ResetAccounts" exact="false" />
 							<do_for_each name="$faction" in="$Accounts.keys.list">
 								<set_value name="$Account" exact="$Accounts.{$faction}" />
@@ -270,7 +250,7 @@
 
 						<!-- set faction relations -->
 						<do_if value="$ResetFactionRelations">
-							<show_notification text="'resetting relations'" chance="$debug" />
+							<show_notification text="'resetting relations'" chance="global.$GB_Vault.$debug" />
 
 							<set_value name="$ResetFactionRelations" exact="false" />
 							<set_faction_relation faction="faction.bankingclan"
@@ -670,6 +650,7 @@
 						<check_value value="$Accounts.keys.list.indexof.{event.param}" />
 					</conditions>
 					<actions>
+						<debug_text text="'BankingClan_Relation_Change: '+event.name" chance="global.$GB_Vault.$debug" />
 						<set_value name="$faction" exact="event.param" />
 						<set_value name="$Account" exact="$Accounts.{$faction}" />
 						<set_value name="$oldRelation" exact="$Account.$relation" />
@@ -775,10 +756,14 @@
 								</check_any>
 							</conditions>
 							<actions>
+								<debug_text text="'BankOfficeAddToStation: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$BankManager" exact="null" />
 								<set_value name="$station" exact="@event.param2.$teleportTo" />
 								<do_if value="not @$station.exists">
 									<set_value name="$station" exact="@event.param2.$dockAt" />
+								</do_if>
+								<do_if value="not @$station.exists">
+									<set_value name="$station" exact="player.station" />
 								</do_if>
 								<!-- add bank office if vault or faction has a vault -->
 								<set_value name="$owner" exact="$station.owner" />
@@ -853,6 +838,7 @@
 										</check_any>
 									</conditions>
 									<actions>
+										<debug_text text="'BankOfficeCleanUp: '+event.name" chance="global.$GB_Vault.$debug" />
 										<do_if value="$BankManager">
 											<remove_actor_from_room actor="$BankManager" />
 											<destroy_object object="$BankManager" />
@@ -879,6 +865,7 @@
 										</check_any>
 									</conditions>
 									<actions>
+										<debug_text text="'BankerConversationStart: '+event.name" chance="global.$GB_Vault.$debug" />
 										<do_if value="event.name == 'event_cue_signalled'">
 											<set_value name="$convoOption_Banker_Account" exact="@event.param.$convoOption_Banker_Account" />
 										</do_if>
@@ -923,6 +910,7 @@
 										<event_conversation_next_section sectionprefix="Banker_" />
 									</conditions>
 									<actions>
+										<debug_text text="'BankerConversationNext: '+event.name" chance="global.$GB_Vault.$debug" />
 										<do_if value="event.param == 'Banker_Bribe'">
 											<reward_player money="event.param2 * -1" />
 											<add_faction_relation faction="$BankManager.trueowner" otherfaction="faction.player" value="-0.0099 - $BankManager.trueowner.relationto.{faction.player}" reason="relationchangereason.illegalplot" />
@@ -963,6 +951,7 @@
 						<check_value value="@event.param.$object.distanceto.{player.entity} le 10km" />
 					</conditions>
 					<actions>
+						<debug_text text="'Vault_AccountInteractMenu: '+event.name" chance="global.$GB_Vault.$debug" />
 						<do_if value="(@$MajorFactionList.{event.param.$object.sector.owner} and $Accounts.{faction.bankingclan}.$balance gt 0) or @$Accounts.{event.param.$object.owner}.$balance gt 0">
 							<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
 								$id = 'Vault_AccountMenu',
@@ -983,6 +972,7 @@
 					</conditions>
 					<delay exact="1ms" />
 					<actions>
+						<debug_text text="'Bank_Menu: '+event.name" chance="global.$GB_Vault.$debug" />
 						<!-- determine account -->
 						<!-- undocked -->
 						<do_if value="event.param.$echo?">
@@ -1047,6 +1037,7 @@
 							</conditions>
 							<delay exact="1ms" />
 							<actions>
+								<debug_text text="'Bank_Menu_Open: '+event.name" chance="global.$GB_Vault.$debug" />
 								<!-- update interest -->
 								<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 								<do_if value="$timeSinceInterest ge 1">
@@ -1197,6 +1188,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_Menu_Payment_Amount: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$Payment_amount" exact="event.param.$value" />
 								<cancel_cue cue="this" />
 							</actions>
@@ -1206,6 +1198,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_Menu_Deposit_Amount: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$Deposit_amount" exact="event.param.$value" />
 								<cancel_cue cue="this" />
 							</actions>
@@ -1215,6 +1208,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_Menu_Withdraw_Amount: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$Withdraw_amount" exact="event.param.$value" />
 								<cancel_cue cue="this" />
 							</actions>
@@ -1226,6 +1220,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_Menu_Payment: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$PaymentsMissed" exact="$Account.$paymentsMissed" />
 								<do_if value="$LoanBalance ge $Payment_amount">
 									<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
@@ -1268,6 +1263,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_Menu_Deposit: '+event.name" chance="global.$GB_Vault.$debug" />
 								<debug_text text="'Deposit: '+$Faction.knownname+' '+$AccountBalance+' '+$LoanBalance+' '+player.money/100+' '+$Deposit_amount" chance="global.$GB_Vault.$debug" />
 								<do_if value="player.money ge ($Deposit_amount)Cr">
 									<do_if value="$AccountBalance == 0 and $LoanBalance == 0">
@@ -1299,6 +1295,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_Menu_Withdraw: '+event.name" chance="global.$GB_Vault.$debug" />
 								<debug_text text="'Withdraw: '+$Faction.knownname+' '+$AccountBalance+' '+$LoanBalance+' '+player.money/100+' '+$Withdraw_amount" chance="global.$GB_Vault.$debug" />
 								<do_if value="$AccountBalance ge $Withdraw_amount">
 									<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
@@ -1307,7 +1304,7 @@
 									<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
 									<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 									<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
-									<debug_text text="$AccountBalance / (1+$Fee) +' | '+ $Withdraw_amount" chance="$debug" />
+									<debug_text text="$AccountBalance / (1+$Fee) +' | '+ $Withdraw_amount" chance="global.$GB_Vault.$debug" />
 									<!-- player wants to empty account -->
 									<do_if value="$Withdraw_amount gt $AccountBalance / (1+$Fee) - 1">
 										<reward_player money="($Account.$balance)Cr" />
@@ -1351,6 +1348,7 @@
 						</check_any>
 					</conditions>
 					<actions>
+						<debug_text text="'BankTransports: '+event.name" chance="global.$GB_Vault.$debug" />
 						<do_if value="event.name == 'event_job_ship_activated'">
 							<set_value name="$ship" exact="event.param" />
 							<add_to_group groupname="global.$GB_Vault.$BankTransports" object="$ship" />
@@ -1378,6 +1376,7 @@
 						<event_object_dropped_objects group="global.$GB_Vault.$BankTransports" />
 					</conditions>
 					<actions>
+						<debug_text text="'LootboxFinder: '+event.name" chance="global.$GB_Vault.$debug" />
 						<do_if value="not event.object.exists">
 							<remove_from_group group="global.$GB_Vault.$BankTransports" object="event.object" />
 						</do_if>
@@ -1396,6 +1395,7 @@
 						<check_value value="global.$GB_Vault.$LootboxDrops.keys.list.count gt 0" />
 					</conditions>
 					<actions>
+						<debug_text text="'DespawnLootboxes: '+event.name" chance="global.$GB_Vault.$debug" />
 						<set_value name="global.$GB_Vault.$DespawnLootboxes" exact="player.age + 120s" />
 						<do_for_each name="$drop" in="global.$GB_Vault.$LootboxDrops.keys.list">
 							<do_if value="$drop.exists and global.$GB_Vault.$LootboxDrops.{$drop} - player.age gt 24h">
@@ -1411,15 +1411,16 @@
 						<check_age min="global.$GB_Vault.$NextCreateJobShips" />
 					</conditions>
 					<actions>
+						<debug_text text="'CreateJobShips: '+event.name" chance="global.$GB_Vault.$debug" />
 						<set_value name="global.$GB_Vault.$NextCreateJobShips" exact="player.age + 20s" />
-						<debug_text text="'begin createjobships'" chance="$debug" />
+						<debug_text text="'begin createjobships'" chance="global.$GB_Vault.$debug" />
 						<set_value name="$Faction" exact="faction.bankingclan" />
 						<set_value name="$Ship" exact="null" />
 						<find_station_by_true_owner name="$mainVault" faction="$Faction" space="player.galaxy" checkoperational="true"
 							macro="macro.station_bankingclan_mainvault_macro" />
 						<do_if value="@$mainVault.isoperational">
 							<set_value name="$Sector" exact="$mainVault.sector" />
-							<debug_text text="'Main Sector: '+$Sector.knownname" chance="$debug" />
+							<debug_text text="'Main Sector: '+$Sector.knownname" chance="global.$GB_Vault.$debug" />
 							<get_suitable_job result="$Job" faction="$Faction" tags="[tag.banking, tag.trader, tag.container]" size="class.ship_m" />
 							<do_if value="not ($Job == null)">
 								<find_station name="$Wharf" wharf="true" space="player.galaxy" checkoperational="true" sortbydistanceto="$Sector" comment="any wharf">
@@ -1427,7 +1428,7 @@
 								</find_station>
 								<do_if value="@$Wharf.isoperational">
 									<set_value name="$Sector" exact="$Wharf.sector" />
-									<debug_text text="'Build at: '+$Sector.knownname+' | '+$Wharf.knownname" chance="$debug" />
+									<debug_text text="'Build at: '+$Sector.knownname+' | '+$Wharf.knownname" chance="global.$GB_Vault.$debug" />
 									<find_zone name="$Zone" space="$Sector">
 										<match_child class="class.station" checkoperational="true" />
 									</find_zone>
@@ -1441,7 +1442,7 @@
 									</find_station>
 									<do_if value="@$Shipyard.isoperational">
 										<set_value name="$Sector" exact="$Shipyard.sector" />
-										<debug_text text="'Build at: '+$Sector.knownname+' | '+$Shipyard.knownname" chance="$debug" />
+										<debug_text text="'Build at: '+$Sector.knownname+' | '+$Shipyard.knownname" chance="global.$GB_Vault.$debug" />
 										<find_zone name="$Zone" space="$Sector">
 											<match_child class="class.station" checkoperational="true" />
 										</find_zone>
@@ -1449,14 +1450,14 @@
 								</do_if>
 							</do_else>
 							<do_if value="@$Job">
-								<debug_text text="'Jobs: '+$Job" chance="$debug" />
+								<debug_text text="'Jobs: '+$Job" chance="global.$GB_Vault.$debug" />
 								<request_job_ship name="$Ship" job="$Job" requester="$Sector" zone="$Zone" />
 								<do_if value="@$Ship">
 									<activate_job_ship_orders ship="$Ship" />
-									<debug_text text="$Ship + ' ' + $Ship.knownname + ' requested from job ' + $Job" chance="$debug" />
+									<debug_text text="$Ship + ' ' + $Ship.knownname + ' requested from job ' + $Job" chance="global.$GB_Vault.$debug" />
 								</do_if>
 								<do_else>
-									<debug_text text="'ship unable to be requested for job ' + $Job" chance="$debug" />
+									<debug_text text="'ship unable to be requested for job ' + $Job" chance="global.$GB_Vault.$debug" />
 								</do_else>
 							</do_if>
 						</do_if>
@@ -1469,6 +1470,7 @@
 						<event_cue_signalled />
 					</conditions>
 					<actions>
+						<debug_text text="'ProcessJobShips: '+event.name" chance="global.$GB_Vault.$debug" />
 						<set_value name="$WaitTime" min="20s" max="40s" />
 						<set_value name="$Shipyards" exact="[]" />
 						<set_value name="$Faction" exact="faction.bankingclan" />
@@ -1477,7 +1479,7 @@
 						<find_waiting_subordinate name="$ShipsToBuild" owner="$Faction" hasbuildingtask="false" multiple="true">
 							<match_parent negate="true" class="class.component" comment="Only interested in the disconnected ships" />
 						</find_waiting_subordinate>
-						<debug_text text="$Faction.knownname + ' has ' + $ShipsToBuild.count + ' waiting subordinate ships'" chance="$debug" />
+						<debug_text text="$Faction.knownname + ' has ' + $ShipsToBuild.count + ' waiting subordinate ships'" chance="global.$GB_Vault.$debug" />
 
 						<!--Find lead job ships
               note: previously, lead job ships had a lower chance of being selected than subordinates to help commanders waiting too long
@@ -1485,13 +1487,13 @@
 						<find_waiting_job_ship name="$ShipsToBuild" owner="$Faction" hasbuildingtask="false" multiple="true" append="true">
 							<match_parent negate="true" class="class.component" comment="Only interested in the disconnected ships" />
 						</find_waiting_job_ship>
-						<debug_text text="$Faction.knownname + ' has ' + $ShipsToBuild.count + ' waiting ships'" chance="$debug" />
+						<debug_text text="$Faction.knownname + ' has ' + $ShipsToBuild.count + ' waiting ships'" chance="global.$GB_Vault.$debug" />
 
 						<do_if value="$ShipsToBuild.count">
 							<!--TODO @Owen should we be checking for the extension of the shipyard's sector-->
 							<!--TODO @Owen hasassignedcontrolentity-->
 							<find_station name="$Shipyards" canbuildships="true" canbuildfor="$Faction" hascontrolentity="controlpost.shiptrader" space="player.galaxy" multiple="true" />
-							<debug_text text="$Faction.knownname + ' ' + player.age + ' Finding shipyards'" chance="$debug" />
+							<debug_text text="$Faction.knownname + ' ' + player.age + ' Finding shipyards'" chance="global.$GB_Vault.$debug" />
 
 							<!--Build a table with details on the shipyard so we don't have to query it too often-->
 							<set_value name="$ShipyardTable" exact="table[]" />
@@ -1539,13 +1541,13 @@
 								</do_if>
 
 								<do_if value="$FreeBuildModuleTable.keys.count">
-									<debug_text text="$Faction.knownname + ' Shipyard: ' + $Shipyards.{$i} + ' ' + $Shipyards.{$i}.knownname + ' in ' + $Shipyards.{$i}.sector.knownname + ' has build modules with free processors: ' + $FreeBuildModuleTable" chance="$debug" />
+									<debug_text text="$Faction.knownname + ' Shipyard: ' + $Shipyards.{$i} + ' ' + $Shipyards.{$i}.knownname + ' in ' + $Shipyards.{$i}.sector.knownname + ' has build modules with free processors: ' + $FreeBuildModuleTable" chance="global.$GB_Vault.$debug" />
 									<set_value name="$ShipyardTable.{$Shipyard}" exact="table[]" />
 									<set_value name="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable" exact="$FreeBuildModuleTable" />
 									<set_value name="$ShipyardTable.{$Shipyard}.$BuildableShipWares" exact="$BuildableShipWares" />
 								</do_if>
 								<do_else>
-									<debug_text text="$Faction.knownname + ' Ignoring shipyard: ' + $Shipyards.{$i} + ' ' + $Shipyards.{$i}.knownname + ' in ' + $Shipyards.{$i}.sector.knownname + ' as it does not have enough free build processors'" chance="$debug" />
+									<debug_text text="$Faction.knownname + ' Ignoring shipyard: ' + $Shipyards.{$i} + ' ' + $Shipyards.{$i}.knownname + ' in ' + $Shipyards.{$i}.sector.knownname + ' as it does not have enough free build processors'" chance="global.$GB_Vault.$debug" />
 									<remove_value name="$Shipyards.{$i}" />
 								</do_else>
 							</do_all>
@@ -1568,7 +1570,7 @@
 								</do_if>
 
 								<set_value name="$ShipToBuild" exact="$ShipsToBuild.{$i}" />
-								<debug_text text="$Faction.knownname + ' wants to build ' + $ShipToBuild.macro" chance="$debug" />
+								<debug_text text="$Faction.knownname + ' wants to build ' + $ShipToBuild.macro" chance="global.$GB_Vault.$debug" />
 								<do_if value="$i gt 40">
 									<!--Early out. We have concidered enough ships for this round.-->
 									<break />
@@ -1594,7 +1596,7 @@
 												<set_value name="$ShipyardPriceTables.{$Shipyard}" exact="$Shipyard.buildbuyprices" />
 											</do_if>
 											<get_object_value result="$ShipValue" object="$ShipToBuild" pricetable="$ShipyardPriceTables.{$Shipyard}" />
-											<debug_text text="$ShipToBuild+' | '+$ShipValue" chance="$debug" />
+											<debug_text text="$ShipToBuild+' | '+$ShipValue" chance="global.$GB_Vault.$debug" />
 											<set_value name="$ShipCostTable.{$Shipyard}" exact="$ShipValue" />
 											<do_if value="not $ShipyardTable.{$Shipyard}.$DistanceTable?">
 												<find_cluster_in_range distances="$ShipyardTable.{$Shipyard}.$DistanceTable" object="$Shipyard" maxdistance="$JumpCheckRange" multiple="true" />
@@ -1604,7 +1606,7 @@
 											<do_if value="not $JobCluster">
 												<set_value name="$JobCluster" exact="@$ShipToBuild.jobmainsector.cluster" />
 											</do_if>
-											<debug_text text="'JobCluster: '+$JobCluster.knownname" chance="$debug" />
+											<debug_text text="'JobCluster: '+$JobCluster.knownname" chance="global.$GB_Vault.$debug" />
 											<do_if value="$JobCluster and $ShipyardTable.{$Shipyard}.$DistanceTable.{$JobCluster}? and $ShipyardTable.{$Shipyard}.$DistanceTable.{$JobCluster} ge 0">
 												<set_value name="$ShipyardDistanceTable.{$Shipyard}" exact="$ShipyardTable.{$Shipyard}.$DistanceTable.{$JobCluster}" />
 											</do_if>
@@ -1624,21 +1626,21 @@
 								<set_value name="$ScoredShipyardTable" exact="table[]" />
 								<set_value name="$PriceOrder" exact="$ShipCostTable.keys.sorted" />
 								<set_value name="$DistanceOrder" exact="$ShipyardDistanceTable.keys.sorted" />
-								<debug_text text="'begin scoring: '+$PriceOrder.count+' | '+$DistanceOrder.count" chance="$debug" />
+								<debug_text text="'begin scoring: '+$PriceOrder.count+' | '+$DistanceOrder.count" chance="global.$GB_Vault.$debug" />
 								<do_all exact="$PriceOrder.count" counter="$k">
 									<do_if value="$DistanceOrder.indexof.{$PriceOrder.{$k}}">
-										<debug_text text="$Faction.knownname + ' - Shipyard: ' + $PriceOrder.{$k} + ' ' + $PriceOrder.{$k}.knownname + ' has price rank of ' + $k + ' distance rank of ' + $DistanceOrder.indexof.{$PriceOrder.{$k}}" chance="$debug" />
+										<debug_text text="$Faction.knownname + ' - Shipyard: ' + $PriceOrder.{$k} + ' ' + $PriceOrder.{$k}.knownname + ' has price rank of ' + $k + ' distance rank of ' + $DistanceOrder.indexof.{$PriceOrder.{$k}}" chance="global.$GB_Vault.$debug" />
 										<set_value name="$ScoredShipyardTable.{$PriceOrder.{$k}}" exact="$k + $DistanceOrder.indexof.{$PriceOrder.{$k}}" />
 									</do_if>
 								</do_all>
-								<debug_text text="'process scores: '+$ScoredShipyardTable.keys.count" chance="$debug" />
+								<debug_text text="'process scores: '+$ScoredShipyardTable.keys.count" chance="global.$GB_Vault.$debug" />
 								<do_if value="$ScoredShipyardTable.keys.count">
 									<set_value name="$SelectedShipyardIndex" min="1" max="$ScoredShipyardTable.keys.count" profile="decreasing" />
 									<set_value name="$ScoreOrder" exact="$ScoredShipyardTable.keys.sorted" />
 									<set_value name="$Shipyard" exact="$ScoreOrder.{$SelectedShipyardIndex}" />
 
 									<add_build_to_construct_ship result="$Build" object="$Shipyard" buildobject="$ShipToBuild" faction="$Faction" price="if $Shipyard.isplayerowned then $ShipCostTable.{$Shipyard} else 0Cr" />
-									<debug_text text="$Faction.knownname + ' Added build order ' + $Build + ' for ship ' + $ShipToBuild.knownname + ' (' + $ShipToBuild + ') on shipyard: ' + $Shipyard + ' in ' + $Shipyard.sector.knownname" chance="$debug" />
+									<debug_text text="$Faction.knownname + ' Added build order ' + $Build + ' for ship ' + $ShipToBuild.knownname + ' (' + $ShipToBuild + ') on shipyard: ' + $Shipyard + ' in ' + $Shipyard.sector.knownname" chance="global.$GB_Vault.$debug" />
 
 									<!--if shipyard is selected, reduce the count of processors and disregard if they get too low.-->
 									<set_value name="$SuitableBuildModule" exact="false" />
@@ -1652,17 +1654,17 @@
 									<do_if value="$SuitableBuildModule">
 										<do_if value="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule} == 1">
 											<remove_value name="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule}" />
-											<debug_text text="'No more free processors on module ' + $SuitableBuildModule + ' ' + $SuitableBuildModule.knownname + '. Note, the builds are not assigned to the processors yet.'" chance="$debug" />
+											<debug_text text="'No more free processors on module ' + $SuitableBuildModule + ' ' + $SuitableBuildModule.knownname + '. Note, the builds are not assigned to the processors yet.'" chance="global.$GB_Vault.$debug" />
 										</do_if>
 										<do_else>
 											<set_value name="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule}" operation="subtract" />
-											<debug_text text="'Build module ' + $SuitableBuildModule + ' ' + $SuitableBuildModule.knownname + ' has ' + $ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule} + ' free processors left'" chance="$debug" />
+											<debug_text text="'Build module ' + $SuitableBuildModule + ' ' + $SuitableBuildModule.knownname + ' has ' + $ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.{$SuitableBuildModule} + ' free processors left'" chance="global.$GB_Vault.$debug" />
 										</do_else>
 									</do_if>
 									<remove_value name="$SuitableBuildModule" />
 
 									<do_if value="$ShipyardTable.{$Shipyard}.$FreeBuildModuleTable.keys.count == 0">
-										<debug_text text="'Shipyard ' + $Shipyard + ' ' + $Shipyard.knownname + ' has no more build modules with free processors. Removing from potential shipyard list.'" chance="$debug" />
+										<debug_text text="'Shipyard ' + $Shipyard + ' ' + $Shipyard.knownname + ' has no more build modules with free processors. Removing from potential shipyard list.'" chance="global.$GB_Vault.$debug" />
 										<remove_from_list name="$Shipyards" exact="$Shipyard" multiple="false" />
 									</do_if>
 								</do_if>
@@ -1678,6 +1680,7 @@
 						<check_age min="global.$GB_Vault.$NextPayment" />
 					</conditions>
 					<actions>
+						<debug_text text="'LoanPayment: '+event.name" chance="global.$GB_Vault.$debug" />
 						<set_value name="global.$GB_Vault.$NextPayment" exact="player.age + global.$GB_Vault.$PaymentInterval" />
 						<do_for_each name="$faction" in="global.$GB_Vault.$Accounts.keys.list">
 							<set_value name="$Account" exact="global.$GB_Vault.$Accounts.{$faction}" />
@@ -1784,6 +1787,7 @@
 					</conditions>
 					<delay exact="1ms" />
 					<actions>
+						<debug_text text="'Bank_LoanMenu: '+event.name" chance="global.$GB_Vault.$debug" />
 						<!-- determine account -->
 						<set_value name="$Faction" exact="event.param.trueowner" />
 						<set_value name="$owner" exact="event.param.station.owner" />
@@ -1869,6 +1873,7 @@
 							</conditions>
 							<delay exact="1ms" />
 							<actions>
+								<debug_text text="'Bank_LoanMenu_Open: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$LoanAmount" exact="0" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
 									$id = 'bank_loanmenu',
@@ -1906,7 +1911,7 @@
 											$text='XL Collateral'
 										]" />
 										<do_for_each name="$ship" in="$Collateral.$XL">
-											<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+											<set_value name="$value" exact="($ship.macro.ware.averageprice)f" />
 											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 												$col=1,
@@ -1932,7 +1937,7 @@
 											$text='L Collateral'
 										]" />
 										<do_for_each name="$ship" in="$Collateral.$L">
-											<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+											<set_value name="$value" exact="($ship.macro.ware.averageprice)f" />
 											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 												$col=1,
@@ -1958,7 +1963,7 @@
 											$text='M Collateral'
 										]" />
 										<do_for_each name="$ship" in="$Collateral.$M">
-											<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+											<set_value name="$value" exact="($ship.macro.ware.averageprice)f" />
 											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 												$col=1,
@@ -1984,7 +1989,7 @@
 											$text='S Collateral'
 										]" />
 										<do_for_each name="$ship" in="$Collateral.$S">
-											<set_value name="$value" exact="$ship.macro.ware.averageprice" />
+											<set_value name="$value" exact="($ship.macro.ware.averageprice)f" />
 											<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 												$col=1,
@@ -2106,6 +2111,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_LoanMenu_Find_Collateral: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$size" exact="event.param.$id" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
@@ -2122,7 +2128,7 @@
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 										$col=1,
 										$halign='left',
-										$text=$ship.name+': '+($ship.macro.ware.averageprice/100) / $LoanCollateralRate
+										$text=$ship.name+': '+(($ship.macro.ware.averageprice)f/100) / $LoanCollateralRate
 									]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 										$id = $ship,
@@ -2139,6 +2145,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_LoanMenu_Add_Collateral: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$ship" exact="event.param.$id" />
 								<set_value name="$class" exact="$ship.class" />
 								<do_if value="$class == class.ship_xl">
@@ -2157,7 +2164,7 @@
 									<append_to_list name="$Collateral.$S" exact="$ship" />
 									<remove_from_list name="$shipsS" exact="$ship" />
 								</do_else>
-								<set_value name="$Account.$collateral_value" operation="add" exact="$ship.macro.ware.averageprice/100" />
+								<set_value name="$Account.$collateral_value" operation="add" exact="($ship.macro.ware.averageprice)f/100" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
 								<signal_cue_instantly cue="Bank_LoanMenu_Open" />
 							</actions>
@@ -2167,6 +2174,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_LoanMenu_Remove_Collateral: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$ship" exact="event.param.$id" />
 								<set_value name="$class" exact="$ship.class" />
 								<do_if value="$class == class.ship_xl">
@@ -2185,7 +2193,7 @@
 									<remove_from_list name="$Collateral.$S" exact="$ship" />
 									<append_to_list name="$shipsS" exact="$ship" />
 								</do_else>
-								<set_value name="$Account.$collateral_value" operation="subtract" exact="$ship.macro.ware.averageprice/100" />
+								<set_value name="$Account.$collateral_value" operation="subtract" exact="($ship.macro.ware.averageprice)f/100" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
 								<signal_cue_instantly cue="Bank_LoanMenu_Open" />
 							</actions>
@@ -2197,6 +2205,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_LoanMenu_Loan_Amount: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$LoanAmount" exact="event.param.$value" />
 								<cancel_cue cue="this" />
 							</actions>
@@ -2208,6 +2217,7 @@
 								<event_cue_signalled />
 							</conditions>
 							<actions>
+								<debug_text text="'Bank_LoanMenu_Issue_Loan: '+event.name" chance="global.$GB_Vault.$debug" />
 								<!-- update interest -->
 								<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 								<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
@@ -2245,6 +2255,7 @@
 						<event_cue_signalled />
 					</conditions>
 					<actions>
+						<debug_text text="'Transfer: '+event.name" chance="global.$GB_Vault.$debug" />
 						<do_if value="@event.param.$message">
 							<set_value name="$message" exact="event.param.$message" />
 						</do_if>
@@ -2300,6 +2311,7 @@
 						</check_any>
 					</conditions>
 					<actions>
+						<debug_text text="'Vault_LootboxInteractMenu: '+event.name" chance="global.$GB_Vault.$debug" />
 						<signal_cue_instantly cue="md.Interact_Menu_API.Add_Action" param="table[
 							$id = 'Vault_LootboxMenu',
 							$section = 'hacking_menu',
@@ -2318,6 +2330,7 @@
 					</conditions>
 					<delay exact="1ms" />
 					<actions>
+						<debug_text text="'Lootbox_Menu: '+event.name" chance="global.$GB_Vault.$debug" />
 						<set_value name="$Bypasses" exact="0" />
 						<set_value name="$Lootboxes" exact="0" />
 						<set_value name="$LargeLootboxes" exact="0" />
@@ -2359,6 +2372,7 @@
 							</conditions>
 							<delay exact="1ms" />
 							<actions>
+								<debug_text text="'Lootbox_Menu_Open: '+event.name" chance="global.$GB_Vault.$debug" />
 								<!-- can't use bypass on fused boxes -->
 								<do_if value="$Lootboxes == 0 and $LargeLootboxes == 0">
 									<set_value name="$UseBypass" exact="false" />
@@ -2473,6 +2487,7 @@
 										<event_cue_signalled />
 									</conditions>
 									<actions>
+										<debug_text text="'UseBypassCheckbox: '+event.name" chance="global.$GB_Vault.$debug" />
 										<set_value name="$UseBypass" exact="event.param.$value" />
 										<cancel_cue cue="this" />
 									</actions>
@@ -2484,6 +2499,7 @@
 										<event_cue_signalled />
 									</conditions>
 									<actions>
+										<debug_text text="'OpenLootbox: '+event.name" chance="global.$GB_Vault.$debug" />
 										<set_value name="$id" exact="event.param.$id" />
 										<set_value name="$bomb" exact="true" chance="5" />
 										<set_value name="$roll" min="1" max="20" />
@@ -2630,15 +2646,16 @@
 				</cue>
 
 				<!-- unused -->
-				<cue name="SpawnLargeLootBox">
+				<!-- <cue name="SpawnLargeLootBox">
 					<conditions>
 						<check_any>
 							<event_cue_signalled />
-							<!--check for destroyed vault component-->
+							<!-check for destroyed vault component->
 						</check_any>
 					</conditions>
 					<delay exact="2s" />
 					<actions>
+						<debug_text text="'SpawnLargeLootBox: '+event.name" chance="global.$GB_Vault.$debug" />
 						<do_all exact="[2,4,6].random">
 							<set_value name="$RandomMultiplier" exact="[1.4, 1.5, 1.6, 1.8, 1.9, 2.0, 2.1, 2.2, 2.4, 2.6].random" />
 							<do_any>
@@ -2675,10 +2692,11 @@
 						</do_all>
 						<reset_cue cue="this" />
 					</actions>
-				</cue>
+				</cue> -->
 
 				<cue name="K_ArriveAndLeaveStations" namespace="this">
 					<actions>
+						<debug_text text="'K_ArriveAndLeaveStations: '+event.name" chance="global.$GB_Vault.$debug" />
 						<set_value name="$attentionNearbyAndNearer" exact="[attention.nearby, attention.adjacentroom, attention.inroom]" />
 						<set_value name="$attentionInZoneAndNearer" exact="[attention.inzone, attention.nearby, attention.adjacentroom, attention.inroom]" />
 						<set_value name="md.Notifications.Init.$kuertee_station_new" exact="null" />
@@ -2706,6 +2724,7 @@
 								</check_any>
 							</conditions>
 							<actions>
+								<debug_text text="'K_ArriveStation: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$isOk" exact="false" />
 								<set_value name="$isAlreadyActive" exact="false" />
 								<set_value name="$isTeleport" exact="false" />
@@ -2773,6 +2792,7 @@
 										</check_any>
 									</conditions>
 									<actions>
+										<debug_text text="'K_DepartStation: '+event.name" chance="global.$GB_Vault.$debug" />
 										<set_value name="$isOk" exact="false" />
 										<set_value name="$isOk" exact="
 											event.name == 'event_cue_signalled'
@@ -2804,6 +2824,7 @@
 								</cue>
 								<cue name="K_ArriveStation2">
 									<actions>
+										<debug_text text="'K_ArriveStation2: '+event.name" chance="global.$GB_Vault.$debug" />
 										<set_value name="md.Notifications.Init.$kuertee_Cue_departOldStation" exact="K_DepartStation" />
 										<do_if value="$isTeleport">
 											<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$teleportTo = md.Notifications.Init.$kuertee_station_new, $leaveFrom = md.Notifications.Init.$kuertee_station_old]" />
@@ -2829,6 +2850,7 @@
 										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
 									</conditions>
 									<actions>
+										<debug_text text="'K_DockedAtStation: '+event.name" chance="global.$GB_Vault.$debug" />
 										<!-- <raise_lua_event name="'Chat_Window_API.Print'" param="'K_DockedAtStation player.station ' + @$player.station.knownname" chance="@md.Notifications.Init.$kuertee_debug" /> -->
 										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
 										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$dockAt = md.Notifications.Init.$kuertee_station_current]" />
@@ -2846,6 +2868,7 @@
 										<check_value value="@event.param.macro != @macro.torus_maze_macro" />
 									</conditions>
 									<actions>
+										<debug_text text="'K_UndockedFromStation: '+event.name" chance="global.$GB_Vault.$debug" />
 										<set_value name="md.Notifications.Init.$kuertee_station_current" exact="event.param" />
 										<signal_objects object="player.entity" param="'K_ArriveAndLeaveStations'" param2="table[$undockFrom = md.Notifications.Init.$kuertee_station_current]" />
 										<raise_lua_event name="'Chat_Window_API.Print'" param="'K_UndockedFromStation station_current ' + @md.Notifications.Init.$kuertee_station_current.knownname" chance="@md.Notifications.Init.$kuertee_debug" />
@@ -2861,6 +2884,7 @@
 								<check_value value="event.param3.$text == 'kuertee debug K_ArriveAndLeaveStations'" />
 							</conditions>
 							<actions>
+								<debug_text text="'K_ArriveAndLeaveStations_Debug: '+event.name" chance="global.$GB_Vault.$debug" />
 								<debug_text text="@event.param3" />
 								<raise_lua_event name="'Chat_Window_API.Print'" param="@event.param3.$text" />
 								<do_if value="@md.Notifications.Init.$kuertee_debug">
@@ -2883,6 +2907,7 @@
 						<check_value value="not @player.allmodules.{player.module}.isscenario" />
 					</conditions>
 					<actions>
+						<debug_text text="'K_ArriveAndLeaveStations_Init2: '+event.name" chance="global.$GB_Vault.$debug" />
 						<!-- save station current -->
 						<set_value name="$station_current" exact="@md.Notifications.Init.$kuertee_station_current" />
 						<do_if value="not @$station_current.exists">
@@ -2904,6 +2929,7 @@
 					<cues>
 						<cue name="K_ArriveAndLeaveStations_Init3" checktime="player.age + $initDelay">
 							<actions>
+								<debug_text text="'K_ArriveAndLeaveStations_Init3: '+event.name" chance="global.$GB_Vault.$debug" />
 								<do_if value="not @md.Notifications.Init.$kuertee_ArriveAndLeaveStations.exists">
 									<!-- no K_ArriveAndLeaveStations registered -->
 									<!-- register this K_ArriveAndLeaveStations -->
@@ -2920,6 +2946,7 @@
 							<cues>
 								<cue name="K_ArriveAndLeaveStations_Init4">
 									<actions>
+										<debug_text text="'K_ArriveAndLeaveStations_Init4: '+event.name" chance="global.$GB_Vault.$debug" />
 										<do_if value="not @$station_current.exists">
 											<find_station name="$station" sortbydistanceto="player.entity" space="player.sector" />
 											<do_if value="[attention.nearby, attention.adjacentroom, attention.inroom].indexof.{$station.attention}">
@@ -2939,6 +2966,7 @@
 									<cues>
 										<cue name="K_ArriveAndLeaveStations_Init5">
 											<actions>
+												<debug_text text="'K_ArriveAndLeaveStations_Init5: '+event.name" chance="global.$GB_Vault.$debug" />
 												<debug_text text="'$kuertee_ArriveAndLeaveStations setting for $station_current: ' + $station_current + ' (' + $station_current.knownname + ')'" />
 												<signal_cue_instantly cue="K_ArriveStation" param="table[$station = $station_current, $isAlreadyActive = true]" />
 												<reset_cue cue="K_ArriveAndLeaveStations_Init2" />
@@ -2952,6 +2980,7 @@
 				</cue>
 				<cue name="K_ArriveAndLeaveStations_FirstRun2">
 					<actions>
+						<debug_text text="'K_ArriveAndLeaveStations_FirstRun2: '+event.name" chance="global.$GB_Vault.$debug" />
 						<signal_cue cue="K_ArriveAndLeaveStations_Init2" />
 					</actions>
 				</cue>
@@ -2963,6 +2992,7 @@
 				<event_ui_triggered screen="'Lua_Loader'" control="'Ready'" />
 			</conditions>
 			<actions>
+				<debug_text text="'OnLuaLoaderReady: '+event.name" chance="global.$GB_Vault.$debug" />
 				<raise_lua_event name="'Lua_Loader.Load'" param="'extensions.kuertee_ui_extensions.ui.kuertee_menu_interactmenu'" />
 				<raise_lua_event name="'Interact_Menu_API.Add_Custom_Actions_Group_Id'" param="'hacking_menu'" />
 				<raise_lua_event name="'Interact_Menu_API.Add_Custom_Actions_Group_Text'" param="{20777, 404404}" />
@@ -2974,6 +3004,7 @@
 				<event_cue_completed cue="OnLuaLoaderReady" />
 			</conditions>
 			<actions>
+				<debug_text text="'OnLuaLoaderReadyCompleted: '+event.name" chance="global.$GB_Vault.$debug" />
 				<reset_cue cue="OnLuaLoaderReady" />
 				<reset_cue cue="this" />
 			</actions>

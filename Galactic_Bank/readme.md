@@ -89,3 +89,4 @@ cleaned code. reset accounts (withdraw money before installing). added bribe to 
 (0.94) bug fixes. debug messages added.
 (0.95) Note: Accounts Reset, withdraw before updating. bug fixes
 (0.96) Note: Accounts Reset, withdraw before updating. bug fixes
+(0.97) bug fixes

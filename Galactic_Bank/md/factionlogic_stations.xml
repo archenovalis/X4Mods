@@ -5,7 +5,7 @@
   <add sel="//set_value[@name='$PreferredSectors']" pos="after">
     <!-- BEGIN Banking Clan's Vault -->
     <do_if value="$Faction == faction.bankingclan">
-      <set_value name="$DebugChance" exact="0" />
+      <set_value name="$DebugChance" exact="global.$GB_Vault.$debug" />
 
       <debug_text text="'begin bankingclan stations'" chance="$DebugChance" />
       <set_value name="$set" exact="null" />

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<aiscript name="order.sw.bank.transport" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="1">
+<aiscript name="order.sw.bank.transport" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="2">
   <order id="SWBankTransport" name="{20777, 1001} {20777, 1005} {20777, 1008}" description="{20777, 1012}" category="internal" allowinloop="false">
     <params>
       <param name="destination" type="internal" default="false" text="{1041, 10027}" comment="Destination. can be a space or an object in a zone. Providing Sector and Cluster will attempt to find the nearest zone" />
       <param name="cannotdock" type="internal" default="false" text="{1041, 10133}" comment="Unable to dock. used for error handling in case of inability to dock" />
-      <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
+      <param name="debugchance" type="bool" default="global.$GB_Vault.$debug" advanced="true" text="{1041, 10086}" comment="Print debug output">
         <input_param name="truevalue" value="100" />
       </param>
     </params>
@@ -42,6 +42,7 @@
     <actions>
 
       <label name="start" />
+      <debug_text text="'start'" chance="$debugchance" />
 
       <find_station_by_true_owner name="$stations" multiple="true"
         macro="macro.station_bankingclan_branchvault_macro"
@@ -83,9 +84,11 @@
       <set_value name="$destination" exact="$stationA" />
 
       <label name="move_to_destination" />
+      <debug_text text="'move_to_destination'" chance="$debugchance" />
 
       <do_if value="$destination == null or not $destination.isoperational">
         <debug_text text="'station not operational: '+$destination.sector.name" chance="$debugchance" />
+        <wait exact="1s" sinceversion="2" />
         <resume label="start" />
       </do_if>
 
@@ -165,11 +168,12 @@
         </do_else>
         <remove_value name="$freeslots" />
         <remove_value name="$internaldocks" />
-        <wait exact="10s" />
+        <wait exact="10s" sinceversion="1" />
         <resume label="move_to_destination" />
       </do_if>
 
       <label name="next" />
+      <debug_text text="'next'" chance="$debugchance" />
 
       <!-- Change Route? -->
       <set_value name="$changeRoute" exact="false" />
@@ -177,6 +181,7 @@
       <do_if value="$changeRoute">
         <set_value name="$changeRoute" exact="false" />
         <debug_text text="'route changed'" chance="$debugchance" />
+        <wait exact="1s" sinceversion="2" />
         <resume label="start" />
       </do_if>
 
@@ -190,6 +195,7 @@
           <set_value name="$destination" exact="$stationA" />
         </do_else>
 
+        <wait exact="1s" sinceversion="2" />
         <resume label="move_to_destination" />
 
       </do_else>
