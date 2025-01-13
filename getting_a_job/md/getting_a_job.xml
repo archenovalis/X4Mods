@@ -13,6 +13,10 @@
         <check_value value="not @player.allmodules.{player.module}.isscenario" />
       </conditions>
       <actions>
+        <set_value name="global.$GettingAJob_Work" exact="this" />
+
+        <set_value name="Work.$Debug" exact="0" />
+
         <set_value name="$NextPaycheck" exact="player.age" />
         <set_value name="$MissionRewardReducer" exact="16" />
         <set_value name="$PaycheckInterval" exact="(15 * 60)s" />
@@ -154,6 +158,7 @@
           </conditions>
           <delay exact="1ms" />
           <actions>
+            <set_value name="global.$GettingAJob_Work.$Debug" exact="100" />
             <do_if value="$InitSetup">
               <signal_cue_instantly cue="InitSetup" />
             </do_if>
@@ -549,6 +554,7 @@
         </cue>
 
         <!-- Paycheck -->
+        <!-- must convert to credits by multiplying by 100 -->
         <cue name="IssuePaycheck" instantiate="true" checkinterval="5s">
           <conditions>
             <check_age min="$NextPaycheck" />
@@ -560,6 +566,9 @@
                 <do_if value="player.age - $Factions.{$faction}.$missionTime ge $InactiveTime">
                   <set_value name="$Factions.{$faction}.$inactive" exact="true" />
                   <!-- todo: change text based on type of faction: police, peaceful, pirate, other? -->
+
+                  <show_help force="true" duration="8s"
+                    custom="'You have received a Priority Message from '+$faction.name" position="20" />
                   <write_incoming_message highpriority="true" source="$faction.name" title="'Inactive'" text="'
                     Greetings '+player.name+',\n
                     \n
@@ -568,15 +577,13 @@
                     ' +$faction+' Finance Department'" />
                 </do_if>
                 <do_else>
-                  <set_value name="$money" exact="$Factions.{$faction}.$paycheck" />
-                  <signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction= $faction, $money= $money]" />
-                  <show_notification text="$faction+' Paycheck: '+$money" />
+                  <set_value name="$money" exact="$Factions.{$faction}.$paycheck * 100" />
+                  <signal_cue_instantly cue="md.GalacticBankRC2.Transfer" param="table[$faction= $faction, $money= $money, $message=$faction+' Paycheck: '+$money/100]" />
                 </do_else>
               </do_if>
               <do_elseif value="@$Factions.{$faction}.$pension gt 0">
-                <set_value name="$money" exact="$Factions.{$faction}.$pension" />
-                <signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction= $faction, $money= $money]" />
-                <show_notification text="$faction+' Pension: '+$money" />
+                <set_value name="$money" exact="$Factions.{$faction}.$pension * 100" />
+                <signal_cue_instantly cue="md.GalacticBankRC2.Transfer" param="table[$faction= $faction, $money= $money, $message=$faction+' Pension: '+$money/100]" />
               </do_elseif>
             </do_for_each>
           </actions>
@@ -598,6 +605,9 @@
           <actions>
             <set_value name="$faction" exact="event.param" />
             <set_value name="$Factions.{$faction}.$pensionTier" operation="add" exact="1" />
+
+            <show_help force="true" duration="8s"
+              custom="'You have received a Priority Message from '+$faction.name" position="20" />
             <write_incoming_message highpriority="true" source="$faction.name" title="$faction+': Pension Level '+$Factions.{$faction}.$pensionTier" text="'We are please to inform you that your pension percent has increased to: '++'\n\nWe hope that you live forever.'" />
           </actions>
         </cue>
@@ -684,6 +694,9 @@
             <set_value name="$Factions.{$faction}.$paycheck" exact="$paycheck" />
             <set_value name="$Factions.{$faction}.$bonusMultiplier" exact="$bonusMultiplier" />
             <set_value name="$offer" exact="'Pay: '+$paycheck+'Cr / '+$PaycheckInterval+'min\nMission Reward Bonus: '+$bonusMultiplier*100+'%'" />
+
+            <show_help force="true" duration="8s"
+              custom="'You have received a Priority Message from '+$faction.name" position="20" />
             <write_incoming_message highpriority="true" source="$faction.name" title="$faction+': Job Offer'" text="'We are please to inform you that we are offering a job to you. Please see one of our station managers to accept the position.\n\n'+$offer" />
           </actions>
         </cue>
@@ -699,7 +712,10 @@
           <actions>
             <set_value name="$faction" exact="event.param" />
             <set_value name="$Factions.{$faction}.$offerSpy" exact="true" />
-            <write_incoming_message highpriority="true" source="$faction.name" title="$faction+': Confidential Offer'" text="'Thank you for your loyalty. Please see one of our station managers.'" />
+
+            <show_help force="true" duration="8s"
+              custom="'You have received a Priority Message from '+$faction.name" position="20" />
+            <write_incoming_message highpriority="true" source="$faction.name" title="'Top Secret: Job Offer'" text="'Thank you for your loyalty. Please see one of our station managers.'" />
           </actions>
         </cue>
 
@@ -717,7 +733,8 @@
             <set_value name="$workBonus" exact="$RewardCr * $Factions.{$faction}.$bonusMultiplier" />
             <set_value name="$RewardCr" exact="$RewardCr + $workBonus" />
             <set_value name="$Factions.{$faction}.$missionTime" exact="player.age" />
-            <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="$RewardCr * $Factions.{$faction}.$paycheckFactor" />
+            <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="($RewardCr)f/100 * $Factions.{$faction}.$paycheckFactor" />
+            <signal_cue_instantly cue="md.GalacticBankRC2.Transfer" param="table[$faction = $faction, $money = $RewardCr]" />
           </actions>
         </cue>
 
@@ -768,7 +785,7 @@
             </do_if>
             <do_else>
               <do_if value="$convoOption_isGetHired">
-                <add_player_choice text="'Job Offer'" section="GAJ_get_hired" choiceparam="$faction" />
+                <add_player_choice text="'Accept Job'" section="GAJ_get_hired" choiceparam="$faction" />
               </do_if>
               <do_if value="$convoOption_isBecomeSpy">
                 <!-- spy pay logic goes here-->
@@ -845,6 +862,9 @@
                 Active Pension (included in paycheck): '+$data.$pension
               " />
             </do_if>
+
+            <show_help force="true" duration="8s"
+              custom="'You have received a Priority Message from '+$faction.name" position="20" />
             <write_incoming_message highpriority="true" source="$faction.name" title="'New Hire: '+$faction" text="$message" />
           </actions>
         </cue>
@@ -860,6 +880,9 @@
             <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="$Factions.{$faction}.$spyPay" />
             <add_inventory ware="ware.mod_ship_spy" />
             <add_inventory ware="$HackingDeviceList.{$faction}" />
+
+            <show_help force="true" duration="8s"
+              custom="'You have received a Priority Message from '+$faction.name" position="20" />
             <write_incoming_message highpriority="true" source="$faction.name" title="$faction+': ~Top Secret: New Spy~'" text="
                 'Your spy pay of '+$Factions.{$faction}.$spyPay+' has been added to your paycheck.'
               " />
@@ -874,12 +897,24 @@
             <set_value name="$faction" exact="event.param" />
             <set_value name="$data" exact="$Factions.{$faction}" />
             <set_value name="$message" exact="'
-              Hired: '+if $data.$hired then 'true' else 'false'+'\n
-              Inactive: '+if $data.$inactive then 'true' else 'false'+'\n
+              Hired: '+if $data.$hired then 'true' else 'false'
+            " />
+            <do_if value="$hired">
+              <set_value name="$message" exact="$message+'\n
+                Inactive: '+if $data.$inactive then 'true' else 'false'
+              " />
+            </do_if>
+            <set_value name="$message" exact="$message+'\n
               Mission Pay Bonus: '+$data.$bonusMultiplier*100+'%'+'\n
               % of Mission Pay added to Paycheck: '+$data.$paycheckFactor*100+'%'+'\n
-              Paycheck: '+$data.$paycheck+'\n
-              Pension Tier: '+$data.$pensionFactor*$data.$pensionTier*100+'%'+'\n
+              Paycheck: '+$data.$paycheck
+            " />
+            <do_if value="$hired">
+              <set_value name="$message" exact="$message+'\n
+                Pension Tier: '+$data.$pensionFactor*$data.$pensionTier*100+'%'
+              " />
+            </do_if>
+            <set_value name="$message" exact="$message+'\n
               Pension Tiers: 0%, '+$data.$pensionFactor*100+'%, '+$data.$pensionFactor*2*100+'%, '+$data.$pensionFactor*3*100+'%, '+$data.$pensionFactor*4*100+'%'
             " />
             <do_if value="$data.$pensionTier ge 1">
@@ -888,9 +923,11 @@
                 Pension After Death: '+$data.$pension + ($data.$paycheck - $data.$pension) * $data.$pensionTier * $data.$pensionFactor
               " />
             </do_if>
-            <set_value name="$message" exact="$message+'\n
-              Last Mission Completed: '+(player.age - $data.$missionTime)*60
-            " />
+            <do_if value="$data.$missionTime gt 0">
+              <set_value name="$message" exact="$message+'\n
+                Last Mission Completed: '+(player.age - $data.$missionTime)*60
+              " />
+            </do_if>
             <do_if value="$data.$pension gt 0">
               <set_value name="$message" exact="$message+'\n
                 Active Pension (included in paycheck): '+$data.$pension

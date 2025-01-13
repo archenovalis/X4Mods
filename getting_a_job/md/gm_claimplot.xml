@@ -59,9 +59,11 @@
         <set_value name="$GAJ_isWork" exact="true" />
       </do_if>
       <do_if value="$GAJ_isWork?">
-        <signal_cue_instantly cue="md.GettingAJobTest.Work.LogWork" param="table[$faction = $ClientOwner, $RewardCr = $RewardCr]" />
+        <signal_cue_instantly cue="md.GettingAJobTest.LogWork" param="table[$faction = $ClientOwner, $RewardCr = $RewardCr]" />
       </do_if>
-      <signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
+      <do_else>
+        <signal_cue_instantly cue="md.GalacticBankRC2.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
+      </do_else>
     </do_if>
   </replace>
 </diff>

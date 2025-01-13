@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="SW_Maintenance" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../xsd/md.xsd">
+  <!-- GUIDELINE:
+Ship maintanace cost = its $threatscore
+Total costs of all ships will be multiplied by $PowerCostMult1 that is based on $PlayerPower level (no payment if you are nobody)
+
+Sector supply value - how much of total $threatscore is negated from maintenece cost if player ownes the sector, EQ docks improve that parameter
+Ship Supplies - new ware for ship building, it also will be consumed on EQ docks to increase $SuppplyLevel of a sector by x2 max
+
+Each cycle we do:
+1. Calculate total Supply Cost of all ships (their total $threatscore = TotalSupplyCost)
+2. Multiply total Supply Cost by Player Power ($TotalSupplyCost * $PowerCostMultFinal = $TotalSupplyCostFinal)
+3. Check for owned sectors and calculate their Supply level ($SupplyLevelBasic, defaulted for most sectors, but some give more, need table for this below)
+4. Check for EQ docks (each DIFFERNT ship size EQ dock adds 1 to multiplier to sector supply, up to 4 with all ship sizes) in each of owned sectors and consume Supply wares to satisfy Supply Demand ($AllSectorsSupplyLevelTotal, $FinalSupplyCost and $TotalWaresToRemove)
+5. Calculate $FinalSupplyCost if we still have something to cover (if 0 or lower, nothing to pay.)
+6. If $FinalSupply >0 after wares consumption, then multiply by $DefaultCostMultiplier and pay in credits.
+7. If not enough credits to pay, something bad happens (maybe some ships will leave you or take damage, still to decide)
+-->
+  <cues>
+    <cue name="Init" version="3" mapeditor="false">
+      <conditions>
+        <check_all>
+          <check_any>
+            <event_cue_signalled cue="md.Setup.GameStart" />
+            <event_player_created />
+          </check_any>
+          <check_value value="player.galaxy.macro == macro.swi_galaxy_macro" comment="only in main-galaxy" />
+        </check_all>
+      </conditions>
+      <actions>
+        <set_value name="$MaintenanceEnabled" exact="true" />
+
+        <set_value name="$SupplyWare" exact="ware.shipsupplies" />
+        <!-- setting main values -->
+        <set_value name="$InitialMessageSent" exact="0" />
+        <set_value name="$DefaultWarestoSupplyMultiplier" exact="2" /> <!-- how much of Ship Supplies wares you need to cover 1 supply cost-->
+        <set_value name="$DefaultCreditsCostMultiplier" exact="5000" /> <!-- how much credits we have to pay for each supply cost not covered by Ship Supplies wares-->
+
+        <set_value name="$PowerCostMult1" exact="0.3" />
+        <set_value name="$PowerCostMult2" exact="0.6" />
+        <set_value name="$PowerCostMult3" exact="1.0" />
+        <set_value name="$PowerCostMult4" exact="1.5" />
+        <set_value name="$PowerCostMult5" exact="2.0" />
+
+        <!-- List of default and non-default sector supplies -->
+        <set_value name="$DefaulSupplyLevel" exact="100" />
+        <set_value name="$UniqueSupplyLevelTable" exact="table[
+        {macro.swi_clustercoruscant_sector001_macro} = 500,
+        {macro.swi_clusterkuat_sector001_macro} = 500,
+        {macro.swi_clustercantonica_sector001_macro} = 300,
+        {macro.swi_clusterziost_sector001_macro} = 300,
+        {macro.swi_clustermandalore_sector001_macro} = 400,
+        {macro.swi_clusterhapes_sector001_macro} = 300,
+        {macro.swi_clusterhypori_sector001_macro} = 300,
+        {macro.swi_clusternarshadda_sector001_macro} = 300,
+        {macro.swi_clustereriadu_sector001_macro} = 400,
+        {macro.swi_clusterbespin_sector001_macro} = 300,
+        {macro.swi_clusterbastion_sector001_macro} = 400,
+        {macro.swi_clustermoncalamari_sector001_macro} = 300,
+        {macro.swi_clustergeonosis_sector001_macro} = 300,
+
+        {macro.swi_clustertelos_sector001_macro} = 250,
+        {macro.swi_clusterdromundkaas_sector001_macro} = 250,
+        {macro.swi_clusterkorriban_sector001_macro} = 250,
+        {macro.swi_clusterlothal_sector001_macro} = 250,
+        {macro.swi_clustertoydaria_sector001_macro} = 250,
+        {macro.swi_clusternalhutta_sector001_macro} = 250,
+        {macro.swi_clusterkamino_sector001_macro} = 250,
+        {macro.swi_clustermolavar_sector001_macro} = 250,
+        {macro.swi_clusterutapau_sector001_macro} = 250,
+        {macro.swi_clusterenarc_sector001_macro} = 250,
+        {macro.swi_clusterdarkknell_sector001_macro} = 250,
+        {macro.swi_clustermustafar_sector001_macro} = 250,
+        {macro.swi_clustermataou_sector001_macro} = 250,
+        {macro.swi_clusteranpath_sector001_macro} = 250,
+        {macro.swi_clusterfusai_sector001_macro} = 250,
+        {macro.swi_clusterrakataprime_sector001_macro} = 250,
+        {macro.swi_clusterfondor_sector001_macro} = 250,
+        {macro.swi_clustercorellia_sector001_macro} = 250,
+        {macro.swi_clusterrendili_sector001_macro} = 250,
+        {macro.swi_clusterperma_sector001_macro} = 250,
+        {macro.swi_clusteruviuyexen_sector001_macro} = 250,
+        {macro.swi_clusterordmantell_sector001_macro} = 250,
+        {macro.swi_clusterscipio_sector001_macro} = 250,
+        {macro.swi_clustermygeeto_sector001_macro} = 250,
+        {macro.swi_clusterdantooine_sector001_macro} = 250,
+        {macro.swi_clusterbescene_sector001_macro} = 250,
+        {macro.swi_clusterordo_sector001_macro} = 250,
+
+        {macro.swi_clusterfelucia_sector001_macro} = 200,
+        {macro.swi_clustervoss_sector001_macro} = 200,
+        {macro.swi_clusterlucazec_sector001_macro} = 200,
+        {macro.swi_clusterdellalt_sector001_macro} = 200,
+        {macro.swi_clusterrentasia_sector001_macro} = 200,
+        {macro.swi_clustereadu_sector001_macro} = 200,
+        {macro.swi_clusterkessel_sector001_macro} = 200,
+        {macro.swi_clusterscarif_sector001_macro} = 200,
+        {macro.swi_clusterryloth_sector001_macro} = 200,
+        {macro.swi_clustermongazza_sector001_macro} = 200,
+        {macro.swi_clustertatooine_sector001_macro} = 200,
+        {macro.swi_clusterbothawui_sector001_macro} = 200,
+        {macro.swi_clusterhoth_sector001_macro} = 200,
+        {macro.swi_clusterpolismassa_sector001_macro} = 200,
+        {macro.swi_clustersullust_sector001_macro} = 200,
+        {macro.swi_clustertakodana_sector001_macro} = 200,
+        {macro.swi_clusterjakku_sector001_macro} = 200,
+        {macro.swi_clusterjedha_sector001_macro} = 200,
+        {macro.swi_clustertheredoubt_sector001_macro} = 200,
+        {macro.swi_clusterbilbringi_sector001_macro} = 200,
+        {macro.swi_clusteryagaminor_sector001_macro} = 200,
+        {macro.swi_clustermuunlist_sector001_macro} = 200,
+        {macro.swi_clusteragamar_sector001_macro} = 200,
+        {macro.swi_clusterwayland_sector001_macro} = 200,
+        {macro.swi_clusterconcorddown_sector001_macro} = 200,
+        {macro.swi_clusterlantillies_sector001_macro} = 200,
+        {macro.swi_clusterroqoo_sector001_macro} = 200,
+        {macro.swi_clusterandalia_sector001_macro} = 200,
+        {macro.swi_clusterkashyyk_sector001_macro} = 200,
+        {macro.swi_clusterneimodia_sector001_macro} = 200,
+        {macro.swi_clusterbrentaal_sector001_macro} = 200,
+        {macro.swi_clustertrellen_sector001_macro} = 200,
+        {macro.swi_clusterbyss_sector001_macro} = 200,
+        {macro.swi_clusterloronar_sector001_macro} = 200,
+        {macro.swi_clusterhosnianprime_sector001_macro} = 200,
+        {macro.swi_clusterfoless_sector001_macro} = 200,
+        {macro.swi_clusterlorta_sector001_macro} = 200,
+        {macro.swi_clusterpax_sector001_macro} = 200,
+        {macro.swi_clusterjablim_sector001_macro} = 200,
+        {macro.swi_clusterphindar_sector001_macro} = 200,
+        {macro.swi_clusteralderaan_sector001_macro} = 200,
+        {macro.swi_clusterringomoon_sector001_macro} = 200,
+        {macro.swi_clusterhuk_sector001_macro} = 200,
+        ]" />
+      </actions>
+      <patch sinceversion="2">
+        <set_value name="$UniqueSupplyLevelTable" exact="table[
+        {macro.swi_clustercoruscant_sector001_macro} = 500,
+        {macro.swi_clusterkuat_sector001_macro} = 500,
+        {macro.swi_clustercantonica_sector001_macro} = 300,
+        {macro.swi_clusterziost_sector001_macro} = 300,
+        {macro.swi_clustermandalore_sector001_macro} = 400,
+        {macro.swi_clusterhapes_sector001_macro} = 300,
+        {macro.swi_clusterhypori_sector001_macro} = 300,
+        {macro.swi_clusternarshadda_sector001_macro} = 300,
+        {macro.swi_clustereriadu_sector001_macro} = 400,
+        {macro.swi_clusterbespin_sector001_macro} = 300,
+        {macro.swi_clusterbastion_sector001_macro} = 400,
+        {macro.swi_clustermoncalamari_sector001_macro} = 300,
+        {macro.swi_clustergeonosis_sector001_macro} = 300,
+
+        {macro.swi_clustertelos_sector001_macro} = 250,
+        {macro.swi_clusterdromundkaas_sector001_macro} = 250,
+        {macro.swi_clusterkorriban_sector001_macro} = 250,
+        {macro.swi_clusterlothal_sector001_macro} = 250,
+        {macro.swi_clustertoydaria_sector001_macro} = 250,
+        {macro.swi_clusternalhutta_sector001_macro} = 250,
+        {macro.swi_clusterkamino_sector001_macro} = 250,
+        {macro.swi_clustermolavar_sector001_macro} = 250,
+        {macro.swi_clusterutapau_sector001_macro} = 250,
+        {macro.swi_clusterenarc_sector001_macro} = 250,
+        {macro.swi_clusterdarkknell_sector001_macro} = 250,
+        {macro.swi_clustermustafar_sector001_macro} = 250,
+        {macro.swi_clustermataou_sector001_macro} = 250,
+        {macro.swi_clusteranpath_sector001_macro} = 250,
+        {macro.swi_clusterfusai_sector001_macro} = 250,
+        {macro.swi_clusterrakataprime_sector001_macro} = 250,
+        {macro.swi_clusterfondor_sector001_macro} = 250,
+        {macro.swi_clustercorellia_sector001_macro} = 250,
+        {macro.swi_clusterrendili_sector001_macro} = 250,
+        {macro.swi_clusterperma_sector001_macro} = 250,
+        {macro.swi_clusteruviuyexen_sector001_macro} = 250,
+        {macro.swi_clusterordmantell_sector001_macro} = 250,
+        {macro.swi_clusterscipio_sector001_macro} = 250,
+        {macro.swi_clustermygeeto_sector001_macro} = 250,
+        {macro.swi_clusterdantooine_sector001_macro} = 250,
+        {macro.swi_clusterbescene_sector001_macro} = 250,
+        {macro.swi_clusterordo_sector001_macro} = 250,
+
+        {macro.swi_clusterfelucia_sector001_macro} = 200,
+        {macro.swi_clustervoss_sector001_macro} = 200,
+        {macro.swi_clusterlucazec_sector001_macro} = 200,
+        {macro.swi_clusterdellalt_sector001_macro} = 200,
+        {macro.swi_clusterrentasia_sector001_macro} = 200,
+        {macro.swi_clustereadu_sector001_macro} = 200,
+        {macro.swi_clusterkessel_sector001_macro} = 200,
+        {macro.swi_clusterscarif_sector001_macro} = 200,
+        {macro.swi_clusterryloth_sector001_macro} = 200,
+        {macro.swi_clustermongazza_sector001_macro} = 200,
+        {macro.swi_clustertatooine_sector001_macro} = 200,
+        {macro.swi_clusterbothawui_sector001_macro} = 200,
+        {macro.swi_clusterhoth_sector001_macro} = 200,
+        {macro.swi_clusterpolismassa_sector001_macro} = 200,
+        {macro.swi_clustersullust_sector001_macro} = 200,
+        {macro.swi_clustertakodana_sector001_macro} = 200,
+        {macro.swi_clusterjakku_sector001_macro} = 200,
+        {macro.swi_clusterjedha_sector001_macro} = 200,
+        {macro.swi_clustertheredoubt_sector001_macro} = 200,
+        {macro.swi_clusterbilbringi_sector001_macro} = 200,
+        {macro.swi_clusteryagaminor_sector001_macro} = 200,
+        {macro.swi_clustermuunlist_sector001_macro} = 200,
+        {macro.swi_clusteragamar_sector001_macro} = 200,
+        {macro.swi_clusterwayland_sector001_macro} = 200,
+        {macro.swi_clusterconcorddown_sector001_macro} = 200,
+        {macro.swi_clusterlantillies_sector001_macro} = 200,
+        {macro.swi_clusterroqoo_sector001_macro} = 200,
+        {macro.swi_clusterandalia_sector001_macro} = 200,
+        {macro.swi_clusterkashyyk_sector001_macro} = 200,
+        {macro.swi_clusterneimodia_sector001_macro} = 200,
+        {macro.swi_clusterbrentaal_sector001_macro} = 200,
+        {macro.swi_clustertrellen_sector001_macro} = 200,
+        {macro.swi_clusterbyss_sector001_macro} = 200,
+        {macro.swi_clusterloronar_sector001_macro} = 200,
+        {macro.swi_clusterhosnianprime_sector001_macro} = 200,
+        {macro.swi_clusterfoless_sector001_macro} = 200,
+        {macro.swi_clusterlorta_sector001_macro} = 200,
+        {macro.swi_clusterpax_sector001_macro} = 200,
+        {macro.swi_clusterjablim_sector001_macro} = 200,
+        {macro.swi_clusterphindar_sector001_macro} = 200,
+        {macro.swi_clusteralderaan_sector001_macro} = 200,
+        {macro.swi_clusterringomoon_sector001_macro} = 200,
+        {macro.swi_clusterhuk_sector001_macro} = 200,
+        ]" />
+      </patch>
+      <patch sinceversion="3">
+        <do_if value="@$menuData">
+          <set_value name="$menuData.$uniqueSupplyLevelTable" exact="@$UniqueSupplyLevelTable" />
+          <set_value name="$menuData.$defaultSupplyLevel" exact="@$DefaulSupplyLevel" />
+        </do_if>
+      </patch>
+
+      <cues>
+        <cue name="MaintenanceLoop" instantiate="true">
+          <conditions>
+            <event_cue_signalled />
+            <check_value value="$MaintenanceEnabled" exact="true" />
+          </conditions>
+          <actions>
+            <set_value name="$DebugChance" exact="100" />
+            <!-- <debug_text text="event.name + ', param: ' + event.param" /> -->
+            <set_value name="$PlayerPower" exact="event.param.{1}" />
+            <set_value name="$PlayerPowerName" exact="event.param.{2}" />
+            <set_value name="$PlayerTotalAssetsCost" exact="event.param.{3}" />
+            <set_value name="$CheckIntreval" exact="event.param.{4}" />
+
+            <!-- setting clean vlaues for the whole loop -->
+            <set_value name="$ActualCreditsToPay" exact="0" />
+
+            <set_value name="$TotalShipSupplyCost" exact="0" />
+            <set_value name="$TotalShipSupplyCostFinal" exact="0" />
+
+            <set_value name="$PlayerSector" exact="0" />
+            <set_value name="$AllSectorsSupplyLevelTotal" exact="0" />
+
+            <set_value name="$EQDocksList" exact="[]" />
+
+            <set_value name="$FinalSupplyCost" exact="0" />
+            <set_value name="$TotalWaresToRemove" exact="0" />
+            <set_value name="$CreditsToPay" exact="0" />
+            <set_value name="$TotalRemovedWares" exact="0" />
+
+            <do_if value="$PlayerPower == 0">
+              <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'PL is 0, no maintanence'" output="false" append="true" chance="$DebugChance" />
+              <set_value name="$PowerCostMultFinal" exact="0" />
+            </do_if>
+            <do_else>
+              <!-- setting values for Power Mult calculations -->
+              <do_if value="($PlayerPower == 1)">
+                <set_value name="$PowerCostMultFinal" exact="$PowerCostMult1" />
+              </do_if>
+              <do_elseif value="($PlayerPower == 2)">
+                <set_value name="$PowerCostMultFinal" exact="$PowerCostMult2" />
+              </do_elseif>
+              <do_elseif value="($PlayerPower == 3)">
+                <set_value name="$PowerCostMultFinal" exact="$PowerCostMult3" />
+              </do_elseif>
+              <do_elseif value="($PlayerPower == 4)">
+                <set_value name="$PowerCostMultFinal" exact="$PowerCostMult4" />
+              </do_elseif>
+              <do_else>
+                <set_value name="$PowerCostMultFinal" exact="$PowerCostMult5" />
+              </do_else>
+
+              <!-- Calling other libs to do the math -->
+              <include_actions ref="ShipCalcTotal" />
+              <include_actions ref="CalcSectorSupply" />
+              <include_actions ref="CalcFinalSupplyCost" />
+
+            </do_else>
+            <!-- Setting UI values after the full loop -->
+            <set_value name="$PlayerPowerUI" exact="$PlayerPower" />
+            <set_value name="$PlayerPowerNameUI" exact="$PlayerPowerName" />
+            <set_value name="$PlayerPowerCostMultUI" exact="$PowerCostMultFinal" />
+            <set_value name="$PlayerTotalAssetsCostUI" exact="$PlayerTotalAssetsCost" />
+            <set_value name="$CheckIntrevalUI" exact="$CheckIntreval" /><!-- timer to countdown till next check, format: XXmin -->
+
+            <!-- powerLevel = 1,
+            powerName = "Company",
+            timeNextAssessment = C.GetCurrentGameTime() + 12 * 60,
+            totalAssets = 1000000,
+            maintenanceMultiplier = 0.3, -->
+            <debug_text text="'player.age: ' + player.age + ' $CheckIntrevalUI: ' + $CheckIntrevalUI" />
+            <set_value name="$menuData" exact="table[
+              $powerLevel = $PlayerPower,
+              $powerName = $PlayerPowerName,
+              $timeNextAssessment = player.age + $CheckIntrevalUI,
+              $totalAssets = $PlayerTotalAssetsCost,
+              $maintenanceMultiplier = $PowerCostMultFinal,
+              $uniqueSupplyLevelTable = $UniqueSupplyLevelTable,
+              $defaultSupplyLevel = $DefaulSupplyLevel,
+            ]" />
+
+            <!-- If $PlayerPower == 0 no need to check below as they will not be set 
+             AND we need to display message that maintenance is not applicable on this level of player-->
+            <do_if value="$PlayerPower ge 1">
+
+              <!-- No need to list every individual ship in the list, total calc + based on ship size is enough -->
+              <set_value name="$SMShipSupplyCostUI" exact="$SMShipSupplyCost" />
+              <set_value name="$LShipSupplyCostUI" exact="$LShipSupplyCost" />
+              <set_value name="$XLShipSupplyCostUI" exact="$XLShipSupplyCost" />
+              <set_value name="$TotalShipSupplyCostFinalUI" exact="$TotalShipSupplyCostFinal" />
+
+              <!-- Need also table of aall owned sectors in format: 
+            Sector - its basic supply level - bonus from EQ dock -->
+
+              <!-- Now setting UI values for used supply wares and payed money -->
+              <set_value name="$DefaultWarestoSupplyMultiplierUI" exact="$DefaultWarestoSupplyMultiplier" /> <!-- this is constant and set in Init, listed here for QOL-->
+              <set_value name="$DefaultCreditsCostMultiplierUI" exact="$DefaultCreditsCostMultiplier" /> <!--this is constant and set in Init, listed here for QOL-->
+
+              <set_value name="$TotalRemovedWaresUI" exact="$TotalRemovedWares" /> <!--no need to list all locations where it was removed, supplies stockpiling should be automated already so it doesnt matter-->
+              <set_value name="$ActualCreditsToPayUI" exact="$ActualCreditsToPay" /> <!--no need to list all locations where it was removed, supplies stockpiling should be automated already so it doesnt matter-->
+
+              <!--
+              cost_s = 30,
+              cost_l = 0,
+              cost_xl = 40,
+              cost_total = 100,
+              supplyCostOfShipsTotal = 33,
+              supplyLevelDataBySector = {
+                Coruscant = {supplyLevel = 100, eqDock = 300},
+                Eriadu = {supplyLevel = 100, eqDock = 0},
+                Bespin = {supplyLevel = 80, eqDock = 160},
+              },
+              supplyLevelTotal = 740,
+              remainingSuppliesToCover = 100,
+              shipSuppliesWareConsumedPerRemainingSupply = 2,
+              lastIncrementSuppliesConsumed = 50,
+              lastIncrementMaintenancePaid = 50000,
+              costOfOneNotCoveredSupplyOfShip = 5000 -->
+              <set_value name="$menuData.$cost_s" exact="$SMShipSupplyCostUI" />
+              <set_value name="$menuData.$cost_l" exact="$LShipSupplyCostUI" />
+              <set_value name="$menuData.$cost_xl" exact="$XLShipSupplyCostUI" />
+              <set_value name="$menuData.$cost_total" exact="$TotalShipSupplyCost" />
+              <set_value name="$menuData.$supplyCostOfShipsTotal" exact="$TotalShipSupplyCostFinalUI" />
+              <set_value name="$menuData.$supplyLevelDataBySector" exact="$SectorSupplyLevelBySectorUI" />
+              <set_value name="$menuData.$supplyLevelTotal" exact="$AllSectorsSupplyLevelTotal" />
+              <set_value name="$menuData.$remainingSuppliesToCover" exact="$FinalSupplyCost" />
+              <set_value name="$menuData.$shipSuppliesWareConsumedPerRemainingSupply" exact="$DefaultWarestoSupplyMultiplierUI" />
+              <set_value name="$menuData.$shipSuppliesWareConsumedPerRemainingSupplyTotal" exact="$TotalWaresToRemove" />
+              <set_value name="$menuData.$lastIncrementSuppliesConsumed" exact="$TotalRemovedWaresUI" />
+              <set_value name="$menuData.$lastIncrementMaintenancePaid" exact="$ActualCreditsToPayUI" />
+              <set_value name="$menuData.$costOfOneNotCoveredSupplyOfShip" exact="$DefaultCreditsCostMultiplier" />
+            </do_if>
+            <do_if value="MaintenanceMenu.state != cuestate.waiting" comment="menu is open">
+              <set_value name="player.entity.$swiMaintenanceData" exact="@$menuData" />
+              <raise_lua_event name="'swi.togglePlayerInfoMenuRefresh'" />
+            </do_if>
+          </actions>
+        </cue>
+
+
+        <library name="ShipCalcTotal">
+          <actions>
+            <set_value name="$SMShipSupplyCost" exact="0" />
+            <set_value name="$LShipSupplyCost" exact="0" />
+            <set_value name="$XLShipSupplyCost" exact="0" />
+
+            <!-- Checking if its the first run, if yes, sending message -->
+            <do_if value="$InitialMessageSent" exact="0">
+              <write_incoming_message title="{999840,800111}" text="{999840,800112}" source="{999840,800110}" highpriority="true" />
+              <set_value name="$InitialMessageSent" exact="1" />
+            </do_if>
+            <!-- Calculating total Supply Cost of the ships -->
+            <find_ship_by_true_owner name="$AllPlayerShips" faction="faction.player" space="player.galaxy" unit="false" multiple="true">
+              <match class="[class.spacesuit]" negate="true" />
+              <match class="[class.ship_xs]" negate="true" />
+            </find_ship_by_true_owner>
+            <do_for_each name="$Ship" in="$AllPlayerShips">
+              <set_value name="$TotalShipSupplyCost" exact="$Ship.threatscore" operation="add" />
+              <do_if value="$Ship.isclass.[class.ship_s, class.ship_m]">
+                <set_value name="$SMShipSupplyCost" exact="$Ship.threatscore" operation="add" />
+              </do_if>
+              <do_elseif value="$Ship.isclass.ship_l">
+                <set_value name="$LShipSupplyCost" exact="$Ship.threatscore" operation="add" />
+              </do_elseif>
+              <do_elseif value="$Ship.isclass.ship_xl">
+                <set_value name="$XLShipSupplyCost" exact="$Ship.threatscore" operation="add" />
+              </do_elseif>
+              <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Adding score of %1 for %2'.[$Ship.threatscore, $Ship.knownname]" output="false" append="true" chance="$DebugChance" />
+            </do_for_each>
+            <!-- Multiplying Supply Cost of the ships by power level multiplier-->
+            <set_value name="$TotalShipSupplyCostFinal" exact="$TotalShipSupplyCost * $PowerCostMultFinal" />
+            <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'\n\nTotal Supply Cost Final is %1, it was %2 and multiplied by %3. S-M ship:%4, L ships:%5, XL ships:%6. \n\n'.[$TotalShipSupplyCostFinal,$TotalShipSupplyCost,$PowerCostMultFinal,$SMShipSupplyCost,$LShipSupplyCost,$XLShipSupplyCost]" output="false" append="true" chance="$DebugChance" />
+          </actions>
+        </library>
+
+        <library name="CalcSectorSupply">
+          <actions>
+            <set_value name="$SectorSupplyLevelBySectorUI" exact="table[]" />
+
+            <set_value name="$AllPlayerSectors" exact="[]" comment="best to reset the list because the same object can populate lists multiple times" />
+            <find_sector name="$AllPlayerSectors" owner="faction.player" multiple="true" append="true" />
+
+            <do_for_each name="$PlayerSector" in="$AllPlayerSectors">
+              <set_value name="$SectorSupplyLevelBySectorUI.{$PlayerSector}" exact="table[$SectorName = $PlayerSector.knownname]" />
+              <!-- setting fresh values for each found player sector -->
+              <set_value name="$SectorSupplyLevel" exact="0" />
+              <set_value name="$SectorSupplyLevelFinal" exact="0" />
+
+              <do_for_each name="$SectorTableMacro" valuename="$SectorTableSupplyLevel" in="$UniqueSupplyLevelTable">
+                <do_if value="$PlayerSector.macro.ismacro.{$SectorTableMacro}">
+                  <set_value name="$SectorSupplyLevel" exact="$SectorTableSupplyLevel" />
+                  <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Sector %1 found in SectorTable, its basic supply set to %2'.[$PlayerSector.knownname, $SectorSupplyLevel]" output="false" append="true" chance="$DebugChance" />
+                  <break />
+                </do_if>
+                <do_else>
+                  <set_value name="$SectorSupplyLevel" exact="$DefaulSupplyLevel" />
+                </do_else>
+              </do_for_each>
+              <do_if value="$SectorSupplyLevel == $DefaulSupplyLevel">
+                <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Sector %1 is NOT found in SectorTable, setting basic supply set to default'.[$PlayerSector.knownname]" output="false" append="true" chance="$DebugChance" />
+              </do_if>
+              <do_elseif value="$SectorSupplyLevel lt $DefaulSupplyLevel">
+                <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Sector %1 has NO SUPPLY VALUE, something is not right'.[$PlayerSector.knownname]" output="false" append="true" chance="$DebugChance" />
+              </do_elseif>
+              <set_value name="$SectorSupplyLevelBySectorUI.{$PlayerSector}.$supplyLevel" exact="$SectorSupplyLevel" />
+
+              <!-- Find EQ dock, and add level of multiply based on how many dock types they have 1-3 -->
+              <find_station_by_true_owner name="$SectorEQDock" faction="faction.player" space="$PlayerSector" multiple="false">
+                <match equipmentdock="true" />
+                <match wharf="true" negate="true" />
+                <match shipyard="true" negate="true" />
+              </find_station_by_true_owner>
+              <do_if value="$SectorEQDock">
+                <append_to_list name="$EQDocksList" exact="$SectorEQDock" />
+                <set_value name="$EQdockmultiplier" exact="1" />
+                <find_module object="$SectorEQDock" name="$SMDock" checkoperational="true" multiple="false" canequipclass="class.ship_s" />
+                <find_module object="$SectorEQDock" name="$LDock" checkoperational="true" multiple="false" canequipclass="class.ship_l" />
+                <find_module object="$SectorEQDock" name="$XLDock" checkoperational="true" multiple="false" canequipclass="class.ship_xl" />
+                <do_if value="$SMDock">
+                  <set_value name="$EQdockmultiplier" exact="1" operation="add" />
+                  <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'There IS module %1, + multiplier.'.[$SMDock.knownname]" output="false" append="true" chance="$DebugChance" />
+                </do_if>
+                <do_if value="$LDock">
+                  <set_value name="$EQdockmultiplier" exact="1" operation="add" />
+                  <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'There IS module %1, + multiplier.'.[$LDock.knownname]" output="false" append="true" chance="$DebugChance" />
+                </do_if>
+                <do_if value="$XLDock">
+                  <set_value name="$EQdockmultiplier" exact="1" operation="add" />
+                  <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'There IS module %1, + multiplier.'.[$XLDock.knownname]" output="false" append="true" chance="$DebugChance" />
+                </do_if>
+                <set_value name="$SectorSupplyLevelFinal" exact="$SectorSupplyLevel * $EQdockmultiplier" />
+                <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Calculating score for sector %1, it has supply of %2, and EQ multiplier of %3.'.[$PlayerSector.knownname, $SectorSupplyLevelFinal, $EQdockmultiplier]" output="false" append="true" chance="$DebugChance" />
+                <remove_value name="$SectorEQDock" />
+                <remove_value name="$SMDock" />
+                <remove_value name="$LDock" />
+                <remove_value name="$XLDock" />
+              </do_if>
+              <do_else>
+                <set_value name="$SectorSupplyLevelFinal" exact="$SectorSupplyLevel" />
+                <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Calculating score for sector %1, it has supply of %2, and no EQ dock.'.[$PlayerSector.knownname, $SectorSupplyLevelFinal]" output="false" append="true" chance="$DebugChance" />
+              </do_else>
+              <set_value name="$SectorSupplyLevelBySectorUI.{$PlayerSector}.$eqDock" exact="$SectorSupplyLevelFinal - $SectorSupplyLevel" comment="remove base $SectorSupplyLevel as $eqDock should list only the bonus and not the final" />
+              <!-- This is the final supply level of all sectors, after taking into account EQ docks -->
+              <set_value name="$AllSectorsSupplyLevelTotal" exact="$SectorSupplyLevelFinal" operation="add" />
+            </do_for_each>
+            <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'\nNow TOTAL score is %1\n'.[$AllSectorsSupplyLevelTotal]" output="false" append="true" chance="$DebugChance" />
+          </actions>
+        </library>
+
+        <library name="CalcFinalSupplyCost">
+          <actions>
+            <!-- calculating final supply cost -->
+            <set_value name="$FinalSupplyCost" exact="$TotalShipSupplyCostFinal - $AllSectorsSupplyLevelTotal" />
+
+            <do_if value="$FinalSupplyCost gt 0">
+              <set_value name="$TotalWaresToRemove" exact="$FinalSupplyCost * $DefaultWarestoSupplyMultiplier" />
+              <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Calculating final Supply cost %1, we will now consume wares.\n'.[$FinalSupplyCost]" output="false" append="true" chance="$DebugChance" />
+              <!-- here we CONSUME ship supplies ware for each EQ dock, shuffling the list first if there at least one EQ dock -->
+              <do_if value="$EQDocksList.count gt 0">
+                <shuffle_list list="$EQDocksList" />
+                <do_for_each name="$SupplyEQDock" in="$EQDocksList">
+                  <set_value name="$SupplyWareAvailable" exact="$SupplyEQDock.cargo.{$SupplyWare}.count" />
+                  <do_if value="$SupplyWareAvailable ge $TotalWaresToRemove">
+                    <remove_cargo object="$SupplyEQDock" ware="$SupplyWare" exact="$TotalWaresToRemove" result="$RemovedAmount" />
+                    <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Removed LAST wares from %1, amount: %2'.[$SupplyEQDock.knownname, $TotalWaresToRemove]" output="false" append="true" chance="$DebugChance" />
+                    <set_value name="$TotalWaresToRemove" exact="$TotalWaresToRemove - $RemovedAmount" />
+                    <set_value name="$TotalRemovedWares" exact="$RemovedAmount" operation="add" />
+                    <break />
+                  </do_if>
+                  <do_if value="$SupplyWareAvailable lt $TotalWaresToRemove">
+                    <set_value name="$WaresToRemove" exact="$SupplyEQDock.cargo.{$SupplyWare}.count" />
+                    <remove_cargo object="$SupplyEQDock" ware="$SupplyWare" exact="$WaresToRemove" result="$RemovedAmount" />
+                    <set_value name="$TotalRemovedWares" exact="$RemovedAmount" operation="add" />
+                    <set_value name="$TotalWaresToRemove" exact="$TotalWaresToRemove - $RemovedAmount" />
+                    <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Removed wares in PARTIALLY from %1, amount: %2'.[$SupplyEQDock.knownname, $RemovedAmount]" output="false" append="true" chance="$DebugChance" />
+                  </do_if>
+                </do_for_each>
+              </do_if>
+              <do_if value="$TotalWaresToRemove gt 0">
+                <find_station_by_true_owner name="$GlobalEQDocks" faction="faction.player" space="player.galaxy" multiple="true">
+                  <match equipmentdock="true" />
+                  <match wharf="true" negate="true" />
+                  <match shipyard="true" negate="true" />
+                </find_station_by_true_owner>
+                <do_for_each name="$SupplyEQDock" in="$GlobalEQDocks">
+                  <do_if value="$SupplyEQDock.sector.owner != faction.player">
+                    <set_value name="$SupplyWareAvailable" exact="$SupplyEQDock.cargo.{$SupplyWare}.count" />
+                    <do_if value="$SupplyWareAvailable ge $TotalWaresToRemove">
+                      <remove_cargo object="$SupplyEQDock" ware="$SupplyWare" exact="$TotalWaresToRemove" result="$RemovedAmount" />
+                      <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'UNOWNED EQs Removed LAST wares from  %1 in %2, amount: %3'.[$SupplyEQDock.knownname, $SupplyEQDock.sector.knownname, $TotalWaresToRemove]" output="false" append="true" chance="$DebugChance" />
+                      <set_value name="$TotalWaresToRemove" exact="$TotalWaresToRemove - $RemovedAmount" />
+                      <set_value name="$TotalRemovedWares" exact="$RemovedAmount" operation="add" />
+                      <break />
+                    </do_if>
+                    <do_if value="$SupplyWareAvailable lt $TotalWaresToRemove">
+                      <set_value name="$WaresToRemove" exact="$SupplyEQDock.cargo.{$SupplyWare}.count" />
+                      <remove_cargo object="$SupplyEQDock" ware="$SupplyWare" exact="$WaresToRemove" result="$RemovedAmount" />
+                      <set_value name="$TotalRemovedWares" exact="$RemovedAmount" operation="add" />
+                      <set_value name="$TotalWaresToRemove" exact="$TotalWaresToRemove - $RemovedAmount" />
+                      <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'UNOWNED EQs Removed wares in PARTIALLY from %1 in %2, amount: %3'.[$SupplyEQDock.knownname, $SupplyEQDock.sector.knownname, $RemovedAmount]" output="false" append="true" chance="$DebugChance" />
+                    </do_if>
+                    <do_else>
+                      <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'UNOWNED EQs Dock %1 in %2, is in player space'.[$SupplyEQDock.knownname, $SupplyEQDock.sector.knownname]" output="false" append="true" chance="$DebugChance" />
+                    </do_else>
+                  </do_if>
+                </do_for_each>
+              </do_if>
+              <!-- consumed wares was still not enough, so we now pay in credits from player bank account -->
+              <do_if value="$TotalWaresToRemove gt 0">
+                <set_value name="$FinalSupplyCostLeft" exact="$TotalWaresToRemove / $DefaultWarestoSupplyMultiplier" />
+                <set_value name="$CreditsToPay" exact="($FinalSupplyCostLeft * $DefaultCreditsCostMultiplier)Cr" />
+                <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'After wares removal we still lack amount: %1, supply cost is set to %2, we need to pay %3'.[$TotalWaresToRemove, $FinalSupplyCostLeft, $CreditsToPay]" output="false" append="true" chance="$DebugChance" />
+
+                <do_if value="player.money ge $CreditsToPay">
+                  <set_value name="$ActualCreditsToPay" exact="-$CreditsToPay" />
+                  <write_to_logbook title="{999840,800113}" category="upkeep" text="{999840,800114} + $TotalRemovedWares" money="$ActualCreditsToPay" />
+                </do_if>
+                <do_elseif value="player.money le $CreditsToPay and player.money gt 0">
+                  <set_value name="$ActualCreditsToPay" exact="-player.money" />
+                  <write_to_logbook title="{999840,800115}" category="upkeep" text="{999840,800116} + $TotalRemovedWares" money="$ActualCreditsToPay" />
+                </do_elseif>
+                <do_elseif value="player.money le 0">
+                  <set_value name="$ActualCreditsToPay" exact="0" />
+                  <write_to_logbook title="{999840,800115}" category="upkeep" text="{999840,800116} + $TotalRemovedWares" money="$ActualCreditsToPay" />
+                </do_elseif>
+
+                <do_if value="$ActualCreditsToPay lt 0">
+                  <reward_player money="$ActualCreditsToPay" />
+                </do_if>
+
+              </do_if>
+            </do_if>
+            <do_else>
+              <debug_to_file name="'MaintenanceDebug'" directory="'sw_debug'" text="'Calculating final Supply cost %1, no need to consume supplies.\n'.[$FinalSupplyCost]" output="false" append="true" chance="$DebugChance" />
+            </do_else>
+          </actions>
+        </library>
+
+        <cue name="MaintenanceMenu">
+          <conditions>
+            <check_any>
+              <event_ui_triggered screen="'PlayerInfoMenu'" />
+              <event_ui_triggered screen="'EncyclopediaMenu'" />
+            </check_any>
+          </conditions>
+          <actions>
+            <!-- <debug_text text="event.name + ' param: ' + @event.param + ' event.param2: ' + @event.param2" /> -->
+            <set_value name="player.entity.$swiMaintenanceData" exact="@$menuData" />
+          </actions>
+          <cues>
+            <cue name="MaintenanceMenu_Interval" checkinterval="0.25s" instantiate="true">
+              <actions>
+                <!-- <debug_text text="event.name + ' param: ' + @event.param + ' event.param2: ' + @event.param2" /> -->
+                <raise_lua_event name="'swi.togglePlayerInfoMenuRefresh'" />
+              </actions>
+            </cue>
+            <cue name="MaintenanceMenu_Close">
+              <conditions>
+                <check_any>
+                  <event_ui_triggered screen="'PlayerInfoMenu'" control="'menu_close'" />
+                  <event_ui_triggered screen="'EncyclopediaMenu'" control="'menu_close'" />
+                </check_any>
+              </conditions>
+              <actions>
+                <!-- <debug_text text="event.name + ' param: ' + @event.param + ' event.param2: ' + @event.param2" /> -->
+                <remove_value name="player.entity.$swiMaintenanceData" />
+                <reset_cue cue="MaintenanceMenu" />
+              </actions>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+  </cues>
+</mdscript>

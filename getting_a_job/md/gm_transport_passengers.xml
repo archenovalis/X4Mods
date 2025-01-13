@@ -59,7 +59,7 @@
 
   <replace sel="//reward_player[@money='$RewardCr + $BonusCr']">
     <do_if value="not @player.allmodules.{player.module}.isscenario">
-      <do_if value="[
+      <do_if value="@[
         missiongroup.gaj_anoat,
         missiongroup.gaj_ascendancy,
         missiongroup.gaj_baobab,
@@ -92,13 +92,15 @@
         missiongroup.gaj_transgalmeg,
         missiongroup.gaj_twinsuns,
         missiongroup.gaj_valarian
-      ].indexof.{@$MissionGroup}">
+      ].indexof.{$MissionGroup}">
         <set_value name="$GAJ_isWork" exact="true" />
       </do_if>
       <do_if value="$GAJ_isWork?">
-        <signal_cue_instantly cue="md.GettingAJobTest.Work.LogWork" param="table[$faction = $ClientOwner, $RewardCr = $RewardCr]" />
+        <signal_cue_instantly cue="md.GettingAJobTest.LogWork" param="table[$faction = $ClientOwner, $RewardCr = $RewardCr]" />
       </do_if>
-      <signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
+      <do_else>
+        <signal_cue_instantly cue="md.GalacticBankRC2.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
+      </do_else>
     </do_if>
   </replace>
 </diff>

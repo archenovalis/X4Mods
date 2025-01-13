@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="SWReactivemain" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../xsd/md.xsd">
+  <cues>
+    <cue name="ReactiveInit" version="3" mapeditor="false">
+      <conditions>
+        <check_all>
+          <check_any>
+            <event_cue_signalled cue="md.Setup.GameStart" />
+            <event_player_created />
+            <event_cue_signalled />
+            <event_game_loaded />
+          </check_any>
+          <check_value value="player.galaxy.macro == macro.swi_galaxy_macro" comment="only in main-galaxy" />
+        </check_all>
+      </conditions>
+
+      <actions>
+        <set_value name="$DebugChance" exact="0" />
+        <set_value name="$PlayerPower" exact="99" />
+        <set_value name="$CheckInterval" exact="30min" /><!-- NOT USED, but feeded into maintanance! sync with actual check interval for reactive cue -->
+
+        <!-- <show_help duration="10s" custom="{2005311642,1}" /> -->
+
+        <!-- FLUFF for power levels -->
+        <set_value name="$PlayerPowerName0" exact="{2005311642,2}" />
+        <set_value name="$PlayerPowerName1" exact="{2005311642,3}" />
+        <set_value name="$PlayerPowerName2" exact="{2005311642,4}" />
+        <set_value name="$PlayerPowerName3" exact="{2005311642,5}" />
+        <set_value name="$PlayerPowerName4" exact="{2005311642,6}" />
+        <set_value name="$PlayerPowerName5" exact="{2005311642,7}" />
+
+        <set_value name="$PlayerPowerFluff0" exact="{2005311642,8}" />
+        <set_value name="$PlayerPowerFluff1" exact="{2005311642,9}" />
+        <set_value name="$PlayerPowerFluff2" exact="{2005311642,10}" />
+        <set_value name="$PlayerPowerFluff3" exact="{2005311642,11}" />
+        <set_value name="$PlayerPowerFluff4" exact="{2005311642,12}" />
+        <set_value name="$PlayerPowerFluff5" exact="{2005311642,13}" />
+
+        <set_value name="$PlayerPowerLevelCost0" exact="150000000" />
+        <set_value name="$PlayerPowerLevelCost1" exact="500000000" />
+        <set_value name="$PlayerPowerLevelCost2" exact="800000000" />
+        <set_value name="$PlayerPowerLevelCost3" exact="1000000000" />
+        <set_value name="$PlayerPowerLevelCost4" exact="1500000000" />
+
+        <!-- setting time constraint variable -->
+        <set_value name="$NextPossibleRepLossTime" exact="player.age" />
+
+
+      </actions>
+      <patch sinceversion="1">
+        <!-- simple reset so the sub cues are called again. -->
+        <reset_cue cue="this" />
+      </patch>
+      <patch sinceversion="2">
+        <set_value name="$PlayerPowerLevelCost0" exact="150000000" />
+        <set_value name="$PlayerPowerLevelCost1" exact="500000000" />
+        <set_value name="$PlayerPowerLevelCost2" exact="800000000" />
+        <set_value name="$PlayerPowerLevelCost3" exact="1000000000" />
+        <set_value name="$PlayerPowerLevelCost4" exact="1500000000" />
+      </patch>
+      <patch sinceversion="3">
+        <set_value name="global.$GlobalPlayerPower" exact="$PlayerPower" />
+      </patch>
+      <cues>
+        <!-- <cue name="ReactivePlayerPowerUpdate" instantiate="true" checkinterval="30min" checktime="player.age + 60s"> -->
+        <cue name="ReactivePlayerPowerUpdate" instantiate="true" checkinterval="30min" checktime="player.age + 60s">
+          <actions>
+
+            <set_value name="$PlayerTotalAssetsCost" exact="0Cr" />
+
+            <!-- <do_if value="$PlayerPower?">
+              <remove_value name="$PlayerPower" />
+            </do_if> -->
+
+            <!-- cost modifier for civilian ships -->
+            <!-- using intergers so stick with whole, positive numbers (80 will be calculated as 80% for example) -->
+            <set_value name="$TradingAssetModifier" exact="50" />
+            <set_value name="$MiningAssetModifier" exact="50" />
+            <set_value name="$AuxillaryAssetModifier" exact="50" />
+            <set_value name="$ProductionAssetModifier" exact="80" />
+            <set_value name="$NonShipyardWharfAssetModifier" exact="25" />
+            <set_value name="$ShipyardWharfAssetModifier" exact="70" />
+            <!-- calculating total assets cost -->
+            <find_object name="$PlayerAssetsList" owner="faction.player" space="player.galaxy" multiple="true" recursive="true" />
+            <do_for_each name="$Asset" in="$PlayerAssetsList">
+              <do_if value="$Asset.value ge 150000Cr">
+                <do_if value="$Asset.primarypurpose == purpose.trade">
+                  <set_value name="$PlayerTotalAssetsCost" exact="($Asset.value * $TradingAssetModifier / 100)/1Cr" operation="add" comment="round" />
+                  <debug_to_file name="'ReactiveFactionsCalcAssets'" directory="'ReactiveFactions'" text="player.age + '; added ' + $Asset.macro + ' of type ' + $Asset.primarypurpose + ' with actual cost of ' + ($Asset.value)/1Cr + ' and weighted cost of ' + ($Asset.value * $TradingAssetModifier / 100)/1Cr + ' total cost now ' + $PlayerTotalAssetsCost" output="false" append="true" chance="$DebugChance" />
+                </do_if>
+
+                <do_elseif value="$Asset.primarypurpose == purpose.mine">
+                  <set_value name="$PlayerTotalAssetsCost" exact="($Asset.value * $MiningAssetModifier / 100)/1Cr" operation="add" comment="round" />
+                  <debug_to_file name="'ReactiveFactionsCalcAssets'" directory="'ReactiveFactions'" text="player.age + '; added ' + $Asset.macro + ' of type ' + $Asset.primarypurpose + ' with actual cost of ' + ($Asset.value)/1Cr + ' and weighted cost of ' + ($Asset.value * $MiningAssetModifier / 100)/1Cr + ' total cost now ' + $PlayerTotalAssetsCost" output="false" append="true" chance="$DebugChance" />
+                </do_elseif>
+
+                <do_elseif value="$Asset.primarypurpose == purpose.auxiliary">
+                  <set_value name="$PlayerTotalAssetsCost" exact="($Asset.value * $AuxillaryAssetModifier / 100)/1Cr" operation="add" comment="round" />
+                  <debug_to_file name="'ReactiveFactionsCalcAssets'" directory="'ReactiveFactions'" text="player.age + '; added ' + $Asset.macro + ' of type ' + $Asset.primarypurpose + ' with actual cost of ' + ($Asset.value)/1Cr + ' and weighted cost of ' + ($Asset.value * $AuxillaryAssetModifier / 100)/1Cr + ' total cost now ' + $PlayerTotalAssetsCost" output="false" append="true" chance="$DebugChance" />
+                </do_elseif>
+
+                <do_elseif value="$Asset.primarypurpose == purpose.production">
+                  <set_value name="$PlayerTotalAssetsCost" exact="($Asset.value * $ProductionAssetModifier / 100)/1Cr" operation="add" comment="round" />
+                  <debug_to_file name="'ReactiveFactionsCalcAssets'" directory="'ReactiveFactions'" text="player.age + '; added ' + $Asset.macro + ' of type ' + $Asset.primarypurpose + ' with actual cost of ' + ($Asset.value)/1Cr + ' and weighted cost of ' + ($Asset.value * $ProductionAssetModifier / 100)/1Cr + ' total cost now ' + $PlayerTotalAssetsCost" output="false" append="true" chance="$DebugChance" />
+                </do_elseif>
+
+                <do_elseif value="$Asset.class == class.station">
+                  <do_if value="$Asset.isshipyard or $Asset.iswharf">
+                    <set_value name="$PlayerTotalAssetsCost" exact="($Asset.value * $ShipyardWharfAssetModifier / 100)/1Cr" operation="add" comment="round" />
+                    <debug_to_file name="'ReactiveFactionsCalcAssets'" directory="'ReactiveFactions'" text="player.age + '; added ' + $Asset.macro + ' of type ' + $Asset.primarypurpose + ' with actual cost of ' + ($Asset.value)/1Cr + ' and weighted cost of ' + ($Asset.value * $ShipyardWharfAssetModifier / 100)/1Cr + ' total cost now ' + $PlayerTotalAssetsCost" output="false" append="true" chance="$DebugChance" />
+                  </do_if>
+                  <do_else>
+                    <set_value name="$PlayerTotalAssetsCost" exact="($Asset.value * $NonShipyardWharfAssetModifier / 100)/1Cr" operation="add" comment="round" />
+                    <debug_to_file name="'ReactiveFactionsCalcAssets'" directory="'ReactiveFactions'" text="player.age + '; added ' + $Asset.macro + ' of type ' + $Asset.primarypurpose + ' with actual cost of ' + ($Asset.value)/1Cr + ' and weighted cost of ' + ($Asset.value * $NonShipyardWharfAssetModifier / 100)/1Cr + ' total cost now ' + $PlayerTotalAssetsCost" output="false" append="true" chance="$DebugChance" />
+                  </do_else>
+                </do_elseif>
+
+                <do_else>
+                  <set_value name="$PlayerTotalAssetsCost" exact="($Asset.value)/1Cr" operation="add" comment="round" />
+                  <debug_to_file name="'ReactiveFactionsCalcAssets'" directory="'ReactiveFactions'" text="player.age + '; added ' + $Asset.macro + ' of type ' + $Asset.primarypurpose + ' with actual cost of ' + ($Asset.value)/1Cr + ' total cost now ' + $PlayerTotalAssetsCost" output="false" append="true" chance="$DebugChance" />
+                </do_else>
+              </do_if>
+            </do_for_each>
+
+            <set_value name="$PlayerTotalAssetsCost" exact="(player.money)/1Cr" operation="add" comment="round" />
+
+            <do_if value="$PlayerTotalAssetsCost lt $PlayerPowerLevelCost0">
+              <do_if value="$PlayerPower == 99">
+                <set_value name="$PlayerPower" exact="0" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName0" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff0" />
+                <show_help duration="10s" custom="{2005311642,18}" />
+                <run_actions ref="SendMessage">
+                  <param name="PlayerPowerName" value="$PlayerPowerName" />
+                  <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                  <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                </run_actions>
+                <!-- <write_to_logbook category="tips" title="$PlayerPowerName0" text="{2005311642,98} + '\n' + $PlayerPowerName0 + '\n\n' + $PlayerPowerFluff0 + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+              </do_if>
+              <do_else>
+                <set_value name="$OldPlayerPower" exact="$PlayerPower" />
+                <set_value name="$PlayerPower" exact="0" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName0" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff0" />
+                <do_if value="$PlayerPower != $OldPlayerPower">
+                  <show_help duration="10s" custom="{2005311642,18}" />
+                  <run_actions ref="SendMessage">
+                    <param name="PlayerPowerName" value="$PlayerPowerName" />
+                    <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                    <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                  </run_actions>
+                  <!-- <write_to_logbook category="tips" title="$PlayerPowerName0" text="{2005311642,98} + '\n' + $PlayerPowerName0 + '\n\n' + $PlayerPowerFluff0 + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+                </do_if>
+              </do_else>
+              <debug_to_file name="'ReactiveFactions'" directory="'ReactiveFactions'" text="player.age + '; player assets cost is ' + $PlayerTotalAssetsCost + ' and power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+            </do_if>
+            <do_elseif value="$PlayerTotalAssetsCost lt $PlayerPowerLevelCost1">
+              <do_if value="$PlayerPower == 99">
+                <set_value name="$PlayerPower" exact="1" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName1" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff1" />
+                <show_help duration="10s" custom="{2005311642,18}" />
+                <run_actions ref="SendMessage">
+                  <param name="PlayerPowerName" value="$PlayerPowerName" />
+                  <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                  <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                </run_actions>
+                <!-- <write_to_logbook category="tips" title="$PlayerPowerName1" text=" {2005311642,98} + '\n' + $PlayerPowerName1 + '\n\n' +$PlayerPowerFluff1  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+              </do_if>
+              <do_else>
+                <set_value name="$OldPlayerPower" exact="$PlayerPower" />
+                <set_value name="$PlayerPower" exact="1" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName1" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff1" />
+                <do_if value="$PlayerPower != $OldPlayerPower">
+                  <show_help duration="10s" custom="{2005311642,18}" />
+                  <run_actions ref="SendMessage">
+                    <param name="PlayerPowerName" value="$PlayerPowerName" />
+                    <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                    <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                  </run_actions>
+                  <!-- <write_to_logbook category="tips" title="$PlayerPowerName1" text=" {2005311642,98} + '\n' + $PlayerPowerName1 + '\n\n' +$PlayerPowerFluff1 + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+                </do_if>
+              </do_else>
+              <debug_to_file name="'ReactiveFactions'" directory="'ReactiveFactions'" text="player.age + '; player assets cost is ' + $PlayerTotalAssetsCost + ' and power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+            </do_elseif>
+            <do_elseif value="$PlayerTotalAssetsCost lt $PlayerPowerLevelCost2">
+              <do_if value="$PlayerPower == 99">
+                <set_value name="$PlayerPower" exact="2" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName2" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff2" />
+                <show_help duration="10s" custom="{2005311642,18}" />
+                <run_actions ref="SendMessage">
+                  <param name="PlayerPowerName" value="$PlayerPowerName" />
+                  <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                  <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                </run_actions>
+                <!-- <write_to_logbook category="tips" title="$PlayerPowerName2" text="{2005311642,98} + '\n' + $PlayerPowerName2 + '\n\n' + $PlayerPowerFluff2  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+              </do_if>
+              <do_else>
+                <set_value name="$OldPlayerPower" exact="$PlayerPower" />
+                <set_value name="$PlayerPower" exact="2" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName2" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff2" />
+                <do_if value="$PlayerPower != $OldPlayerPower">
+                  <show_help duration="10s" custom="{2005311642,18}" />
+                  <run_actions ref="SendMessage">
+                    <param name="PlayerPowerName" value="$PlayerPowerName" />
+                    <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                    <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                  </run_actions>
+                  <!-- <write_to_logbook category="tips" title="$PlayerPowerName2" text="{2005311642,98} + '\n' + $PlayerPowerName2 + '\n\n' + $PlayerPowerFluff2  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+                </do_if>
+              </do_else>
+              <debug_to_file name="'ReactiveFactions'" directory="'ReactiveFactions'" text="player.age + '; player assets cost is ' + $PlayerTotalAssetsCost + ' and power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+            </do_elseif>
+            <do_elseif value="$PlayerTotalAssetsCost lt $PlayerPowerLevelCost3">
+              <do_if value="$PlayerPower == 99">
+                <set_value name="$PlayerPower" exact="3" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName3" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff3" />
+                <show_help duration="10s" custom="{2005311642,18}" />
+                <run_actions ref="SendMessage">
+                  <param name="PlayerPowerName" value="$PlayerPowerName" />
+                  <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                  <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                </run_actions>
+                <!-- <write_to_logbook category="tips" title="$PlayerPowerName3" text="{2005311642,98} + '\n' + $PlayerPowerName3 + '\n\n' + $PlayerPowerFluff3  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+              </do_if>
+              <do_else>
+                <set_value name="$OldPlayerPower" exact="$PlayerPower" />
+                <set_value name="$PlayerPower" exact="3" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName3" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff3" />
+                <do_if value="$PlayerPower != $OldPlayerPower">
+                  <show_help duration="10s" custom="{2005311642,18}" />
+                  <run_actions ref="SendMessage">
+                    <param name="PlayerPowerName" value="$PlayerPowerName" />
+                    <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                    <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                  </run_actions>
+                  <!-- <write_to_logbook category="tips" title="$PlayerPowerName3" text="{2005311642,98} + '\n' + $PlayerPowerName3 + '\n\n' + $PlayerPowerFluff3  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+                </do_if>
+              </do_else>
+              <debug_to_file name="'ReactiveFactions'" directory="'ReactiveFactions'" text="player.age + '; player assets cost is ' + $PlayerTotalAssetsCost + ' and power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+            </do_elseif>
+            <do_elseif value="$PlayerTotalAssetsCost lt $PlayerPowerLevelCost4">
+              <do_if value="$PlayerPower == 99">
+                <set_value name="$PlayerPower" exact="4" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName4" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff4" />
+                <show_help duration="10s" custom="{2005311642,18}" />
+                <run_actions ref="SendMessage">
+                  <param name="PlayerPowerName" value="$PlayerPowerName" />
+                  <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                  <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                </run_actions>
+                <!-- <write_to_logbook category="tips" title="$PlayerPowerName4" text="{2005311642,98} + '\n' + $PlayerPowerName4 + '\n\n' + $PlayerPowerFluff4  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+              </do_if>
+              <do_else>
+                <set_value name="$OldPlayerPower" exact="$PlayerPower" />
+                <set_value name="$PlayerPower" exact="4" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName4" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff4" />
+                <do_if value="$PlayerPower != $OldPlayerPower">
+                  <show_help duration="10s" custom="{2005311642,18}" />
+                  <run_actions ref="SendMessage">
+                    <param name="PlayerPowerName" value="$PlayerPowerName" />
+                    <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                    <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                  </run_actions>
+                  <!-- <write_to_logbook category="tips" title="$PlayerPowerName4" text="{2005311642,98} + '\n' + $PlayerPowerName4 + '\n\n' + $PlayerPowerFluff4  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+                </do_if>
+              </do_else>
+              <debug_to_file name="'ReactiveFactions'" directory="'ReactiveFactions'" text="player.age + '; player assets cost is ' + $PlayerTotalAssetsCost + ' and power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+            </do_elseif>
+            <do_else>
+              <do_if value="$PlayerPower == 99">
+                <set_value name="$PlayerPower" exact="5" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName5" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff5" />
+                <show_help duration="10s" custom="{2005311642,18}" />
+                <run_actions ref="SendMessage">
+                  <param name="PlayerPowerName" value="$PlayerPowerName" />
+                  <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                  <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                </run_actions>
+                <!-- <write_to_logbook category="tips" title="$PlayerPowerName5" text="{2005311642,98} + '\n' + $PlayerPowerName5 + '\n\n' + $PlayerPowerFluff5  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+              </do_if>
+              <do_else>
+                <set_value name="$OldPlayerPower" exact="$PlayerPower" />
+                <set_value name="$PlayerPower" exact="5" />
+                <set_value name="$PlayerPowerName" exact="$PlayerPowerName5" />
+                <set_value name="$PlayerPowerFluff" exact="$PlayerPowerFluff5" />
+                <do_if value="$PlayerPower != $OldPlayerPower">
+                  <show_help duration="10s" custom="{2005311642,18}" />
+                  <run_actions ref="SendMessage">
+                    <param name="PlayerPowerName" value="$PlayerPowerName" />
+                    <param name="PlayerPowerFluff" value="$PlayerPowerFluff" />
+                    <param name="PlayerTotalAssetsCost" value="$PlayerTotalAssetsCost" />
+                  </run_actions>
+                  <!-- <write_to_logbook category="tips" title="$PlayerPowerName5" text="{2005311642,98} + '\n' + $PlayerPowerName5 + '\n\n' + $PlayerPowerFluff5  + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost" /> -->
+                </do_if>
+              </do_else>
+              <debug_to_file name="'ReactiveFactions'" directory="'ReactiveFactions'" text="player.age + '; player assets cost is ' + $PlayerTotalAssetsCost + ' and power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+            </do_else>
+
+            <!-- Triggering Maintenance cue only if player Power >0  -->
+            <signal_cue_instantly cue="md.SW_Maintenance.MaintenanceLoop" param="[$PlayerPower, $PlayerPowerName, $PlayerTotalAssetsCost, $CheckInterval]" />
+            <remove_value name="$PlayerTotalAssetsCost" />
+          </actions>
+        </cue>
+        <cue name="ReactiveApplyRepPenalty" instantiate="true">
+          <conditions>
+            <event_player_relation_changed />
+            <!-- only for positive changes -->
+            <check_value value="event.object == null and event.param != null and event.param2.{1} gt event.param2.{2}" />
+            <!-- only trigger once every # seconds -->
+            <check_value value="$NextPossibleRepLossTime le player.age" />
+            <!-- to prevent running before power is checked DA-->
+            <check_value value="$PlayerPower != 99" />
+          </conditions>
+          <actions>
+            <set_value name="$FactionMain" exact="event.param" />
+            <!-- event.param2.{1} - new value > event.param2.{2} - old value -->
+            <set_value name="$RepDiff" exact="event.param2.{1} - event.param2.{2}" />
+            <!-- Power level hit multiplayers -->
+            <set_value name="$RepMultPowerLvl1" exact="0.1" />
+            <set_value name="$RepMultPowerLvl2" exact="0.2" />
+            <set_value name="$RepMultPowerLvl3" exact="0.5" />
+            <set_value name="$RepMultPowerLvl4" exact="0.8" />
+            <set_value name="$RepMultPowerLvl5" exact="1.2" />
+
+            <get_factions_by_relation relation="kill" faction="$FactionMain" result="$EnemiesList" />
+            <!-- we could just use remove_from_list here -->
+            <!-- all pirate and civilian factions, hapes as well as they are isolationists -->
+            <set_value name="$IgnoredListofEnemies" exact="[faction.civilian,faction.criminal, faction.khaak, faction.smuggler, faction.visitor, faction.xenon, faction.huttpirates, faction.mandoraiders, faction.valarian, faction.blacksun, faction.naboo, faction.kuat, faction.corellia, faction.sienar, faction.hoersh, faction.rendili, faction.incom, faction.transgalmeg, faction.moncal, faction.twinsuns, faction.baobab, faction.tradefederation, faction.tagge, faction.bankingclan, faction.bountyhunters, faction.miningguild, faction.sith, faction.hapes]" />
+            <!-- checking if any factions in ignored list are active. story stuff makes coding so much more tedious -->
+            <do_all exact="$EnemiesList.count" counter="$a">
+              <do_if value="($EnemiesList.{$a} == faction.sith or $EnemiesList.{$a} == faction.hapes) and ($EnemiesList.{$a}.isactive)">
+                <debug_to_file name="'ReactiveRepUpdate'" directory="'ReactiveFactions'" text="player.age + '; Removed active faction from ignore list: ' + $EnemiesList.{$a}" output="false" append="true" chance="$DebugChance" />
+                <remove_from_list name="$IgnoredListofEnemies" exact="$EnemiesList.{$a}.isactive" multiple="true" />
+              </do_if>
+            </do_all>
+            <remove_from_list name="$EnemiesList" list="$IgnoredListofEnemies" multiple="true" />
+            <remove_value name="$a" />
+
+            <do_for_each name="$Enemy" in="$EnemiesList">
+              <!-- Remove buccaneers, holyorderfanatic,  trinity when added. DA-->
+              <!-- cleaned up this long entry and formatting DA-->
+              <do_if value="($Enemy != null) and (not $IgnoredListofEnemies.indexof.{$Enemy})">
+                <do_if value="($PlayerPower == 0)">
+                  <!-- do nothing on power level 0 -->
+                  <debug_to_file name="'ReactiveRepUpdate'" directory="'ReactiveFactions'" text="player.age + '; rep was not changed (PL0) with ' + $Enemy + ' due to change with ' + $FactionMain + ' rep diff was ' + $RepDiff + ' with current power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+                </do_if>
+                <do_if value="($PlayerPower gt 0) and ($PlayerPower le 5)">
+                  <do_if value="$PlayerPower == 1">
+                    <set_value name="$RepHit" exact="($RepDiff * $RepMultPowerLvl1) * -1" />
+                  </do_if>
+                  <do_if value="$PlayerPower == 2">
+                    <set_value name="$RepHit" exact="($RepDiff * $RepMultPowerLvl2) * -1" />
+                  </do_if>
+                  <do_if value="$PlayerPower == 3">
+                    <set_value name="$RepHit" exact="($RepDiff * $RepMultPowerLvl3) * -1" />
+                  </do_if>
+                  <do_if value="$PlayerPower == 4">
+                    <set_value name="$RepHit" exact="($RepDiff * $RepMultPowerLvl4) * -1" />
+                  </do_if>
+                  <!-- one more player power for SWI -->
+                  <do_if value="$PlayerPower == 5">
+                    <set_value name="$RepHit" exact="($RepDiff * $RepMultPowerLvl5) * -1" />
+                  </do_if>
+
+                  <!-- reworking for SW - rep will never go below -15 as well, so all licenses will be lost except generic ones -->
+                  <!-- <do_if value="$Enemy.relationto.{$FactionMain} lt $Enemy.relationto.{faction.player}"> -->
+                  <do_if value="($Enemy.relationto.{$FactionMain} lt $Enemy.relationto.{faction.player}) and ($Enemy.relationto.{faction.player} gt -0.032)">
+                    <!-- Check that change isn't more than -2 ui value. If it is, then only go down 2 UI DA-->
+                    <set_value name="$FactionOne" exact="$Enemy" />
+                    <set_value name="$FactionTwo" exact="faction.player" />
+                    <set_value name="$UIRelationChange" exact="-2" />
+                    <include_actions ref="CalculateUiValueRepChange" />
+                    <do_if value="$RepHit lt $AbsoluteRepValueChange and $AbsoluteRepValueChange != null">
+                      <debug_to_file name="'ReactiveRepUpdate'" directory="'ReactiveFactions'" text="player.age + '; RepHit: ' + $RepHit + ' was harsher than -2 UI. Changed to AbsoluteRepValueChange: ' + $AbsoluteRepValueChange" output="false" append="true" chance="$DebugChance" />
+                      <set_value name="$RepHit" exact="$AbsoluteRepValueChange" />
+                    </do_if>
+                    <remove_value name="$AbsoluteRepValueChange" />
+                    <!-- Trying to simplify the notification stuff DA-->
+                    <do_if value="((($Enemy.relationto.{faction.player} + $RepHit) lt 0.1) and ($Enemy.relationto.{faction.player} ge 0.1)) or ((($Enemy.relationto.{faction.player} + $RepHit) lt 0.01) and ($Enemy.relationto.{faction.player} ge 0.01)) or ((($Enemy.relationto.{faction.player} + $RepHit) lt -0.01) and ($Enemy.relationto.{faction.player} ge -0.01)) or ((($Enemy.relationto.{faction.player} + $RepHit) lt -0.1) and ($Enemy.relationto.{faction.player} ge -0.1)) or ((($Enemy.relationto.{faction.player} + $RepHit) lt -0.32) and ($Enemy.relationto.{faction.player} ge -0.32))">
+                      <set_faction_relation faction="$Enemy" otherfaction="faction.player" value="[($Enemy.relationto.{faction.player} + $RepHit), -1].max" />
+                      <set_faction_relation faction="faction.player" otherfaction="$Enemy" value="$Enemy.relationto.{faction.player}" />
+                      <debug_to_file name="'ReactiveRepUpdate'" directory="'ReactiveFactions'" text="player.age + '; rep was changed with ' + $Enemy + ' for: ' + $RepHit + ' due to change with ' + $FactionMain + ' rep diff was ' + $RepDiff + ' with current power level of ' + $PlayerPower + ' with notification.'" output="false" append="true" chance="$DebugChance" />
+                    </do_if>
+                    <do_else>
+                      <set_faction_relation faction="$Enemy" otherfaction="faction.player" value="[($Enemy.relationto.{faction.player} + $RepHit), -1].max" reason="null" />
+                      <set_faction_relation faction="faction.player" otherfaction="$Enemy" value="$Enemy.relationto.{faction.player}" reason="null" />
+                      <debug_to_file name="'ReactiveRepUpdate'" directory="'ReactiveFactions'" text="player.age + '; rep was changed with ' + $Enemy + ' for: ' + $RepHit + ' due to change with ' + $FactionMain + ' rep diff was ' + $RepDiff + ' with current power level of ' + $PlayerPower + ' without notification.'" output="false" append="true" chance="$DebugChance" />
+                    </do_else>
+                    <!-- here is where we set the timer for how often this can trigger -->
+                    <set_value name="$NextPossibleRepLossTime" exact="player.age + 30s" />
+                  </do_if>
+                  <do_elseif value="$Enemy.relationto.{$FactionMain} ge $Enemy.relationto.{faction.player}">
+                    <debug_to_file name="'ReactiveRepUpdate'" directory="'ReactiveFactions'" text="player.age + '; rep was not changed with ' + $Enemy + ' for: ' + $RepHit + ' due to ' + $FactionMain + ' player already having a lower reputation with current power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+                  </do_elseif>
+                  <do_elseif value="$Enemy.relationto.{faction.player} gt -0.032">
+                    <debug_to_file name="'ReactiveRepUpdate'" directory="'ReactiveFactions'" text="player.age + '; rep was not changed with ' + $Enemy + ' for: ' + $RepHit + ' due to player going below -15 reputation with current power level of ' + $PlayerPower" output="false" append="true" chance="$DebugChance" />
+                  </do_elseif>
+
+                  <remove_value name="$RepHit" />
+                </do_if>
+              </do_if>
+              <do_else>
+                <debug_to_file name="'ReactiveRepUpdate'" directory="'ReactiveFactions'" text="player.age + '; Excluded faction ' + $Enemy + ' or something wrong'" output="false" append="true" chance="$DebugChance" />
+              </do_else>
+            </do_for_each>
+            <remove_value name="$Enemy" />
+            <remove_value name="$EnemiesList" />
+          </actions>
+        </cue>
+        <library name="CalculateUiValueRepChange">
+          <actions>
+            <!-- 1.0 = 30		0.32 = 25		0.1 = 20		0.032 = 15		0.01 = 10		0.0032 = 5 -->
+            <!-- 1.0 = 30		0.316 = 25		0.1 = 20		0.0316 = 15		0.01 = 10		0.00316 = 5 -->
+            <!-- Requires $FactionOne, $FactionTwo, and $UIRelationChange DA-->
+            <!-- Returns $NewAbsoluteRepValue and $AbsoluteRepValueChange DA-->
+            <do_if value="$UIRelationChange != 0">
+              <set_value name="$OldUIRepValue" exact="$FactionOne.relation.{$FactionOne.relationto.{$FactionTwo}}.uivalue" />
+              <set_value name="$OldAbsoluteRepValue" exact="$FactionOne.relationto.{$FactionTwo}" />
+              <do_if value="($OldUIRepValue ge 5) or ($OldUIRepValue le -5)">
+                <set_value name="$NewUIRepValue" exact="$OldUIRepValue + $UIRelationChange" />
+                <!-- =(10^(SQRT((S2+T2)^2)/10)/1000)*IF(S2+T2<0,-1,1) -->
+                <set_value name="$NewAbsoluteRepValue" exact="(10^(sqrt(($OldUIRepValue + $UIRelationChange) ^ 2)/10) / 1000) * (if ($OldUIRepValue + $UIRelationChange lt 0) then -1 else 1)" />
+                <do_if value="$NewAbsoluteRepValue lt -1">
+                  <set_value name="$NewAbsoluteRepValue" exact="-1" />
+                </do_if>
+                <do_if value="$NewAbsoluteRepValue gt 1">
+                  <set_value name="$NewAbsoluteRepValue" exact="1" />
+                </do_if>
+                <set_value name="$AbsoluteRepValueChange" exact="$NewAbsoluteRepValue - $OldAbsoluteRepValue" />
+              </do_if>
+              <do_if value="($OldUIRepValue lt 5) and ($OldUIRepValue gt -5)">
+                <set_value name="$NewUIRepValue" exact="$OldUIRepValue + $UIRelationChange" />
+                <set_value name="$NewAbsoluteRepValue" exact="$OldAbsoluteRepValue + ($UIRelationChange * 0.00064)" />
+                <set_value name="$AbsoluteRepValueChange" exact="$NewAbsoluteRepValue - $OldAbsoluteRepValue" />
+              </do_if>
+            </do_if>
+          </actions>
+        </library>
+        <library name="SendMessage" purpose="run_actions">
+          <params>
+            <param name="PlayerPowerName" />
+            <param name="PlayerPowerFluff" />
+            <param name="PlayerTotalAssetsCost" />
+          </params>
+          <actions>
+            <write_incoming_message title="{2005311642,17}" text="{2005311642,98} + '\n' + $PlayerPowerName + '\n\n' + $PlayerPowerFluff + '\n\n' + {2005311642,99} + ' ' + $PlayerTotalAssetsCost + ' Cr'" source="{2005311642,14}" highpriority="false" />
+          </actions>
+        </library>
+
+
+      </cues>
+    </cue>
+  </cues>
+</mdscript>

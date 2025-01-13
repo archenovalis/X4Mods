@@ -1620,6 +1620,9 @@
 									<do_elseif value="kATD.$deathAlternative == 'descendant'">
 										<set_value name="$text" exact="$text + {111204, 1108}.[kATD.$oldPlayerName, kATD.$userInheritTrustOnMoney.formatted.{'%s %Cr'}] + '\n\n' + {111204, 1109}" />
 									</do_elseif>
+
+									<show_help force="true" duration="8s"
+										custom="'You have received a Priority Message from '+{111204, 200}" position="20" />
 									<write_incoming_message title="{111204, 904}" text="$text" highpriority="true" source="{111204, 200}" comment="Trust Executor's Office" />
 									<write_to_logbook category="general" title="{111204, 904}" text="$text" />
 								</do_if>
@@ -2219,6 +2222,9 @@
 							</conditions>
 							<actions>
 								<do_if value="kATD.$deathAlternative == 'clone' or kATD.$deathAlternative == 'descendant'">
+
+									<show_help force="true" duration="8s"
+										custom="'You have received a Priority Message from '+{111204, 200}" position="20" />
 									<write_incoming_message title="$title" text="$text" highpriority="true" source="{111204, 200}" comment="Trust Executor's Office" />
 									<write_to_logbook category="general" title="{111204, 900}" text="{111204, 1300}.[kATD.$oldPlayerName]" comment="%1 has died." />
 								</do_if>

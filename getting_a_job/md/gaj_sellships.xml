@@ -40,19 +40,21 @@
               <check_value value="@event.param.$object.iswharf" />
             </check_any>
             <check_value value="not event.param.$object.isplayerowned" />
-            <check_value value="@event.param.$selectedplayerships" />
+            <check_value value="@event.param.$selectedplayerships.count ge 1" />
           </conditions>
           <actions>
             <set_value name="$interact_ships" exact="event.param.$selectedplayerships" />
             <set_value name="$Interact_target" exact="event.param.$object" />
+
             <!-- limit ships to same sector -->
             <do_for_each name="$ship" in="$interact_ships">
               <do_if value="$ship.sector != $Interact_target.sector">
                 <remove_from_list name="$interact_ships" exact="$ship" />
               </do_if>
             </do_for_each>
-            <do_if value="not ($interact_ships.count ge 1)">
-              <cancel_cue cue="this" />
+
+            <do_if value="$interact_ships.count == 0">
+              <reset_cue cue="this" />
             </do_if>
 
             <!-- determine station's docking compatabilities -->
@@ -66,26 +68,28 @@
             <set_value name="$dockSizes" exact="[]" />
             <!-- check shipyards -->
             <do_if value="$Interact_target.isshipyard">
-              <find_object_component groupname="$xl" object="$Interact_target" class="class.buildmodule">
+              <find_object_component name="$xl" object="$Interact_target" class="class.buildmodule" multiple="true">
                 <match canbuildclass="class.ship_xl" />
               </find_object_component>
               <!-- xl valid -->
-              <do_if value="$xl">
+              <do_if value="$xl.count gt 0">
                 <append_to_list name="$dockSizes" exact="'dock_xl'" />
-                <find_object_component name="$xxl" object="$Interact_target">
-                  <match_dock size="[tag.dock_xxl]" />
-                </find_object_component>
-                <!-- xxl valid -->
-                <do_if value="$xxl">
-                  <append_to_list name="$dockSizes" exact="'dock_xxl'" />
-                  <append_to_list name="$dockSizes" exact="'dock_dxxl'" />
-                </do_if>
+                <do_for_each name="$module" in="$xl">
+                  <do_if value="$module.dock.{tag.dock_xxl}">
+                    <debug_text text="'can build xxl'" chance="global.$GettingAJob_Work.$Debug" />
+                    <append_to_list name="$dockSizes" exact="'dock_xxl'" />
+                    <append_to_list name="$dockSizes" exact="'dock_dxxl'" />
+                    <break />
+                  </do_if>
+                </do_for_each>
+                <debug_text text="'can build xl'" chance="global.$GettingAJob_Work.$Debug" />
               </do_if>
               <!-- l valid -->
-              <find_object_component groupname="$l" object="$Interact_target" class="class.buildmodule">
+              <find_object_component name="$l" object="$Interact_target" class="class.buildmodule">
                 <match canbuildclass="class.ship_l" />
               </find_object_component>
               <do_if value="$l">
+                <debug_text text="'can build l'" chance="global.$GettingAJob_Work.$Debug" />
                 <append_to_list name="$dockSizes" exact="'dock_l'" />
                 <append_to_list name="$dockSizes" exact="'dock_l_mandator_2'" />
                 <append_to_list name="$dockSizes" exact="'dock_l_mandatoriii'" />
@@ -93,16 +97,18 @@
             </do_if>
             <!-- wharfs and shipyards -->
             <do_if value="$Interact_target.iswharf or $Interact_target.isshipyard">
-              <find_object_component groupname="$m" object="$Interact_target" class="class.buildmodule">
+              <find_object_component name="$m" object="$Interact_target" class="class.buildmodule">
                 <match canbuildclass="class.ship_m" />
               </find_object_component>
               <do_if value="$m">
+                <debug_text text="'can build m'" chance="global.$GettingAJob_Work.$Debug" />
                 <append_to_list name="$dockSizes" exact="'dock_m'" />
               </do_if>
-              <find_object_component groupname="$s" object="$Interact_target" class="class.buildmodule">
+              <find_object_component name="$s" object="$Interact_target" class="class.buildmodule">
                 <match canbuildclass="class.ship_s" />
               </find_object_component>
               <do_if value="$s">
+                <debug_text text="'can build s'" chance="global.$GettingAJob_Work.$Debug" />
                 <append_to_list name="$dockSizes" exact="'dock_s'" />
               </do_if>
             </do_if>
@@ -110,12 +116,9 @@
               <set_value name="$display" exact="false" />
               <!-- display interaction when any selected ship is compatible with station and in same sector as station -->
               <do_for_each name="$ship" in="$interact_ships">
-                <do_if value="$ship.isclass.ship and $ship.sector == $Interact_target.sector">
-                  <set_value name="$docksize" exact="$ship.docksize" />
-                  <do_if value="$dockSizes.indexof.{''+$docksize}">
-                    <set_value name="$display" exact="true" />
-                    <break />
-                  </do_if>
+                <do_if value="$dockSizes.indexof.{''+$ship.docksize}">
+                  <set_value name="$display" exact="true" />
+                  <break />
                 </do_if>
               </do_for_each>
               <do_if value="$display">
@@ -134,7 +137,7 @@
         </cue>
 
         <!-- Sell Ships Menu -->
-        <cue name="SellShips_Menu" namespace="this" instantiate="true">
+        <cue name="SellShips_Menu" instantiate="true">
           <conditions>
             <event_cue_signalled />
           </conditions>
@@ -155,7 +158,7 @@
                 <do_if value="$dockSizes.indexof.{''+$docksize}">
                   <set_value name="$ValidShips.{$ship}" exact="table[]" />
                   <!-- reduce price for selling a used ship by % value based on its docksize requirement and if sold to pirates -->
-                  <set_value name="$price" exact="(($ship.macro.ware.averageprice)f * $UsedMult.{'$'+$docksize} * $stationMult)/100" />
+                  <set_value name="$price" exact="($ship.macro.ware.averageprice)f/100 * $UsedMult.{'$'+$docksize} * $stationMult * $ship.hullpercentage" />
                   <set_value name="$ValidShips.{$ship}.$price" exact="$price" />
                   <set_value name="$ValidShips.{$ship}.$sell" exact="true" />
                   <set_value name="$SellTotal" operation="add" exact="$price" />
@@ -181,8 +184,6 @@
                 <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
                 <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
                 <do_for_each name="$ship" in="$ValidShips.keys.list">
-                  <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
-                  <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$text='']" />
                   <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
                   <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
                     $col=1,
@@ -240,21 +241,19 @@
               <actions>
                 <!-- todo: add stolen ship checks. if ship stolen from enemy, then ok, otherwise: crime and forfeiture of ship and fines deducted from $SellTotal -->
                 <set_value name="$faction" exact="$Interact_target.owner" />
-                <signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction = $faction, $money = $SellTotal]" />
+                <signal_cue_instantly cue="md.GalacticBankRC2.Transfer" param="table[$faction = $faction, $money = ($SellTotal)Cr]" />
                 <!-- <reward_player money="$SellTotal" /> -->
                 <do_for_each name="$ship" in="$ValidShips.keys.list">
                   <do_if value="$ValidShips.{$ship}.$sell">
-                    <set_owner object="$ship" faction="$faction" />
+                    <remove_object_commander object="$ship" />
                     <cancel_all_orders object="$ship" />
-                    <add_build_to_recycle_ship object="$Interact_target" buildobject="$ship" />
-                    <start_script object="$ship.pilot" name="'move.generic'">
-                      <param name="destination" value="$Interact_target" />
-                    </start_script>
-                    <start_script object="$ship.pilot" name="'order.build.recycle'">
-                      <param name="build" value="$Interact_target" />
+                    <set_owner object="$ship" faction="$faction" />
+                    <add_build_to_recycle_ship result="$build" object="$Interact_target" buildobject="$ship" />
+                    <create_order object="$ship" id="Recycle">
+                      <param name="build" value="$build" />
                       <param name="usecover" value="false" />
                       <param name="internalorder" value="true" />
-                    </start_script>
+                    </create_order>
                   </do_if>
                 </do_for_each>
                 <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />

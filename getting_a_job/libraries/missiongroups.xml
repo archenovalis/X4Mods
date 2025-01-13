@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <diff>
   <add sel="//missiongroups">
-    <group id="gaj_anoat" name="{999840, 509110}" description="work: anoat" faction="faction.anoat" />
-    <group id="gaj_ascendancy" name="{999840, 504110}" description="work: ascendancy" faction="faction.ascendancy" />
-    <group id="gaj_commerceguild" name="{999840, 506110}" description="work: commerceguild" faction="faction.commerceguild" />
-    <group id="gaj_corporate" name="{999840, 505110}" description="work: corporate" faction="faction.corporate" />
-    <group id="gaj_galempire" name="{999840, 500110}" description="work: galempire" faction="faction.galempire" />
-    <group id="gaj_huttcartel" name="{999840, 507110}" description="work: huttcartel" faction="faction.huttcartel" />
-    <group id="gaj_mandodw" name="{999840, 508110}" description="work: mandodw" faction="faction.mandodw" />
-    <group id="gaj_newrepublic" name="{999840, 502110}" description="work: newrepublic" faction="faction.newrepublic" />
-    <group id="gaj_rebelalliance" name="{999840, 503110}" description="work: rebelalliance" faction="faction.rebelalliance" />
+    <group id="gaj_anoat" name="{999840, 509110} {20777,2033}" description="work: anoat" faction="faction.anoat" />
+    <group id="gaj_ascendancy" name="{999840, 504110} {20777,2033}" description="work: ascendancy" faction="faction.ascendancy" />
+    <group id="gaj_commerceguild" name="{999840, 506110} {20777,2033}" description="work: commerceguild" faction="faction.commerceguild" />
+    <group id="gaj_corporate" name="{999840, 505110} {20777,2033}" description="work: corporate" faction="faction.corporate" />
+    <group id="gaj_galempire" name="{999840, 500110} {20777,2033}" description="work: galempire" faction="faction.galempire" />
+    <group id="gaj_huttcartel" name="{999840, 507110} {20777,2033}" description="work: huttcartel" faction="faction.huttcartel" />
+    <group id="gaj_mandodw" name="{999840, 508110} {20777,2033}" description="work: mandodw" faction="faction.mandodw" />
+    <group id="gaj_newrepublic" name="{999840, 502110} {20777,2033}" description="work: newrepublic" faction="faction.newrepublic" />
+    <group id="gaj_rebelalliance" name="{999840, 503110} {20777,2033}" description="work: rebelalliance" faction="faction.rebelalliance" />
     <!-- peaceful -->
-    <group id="gaj_kamino" name="{999840, 517110}" description="work: kamino" faction="faction.kamino" />
-    <group id="gaj_naboo" name="{999840, 515110}" description="work: naboo" faction="faction.naboo" />
+    <group id="gaj_kamino" name="{999840, 517110} {20777,2033}" description="work: kamino" faction="faction.kamino" />
+    <group id="gaj_naboo" name="{999840, 515110} {20777,2033}" description="work: naboo" faction="faction.naboo" />
     <!-- pirates -->
-    <group id="gaj_sith" name="{999840, 510110}" description="work: sith" faction="faction.sith" />
-    <group id="gaj_hapes" name="{999840, 516110}" description="work: hapes" faction="faction.hapes" />
-    <group id="gaj_blacksun" name="{999840, 512110}" description="work: blacksun" faction="faction.blacksun" />
-    <group id="gaj_valarian" name="{999840, 513110}" description="work: valarian" faction="faction.valarian" />
+    <group id="gaj_sith" name="{999840, 510110} {20777,2033}" description="work: sith" faction="faction.sith" />
+    <group id="gaj_hapes" name="{999840, 516110} {20777,2033}" description="work: hapes" faction="faction.hapes" />
+    <group id="gaj_blacksun" name="{999840, 512110} {20777,2033}" description="work: blacksun" faction="faction.blacksun" />
+    <group id="gaj_valarian" name="{999840, 513110} {20777,2033}" description="work: valarian" faction="faction.valarian" />
     <!-- other -->
-    <group id="gaj_bankingclan" name="{999840, 529110}" description="work: bankingclan" faction="faction.bankingclan" />
-    <group id="gaj_transgalmeg" name="{999840, 524110}" description="work: transgalmeg" faction="faction.transgalmeg" />
-    <group id="gaj_twinsuns" name="{999840, 526110}" description="work: twinsuns" faction="faction.twinsuns" />
-    <group id="gaj_tagge" name="{999840, 528110}" description="work: tagge" faction="faction.tagge" />
-    <group id="gaj_tradefederation" name="{999840, 531110}" description="work: tradefederation" faction="faction.tradefederation" />
-    <group id="gaj_rendili" name="{999840, 522110}" description="work: rendili" faction="faction.rendili" />
-    <group id="gaj_sienar" name="{999840, 520110}" description="work: sienar" faction="faction.sienar" />
-    <group id="gaj_mandoraiders" name="{999840, 514110}" description="work: mandoraiders" faction="faction.mandoraiders" />
-    <group id="gaj_miningguild" name="{999840, 530110}" description="work: miningguild" faction="faction.miningguild" />
-    <group id="gaj_moncal" name="{999840, 525110}" description="work: moncal" faction="faction.moncal" />
-    <group id="gaj_huttpirates" name="{999840, 511110}" description="work: huttpirates" faction="faction.huttpirates" />
-    <group id="gaj_incom" name="{999840, 523110}" description="work: incom" faction="faction.incom" />
-    <group id="gaj_kuat" name="{999840, 518110}" description="work: kuat" faction="faction.kuat" />
-    <group id="gaj_baobab" name="{999840, 527110}" description="work: baobab" faction="faction.baobab" />
-    <group id="gaj_bountyhunters" name="{999840, 501110}" description="work: bountyhunters" faction="faction.bountyhunters" />
-    <group id="gaj_corellia" name="{999840, 519110}" description="work: corellia" faction="faction.corellia" />
-    <group id="gaj_hoersh" name="{999840, 521110}" description="work: hoersh" faction="faction.hoersh" />
+    <group id="gaj_bankingclan" name="{999840, 529110} {20777,2033}" description="work: bankingclan" faction="faction.bankingclan" />
+    <group id="gaj_transgalmeg" name="{999840, 524110} {20777,2033}" description="work: transgalmeg" faction="faction.transgalmeg" />
+    <group id="gaj_twinsuns" name="{999840, 526110} {20777,2033}" description="work: twinsuns" faction="faction.twinsuns" />
+    <group id="gaj_tagge" name="{999840, 528110} {20777,2033}" description="work: tagge" faction="faction.tagge" />
+    <group id="gaj_tradefederation" name="{999840, 531110} {20777,2033}" description="work: tradefederation" faction="faction.tradefederation" />
+    <group id="gaj_rendili" name="{999840, 522110} {20777,2033}" description="work: rendili" faction="faction.rendili" />
+    <group id="gaj_sienar" name="{999840, 520110} {20777,2033}" description="work: sienar" faction="faction.sienar" />
+    <group id="gaj_mandoraiders" name="{999840, 514110} {20777,2033}" description="work: mandoraiders" faction="faction.mandoraiders" />
+    <group id="gaj_miningguild" name="{999840, 530110} {20777,2033}" description="work: miningguild" faction="faction.miningguild" />
+    <group id="gaj_moncal" name="{999840, 525110} {20777,2033}" description="work: moncal" faction="faction.moncal" />
+    <group id="gaj_huttpirates" name="{999840, 511110} {20777,2033}" description="work: huttpirates" faction="faction.huttpirates" />
+    <group id="gaj_incom" name="{999840, 523110} {20777,2033}" description="work: incom" faction="faction.incom" />
+    <group id="gaj_kuat" name="{999840, 518110} {20777,2033}" description="work: kuat" faction="faction.kuat" />
+    <group id="gaj_baobab" name="{999840, 527110} {20777,2033}" description="work: baobab" faction="faction.baobab" />
+    <group id="gaj_bountyhunters" name="{999840, 501110} {20777,2033}" description="work: bountyhunters" faction="faction.bountyhunters" />
+    <group id="gaj_corellia" name="{999840, 519110} {20777,2033}" description="work: corellia" faction="faction.corellia" />
+    <group id="gaj_hoersh" name="{999840, 521110} {20777,2033}" description="work: hoersh" faction="faction.hoersh" />
   </add>
 </diff>

@@ -2,13 +2,15 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 	<!-- getting a job -->
-	<replace sel="//cue[@name='IllegalActivityReward']//do_if[@value='event.param.{5}']">
-		<set_value name="$bounty" exact="event.param.{5} / md.GettingAJobTest.Work.$MissionRewardReducer" />
-		<set_value name="$gajfaction" exact="$rewardnpc.owner" />
-		<do_if value="@$md.GettingAJobTest.Work.$Factions.{$gajfaction}.$hired">
-			<signal_cue_instantly cue="md.GettingAJobTest.Work.LogWork" param="table[$faction = $gajfaction, $RewardCr = $bounty]" />
+	<replace sel="//cue[@name='IllegalActivityReward']/actions/do_if[@comment='bounty']">
+		<do_if value="event.param.{5}" comment="bounty">
+			<set_value name="$bounty" exact="event.param.{5} / md.GettingAJobTest.Work.$MissionRewardReducer" />
+			<set_value name="$gajfaction" exact="$rewardnpc.owner" />
+			<do_if value="@$md.GettingAJobTest.Work.$Factions.{$gajfaction}.$hired">
+				<signal_cue_instantly cue="md.GettingAJobTest.LogWork" param="table[$faction = $gajfaction, $RewardCr = $bounty]" />
+			</do_if>
+			<signal_cue_instantly cue="md.GalacticBankRC2.Transfer" param="table[$faction = $gajfaction, $money = $bounty]" />
 		</do_if>
-		<signal_cue_instantly cue="md.GalacticBankTest2.Transfer" param="table[$faction = $gajfaction, $money = $bounty]" />
 	</replace>
 
 	<!-- getting a job: escape pod -->
