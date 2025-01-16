@@ -79,7 +79,7 @@
           <debug_text text="'found branches: '+$stationsC.count" chance="$DebugChance" />
         </do_else>
         <set_value name="$templist" exact="global.$GB_Vault.$MajorFactionList.keys.list" />
-        <set_value name="$factionlist" exact="$templist" />
+        <set_value name="$factionlist" exact="$templist.clone" />
         <do_for_each name="$faction" in="$templist">
           <do_if value="not $faction.isactive">
             <remove_from_list name="$factionlist" exact="$faction" />

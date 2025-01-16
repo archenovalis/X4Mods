@@ -1087,7 +1087,7 @@
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 										$col=1,
 										$halign='right',
-										$text='Loan Balance: '+($LoanBalance)i+'Cr'
+										$text='Loan Balance: '+($LoanBalance)/1+'Cr'
 									]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
@@ -1244,7 +1244,7 @@
 											</do_if>
 											<do_else>
 												<set_value name="$Account.$arrears" operation="subtract" exact="$Payment_amount" />
-												<set_value name="$Account.$paymentsMissed" operation="subtract" exact="($Payment_amount / $Account.$payment)i" />
+												<set_value name="$Account.$paymentsMissed" operation="subtract" exact="($Payment_amount / $Account.$payment)/1" />
 											</do_else>
 										</do_if>
 									</do_else>
@@ -1354,7 +1354,7 @@
 							<add_to_group groupname="global.$GB_Vault.$BankTransports" object="$ship" />
 							<set_value name="$capacity" exact="$ship.macro.cargo.capacity.container" />
 							<set_value name="$ware" exact="ware.bank_large_lootbox" />
-							<add_cargo exact="($capacity / $ware.volume)i" object="$ship" ware="$ware" />
+							<add_cargo exact="($capacity / $ware.volume)/1" object="$ship" ware="$ware" />
 						</do_if>
 						<do_elseif value="event.name == 'event_object_destroyed'">
 							<remove_from_group group="global.$GB_Vault.$BankTransports" object="event.object" />
@@ -1701,7 +1701,7 @@
 									<set_value name="$Account.$arrears" operation="add" exact="$Payment" />
 									<show_notification text="$faction+' Not enough funds for loan payment.'" />
 									<set_value name="$text" exact="'Your loan payment with '+$faction.name+' failed due to not enough funds in your account.\n\n'+
-										($Payment)i+'Cr is past due. Please make a manual payment of '+$Account.$arrears+'Cr.'" />
+										($Payment)/1+'Cr is past due. Please make a manual payment of '+$Account.$arrears+'Cr.'" />
 
 									<set_value name="$Account.$paymentsMissed" operation="add" exact="1" />
 									<do_if value="$PaymentsMissed == 5">
@@ -1896,7 +1896,7 @@
 									$col=1,
 									$colSpan=2,
 									$halign='center',
-									$text='Loan Balance: '+($LoanBalance)i+'Cr'
+									$text='Loan Balance: '+($LoanBalance)/1+'Cr'
 								]" />
 								<!-- current collateral -->
 								<do_if value="$Collateral.$XL.count gt 0 or $Collateral.$L.count gt 0 or $Collateral.$M.count gt 0  or $Collateral.$S.count gt 0 ">
@@ -2081,7 +2081,7 @@
 								</do_else>
 
 								<!-- make loan -->
-								<do_if value="$Collateral.$XL.count + $Collateral.$L.count + $Collateral.$M.count + $Collateral.$S.count gt 0 and $CollateralValue / $CollateralRate - $LoanBalance gt 0">
+								<do_if value="$Collateral.$XL.count + $Collateral.$L.count + $Collateral.$M.count + $Collateral.$S.count gt 0 and $CollateralValue / $LoanCollateralRate - $LoanBalance gt 0">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -2092,7 +2092,7 @@
 										$start = 0,
 										$col = 1,
 										$text = table[$text=''],
-										$min = 0, $max = ($CollateralValue / $CollateralRate - $LoanBalance)i, $step = 1, $suffix='Cr',
+										$min = 0, $max = ($CollateralValue / $LoanCollateralRate - $LoanBalance)/1, $step = 1, $suffix='Cr',
 										$default = 0,
 										$onSliderCellChanged = Bank_LoanMenu_Loan_Amount
 									]" />
@@ -2224,14 +2224,14 @@
 								<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 								<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
 								<set_value name="$Account.$interest_time" exact="player.age" />
-								<do_if value="$CollateralValue / $CollateralRate - $LoanBalance ge $LoanAmount">
+								<do_if value="$CollateralValue / $LoanCollateralRate - $Account.$loan_balance ge $LoanAmount">
 									<set_value name="$Account.$balance" operation="add" exact="$LoanAmount" />
 									<set_value name="$Account.$loan_balance" operation="add" exact="$LoanAmount" />
 									<set_value name="$newPayment" exact="$LoanAmount / 50" /> <!-- payment = 2% -->
 									<set_value name="$Account.$payment" operation="add" exact="$newPayment" />
-									<set_value name="$newLoanText" exact="'New Loan Amount: '+$LoanAmount+'Cr\nPayment: '+($newPayment)i+'Cr\n Your payment is automatically deducted from your account every '+$PaymentInterval+' minutes.'" />
+									<set_value name="$newLoanText" exact="'New Loan Amount: '+$LoanAmount+'Cr\nPayment: '+($newPayment)/1+'Cr\n Your payment is automatically deducted from your account every '+$PaymentInterval+' minutes.'" />
 									<do_if value="$Account.$payment gt $newPayment">
-										<set_value name="$newLoanText" operation="add" exact="'\n\nCurrent Loan Balance: '+($LoanBalance)i+'\nTotal Payment: '+($Account.$payment)i" />
+										<set_value name="$newLoanText" operation="add" exact="'\n\nCurrent Loan Balance: '+$Account.$loan_balance/1+'\nTotal Payment: '+($Account.$payment/1" />
 									</do_if>
 									<show_help force="true" duration="8s"
 										custom="'You have received a Priority Message from '+$faction.name" position="20" />
