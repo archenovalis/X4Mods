@@ -50,7 +50,7 @@
 				<!--
           Vault.$Accounts.{$faction} = table[
 						$balance = (int)ct,
-						$loan_ammount = float,
+						$loan_balance = float,
 						$interest_time = time,
 						$collateral = [ships]
 						$closed = bool,
@@ -695,7 +695,7 @@
 								<param name="Pilot" value="player.entity" />
 							</run_actions>
 						</do_elseif>
-						<set_value name="$oldRelation" exact="$newRelation" />
+						<set_value name="$Account.$relation" exact="$newRelation" />
 						<do_if value="$tierChange and $Account.$balance gt 0">
 							<set_value name="$opening"
 								exact="'This is a Priority Message from '+$faction.name+'.'" />
@@ -704,8 +704,30 @@
 									exact="'Your account has been closed.\n\nIn accordance with your account contract:\n\nArticle 1530.69201.56882\nClause 831\n\nYour assets held by '+$faction.name+' have been permanently forfeited.\n\nWe wish you well.'" />
 							</do_if>
 							<do_else>
-								<set_value name="$data"
-									exact="'Rate: '+$Account.$rate*100+'%\nPeriod: '+$Account.$period/3600+'hr\n\n'+{20777, 1006}+' Withdrawal Fee: '+$Account.$fee*100+'%'" />
+								<set_value name="$data" exact="'
+									Period: '+$Account.$period/3600+'hr\n
+									Balance: '+$Account.$balance+'\n
+									Rate: '+$Account.$rate*100+'%\n\n
+									Loan Balance: '+$Account.$loan_balance+'\n
+									Rate: '+$Account.$rate*100+'%\n
+									Collateral Rate: '+$Account.$collateral_rate
+								" />
+								<do_if value="$Account.$loan_balance gt 0">
+									<set_value name="$data" operation="add" exact="'\n
+										Payment: '+$Account.$payment+'\n
+										Collateral Value: '+$Account.$collateral_value										
+									" />
+									<do_if value="$Account.$paymentsMissed gt 0">
+										<set_value name="$data" operation="add" exact="'\n
+											Payments Missed: '+$Account.$paymentsMissed+'\n
+											Overdue: '+$Account.$arrears+'\n
+										'" />
+									</do_if>
+								</do_if>
+								<do_if value="$faction == faction.bankingclan">
+									<set_value name="$data" operation="add"
+										exact="'\n\n'+{20777, 1006}+' Withdrawal Fee: '+$Account.$fee*100+'%'" />
+								</do_if>
 								<do_if value="$changeAmount gt 0">
 									<do_if value="$open">
 										<set_value name="$statusText"
@@ -2096,6 +2118,7 @@
 										$default = 0,
 										$onSliderCellChanged = Bank_LoanMenu_Loan_Amount
 									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 										$col = 2,
 										$text = table[$text='Accept'],
@@ -2984,9 +3007,9 @@
 						<signal_cue cue="K_ArriveAndLeaveStations_Init2" />
 					</actions>
 				</cue>
-
 			</cues>
 		</cue>
+
 		<cue name="OnLuaLoaderReady">
 			<conditions>
 				<event_ui_triggered screen="'Lua_Loader'" control="'Ready'" />
@@ -2998,7 +3021,6 @@
 				<raise_lua_event name="'Interact_Menu_API.Add_Custom_Actions_Group_Text'" param="{20777, 404404}" />
 			</actions>
 		</cue>
-
 		<cue name="OnLuaLoaderReadyCompleted">
 			<conditions>
 				<event_cue_completed cue="OnLuaLoaderReady" />
