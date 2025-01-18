@@ -1721,7 +1721,7 @@
 									<show_help force="true" duration="8s"
 										custom="'You have received a Priority Message from '+$faction.name" position="20" />
 									<set_value name="$Account.$arrears" operation="add" exact="$Payment" />
-									<show_notification text="$faction+' Not enough funds for loan payment.'" />
+									<show_notification text="$faction+' Not enough funds for loan payment.\nArrears: '+$Account.$arrears" />
 									<set_value name="$text" exact="'Your loan payment with '+$faction.name+' failed due to not enough funds in your account.\n\n'+
 										($Payment)/1+'Cr is past due. Please make a manual payment of '+$Account.$arrears+'Cr.'" />
 
@@ -1746,12 +1746,12 @@
 										<set_value name="$Account.$balance" operation="subtract" exact="$LoanBalance" />
 										<set_value name="$Account.$loan_balance" exact="0" />
 										<set_value name="$Account.$payment" exact="0" />
-										<show_notification text="$faction+' Loan Paid-off: '+$money" />
+										<show_notification text="$faction+' Loan Paid Off. Payment: '+$LoanBalance+'\nLoan Balance: '+$Account.$loan_balance+'\nAccount Balance: '+$Account.$balance" />
 									</do_if>
 									<do_else>
 										<set_value name="$Account.$balance" operation="subtract" exact="$Payment" />
 										<set_value name="$Account.$loan_balance" operation="subtract" exact="$Payment" />
-										<show_notification text="$faction+' Loan Payment: '+$money" />
+										<show_notification text="$faction+' Loan Payment: '+$money+'\nLoan Balance: '+$Account.$loan_balance+'\nAccount Balance: '+$Account.$balance" />
 									</do_else>
 								</do_else>
 								<!-- full gain at 10m Cr -->
@@ -2248,7 +2248,7 @@
 								<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
 								<set_value name="$Account.$interest_time" exact="player.age" />
 								<do_if value="$CollateralValue / $LoanCollateralRate - $Account.$loan_balance ge $LoanAmount">
-									<set_value name="$Account.$balance" operation="add" exact="$LoanAmount" />
+									<signal_cue_instantly cue="Transfer" param="table[$faction = $faction, $money = ($LoanAmount)Cr]" />
 									<set_value name="$Account.$loan_balance" operation="add" exact="$LoanAmount" />
 									<set_value name="$newPayment" exact="$LoanAmount / 50" /> <!-- payment = 2% -->
 									<set_value name="$Account.$payment" operation="add" exact="$newPayment" />
@@ -2306,7 +2306,12 @@
 							</do_else>
 							<set_value name="$money" exact="event.param.$money" />
 							<set_value name="$Account.$balance" operation="add" exact="($money)f/100" />
-							<set_value name="$text" exact="$faction+' Deposit: '+($money)f/100" />
+							<do_if value="$money > 0">
+								<set_value name="$text" exact="$faction+' Deposit: '+($money)f/100+'\nBalance: '+$Account.$balance" />
+							</do_if>
+							<do_else>
+								<set_value name="$text" exact="$faction+' Withdrawal: '+($money)f/100+'\nBalance: '+$Account.$balance" />
+							</do_else>
 							<do_if value="not ($message == null)">
 								<set_value name="$text" exact="$text+'\n'+$message" />
 							</do_if>
