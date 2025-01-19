@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="GalacticBankRC2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<mdscript name="GalacticBankRC3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
 		<cue name="Vault" namespace="this" version="1">
@@ -44,11 +44,11 @@
 				<set_value name="Vault.$UndockedFees" exact="[0.005,0.005,0.0025,0.0025,0]" />
 				<set_value name="Vault.$Rates" exact="[0.005,0.0075,0.01,0.0125,0.015]" />
 				<set_value name="Vault.$Periods" exact="[12h,10h,8h,6h,5h]" />
-				<set_value name="Vault.$LoanRates" exact="[0.15,0.125,0.1,0.75,0.5]" />
+				<set_value name="Vault.$LoanRates" exact="[0.15,0.125,0.1,0.075,0.05]" />
 				<set_value name="Vault.$LoanCollateralRates" exact="[0.2,0.3,0.5,1,2]" />
 
 				<!--
-          Vault.$Accounts.{$faction} = table[
+          Vault.$Accounts.{$Faction} = table[
 						$balance = (int)ct,
 						$loan_balance = float,
 						$interest_time = time,
@@ -174,16 +174,16 @@
 
 						<!-- Unlock Relations-->
 						<set_faction_relation_locked faction="faction.bankingclan" locked="true" />
-						<do_for_each name="$faction" in="$Accounts.keys.list">
-							<set_faction_relation_locked faction="$faction" locked="false" />
+						<do_for_each name="$Faction" in="$Accounts.keys.list">
+							<set_faction_relation_locked faction="$Faction" locked="false" />
 						</do_for_each>
 
 						<!-- setup accounts -->
 						<do_if value="$ResetAccounts">
 							<show_notification text="'resetting accounts'" chance="global.$GB_Vault.$debug" />
 							<set_value name="$ResetAccounts" exact="false" />
-							<do_for_each name="$faction" in="$Accounts.keys.list">
-								<set_value name="$Account" exact="$Accounts.{$faction}" />
+							<do_for_each name="$Faction" in="$Accounts.keys.list">
+								<set_value name="$Account" exact="$Accounts.{$Faction}" />
 								<!-- stored as ct: use ()Cr -->
 								<set_value name="$Account.$balance" exact="0" />
 								<set_value name="$Account.$loan_balance" exact="0" />
@@ -577,7 +577,7 @@
 								<spawn_waiting_job_ship zone="$station.zone" ship="$NewShip">
 									<safepos object="$station" space="$sector" />
 								</spawn_waiting_job_ship>
-								<debug_text text="'commander: '+$sector.knownname+' '+$NewShip" />
+								<debug_text text="'commander: '+$sector.knownname+' '+$NewShip" chance="global.$GB_Vault.$debug" />
 								<do_if value="$NewShip.exists">
 									<get_subordinate_jobs jobs="$subs" amount="$subsNum" commander="$NewShip" />
 									<do_all exact="$subs.count" counter="$i">
@@ -587,7 +587,7 @@
 												<safepos object="$station" space="$sector" />
 											</spawn_waiting_job_ship>
 											<do_if value="$NewSub.exists">
-												<debug_text text="'sub: '+$sector.knownname+' '+$NewSub" />
+												<debug_text text="'sub: '+$sector.knownname+' '+$NewSub" chance="global.$GB_Vault.$debug" />
 												<set_object_commander object="$NewSub" commander="$NewShip" />
 												<activate_waiting_job_ship ship="$NewSub" />
 											</do_if>
@@ -605,7 +605,7 @@
 									<safepos object="$station" space="$sector" />
 								</spawn_waiting_job_ship>
 								<do_if value="$NewShip.exists">
-									<debug_text text="'commanderL: '+$sector.knownname+' '+$NewShip" />
+									<debug_text text="'commanderL: '+$sector.knownname+' '+$NewShip" chance="global.$GB_Vault.$debug" />
 									<get_subordinate_jobs jobs="$subs" amount="$subsNum" commander="$NewShip" />
 									<do_all exact="$subs.count" counter="$i">
 										<do_all exact="$subsNum.{$i}">
@@ -614,7 +614,7 @@
 												<safepos object="$station" space="$sector" />
 											</spawn_waiting_job_ship>
 											<do_if value="$NewSub.exists">
-												<debug_text text="'subL: '+$sector.knownname+' '+$NewSub" />
+												<debug_text text="'subL: '+$sector.knownname+' '+$NewSub" chance="global.$GB_Vault.$debug" />
 												<get_subordinate_jobs jobs="$subsSubs" amount="$subsSubsNum" commander="$NewSub" />
 												<do_all exact="$subsSubs.count" counter="$j">
 													<do_all exact="$subsSubsNum.{$j}">
@@ -623,7 +623,7 @@
 															<safepos object="$station" space="$sector" />
 														</spawn_waiting_job_ship>
 														<do_if value="$NewSubSub.exists">
-															<debug_text text="'subsubL: '+$sector.knownname+' '+$NewSubSub" />
+															<debug_text text="'subsubL: '+$sector.knownname+' '+$NewSubSub" chance="global.$GB_Vault.$debug" />
 															<set_object_commander object="$NewSubSub" commander="$NewSub" />
 															<activate_waiting_job_ship ship="$NewSubSub" />
 														</do_if>
@@ -651,10 +651,10 @@
 					</conditions>
 					<actions>
 						<debug_text text="'BankingClan_Relation_Change: '+event.name" chance="global.$GB_Vault.$debug" />
-						<set_value name="$faction" exact="event.param" />
-						<set_value name="$Account" exact="$Accounts.{$faction}" />
+						<set_value name="$Faction" exact="event.param" />
+						<set_value name="$Account" exact="$Accounts.{$Faction}" />
 						<set_value name="$oldRelation" exact="$Account.$relation" />
-						<set_value name="$newRelation" exact="$faction.relationto.{faction.player}" />
+						<set_value name="$newRelation" exact="$Faction.relationto.{faction.player}" />
 						<set_value name="$changeAmount" exact="event.param2.{1} - event.param2.{2}" />
 						<set_value name="$tierChange" exact="false" />
 						<!-- 30 -->
@@ -698,10 +698,10 @@
 						<set_value name="$Account.$relation" exact="$newRelation" />
 						<do_if value="$tierChange and $Account.$balance gt 0">
 							<set_value name="$opening"
-								exact="'This is a Priority Message from '+$faction.name+'.'" />
+								exact="'This is a Priority Message from '+$Faction.name+'.'" />
 							<do_if value="$Account.$closed">
 								<set_value name="$text"
-									exact="'Your account has been closed.\n\nIn accordance with your account contract:\n\nArticle 1530.69201.56882\nClause 831\n\nYour assets held by '+$faction.name+' have been permanently forfeited.\n\nWe wish you well.'" />
+									exact="'Your account has been closed.\n\nIn accordance with your account contract:\n\nArticle 1530.69201.56882\nClause 831\n\nYour assets held by '+$Faction.name+' have been permanently forfeited.\n\nWe wish you well.'" />
 							</do_if>
 							<do_else>
 								<set_value name="$data" exact="'
@@ -710,12 +710,12 @@
 									Rate: '+$Account.$rate*100+'%\n\n
 									Loan Balance: '+$Account.$loan_balance+'\n
 									Rate: '+$Account.$rate*100+'%\n
-									Collateral Rate: '+$Account.$collateral_rate
+									Collateral Rate: '+$Account.$loan_collateral_rate*100+'%'
 								" />
 								<do_if value="$Account.$loan_balance gt 0">
 									<set_value name="$data" operation="add" exact="'\n
 										Payment: '+$Account.$payment+'\n
-										Collateral Value: '+$Account.$collateral_value										
+										Collateral Value: '+$Account.$collateral_value								
 									" />
 									<do_if value="$Account.$paymentsMissed gt 0">
 										<set_value name="$data" operation="add" exact="'\n
@@ -724,7 +724,7 @@
 										'" />
 									</do_if>
 								</do_if>
-								<do_if value="$faction == faction.bankingclan">
+								<do_if value="$Faction == faction.bankingclan">
 									<set_value name="$data" operation="add"
 										exact="'\n\n'+{20777, 1006}+' Withdrawal Fee: '+$Account.$fee*100+'%'" />
 								</do_if>
@@ -746,13 +746,13 @@
 								<remove_value name="$data" />
 							</do_else>
 							<write_incoming_message highpriority="true"
-								source="$faction.name"
+								source="$Faction.name"
 								title="'Account Status'"
 								text="$text" />
 							<show_help force="true" duration="8s"
-								custom="'You have received a Priority Message from '+$faction.name" position="20" />
+								custom="'You have received a Priority Message from '+$Faction.name" position="20" />
 							<show_notification
-								text="'You have received a Priority Message from '+$faction.name"
+								text="'You have received a Priority Message from '+$Faction.name"
 								timeout="8s" sound="ui_mon_eve_money_up" />
 							<remove_value name="$tierChange" />
 							<remove_value name="$text" />
@@ -790,7 +790,7 @@
 								<!-- add bank office if vault or faction has a vault -->
 								<set_value name="$owner" exact="$station.owner" />
 								<do_if value="$owner == faction.bankingclan or @$MajorFactionList.{$owner}">
-									<set_value name="$faction" exact="faction.bankingclan" />
+									<set_value name="$Faction" exact="faction.bankingclan" />
 									<set_value name="$bankStation" exact="@$BankStations.{$station}" />
 									<do_if value="not $bankStation">
 										<set_value name="$BankStations.{$station}" exact="table[$isSpawned = false]" />
@@ -805,7 +805,7 @@
 										</do_if>
 										<create_cue_actor name="$BankManager" cue="this" seed="$seed">
 											<select faction="$owner" />
-											<owner exact="$faction" />
+											<owner exact="$Faction" />
 										</create_cue_actor>
 										<set_entity_traits entity="$BankManager" missionactor="true" />
 										<set_entity_overrides entity="$BankManager" icon="'specialist'" />
@@ -906,10 +906,10 @@
 													<set_value name="$bribe" exact="-0.0099-$Accounts.{$BankManager.trueowner}.$relation * $Accounts.{$BankManager.trueowner}.$bribefactor" />
 													<add_player_choice text="'Account Closed'" section="Banker_Account" selectable="false" />
 													<do_if value="player.money ge ($bribe)Cr">
-														<add_player_choice text="'Bribe'+$bribe" section="Banker_Bride" choiceparam="$bribe" />
+														<add_player_choice text="'Bribe %,s'.[$bribe]+'Cr'" section="Banker_Bride" choiceparam="$bribe" />
 													</do_if>
 													<do_else>
-														<add_player_choice text="'Bribe'+$bribe" section="Banker_Bride" choiceparam="$bribe" selectable="false" />
+														<add_player_choice text="'Bribe %,s'.[$bribe]+'Cr'" section="Banker_Bride" choiceparam="$bribe" selectable="false" />
 													</do_else>
 												</do_if>
 												<do_else>
@@ -951,8 +951,8 @@
 											</do_for_each>
 											<set_value name="$reward" exact="$lootboxes * 1000 + $largelootboxes * 20000" />
 											<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="$lootboxes * 0.00082 + $largelootboxes * 0.0032" reason="relationchangereason.missioncompleted" />
-											<write_incoming_message source="faction.bankingclan" title="'We Greatly Appreciate You'" text="'Thank you for returning '+$lootboxes+$largelootboxes+' lootboxes. We have deposited: '+$reward+'Cr into your account.'" />
-											<signal_cue_instantly cue="Transfer" param="table[$faction = faction.bankingclan, $money = ($reward)Cr]" />
+											<write_incoming_message source="faction.bankingclan.name" title="'We Greatly Appreciate You'" text="'Thank you for returning '+$lootboxes+$largelootboxes+' lootboxes. We have deposited: %,s'.[$reward]+'Cr into your account.'" />
+											<signal_cue_instantly cue="Transfer" param="table[$Faction = faction.bankingclan, $money = ($reward)Cr, $message='Reward']" />
 										</do_if>
 										<reset_cue cue="this" />
 									</actions>
@@ -981,7 +981,7 @@
 								$text = 'Access Account',
 								$icon = 'menu_swi_credits',
 								$callback = Bank_Menu,
-								$echo = table[$faction = event.param.$object.owner]
+								$echo = table[$Faction = event.param.$object.owner]
 							]" />
 						</do_if>
 						<reset_cue cue="this" />
@@ -998,7 +998,7 @@
 						<!-- determine account -->
 						<!-- undocked -->
 						<do_if value="event.param.$echo?">
-							<set_value name="$Faction" exact="event.param.$echo.$faction" />
+							<set_value name="$Faction" exact="event.param.$echo.$Faction" />
 							<set_value name="$docked" exact="false" />
 							<do_if value="$Faction == faction.bankingclan">
 								<set_value name="$Title" exact="'InterGalactic Bank Account'" />
@@ -1059,6 +1059,12 @@
 							</conditions>
 							<delay exact="1ms" />
 							<actions>
+								<set_value name="$Account.$collateral_value" exact="0" />
+								<do_for_each name="$table" in="$Account.$collateral">
+									<do_for_each name="$ship" in="$Account.$collateral.{$table}">
+										<set_value name="$Account.$collateral_value" operation="add" exact="($ship.macro.ware.averageprice/100)f*$LoanCollateralRate" />
+									</do_for_each>
+								</do_for_each>
 								<debug_text text="'Bank_Menu_Open: '+event.name" chance="global.$GB_Vault.$debug" />
 								<!-- update interest -->
 								<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
@@ -1080,12 +1086,81 @@
 									$height = 400,
 									$width = 300
 								]" />
+								<!-- loan -->
+								<do_if value="$LoanBalance gt 0">
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='center',
+										$text='Loan Status'
+									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='right',
+										$text=$LoanRate * 100 + '% interest per ' + $LoanInterestPeriod / 60 / 60 + ' hours.'
+									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='right',
+										$text='Balance: %,s'.[($LoanBalance)/1]+'Cr'
+									]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$halign='right',
+										$text='Available: %,s'.[$Account.$collateral_value-$LoanBalance]+'Cr'
+									]" />
+									<do_if value="(player.money)f/100 ge 1 or $Account.$balance gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+									</do_if>
+									<do_if value="(player.money)f/100 ge 1">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+										$start = 0,
+										$col = 1,
+										$text = table[$text='Cash Payment'],
+										$min = 0, $max = [player.money, $LoanBalance].min, $step = 1, $suffix='Cr',
+										$default = 0,
+										$onSliderCellChanged = Bank_Menu_Payment_Amount
+									]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+										$id = 'Cash',
+										$col = 1,
+										$text = table[$text='Pay'],
+										$onClick = Bank_Menu_Payment
+									]" />
+									</do_if>
+									<do_if value="$Account.$balance gt 0">
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+										$start = 0,
+										$col = 1,
+										$text = table[$text='Account Transfer'],
+										$min = 0, $max = [$Account.$balance, $LoanBalance].min, $step = 1, $suffix='Cr',
+										$default = 0,
+										$onSliderCellChanged = Bank_Menu_Payment_Amount
+									]" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
+										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+										$id = 'Account',
+										$col = 1,
+										$text = table[$text='Pay'],
+										$onClick = Bank_Menu_Payment
+									]" />
+									</do_if>
+								</do_if>
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-									$col=1,
-									$halign='center',
-									$text='Status'
-								]" />
+										$col=1,
+										$halign='center',
+										$text='Account Status'
+									]" />
 								<do_if value="$Fee gt 0">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
@@ -1095,68 +1170,31 @@
 										$text='('+{20777, 1006}+' Fee: '+ $Fee*100 + '%)'
 									]" />
 								</do_if>
-								<!-- loan -->
-								<do_if value="$LoanBalance gt 0">
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-										$col=1,
-										$halign='center',
-										$text=$LoanRate * 100 + '% interest per ' + $LoanInterestPeriod / 60 / 60 + ' hours.'
-									]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-										$col=1,
-										$halign='right',
-										$text='Loan Balance: '+($LoanBalance)/1+'Cr'
-									]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
-										$id = 'sliderPayment',
-										$start = 0,
-										$col = 1,
-										$text = table[$text=''],
-										$min = 0, $max = player.money, $step = 1, $suffix='Cr',
-										$default = 0,
-										$onSliderCellChanged = Bank_Menu_Payment_Amount
-									]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-										$col = 1,
-										$text = table[$text='Payment'],
-										$onClick = Bank_Menu_Payment
-									]" />
-								</do_if>
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 									$col=1,
-									$halign='center',
+									$halign='right',
 									$text=$Rate * 100 + '% interest per ' + $Period / 60 / 60 + ' hours.'
+								]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+									$col=1,
+									$halign='right',
+									$text='Balance: %,s'.[$Account.$balance]+'Cr'
 								]" />
 								<do_if value="$interest_amount gt 0">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 										$col=1,
 										$halign='right',
-										$text='Interest earned since last update:'
-									]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-										$col=1,
-										$halign='right',
-										$text=$interest_amount+'Cr'
+										$text='Interest since last visit: %,s'.[$interest_amount]+'Cr'
 									]" />
 								</do_if>
-								<do_if value="player.money ge 100">
+								<do_if value="(player.money)f/100 ge 1 or $AccountBalance ge 1">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+								</do_if>
+								<do_if value="(player.money)f/100 ge 1">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
 										$id = 'sliderDeposit',
@@ -1175,22 +1213,18 @@
 									]" />
 								</do_if>
 								<do_if value="$AccountBalance ge 1">
-									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<do_if value="$Fee gt 0">
-										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-											$col=1,
-											$halign='right',
-											$text='Max withdrawal after '+{20777, 1006}+' Fee:'
-										]" />
+										<set_value name="$feetext" exact="'Avalable After '+{20777, 1006}+' Fee'" />
 									</do_if>
+									<do_else>
+										<set_value name="$feetext" exact="''" />
+									</do_else>
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
 										$id = 'sliderWithdraw',
 										$start = 0,
 										$col = 1,
-										$text = table[$text=''],
+										$text = table[$text=$feetext],
 										$min = 0, $max = $AccountBalance / (1+$Fee), $step = 1, $suffix='Cr',
 										$default = 0,
 										$onSliderCellChanged = Bank_Menu_Withdraw_Amount
@@ -1243,26 +1277,37 @@
 							</conditions>
 							<actions>
 								<debug_text text="'Bank_Menu_Payment: '+event.name" chance="global.$GB_Vault.$debug" />
-								<set_value name="$PaymentsMissed" exact="$Account.$paymentsMissed" />
-								<do_if value="$LoanBalance ge $Payment_amount">
+								<set_value name="$id" exact="event.param.$id" />
+								<do_if value="$id == 'Cash'">
+									<set_value name="$balance" exact="(player.money)f/100" />
+								</do_if>
+								<do_elseif value="$id == 'Account'">
 									<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 									<set_value name="$Account.$interest_time" exact="player.age" />
-									<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+									<set_value name="$interest_amount" exact="$Account.$balance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 									<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
-									<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
-									<do_if value="$LoanBalance - $Payment_amount lt 1">
-										<reward_player money="($Payment_amount + $loanInterest_amount * -1)Cr" />
+									<set_value name="$balance" exact="$Account.$balance" />
+								</do_elseif>
+								<do_if value="$balance ge $Payment_amount">
+									<set_value name="$loanInterest_amount" exact="$Account.$loan_balance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
+									<do_if value="$Account.$loan_balance - $Payment_amount lt 1">
+										<reward_player money="(-$Payment_amount)Cr" />
 										<set_value name="$Account.$loan_balance" exact="0" />
 										<set_value name="$Account.$payment" exact="0" />
 									</do_if>
 									<do_else>
-										<reward_player money="($Payment_amount * -1)Cr" />
+										<do_if value="$id == 'Cash'">
+											<reward_player money="(-$Payment_amount)Cr" />
+										</do_if>
+										<do_elseif value="$id == 'Account'">
+											<signal_cue_instantly cue="Transfer" param="table[$Faction=$Faction, $money=(-$Payment_amount)Cr, $message='Loan Payment']" />
+										</do_elseif>
 										<set_value name="$Account.$loan_balance" operation="subtract" exact="$Payment_amount - $loanInterest_amount" />
 										<do_if value="$Account.$arrears gt 0">
 											<do_if value="$Payment_amount ge $Account.$arrears">
 												<set_value name="$Account.$arrears" exact="0" />
 												<set_value name="$Account.$paymentsMissed" exact="0" />
-												<write_incoming_message highpriority="true" source="$Faction" title="'Payments Caught Up'" text="'Thank you for paying off your arrears.'" />
+												<write_incoming_message highpriority="true" source="$Faction.name" title="'Payments Caught Up'" text="'Thank you for paying off your arrears.'" />
 											</do_if>
 											<do_else>
 												<set_value name="$Account.$arrears" operation="subtract" exact="$Payment_amount" />
@@ -1352,7 +1397,6 @@
 						</cue>
 					</cues>
 				</cue>
-
 
 				<cue name="BankTransports" instantiate="true">
 					<conditions>
@@ -1704,8 +1748,8 @@
 					<actions>
 						<debug_text text="'LoanPayment: '+event.name" chance="global.$GB_Vault.$debug" />
 						<set_value name="global.$GB_Vault.$NextPayment" exact="player.age + global.$GB_Vault.$PaymentInterval" />
-						<do_for_each name="$faction" in="global.$GB_Vault.$Accounts.keys.list">
-							<set_value name="$Account" exact="global.$GB_Vault.$Accounts.{$faction}" />
+						<do_for_each name="$Faction" in="global.$GB_Vault.$Accounts.keys.list">
+							<set_value name="$Account" exact="global.$GB_Vault.$Accounts.{$Faction}" />
 							<set_value name="$AccountBalance" exact="$Account.$balance" />
 							<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
 							<set_value name="$PaymentsMissed" exact="$Account.$paymentsMissed" />
@@ -1719,10 +1763,10 @@
 										$AccountBalance lt $LoanBalance
 									)">
 									<show_help force="true" duration="8s"
-										custom="'You have received a Priority Message from '+$faction.name" position="20" />
+										custom="'You have received a Priority Message from '+$Faction.name" position="20" />
 									<set_value name="$Account.$arrears" operation="add" exact="$Payment" />
-									<show_notification text="$faction+' Not enough funds for loan payment.\nArrears: '+$Account.$arrears" />
-									<set_value name="$text" exact="'Your loan payment with '+$faction.name+' failed due to not enough funds in your account.\n\n'+
+									<show_notification text="$Faction+' Not enough funds for loan payment.\nArrears: %,s'.[$Account.$arrears]+'Cr'" />
+									<set_value name="$text" exact="'Your loan payment with '+$Faction.name+' failed due to not enough funds in your account.\n\n'+
 										($Payment)/1+'Cr is past due. Please make a manual payment of '+$Account.$arrears+'Cr.'" />
 
 									<set_value name="$Account.$paymentsMissed" operation="add" exact="1" />
@@ -1734,49 +1778,49 @@
 									</do_elseif>
 
 									<show_help force="true" duration="8s"
-										custom="'You have received a Priority Message from '+$faction.name" position="20" />
+										custom="'You have received a Priority Message from '+$Faction.name" position="20" />
 									<write_incoming_message highpriority="true"
-										source="$faction.name"
+										source="$Faction.name"
 										title="'Missed Loan Payment'"
 										text="$text" />
-									<add_faction_relation faction="$faction" otherfaction="faction.player" value="-0.0005 * if $PaymentsMissed gt 5 then 5 else $PaymentsMissed" reason="relationchangereason.missionfailed" />
+									<add_faction_relation faction="$Faction" otherfaction="faction.player" value="-0.0005 * if $PaymentsMissed gt 5 then 5 else $PaymentsMissed" reason="relationchangereason.missionfailed" />
 								</do_if>
 								<do_else>
 									<do_if value="$Payment ge $LoanBalance">
 										<set_value name="$Account.$balance" operation="subtract" exact="$LoanBalance" />
 										<set_value name="$Account.$loan_balance" exact="0" />
 										<set_value name="$Account.$payment" exact="0" />
-										<show_notification text="$faction+' Loan Paid Off. Payment: '+$LoanBalance+'\nLoan Balance: '+$Account.$loan_balance+'\nAccount Balance: '+$Account.$balance" />
+										<show_notification text="$Faction+' Loan Paid Off. Payment: %,s'.[$LoanBalance]+'Cr\nLoan Balance: %,s'.[$Account.$loan_balance]+'Cr\nAccount Balance: %,s'.[$Account.$balance]+'Cr'" />
 									</do_if>
 									<do_else>
 										<set_value name="$Account.$balance" operation="subtract" exact="$Payment" />
 										<set_value name="$Account.$loan_balance" operation="subtract" exact="$Payment" />
-										<show_notification text="$faction+' Loan Payment: '+$money+'\nLoan Balance: '+$Account.$loan_balance+'\nAccount Balance: '+$Account.$balance" />
+										<show_notification text="$Faction+' Loan Payment: %,s'.[$money]+'Cr\nLoan Balance: %,s'.[$Account.$loan_balance]+'Cr\nAccount Balance: %,s'.[$Account.$balance]+'Cr'" />
 									</do_else>
 								</do_else>
 								<!-- full gain at 10m Cr -->
 								<do_if value="$AccountBalance ge $Account.$maxRepCr*100">
 									<!-- max 30 -->
-									<do_if value="$faction.relationto.{faction.player} lt 1">
-										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
+									<do_if value="$Faction.relationto.{faction.player} lt 1">
+										<add_faction_relation faction="$Faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_if>
 								<do_elseif value="$AccountBalance ge $Account.$maxRepCr*10">
 									<!-- max 25 -->
-									<do_if value="$faction.relationto.{faction.player} lt 0.32">
-										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
+									<do_if value="$Faction.relationto.{faction.player} lt 0.32">
+										<add_faction_relation faction="$Faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_elseif>
 								<do_elseif value="$AccountBalance ge $Account.$maxRepCr">
 									<!-- max 20 -->
-									<do_if value="$faction.relationto.{faction.player} lt 0.1">
-										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
+									<do_if value="$Faction.relationto.{faction.player} lt 0.1">
+										<add_faction_relation faction="$Faction" otherfaction="faction.player" value="$Account.$paymentRepRate" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_elseif>
 								<do_elseif value="$AccountBalance gt 0">
 									<!-- max 15 -->
-									<do_if value="$faction.relationto.{faction.player} lt 0.032">
-										<add_faction_relation faction="$faction" otherfaction="faction.player" value="$Account.$paymentRepRate * $AccountBalance / $Account.$maxRepCr" reason="relationchangereason.missioncompleted" />
+									<do_if value="$Faction.relationto.{faction.player} lt 0.032">
+										<add_faction_relation faction="$Faction" otherfaction="faction.player" value="$Account.$paymentRepRate * $AccountBalance / $Account.$maxRepCr" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_elseif>
 							</do_if>
@@ -1785,7 +1829,7 @@
 				</cue>
 
 				<!-- 
-				$Accounts.{$faction} = table[
+				$Accounts.{$Faction} = table[
 					$balance = (int)ct,
 					$loan_ammount = float,
 					$interest_time = time,
@@ -1830,9 +1874,6 @@
 
 						<!-- set cue variablse -->
 						<set_value name="$Account" exact="$Accounts.{$Faction}" />
-						<set_value name="$AccountBalance" exact="$Account.$balance" />
-						<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
-						<set_value name="$CollateralValue" exact="$Account.$collateral_value" />
 						<set_value name="$LoanAmount" exact="0" />
 						<set_value name="$Rate" exact="$Account.$rate" />
 						<set_value name="$Period" exact="$Account.$period" />
@@ -1842,37 +1883,49 @@
 						<set_value name="$Ships" exact="table[]" />
 						<find_ship_by_true_owner name="$shipsXL" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_xl" />
 						<do_if value="$Collateral.$XL.count gt 0">
-							<do_for_each name="$ship" in="$Collateral.$XL">
+							<do_for_each name="$ship" in="$Collateral.$XL" reverse="true">
 								<do_if value="$shipsXL.indexof.{$ship}">
 									<remove_from_list name="$shipsXL" exact="$ship" />
 								</do_if>
+								<do_else>
+									<remove_from_list name="$Collateral.$XL" exact="$ship" />
+								</do_else>
 							</do_for_each>
 						</do_if>
 						<set_value name="$Ships.$XL" exact="$shipsXL" />
 						<find_ship_by_true_owner name="$shipsL" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_l" />
 						<do_if value="$Collateral.$L.count gt 0">
-							<do_for_each name="$ship" in="$Collateral.$L">
+							<do_for_each name="$ship" in="$Collateral.$L" reverse="true">
 								<do_if value="$shipsL.indexof.{$ship}">
 									<remove_from_list name="$shipsL" exact="$ship" />
 								</do_if>
+								<do_else>
+									<remove_from_list name="$Collateral.$L" exact="$ship" />
+								</do_else>
 							</do_for_each>
 						</do_if>
 						<set_value name="$Ships.$L" exact="$shipsL" />
 						<find_ship_by_true_owner name="$shipsM" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_m" />
 						<do_if value="$Collateral.$M.count gt 0">
-							<do_for_each name="$ship" in="$Collateral.$M">
+							<do_for_each name="$ship" in="$Collateral.$M" reverse="true">
 								<do_if value="$shipsM.indexof.{$ship}">
 									<remove_from_list name="$shipsM" exact="$ship" />
 								</do_if>
+								<do_else>
+									<remove_from_list name="$Collateral.$M" exact="$ship" />
+								</do_else>
 							</do_for_each>
 						</do_if>
 						<set_value name="$Ships.$M" exact="$shipsM" />
 						<find_ship_by_true_owner name="$shipsS" faction="faction.player" space="player.galaxy" multiple="true" class="class.ship_s" />
 						<do_if value="$Collateral.$S.count gt 0">
-							<do_for_each name="$ship" in="$Collateral.$S">
+							<do_for_each name="$ship" in="$Collateral.$S" reverse="true">
 								<do_if value="$shipsS.indexof.{$ship}">
 									<remove_from_list name="$shipsS" exact="$ship" />
 								</do_if>
+								<do_else>
+									<remove_from_list name="$Collateral.$S" exact="$ship" />
+								</do_else>
 							</do_for_each>
 						</do_if>
 						<set_value name="$Ships.$S" exact="$shipsS" />
@@ -1880,9 +1933,9 @@
 						<!-- update interest -->
 						<set_value name="$timeSinceInterest" exact="player.age - $Account.$interest_time" />
 						<do_if value="$timeSinceInterest ge 1">
-							<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+							<set_value name="$interest_amount" exact="$Account.$balance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 							<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
-							<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
+							<set_value name="$loanInterest_amount" exact="$Account.$loan_balance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
 							<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
 							<set_value name="$Account.$interest_time" exact="player.age" />
 						</do_if>
@@ -1895,6 +1948,12 @@
 							</conditions>
 							<delay exact="1ms" />
 							<actions>
+								<set_value name="$Account.$collateral_value" exact="0" />
+								<do_for_each name="$table" in="$Account.$collateral">
+									<do_for_each name="$ship" in="$Account.$collateral.{$table}">
+										<set_value name="$Account.$collateral_value" operation="add" exact="($ship.macro.ware.averageprice/100)f*$LoanCollateralRate" />
+									</do_for_each>
+								</do_for_each>
 								<debug_text text="'Bank_LoanMenu_Open: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$LoanAmount" exact="0" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
@@ -1902,9 +1961,9 @@
 									$columns = 2,
 									$title = $Title,
 									$height = 400,
-									$width = 495
+									$width = 595
 								]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=474]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
@@ -1918,7 +1977,14 @@
 									$col=1,
 									$colSpan=2,
 									$halign='center',
-									$text='Loan Balance: '+($LoanBalance)/1+'Cr'
+									$text='Loan Balance: %,s'.[($Account.$loan_balance)/1]+'Cr'
+								]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+									$col=1,
+									$colSpan=2,
+									$halign='center',
+									$text='Collateral Value: %,s'.[$Account.$collateral_value]+'Cr'
 								]" />
 								<!-- current collateral -->
 								<do_if value="$Collateral.$XL.count gt 0 or $Collateral.$L.count gt 0 or $Collateral.$M.count gt 0  or $Collateral.$S.count gt 0 ">
@@ -1938,9 +2004,9 @@
 											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 												$col=1,
 												$halign='left',
-												$text=$ship.name+': '+($value/100) / $LoanCollateralRate
+												$text=$ship.name+': %,s'.[($value/100)f * $LoanCollateralRate]+'Cr'
 											]" />
-											<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
+											<do_if value="$Account.$loan_balance lt 1 or $Account.$loan_balance lt ($Account.$collateral_value - $value/100*$LoanCollateralRate)">
 												<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 													$id = $ship,
 													$col = 2,
@@ -1964,9 +2030,9 @@
 											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 												$col=1,
 												$halign='left',
-												$text=$ship.name+': '+($value/100) / $LoanCollateralRate
+												$text=$ship.name+': %,s'.[($value/100)f * $LoanCollateralRate]+'Cr'
 											]" />
-											<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
+											<do_if value="$Account.$loan_balance lt 1 or $Account.$loan_balance lt ($Account.$collateral_value - $value/100*$LoanCollateralRate)">
 												<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 													$id = $ship,
 													$col = 2,
@@ -1990,9 +2056,9 @@
 											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 												$col=1,
 												$halign='left',
-												$text=$ship.name+': '+($value/100) / $LoanCollateralRate
+												$text=$ship.name+': %,s'.[($value/100)f * $LoanCollateralRate]+'Cr'
 											]" />
-											<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
+											<do_if value="$Account.$loan_balance lt 1 or $Account.$loan_balance lt ($Account.$collateral_value - $value/100*$LoanCollateralRate)">
 												<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 													$id = $ship,
 													$col = 2,
@@ -2016,9 +2082,9 @@
 											<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 												$col=1,
 												$halign='left',
-												$text=$ship.name+': '+($value/100) / $LoanCollateralRate
+												$text=$ship.name+': %,s'.[($value/100)f * $LoanCollateralRate]+'Cr'
 											]" />
-											<do_if value="$LoanBalance * $LoanCollateralRate lt $CollateralValue - $value">
+											<do_if value="$Account.$loan_balance lt 1 or $Account.$loan_balance lt ($Account.$collateral_value - $value/100*$LoanCollateralRate)">
 												<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 													$id = $ship,
 													$col = 2,
@@ -2029,18 +2095,6 @@
 										</do_for_each>
 									</do_if>
 								</do_if>
-
-								<!-- add collateral -->
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-									$col=1,
-									$colSpan=2,
-									$halign='center',
-									$text='Add Collateral'
-								]" />
-
 								<!-- can't collateral your last ship -->
 								<do_if value="$shipsXL.count + $shipsL.count + $shipsM.count + $shipsS.count lt 2">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -2056,6 +2110,16 @@
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 								</do_if>
 								<do_else>
+									<!-- add collateral -->
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+										$col=1,
+										$colSpan=2,
+										$halign='center',
+										$text='Add Collateral'
+									]" />
 									<do_if value="$shipsXL.count gt 0">
 										<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 										<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
@@ -2101,20 +2165,20 @@
 										]" />
 									</do_if>
 								</do_else>
-
 								<!-- make loan -->
-								<do_if value="$Collateral.$XL.count + $Collateral.$L.count + $Collateral.$M.count + $Collateral.$S.count gt 0 and $CollateralValue / $LoanCollateralRate - $LoanBalance gt 0">
+								<debug_text text="'make loan: '+$Collateral.$XL.count+' | '+$Collateral.$L.count+' | '+$Collateral.$M.count+' | '+$Collateral.$S.count +' | '+$Account.$collateral_value+' | '+$LoanCollateralRate+' | '+$Account.$loan_balance" chance="global.$GB_Vault.$debug" />
+								<do_if value="$Collateral.$XL.count + $Collateral.$L.count + $Collateral.$M.count + $Collateral.$S.count gt 0 and $Account.$collateral_value - $Account.$loan_balance gt 0">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='Payment every '+$PaymentInterval+' is 2% of loan.']" />
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[$col=1, $text='Payment every '+$PaymentInterval/60+'min is 2% of loan.']" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
 										$id = 'sliderPayment',
 										$start = 0,
 										$col = 1,
 										$text = table[$text=''],
-										$min = 0, $max = ($CollateralValue / $LoanCollateralRate - $LoanBalance)/1, $step = 1, $suffix='Cr',
+										$min = 0, $max = ($Account.$collateral_value - $Account.$loan_balance)/1, $step = 1, $suffix='Cr',
 										$default = 0,
 										$onSliderCellChanged = Bank_LoanMenu_Loan_Amount
 									]" />
@@ -2133,7 +2197,9 @@
 							<conditions>
 								<event_cue_signalled />
 							</conditions>
+							<delay exact="1ms" />
 							<actions>
+								<set_value name="$checked" exact="table[]" />
 								<debug_text text="'Bank_LoanMenu_Find_Collateral: '+event.name" chance="global.$GB_Vault.$debug" />
 								<set_value name="$size" exact="event.param.$id" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
@@ -2142,55 +2208,79 @@
 									$columns = 2,
 									$title = 'Add '+$size+' Collateral',
 									$height = 400,
-									$width = 495
+									$width = 595
 								]" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=474]" />
 								<signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
 								<do_for_each name="$ship" in="$Ships.{'$'+$size}">
 									<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
 										$col=1,
 										$halign='left',
-										$text=$ship.name+': '+(($ship.macro.ware.averageprice)f/100) / $LoanCollateralRate
+										$text=$ship.name+': %,s'.[($ship.macro.ware.averageprice/100)f * $LoanCollateralRate]+'Cr'
 									]" />
-									<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+									<signal_cue_instantly cue="md.Simple_Menu_API.Make_CheckBox" param="table[
 										$id = $ship,
+                    $checked = @$checked.{$ship},
+                    $col = 2,
+                    $width = 20,
+                    $text = table[$text=''],
+                    $onClick = Bank_LoanMenu_Check_Collateral
+                  ]" />
+								</do_for_each>
+								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
+								<signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
 										$col = 2,
 										$text = table[$text='Add'],
 										$onClick = Bank_LoanMenu_Add_Collateral
 									]" />
-								</do_for_each>
 							</actions>
-						</cue>
-						<!-- buttons -->
-						<cue name="Bank_LoanMenu_Add_Collateral" instantiate="true">
-							<conditions>
-								<event_cue_signalled />
-							</conditions>
-							<actions>
-								<debug_text text="'Bank_LoanMenu_Add_Collateral: '+event.name" chance="global.$GB_Vault.$debug" />
-								<set_value name="$ship" exact="event.param.$id" />
-								<set_value name="$class" exact="$ship.class" />
-								<do_if value="$class == class.ship_xl">
-									<append_to_list name="$Collateral.$XL" exact="$ship" />
-									<remove_from_list name="$shipsXL" exact="$ship" />
-								</do_if>
-								<do_elseif value="$class == class.ship_l">
-									<append_to_list name="$Collateral.$L" exact="$ship" />
-									<remove_from_list name="$shipsL" exact="$ship" />
-								</do_elseif>
-								<do_elseif value="$class == class.ship_m">
-									<append_to_list name="$Collateral.$M" exact="$ship" />
-									<remove_from_list name="$shipsM" exact="$ship" />
-								</do_elseif>
-								<do_else>
-									<append_to_list name="$Collateral.$S" exact="$ship" />
-									<remove_from_list name="$shipsS" exact="$ship" />
-								</do_else>
-								<set_value name="$Account.$collateral_value" operation="add" exact="($ship.macro.ware.averageprice)f/100" />
-								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
-								<signal_cue_instantly cue="Bank_LoanMenu_Open" />
-							</actions>
+							<cues>
+								<!-- checkbox -->
+								<cue name="Bank_LoanMenu_Check_Collateral" instantiate="true">
+									<conditions>
+										<event_cue_signalled />
+									</conditions>
+									<actions>
+										<debug_text text="'Bank_LoanMenu_Check_Collateral: '+event.name" chance="global.$GB_Vault.$debug" />
+										<set_value name="$checked.{event.param.$id}" exact="event.param.$checked" />
+										<cancel_cue cue="this" />
+									</actions>
+								</cue>
+								<!-- buttons -->
+								<cue name="Bank_LoanMenu_Add_Collateral" instantiate="true">
+									<conditions>
+										<event_cue_signalled />
+									</conditions>
+									<actions>
+										<debug_text text="'Bank_LoanMenu_Add_Collateral: '+event.name" chance="global.$GB_Vault.$debug" />
+										<do_for_each name="$ship" in="$checked">
+											<do_if value="$checked.{$ship}">
+												<set_value name="$class" exact="$ship.class" />
+												<do_if value="$class == class.ship_xl">
+													<append_to_list name="$Collateral.$XL" exact="$ship" />
+													<remove_from_list name="$shipsXL" exact="$ship" />
+												</do_if>
+												<do_elseif value="$class == class.ship_l">
+													<append_to_list name="$Collateral.$L" exact="$ship" />
+													<remove_from_list name="$shipsL" exact="$ship" />
+												</do_elseif>
+												<do_elseif value="$class == class.ship_m">
+													<append_to_list name="$Collateral.$M" exact="$ship" />
+													<remove_from_list name="$shipsM" exact="$ship" />
+												</do_elseif>
+												<do_else>
+													<append_to_list name="$Collateral.$S" exact="$ship" />
+													<remove_from_list name="$shipsS" exact="$ship" />
+												</do_else>
+												<set_value name="$Account.$collateral_value" operation="add" exact="($ship.macro.ware.averageprice/100)f * $LoanCollateralRate" />
+											</do_if>
+										</do_for_each>
+										<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+										<signal_cue_instantly cue="Bank_LoanMenu_Open" />
+									</actions>
+								</cue>
+							</cues>
 						</cue>
 						<cue name="Bank_LoanMenu_Remove_Collateral" instantiate="true">
 							<conditions>
@@ -2216,7 +2306,10 @@
 									<remove_from_list name="$Collateral.$S" exact="$ship" />
 									<append_to_list name="$shipsS" exact="$ship" />
 								</do_else>
-								<set_value name="$Account.$collateral_value" operation="subtract" exact="($ship.macro.ware.averageprice)f/100" />
+								<set_value name="$Account.$collateral_value" operation="subtract" exact="($ship.macro.ware.averageprice/100)f * $LoanCollateralRate" />
+								<do_if value="$Account.$collateral_value lt 0 or ($Collateral.$S.count == 0 and $Collateral.$M.count == 0 and $Collateral.$L.count == 0 and $Collateral.$XL.count == 0)">
+									<set_value name="$Account.$collateral_value" exact="0" />
+								</do_if>
 								<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
 								<signal_cue_instantly cue="Bank_LoanMenu_Open" />
 							</actions>
@@ -2242,26 +2335,29 @@
 							<actions>
 								<debug_text text="'Bank_LoanMenu_Issue_Loan: '+event.name" chance="global.$GB_Vault.$debug" />
 								<!-- update interest -->
-								<set_value name="$interest_amount" exact="$AccountBalance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
+								<set_value name="$interest_amount" exact="$Account.$balance * ((1+$Rate)^($timeSinceInterest / $Period) - 1)" />
 								<set_value name="$Account.$balance" operation="add" exact="$interest_amount" />
-								<set_value name="$loanInterest_amount" exact="$LoanBalance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
-								<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
-								<set_value name="$Account.$interest_time" exact="player.age" />
-								<do_if value="$CollateralValue / $LoanCollateralRate - $Account.$loan_balance ge $LoanAmount">
-									<signal_cue_instantly cue="Transfer" param="table[$faction = $faction, $money = ($LoanAmount)Cr]" />
-									<set_value name="$Account.$loan_balance" operation="add" exact="$LoanAmount" />
+								<debug_text text="'issue loan: '+$Account.$collateral_value+' minus '+$Account.$loan_balance+' equals '+$Account.$collateral_value * $LoanCollateralRate - $Account.$loan_balance+' ge '+$LoanAmount" chance="global.$GB_Vault.$debug" />
+								<do_if value="$Account.$collateral_value - $Account.$loan_balance ge $LoanAmount">
+									<signal_cue_instantly cue="Transfer" param="table[$Faction = $Faction, $money = ($LoanAmount)Cr, $message='New Loan']" />
+									<set_value name="$loanInterest_amount" exact="$Account.$loan_balance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
+									<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount+$LoanAmount" />
+									<set_value name="$Account.$interest_time" exact="player.age" />
 									<set_value name="$newPayment" exact="$LoanAmount / 50" /> <!-- payment = 2% -->
 									<set_value name="$Account.$payment" operation="add" exact="$newPayment" />
-									<set_value name="$newLoanText" exact="'New Loan Amount: '+$LoanAmount+'Cr\nPayment: '+($newPayment)/1+'Cr\n Your payment is automatically deducted from your account every '+$PaymentInterval+' minutes.'" />
+									<set_value name="$newLoanText" exact="'New Loan Amount: %,s'.[$LoanAmount]+'Cr\nPayment: %,s'.[($newPayment)/1]+'Cr\n Your payment is automatically deducted from your account every '+$PaymentInterval/60+' minutes.'" />
 									<do_if value="$Account.$payment gt $newPayment">
-										<set_value name="$newLoanText" operation="add" exact="'\n\nCurrent Loan Balance: '+$Account.$loan_balance/1+'\nTotal Payment: '+($Account.$payment/1" />
+										<set_value name="$newLoanText" operation="add" exact="'\n\nCurrent Loan Balance: %,s'.[$Account.$loan_balance/1]+'Cr\nTotal Payment: %,s'.[($Account.$payment)/1]+'Cr'" />
 									</do_if>
 									<show_help force="true" duration="8s"
-										custom="'You have received a Priority Message from '+$faction.name" position="20" />
-									<write_incoming_message highpriority="true" source="$faction" title="'New loan'" text="$newLoanText" />
+										custom="'You have received a Priority Message from '+$Faction.name" position="20" />
+									<write_incoming_message highpriority="true" source="$Faction.name" title="'New loan'" text="$newLoanText" />
 									<signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
 								</do_if>
 								<do_else>
+									<set_value name="$loanInterest_amount" exact="$Account.$loan_balance * ((1+$LoanRate)^($timeSinceInterest / $LoanInterestPeriod) - 1)" />
+									<set_value name="$Account.$loan_balance" operation="add" exact="$loanInterest_amount" />
+									<set_value name="$Account.$interest_time" exact="player.age" />
 									<cancel_cue cue="this" />
 								</do_else>
 							</actions>
@@ -2270,9 +2366,12 @@
 				</cue>
 
 				<!-- api -->
-				<!-- param: table[$faction = faction.factionid, $money = Cr, $message = string] -->
+				<!-- param: table[
+					$Faction = faction.factionid,
+					$money = ()Cr,
+					$message = string
+				] -->
 				<!-- positive money is deposit, negative is withdrawal -->
-				<!-- transfer in Cr -->
 				<cue name="Transfer">
 					<conditions>
 						<event_cue_signalled />
@@ -2285,12 +2384,12 @@
 						<do_else>
 							<set_value name="$message" exact="null" />
 						</do_else>
-						<set_value name="$faction" exact="event.param.$faction" />
-						<do_if value="$faction.hastag.{tag.economic}">
-							<do_if value="not $Accounts.keys.list.indexof.{$faction}">
-								<set_value name="$faction" exact="faction.bankingclan" />
+						<set_value name="$Faction" exact="event.param.$Faction" />
+						<do_if value="$Faction.hastag.{tag.economic}">
+							<do_if value="not $Accounts.keys.list.indexof.{$Faction}">
+								<set_value name="$Faction" exact="faction.bankingclan" />
 							</do_if>
-							<set_value name="$Account" exact="$Accounts.{$faction}" />
+							<set_value name="$Account" exact="$Accounts.{$Faction}" />
 							<set_value name="$AccountBalance" exact="$Account.$balance" />
 							<set_value name="$LoanBalance" exact="$Account.$loan_balance" />
 							<do_if value="$AccountBalance == 0 and $LoanBalance == 0">
@@ -2307,10 +2406,10 @@
 							<set_value name="$money" exact="event.param.$money" />
 							<set_value name="$Account.$balance" operation="add" exact="($money)f/100" />
 							<do_if value="$money > 0">
-								<set_value name="$text" exact="$faction+' Deposit: '+($money)f/100+'\nBalance: '+$Account.$balance" />
+								<set_value name="$text" exact="$Faction+' Deposit: %,s'.[($money)f/100]+'Cr\nBalance: %,s'.[$Account.$balance]+'Cr'" />
 							</do_if>
 							<do_else>
-								<set_value name="$text" exact="$faction+' Withdrawal: '+($money)f/100+'\nBalance: '+$Account.$balance" />
+								<set_value name="$text" exact="$Faction+' Withdrawal: %,s'.[($money)f/100]+'Cr\nBalance: %,s'.[$Account.$balance]+'Cr'" />
 							</do_else>
 							<do_if value="not ($message == null)">
 								<set_value name="$text" exact="$text+'\n'+$message" />
@@ -2346,7 +2445,7 @@
 							$text = 'Access Lootbox',
 							$icon = 'menu_swi_credits',
 							$callback = Lootbox_Menu,
-							$echo = table[$faction = event.param.$object.owner]
+							$echo = table[$Faction = event.param.$object.owner]
 						]" />
 						<reset_cue cue="this" />
 					</actions>
@@ -2601,15 +2700,15 @@
 												<!-- 50% chance lootbox hacks and broadcasts player's identity to banking clan -->
 												<do_if value="not $bypassed and $size == 1" chance="50">
 													<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="-0.0032" reason="relationchangereason.hackingdiscovered" />
-													<show_notification text="'{20777,2023} {20777,2022}: '+$reward+'Cr'" />
+													<show_notification text="'{20777,2023} {20777,2022}: %,s'.[$reward]+'Cr'" />
 												</do_if>
 												<do_elseif value="not $bypassed and $size== 2" chance="50">
 													<add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="-0.01" reason="relationchangereason.hackingdiscovered" />
-													<show_notification text="'{20777,2023} {20777,2022}: '+$reward+'Cr'" />
+													<show_notification text="'{20777,2023} {20777,2022}: %,s'.[$reward]+'Cr'" />
 												</do_elseif>
 												<!-- Success -->
 												<do_else>
-													<show_notification text="'{20777,2022}: '+$reward+'Cr'" />
+													<show_notification text="'{20777,2022}: %,s'.[$reward]+'Cr'" />
 												</do_else>
 												<reward_player money="$reward" />
 											</do_if>
