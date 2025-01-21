@@ -9,7 +9,7 @@
 			<do_if value="@$md.GettingAJobTest.Work.$Factions.{$gajfaction}.$hired">
 				<signal_cue_instantly cue="md.GettingAJobTest.LogWork" param="table[$faction = $gajfaction, $RewardCr = $bounty]" />
 			</do_if>
-			<signal_cue_instantly cue="md.GalacticBankRC2.Transfer" param="table[$faction = $gajfaction, $money = $bounty]" />
+			<signal_cue_instantly cue="md.GalacticBankRC3.Transfer" param="table[$faction = $gajfaction, $money = $bounty]" />
 		</do_if>
 	</replace>
 

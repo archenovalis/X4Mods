@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aiscript name="sellships_move.sell" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/aiscripts.xsd" version="2">
+  <order id="SellShips_MoveSell" name="'Sell Ship'" description="'Sell Ship'" category="internal" allowinloop="false">
+    <params>
+      <param name="station" required="true" type="object" default="false" text="{1041, 10027}" comment="Destination station." />
+      <param name="rewardCr" type="money" default="null" text="'Sell price'" comment="Amount to be paid." />
+      <param name="debugchance" type="bool" default="0" advanced="true" text="{1041, 10086}" comment="Print debug output">
+        <input_param name="truevalue" value="100" />
+      </param>
+    </params>
+    <requires>
+      <match class="class.spacesuit" negate="true" />
+    </requires>
+    <location object="$station" />
+  </order>
+  <interrupts>
+    <!-- <handler>
+      <conditions>
+        <check_any>
+          <event_object_destroyed object="this.assignedcontrolled" />
+        </check_any>
+      </conditions>
+      <actions>
+        <remove_from_group group="md.GalacticBankRC3.Vault.$BankTransports" object="this.ship" />
+        <abort_called_scripts resume="finish" />
+      </actions>
+    </handler> -->
+    <handler ref="SectorChangeHandler" />
+    <handler ref="AttackHandler" />
+    <handler ref="MissileLockHandler" />
+    <handler ref="ScannedHandler" />
+    <handler ref="InspectedHandler" />
+    <handler ref="ResupplyHandler" />
+    <handler ref="TideHandler" />
+  </interrupts>
+
+  <init>
+
+  </init>
+
+  <attention min="unknown">
+    <actions>
+      <set_value name="$destination" exact="$station.sector" />
+      <label name="move_to_destination" />
+      <debug_text text="'move_to_destination: '+$destination.knownname" chance="$debugchance" />
+
+      <!-- skip the movement step if we are already there -->
+      <do_if value="this.ship.sector == $destination">
+        <debug_text text="'already at destination %1 (%2)'.[$destination.knownname, $destination]" chance="$debugchance" />
+        <resume label="sell" />
+      </do_if>
+
+      <!-- move -->
+      <do_if value="@this.ship.sector != $destination">
+        <debug_text text="player.age + ' moving to ' + $destination.knownname" chance="$debugchance" />
+        <create_order id="'MoveGeneric'" object="this.ship" immediate="true">
+          <param name="destination" value="$destination" />
+          <param name="debugchance" value="$debugchance" />
+        </create_order>
+        <return />
+      </do_if>
+      <do_else>
+        <debug_text text="player.age + ' at ' + $destination.knownname" chance="$debugchance" />
+      </do_else>
+
+      <label name="sell" />
+      <debug_text text="'selling'" chance="$debugchance" />
+
+      <set_owner object="this.ship" faction="$station.owner" />
+      <add_build_to_recycle_ship result="$build" object="$station" buildobject="this.ship" />
+      <create_order object="this.ship" id="Recycle">
+        <param name="build" value="$build" />
+        <param name="usecover" value="false" />
+        <param name="internalorder" value="true" />
+      </create_order>
+      <do_if value="$rewardCr != null">
+        <reward_player money="$rewardCr" />
+      </do_if>
+    </actions>
+  </attention>
+  <on_abort>
+    <remove_from_group group="global.$GAJ_SellShips.$SellShipsGroup" object="this.Ship" />
+    <remove_value name="global.$GAJ_SellShips.$SellShips.{this.ship}" />
+  </on_abort>
+</aiscript>

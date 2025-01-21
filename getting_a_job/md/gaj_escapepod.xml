@@ -3,39 +3,208 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
   <cues>
     <cue name="EscapePod">
+      <conditions>
+        <check_any>
+          <event_game_loaded />
+          <event_game_started />
+          <event_player_created />
+          <event_cue_signalled cue="md.Setup.Start" />
+        </check_any>
+      </conditions>
+      <actions>
+        <create_group groupname="$EscapePods" />
+        <set_value name="$GroupsAtStation" exact="table[]" />
+      </actions>
       <cues>
-        <cue name="LaunchPod" instantiate="true">
+        <cue name="Launch" instantiate="true">
           <conditions>
             <event_cue_signalled />
           </conditions>
           <actions>
             <set_value name="$ship" exact="player.ship" />
-            <find_dockingbay name="$dock" object="$ship">
-              <match_dock size="tag.dock_xs" />
-            </find_dockingbay>
-            <create_position name="$position" space="$ship.sector" object="$dock" />
-            <set_value name="$roll" min="-359deg" max="359deg" />
-            <create_rotation name="$dockrotation" value="$dock.relativerotation.{$ship.zone}" />
-            <create_rotation name="$rotation" pitch="$dockrotation.pitch" yaw="$dockrotation.yaw" roll="$roll" />
+
+            <set_value name="$shipRot" exact="$ship.rotation" />
+            <set_value name="$shipSpeed" exact="$ship.speed" />
+            <set_value name="$InitialPodVel" exact="vector.[$shipRot.forward.x * $shipSpeed, $shipRot.forward.y * $shipSpeed, $shipRot.forward.z * $shipSpeed]" />
+            <set_value name="$LaunchRRotation" exact="$shipRot.right" />
+            <set_value name="$LaunchRRotation" exact="vector.[-$LaunchRotation.x, -$LaunchRotation.y, -$LaunchRotation.z].rotation" />
+            <set_value name="$LaunchRPosX" exact="-$ship.width - 5m" />
+            <set_value name="$LaunchLRotation" exact="$shipRot.right" />
+            <set_value name="$LaunchLRotation" exact="$LaunchRotation.rotation" />
+            <set_value name="$LaunchLPosX" exact="$ship.width + 5m" />
+
+            <!-- player -->
+            <set_value name="$right" exact="true" />
+            <set_value name="$right" exact="false" chance="50" />
+            <do_if value="$right">
+              <set_value name="$LaunchRotation" exact="$LaunchRRotation" />
+              <set_value name="$LaunchRotation" exact="$LaunchRRotation" />
+              <set_value name="$LaunchPosX" exact="$LaunchRPosX" />
+            </do_if>
+            <do_else>
+              <set_value name="$LaunchRotation" exact="$LaunchLRotation" />
+              <set_value name="$LaunchRotation" exact="$LaunchLRotation" />
+              <set_value name="$LaunchPosX" exact="$LaunchLPosX" />
+            </do_else>
+            <set_value name="$LaunchPushVel" exact="vector.[$LaunchRotation.forward.x * 500m, $LaunchRotation.forward.y * 500m, $LaunchRotation.forward.z * 500m]" />
+
             <create_ship name="$pod" macro="ship_gen_xs_escapepod_01_a_player_macro" sector="player.sector" capturable="false" sellable="false">
               <owner exact="faction.player" overridenpc="true" />
-              <position value="$position" />
-              <rotation value="$rotation" />
+              <safepos object="$ship" x="$LaunchPosX" z="-1m" allowyaxis="true" />
+              <rotation value="$LaunchRotation" />
+              <orientation refobject="$ship" orientation="look_away" />
             </create_ship>
-            <do_if value="not $pod.exists">
-              <create_ship name="$pod" macro="ship_gen_xs_escapepod_01_a_player_macro" sector="player.sector" capturable="false" sellable="false">
-                <owner exact="faction.player" overridenpc="true" />
-                <orientation refobject="$ship" orientation="look_away" />
-                <safepos object="$ship" />
-              </create_ship>
-            </do_if>
             <disable_collisions_between object="$pod" target="$ship" />
             <disable_collision_response object="$pod" />
-            <do_if value="not $pod.exists">
-              <cancel_cue cue="this" />
+            <set_object_velocity object="$Pod">
+              <linear value="$InitialPodVel" />
+            </set_object_velocity>
+          </actions>
+          <cues>
+            <cue name="TeleportPlayer">
+              <actions>
+                <teleport_player object="$pod" instant="true" force="true" control="true" />
+                <signal_cue_instantly cue="LaunchNPCs" param="table[$launcher = $ship, $list = $ship.people.list, $chance = 'morale']" />
+              </actions>
+            </cue>
+          </cues>
+        </cue>
+        <!-- 
+          event.param.$launcher = {required} launching object
+          event.param.$list = {required} list of npc templates
+          event.param.$chance = {required} integer or 'morale' (100% at 4 stars)
+          event.param.$slots = integer (default = 10)
+          event.param.$newFaction = faction (default = faction.player)
+        -->
+        <cue name="LaunchNPCs">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <!-- params -->
+            <do_if value="event.param.$chance == 'morale'">
+              <set_value name="$chance" exact="[11 + $person.skill.morale * 8, 95].min" />
+            </do_if>
+            <do_else>
+              <set_value name="$chance" exact="event.param.$chance" />
+            </do_else>
+            <do_if value="@event.param.$slots gt 0">
+              <set_value name="$perPod" exact="event.param.$slots" />
+            </do_if>
+            <do_else>
+              <set_value name="$perPod" exact="10" />
+            </do_else>
+            <do_if value="@event.param.$newFaction">
+              <set_value name="$faction" exact="event.param.$newFaction" />
+            </do_if>
+            <do_else>
+              <set_value name="$faction" exact="faction.player" />
+            </do_else>
+
+            <!-- grouping -->
+            <set_value name="$podNum" exact="1" />
+            <set_value name="$groups" exact="table[]" />
+            <do_for_each name="$person" in="event.param.$list">
+              <!-- 4 star and above have max chance of 95% -->
+              <append_to_list name="$groups.{'$'+'group'+$podNum}" exact="$person" chance="$chance" create="true" />
+              <do_if value="$groups.{'$'+'group'+$podNum}.count == $perPod">
+                <set_value name="$podNum" operation="add" exact="1" />
+              </do_if>
+            </do_for_each>
+
+            <!-- launch pods -->
+            <do_if value="$groups.count gt 0">
+              <find_station name="$destination" space="player.galaxy" sortbydistanceto="$launcher">
+                <match_relation_to faction="$faction" relation="neutral" comparison="ge" />
+              </find_station>
+              <do_for_each name="$group" in="$groups">
+                <set_value name="$right" exact="true" />
+                <set_value name="$right" exact="false" chance="50" />
+                <do_if value="$right">
+                  <set_value name="$LaunchRotation" exact="$LaunchRRotation" />
+                  <set_value name="$LaunchRotation" exact="$LaunchRRotation" />
+                  <set_value name="$LaunchPosX" exact="$LaunchRPosX" />
+                </do_if>
+                <do_else>
+                  <set_value name="$LaunchRotation" exact="$LaunchLRotation" />
+                  <set_value name="$LaunchRotation" exact="$LaunchLRotation" />
+                  <set_value name="$LaunchPosX" exact="$LaunchLPosX" />
+                </do_else>
+                <set_value name="$LaunchPushVel" exact="vector.[$LaunchRotation.forward.x * 500m, $LaunchRotation.forward.y * 500m, $LaunchRotation.forward.z * 500m]" />
+                <!-- ship_gen_xs_boardingpod_01_a_macro -->
+                <create_ship name="$Pod" macro="ship_gen_xs_escapepod_01_a_player_macro" zone="$launcher.zone">
+                  <owner exact="$faction" overridenpc="true" />
+                  <pilot>
+                    <select race="race.drone" tags="tag.aipilot" />
+                  </pilot>
+                  <safepos object="$launcher" x="$LaunchPosX" z="-1m" allowyaxis="true" />
+                  <rotation value="$LaunchRotation" />
+                  <orientation refobject="$launcher" orientation="look_away" />
+                </create_ship>
+                <disable_collisions_between object="$Pod" target="$launcher" />
+                <disable_collision_response object="$Pod" />
+                <set_object_velocity object="$Pod">
+                  <linear value="$InitialPodVel" />
+                </set_object_velocity>
+                <transfer_people object="$Pod" otherobject="$launcher">
+                  <existing_people people="$group" />
+                </transfer_people>
+                <create_order id="'Flee'" object="$Pod" immediate="true">
+                  <param name="method" value="'dock'" />
+                  <param name="holdfire" value="true" />
+                  <param name="maxboostdistance" value="100km" />
+                  <param name="maxboostduration" value="12s" />
+                </create_order>
+                <add_to_group groupname="$EscapePods" object="$Pod" />
+                <do_if value="$faction == faction.player">
+                  <set_value name="$EscapeGroups.{$Pod}" exact="$group" />
+                </do_if>
+              </do_for_each>
             </do_if>
           </actions>
         </cue>
+
+        <cue name="Docked" instantiate="true">
+          <conditions>
+            <event_object_docked group="$EscapePods" />
+            <check_value value="@$EscapePods.count gt 0" />
+          </conditions>
+          <actions>
+            <set_value name="$Pod" exact="event.object" />
+            <remove_from_group group="$EscapePods" object="$Pod" />
+            <do_if value="player.ship == $Pod">
+              <teleport_player object="event.param" />
+            </do_if>
+            <do_elseif value="$Pod.owner == faction.player">
+              <transfer_people object="$Pod" otherobject="event.param">
+                <existing_people people="$EscapeGroups.{$Pod}" />
+              </transfer_people>
+              <add_to_group groupname="$EscapeStations" object="event.param" />
+              <do_for_each name="$item" in="$EscapeGroups.{$Pod}">
+                <append_to_list name="$EscapeGroups.{event.param}" exact="$item" create="true" />
+              </do_for_each>
+              <remove_value name="$EscapeGroups.{$Pod}" />
+              <write_incoming_message source="'Distress Call'" title="'Evacuated Crew Arrived Safely'" object="event.param" interaction="showonmap" text="$EscapeGroups.{event.param}.count+' are ready for pickup at: '+event.param.knownnam+' in '+event.param.sector.knownname" />
+            </do_elseif>
+          </actions>
+          <cues>
+            <cue name="Destroy">
+              <actions>
+                <destroy_object object="$Pod" />
+              </actions>
+            </cue>
+          </cues>
+        </cue>
+        <cue name="Destroyed">
+          <conditions>
+            <event_object_destroyed group="$EscapePods" />
+          </conditions>
+          <actions>
+            <remove_from_group group="$EscapePods" object="event.object" />
+          </actions>
+        </cue>
+        <!-- todo: transfer crew button added to escapestations -->
+        <!-- <cue name=""></cue> -->
       </cues>
     </cue>
   </cues>

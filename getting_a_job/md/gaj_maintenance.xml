@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="GAJ_Maintenance" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../xsd/md.xsd">
+  <!-- GUIDELINE:
+Ship maintanace cost = its $threatscore
+Total costs of all ships will be multiplied by $PowerCostMult1 that is based on $PlayerPower level (no payment if you are nobody)
+
+Sector supply value - how much of total $threatscore is negated from maintenece cost if player ownes the sector, EQ docks improve that parameter
+Ship Supplies - new ware for ship building, it also will be consumed on EQ docks to increase $SuppplyLevel of a sector by x2 max
+
+Each cycle we do:
+1. Calculate total Supply Cost of all ships (their total $threatscore = TotalSupplyCost)
+2. Multiply total Supply Cost by Player Power ($TotalSupplyCost * $PowerCostMultFinal = $TotalSupplyCostFinal)
+3. Check for owned sectors and calculate their Supply level ($SupplyLevelBasic, defaulted for most sectors, but some give more, need table for this below)
+4. Check for EQ docks (each DIFFERNT ship size EQ dock adds 1 to multiplier to sector supply, up to 4 with all ship sizes) in each of owned sectors and consume Supply wares to satisfy Supply Demand ($AllSectorsSupplyLevelTotal, $FinalSupplyCost and $TotalWaresToRemove)
+5. Calculate $FinalSupplyCost if we still have something to cover (if 0 or lower, nothing to pay.)
+6. If $FinalSupply >0 after wares consumption, then multiply by $DefaultCostMultiplier and pay in credits.
+7. If not enough credits to pay, something bad happens (maybe some ships will leave you or take damage, still to decide)
+-->
+
+  <!-- todo:
+lua menu
+  combine buttons and text
+
+  create section showing:
+    last cycle
+    next cycle
+    total salary
+    number of supply ships
+    number of dedicated resupply ships
+    number of resupply ships
+    number of ships with low supplies (button to set cycle remaining)
+
+aiscripts:
+  size_s ships buy supplies by the unit instead of by the container
+  resupply ships buy supplies by the container, and then deliver them to ships which consume them
+-->
+
+  <cues>
+    <cue name="Maint" namespace="this" version="1" mapeditor="false">
+      <conditions>
+        <check_any>
+          <event_cue_signalled cue="md.Setup.GameStart" />
+          <event_player_created />
+        </check_any>
+        <check_value value="player.galaxy.macro == macro.swi_galaxy_macro" comment="only in main-galaxy" />
+      </conditions>
+      <actions>
+        <set_value name="global.$GAJ_Maint" exact="this" />
+        <!-- used in other cues/aiscripts -->
+        <create_group groupname="Maint.$SupplyGroup" />
+        <create_group groupname="Maint.$DedicatedGroup" />
+        <create_group groupname="Maint.$ResupplyGroup" />
+        <set_value name="Maint.$LastCycle" exact="table[]" />
+        <set_value name="Maint.$SupplyTable" exact="table[]" />
+        <set_value name="Maint.$WearTearTable" exact="table[]" />
+        <set_value name="Maint.$SupplyShips" exact="table[]" />
+        <set_value name="Maint.$HomeSectors" exact="table[]" />
+        <set_value name="Maint.$GateRanges" exact="table[]" />
+        <set_value name="Maint.$DesiredSupplies" exact="table[]" />
+
+        <set_value name="Maint.$Props" exact="table[]" />
+        <!-- 
+          ReceiveDeliveriesProps (checkbox)
+          SetDesiredProps
+          RemoveSupplyShipProps
+          ChangeSupplyShipProps
+          MakeRangeResupplyProps
+          SetHomeSectorProps
+          SetRangeProps
+          MakeDedicatedProps
+          MakeSupplyShipProps
+        -->
+        <set_value name="$Props.$ReceiveDeliveries" exact="table[
+          $width = 20
+        ]" />
+        <set_value name="$Props.$SetDesired" exact="table[
+        $width=100,
+        $mouseOverText = 'Set Desired Supply Units.'
+        ]" />
+        <set_value name="$Props.$RemoveSupplyShip" exact="table[
+        $width=100,
+        $mouseOverText = 'Remove Supply Ship Designation.'
+        ]" />
+        <set_value name="$Props.$ChangeSupplyShip" exact="table[
+        $width=100,
+        $mouseOverText = 'Reassign to a different supply ship.'
+        ]" />
+        <set_value name="$Props.$MakeRangeResupply" exact="table[
+        $width=100,
+        $mouseOverText = 'Revert to normal resupply ship.'
+        ]" />
+        <set_value name="$Props.$SetHomeSector" exact="table[
+        $width=100,
+        $mouseOverText = 'Set home sector.'
+        ]" />
+        <set_value name="$Props.$SetRange" exact="table[
+        $width=100,
+        $mouseOverText = 'Set gate range from home sector.'
+        ]" />
+        <set_value name="$Props.$MakeDedicated" exact="table[
+        $width=100,
+        $mouseOverText = 'Assign to a supply ship.'
+        ]" />
+        <set_value name="$Props.$MakeSupplyShip" exact="table[
+        $width=100,
+        $mouseOverText = 'Designate as a supply ship.'
+        ]" />
+
+        <set_value name="player.entity.$gajMaintenanceProps" exact="$Props" />
+
+        <!-- service crew repair costs -->
+        <set_value name="Maint.$RepairCost" exact="'threatscore'" /> <!-- per hp repaired: 'threatscore' or integer -->
+        <set_value name="Maint.$RepairFactor" exact="table[$S=0, $M=1, $L=4, $XL=8, $XXL=11]" />
+
+        <set_value name="Maint.$DockList" exact="[
+          tag.dock_s,
+          tag.dock_m,
+          tag.dock_l, tag.dock_l_mandatoriii, tag.dock_l_mandator_2,
+          tag.dock_xl,
+          tag.dock_xxl, tag.dock_dxxl
+        ]" />
+
+        <!-- setting main values -->
+        <set_value name="$SupplyWare" exact="ware.shipsupplies" />
+        <set_value name="$UnitsPerShipSupply" exact="2500" />
+        <set_value name="$ShipStockpiles" exact="table[$S=100, $M=5000, $L=25000, $XL=250000, $XXL=2000000]" />
+        <set_value name="$SizeLookup" exact="table[$S=1, $M=2, $L=3, $XL=4, $XXL=5]" />
+
+        <!-- energy -->
+        <set_value name="$KECost" exact="0.001" /> <!-- % of maxhull -->
+        <set_value name="$shieldPercCost" exact="0.0001" /> <!-- % of max shields -->
+        <!-- crew salary-->
+        <set_value name="$PilotSalary" exact="500" />
+        <set_value name="$MarineSalary" exact="250" />
+        <set_value name="$ServiceSalary" exact="100" />
+
+        <!-- crew food supply units -->
+        <set_value name="$PilotFood" exact="1" />
+        <set_value name="$PilotFood" exact="1" />
+        <set_value name="$PilotFood" exact="1" />
+
+        <!-- List of default and non-default sector supplies -->
+        <set_value name="$DefaulSupplyLevel" exact="100" />
+        <set_value name="$UniqueSupplyLevelTable" exact="table[
+          {macro.swi_clustercoruscant_sector001_macro}= 500,
+          {macro.swi_clusterkuat_sector001_macro}= 500,
+          {macro.swi_clustercantonica_sector001_macro}= 300,
+          {macro.swi_clusterziost_sector001_macro}= 300,
+          {macro.swi_clustermandalore_sector001_macro}= 400,
+          {macro.swi_clusterhapes_sector001_macro}= 300,
+          {macro.swi_clusterhypori_sector001_macro}= 300,
+          {macro.swi_clusternarshadda_sector001_macro}= 300,
+          {macro.swi_clustereriadu_sector001_macro}= 400,
+          {macro.swi_clusterbespin_sector001_macro}= 300,
+          {macro.swi_clusterbastion_sector001_macro}= 400,
+          {macro.swi_clustermoncalamari_sector001_macro}= 300,
+          {macro.swi_clustergeonosis_sector001_macro}= 300,
+          {macro.swi_clustertelos_sector001_macro}= 250,
+          {macro.swi_clusterdromundkaas_sector001_macro}= 250,
+          {macro.swi_clusterkorriban_sector001_macro}= 250,
+          {macro.swi_clusterlothal_sector001_macro}= 250,
+          {macro.swi_clustertoydaria_sector001_macro}= 250,
+          {macro.swi_clusternalhutta_sector001_macro}= 250,
+          {macro.swi_clusterkamino_sector001_macro}= 250,
+          {macro.swi_clustermolavar_sector001_macro}= 250,
+          {macro.swi_clusterutapau_sector001_macro}= 250,
+          {macro.swi_clusterenarc_sector001_macro}= 250,
+          {macro.swi_clusterdarkknell_sector001_macro}= 250,
+          {macro.swi_clustermustafar_sector001_macro}= 250,
+          {macro.swi_clustermataou_sector001_macro}= 250,
+          {macro.swi_clusteranpath_sector001_macro}= 250,
+          {macro.swi_clusterfusai_sector001_macro}= 250,
+          {macro.swi_clusterrakataprime_sector001_macro}= 250,
+          {macro.swi_clusterfondor_sector001_macro}= 250,
+          {macro.swi_clustercorellia_sector001_macro}= 250,
+          {macro.swi_clusterrendili_sector001_macro}= 250,
+          {macro.swi_clusterperma_sector001_macro}= 250,
+          {macro.swi_clusteruviuyexen_sector001_macro}= 250,
+          {macro.swi_clusterordmantell_sector001_macro}= 250,
+          {macro.swi_clusterscipio_sector001_macro}= 250,
+          {macro.swi_clustermygeeto_sector001_macro}= 250,
+          {macro.swi_clusterdantooine_sector001_macro}= 250,
+          {macro.swi_clusterbescene_sector001_macro}= 250,
+          {macro.swi_clusterordo_sector001_macro}= 250,
+          {macro.swi_clusterfelucia_sector001_macro}= 200,
+          {macro.swi_clustervoss_sector001_macro}= 200,
+          {macro.swi_clusterlucazec_sector001_macro}= 200,
+          {macro.swi_clusterdellalt_sector001_macro}= 200,
+          {macro.swi_clusterrentasia_sector001_macro}= 200,
+          {macro.swi_clustereadu_sector001_macro}= 200,
+          {macro.swi_clusterkessel_sector001_macro}= 200,
+          {macro.swi_clusterscarif_sector001_macro}= 200,
+          {macro.swi_clusterryloth_sector001_macro}= 200,
+          {macro.swi_clustermongazza_sector001_macro}= 200,
+          {macro.swi_clustertatooine_sector001_macro}= 200,
+          {macro.swi_clusterbothawui_sector001_macro}= 200,
+          {macro.swi_clusterhoth_sector001_macro}= 200,
+          {macro.swi_clusterpolismassa_sector001_macro}= 200,
+          {macro.swi_clustersullust_sector001_macro}= 200,
+          {macro.swi_clustertakodana_sector001_macro}= 200,
+          {macro.swi_clusterjakku_sector001_macro}= 200,
+          {macro.swi_clusterjedha_sector001_macro}= 200,
+          {macro.swi_clustertheredoubt_sector001_macro}= 200,
+          {macro.swi_clusterbilbringi_sector001_macro}= 200,
+          {macro.swi_clusteryagaminor_sector001_macro}= 200,
+          {macro.swi_clustermuunlist_sector001_macro}= 200,
+          {macro.swi_clusteragamar_sector001_macro}= 200,
+          {macro.swi_clusterwayland_sector001_macro}= 200,
+          {macro.swi_clusterconcorddown_sector001_macro}= 200,
+          {macro.swi_clusterlantillies_sector001_macro}= 200,
+          {macro.swi_clusterroqoo_sector001_macro}= 200,
+          {macro.swi_clusterandalia_sector001_macro}= 200,
+          {macro.swi_clusterkashyyk_sector001_macro}= 200,
+          {macro.swi_clusterneimodia_sector001_macro}= 200,
+          {macro.swi_clusterbrentaal_sector001_macro}= 200,
+          {macro.swi_clustertrellen_sector001_macro}= 200,
+          {macro.swi_clusterbyss_sector001_macro}= 200,
+          {macro.swi_clusterloronar_sector001_macro}= 200,
+          {macro.swi_clusterhosnianprime_sector001_macro}= 200,
+          {macro.swi_clusterfoless_sector001_macro}= 200,
+          {macro.swi_clusterlorta_sector001_macro}= 200,
+          {macro.swi_clusterpax_sector001_macro}= 200,
+          {macro.swi_clusterjablim_sector001_macro}= 200,
+          {macro.swi_clusterphindar_sector001_macro}= 200,
+          {macro.swi_clusteralderaan_sector001_macro}= 200,
+          {macro.swi_clusterringomoon_sector001_macro}= 200,
+          {macro.swi_clusterhuk_sector001_macro}= 200,
+          ]" />
+      </actions>
+
+      <cues>
+        <cue name="MaintenanceLoop" instantiate="true">
+          <conditions>
+            <event_cue_signalled />
+          </conditions>
+          <actions>
+            <set_value name="$DebugChance" exact="100" />
+
+            <!-- Data received from sw_reactivemain.xml
+
+            - empire data -
+            $Data.$totalPilots
+            $Data.$totalMarines
+            $Data.$totalService
+
+            $table.{$Asset}.$Size" exact="$Size" />
+            $table.{$Asset}.$Name" exact="$Asset.name" />
+            $table.{$Asset}.$Sector" exact="$Asset.sector" />
+            $table.{$Asset}.$Maxhull" exact="$Asset.maxhull" />
+            $table.{$Asset}.$Maxshields" exact="$Asset.maxshield" />
+            $table.{$Asset}.$Hull" exact="$Asset.hull+' / '+$table.{$Asset}.$Maxhull" />
+            $table.{$Asset}.$Shields" exact="$Asset.shield+' / '+$table.{$Asset}.$Maxshields" />
+            $table.{$Asset}.$Pilot" exact="$Asset.assignedpilot" />
+            $table.{$Asset}.$service" exact="$Asset.people.{entityrole.service}.list" />
+            $table.{$Asset}.$marines" exact="$Asset.people.{entityrole.marine}.list" />
+            $table.{$Asset}.$Crew" exact="[$table.{$Asset}.$Marines.count, $table.{$Asset}.$Service.count" />
+            $table.{$Asset}.$Cargo" exact="$Asset.cargo" />
+            $table.{$Asset}.$Threatscore" exact="$Asset.threatscore" />
+            $table.{$Asset}.$ShipSupplies" exact="$SupplyTable.{$Asset}" />
+            -->
+            <set_value name="$Data" exact="event.param" />
+            <!-- 
+            - ship tables -
+            $Data.$supplyships
+            $Data.$dedicatedresupplyships
+            $Data.$resupplyships
+            $Data.$ships
+            -->
+            <do_if value="$LastCycle.count gt 0">
+              <set_value name="$Data.$Tables" exact="['supplyships','dedicatedresupplyships','resupplyships','ships']" />
+
+              <!-- salaries -->
+              <do_if value="md.GalacticBankRC3.Vault.exists">
+                <set_value name="$moneyEnd" exact="0" />
+                <do_for_each name="$faction" in="global.$GB_Vault.$Accounts">
+                  <set_value name="$moneyEnd" operation="add" exact="global.$GB_Vault.$Accounts.{$faction}.$balance" />
+                </do_for_each>
+              </do_if>
+              <do_else>
+                <set_value name="$moneyEnd" exact="(player.money)Cr" />
+              </do_else>
+              <set_value name="$moneyBegin" exact="$moneyEnd" />
+              <set_value name="$servicePayChance" exact="0" />
+              <set_value name="$marinePayChance" exact="0" />
+              <set_value name="$pilotPayChance" exact="0" />
+
+              <!-- pilot get's paid first, then marines, then service -->
+              <set_value name="$Data.$pilotSalary" exact="$Data.$totalPilots * $PilotSalary" />
+              <do_if value="$moneyEnd - $Data.$pilotSalary ge 0">
+                <set_value name="$moneyEnd" operation="subtract" exact="$Data.$pilotSalary" />
+                <set_value name="$Data.$marineSalary" exact="$Data.$totalMarines * $MarineSalary" />
+                <do_if value="$moneyEnd - $Data.$marineSalary ge 0">
+                  <set_value name="$moneyEnd" operation="subtract" exact="$Data.$marineSalary" />
+                  <set_value name="$Data.$serviceSalary" exact="$Data.$totalService * $ServiceSalary" />
+                  <do_if value="$moneyEnd - $Data.$serviceSalary ge 0">
+                    <set_value name="$moneyEnd" operation="subtract" exact="$Data.$serviceSalary" />
+                  </do_if>
+                  <do_else>
+                    <!-- not enough to pay all service crew -->
+                    <!-- percent morale decreases -->
+                    <set_value name="$servicePayChance" exact="100*($moneyEnd / $Data.$serviceSalary)" />
+                    <set_value name="$moneyEnd" exact="0" />
+                  </do_else>
+                </do_if>
+                <do_else>
+                  <!-- not enough to pay all marines and any service crew -->
+                  <!-- percent morale decreases -->
+                  <set_value name="$servicePayChance" exact="100" />
+                  <set_value name="$marinePayChance" exact="100*($moneyEnd / $Data.$marineSalary)" />
+                  <set_value name="$moneyEnd" exact="0" />
+                </do_else>
+              </do_if>
+              <do_else>
+                <!-- not enough to pay all pilots and any marines and service crew -->
+                <!-- percent morale decreases -->
+                <set_value name="$servicePayChance" exact="100" />
+                <set_value name="$marinePayChance" exact="100" />
+                <set_value name="$pilotPayChance" exact="100*($moneyEnd / $Data.$pilotSalary)" />
+                <set_value name="$moneyEnd" exact="0" />
+              </do_else>
+
+              <do_if value="md.GalacticBankRC3.Vault.exists">
+                <set_value name="$moneySpent" exact="$moneyBegin - $moneyEnd" />
+                <do_for_each name="$faction" in="global.$GB_Vault.$Accounts">
+                  <set_value name="$account" exact="global.$GB_Vault.$Accounts.{$faction}" />
+                  <do_if value="$account.$balance ge $moneySpent">
+                    <set_value name="$account.$balance" operation="subtract" exact="$moneySpent" />
+                    <break />
+                  </do_if>
+                  <do_else>
+                    <set_value name="$moneySpent" operation="subtract" exact="$account.$balance" />
+                    <set_value name="$account.$balance" exact="0" />
+                  </do_else>
+                </do_for_each>
+              </do_if>
+              <do_else>
+                <reward_player money="-($moneyBegin-$moneyEnd)Cr" />
+              </do_else>
+
+              <!-- supplies -->
+              <set_value name="$Data.$marinesQuiting" exact="0" />
+              <set_value name="$Data.$serviceQuiting" exact="0" />
+              <do_for_each name="$table" in="$Data.$Tables">
+                <do_for_each name="$ship" in="$Data.{'$'+$table}">
+                  <!-- obtain States -->
+                  <set_value name="$State" exact="$States.{$ship}" />
+                  <set_value name="$asset.$SupplyShip" exact="@$State.$SupplyShip" />
+                  <set_value name="$asset.$HomeSector" exact="@$State.$HomeSector" />
+                  <set_value name="$asset.$GateRange" exact="@$State.$GateRange" />
+                  <set_value name="$asset.$DesiredSupplies" exact="@$State.$DesiredSupplies" />
+                  <set_value name="$asset.$DesiredUnits" exact="$State.$DesiredUnits" />
+
+                  <!-- begin calculations -->
+                  <set_value name="$asset" exact="$Data.{'$'+$table}.{$ship}" />
+                  <set_value name="$supplyUnits" exact="$asset.$ShipUnits" />
+                  <do_if value="$asset.$Cargo.{$SupplyWare}.exists">
+                    <set_value name="$cargoCount" exact="$asset.$Cargo.{$SupplyWare}.count" />
+                    <set_value name="$supplyUnits" operation="add" exact="$cargoCount * $UnitsPerShipSupply" />
+                  </do_if>
+                  <!-- crew eat food first, then engines, then shields -->
+                  <set_value name="$pilotFoodChance" exact="0" />
+                  <set_value name="$marineFoodChance" exact="0" />
+                  <set_value name="$serviceFoodChance" exact="0" />
+                  <set_value name="$enginesPerc" exact="100" />
+                  <set_value name="$shieldPerc" exact="100" />
+                  <!-- wear and tear -->
+                  <set_value name="$asset.$WearTear" exact="@$LastCycle.{'$'+$table}.{$asset}.$WearTear + $asset.$Threatscore * $SizeLookup.{'$'+$asset.$Size}" />
+                  <do_if value="$supplyUnits - $asset.$WearTear ge 0">
+                    <set_value name="$supplyUnits" operation="subtract" exact="$asset.$WearTear" />
+                    <!-- food -->
+                    <do_if value="$supplyUnits - $Food ge 0"> <!-- pilot food -->
+                      <set_value name="$supplyUnits" operation="subtract" exact="$Food" />
+                      <set_value name="$asset.$marineFood" exact="$asset.$marines.count * $Food" />
+                      <do_if value="$supplyUnits - $asset.$marineFood ge 0">
+                        <set_value name="$supplyUnits" operation="subtract" exact="$asset.$marineFood" />
+                        <set_value name="$asset.$serviceFood" exact="$asset.$service.count * $Food" />
+                        <do_if value="$supplyUnits - $asset.$serviceFood ge 0">
+                          <set_value name="$supplyUnits" operation="subtract" exact="$asset.$serviceFood" />
+                          <!-- engines -->
+                          <set_value name="$kineticEnergyCost" exact="$asset.$Maxhull * $KECost * $SizeLookup.{'$'+$asset.$Size}" />
+                          <do_if value="$supplyUnits - $kineticEnergyCost ge 0">
+                            <set_value name="$supplyUnits" operation="subtract" exact="$kineticEnergyCost" />
+                            <!-- shields and weapons-->
+                            <set_value name="$shieldPercEnergyCost" exact="$asset.$MaxShields * $shieldPercCost * $asset.$Threatscore" />
+                            <do_if value="$supplyUnits - $shieldPercEnergyCost ge 0">
+                              <set_value name="$supplyUnits" operation="subtract" exact="$shieldPercEnergyCost" />
+                            </do_if>
+                            <do_else>
+                              <!-- not enough to maintain shields, shields are set to % paid and made unrepairable -->
+                              <set_value name="$shieldPercs" exact="$supplyUnits / $shieldPercEnergyCost" />
+                            </do_else>
+                          </do_if>
+                          <do_else>
+                            <!-- not enough to maintain engines, engines hp are set to % paid and made unrepairable
+                      shields are disabled -->
+                            <set_value name="$enginesPerc" exact="$supplyUnits / $kineticEnergyCost" />
+                            <set_value name="$shieldPerc" exact="0" />
+                          </do_else>
+                        </do_if>
+                        <do_else>
+                          <!-- not enough to feed all service crew, how many are paid, highest engineering skill are paid first, partial and unpaid might quit based on morale skill
+                    engines and shields are disabled -->
+                          <set_value name="$serviceFoodChance" exact="100*($supplyUnits / $asset.$serviceFood)" />
+                          <set_value name="$enginesPerc" exact="0" />
+                          <set_value name="$shieldPerc" exact="0" />
+                        </do_else>
+                      </do_if>
+                      <do_else>
+                        <!-- not enough to feed all marines, how many are paid, highest boarding skill are paid first, partial and unpaid might quit based on morale skill
+                  all service crew are tested for quiting
+                  engines and shields are disabled -->
+                        <set_value name="$marineFoodChance" exact="100*($supplyUnits / $asset.$marineFood)" />
+                        <set_value name="$serviceFoodChance" exact="100" />
+                        <set_value name="$enginesPerc" exact="0" />
+                        <set_value name="$shieldPerc" exact="0" />
+                      </do_else>
+                    </do_if>
+                    <do_else>
+                      <!-- not enough to feed pilot
+                all marines and service are tested for quiting
+                engines and shields are disabled -->
+                      <set_value name="$pilotFoodChance" exact="100*($supplyUnits / $pilotFood)" />
+                      <set_value name="$marineFoodChance" exact="100" />
+                      <set_value name="$serviceFoodChance" exact="100" />
+                      <set_value name="$enginesPerc" exact="0" />
+                      <set_value name="$shieldPerc" exact="0" />
+                    </do_else>
+                  </do_if>
+                  <do_else>
+                    <set_value name="$pilotFoodChance" exact="100" />
+                    <set_value name="$marineFoodChance" exact="100" />
+                    <set_value name="$serviceFoodChance" exact="100" />
+                    <set_value name="$enginesPerc" exact="0" />
+                    <set_value name="$shieldPerc" exact="0" />
+                  </do_else>
+
+                  <do_if value="@$cargoCount">
+                    <set_value name="$cargoRemaining" exact="($supplyUnits / $UnitsPerShipSupply)i" />
+                    <set_value name="$unitsRemaining" exact="$supplyUnits % $UnitsPerShipSupply" />
+                    <do_if value="$asset.$DesiredUnits - $unitsRemaining ge $UnitsPerShipSupply">
+                      <set_value name="$number" exact="(($asset.$DesiredUnits - $unitsRemaining) / $UnitsPerShipSupply)i" />
+                      <set_value name="$cargoRemaining" operation="subtract" exact="$number" />
+                      <set_value name="$supplyunits" operation="set" exact="$unitsRemaining + $number * $UnitsPerShipSupply" />
+                    </do_if>
+                    <remove_cargo object="$ship" ware="$SupplyWare" exact="$cargoCount - $cargoRemaining" />
+                  </do_if>
+                  <set_value name="$asset.$ShipUnits" exact="$supplyUnits" />
+                  <set_value name="$SupplyTable.{$ship}" exact="$supplyUnits" />
+
+                  <!-- process engines and shields -->
+                  <do_if value="$enginesPerc lt 100">
+                    <find_object_component name="$engines" object="$ship" class="class.engine" multiple="true" />
+                    <do_for_each name="$engine" in="$engines">
+                      <do_if value="$engine.hullpercentage gt $enginesPerc">
+                        <set_object_hull object="$engine" exact="$engine.maxhull*$enginesPerc" />
+                      </do_if>
+                      <set_object_hull_unrepairable object="$engine" />
+                    </do_for_each>
+                  </do_if>
+                  <do_if value="$shieldPerc lt 100">
+                    <do_if value="$ship.shieldpercentage gt $shieldPerc">
+                      <debug_text text="'shields: '+$ship.shieldpercentage+' | '+$shieldPerc" chance="$debug" />
+                      <set_object_shield object="$ship" exact="$ship.maxshield * $shieldPerc" />
+                    </do_if>
+                    <set_object_shield_unrepairable object="$ship" />
+                  </do_if>
+
+                  <!-- process pay and food effects, missed pay = -10% morale, missed food = morale-modified quit chance -->
+                  <!-- <do_if value="$pilotPayChance gt 0 or $pilotFoodChance gt 0">
+                  <set_value name="$pilotMorale" exact="$asset.$pilot.skill.morale" />
+                  <set_skill entity="$asset.$pilot" type="skilltype.morale" exact="$pilotMorale * 0.9" chance="1-$pilotPayChance" />
+                  <set_skill entity="$asset.$pilot" type="skilltype.morale" exact="$pilotMorale * 0.9" chance="1-$pilotFoodChance" />
+                </do_if> -->
+                  <do_if value="$marinePayChance gt 0 or $marineFoodChance gt 0">
+                    <set_value name="$asset.$marinesQuiting" exact="[]" />
+                    <do_for_each name="$marine" in="$Data.$Asset.$marines">
+                      <set_skill entity="$marine" type="skilltype.morale" exact="$marine.skill.morale * 0.9" chance="$marinePayChance" />
+                      <do_if value="true" chance="[$marineFoodChance - (0.1 * $marine.skill.morale/3), 0].max">
+                        <append_to_list name="$asset.$marinesQuiting" exact="$marine" />
+                        <set_value name="$Data.$marinesQuiting" operation="add" exact="1" />
+                      </do_if>
+                    </do_for_each>
+                  </do_if>
+                  <do_if value="$servicePayChance gt 0 or $serviceFoodChance gt 0">
+                    <do_for_each name="$service" in="$Data.$Asset.$service">
+                      <set_skill entity="$service" type="skilltype.morale" exact="$service.skill.morale * 0.9" chance="$servicePayChance" />
+                      <do_if value="true" chance="[$serviceFoodChance - (0.1 * $service.skill.morale/3), 0].max">
+                        <append_to_list name="$asset.$serviceQuiting" exact="$service" />
+                        <set_value name="$Data.$serviceQuiting" operation="add" exact="1" />
+                      </do_if>
+                    </do_for_each>
+                  </do_if>
+                  <append_list_elements name="$quiting" other="$asset.$serviceQuiting" create="true" />
+                  <append_list_elements name="$quiting" other="$asset.$marinesQuiting" />
+                  <signal_cue_instantly cue="md.GAJ_EscapePod.LaunchNPCs" param="table[$list = $quiting, $chance = 100, $newFaction = faction.civilian]" />
+
+                  <!-- calculate variables -->
+                  <do_if value="$RepairCost =='threatscore'">
+                    <set_value name="$asset.$RepairComplexity" exact="[1, 1000 * $SizeLookup.{$asset.$Size} / ($asset.$Threatscore * (1 + $RepairFactor.{'$'+$asset.$Size}))].max" />
+                  </do_if>
+                  <do_else>
+                    <set_value name="$asset.$RepairComplexity" exact="$RepairCost" />
+                  </do_else>
+
+                  <set_value name="$asset.$CrewUsage" exact="$asset.$marineFood + $asset.$serviceFood + 1" /> <!-- pilot eats too -->
+                  <set_value name="$asset.$EnergyUsage" exact="$kineticEnergyCost + $shieldPercEnergyCost" />
+                  <set_value name="$asset.$TotalUsage" exact="$asset.$CrewUsage + $asset.$EnergyUsage + $asset.$WearTear" />
+                  <set_value name="$asset.$CyclesRemaining" exact="$asset.$ShipUnits / $asset.$TotalUsage" />
+                </do_for_each>
+              </do_for_each>
+            </do_if>
+            <!-- first cycle -->
+            <do_else>
+              <do_for_each name="$ship" in="$Data.$Ships">
+                <set_value name="$asset" exact="$Data.$Ships.{$ship}" />
+                <set_value name="$asset.$Cargo" exact="$asset.$Cargo.{$SupplyWare}.count" />
+                <set_value name="$asset.$WearTear" exact="$asset.$Threatscore * $SizeLookup.{'$'+$asset.$Size}" />
+                <set_value name="$asset.$marineFood" exact="$asset.$marines.count * $Food" />
+                <set_value name="$asset.$serviceFood" exact="$asset.$service.count * $Food" />
+                <set_value name="$kineticEnergyCost" exact="$asset.$Maxhull * $KECost * $SizeLookup.{'$'+$asset.$Size}" />
+                <set_value name="$shieldPercEnergyCost" exact="$asset.$MaxShields * $shieldPercCost * $asset.$Threatscore" />
+
+                <!-- calculate variables -->
+                <do_if value="$RepairCost =='threatscore'">
+                  <set_value name="$asset.$RepairComplexity" exact="[1, 1000 * $SizeLookup.{$asset.$Size} / ($asset.$Threatscore * (1 + $RepairFactor.{'$'+$asset.$Size}))].max" />
+                </do_if>
+                <do_else>
+                  <set_value name="$asset.$RepairComplexity" exact="$RepairCost" />
+                </do_else>
+
+                <set_value name="$asset.$CrewUsage" exact="$asset.$marineFood + $asset.$serviceFood + 1" /> <!-- pilot eats too -->
+                <set_value name="$asset.$EnergyUsage" exact="$kineticEnergyCost + $shieldPercEnergyCost" />
+                <set_value name="$asset.$TotalUsage" exact="$asset.$CrewUsage + $asset.$EnergyUsage + $asset.$WearTear" />
+
+                <set_value name="$asset.$SupplyShip" exact="null" />
+                <set_value name="$asset.$HomeSector" exact="null" />
+                <set_value name="$asset.$GateRange" exact="null" />
+                <set_value name="$desired" exact="$ShipStockpiles.{'$'+$asset.$Size}" />
+                <set_value name="$asset.$DesiredUnits" exact="$desired" />
+                <set_value name="$units" exact="[$desired, $asset.$TotalUsage * 3].min" />
+                <set_value name="$asset.$ShipUnits" exact="$units" />
+                <set_value name="$SupplyTable.{$ship}" exact="$units" />
+                <set_value name="$asset.$CyclesRemaining" exact="$asset.$ShipUnits / $asset.$TotalUsage" />
+
+                <set_value name="$States.{$ship}" exact="table[]" />
+                <set_value name="$States.{$asset}.$DesiredUnits" exact="$desired" />
+                <set_value name="$WearTearTable.{$ship}" exact="$asset.$Threatscore" />
+              </do_for_each>
+            </do_else>
+
+            <set_value name="$CheckIntrevalUI" exact="md.SWReactivemain.ReactiveInit.$CheckInterval" /><!-- timer to countdown till next check, format: XXmin -->
+            <set_value name="$Data.$timeNextAssessment" exact="player.age + $CheckIntrevalUI" />
+            <debug_text text="'player.age: ' + player.age + ' $CheckIntrevalUI: ' + $CheckIntrevalUI" />
+
+            <!-- Data variables:
+            == empire data ==
+            - from reactive -
+            totalPilots
+            totalMarines
+            totalService
+
+            - calculated here -
+            pilotSalary
+            marineSalary
+            serviceSalary
+            marinesQuiting
+            serviceQuiting
+
+            == ship data ==
+            - from reactive -
+            ship.Size
+            ship.Name
+            ship.Sector
+            ship.Shields
+            ship.Hull
+            ship.Crew [marines.count, service.count]
+            ship.Cargo []
+            ship.Threatscore
+            ship.ShipSupplies
+
+            - calculated here -
+            ship.RepairComplexity [1, 1000 * $size / ($threatscore * (1 + $repairFactor.{size}))].max
+            ship.CyclesRemaining
+            ship.TotalUsage
+            ship.CrewUsage
+            ship.EnergyUsage
+            ship.WearTear (additional units per cycle)
+
+            - States
+            ship.SupplyShip
+            ship.HomeSector
+            ship.GateRange
+            ship.DesiredSupplies
+            -->
+
+            <set_value name="$LastCycle" exact="$Data.clone" />
+            <remove_value name="$LastCycle.$LastCycle" />
+            <do_if value="MaintenanceMenu.state != cuestate.waiting" comment="menu is open">
+              <set_value name="player.entity.$gajMaintenanceData" exact="$Data" />
+              <raise_lua_event name="'gaj.togglePlayerInfoMenuRefresh'" />
+            </do_if>
+          </actions>
+        </cue>
+
+        <cue name="LuaEvents" namespace="this" instantiate="true">
+          <conditions>
+            <check_any>
+              <!-- all -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'SetDesiredUnits'" /> <!-- button: param3 = ship -->
+              <!-- supply ships -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'SetDesiredSupplies'" /> <!-- button: param3 = ship -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'RemoveSupplyShip'" /> <!-- button: param3 = ship -->
+              <!-- dedicated resupply ships -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'ChangeSupplyShip'" /> <!-- button: param3 = ship -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'MakeRangeResupply'" /> <!-- button: param3 = ship -->
+              <!-- resupply ships -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'SetHomeSector'" /> <!-- button: param3 = ship -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'SetRange'" /> <!-- button: param3 = ship -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'MakeDedicated'" /> <!-- button: param3 = ship -->
+              <!-- ships -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'ReceiveDeliveries'" /> <!-- checkbox: param3 = [checked, ship]-->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'MakeSupplyShip'" /> <!-- button: param3 = ship -->
+            </check_any>
+          </conditions>
+          <delay exact="1ms" />
+          <actions>
+            <do_if value="event.param == 'SetDesiredUnits'"></do_if>
+            <do_elseif value="event.param == 'SetDesiredSupplies'"></do_elseif>
+            <do_elseif value="event.param == 'RemoveSupplyShip'"></do_elseif>
+            <do_elseif value="event.param == 'MakeSupplyShip'"></do_elseif>
+            <do_elseif value="event.param == 'ChangeSupplyShip'"></do_elseif>
+            <do_elseif value="event.param == 'MakeRangeResupply'"></do_elseif>
+            <do_elseif value="event.param == 'SetHomeSector'"></do_elseif>
+            <do_elseif value="event.param == 'SetRange'"></do_elseif>
+            <do_elseif value="event.param == 'MakeDedicated'"></do_elseif>
+            <do_elseif value="event.param == 'ReceiveDeliveries'"></do_elseif>
+          </actions>
+          <!-- <cues>
+            <cue name="">
+              <conditions>
+                <event_cue_signalled />
+              </conditions>
+              <actions>
+
+
+                <raise_lua_event name="'swi.togglePlayerInfoMenuRefresh'" />
+              </actions>
+            </cue>
+          </cues> -->
+        </cue>
+
+        <cue name="MaintenanceMenu">
+          <conditions>
+            <check_any>
+              <event_ui_triggered screen="'PlayerInfoMenu'" />
+            </check_any>
+          </conditions>
+          <actions>
+            <!-- <debug_text text="event.name + ' param: ' + @event.param + ' event.param2: ' + @event.param2" /> -->
+            <set_value name="player.entity.$gajMaintenanceData" exact="@$Data" />
+          </actions>
+          <cues>
+            <cue name="MaintenanceMenu_Interval" checkinterval="0.25s" instantiate="true">
+              <actions>
+                <!-- <debug_text text="event.name + ' param: ' + @event.param + ' event.param2: ' + @event.param2" /> -->
+                <raise_lua_event name="'swi.togglePlayerInfoMenuRefresh'" />
+              </actions>
+            </cue>
+            <cue name="MaintenanceMenu_Close">
+              <conditions>
+                <check_any>
+                  <event_ui_triggered screen="'PlayerInfoMenu'" control="'menu_close'" />
+                </check_any>
+              </conditions>
+              <actions>
+                <!-- <debug_text text="event.name + ' param: ' + @event.param + ' event.param2: ' + @event.param2" /> -->
+                <remove_value name="player.entity.$gajMaintenanceData" />
+                <reset_cue cue="MaintenanceMenu" />
+              </actions>
+            </cue>
+          </cues>
+        </cue>
+      </cues>
+    </cue>
+  </cues>
+</mdscript>

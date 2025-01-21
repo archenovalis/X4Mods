@@ -1485,7 +1485,7 @@
 					<cues>
 						<cue name="OnEscapePodEntered2">
 							<actions>
-								<signal_cue cue="md.GAJ_EscapePod.LaunchPod" />
+								<signal_cue cue="md.GAJ_EscapePod.Launch" />
 								<reset_cue cue="parent" />
 								<cancel_cue cue="this" />
 							</actions>
@@ -1507,8 +1507,8 @@
 						">
 							<!-- Getting A Job: Inheritance tax -->
 							<do_if value="$inheritanceTax">
-								<do_for_each name="$account" in="md.GalacticBank.Vault.$Accounts.keys.list">
-									<set_value name="md.GalacticBank.Vault.$Accounts.{$account}.$balance" exact="md.GalacticBank.Vault.$Accounts.{$account}.$balance * (1-md.GalacticBank.Vault.$Accounts.{$account}.$inheritanceTax)" />
+								<do_for_each name="$account" in="md.GalacticBankRC3.Vault.$Accounts.keys.list">
+									<set_value name="md.GalacticBankRC3.Vault.$Accounts.{$account}.$balance" exact="md.GalacticBankRC3.Vault.$Accounts.{$account}.$balance * (1-md.GalacticBankRC3.Vault.$Accounts.{$account}.$inheritanceTax)" />
 								</do_for_each>
 							</do_if>
 							<do_if value="not @TrustExecutor.$npc">

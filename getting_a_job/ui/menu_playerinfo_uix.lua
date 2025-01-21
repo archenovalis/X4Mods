@@ -18,8 +18,9 @@ local kBridgeCrew = {}
 local playerId
 local kNPCRumours = {}
 local newFuncs = {}
-
+Helper.loadModLuas("gaj_maintenance", "gaj_maintenance")
 function ModLua.init()
+	Helper.initModLuas("gaj_maintenance")
 	playerId = ConvertStringTo64Bit (tostring (C.GetPlayerID ()))
 	-- start: NPC constructors
 	local builderFee = tonumber (C.GetBuilderHiringFee ())
