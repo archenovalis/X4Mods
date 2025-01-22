@@ -211,7 +211,7 @@
                   $col = 2,
                   $width=100,
                   $text = table[$text='Confirm'],
-                  $hovertext = table[$text='Funds paid when ship is delivered.'],
+                  $mouseOverText = table[$text='Funds paid when ship is delivered.'],
                   $onClick = ConfirmSell
                 ]" />
               </actions>

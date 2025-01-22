@@ -8,7 +8,7 @@ local ModLua = {}
 
 local playerInfoMenu = nil
 --[[ local encyclopediaMenu = nil ]]
-local gajMaintenanceMenu = {}
+gajMaintenanceMenu = {}
 gajMaintenanceMenu.infotable = nil
 gajMaintenanceMenu.timeNextAssessmentRow = nil
 gajMaintenanceMenu.timeNextAssessmentCol = nil
@@ -254,11 +254,11 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                     row[10]:createText(ship.ShipSupplies)
                     row[11]:createButton(gajMaintenanceMenu.props.ChangeSupplyShip):setText(ship.SupplyShip)
                     row[11].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "ChangeSupplyShip", shipid)
+                        AddUITriggeredEvent("GAJ_Maint", "MakeDedicated", shipid)
                     end
-                    row[12]:createButton(gajMaintenanceMenu.props.MakeRangeResupply):setText("Switch")
+                    row[12]:createButton(gajMaintenanceMenu.props.MakeResupplyShip):setText("Switch")
                     row[12].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "MakeRangeResupply", shipid)
+                        AddUITriggeredEvent("GAJ_Maint", "MakeResupplyShip", shipid)
                     end
                 end
             end
@@ -413,7 +413,7 @@ function gajMaintenanceMenu.togglePlayerInfoMenuRefresh()
                 DebugError("gajMaintenanceMenu.infotable.id", gajMaintenanceMenu.infotable.id)
                 DebugError("gajMaintenanceMenu.timeNextAssessmentRow", gajMaintenanceMenu.timeNextAssessmentRow)
                 Helper.updateCellText(gajMaintenanceMenu.infotable.id, gajMaintenanceMenu.timeNextAssessmentRow,
-                gajMaintenanceMenu.timeNextAssessmentCol, timeLeft)
+                    gajMaintenanceMenu.timeNextAssessmentCol, timeLeft)
             else
                 menu.refresh = getElapsedTime()
             end

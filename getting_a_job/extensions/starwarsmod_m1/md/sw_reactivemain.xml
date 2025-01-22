@@ -88,10 +88,10 @@
 
               <!-- GAJ emergent maintenance variables -->
               <set_value name="$Data" exact="table[]" />
-              <set_value name="$Data.$supplyships" exact="table[]" />
-              <set_value name="$Data.$dedicatedresupplyships" exact="table[]" />
-              <set_value name="$Data.$resupplyships" exact="table[]" />
-              <set_value name="$Data.$ships" exact="table[]" />
+              <set_value name="$Data.$SupplyShips" exact="table[]" />
+              <set_value name="$Data.$DedicatedResupplyShips" exact="table[]" />
+              <set_value name="$Data.$ResupplyShips" exact="table[]" />
+              <set_value name="$Data.$Ships" exact="table[]" />
               <set_value name="$Data.$totalPilots" exact="0" />
               <set_value name="$Data.$totalMarines" exact="0" />
               <set_value name="$Data.$totalService" exact="0" />

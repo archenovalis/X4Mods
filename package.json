@@ -2,7 +2,7 @@
   "name": "archies-mods",
   "version": "1.0.0",
   "scripts": {
-    "build": "npx ts-node compileMod.ts getting_a_job"
+    "build": "npx ts-node compileMod.ts getting_a_job starwarsmod_m1"
   },
   "keywords": [],
   "author": "",
