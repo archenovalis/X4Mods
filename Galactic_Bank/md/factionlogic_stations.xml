@@ -138,13 +138,6 @@
 
       <do_if value="not ($set == null) and (not ($RelevantSectors == null) or $RelevantSectors.count gt 0)">
         <get_module_set_macro set="$set" result="$ModuleSetMacro" />
-        <debug_text text="'found ModuleSetMacro: '+$set" chance="$DebugChance" />
-        <do_if value="$ModuleSetMacro">
-          <get_construction_plan result="$ConstructionPlan"
-            rawname="$ConstructionPlanName"
-            faction="$Faction" tags="$tag" />
-          <debug_text text="'found '+$ConstructionPlanName+': '+$ConstructionPlan" chance="$DebugChance" />
-        </do_if>
 
         <do_if value="$PastStationMaxScoreTableOverrides.$IsTradeStation?">
           <set_value name="$PastStationMaxScoreTable"
@@ -189,6 +182,12 @@
             <param name="DebugText" value="$DebugText" />
             <param name="DebugChance" value="$DebugChance" />
           </run_actions>
+          <get_construction_plan result="$ConstructionPlan" rawname="$ConstructionPlanName" faction="$Faction" tags="$tag" />
+          <generate_loadout sequence="$ConstructionPlan" level="$LoadoutLevel" result="$Loadouts" faction="$Faction" />
+          <do_all exact="$Loadouts.count" counter="$l">
+            <apply_loadout sequence="$ConstructionPlan" index="$l" loadout="$Loadouts.{$l}" />
+          </do_all>
+          <add_build_to_expand_station object="$NewStation.buildstorage" buildobject="$NewStations.{1}" constructionplan="$ConstructionPlan" result="$BuildID" />
         </do_if>
       </do_if>
     </do_if>

@@ -32,12 +32,15 @@
         <actions>
           <label name="start" />
           <!-- todo: scale based on bounty amount -->
-          <set_value name="$Pilot" exact="global.$Bounties.$pilots.random" />
+          <!-- prioritize player -->
+          <do_if value="global.$Bounties.$pilots.indexof.{player.entity}">
+            <set_value name="$Pilot" exact="player.entity" />
+          </do_if>
+          <do_else>
+            <set_value name="$Pilot" exact="global.$Bounties.$pilots.random" />
+          </do_else>
           <set_value name="$RandomShip" exact="$Pilot.ship" />
           <!-- <debug_to_file name="'bountyhunters'" directory="'sw_debug'" text="'%1 is random ship from list.'.[$RandomShip.ship]" output="false" append="true" /> -->
-          <label name="player_wait" />
-          <wait min="1min" max="2min" />
-
           <do_if value="not ($Pilot == player.entity)">
             <do_if value="$RandomShip == null">
               <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) failed to pick from list, restaring.'.[this.ship.knownname, this.ship.idcode]" output="false" append="true" chance="$debugchance" />
@@ -63,29 +66,6 @@
               <param name="forceprimarytarget" value="true" />
             </run_script>
           </do_if>
-          <!-- if player, wait until player is in a S or M ship then hunt player -->
-          <do_else>
-            <do_if value="player.ship == null or not player.ship.isplayerowned">
-              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) player not in playerowned ship, waiting.'.[this.ship.knownname, this.ship.idcode]" output="false" append="true" chance="$debugchance" />
-              <resume label="player_wait" />
-            </do_if>
-            <do_elseif value="player.ship.isclass.[class.ship_l, class.ship_xl]">
-              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) player in %3 but its L or XL, waiting.'.[this.ship.knownname, this.ship, $RandomShip.knownname]" output="false" append="true" chance="$debugchance" />
-              <resume label="player_wait" />
-            </do_elseif>
-            <do_elseif value="player.ship.commander and player.ship.commander.isclass.[class.ship_l, class.ship_xl]">
-              <debug_to_file name="'bountyhunters_fail'" directory="'sw_debug'" text="'%1 (%2) player in %3 but its commander %4 is L or XL, waiting.'.[this.ship.knownname, this.ship, $RandomShip.knownname, $RandomShip.commander.knownname]" output="false" append="true" chance="$debugchance" />
-              <resume label="player_wait" />
-            </do_elseif>
-            <debug_to_file name="'bountyhunters_attack'" directory="'sw_debug'" text="'TIME: %1 \nShip: %2 ID: %3 \nENEMY: %4 ID:%8 FACTION: %6  ENEMYSECTOR: %5 HUNTERSECTOR: %7 \n\n'.[player.age, this.ship.knownname, this.ship.idcode, $RandomShip.knownname, $RandomShip.sector.knownname, $RandomShip.trueowner, this.sector.knownname, $RandomShip.idcode]" output="false" append="true" chance="$debugchance" />
-            <run_script name="'order.fight.attack.object'">
-              <param name="primarytarget" value="player.ship" />
-              <param name="pursuetargets" value="true" />
-              <param name="checkrelation" value="false" />
-              <param name="allowothertargets" value="true" />
-              <param name="forceprimarytarget" value="true" />
-            </run_script>
-          </do_else>
           <remove_value name="$Pilot" />
           <remove_value name="$RandomShip" />
         </actions>

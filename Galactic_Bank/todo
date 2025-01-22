@@ -1,8 +1,5 @@
-# Issues
-- What happens when a vault's sector changes ownership? dismantle station if new owner already has station?
-
 # Loans
-- Bank Loans (collateral requirement based on relations, fear the repo man)
+- Bank Loans (fear the repo man)
 
 # modifications
 - galactic bank branch offices only when vault is operational
@@ -15,6 +12,3 @@ add drop to component macro? check if component destroyed?
 
 # Player gets hunted
 - banking clan associated factions hunt player when -20
-
-# SWI
-update swi's maintenance mechanic to include money stored in the accounts
