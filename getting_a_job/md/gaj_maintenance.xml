@@ -707,6 +707,33 @@ aiscripts:
               ]" />
             </do_if>
             <do_if value="$event == 'MakeDedicated'">
+              <!-- select ship menu -->
+              <signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
+                  $id = $event,
+                  $columns = 2
+                  $title = '',
+                  $height = 400,
+                  $width = 495
+                ]" />
+              <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
+              <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
+              <do_for_each name="$ship" in="Maint.$SupplyShips">
+                <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                <!-- ship name and sector -->
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+									$col=1,
+									$halign='left',
+									$text=$ship.sector.name+' | '+Maint.$Ships.{$ship}.$Size+' '+$ship.name
+								]" />
+                <!-- button -->
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+                  $id = $event,
+                  $col = 2,
+                  $text = table[$text='Set'],
+                  $onClick = Confirm,
+                  $echo = $ship
+                ]" />
+              </do_for_each>
               <!-- <set_value name="Maint.$States.{$Ship}.$DedicatedResupplyShip" exact="$supplyship" /> -->
             </do_if>
           </actions>
@@ -721,6 +748,16 @@ aiscripts:
                 <cancel_cue cue="this" />
               </actions>
             </cue>
+
+            <!-- 
+              $SupplyShip = bool is a supply ship, ships come to it or a dock, whichever is closer
+              $HomeSector = sector resupply ship's base sector
+              $GateRange = int resupply ship's range
+              $DesiredSupplies = int (resupply ships deliver supply crates upto this ammount)
+              $DesiredUnits = int (restocks supplies when below)
+              $WearTear = int (unit cost)
+              $SupplyUnits = int (current ship supply units)
+            -->
             <!-- buttons -->
             <cue name="Confirm" instantiate="true">
               <conditions>
@@ -728,10 +765,26 @@ aiscripts:
               </conditions>
               <delay exact="1ms" />
               <actions>
-                <do_if value="event.param.$id == 'SetDesiredUnits'">
-
+                <set_value name="$id" exact="event.param.$id" />
+                <do_if value="$id == 'SetDesiredUnits'">
+                  <set_value name="Maint.$Ships.{$ship}.$DesiredUnits" exact="$value" />
                 </do_if>
-
+                <do_elseif value="$id == 'MakeDedicated'">
+                </do_elseif>
+                <do_elseif value="$id == 'MakeDedicated'">
+                </do_elseif>
+                <do_elseif value="$id == 'MakeDedicated'">
+                </do_elseif>
+                <do_elseif value="$id == 'MakeDedicated'">
+                </do_elseif>
+                <do_elseif value="$id == 'MakeDedicated'">
+                </do_elseif>
+                <do_elseif value="$id == 'MakeDedicated'">
+                </do_elseif>
+                <do_elseif value="$id == 'MakeDedicated'">
+                  <set_value name="Maint.$Ships.{$Ship}.$SupplyShip" exact="true" />
+                  <add_to_group groupname="Maint.$SupplyShips" object="$Ship" />
+                </do_elseif>
                 <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
               </actions>
             </cue>
