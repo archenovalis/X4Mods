@@ -2,7 +2,7 @@
 <mdscript name="GalacticBankRC3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="Vault" namespace="this" version="2">
+		<cue name="Vault" namespace="this" version="3">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -93,9 +93,10 @@
 				]" />
 
 			</actions>
-			<patch sinceversion="2">
+			<patch sinceversion="3">
 				<set_value name="Vault.$PaymentFees" exact="[0.20,0.15,0.10,0.05,0]" />
-				<do_for_each name="$Account" in="$Accounts">
+				<do_for_each name="$faction" in="$Accounts">
+					<set_value name="$Account" exact="$Accounts.{$faction}" />
 					<set_value name="$Account.$paymentFee" exact="$PaymentFees.{$Account.$tier}" />
 				</do_for_each>
 				<set_value name="$SetupComplete" exact="false" />
