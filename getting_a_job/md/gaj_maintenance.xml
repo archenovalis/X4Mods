@@ -1,39 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mdscript name="GAJ_Maintenance" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../xsd/md.xsd">
-  <!-- GUIDELINE:
-Ship maintanace cost = its $threatscore
-Total costs of all ships will be multiplied by $PowerCostMult1 that is based on $PlayerPower level (no payment if you are nobody)
-
-Sector supply value - how much of total $threatscore is negated from maintenece cost if player ownes the sector, EQ docks improve that parameter
-Ship Supplies - new ware for ship building, it also will be consumed on EQ docks to increase $SuppplyLevel of a sector by x2 max
-
-Each cycle we do:
-1. Calculate total Supply Cost of all ships (their total $threatscore = TotalSupplyCost)
-2. Multiply total Supply Cost by Player Power ($TotalSupplyCost * $PowerCostMultFinal = $TotalSupplyCostFinal)
-3. Check for owned sectors and calculate their Supply level ($SupplyLevelBasic, defaulted for most sectors, but some give more, need table for this below)
-4. Check for EQ docks (each DIFFERNT ship size EQ dock adds 1 to multiplier to sector supply, up to 4 with all ship sizes) in each of owned sectors and consume Supply wares to satisfy Supply Demand ($AllSectorsSupplyLevelTotal, $FinalSupplyCost and $TotalWaresToRemove)
-5. Calculate $FinalSupplyCost if we still have something to cover (if 0 or lower, nothing to pay.)
-6. If $FinalSupply >0 after wares consumption, then multiply by $DefaultCostMultiplier and pay in credits.
-7. If not enough credits to pay, something bad happens (maybe some ships will leave you or take damage, still to decide)
--->
 
   <!-- todo:
-lua menu
-  combine buttons and text
 
-  create section showing:
-    last cycle
-    next cycle
-    total salary
-    number of supply ships
-    number of dedicated resupply ships
-    number of resupply ships
-    number of ships with low supplies (button to set cycle remaining)
+  lua menu
+    create section showing:
+      last cycle
+      next cycle
+      total salary
+      number of supply ships
+      number of dedicated resupply ships
+      number of resupply ships
+      number of ships with low supplies (button to set cycle remaining)
 
-aiscripts:
-  size_s ships buy supplies by the unit instead of by the container
-  resupply ships buy supplies by the container, and then deliver them to ships which consume them
--->
+  aiscripts:
+    size_s ships buy supplies by the unit instead of by the container
+    resupply ships buy supplies by the container, and then deliver them to ships which consume them
+
+  planet stations refill with supplies
+  -->
 
   <cues>
     <cue name="Maint" namespace="this" version="1" mapeditor="false">
@@ -46,48 +31,47 @@ aiscripts:
       </conditions>
       <actions>
         <set_value name="global.$GAJ_Maint" exact="this" />
-        <!-- used in other cues/aiscripts -->
+
         <create_group groupname="Maint.$SupplyGroup" />
         <create_group groupname="Maint.$DedicatedGroup" />
         <create_group groupname="Maint.$ResupplyGroup" />
-        <!-- $data from last cycle -->
+
         <set_value name="Maint.$LastCycle" exact="table[]" />
+        <set_value name="Maint.$NumCyclesLow" exact="2" />
+
         <!-- $states.{$ship}.
+          $SupplyUnits = int      (current ship supply units)
+          $DesiredUnits = int     (restocks supplies when below)
+          $WearTear = int         (unit cost, each cycle, increases by threatscore multiplied by ship size)
           $SupplyShip = bool      is a supply ship, ships come to it or a dock, whichever is closer
+          $DesiredSupplies = int  (resupply ships deliver supply crates upto this ammount)
           $HomeSector = sector    resupply ship's base sector
           $GateRange = int        resupply ship's range
-          $DesiredSupplies = int  (resupply ships deliver supply crates upto this ammount)
-          $DesiredUnits = int     (restocks supplies when below)
-          $WearTear = int         (unit cost)
-          $SupplyUnits = int      (current ship supply units)
         -->
         <set_value name="Maint.$States" exact="table[]" />
+
         <!-- 
-          ReceiveDeliveriesProps (checkbox)
-          SetDesiredProps
-          RemoveSupplyShipProps
-          ChangeSupplyShipProps
-          MakeResupplyShipProps
-          SetHomeSectorProps
-          SetRangeProps
-          MakeDedicatedProps
-          MakeSupplyShipProps
+          ReceiveDeliveries (checkbox)
+          SetDesiredUnits (Ship's units)
+          RemoveSupplyShip
+          MakeResupplyShip
+          SetHomeSector
+          SetRange
+          AssignSupplyShip
+          MakeSupplyShip
+          SetDesiredSupplies (Cargo)
         -->
         <set_value name="Maint.$Props" exact="table[]" />
         <set_value name="$Props.$ReceiveDeliveries" exact="table[
           $width = 20
         ]" />
-        <set_value name="$Props.$SetDesired" exact="table[
+        <set_value name="$Props.$SetDesiredUnits" exact="table[
           $width=100,
-          $mouseOverText = 'Set Desired Supply Units.'
+          $mouseOverText = 'Set Desired Shipsupply Units.'
         ]" />
         <set_value name="$Props.$RemoveSupplyShip" exact="table[
           $width=100,
           $mouseOverText = 'Remove Supply Ship Designation.'
-        ]" />
-        <set_value name="$Props.$ChangeSupplyShip" exact="table[
-          $width=100,
-          $mouseOverText = 'Reassign to a different supply ship.'
         ]" />
         <set_value name="$Props.$MakeResupplyShip" exact="table[
           $width=100,
@@ -101,7 +85,7 @@ aiscripts:
           $width=100,
           $mouseOverText = 'Set gate range from home sector.'
         ]" />
-        <set_value name="$Props.$MakeDedicated" exact="table[
+        <set_value name="$Props.$AssignSupplyShip" exact="table[
           $width=100,
           $mouseOverText = 'Assign to a supply ship.'
         ]" />
@@ -109,7 +93,10 @@ aiscripts:
           $width=100,
           $mouseOverText = 'Designate as a supply ship.'
         ]" />
-
+        <set_value name="$Props.$SetDesiredSupplies" exact="table[
+          $width=100,
+          $mouseOverText = 'Set desired cargo supply containers.'
+        ]" />
         <set_value name="player.entity.$gajMaintenanceProps" exact="$Props" />
 
         <!-- service crew repair costs -->
@@ -132,19 +119,21 @@ aiscripts:
 
         <!-- energy -->
         <set_value name="$KECost" exact="0.001" /> <!-- % of maxhull -->
-        <set_value name="$shieldPercCost" exact="0.0001" /> <!-- % of max shields -->
+        <set_value name="$shieldPercCost" exact="0.0001" /> <!-- % of max shields * threatscore to simulate weapons -->
+
         <!-- crew salary-->
         <set_value name="$PilotSalary" exact="500" />
         <set_value name="$MarineSalary" exact="250" />
         <set_value name="$ServiceSalary" exact="100" />
 
         <!-- crew food supply units -->
-        <set_value name="$PilotFood" exact="1" />
-        <set_value name="$PilotFood" exact="1" />
-        <set_value name="$PilotFood" exact="1" />
+        <set_value name="$Food" exact="1" />
+        <!-- <set_value name="$PilotFood" exact="1" />
+        <set_value name="$MarineFood" exact="1" />
+        <set_value name="$ServiceFood" exact="1" /> -->
 
         <!-- List of default and non-default sector supplies -->
-        <set_value name="$DefaulSupplyLevel" exact="100" />
+        <!-- <set_value name="$DefaulSupplyLevel" exact="100" />
         <set_value name="$UniqueSupplyLevelTable" exact="table[
           {macro.swi_clustercoruscant_sector001_macro}= 500,
           {macro.swi_clusterkuat_sector001_macro}= 500,
@@ -229,7 +218,7 @@ aiscripts:
           {macro.swi_clusteralderaan_sector001_macro}= 200,
           {macro.swi_clusterringomoon_sector001_macro}= 200,
           {macro.swi_clusterhuk_sector001_macro}= 200,
-          ]" />
+          ]" /> -->
       </actions>
 
       <cues>
@@ -240,35 +229,75 @@ aiscripts:
           <actions>
             <set_value name="$DebugChance" exact="100" />
 
-            <!-- Data received from sw_reactivemain.xml
 
-            - empire data -
-            $Data.$totalPilots
-            $Data.$totalMarines
-            $Data.$totalService
+            <!--
+            number Pilots     totalPilots
+            number Marines    totalMarines
+            number Service    totalService
+            total salary
+            total crew supplies needed
+            marines quit      marinesQuiting
+            service quit      serviceQuiting
 
-            $table.{$Asset}.$Size" exact="$Size" />
-            $table.{$Asset}.$Name" exact="$Asset.name" />
-            $table.{$Asset}.$Sector" exact="$Asset.sector" />
-            $table.{$Asset}.$Maxhull" exact="$Asset.maxhull" />
-            $table.{$Asset}.$Maxshields" exact="$Asset.maxshield" />
-            $table.{$Asset}.$Hull" exact="$Asset.hull+' / '+$table.{$Asset}.$Maxhull" />
-            $table.{$Asset}.$Shields" exact="$Asset.shield+' / '+$table.{$Asset}.$Maxshields" />
-            $table.{$Asset}.$Pilot" exact="$Asset.assignedpilot" />
-            $table.{$Asset}.$service" exact="$Asset.people.{entityrole.service}.list" />
-            $table.{$Asset}.$marines" exact="$Asset.people.{entityrole.marine}.list" />
-            $table.{$Asset}.$Crew" exact="[$table.{$Asset}.$Marines.count, $table.{$Asset}.$Service.count" />
-            $table.{$Asset}.$Cargo" exact="$Asset.cargo" />
-            $table.{$Asset}.$Threatscore" exact="$Asset.threatscore" />
-            $table.{$Asset}.$ShipSupplies" exact="$SupplyTable.{$Asset}" />
+            ship stats (7 columns)
+            number of supply ships  Maint.$SupplyShips.keys.count
+            number of dedicated resupply ships  Maint.$DedicatedResupplyShips.keys.count
+            number of resupply ships        Maint.$ResupplyShips.keys.count
+            number of ships with low supplies (button to set cycle remaining)
+            total wear and tear
+            total energy
+            total supplies needed -->
+
+            <!-- Data variables:
+            == empire data ==
+            - from reactive -
+            totalPilots
+            totalMarines
+            totalService
+
+            - calculated here -
+              Total Salary
+            pilotSalary
+            marineSalary
+            serviceSalary
+            marinesQuiting
+            serviceQuiting
+
+            == ship data ==
+            - from reactive -
+            ship.Size           ('S', 'M', 'L', 'XL', 'XXL')
+            ship.Name
+            ship.Sector
+            ship.Shields        (max shields)
+            ship.Hull           (max hull)
+            ship.Crew [marines.count, service.count]
+            ship.Cargo [all]    (replaced here with number of supply crates)
+            ship.Threatscore
+
+            - calculated here -
+            ship.RepairComplexity [1, 1000 * $size / ($threatscore * (1 + $repairFactor.{size}))].max
+            ship.CyclesRemaining
+            ship.TotalUsage
+            ship.CrewUsage
+            ship.EnergyUsage
+            ship.WearTear (additional units per cycle)
+
+            - States
+            ship.SupplyUnits
+            ship.DesiredUnits
+            ship.WearTear
+            ship.SupplyShip
+            ship.DesiredSupplies
+            ship.HomeSector
+            ship.GateRange
             -->
             <set_value name="$Data" exact="event.param" />
             <!-- 
             - ship tables -
-            $Data.$supplyships
-            $Data.$dedicatedresupplyships
-            $Data.$resupplyships
-            $Data.$ships
+            $Data.$Supplyships
+            $Data.$DedicatedResupplyShips
+            $Data.$ResupplyShips
+            $Data.$Ships
             -->
             <do_if value="$LastCycle.keys.count gt 0">
               <set_value name="$Data.$Tables" exact="['SupplyShips','DedicatedResupplyShips','ResupplyShips','Ships']" />
@@ -354,8 +383,8 @@ aiscripts:
                   <set_value name="$asset.$GateRange" exact="@$State.$GateRange" />
                   <set_value name="$asset.$DesiredSupplies" exact="@$State.$DesiredSupplies" />
                   <set_value name="$asset.$DesiredUnits" exact="$State.$DesiredUnits" />
-                  <set_value name="$asset.$WearTear" exact="$State.$WearTear + $asset.$Threatscore * $SizeLookup.{'$'+$asset.$Size}" />
                   <set_value name="$supplyUnits" exact="$State.$SupplyUnits" />
+                  <set_value name="$asset.$WearTear" exact="$State.$WearTear + $asset.$Threatscore * $SizeLookup.{'$'+$asset.$Size}" />
 
                   <!-- begin calculations -->
                   <do_if value="$asset.$Cargo.{$SupplyWare}.exists">
@@ -477,7 +506,7 @@ aiscripts:
                 </do_if> -->
                   <do_if value="$marinePayChance gt 0 or $marineFoodChance gt 0">
                     <set_value name="$asset.$marinesQuiting" exact="[]" />
-                    <do_for_each name="$marine" in="$Data.$Asset.$marines">
+                    <do_for_each name="$marine" in="$asset.$Marines">
                       <set_skill entity="$marine" type="skilltype.morale" exact="$marine.skill.morale * 0.9" chance="$marinePayChance" />
                       <do_if value="true" chance="[$marineFoodChance - (0.1 * $marine.skill.morale/3), 0].max">
                         <append_to_list name="$asset.$marinesQuiting" exact="$marine" />
@@ -486,7 +515,7 @@ aiscripts:
                     </do_for_each>
                   </do_if>
                   <do_if value="$servicePayChance gt 0 or $serviceFoodChance gt 0">
-                    <do_for_each name="$service" in="$Data.$Asset.$service">
+                    <do_for_each name="$service" in="$asset.$Service">
                       <set_skill entity="$service" type="skilltype.morale" exact="$service.skill.morale * 0.9" chance="$servicePayChance" />
                       <do_if value="true" chance="[$serviceFoodChance - (0.1 * $service.skill.morale/3), 0].max">
                         <append_to_list name="$asset.$serviceQuiting" exact="$service" />
@@ -512,6 +541,9 @@ aiscripts:
                   <set_value name="$asset.$CyclesRemaining" exact="$asset.$ShipUnits / $asset.$TotalUsage" />
                 </do_for_each>
               </do_for_each>
+              <set_value name="$Data.$LastCycle" exact="$LastCycle.clone" />
+              <set_value name="$LastCycle" exact="$Data.clone" />
+              <remove_value name="$LastCycle.$LastCycle" />
             </do_if>
             <!-- first cycle -->
             <do_else>
@@ -558,49 +590,6 @@ aiscripts:
             <set_value name="$Data.$timeNextAssessment" exact="player.age + $CheckIntrevalUI" />
             <debug_text text="'player.age: ' + player.age + ' $CheckIntrevalUI: ' + $CheckIntrevalUI" />
 
-            <!-- Data variables:
-            == empire data ==
-            - from reactive -
-            totalPilots
-            totalMarines
-            totalService
-
-            - calculated here -
-            pilotSalary
-            marineSalary
-            serviceSalary
-            marinesQuiting
-            serviceQuiting
-
-            == ship data ==
-            - from reactive -
-            ship.Size
-            ship.Name
-            ship.Sector
-            ship.Shields
-            ship.Hull
-            ship.Crew [marines.count, service.count]
-            ship.Cargo []
-            ship.Threatscore
-            ship.ShipSupplies
-
-            - calculated here -
-            ship.RepairComplexity [1, 1000 * $size / ($threatscore * (1 + $repairFactor.{size}))].max
-            ship.CyclesRemaining
-            ship.TotalUsage
-            ship.CrewUsage
-            ship.EnergyUsage
-            ship.WearTear (additional units per cycle)
-
-            - States
-            ship.SupplyShip
-            ship.HomeSector
-            ship.GateRange
-            ship.DesiredSupplies
-            -->
-
-            <set_value name="$LastCycle" exact="$Data.clone" />
-            <remove_value name="$LastCycle.$LastCycle" />
             <do_if value="MaintenanceMenu.state != cuestate.waiting" comment="menu is open">
               <set_value name="player.entity.$gajMaintenanceData" exact="$Data" />
               <raise_lua_event name="'gaj.togglePlayerInfoMenuRefresh'" />
@@ -608,10 +597,63 @@ aiscripts:
           </actions>
         </cue>
 
-        <cue name="LuaEvents" namespace="this" instantiate="true">
+        <cue name="EmpireData" instantiate="true">
+          <conditions>
+          </conditions>
+          <delay exact="1ms" />
+          <actions>
+            <set_value name="$Data" exact="table[]" />
+            <set_value name="$Data.$LastCycle" exact="table[]" />
+            <set_value name="$Data.$Current" exact="table[]" />
+            <!--
+            crew stats: (5 columns)
+            number Pilots
+            number Marines
+            number Service
+            total salary
+            total crew supplies needed
+          
+            ship stats (7 columns)
+            number of supply ships
+            number of dedicated resupply ships
+            number of resupply ships
+            number of ships with low supplies (button to set cycle remaining)
+            total wear and tear
+            total energy
+            total supplies needed
+            -->
+            <set_value name="player.entity.$gajMaintenanceEmpireData" exact="$Data" />
+          </actions>
+        </cue>
+
+        <!-- cant be instanced because needs to wait for map selection -->
+        <cue name="LuaEvents" namespace="this">
+          <conditions>
+            <event_ui_triggered screen="'GAJ_Maint'" control="'SetHomeSector'" /> <!-- button: param3 = ship -->
+          </conditions>
+          <delay exact="1ms" />
+          <actions>
+            <set_value name="$Ship" exact="event.param3" />
+          </actions>
+          <cues>
+            <cue name="SetHomeSector" instantiate="true">
+              <conditions>
+                <event_ui_triggered screen="'GAJ_Maint_SelectHomeSector'" />
+              </conditions>
+              <actions>
+                <set_value name="Maint.$State.{$Ship}.$HomeSector" exact="event.param3" />
+                <raise_lua_event name="'gaj.togglePlayerInfoMenuRefresh'" />
+                <reset_cue cue="this" />
+                <reset_cue cue="parent" />
+              </actions>
+            </cue>
+          </cues>
+        </cue>
+
+        <cue name="LuaEvents_Instanced" namespace="this" instantiate="true">
           <conditions>
             <check_any>
-              <!-- all -->
+              <event_cue_signalled /> <!-- param.$event param.$Ship -->
               <event_ui_triggered screen="'GAJ_Maint'" control="'SetDesiredUnits'" /> <!-- button: param3 = ship -->
               <!-- supply ships -->
               <event_ui_triggered screen="'GAJ_Maint'" control="'SetDesiredSupplies'" /> <!-- button: param3 = ship -->
@@ -619,9 +661,8 @@ aiscripts:
               <!-- dedicated resupply ships -->
               <event_ui_triggered screen="'GAJ_Maint'" control="'MakeResupplyShip'" /> <!-- button: param3 = ship -->
               <!-- resupply ships -->
-              <event_ui_triggered screen="'GAJ_Maint'" control="'SetHomeSector'" /> <!-- button: param3 = ship -->
               <event_ui_triggered screen="'GAJ_Maint'" control="'SetRange'" /> <!-- button: param3 = ship -->
-              <event_ui_triggered screen="'GAJ_Maint'" control="'MakeDedicated'" /> <!-- button: param3 = ship -->
+              <event_ui_triggered screen="'GAJ_Maint'" control="'AssignSupplyShip'" /> <!-- button: param3 = ship -->
               <!-- ships -->
               <event_ui_triggered screen="'GAJ_Maint'" control="'ReceiveDeliveries'" /> <!-- checkbox: param3 = [checked, ship]-->
               <event_ui_triggered screen="'GAJ_Maint'" control="'MakeSupplyShip'" /> <!-- button: param3 = ship -->
@@ -630,57 +671,132 @@ aiscripts:
           <delay exact="1ms" />
           <actions>
             <set_value name="$value" exact="null" />
-            <set_value name="$event" exact="event.param2" />
-
-            <!-- checkbox: param3 = [checked, ship]-->
-            <do_if value="$event == 'ReceiveDeliveries'">
-              <set_value name="Maint.$States.{event.param3.{2}}.$ReceiveDeliveries" exact="event.param3.{1}" />
-              <cancel_cue cue="this" />
-            </do_if>
-
-            <!-- buttons: param3 = ship -->
-            <set_value name="$Ship" exact="event.param3" />
             <set_value name="$mouseOverText" exact="''" />
 
-            <do_if value="$event == 'RemoveSupplyShip'">
-              <set_value name="Maint.$States.{$Ship}.$SupplyShip" exact="false" />
-              <remove_from_group group="Maint.$SupplyShips" object="$Ship" />
-              <!-- todo: refresh menu -->
+            <do_if value="event.name == 'event_ui_triggered'">
+              <set_value name="$event" exact="event.param2" />
+              <do_if value="$event == 'ReceiveDeliveries'">
+                <set_value name="$Ship" exact="event.param3.{2}" />
+              </do_if>
+              <do_else>
+                <set_value name="$Ship" exact="event.param3" />
+              </do_else>
+            </do_if>
+            <do_elseif value="event.name == 'event_cue_signalled'">
+              <set_value name="$event" exact="event.param.$event" />
+              <set_value name="$Ship" exact="event.param.$Ship" />
+            </do_elseif>
+            <set_value name="$State" exact="Maint.$States.{$Ship}" />
+
+            <do_if value="$event == 'ReceiveDeliveries'"><!-- checkbox: param3 = [checked, ship]-->
+              <set_value name="$State.$ReceiveDeliveries" exact="event.param3.{1}" />
               <cancel_cue cue="this" />
             </do_if>
 
-            <do_if value="$event == 'MakeResupplyShip'">
-              <set_value name="Maint.$States.{$Ship}.$DedicatedResupplyShip" exact="null" />
-              <set_value name="$event" exact="'SetHomeSector'" />
-              <set_value name="$makeRange" exact="true" />
+            <do_if value="$event == 'RemoveSupplyShip'"><!-- buttons: param3 = ship -->
+              <set_value name="$State.$IsSupplyShip" exact="false" />
+              <remove_from_group group="Maint.$SupplyShips" object="$Ship" />
+              <add_to_group groupname="Maint.$Ships" object="$Ship" />
+              <raise_lua_event name="'gaj.togglePlayerInfoMenuRefresh'" />
+              <cancel_cue cue="this" />
             </do_if>
-            <do_if value="$event == 'SetHomeSector'">
-              <!-- todo: choose sector -->
-              <do_if value="@$makeRange">
-                <set_value name="$event" exact="'SetRange'" />
-              </do_if>
-            </do_if>
-            <do_if value="$event == 'MakeSupplyShip'">
-              <set_value name="Maint.$States.{$Ship}.$SupplyShip" exact="true" />
-              <set_value name="$event" exact="'SetDesiredSupplies'" />
-            </do_if>
-            <do_if value="$event == 'SetDesiredUnits'">
+            <do_elseif value="$event == 'MakeSupplyShip'">
+              <set_value name="$State.$IsSupplyShip" exact="true" />
+              <add_to_group groupname="Maint.$SupplyShips" object="$Ship" />
+              <remove_from_group group="Maint.$Ships" object="$Ship" />
+              <signal_cue_instantly cue="LuaEvents_Instanced" param="table[$Ship = $Ship, $event='SetDesiredSupplies']" />
+            </do_elseif>
+            <do_elseif value="$event == 'SetDesiredUnits'">
               <set_value name="$title" exact="'Set Desired Ship Supplies'" />
-              <set_value name="$max" exact="Maint.$ShipStockpiles.{'$'+Maint.$States.{$ship}.$Size}" />
-              <set_value name="$openMenu" exact="true" />
-            </do_if>
-            <do_if value="$event == 'SetDesiredSupplies'">
+              <set_value name="$max" exact="Maint.$ShipStockpiles.{'$'+$State.$Size}" />
+              <set_value name="$openBasicSliderMenu" exact="true" />
+            </do_elseif>
+            <do_elseif value="$event == 'SetDesiredSupplies'">
               <set_value name="$title" exact="'Set Desired Cargo Supplies'" />
               <set_value name="$max" exact="$Ship.macro.cargo.{$SupplyWare}.max" />
-              <set_value name="$openMenu" exact="true" />
-            </do_if>
+              <set_value name="$openBasicSliderMenu" exact="true" />
+            </do_elseif>
             <do_elseif value="$event == 'SetRange'">
               <set_value name="$title" exact="'Set Gate Range for Resupply Ship'" />
-              <set_value name="$max" exact="99" />
-              <set_value name="$openMenu" exact="true" />
+              <set_value name="$max" exact="30" />
+              <set_value name="$openBasicSliderMenu" exact="true" />
             </do_elseif>
+            <do_elseif value="$event == 'AssignSupplyShip'">
+              <set_value name="$group" exact="Maint.$SupplyShips" />
+              <set_value name="$title" exact="'Assign to Supply Ship'" />
+              <set_value name="$openGroupMenu" exact="true" />
+            </do_elseif>
+            <do_elseif value="$event == 'MakeResupplyShip'">
+              <do_if value="@Maint.$DedicatedResupplyShips.indexof.{$Ship}">
+                <set_value name="$State.$AssignedSupplyShip" exact="null" />
+                <remove_from_group group="Maint.$DedicatedResupplyShips" object="$Ship" />
+                <add_to_group groupname="Maint.$ResupplyShips" object="$Ship" />
+                <set_value name="player.entity.$gajMaintenanceShipId" exact="$Ship" />
+                <raise_lua_event name="'gaj_maint.chooseSector'" />
+              </do_if>
+              <do_else>
+                <remove_from_group group="Maint.$Ships" object="$Ship" />
+                <add_to_group groupname="Maint.$ResupplyShips" object="$Ship" />
+                <set_value name="$State.$IsResupplyShip" exact="true" />
 
-            <do_if value="@$openMenu">
+                <!-- menus -->
+                <!-- select home sector or assign to supply ship menu -->
+                <signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
+                  $id = $event,
+                  $columns = 1
+                  $title = 'Choose type:',
+                  $height = 50,
+                  $width = 100
+                ]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+                  $id = 'sector',
+                  $col = 1,
+                  $text = table[$text='Sector'],
+                  $mouseOverText = table[$text=$mouseOverText],
+                  $onClick = Confirm
+                ]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+                  $id = 'dedicated',
+                  $col = 1,
+                  $text = table[$text='Dedicated'],
+                  $mouseOverText = table[$text=$mouseOverText],
+                  $onClick = Confirm
+                ]" />
+              </do_else>
+            </do_elseif>
+            <!-- select from group menu -->
+            <do_if value="@$openGroupMenu">
+              <signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
+                  $id = $event,
+                  $columns = 2
+                  $title = $title,
+                  $height = 400,
+                  $width = 495
+                ]" />
+              <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
+              <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
+              <do_for_each name="$ship" in="$group">
+                <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                <!-- ship name and sector -->
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
+									$col=1,
+									$halign='left',
+									$text=$ship.sector.name+' | '+$group.{$ship}.$Size+' '+$ship.name
+								]" />
+                <!-- button -->
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
+                  $id = $event,
+                  $col = 2,
+                  $text = table[$text='Set'],
+                  $onClick = Confirm,
+                  $echo = $ship
+                ]" />
+              </do_for_each>
+            </do_if>
+            <!-- basic slider menu -->
+            <do_elseif value="@$openBasicSliderMenu">
               <signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
                 $id = $event,
                 $columns = 1
@@ -705,37 +821,7 @@ aiscripts:
                 $mouseOverText = table[$text=$mouseOverText],
                 $onClick = Confirm
               ]" />
-            </do_if>
-            <do_if value="$event == 'MakeDedicated'">
-              <!-- select ship menu -->
-              <signal_cue_instantly cue="md.Simple_Menu_API.Create_Menu" param="table[
-                  $id = $event,
-                  $columns = 2
-                  $title = '',
-                  $height = 400,
-                  $width = 495
-                ]" />
-              <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=1, $width=374]" />
-              <signal_cue_instantly cue="md.Simple_Menu_API.Call_Table_Method" param="table[$method='setColWidth', $col=2, $width=119]" />
-              <do_for_each name="$ship" in="Maint.$SupplyShips">
-                <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
-                <!-- ship name and sector -->
-                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Text" param="table[
-									$col=1,
-									$halign='left',
-									$text=$ship.sector.name+' | '+Maint.$Ships.{$ship}.$Size+' '+$ship.name
-								]" />
-                <!-- button -->
-                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
-                  $id = $event,
-                  $col = 2,
-                  $text = table[$text='Set'],
-                  $onClick = Confirm,
-                  $echo = $ship
-                ]" />
-              </do_for_each>
-              <!-- <set_value name="Maint.$States.{$Ship}.$DedicatedResupplyShip" exact="$supplyship" /> -->
-            </do_if>
+            </do_elseif>
           </actions>
           <cues>
             <!-- sliders -->
@@ -748,18 +834,8 @@ aiscripts:
                 <cancel_cue cue="this" />
               </actions>
             </cue>
-
-            <!-- 
-              $SupplyShip = bool is a supply ship, ships come to it or a dock, whichever is closer
-              $HomeSector = sector resupply ship's base sector
-              $GateRange = int resupply ship's range
-              $DesiredSupplies = int (resupply ships deliver supply crates upto this ammount)
-              $DesiredUnits = int (restocks supplies when below)
-              $WearTear = int (unit cost)
-              $SupplyUnits = int (current ship supply units)
-            -->
             <!-- buttons -->
-            <cue name="Confirm" instantiate="true">
+            <cue name="Confirm">
               <conditions>
                 <event_cue_signalled />
               </conditions>
@@ -767,25 +843,33 @@ aiscripts:
               <actions>
                 <set_value name="$id" exact="event.param.$id" />
                 <do_if value="$id == 'SetDesiredUnits'">
-                  <set_value name="Maint.$Ships.{$ship}.$DesiredUnits" exact="$value" />
+                  <set_value name="$State.$DesiredUnits" exact="$value" />
                 </do_if>
-                <do_elseif value="$id == 'MakeDedicated'">
+                <do_elseif value="$id == 'SetRange'">
+                  <set_value name="$State.$GateRange" exact="$value" />
                 </do_elseif>
-                <do_elseif value="$id == 'MakeDedicated'">
+                <do_elseif value="$id == 'SetDesiredSupplies'">
+                  <set_value name="$State.$DesiredSupplies" exact="$value" />
                 </do_elseif>
-                <do_elseif value="$id == 'MakeDedicated'">
+                <do_elseif value="$id == 'sector'">
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+                  <set_value name="player.entity.$gajMaintenanceShipId" exact="$Ship" />
+                  <raise_lua_event name="'gaj_maint.chooseSector'" />
                 </do_elseif>
-                <do_elseif value="$id == 'MakeDedicated'">
+                <do_elseif value="$id == 'dedicated'">
+                  <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+                  <signal_cue_instantly cue="LuaEvents_Instanced" param="table[$Ship = $Ship, $event='AssignSupplyShip']" />
                 </do_elseif>
-                <do_elseif value="$id == 'MakeDedicated'">
+                <do_elseif value="$id == 'AssignSupplyShip'">
+                  <set_value name="$State.$AssignedSupplyShip" exact="event.param.$echo" />
+                  <set_value name="$State.$GateRange" exact="null" />
+                  <set_value name="$State.$HomeSector" exact="null" />
+                  <add_to_group groupname="Maint.$DedicatedResupplyShips" object="$Ship" />
+                  <remove_from_group group="Maint.$ResupplyShips" object="$Ship" />
                 </do_elseif>
-                <do_elseif value="$id == 'MakeDedicated'">
-                </do_elseif>
-                <do_elseif value="$id == 'MakeDedicated'">
-                  <set_value name="Maint.$Ships.{$Ship}.$SupplyShip" exact="true" />
-                  <add_to_group groupname="Maint.$SupplyShips" object="$Ship" />
-                </do_elseif>
+
                 <signal_cue_instantly cue="md.Simple_Menu_API.Close_Menu" />
+                <raise_lua_event name="'gaj_maint.togglePlayerInfoMenuRefresh'" />
               </actions>
             </cue>
           </cues>
@@ -800,6 +884,8 @@ aiscripts:
           <actions>
             <!-- <debug_text text="event.name + ' param: ' + @event.param + ' event.param2: ' + @event.param2" /> -->
             <set_value name="player.entity.$gajMaintenanceData" exact="@$Data" />
+            <set_value name="player.entity.$gajMaintenanceProps" exact="@$Props" />
+            <signal_cue_instantly cue="EmpireData" />
           </actions>
           <cues>
             <cue name="MaintenanceMenu_Interval" checkinterval="0.25s" instantiate="true">
@@ -817,6 +903,7 @@ aiscripts:
               <actions>
                 <!-- <debug_text text="event.name + ' param: ' + @event.param + ' event.param2: ' + @event.param2" /> -->
                 <remove_value name="player.entity.$gajMaintenanceData" />
+                <set_value name="player.entity.$gajMaintenanceProps" />
                 <reset_cue cue="MaintenanceMenu" />
               </actions>
             </cue>

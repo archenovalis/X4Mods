@@ -8,12 +8,13 @@ local ModLua = {}
 
 local playerInfoMenu = nil
 --[[ local encyclopediaMenu = nil ]]
-gajMaintenanceMenu = {}
-gajMaintenanceMenu.infotable = nil
-gajMaintenanceMenu.timeNextAssessmentRow = nil
-gajMaintenanceMenu.timeNextAssessmentCol = nil
-gajMaintenanceMenu.data = nil
-gajMaintenanceMenu.props = nil
+GAJMaintenanceMenu = {}
+GAJMaintenanceMenu.infotable = nil
+GAJMaintenanceMenu.timeNextAssessmentRow = nil
+GAJMaintenanceMenu.timeNextAssessmentCol = nil
+GAJMaintenanceMenu.data = nil
+GAJMaintenanceMenu.props = nil
+GAJMaintenanceMenu.empireData = nil
 
 function ModLua.init()
     --[[ DebugError("gajMaintenance.init")
@@ -21,7 +22,7 @@ function ModLua.init()
     for key, value in pairs(sw_maintenance.swiMaintenanceMenu) do
         DebugError("Key: " .. tostring(key) .. ", Value: " .. tostring(value))
     end
-    
+
     DebugError("buttonTogglePlayerInfo_on_start: " .. tostring(sw_maintenance.swiMaintenanceMenu.buttonTogglePlayerInfo_on_start)) ]]
     playerInfoMenu = Helper.getMenu("PlayerInfoMenu")
     --[[ encyclopediaMenu = Helper.getMenu("EncyclopediaMenu")
@@ -38,25 +39,27 @@ function ModLua.init()
     playerInfoMenu.deregisterCallback("cleanup", sw_maintenance.cleanup) ]]
 
     DebugError("gajMaintenance.registerCallbacks")
-    gajMaintenanceMenu.playerId = ConvertStringTo64Bit(tostring(C.GetPlayerID()))
+    GAJMaintenanceMenu.playerId = ConvertStringTo64Bit(tostring(C.GetPlayerID()))
     playerInfoMenu.registerCallback("buttonTogglePlayerInfo_on_start",
-        gajMaintenanceMenu.buttonTogglePlayerInfo_on_start)
-    playerInfoMenu.registerCallback("createPlayerInfo_on_start", gajMaintenanceMenu.createPlayerInfo_on_start)
-    playerInfoMenu.registerCallback("createInfoFrame_on_start", gajMaintenanceMenu.createInfoFrame_on_start)
+        GAJMaintenanceMenu.buttonTogglePlayerInfo_on_start)
+    playerInfoMenu.registerCallback("createPlayerInfo_on_start", GAJMaintenanceMenu.createPlayerInfo_on_start)
+    playerInfoMenu.registerCallback("createInfoFrame_on_start", GAJMaintenanceMenu.createInfoFrame_on_start)
     playerInfoMenu.registerCallback("createInfoFrame_on_info_frame_mode",
-        gajMaintenanceMenu.createInfoFrame_on_info_frame_mode)
-    playerInfoMenu.registerCallback("cleanup", gajMaintenanceMenu.cleanup)
-    RegisterEvent("gaj.togglePlayerInfoMenuRefresh", gajMaintenanceMenu.togglePlayerInfoMenuRefresh)
+        GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode)
+    playerInfoMenu.registerCallback("cleanup", GAJMaintenanceMenu.cleanup)
+    RegisterEvent("gaj_maint.togglePlayerInfoMenuRefresh", GAJMaintenanceMenu.togglePlayerInfoMenuRefresh)
+    RegisterEvent("gaj_maint.chooseSector", GAJMaintenanceMenu.chooseSector)
 end
-function gajMaintenanceMenu.addToLeftBar(config)
+
+function GAJMaintenanceMenu.addToLeftBar(config)
     DebugError("gajMaintenance.addToLeftBar")
-    local isgajMaintenanceMenuExists
+    local isGAJMaintenanceMenuExists
     for _, leftBarEntry in ipairs(config.leftBar) do
         if leftBarEntry.mode == "gajMaintenance" then
-            isgajMaintenanceMenuExists = true
+            isGAJMaintenanceMenuExists = true
         end
     end
-    if not isgajMaintenanceMenuExists then
+    if not isGAJMaintenanceMenuExists then
         local gajMaintenanceBtn = {
             name = "Emergent Maintenance",
             icon = "shipbuildst_repair",
@@ -74,28 +77,35 @@ function gajMaintenanceMenu.addToLeftBar(config)
     end
     playerInfoMenu.config = config
 end
-function gajMaintenanceMenu.buttonTogglePlayerInfo_on_start(mode, config)
+
+function GAJMaintenanceMenu.buttonTogglePlayerInfo_on_start(mode, config)
     DebugError("gajMaintenance.buttonTogglePlayerInfo_on_start")
-    gajMaintenanceMenu.addToLeftBar(config)
+    GAJMaintenanceMenu.addToLeftBar(config)
 end
-function gajMaintenanceMenu.createPlayerInfo_on_start(config)
+
+function GAJMaintenanceMenu.createPlayerInfo_on_start(config)
     DebugError("gajMaintenance.createPlayerInfo_on_start")
-    gajMaintenanceMenu.addToLeftBar(config)
+    GAJMaintenanceMenu.addToLeftBar(config)
 end
-function gajMaintenanceMenu.createInfoFrame_on_start()
+
+function GAJMaintenanceMenu.createInfoFrame_on_start()
     DebugError("gajMaintenance.createInfoFrame_on_start")
-    gajMaintenanceMenu.data = GetNPCBlackboard(gajMaintenanceMenu.playerId, "$gajMaintenanceData")
-    gajMaintenanceMenu.props = GetNPCBlackboard(gajMaintenanceMenu.playerId, "$gajMaintenanceProps")
+    GAJMaintenanceMenu.data = GetNPCBlackboard(GAJMaintenanceMenu.playerId, "$gajMaintenanceData")
+    GAJMaintenanceMenu.props = GetNPCBlackboard(GAJMaintenanceMenu.playerId, "$gajMaintenanceProps")
+    GAJMaintenanceMenu.empireData = GetNPCBlackboard(GAJMaintenanceMenu.playerId, "$gajMaintenanceEmpireData")
 end
-function gajMaintenanceMenu.cleanup()
+
+function GAJMaintenanceMenu.cleanup()
     DebugError("gajMaintenance.cleanup")
-    gajMaintenanceMenu.infotable = nil
-    gajMaintenanceMenu.timeNextAssessmentRow = nil
-    gajMaintenanceMenu.timeNextAssessmentCol = nil
-    gajMaintenanceMenu.data = nil
-    gajMaintenanceMenu.props = nil
+    GAJMaintenanceMenu.infotable = nil
+    GAJMaintenanceMenu.timeNextAssessmentRow = nil
+    GAJMaintenanceMenu.timeNextAssessmentCol = nil
+    GAJMaintenanceMenu.data = nil
+    GAJMaintenanceMenu.props = nil
+    GAJMaintenanceMenu.empireData = nil
 end
-function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableProperties)
+
+function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableProperties)
     DebugError("gajMaintenance.createInfoFrame_on_info_frame_mode")
     local menu = playerInfoMenu
     local config = menu.config
@@ -104,7 +114,7 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
         DebugError("gajMaintenance.menu.mode")
         local tableCols = 13
         tableProperties.width = tableProperties.width * 5 / 4
-        gajMaintenanceMenu.infotable = infoFrame:addTable(tableCols, {
+        GAJMaintenanceMenu.infotable = infoFrame:addTable(tableCols, {
             tabOrder = 1,
             borderEnabled = true,
             width = tableProperties.width,
@@ -112,53 +122,97 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
             y = tableProperties.y
         })
         if menu.setdefaulttable then
-            gajMaintenanceMenu.infotable.properties.defaultInteractiveObject = true
+            GAJMaintenanceMenu.infotable.properties.defaultInteractiveObject = true
             menu.setdefaulttable = nil
         end
-        gajMaintenanceMenu.infotable:setDefaultCellProperties("text", {
+        GAJMaintenanceMenu.infotable:setDefaultCellProperties("text", {
             minRowHeight = config.rowHeight,
             fontsize = Helper.standardFontSize
         })
-        gajMaintenanceMenu.infotable:setDefaultCellProperties("button", {
+        GAJMaintenanceMenu.infotable:setDefaultCellProperties("button", {
             height = config.rowHeight
         })
-        -- gajMaintenanceMenu.infotable:setColWidth (1, Helper.scaleY (config.rowHeight), false)
-        -- gajMaintenanceMenu.infotable:setColWidth (tableCols, Helper.scaleY (config.rowHeight), false)
-        row = gajMaintenanceMenu.infotable:addRow(nil, {
+        -- GAJMaintenanceMenu.infotable:setColWidth (1, Helper.scaleY (config.rowHeight), false)
+        -- GAJMaintenanceMenu.infotable:setColWidth (tableCols, Helper.scaleY (config.rowHeight), false)
+        row = GAJMaintenanceMenu.infotable:addRow(nil, {
             bgColor = Helper.defaultTitleBackgroundColor,
             borderBelow = false
         })
         row[1]:setColSpan(tableCols):createText("Emergent Maintenance", Helper.titleTextProperties)
-        if gajMaintenanceMenu.data then
+        if GAJMaintenanceMenu.data then
             DebugError("gajMaintenance.menu.data")
-            row = gajMaintenanceMenu.infotable:addRow(true, {
+            row = GAJMaintenanceMenu.infotable:addRow(true, {
                 bgColor = Helper.color.transparent,
                 borderBelow = false
             })
-            gajMaintenanceMenu.timeNextAssessmentRow = 2
+            GAJMaintenanceMenu.timeNextAssessmentRow = 2
             row[1]:createText("Next Cycle")
-            DebugError("timeNextAssessment", gajMaintenanceMenu.data.timeNextAssessment)
-            local timeLeft = gajMaintenanceMenu.data.timeNextAssessment - C.GetCurrentGameTime()
+            DebugError("timeNextAssessment", GAJMaintenanceMenu.data.timeNextAssessment)
+            local timeLeft = GAJMaintenanceMenu.data.timeNextAssessment - C.GetCurrentGameTime()
             if timeLeft < 60 then
-                row[2]:createText(tostring(math.floor(timeLeft * 100) / 100) .. ReadText(1001, 100)) -- seconds
+                row[2]:createText(tostring(math.floor(timeLeft * 100) / 100) .. ReadText(1001, 100))        -- seconds
             else
                 row[2]:createText(tostring(math.floor(timeLeft / 60.0 * 100) / 100) .. ReadText(1001, 103)) -- minutes
             end
-            gajMaintenanceMenu.timeNextAssessmentCol = 2
-            if next(gajMaintenanceMenu.data.supplyships) then
+            GAJMaintenanceMenu.timeNextAssessmentCol = 2
+
+
+            if next(GAJMaintenanceMenu.empireData.LastCycle) then
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                    bgColor = Helper.defaultTitleBackgroundColor,
+                    borderBelow = false
+                })
+                row[1]:setColSpan(tableCols):createText("Last Cycle Stats:", Helper.titleTextProperties)
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+            end
+            if next(GAJMaintenanceMenu.empireData.Current) then
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                    bgColor = Helper.defaultTitleBackgroundColor,
+                    borderBelow = false
+                })
+                row[1]:setColSpan(tableCols):createText("Current Stats:", Helper.titleTextProperties)
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+            end
+            --  create section showing:
+            --    last cycle (5 rows)
+            --    next cycle (5 rows)
+            --
+            --    crew stats: (5 columns)
+            --      number Pilots
+            --      number Marines
+            --      number Service
+            --      total salary
+            --      total crew supplies needed
+            --
+            --    ship stats (7 columns)
+            --      number of supply ships
+            --      number of dedicated resupply ships
+            --      number of resupply ships
+            --      number of ships with low supplies (button to set cycle remaining)
+            --      total wear and tear
+            --      total energy
+            --      total supplies needed
+
+            if next(GAJMaintenanceMenu.data.supplyships) then
                 DebugError("gajMaintenance.menu.data.supplyships")
-                row = gajMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
                 row[1]:createText("")
 
-                row = gajMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.defaultTitleBackgroundColor,
                     borderBelow = false
                 })
                 row[1]:setColSpan(tableCols):createText("Supply Ships", Helper.titleTextProperties)
-                row = gajMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -173,16 +227,16 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 row[9]:createText("Wear and Tear", Helper.subHeaderTextProperties)
                 row[10]:createText("Cargo Supplies", Helper.subHeaderTextProperties)
                 row[11]:createText("Remove Supply Ship", Helper.subHeaderTextProperties)
-                for shipid, ship in pairs(gajMaintenanceMenu.data.supplyships) do
-                    row = gajMaintenanceMenu.infotable:addRow(true, {
+                for shipid, ship in pairs(GAJMaintenanceMenu.data.supplyships) do
+                    row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
                     row[1]:createText(ship.Size)
                     row[2]:createText(ship.Name)
                     row[3]:createText(ship.Sector)
-                    row[4]:createButton(gajMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
-                                                                                              ship.DesiredUnits)
+                    row[4]:createButton(GAJMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
+                        ship.DesiredUnits)
                     row[4].handlers.onClick = function()
                         AddUITriggeredEvent("GAJ_Maint", "SetDesiredUnits", shipid)
                     end
@@ -191,12 +245,12 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                     row[7]:createText(ship.CrewUsage)
                     row[8]:createText(ship.EnergyUsage)
                     row[9]:createText(ship.WearTear)
-                    row[10]:createButton(gajMaintenanceMenu.props.SetDesiredSupplies):setText(
+                    row[10]:createButton(GAJMaintenanceMenu.props.SetDesiredSupplies):setText(
                         ship.ShipSupplies + " / " + ship.DesiredSupplies)
                     row[10].handlers.onClick = function()
                         AddUITriggeredEvent("GAJ_Maint", "SetDesiredSupplies", shipid)
                     end
-                    row[11]:createButton(gajMaintenanceMenu.props.RemoveSupplyShip):setText("Remove")
+                    row[11]:createButton(GAJMaintenanceMenu.props.RemoveSupplyShip):setText("Remove")
                     row[11].handlers.onClick = function()
                         AddUITriggeredEvent("GAJ_Maint", "RemoveSupplyShip", shipid)
                     end
@@ -204,20 +258,20 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
             end
             --	-- dedicated resupply ship
             -- 	size | name | sector | shields | hull | crew | cargo | personal supplies | expected supply usage | crew supply usage | ship supply usage | supply ship | change supply ship button | make range button
-            if next(gajMaintenanceMenu.data.dedicatedresupplyships) then
+            if next(GAJMaintenanceMenu.data.dedicatedresupplyships) then
                 DebugError("gajMaintenance.menu.data.dedicatedresupplyships")
-                row = gajMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
                 row[1]:createText("")
 
-                row = gajMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.defaultTitleBackgroundColor,
                     borderBelow = false
                 })
                 row[1]:setColSpan(tableCols):createText("Dedicated Resupply Ships", Helper.titleTextProperties)
-                row = gajMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -233,16 +287,16 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 row[10]:createText("Cargo Supplies", Helper.subHeaderTextProperties)
                 row[11]:createText("Supply Ship", Helper.subHeaderTextProperties)
                 row[12]:createText("Make Range Resupply", Helper.subHeaderTextProperties)
-                for shipid, ship in pairs(gajMaintenanceMenu.data.dedicatedresupplyships) do
-                    row = gajMaintenanceMenu.infotable:addRow(true, {
+                for shipid, ship in pairs(GAJMaintenanceMenu.data.dedicatedresupplyships) do
+                    row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
                     row[1]:createText(ship.Size)
                     row[2]:createText(ship.Name)
                     row[3]:createText(ship.Sector)
-                    row[4]:createButton(gajMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
-                                                                                              ship.DesiredUnits)
+                    row[4]:createButton(GAJMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
+                        ship.DesiredUnits)
                     row[4].handlers.onClick = function()
                         AddUITriggeredEvent("GAJ_Maint", "SetDesiredUnits", shipid)
                     end
@@ -252,11 +306,11 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                     row[8]:createText(ship.EnergyUsage)
                     row[9]:createText(ship.WearTear)
                     row[10]:createText(ship.ShipSupplies)
-                    row[11]:createButton(gajMaintenanceMenu.props.ChangeSupplyShip):setText(ship.SupplyShip)
+                    row[11]:createButton(GAJMaintenanceMenu.props.AssignSupplyShip):setText(ship.SupplyShip)
                     row[11].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "MakeDedicated", shipid)
+                        AddUITriggeredEvent("GAJ_Maint", "AssignSupplyShip", shipid)
                     end
-                    row[12]:createButton(gajMaintenanceMenu.props.MakeResupplyShip):setText("Switch")
+                    row[12]:createButton(GAJMaintenanceMenu.props.MakeResupplyShip):setText("Switch")
                     row[12].handlers.onClick = function()
                         AddUITriggeredEvent("GAJ_Maint", "MakeResupplyShip", shipid)
                     end
@@ -264,20 +318,20 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
             end
             --  -- resupply ships
             --	size | name | sector | shields | hull | crew | cargo | personal supplies | expected supply usage | crew supply usage | ship supply usage | home sector | range | set home sector button | set range button | make dedicated button
-            if next(gajMaintenanceMenu.data.resupplyships) then
+            if next(GAJMaintenanceMenu.data.resupplyships) then
                 DebugError("gajMaintenance.menu.data.resupplyships")
-                row = gajMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
                 row[1]:createText("")
 
-                row = gajMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.defaultTitleBackgroundColor,
                     borderBelow = false
                 })
                 row[1]:setColSpan(tableCols):createText("Resupply Ships", Helper.titleTextProperties)
-                row = gajMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -295,16 +349,16 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 row[11]:createText("Home Sector", Helper.subHeaderTextProperties)
                 row[12]:createText("Gate Range", Helper.subHeaderTextProperties)
                 row[13]:createText("Make Dedicated", Helper.subHeaderTextProperties)
-                for _, ship in ipairs(gajMaintenanceMenu.data.resupplyships) do
-                    row = gajMaintenanceMenu.infotable:addRow(true, {
+                for shipid, ship in pairs(GAJMaintenanceMenu.data.resupplyships) do
+                    row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
                     row[1]:createText(ship.Size)
                     row[2]:createText(ship.Name)
                     row[3]:createText(ship.Sector)
-                    row[4]:createButton(gajMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
-                                                                                              ship.DesiredUnits)
+                    row[4]:createButton(GAJMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
+                        ship.DesiredUnits)
                     row[4].handlers.onClick = function()
                         AddUITriggeredEvent("GAJ_Maint", "SetDesiredUnits", shipid)
                     end
@@ -314,36 +368,34 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                     row[8]:createText(ship.EnergyUsage)
                     row[9]:createText(ship.WearTear)
                     row[10]:createText(ship.ShipSupplies)
-                    row[11]:createButton(gajMaintenanceMenu.props.SetHomeSector):setText(ship.HomeSector)
-                    row[11].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "SetHomeSector", ship)
-                    end
-                    row[12]:createButton(gajMaintenanceMenu.props.SetRange):setText(ship.GateRange)
+                    row[11]:createButton(GAJMaintenanceMenu.props.SetHomeSector):setText(ship.HomeSector)
+                    row[11].handlers.onClick = function() return GAJMaintenanceMenu.setHomeSector(shipid) end
+                    row[12]:createButton(GAJMaintenanceMenu.props.SetRange):setText(ship.GateRange)
                     row[12].handlers.onClick = function()
                         AddUITriggeredEvent("GAJ_Maint", "SetRange", ship)
                     end
-                    row[13]:createButton(gajMaintenanceMenu.props.MakeDedicated):setText("Switch")
+                    row[13]:createButton(GAJMaintenanceMenu.props.AssignSupplyShip):setText("Switch")
                     row[13].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "MakeDedicated", ship)
+                        AddUITriggeredEvent("GAJ_Maint", "AssignSupplyShip", ship)
                     end
                 end
             end
             --  -- ships
             --	size | name | sector | shields | hull | crew | cargo | personal supplies | expected supply usage | crew supply usage | ship supply usage | receive delivery checkbox | resupply self checkbox | make supply ship button
-            if next(gajMaintenanceMenu.data.ships) then
+            if next(GAJMaintenanceMenu.data.ships) then
                 DebugError("gajMaintenance.menu.data.ships")
-                row = gajMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
                 row[1]:createText("")
 
-                row = gajMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.defaultTitleBackgroundColor,
                     borderBelow = false
                 })
                 row[1]:setColSpan(tableCols):createText("Ships", Helper.titleTextProperties)
-                row = gajMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -359,16 +411,16 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 -- receive delivery checkbox | make supply ship button
                 row[10]:createText("Receive Deliveries", Helper.subHeaderTextProperties)
                 row[11]:createText("Make Supply Ship", Helper.subHeaderTextProperties)
-                for _, ship in ipairs(gajMaintenanceMenu.data.resupplyships) do
-                    row = gajMaintenanceMenu.infotable:addRow(true, {
+                for shipid, ship in pairs(GAJMaintenanceMenu.data.resupplyships) do
+                    row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
                     row[1]:createText(ship.Size)
                     row[2]:createText(ship.Name)
                     row[3]:createText(ship.Sector)
-                    row[4]:createButton(gajMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
-                                                                                              ship.DesiredUnits)
+                    row[4]:createButton(GAJMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
+                        ship.DesiredUnits)
                     row[4].handlers.onClick = function()
                         AddUITriggeredEvent("GAJ_Maint", "SetDesiredUnits", shipid)
                     end
@@ -379,11 +431,11 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                     row[9]:createText(ship.WearTear)
                     if ship.ReceiveDeliveries then
                         row[10]:createCheckBox(ship.ReceiveDeliveries.checked,
-                            gajMaintenanceMenu.props.ReceiveDeliveries)
+                            GAJMaintenanceMenu.props.ReceiveDeliveries)
                         row[10].handlers.onClick = function(_, checked)
-                            AddUITriggeredEvent("GAJ_Maint", "ReceiveDeliveries", {checked, ship})
+                            AddUITriggeredEvent("GAJ_Maint", "ReceiveDeliveries", { checked, ship })
                         end
-                        row[11]:createButton(gajMaintenanceMenu.props.MakeSupplyShip):setText("Set")
+                        row[11]:createButton(GAJMaintenanceMenu.props.MakeSupplyShip):setText("Set")
                         row[11].handlers.onClick = function()
                             AddUITriggeredEvent("GAJ_Maint", "MakeSupplyShip", ship)
                         end
@@ -391,33 +443,50 @@ function gajMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 end
             end
         end
-        gajMaintenanceMenu.infotable:setTopRow(menu.settoprow)
-        gajMaintenanceMenu.infotable:setSelectedRow(menu.setselectedrow)
+        GAJMaintenanceMenu.infotable:setTopRow(menu.settoprow)
+        GAJMaintenanceMenu.infotable:setSelectedRow(menu.setselectedrow)
         menu.settoprow = nil
         menu.setselectedrow = nil
     end
 end
-function gajMaintenanceMenu.togglePlayerInfoMenuRefresh()
+
+function GAJMaintenanceMenu.chooseSector()
+    local shipid = GetNPCBlackboard(GAJMaintenanceMenu.playerId, "$gajMaintenanceShipId")
+    GAJMaintenanceMenu.selectHomeSector(shipid)
+end
+
+function GAJMaintenanceMenu.selectHomeSector(shipid)
+    local mapMenu = Helper.getMenu("MapMenu")
+    AddUITriggeredEvent("GAJ_Maint", "SetHomeSector", shipid)
+    -- menu.setSelectComponentMode (returnsection, classlist, category, playerowned, customheading, screenname)local classList = {}
+    local classList = {}
+    table.insert(classList, "sector")
+    mapMenu.setSelectComponentMode(nil, classList, nil, nil, nil, "GAJ_Maint_SelectHomeSector")
+end
+
+function GAJMaintenanceMenu.togglePlayerInfoMenuRefresh()
     DebugError("gajMaintenance.togglePlayerInfoMenuRefresh")
     local menu = playerInfoMenu
     if menu.mode == "gajMaintenance" then
-        gajMaintenanceMenu.data = GetNPCBlackboard(gajMaintenanceMenu.playerId, "$gajMaintenanceData")
-        if gajMaintenanceMenu.data then
-            if gajMaintenanceMenu.timeNextAssessmentRow then
-                local timeLeft = gajMaintenanceMenu.data.timeNextAssessment - C.GetCurrentGameTime()
+        GAJMaintenanceMenu.data = GetNPCBlackboard(GAJMaintenanceMenu.playerId, "$gajMaintenanceData")
+        GAJMaintenanceMenu.empireData = GetNPCBlackboard(GAJMaintenanceMenu.playerId, "$gajMaintenanceEmpireData")
+        if GAJMaintenanceMenu.data then
+            if GAJMaintenanceMenu.timeNextAssessmentRow then
+                local timeLeft = GAJMaintenanceMenu.data.timeNextAssessment - C.GetCurrentGameTime()
                 if timeLeft < 60 then
-                    timeLeft = tostring(math.floor(timeLeft * 100) / 100) .. ReadText(1001, 100) -- seconds
+                    timeLeft = tostring(math.floor(timeLeft * 100) / 100) .. ReadText(1001, 100)      -- seconds
                 else
                     timeLeft = tostring(math.floor(timeLeft / 60 * 100) / 100) .. ReadText(1001, 103) -- minutes
                 end
-                DebugError("gajMaintenanceMenu.infotable.id", gajMaintenanceMenu.infotable.id)
-                DebugError("gajMaintenanceMenu.timeNextAssessmentRow", gajMaintenanceMenu.timeNextAssessmentRow)
-                Helper.updateCellText(gajMaintenanceMenu.infotable.id, gajMaintenanceMenu.timeNextAssessmentRow,
-                    gajMaintenanceMenu.timeNextAssessmentCol, timeLeft)
+                DebugError("GAJMaintenanceMenu.infotable.id", GAJMaintenanceMenu.infotable.id)
+                DebugError("GAJMaintenanceMenu.timeNextAssessmentRow", GAJMaintenanceMenu.timeNextAssessmentRow)
+                Helper.updateCellText(GAJMaintenanceMenu.infotable.id, GAJMaintenanceMenu.timeNextAssessmentRow,
+                    GAJMaintenanceMenu.timeNextAssessmentCol, timeLeft)
             else
                 menu.refresh = getElapsedTime()
             end
         end
     end
 end
+
 return ModLua

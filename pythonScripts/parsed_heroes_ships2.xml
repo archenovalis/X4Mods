@@ -1,0 +1,111 @@
+<ware id="heroes_chimaera" name="{343001, 5}" description="{343001, 6}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_chimaera_macro" amount="1" />
+<ware id="heroes_infinity" name="{343001, 47}" description="{343001, 48}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="500000000" average="500000000" max="500000000" />
+<component ref="heroes_infinity_macro" amount="1" />
+<ware id="heroes_orthavan" name="{343001, 7}" description="{343001, 8}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_orthavan_macro" amount="1" />
+<ware id="heroes_hand" name="{343001,11}" description="{343001,12}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_hand_macro" amount="1" />
+<ware id="heroes_oppressor" name="{343001,15}" description="{343001,16}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_oppressor_macro" amount="1" />
+<ware id="heroes_endurance" name="{343001, 27}" description="{343001, 28}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_endurance_macro" amount="1" />
+<ware id="heroes_resolute" name="{343001, 37}" description="{343001, 38}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_resolute_macro" amount="1" />
+<ware id="heroes_negotiator" name="{343001, 41}" description="{343001, 42}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_negotiator_macro" amount="1" />
+<ware id="heroes_quaestor" name="{343001,29}" description="{343001,30}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+<price min="500000000" average="500000000" max="500000000" />
+<component ref="heroes_quaestor_macro" amount="1" />
+<ware id="heroes_endofdays" name="{343001,31}" description="{343001,32}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_endofdays_macro" amount="1" />
+<ware id="heroes_umbra" name="{343001,49}" description="{343001,50}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+<price min="500000000" average="500000000" max="500000000" />
+<component ref="heroes_umbra_macro" amount="1" />
+<ware id="heroes_saakak" name="{343001,51}" description="{343001,52}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+<price min="500000000" average="500000000" max="500000000" />
+<component ref="heroes_saakak_macro" amount="1" />
+<ware id="heroes_heroexecutor" name="{343001,57}" description="{343001,58}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+<price min="100000000000" average="100000000000" max="100000000000" />
+<component ref="heroes_executor_macro" amount="1" />
+<ware id="heroes_profundity" name="{343001, 77}" description="{343001, 78}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="100000000" average="100000000" max="100000000" />
+<component ref="heroes_profundity_macro" amount="1" />
+<ware id="heroes_mythosaur" name="{343001,23}" description="{343001,24}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="heroes_mythosaur_macro" amount="1" />
+<ware id="heroes_salvation" name="{343001,53}" description="{343001,54}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="heroes_salvation_macro" amount="1" />
+<ware id="heroes_phoenix" name="{343001,55}" description="{343001,56}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="heroes_phoenix_macro" amount="1" />
+<ware id="heroes_katana" name="{343001,61}" description="{343001,62}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="heroes_katana_macro" amount="1" />
+<ware id="heroes_protector" name="{343001,69}" description="{343001,70}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="heroes_protector_macro" amount="1" />
+<ware id="heroes_battleforged" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="30000000" average="30000000" max="30000000" />
+<component ref="heroes_battleforged_macro" amount="1" />
+<ware id="heroes_tantive" name="{343001, 1}" description="{343001, 2}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="heroes_tantive_macro" amount="1" />
+<ware id="heroes_ebon" name="{343001,13}" description="{343001,14}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="heroes_ebon_macro" amount="1" />
+<ware id="heroes_falcon" name="{343001,35}" description="{343001,36}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="heroes_falcon_macro" amount="1" />
+<ware id="heroes_lightmaker" name="{343001,63}" description="{343001,64}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="heroes_lightmaker_macro" amount="1" />
+<ware id="heroes_sterdicstar" name="{343001,65}" description="{343001,66}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="heroes_sterdicstar_macro" amount="1" />
+<ware id="heroes_corvus" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="6000000" average="6000000" max="6000000" />
+<component ref="heroes_corvus_macro" amount="1" />
+<ware id="heroes_anakin" name="{343001, 3}" description="{343001, 4}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="heroes_anakin_macro" amount="1" />
+<ware id="heroes_vader" name="{343001,9}" description="{343001,10}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="heroes_vader_macro" amount="1" />
+<ware id="heroes_djarin" name="{343001,17}" description="{343001,18}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="heroes_djarin_macro" amount="1" />
+<ware id="heroes_red_squadron" name="{343001,21}" description="{343001,22}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="heroes_red_squadron_macro" amount="1" />
+<ware id="heroes_fett" name="{343001,25}" description="{343001,26}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="heroes_fett_macro" amount="1" />
+<ware id="heroes_soulless" name="{343001,33}" description="{343001,34}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="heroes_soulless_macro" amount="1" />
+<ware id="heroes_galaxysedge" name="{343001,59}" description="{343001,60}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="heroes_galaxysedge_macro" amount="1" />
+<ware id="heroes_lootbug" name="{343001,67}" description="{343001,68}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="200000" average="200000" max="200000" />
+<component ref="heroes_lootbug_macro" amount="1" />
+<ware id="heroes_inferno" name="{343001,75}" description="{343001,76}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+<price min="2000000" average="2000000" max="2000000" />
+<component ref="heroes_inferno_macro" amount="1" />
+<ware id="heroes_compellor_ware" name="{1765010013,1}" description="{1765010013,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="160000000" average="205000000" max="250000000" />
+<component ref="heroes_compellor_macro" amount="1" />
+<ware id="heroes_impellor_ware" name="{1765010014,1}" description="{1765010014,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+<price min="160000000" average="205000000" max="250000000" />
+<component ref="heroes_impellor_macro" amount="1" />

@@ -53,8 +53,8 @@ def process_file(input_file, output_file, reduce_average_by, reduce_spread_by):
     print(f"File processed and saved as {output_file}")
 
 # Example usage
-input_file = 'parsed_wares.xml'
-output_file = 'reduced_wares.xml'
-reduce_average_by = 5
-reduce_spread_by = 8
+input_file = 'parsed_heroes_ships.xml'
+output_file = 'reduced_heroes_ships.xml'
+reduce_average_by = 1
+reduce_spread_by = 2
 process_file(input_file, output_file, reduce_average_by, reduce_spread_by)

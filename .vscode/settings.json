@@ -1,0 +1,12 @@
+{
+  "Lua.diagnostics.globals": [
+    "DebugError",
+    "Helper",
+    "ConvertStringTo64Bit",
+    "RegisterEvent",
+    "GetNPCBlackboard",
+    "AddUITriggeredEvent",
+    "ReadText",
+    "getElapsedTime"
+  ]
+}

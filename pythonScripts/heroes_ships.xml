@@ -1,0 +1,1387 @@
+<diff>
+  <add>
+    <!-- Ships -->
+    <!-- XL Ships -->
+    <ware id="heroes_chimaera" name="{343001, 5}" description="{343001, 6}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="3600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="chimaera_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_infinity" name="{343001, 47}" description="{343001, 48}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="500000000" average="500000000" max="500000000" />
+      <production time="3600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="150000" />
+          <ware ware="hullparts" amount="90000" />
+          <ware ware="rhydoniumcell" amount="2500" />
+        </primary>
+      </production>
+      <component ref="infinity_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_orthavan" name="{343001, 7}" description="{343001, 8}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="3000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="orthavan_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="newrepublic" />
+    </ware>
+
+    <ware id="heroes_hand" name="{343001,11}" description="{343001,12}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="4800" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="hand_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="commerceguild" />
+    </ware>
+
+    <ware id="heroes_oppressor" name="{343001,15}" description="{343001,16}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="3400" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="oppressor_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="sith" />
+    </ware>
+
+
+    <ware id="heroes_endurance" name="{343001, 27}" description="{343001, 28}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="3000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="endurance_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="kamino" />
+    </ware>
+
+    <ware id="heroes_resolute" name="{343001, 37}" description="{343001, 38}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="3000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="resolute_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="kamino" />
+    </ware>
+
+    <ware id="heroes_negotiator" name="{343001, 41}" description="{343001, 42}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="3000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="negotiator_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="kamino" />
+    </ware>
+
+    <ware id="heroes_quaestor" name="{343001,29}" description="{343001,30}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+      <price min="500000000" average="500000000" max="500000000" />
+      <production time="8000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="150000" />
+          <ware ware="hullparts" amount="90000" />
+          <ware ware="rhydoniumcell" amount="2500" />
+        </primary>
+      </production>
+      <component ref="quaestor_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="corporate" />
+    </ware>
+
+    <ware id="heroes_endofdays" name="{343001,31}" description="{343001,32}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="3600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="endofdays_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="mandodw" />
+    </ware>
+
+    <ware id="heroes_umbra" name="{343001,49}" description="{343001,50}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+      <price min="500000000" average="500000000" max="500000000" />
+      <production time="8000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="150000" />
+          <ware ware="hullparts" amount="90000" />
+          <ware ware="rhydoniumcell" amount="2500" />
+        </primary>
+      </production>
+      <component ref="umbra_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="sith" />
+    </ware>
+
+    <ware id="heroes_saakak" name="{343001,51}" description="{343001,52}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+      <price min="500000000" average="500000000" max="500000000" />
+      <production time="8000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="150000" />
+          <ware ware="hullparts" amount="90000" />
+          <ware ware="rhydoniumcell" amount="2500" />
+        </primary>
+      </production>
+      <component ref="saakak_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="commerceguild" />
+    </ware>
+
+    <ware id="heroes_heroexecutor" name="{343001,57}" description="{343001,58}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+      <price min="100000000000" average="100000000000" max="100000000000" />
+      <production time="8000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="300000" />
+          <ware ware="hullparts" amount="100000" />
+          <ware ware="rhydoniumcell" amount="5000" />
+        </primary>
+      </production>
+      <component ref="executor_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_profundity" name="{343001, 77}" description="{343001, 78}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="100000000" average="100000000" max="100000000" />
+      <production time="3600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100000" />
+          <ware ware="hullparts" amount="75000" />
+          <ware ware="rhydoniumcell" amount="2000" />
+        </primary>
+      </production>
+      <component ref="profundity_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="newrepublic" />
+    </ware>
+
+    <!-- L Ships -->
+
+    <ware id="heroes_mythosaur" name="{343001,23}" description="{343001,24}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+      <production time="1600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="50000" />
+          <ware ware="hullparts" amount="25000" />
+          <ware ware="rhydoniumcell" amount="1000" />
+        </primary>
+      </production>
+      <component ref="mythosaur_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_salvation" name="{343001,53}" description="{343001,54}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+      <production time="1600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="50000" />
+          <ware ware="hullparts" amount="25000" />
+          <ware ware="rhydoniumcell" amount="1000" />
+        </primary>
+      </production>
+      <component ref="salvation_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_phoenix" name="{343001,55}" description="{343001,56}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+      <production time="1600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="50000" />
+          <ware ware="hullparts" amount="25000" />
+          <ware ware="rhydoniumcell" amount="1000" />
+        </primary>
+      </production>
+      <component ref="phoenix_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_katana" name="{343001,61}" description="{343001,62}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+      <production time="1600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="50000" />
+          <ware ware="hullparts" amount="25000" />
+          <ware ware="rhydoniumcell" amount="1000" />
+        </primary>
+      </production>
+      <component ref="katana_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="newrepublic" />
+    </ware>
+
+    <ware id="heroes_protector" name="{343001,69}" description="{343001,70}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+      <production time="1600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="50000" />
+          <ware ware="hullparts" amount="25000" />
+          <ware ware="rhydoniumcell" amount="1000" />
+        </primary>
+      </production>
+      <component ref="protector_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_battleforged" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+      <production time="1600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="50000" />
+          <ware ware="hullparts" amount="25000" />
+          <ware ware="rhydoniumcell" amount="1000" />
+        </primary>
+      </production>
+      <component ref="battleforged_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="galempire" />
+    </ware>
+
+    <!-- M ships -->
+
+    <ware id="heroes_tantive" name="{343001, 1}" description="{343001, 2}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="6000000" average="6000000" max="6000000" />
+      <production time="600" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="20000" />
+          <ware ware="hullparts" amount="8000" />
+        </primary>
+      </production>
+      <component ref="tantive_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_ebon" name="{343001,13}" description="{343001,14}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+      <production time="400" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="20000" />
+          <ware ware="hullparts" amount="6500" />
+        </primary>
+      </production>
+      <component ref="ebon_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="corellia" />
+    </ware>
+
+    <ware id="heroes_falcon" name="{343001,35}" description="{343001,36}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+      <production time="400" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="20000" />
+          <ware ware="hullparts" amount="7000" />
+        </primary>
+      </production>
+      <component ref="falcon_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="huttcartel" />
+    </ware>
+
+    <ware id="heroes_lightmaker" name="{343001,63}" description="{343001,64}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+      <production time="400" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="20000" />
+          <ware ware="hullparts" amount="7000" />
+        </primary>
+      </production>
+      <component ref="lightmaker_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_sterdicstar" name="{343001,65}" description="{343001,66}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+      <production time="400" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="20000" />
+          <ware ware="hullparts" amount="7000" />
+        </primary>
+      </production>
+      <component ref="sterdicstar_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="newrepublic" />
+    </ware>
+
+    <ware id="heroes_corvus" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+      <production time="400" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="20000" />
+          <ware ware="hullparts" amount="7000" />
+        </primary>
+      </production>
+      <component ref="corvus_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="galempire" />
+    </ware>
+
+
+    <!-- S ships -->
+
+    <ware id="heroes_anakin" name="{343001, 3}" description="{343001, 4}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="2000000" average="2000000" max="2000000" />
+      <production time="120" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="4000" />
+          <ware ware="hullparts" amount="1300" />
+        </primary>
+      </production>
+      <component ref="anakin_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="corporate" />
+    </ware>
+
+    <ware id="heroes_vader" name="{343001,9}" description="{343001,10}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="2000000" average="2000000" max="2000000" />
+      <production time="180" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5000" />
+          <ware ware="hullparts" amount="2000" />
+        </primary>
+      </production>
+      <component ref="vader_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_djarin" name="{343001,17}" description="{343001,18}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="2000000" average="2000000" max="2000000" />
+      <production time="120" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5000" />
+          <ware ware="hullparts" amount="1400" />
+        </primary>
+      </production>
+      <component ref="djarin_macro" amount="1" />
+      <restriction licence="generaluseship" />
+      <owner faction="mandodw" />
+    </ware>
+
+    <ware id="heroes_red_squadron" name="{343001,21}" description="{343001,22}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="2000000" average="2000000" max="2000000" />
+      <production time="220" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5200" />
+          <ware ware="hullparts" amount="2400" />
+        </primary>
+      </production>
+      <component ref="red_squadron_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_fett" name="{343001,25}" description="{343001,26}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="2000000" average="2000000" max="2000000" />
+      <production time="480" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="25000" />
+          <ware ware="hullparts" amount="10000" />
+        </primary>
+      </production>
+      <component ref="fett_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="bountyhunters" />
+    </ware>
+
+    <ware id="heroes_soulless" name="{343001,33}" description="{343001,34}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="2000000" average="2000000" max="2000000" />
+      <production time="480" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5200" />
+          <ware ware="hullparts" amount="2400" />
+        </primary>
+      </production>
+      <component ref="soulless_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="commerceguild" />
+    </ware>
+
+    <ware id="heroes_galaxysedge" name="{343001,59}" description="{343001,60}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="2000000" average="2000000" max="2000000" />
+      <production time="180" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5000" />
+          <ware ware="hullparts" amount="2000" />
+        </primary>
+      </production>
+      <component ref="galaxysedge_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_lootbug" name="{343001,67}" description="{343001,68}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="200000" average="200000" max="200000" />
+      <production time="180" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5000" />
+          <ware ware="hullparts" amount="2000" />
+        </primary>
+      </production>
+      <component ref="lootbug_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <owner faction="huttcartel" />
+      <owner faction="newrepublic" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+      <owner faction="commerceguild" />
+      <owner faction="rebelalliance" />
+      <owner faction="mandodw" />
+      <owner faction="kamino" />
+      <owner faction="corporate" />
+      <owner faction="sith" />
+    </ware>
+
+    <ware id="heroes_inferno" name="{343001,75}" description="{343001,76}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="2000000" average="2000000" max="2000000" />
+      <production time="180" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5000" />
+          <ware ware="hullparts" amount="2000" />
+        </primary>
+      </production>
+      <component ref="inferno_macro" amount="1" />
+      <restriction licence="militaryship" />
+      <owner faction="galempire" />
+    </ware>
+
+    <!--Shields-->
+    <ware id="heroes_shield_m_tantive" name="{343004, 1}" description="{343004, 2}" group="shields" transport="equipment" volume="1" tags="equipment shield tantive">
+      <price min="583740" average="778330" max="972910" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="2500" />
+          <ware ware="fieldcoils" amount="170" />
+          <ware ware="shieldcomponents" amount="250" />
+        </primary>
+      </production>
+      <component ref="shield_m_tantive_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_shield_s_anakin" name="{343004, 3}" description="{343004, 4}" group="shields" transport="equipment" volume="1" tags="equipment shield anakin">
+      <price min="98320" average="131100" max="163870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="350" />
+          <ware ware="fieldcoils" amount="30" />
+          <ware ware="shieldcomponents" amount="30" />
+        </primary>
+      </production>
+      <component ref="shield_s_anakin_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="corporate" />
+    </ware>
+
+    <ware id="heroes_shield_xl_chimaera" name="{343004, 5}" description="{343004, 6}" group="shields" transport="equipment" volume="1" tags="equipment shield chimaera">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_xl_chimaera_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_shield_xl_orthavan" name="{343004, 7}" description="{343004, 8}" group="shields" transport="equipment" volume="1" tags="equipment shield orthavan">
+      <price min="2244080" average="2992110" max="3740130" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="6100" />
+          <ware ware="fieldcoils" amount="1020" />
+          <ware ware="shieldcomponents" amount="440" />
+        </primary>
+      </production>
+      <component ref="shield_xl_orthavan_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="newrepublic" />
+    </ware>
+
+    <ware id="heroes_shield_s_vader" name="{343004, 9}" description="{343004, 10}" group="shields" transport="equipment" volume="1" tags="equipment shield vader">
+      <price min="113920" average="151900" max="189870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="400" />
+          <ware ware="fieldcoils" amount="40" />
+          <ware ware="shieldcomponents" amount="40" />
+        </primary>
+      </production>
+      <component ref="shield_s_vader_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_shield_s_ebon" name="{343004, 11}" description="{343004, 12}" group="shields" transport="equipment" volume="1" tags="equipment shield ebon">
+      <price min="98320" average="131100" max="163870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="350" />
+          <ware ware="fieldcoils" amount="30" />
+          <ware ware="shieldcomponents" amount="30" />
+        </primary>
+      </production>
+      <component ref="shield_s_ebon_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="corellia" />
+    </ware>
+
+    <ware id="heroes_shield_xl_oppressor" name="{343004, 13}" description="{343004, 14}" group="shields" transport="equipment" volume="1" tags="equipment shield oppressor">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_xl_oppressor_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="sith" />
+    </ware>
+    <ware id="heroes_shield_s_redsquadron" name="{343004, 17}" description="{343004, 18}" group="shields" transport="equipment" volume="1" tags="equipment shield redsquadron">
+      <price min="98320" average="131100" max="163870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="350" />
+          <ware ware="fieldcoils" amount="30" />
+          <ware ware="shieldcomponents" amount="30" />
+        </primary>
+      </production>
+      <component ref="shield_s_redsquadron_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_shield_lh_mythosaur" name="{343004, 19}" description="{343004, 20}" group="shields" transport="equipment" volume="1" tags="equipment shield mythosaur">
+      <price min="3133760" average="4178350" max="5222930" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="7330" />
+          <ware ware="fieldcoils" amount="1470" />
+          <ware ware="shieldcomponents" amount="610" />
+        </primary>
+      </production>
+      <component ref="shield_lh_mythosaur_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_shield_endurance" name="{343004, 21}" description="{343004, 22}" group="shields" transport="equipment" volume="1" tags="equipment shield endurance">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_endurance_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="kamino" />
+    </ware>
+
+    <ware id="heroes_shield_quaestor" name="{343004, 23}" description="{343004, 24}" group="shields" transport="equipment" volume="1" tags="equipment shield quaestor">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_quaestor_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="corporate" />
+    </ware>
+
+    <ware id="heroes_shield_endofdays" name="{343004, 25}" description="{343004, 26}" group="shields" transport="equipment" volume="1" tags="equipment shield endofdays">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_endofdays_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="mandodw" />
+    </ware>
+
+    <ware id="heroes_shield_soulless" name="{343004, 27}" description="{343004, 28}" group="shields" transport="equipment" volume="1" tags="equipment shield soulless">
+      <price min="113920" average="151900" max="189870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="400" />
+          <ware ware="fieldcoils" amount="40" />
+          <ware ware="shieldcomponents" amount="40" />
+        </primary>
+      </production>
+      <component ref="shield_soulless_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="commerceguild" />
+    </ware>
+
+    <ware id="heroes_shield_falcon" name="{343004, 29}" description="{343004, 30}" group="shields" transport="equipment" volume="1" tags="equipment shield falcon">
+      <price min="113920" average="151900" max="189870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="400" />
+          <ware ware="fieldcoils" amount="40" />
+          <ware ware="shieldcomponents" amount="40" />
+        </primary>
+      </production>
+      <component ref="shield_falcon_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="huttcartel" />
+    </ware>
+
+    <ware id="heroes_shield_infinity" name="{343004, 31}" description="{343004, 32}" group="shields" transport="equipment" volume="1" tags="equipment shield infinity">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_infinity_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_shield_umbra" name="{343004, 33}" description="{343004, 34}" group="shields" transport="equipment" volume="1" tags="equipment shield umbra">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_umbra_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="sith" />
+    </ware>
+
+    <ware id="heroes_shield_saakak" name="{343004, 35}" description="{343004, 36}" group="shields" transport="equipment" volume="1" tags="equipment shield saakak">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_saakak_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="commerceguild" />
+    </ware>
+
+    <ware id="heroes_shield_salvation" name="{343004, 37}" description="{343004, 38}" group="shields" transport="equipment" volume="1" tags="equipment shield salvation">
+      <price min="3133760" average="4178350" max="5222930" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="7330" />
+          <ware ware="fieldcoils" amount="1470" />
+          <ware ware="shieldcomponents" amount="610" />
+        </primary>
+      </production>
+      <component ref="shield_salvation_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_shield_phoenix" name="{343004, 39}" description="{343004, 40}" group="shields" transport="equipment" volume="1" tags="equipment shield phoenix">
+      <price min="3133760" average="4178350" max="5222930" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="7330" />
+          <ware ware="fieldcoils" amount="1470" />
+          <ware ware="shieldcomponents" amount="610" />
+        </primary>
+      </production>
+      <component ref="shield_phoenix_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_shield_heroexecutor" name="{343004, 41}" description="{343004, 42}" group="shields" transport="equipment" volume="1" tags="equipment shield executor">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_heroexecutor_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_shield_galaxysedge" name="{343004, 43}" description="{343004, 44}" group="shields" transport="equipment" volume="1" tags="equipment shield galaxysedge">
+      <price min="113920" average="151900" max="189870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="400" />
+          <ware ware="fieldcoils" amount="40" />
+          <ware ware="shieldcomponents" amount="40" />
+        </primary>
+      </production>
+      <component ref="shield_galaxysedge_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_shield_katana" name="{343004, 45}" description="{343004, 46}" group="shields" transport="equipment" volume="1" tags="equipment shield katana">
+      <price min="3133760" average="4178350" max="5222930" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="7330" />
+          <ware ware="fieldcoils" amount="1470" />
+          <ware ware="shieldcomponents" amount="610" />
+        </primary>
+      </production>
+      <component ref="shield_katana_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="newrepublic" />
+    </ware>
+
+    <ware id="heroes_shield_herom" name="{343004, 47}" description="{343004, 48}" group="shields" transport="equipment" volume="1" tags="equipment shield herom">
+      <price min="113920" average="151900" max="189870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="400" />
+          <ware ware="fieldcoils" amount="40" />
+          <ware ware="shieldcomponents" amount="40" />
+        </primary>
+      </production>
+      <component ref="shield_herom_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="huttcartel" />
+      <owner faction="newrepublic" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+      <owner faction="commerceguild" />
+      <owner faction="rebelalliance" />
+      <owner faction="mandodw" />
+      <owner faction="kamino" />
+      <owner faction="corporate" />
+      <owner faction="sith" />
+    </ware>
+
+    <ware id="heroes_shield_protector" name="{343004, 49}" description="{343004, 50}" group="shields" transport="equipment" volume="1" tags="equipment shield protector">
+      <price min="3133760" average="4178350" max="5222930" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="7330" />
+          <ware ware="fieldcoils" amount="1470" />
+          <ware ware="shieldcomponents" amount="610" />
+        </primary>
+      </production>
+      <component ref="shield_protector_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_shield_battleforged" name="{343004, 51}" description="{343004, 52}" group="shields" transport="equipment" volume="1" tags="equipment shield battleforged">
+      <price min="3133760" average="4178350" max="5222930" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="7330" />
+          <ware ware="fieldcoils" amount="1470" />
+          <ware ware="shieldcomponents" amount="610" />
+        </primary>
+      </production>
+      <component ref="shield_battleforged_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_shield_inferno" name="{343004, 53}" description="{343004, 54}" group="shields" transport="equipment" volume="1" tags="equipment shield inferno">
+      <price min="113920" average="151900" max="189870" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="400" />
+          <ware ware="fieldcoils" amount="40" />
+          <ware ware="shieldcomponents" amount="40" />
+        </primary>
+      </production>
+      <component ref="shield_inferno_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_shield_profundity" name="{343004, 25}" description="{343004, 26}" group="shields" transport="equipment" volume="1" tags="equipment shield profundity">
+      <price min="3724550" average="4966070" max="6207580" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="10130" />
+          <ware ware="fieldcoils" amount="1690" />
+          <ware ware="shieldcomponents" amount="720" />
+        </primary>
+      </production>
+      <component ref="shield_profundity_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="newrepublic" />
+    </ware>
+
+
+    <!--Weapons-->
+    <ware id="heroes_weapon_redsquadron" name="{343005,1}" description="{343005,2}" group="weapons" transport="equipment" volume="1" tags="equipment weapon redsquadron">
+      <price min="555220" average="711830" max="868430" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="advancedelectronics" amount="100" />
+          <ware ware="energycells" amount="480" />
+          <ware ware="weaponcomponents" amount="190" />
+        </primary>
+      </production>
+      <component ref="weapon_redsquadron_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0.7" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_weapon_djarin" name="{343005,3}" description="{343005,4}" group="weapons" transport="equipment" volume="1" tags="equipment weapon djarin">
+      <price min="555220" average="711830" max="868430" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="advancedelectronics" amount="100" />
+          <ware ware="energycells" amount="480" />
+          <ware ware="weaponcomponents" amount="190" />
+        </primary>
+      </production>
+      <component ref="weapon_djarin_macro" amount="1" />
+      <restriction licence="militaryequipment" />
+      <use threshold="0.7" />
+      <owner faction="mandodw" />
+    </ware>
+
+    <ware id="heroes_turret_endurance" name="{343005,5}" description="{343005,6}" group="turrets" transport="equipment" volume="1" tags="equipment turret endurance">
+      <price min="2559970" average="322300" max="4086120" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="advancedelectronics" amount="100" />
+          <ware ware="energycells" amount="1800" />
+          <ware ware="turretcomponents" amount="500" />
+        </primary>
+      </production>
+      <component ref="turret_endurance_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0.7" />
+      <owner faction="kamino" />
+    </ware>
+
+
+    <!--Engines-->
+    <ware id="heroes_engine_tantive" name="{343002, 1}" description="{343002, 2}" group="engines" transport="equipment" volume="1" tags="engine equipment tantive">
+      <price min="60610" average="80820" max="101020" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="100" />
+          <ware ware="engineparts" amount="80" />
+          <ware ware="antimatterconverters" amount="30" />
+        </primary>
+      </production>
+      <component ref="engine_tantive_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_engine_anakin" name="{343002, 3}" description="{343002, 4}" group="engines" transport="equipment" volume="1" tags="engine equipment anakin">
+      <price min="528120" average="704160" max="880200" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="600" />
+          <ware ware="engineparts" amount="540" />
+          <ware ware="antimatterconverters" amount="300" />
+        </primary>
+      </production>
+      <component ref="engine_anakin_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="corporate" />
+    </ware>
+
+    <ware id="heroes_engine_vader" name="{343002, 17}" description="{343002, 18}" group="engines" transport="equipment" volume="1" tags="engine equipment vader">
+      <price min="234720" average="312960" max="391200" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="270" />
+          <ware ware="engineparts" amount="240" />
+          <ware ware="antimatterconverters" amount="130" />
+        </primary>
+      </production>
+      <component ref="engine_vader_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_engine_djarin" name="{343002, 5}" description="{343002, 6}" group="engines" transport="equipment" volume="1" tags="engine equipment djarin">
+      <price min="305520" average="467360" max="529200" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="400" />
+          <ware ware="engineparts" amount="200" />
+          <ware ware="antimatterconverters" amount="100" />
+        </primary>
+      </production>
+      <component ref="engine_djarin_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="mandodw" />
+    </ware>
+
+    <ware id="heroes_engine_redsquadron" name="{343002, 9}" description="{343002, 10}" group="engines" transport="equipment" volume="1" tags="engine equipment redsquadron">
+      <price min="443760" average="591690" max="739610" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="500" />
+          <ware ware="engineparts" amount="450" />
+          <ware ware="antimatterconverters" amount="250" />
+        </primary>
+      </production>
+      <component ref="engine_redsquadron_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_engine_mythosaur" name="{343002, 11}" description="{343002, 12}" group="engines" transport="equipment" volume="1" tags="engine equipment mythosaur">
+      <price min="1796800" average="2395740" max="2994670" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="4000" />
+          <ware ware="engineparts" amount="800" />
+          <ware ware="antimatterconverters" amount="1200" />
+        </primary>
+      </production>
+      <component ref="engine_mythosaur_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_engine_quaestor" name="{343002, 13}" description="{343002, 14}" group="engines" transport="equipment" volume="1" tags="engine equipment quaestor">
+      <price min="5081480" average="6775310" max="8469130" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5260" />
+          <ware ware="engineparts" amount="1580" />
+          <ware ware="antimatterconverters" amount="2370" />
+        </primary>
+      </production>
+      <component ref="engine_quaestor_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="corporate" />
+    </ware>
+
+    <ware id="heroes_engine_endofdays" name="{343002, 15}" description="{343002, 16}" group="engines" transport="equipment" volume="1" tags="engine equipment endofdays">
+      <price min="8140120" average="10853500" max="13566870" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="15310" />
+          <ware ware="engineparts" amount="3060" />
+          <ware ware="antimatterconverters" amount="4590" />
+        </primary>
+      </production>
+      <component ref="engine_endofdays_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="mandodw" />
+    </ware>
+
+    <ware id="heroes_engine_falcon" name="{343002, 19}" description="{343002, 20}" group="engines" transport="equipment" volume="1" tags="engine equipment falcon">
+      <price min="1101940" average="1469260" max="1836570" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="1820" />
+          <ware ware="engineparts" amount="1450" />
+          <ware ware="antimatterconverters" amount="450" />
+        </primary>
+      </production>
+      <component ref="engine_falcon_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="huttcartel" />
+    </ware>
+
+    <ware id="heroes_engine_herovenator" name="{343002, 21}" description="{343002, 22}" group="engines" transport="equipment" volume="1" tags="engine equipment herovenator">
+      <price min="8140120" average="10853500" max="13566870" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="15310" />
+          <ware ware="engineparts" amount="3060" />
+          <ware ware="antimatterconverters" amount="4590" />
+        </primary>
+      </production>
+      <component ref="engine_herovenator_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="kamino" />
+    </ware>
+
+    <ware id="heroes_engine_infinity" name="{343002, 23}" description="{343002, 24}" group="engines" transport="equipment" volume="1" tags="engine equipment infinity">
+      <price min="5081480" average="6775310" max="8469130" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5260" />
+          <ware ware="engineparts" amount="1580" />
+          <ware ware="antimatterconverters" amount="2370" />
+        </primary>
+      </production>
+      <component ref="engine_infinity_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_engine_umbra" name="{343002, 25}" description="{343002, 26}" group="engines" transport="equipment" volume="1" tags="engine equipment umbra">
+      <price min="5081480" average="6775310" max="8469130" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5260" />
+          <ware ware="engineparts" amount="1580" />
+          <ware ware="antimatterconverters" amount="2370" />
+        </primary>
+      </production>
+      <component ref="engine_umbra_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="sith" />
+    </ware>
+
+    <ware id="heroes_engine_saakak" name="{343002, 27}" description="{343002, 28}" group="engines" transport="equipment" volume="1" tags="engine equipment saakak">
+      <price min="5081480" average="6775310" max="8469130" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5260" />
+          <ware ware="engineparts" amount="1580" />
+          <ware ware="antimatterconverters" amount="2370" />
+        </primary>
+      </production>
+      <component ref="engine_saakak_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="commerceguild" />
+    </ware>
+
+    <ware id="heroes_engine_heroexecutor" name="{343002, 29}" description="{343002, 30}" group="engines" transport="equipment" volume="1" tags="engine equipment executor">
+      <price min="5081480" average="6775310" max="8469130" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="5260" />
+          <ware ware="engineparts" amount="1580" />
+          <ware ware="antimatterconverters" amount="2370" />
+        </primary>
+      </production>
+      <component ref="engine_heroexecutor_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+    </ware>
+
+    <ware id="heroes_engine_galaxysedge" name="{343002, 31}" description="{343002, 32}" group="engines" transport="equipment" volume="1" tags="engine equipment galaxysedge">
+      <price min="234720" average="312960" max="391200" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="270" />
+          <ware ware="engineparts" amount="240" />
+          <ware ware="antimatterconverters" amount="130" />
+        </primary>
+      </production>
+      <component ref="engine_galaxysedge_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_engine_katana" name="{343002, 11}" description="{343002, 12}" group="engines" transport="equipment" volume="1" tags="engine equipment katana">
+      <price min="1796800" average="2395740" max="2994670" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="4000" />
+          <ware ware="engineparts" amount="800" />
+          <ware ware="antimatterconverters" amount="1200" />
+        </primary>
+      </production>
+      <component ref="engine_katana_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="newrepublic" />
+    </ware>
+
+    <ware id="heroes_engine_herohammerhead" name="{343002, 35}" description="{343002, 36}" group="engines" transport="equipment" volume="1" tags="engine equipment herohammerhead">
+      <price min="1101940" average="1469260" max="1836570" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="1820" />
+          <ware ware="engineparts" amount="1450" />
+          <ware ware="antimatterconverters" amount="450" />
+        </primary>
+      </production>
+      <component ref="engine_herohammerhead_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="newrepublic" />
+      <owner faction="rebelalliance" />
+    </ware>
+
+    <ware id="heroes_engine_corvus" name="{343002, 37}" description="{343002, 38}" group="engines" transport="equipment" volume="1" tags="engine equipment corvus">
+      <price min="1101940" average="1469260" max="1836570" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="1820" />
+          <ware ware="engineparts" amount="1450" />
+          <ware ware="antimatterconverters" amount="450" />
+        </primary>
+      </production>
+      <component ref="engine_corvus_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+    </ware>
+
+    <!-- DABC Addon -->
+    <!-- RESEARCH -->
+    <ware id="heroes_research_xxl_construction_pellors_plan" name="{1765050001,1}" description="{1765050001,2}" transport="research" volume="1" tags="research" sortorder="701">
+      <price min="1" average="1" max="1" />
+      <research time="600">
+        <primary>
+          <ware ware="energycells" amount="600" />
+          <ware ware="engineparts" amount="200" />
+          <ware ware="antimatterconverters" amount="150" />
+        </primary>
+      </research>
+    </ware>
+    <ware id="heroes_research_xxl_construction_compellor" name="{1765050002,1}" description="{1765050002,2}" transport="research" volume="1" tags="research" sortorder="801">
+      <price min="1" average="1" max="1" />
+      <research time="1800">
+        <primary>
+          <ware ware="advancedelectronics" amount="2500" />
+          <ware ware="energycells" amount="400000" />
+          <ware ware="rhydoniumcell" amount="6000" />
+          <ware ware="antimattercells" amount="8000" />
+          <ware ware="hydrogen" amount="8000" />
+          <ware ware="smartchips" amount="25000" />
+          <ware ware="fieldcoils" amount="45000" />
+        </primary>
+        <research>
+          <ware ware="research_xxl_construction_pellors_plan" />
+        </research>
+      </research>
+    </ware>
+    <ware id="heroes_research_xxl_construction_impellor" name="{1765050003,1}" description="{1765050003,2}" transport="research" volume="1" tags="research" sortorder="901">
+      <price min="1" average="1" max="1" />
+      <research time="1800">
+        <primary>
+          <ware ware="advancedelectronics" amount="2500" />
+          <ware ware="energycells" amount="400000" />
+          <ware ware="rhydoniumcell" amount="6000" />
+          <ware ware="antimattercells" amount="8000" />
+          <ware ware="hydrogen" amount="8000" />
+          <ware ware="smartchips" amount="25000" />
+          <ware ware="fieldcoils" amount="45000" />
+        </primary>
+        <research>
+          <ware ware="research_xxl_construction_compellor" />
+        </research>
+      </research>
+    </ware>
+
+
+    <!-- Ships -->
+    <ware id="heroes_compellor_ware" name="{1765010013,1}" description="{1765010013,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+      <price min="160000000" average="205000000" max="250000000" />
+      <production time="10000" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="85000" />
+          <ware ware="hullparts" amount="63500" />
+          <ware ware="rhydoniumcell" amount="1400" />
+          <ware ware="shipsupplies" amount="700" />
+        </primary>
+        <research>
+          <ware ware="research_xxl_construction_compellor" />
+        </research>
+      </production>
+      <component ref="compellor_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_impellor_ware" name="{1765010014,1}" description="{1765010014,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+      <price min="160000000" average="205000000" max="250000000" />
+      <production time="12500" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="85000" />
+          <ware ware="hullparts" amount="43000" />
+          <ware ware="rhydoniumcell" amount="1400" />
+          <ware ware="shipsupplies" amount="900" />
+        </primary>
+        <research>
+          <ware ware="research_xxl_construction_impellor" />
+        </research>
+      </production>
+      <component ref="impellor_macro" amount="1" />
+      <restriction licence="capitalship" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+
+
+    <!--Engines-->
+
+    <ware id="heroes_impellor_engines" name="{1765020014, 1}" description="{1765020014, 3}" group="engines" transport="equipment" volume="1" tags="engine equipment">
+      <price min="2200000" average="2700000" max="3200000" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="2167" />
+          <ware ware="engineparts" amount="654" />
+          <ware ware="antimatterconverters" amount="966" />
+        </primary>
+      </production>
+      <component ref="impellor_engines_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+    <ware id="heroes_impellor_engines_02" name="{1765020014, 4}" description="{1765020014, 3}" group="engines" transport="equipment" volume="1" tags="engine equipment  blueprintsaleonly">
+      <price min="2200000" average="2700000" max="3200000" />
+      <production time="10" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="2167" />
+          <ware ware="engineparts" amount="654" />
+          <ware ware="antimatterconverters" amount="966" />
+        </primary>
+      </production>
+      <component ref="impellor_engines_02_macro" amount="1" />
+      <restriction licence="generaluseequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <!--Shields-->
+
+
+    <ware id="heroes_shield_xxl_compellor" name="{1765030011, 1}" description="{1765030011, 3}" group="shields" transport="equipment" volume="1" tags="equipment shield">
+      <price min="1532520" average="1661520" max="1713120" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="1612" />
+          <ware ware="fieldcoils" amount="323" />
+          <ware ware="shieldcomponents" amount="194" />
+        </primary>
+      </production>
+      <component ref="shield_xxl_compellor_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+
+    <ware id="heroes_shield_xxl_impellor" name="{1765030012, 1}" description="{1765030012, 3}" group="shields" transport="equipment" volume="1" tags="equipment shield">
+      <price min="1532520" average="1661520" max="1713120" />
+      <production time="1" amount="1" method="default" name="{20206,101}">
+        <primary>
+          <ware ware="energycells" amount="1612" />
+          <ware ware="fieldcoils" amount="323" />
+          <ware ware="shieldcomponents" amount="194" />
+        </primary>
+      </production>
+      <component ref="shield_xxl_impellor_macro" amount="1" />
+      <restriction licence="capitalequipment" />
+      <use threshold="0" />
+      <owner faction="galempire" />
+      <owner faction="ascendancy" />
+    </ware>
+  </add>
+</diff>

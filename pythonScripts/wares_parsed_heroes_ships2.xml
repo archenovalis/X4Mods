@@ -1,0 +1,81 @@
+<diff>
+
+  <replace sel="//ware[@id='heroes_chimaera']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_infinity']/price">
+    <price min="2250000000" average="2250000000" max="2250000000" /> <!-- dock_xxl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_orthavan']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_hand']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_oppressor']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_endurance']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_resolute']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_negotiator']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_quaestor']/price">
+    <price min="3524850000" average="3524850000" max="3524850000" /> <!-- dock_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_endofdays']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_umbra']/price">
+    <price min="3524850000" average="3524850000" max="3524850000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_saakak']/price">
+    <price min="3524850000" average="3524850000" max="3524850000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_heroexecutor']/price">
+    <price min="450000000000" average="450000000000" max="450000000000" /> <!-- dock_xxl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_profundity']/price">
+    <price min="704970000" average="704970000" max="704970000" /> <!-- ship_xl -->
+  </replace>
+  <replace sel="//ware[@id='heroes_mythosaur']/price">
+    <price min="157200000" average="157200000" max="157200000" /> <!-- ship_l -->
+  </replace>
+  <replace sel="//ware[@id='heroes_salvation']/price">
+    <price min="157200000" average="157200000" max="157200000" /> <!-- ship_l -->
+  </replace>
+  <replace sel="//ware[@id='heroes_phoenix']/price">
+    <price min="157200000" average="157200000" max="157200000" /> <!-- ship_l -->
+  </replace>
+  <replace sel="//ware[@id='heroes_katana']/price">
+    <price min="157200000" average="157200000" max="157200000" /> <!-- ship_l -->
+  </replace>
+  <replace sel="//ware[@id='heroes_protector']/price">
+    <price min="157200000" average="157200000" max="157200000" /> <!-- ship_l -->
+  </replace>
+  <replace sel="//ware[@id='heroes_battleforged']/price">
+    <price min="157200000" average="157200000" max="157200000" /> <!-- ship_l -->
+  </replace>
+  <replace sel="//ware[@id='heroes_tantive']/price">
+    <price min="21216000" average="21216000" max="21216000" /> <!-- ship_m -->
+  </replace>
+  <replace sel="//ware[@id='heroes_ebon']/price">
+    <price min="21216000" average="21216000" max="21216000" /> <!-- ship_m -->
+  </replace>
+  <replace sel="//ware[@id='heroes_falcon']/price">
+    <price min="21216000" average="21216000" max="21216000" /> <!-- ship_m -->
+  </replace>
+  <replace sel="//ware[@id='heroes_lightmaker']/price">
+    <price min="21216000" average="21216000" max="21216000" /> <!-- ship_m -->
+  </replace>
+  <replace sel="//ware[@id='heroes_sterdicstar']/price">
+    <price min="21216000" average="21216000" max="21216000" /> <!-- ship_m -->
+  </replace>
+  <replace sel="//ware[@id='heroes_corvus']/price">
+    <price min="21216000" average="21216000" max="21216000" /> <!-- ship_m -->
+  </replace>
+</diff>

@@ -89,7 +89,7 @@ def process_file(input_file, output_file, macroDirectories, priceMult, reduce_sp
     print(f"File processed and saved as {output_file}")
 
 # Example usage
-input_file = 'parsed_ships-fixed.xml'
+input_file = 'parsed_heroes_ships2.xml'
 
 # (0 = no changes)
 ##### Default ######
@@ -99,7 +99,7 @@ input_file = 'parsed_ships-fixed.xml'
 #    ship_xl = 7.0497x, 1xl = 12l
 #    dock_xxl = 3x, 1xxl = ~36 xl
 
-output_file = 'wares_ships_12m-9l-12xl-18xxl.xml'
+output_file = 'wares_parsed_heroes_ships2.xml'
 
 priceMult = dict(
     ship_s = 0,

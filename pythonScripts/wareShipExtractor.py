@@ -1,5 +1,5 @@
-file_path = 'wares-combined.xml'
-output_file = 'parsed_ships.xml'
+file_path = 'heroes_ships.xml'
+output_file = 'parsed_heroes_ships2.xml'
 
 with open(file_path, 'r') as file:
     lines = file.readlines()

@@ -1,0 +1,178 @@
+    <ware id="heroes_chimaera" name="{343001, 5}" description="{343001, 6}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_infinity" name="{343001, 47}" description="{343001, 48}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="500000000" average="500000000" max="500000000" />
+    <ware id="heroes_orthavan" name="{343001, 7}" description="{343001, 8}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_hand" name="{343001,11}" description="{343001,12}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_oppressor" name="{343001,15}" description="{343001,16}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_endurance" name="{343001, 27}" description="{343001, 28}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_resolute" name="{343001, 37}" description="{343001, 38}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_negotiator" name="{343001, 41}" description="{343001, 42}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_quaestor" name="{343001,29}" description="{343001,30}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+      <price min="500000000" average="500000000" max="500000000" />
+    <ware id="heroes_endofdays" name="{343001,31}" description="{343001,32}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_umbra" name="{343001,49}" description="{343001,50}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+      <price min="500000000" average="500000000" max="500000000" />
+    <ware id="heroes_saakak" name="{343001,51}" description="{343001,52}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+      <price min="500000000" average="500000000" max="500000000" />
+    <ware id="heroes_heroexecutor" name="{343001,57}" description="{343001,58}" group="ships_sw" transport="ship" volume="1" tags="ship limited blueprintsaleonly">
+      <price min="100000000000" average="100000000000" max="100000000000" />
+    <ware id="heroes_profundity" name="{343001, 77}" description="{343001, 78}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="100000000" average="100000000" max="100000000" />
+    <ware id="heroes_mythosaur" name="{343001,23}" description="{343001,24}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+    <ware id="heroes_salvation" name="{343001,53}" description="{343001,54}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+    <ware id="heroes_phoenix" name="{343001,55}" description="{343001,56}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+    <ware id="heroes_katana" name="{343001,61}" description="{343001,62}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+    <ware id="heroes_protector" name="{343001,69}" description="{343001,70}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+    <ware id="heroes_battleforged" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="30000000" average="30000000" max="30000000" />
+    <ware id="heroes_tantive" name="{343001, 1}" description="{343001, 2}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="6000000" average="6000000" max="6000000" />
+    <ware id="heroes_ebon" name="{343001,13}" description="{343001,14}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+    <ware id="heroes_falcon" name="{343001,35}" description="{343001,36}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+    <ware id="heroes_lightmaker" name="{343001,63}" description="{343001,64}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+    <ware id="heroes_sterdicstar" name="{343001,65}" description="{343001,66}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+    <ware id="heroes_corvus" name="{343001,71}" description="{343001,72}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="6000000" average="6000000" max="6000000" />
+    <ware id="heroes_anakin" name="{343001, 3}" description="{343001, 4}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="2000000" average="2000000" max="2000000" />
+    <ware id="heroes_vader" name="{343001,9}" description="{343001,10}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="2000000" average="2000000" max="2000000" />
+    <ware id="heroes_djarin" name="{343001,17}" description="{343001,18}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="2000000" average="2000000" max="2000000" />
+    <ware id="heroes_red_squadron" name="{343001,21}" description="{343001,22}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="2000000" average="2000000" max="2000000" />
+    <ware id="heroes_fett" name="{343001,25}" description="{343001,26}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="2000000" average="2000000" max="2000000" />
+    <ware id="heroes_soulless" name="{343001,33}" description="{343001,34}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly limited">
+      <price min="2000000" average="2000000" max="2000000" />
+    <ware id="heroes_galaxysedge" name="{343001,59}" description="{343001,60}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="2000000" average="2000000" max="2000000" />
+    <ware id="heroes_lootbug" name="{343001,67}" description="{343001,68}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="200000" average="200000" max="200000" />
+    <ware id="heroes_inferno" name="{343001,75}" description="{343001,76}" group="ships_sw" transport="ship" volume="1" tags="ship blueprintsaleonly  limited">
+      <price min="2000000" average="2000000" max="2000000" />
+    <ware id="heroes_shield_m_tantive" name="{343004, 1}" description="{343004, 2}" group="shields" transport="equipment" volume="1" tags="equipment shield tantive">
+      <price min="583740" average="778330" max="972910" />
+    <ware id="heroes_shield_s_anakin" name="{343004, 3}" description="{343004, 4}" group="shields" transport="equipment" volume="1" tags="equipment shield anakin">
+      <price min="98320" average="131100" max="163870" />
+    <ware id="heroes_shield_xl_chimaera" name="{343004, 5}" description="{343004, 6}" group="shields" transport="equipment" volume="1" tags="equipment shield chimaera">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_xl_orthavan" name="{343004, 7}" description="{343004, 8}" group="shields" transport="equipment" volume="1" tags="equipment shield orthavan">
+      <price min="2244080" average="2992110" max="3740130" />
+    <ware id="heroes_shield_s_vader" name="{343004, 9}" description="{343004, 10}" group="shields" transport="equipment" volume="1" tags="equipment shield vader">
+      <price min="113920" average="151900" max="189870" />
+    <ware id="heroes_shield_s_ebon" name="{343004, 11}" description="{343004, 12}" group="shields" transport="equipment" volume="1" tags="equipment shield ebon">
+      <price min="98320" average="131100" max="163870" />
+    <ware id="heroes_shield_xl_oppressor" name="{343004, 13}" description="{343004, 14}" group="shields" transport="equipment" volume="1" tags="equipment shield oppressor">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_s_redsquadron" name="{343004, 17}" description="{343004, 18}" group="shields" transport="equipment" volume="1" tags="equipment shield redsquadron">
+      <price min="98320" average="131100" max="163870" />
+    <ware id="heroes_shield_lh_mythosaur" name="{343004, 19}" description="{343004, 20}" group="shields" transport="equipment" volume="1" tags="equipment shield mythosaur">
+      <price min="3133760" average="4178350" max="5222930" />
+    <ware id="heroes_shield_endurance" name="{343004, 21}" description="{343004, 22}" group="shields" transport="equipment" volume="1" tags="equipment shield endurance">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_quaestor" name="{343004, 23}" description="{343004, 24}" group="shields" transport="equipment" volume="1" tags="equipment shield quaestor">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_endofdays" name="{343004, 25}" description="{343004, 26}" group="shields" transport="equipment" volume="1" tags="equipment shield endofdays">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_soulless" name="{343004, 27}" description="{343004, 28}" group="shields" transport="equipment" volume="1" tags="equipment shield soulless">
+      <price min="113920" average="151900" max="189870" />
+    <ware id="heroes_shield_falcon" name="{343004, 29}" description="{343004, 30}" group="shields" transport="equipment" volume="1" tags="equipment shield falcon">
+      <price min="113920" average="151900" max="189870" />
+    <ware id="heroes_shield_infinity" name="{343004, 31}" description="{343004, 32}" group="shields" transport="equipment" volume="1" tags="equipment shield infinity">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_umbra" name="{343004, 33}" description="{343004, 34}" group="shields" transport="equipment" volume="1" tags="equipment shield umbra">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_saakak" name="{343004, 35}" description="{343004, 36}" group="shields" transport="equipment" volume="1" tags="equipment shield saakak">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_salvation" name="{343004, 37}" description="{343004, 38}" group="shields" transport="equipment" volume="1" tags="equipment shield salvation">
+      <price min="3133760" average="4178350" max="5222930" />
+    <ware id="heroes_shield_phoenix" name="{343004, 39}" description="{343004, 40}" group="shields" transport="equipment" volume="1" tags="equipment shield phoenix">
+      <price min="3133760" average="4178350" max="5222930" />
+    <ware id="heroes_shield_heroexecutor" name="{343004, 41}" description="{343004, 42}" group="shields" transport="equipment" volume="1" tags="equipment shield executor">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_shield_galaxysedge" name="{343004, 43}" description="{343004, 44}" group="shields" transport="equipment" volume="1" tags="equipment shield galaxysedge">
+      <price min="113920" average="151900" max="189870" />
+    <ware id="heroes_shield_katana" name="{343004, 45}" description="{343004, 46}" group="shields" transport="equipment" volume="1" tags="equipment shield katana">
+      <price min="3133760" average="4178350" max="5222930" />
+    <ware id="heroes_shield_herom" name="{343004, 47}" description="{343004, 48}" group="shields" transport="equipment" volume="1" tags="equipment shield herom">
+      <price min="113920" average="151900" max="189870" />
+    <ware id="heroes_shield_protector" name="{343004, 49}" description="{343004, 50}" group="shields" transport="equipment" volume="1" tags="equipment shield protector">
+      <price min="3133760" average="4178350" max="5222930" />
+    <ware id="heroes_shield_battleforged" name="{343004, 51}" description="{343004, 52}" group="shields" transport="equipment" volume="1" tags="equipment shield battleforged">
+      <price min="3133760" average="4178350" max="5222930" />
+    <ware id="heroes_shield_inferno" name="{343004, 53}" description="{343004, 54}" group="shields" transport="equipment" volume="1" tags="equipment shield inferno">
+      <price min="113920" average="151900" max="189870" />
+    <ware id="heroes_shield_profundity" name="{343004, 25}" description="{343004, 26}" group="shields" transport="equipment" volume="1" tags="equipment shield profundity">
+      <price min="3724550" average="4966070" max="6207580" />
+    <ware id="heroes_weapon_redsquadron" name="{343005,1}" description="{343005,2}" group="weapons" transport="equipment" volume="1" tags="equipment weapon redsquadron">
+      <price min="555220" average="711830" max="868430" />
+    <ware id="heroes_weapon_djarin" name="{343005,3}" description="{343005,4}" group="weapons" transport="equipment" volume="1" tags="equipment weapon djarin">
+      <price min="555220" average="711830" max="868430" />
+    <ware id="heroes_turret_endurance" name="{343005,5}" description="{343005,6}" group="turrets" transport="equipment" volume="1" tags="equipment turret endurance">
+      <price min="2559970" average="322300" max="4086120" />
+    <ware id="heroes_engine_tantive" name="{343002, 1}" description="{343002, 2}" group="engines" transport="equipment" volume="1" tags="engine equipment tantive">
+      <price min="60610" average="80820" max="101020" />
+    <ware id="heroes_engine_anakin" name="{343002, 3}" description="{343002, 4}" group="engines" transport="equipment" volume="1" tags="engine equipment anakin">
+      <price min="528120" average="704160" max="880200" />
+    <ware id="heroes_engine_vader" name="{343002, 17}" description="{343002, 18}" group="engines" transport="equipment" volume="1" tags="engine equipment vader">
+      <price min="234720" average="312960" max="391200" />
+    <ware id="heroes_engine_djarin" name="{343002, 5}" description="{343002, 6}" group="engines" transport="equipment" volume="1" tags="engine equipment djarin">
+      <price min="305520" average="467360" max="529200" />
+    <ware id="heroes_engine_redsquadron" name="{343002, 9}" description="{343002, 10}" group="engines" transport="equipment" volume="1" tags="engine equipment redsquadron">
+      <price min="443760" average="591690" max="739610" />
+    <ware id="heroes_engine_mythosaur" name="{343002, 11}" description="{343002, 12}" group="engines" transport="equipment" volume="1" tags="engine equipment mythosaur">
+      <price min="1796800" average="2395740" max="2994670" />
+    <ware id="heroes_engine_quaestor" name="{343002, 13}" description="{343002, 14}" group="engines" transport="equipment" volume="1" tags="engine equipment quaestor">
+      <price min="5081480" average="6775310" max="8469130" />
+    <ware id="heroes_engine_endofdays" name="{343002, 15}" description="{343002, 16}" group="engines" transport="equipment" volume="1" tags="engine equipment endofdays">
+      <price min="8140120" average="10853500" max="13566870" />
+    <ware id="heroes_engine_falcon" name="{343002, 19}" description="{343002, 20}" group="engines" transport="equipment" volume="1" tags="engine equipment falcon">
+      <price min="1101940" average="1469260" max="1836570" />
+    <ware id="heroes_engine_herovenator" name="{343002, 21}" description="{343002, 22}" group="engines" transport="equipment" volume="1" tags="engine equipment herovenator">
+      <price min="8140120" average="10853500" max="13566870" />
+    <ware id="heroes_engine_infinity" name="{343002, 23}" description="{343002, 24}" group="engines" transport="equipment" volume="1" tags="engine equipment infinity">
+      <price min="5081480" average="6775310" max="8469130" />
+    <ware id="heroes_engine_umbra" name="{343002, 25}" description="{343002, 26}" group="engines" transport="equipment" volume="1" tags="engine equipment umbra">
+      <price min="5081480" average="6775310" max="8469130" />
+    <ware id="heroes_engine_saakak" name="{343002, 27}" description="{343002, 28}" group="engines" transport="equipment" volume="1" tags="engine equipment saakak">
+      <price min="5081480" average="6775310" max="8469130" />
+    <ware id="heroes_engine_heroexecutor" name="{343002, 29}" description="{343002, 30}" group="engines" transport="equipment" volume="1" tags="engine equipment executor">
+      <price min="5081480" average="6775310" max="8469130" />
+    <ware id="heroes_engine_galaxysedge" name="{343002, 31}" description="{343002, 32}" group="engines" transport="equipment" volume="1" tags="engine equipment galaxysedge">
+      <price min="234720" average="312960" max="391200" />
+    <ware id="heroes_engine_katana" name="{343002, 11}" description="{343002, 12}" group="engines" transport="equipment" volume="1" tags="engine equipment katana">
+      <price min="1796800" average="2395740" max="2994670" />
+    <ware id="heroes_engine_herohammerhead" name="{343002, 35}" description="{343002, 36}" group="engines" transport="equipment" volume="1" tags="engine equipment herohammerhead">
+      <price min="1101940" average="1469260" max="1836570" />
+    <ware id="heroes_engine_corvus" name="{343002, 37}" description="{343002, 38}" group="engines" transport="equipment" volume="1" tags="engine equipment corvus">
+      <price min="1101940" average="1469260" max="1836570" />
+    <ware id="heroes_compellor_ware" name="{1765010013,1}" description="{1765010013,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+      <price min="160000000" average="205000000" max="250000000" />
+    <ware id="heroes_impellor_ware" name="{1765010014,1}" description="{1765010014,3}" group="ships_sw" transport="ship" volume="1" tags="ship limited missiononly blueprintsaleonly nocustomgamestart">
+      <price min="160000000" average="205000000" max="250000000" />
+    <ware id="heroes_impellor_engines" name="{1765020014, 1}" description="{1765020014, 3}" group="engines" transport="equipment" volume="1" tags="engine equipment">
+      <price min="2200000" average="2700000" max="3200000" />
+    <ware id="heroes_impellor_engines_02" name="{1765020014, 4}" description="{1765020014, 3}" group="engines" transport="equipment" volume="1" tags="engine equipment  blueprintsaleonly">
+      <price min="2200000" average="2700000" max="3200000" />
+    <ware id="heroes_shield_xxl_compellor" name="{1765030011, 1}" description="{1765030011, 3}" group="shields" transport="equipment" volume="1" tags="equipment shield">
+      <price min="1532520" average="1661520" max="1713120" />
+    <ware id="heroes_shield_xxl_impellor" name="{1765030012, 1}" description="{1765030012, 3}" group="shields" transport="equipment" volume="1" tags="equipment shield">
+      <price min="1532520" average="1661520" max="1713120" />

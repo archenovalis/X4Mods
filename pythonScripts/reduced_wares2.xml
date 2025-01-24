@@ -1,0 +1,290 @@
+<diff>
+  <replace sel="//ware[@id='computronicsubstrate']/price">
+    <price min="7866.0" average="8280" max="8694" />
+  </replace>
+  <replace sel="//ware[@id='metallicmicrolattice']/price">
+    <price min="46.0" average="50" max="53" />
+  </replace>
+  <replace sel="//ware[@id='proteinpaste']/price">
+    <price min="76.0" average="96" max="115" />
+  </replace>
+  <replace sel="//ware[@id='siliconcarbide']/price">
+    <price min="1308.0" average="1414" max="1520" />
+  </replace>
+  <replace sel="//ware[@id='stimulants']/price">
+    <price min="246.0" average="340" max="433" />
+  </replace>
+  <replace sel="//ware[@id='terranmre']/price">
+    <price min="43.0" average="54" max="64" />
+  </replace>
+  <replace sel="//ware[@id='cheltmeat']/price">
+    <price min="41.0" average="51" max="61" />
+  </replace>
+  <replace sel="//ware[@id='scruffinfruits']/price">
+    <price min="22.0" average="28" max="34" />
+  </replace>
+  <replace sel="//ware[@id='condensate']/price">
+    <price min="23750.0" average="25000" max="26250" />
+  </replace>
+  <replace sel="//ware[@id='bofu']/price">
+    <price min="81.0" average="101" max="121" />
+  </replace>
+  <replace sel="//ware[@id='bogas']/price">
+    <price min="58.0" average="73" max="87" />
+  </replace>
+  <replace sel="//ware[@id='plankton']/price">
+    <price min="14.0" average="18" max="21" />
+  </replace>
+  <replace sel="//ware[@id='advancedcomposites']/price">
+    <price min="486.0" average="540" max="594" />
+  </replace>
+  <replace sel="//ware[@id='advancedelectronics']/price">
+    <price min="862.0" average="1014" max="1166" />
+  </replace>
+  <replace sel="//ware[@id='antimattercells']/price">
+    <price min="161.0" average="202" max="242" />
+  </replace>
+  <replace sel="//ware[@id='antimatterconverters']/price">
+    <price min="301.0" average="354" max="407" />
+  </replace>
+  <replace sel="//ware[@id='claytronics']/price">
+    <price min="1887.0" average="2040" max="2193" />
+  </replace>
+  <replace sel="//ware[@id='dronecomponents']/price">
+    <price min="799.0" average="914" max="1028" />
+  </replace>
+  <replace sel="//ware[@id='energycells']/price">
+    <price min="13.0" average="16" max="19" />
+  </replace>
+  <replace sel="//ware[@id='engineparts']/price">
+    <price min="155.0" average="182" max="209" />
+  </replace>
+  <replace sel="//ware[@id='fieldcoils']/price">
+    <price min="329.0" average="412" max="494" />
+  </replace>
+  <replace sel="//ware[@id='foodrations']/price">
+    <price min="16.0" average="21" max="25" />
+  </replace>
+  <replace sel="//ware[@id='graphene']/price">
+    <price min="133.0" average="166" max="199" />
+  </replace>
+  <replace sel="//ware[@id='helium']/price">
+    <price min="40.0" average="44" max="47" />
+  </replace>
+  <replace sel="//ware[@id='hullparts']/price">
+    <price min="177.0" average="209" max="240" />
+  </replace>
+  <replace sel="//ware[@id='hydrogen']/price">
+    <price min="53.0" average="58" max="62" />
+  </replace>
+  <replace sel="//ware[@id='ice']/price">
+    <price min="28.0" average="30" max="32" />
+  </replace>
+  <replace sel="//ware[@id='majadust']/price">
+    <price min="151.0" average="208" max="265" />
+  </replace>
+  <replace sel="//ware[@id='majasnails']/price">
+    <price min="46.0" average="58" max="69" />
+  </replace>
+  <replace sel="//ware[@id='meat']/price">
+    <price min="38.0" average="48" max="58" />
+  </replace>
+  <replace sel="//ware[@id='medicalsupplies']/price">
+    <price min="54.0" average="66" max="77" />
+  </replace>
+  <replace sel="//ware[@id='methane']/price">
+    <price min="44.0" average="48" max="51" />
+  </replace>
+  <replace sel="//ware[@id='microchips']/price">
+    <price min="876.0" average="948" max="1019" />
+  </replace>
+  <replace sel="//ware[@id='missilecomponents']/price">
+    <price min="7.0" average="9" max="11" />
+  </replace>
+  <replace sel="//ware[@id='nividium']/price">
+    <price min="472.0" average="510" max="548" />
+  </replace>
+  <replace sel="//ware[@id='nostropoil']/price">
+    <price min="27.0" average="34" max="40" />
+  </replace>
+  <replace sel="//ware[@id='ore']/price">
+    <price min="46.0" average="50" max="54" />
+  </replace>
+  <replace sel="//ware[@id='plasmaconductors']/price">
+    <price min="897.0" average="1026" max="1154" />
+  </replace>
+  <replace sel="//ware[@id='quantumtubes']/price">
+    <price min="262.0" average="300" max="337" />
+  </replace>
+  <replace sel="//ware[@id='refinedmetals']/price">
+    <price min="118.0" average="148" max="177" />
+  </replace>
+  <replace sel="//ware[@id='scanningarrays']/price">
+    <price min="947.0" average="1053" max="1158" />
+  </replace>
+  <replace sel="//ware[@id='scrapmetal']/price">
+    <price min="346.0" average="375" max="403" />
+  </replace>
+  <replace sel="//ware[@id='shieldcomponents']/price">
+    <price min="150.0" average="188" max="226" />
+  </replace>
+  <replace sel="//ware[@id='silicon']/price">
+    <price min="120.0" average="130" max="140" />
+  </replace>
+  <replace sel="//ware[@id='siliconwafers']/price">
+    <price min="239.0" average="299" max="359" />
+  </replace>
+  <replace sel="//ware[@id='smartchips']/price">
+    <price min="51.0" average="57" max="63" />
+  </replace>
+  <replace sel="//ware[@id='software_economymk1']/price">
+    <price min="6250.0" average="7500" max="8750" />
+  </replace>
+  <replace sel="//ware[@id='sojabeans']/price">
+    <price min="53.0" average="67" max="80" />
+  </replace>
+  <replace sel="//ware[@id='sojahusk']/price">
+    <price min="25.0" average="32" max="38" />
+  </replace>
+  <replace sel="//ware[@id='spacefuel']/price">
+    <price min="96.0" average="133" max="170" />
+  </replace>
+  <replace sel="//ware[@id='spaceweed']/price">
+    <price min="120.0" average="166" max="211" />
+  </replace>
+  <replace sel="//ware[@id='spices']/price">
+    <price min="16.0" average="20" max="24" />
+  </replace>
+  <replace sel="//ware[@id='sunriseflowers']/price">
+    <price min="64.0" average="80" max="96" />
+  </replace>
+  <replace sel="//ware[@id='superfluidcoolant']/price">
+    <price min="120.0" average="150" max="180" />
+  </replace>
+  <replace sel="//ware[@id='swampplant']/price">
+    <price min="67.0" average="84" max="100" />
+  </replace>
+  <replace sel="//ware[@id='teladianium']/price">
+    <price min="161.0" average="202" max="242" />
+  </replace>
+  <replace sel="//ware[@id='turretcomponents']/price">
+    <price min="218.0" average="273" max="328" />
+  </replace>
+  <replace sel="//ware[@id='water']/price">
+    <price min="42.0" average="53" max="63" />
+  </replace>
+  <replace sel="//ware[@id='weaponcomponents']/price">
+    <price min="228.0" average="285" max="342" />
+  </replace>
+  <replace sel="//ware[@id='wheat']/price">
+    <price min="25.0" average="31" max="37" />
+  </replace>
+  <replace sel="//ware[@id='shipsupplies']/price">
+    <price min="1800.0" average="1900" max="2000" />
+  </replace>
+  <replace sel="//ware[@id='rhydoniumcell']/price">
+    <price min="11390.0" average="12390" max="13390" />
+  </replace>
+  <replace sel="//ware[@id='nividium']/price">
+    <price min="472.0" average="510" max="548" />
+  </replace>
+  <replace sel="//ware[@id='hydrogen']/price">
+    <price min="107.0" average="116" max="125" />
+  </replace>
+  <replace sel="//ware[@id='advancedcomposites']/price">
+    <price min="486.0" average="540" max="594" />
+  </replace>
+  <replace sel="//ware[@id='advancedelectronics']/price">
+    <price min="862.0" average="1014" max="1166" />
+  </replace>
+  <replace sel="//ware[@id='antimattercells']/price">
+    <price min="400.0" average="450" max="500" />
+  </replace>
+  <replace sel="//ware[@id='antimatterconverters']/price">
+    <price min="301.0" average="354" max="407" />
+  </replace>
+  <replace sel="//ware[@id='claytronics']/price">
+    <price min="1887.0" average="2040" max="2193" />
+  </replace>
+  <replace sel="//ware[@id='dronecomponents']/price">
+    <price min="799.0" average="914" max="1028" />
+  </replace>
+  <replace sel="//ware[@id='energycells']/price">
+    <price min="13.0" average="16" max="19" />
+  </replace>
+  <replace sel="//ware[@id='engineparts']/price">
+    <price min="155.0" average="182" max="209" />
+  </replace>
+  <replace sel="//ware[@id='fieldcoils']/price">
+    <price min="329.0" average="412" max="494" />
+  </replace>
+  <replace sel="//ware[@id='graphene']/price">
+    <price min="133.0" average="166" max="199" />
+  </replace>
+  <replace sel="//ware[@id='hullparts']/price">
+    <price min="177.0" average="209" max="240" />
+  </replace>
+  <replace sel="//ware[@id='medicalsupplies']/price">
+    <price min="54.0" average="66" max="77" />
+  </replace>
+  <replace sel="//ware[@id='microchips']/price">
+    <price min="876.0" average="948" max="1019" />
+  </replace>
+  <replace sel="//ware[@id='missilecomponents']/price">
+    <price min="7.0" average="9" max="11" />
+  </replace>
+  <replace sel="//ware[@id='plasmaconductors']/price">
+    <price min="897.0" average="1026" max="1154" />
+  </replace>
+  <replace sel="//ware[@id='quantumtubes']/price">
+    <price min="262.0" average="300" max="337" />
+  </replace>
+  <replace sel="//ware[@id='refinedmetals']/price">
+    <price min="118.0" average="148" max="177" />
+  </replace>
+  <replace sel="//ware[@id='scanningarrays']/price">
+    <price min="947.0" average="1053" max="1158" />
+  </replace>
+  <replace sel="//ware[@id='shieldcomponents']/price">
+    <price min="150.0" average="188" max="226" />
+  </replace>
+  <replace sel="//ware[@id='siliconwafers']/price">
+    <price min="239.0" average="299" max="359" />
+  </replace>
+  <replace sel="//ware[@id='smartchips']/price">
+    <price min="51.0" average="57" max="63" />
+  </replace>
+  <replace sel="//ware[@id='spacefuel']/price">
+    <price min="96.0" average="133" max="170" />
+  </replace>
+  <replace sel="//ware[@id='spaceweed']/price">
+    <price min="120.0" average="166" max="211" />
+  </replace>
+  <replace sel="//ware[@id='spices']/price">
+    <price min="16.0" average="20" max="24" />
+  </replace>
+  <replace sel="//ware[@id='superfluidcoolant']/price">
+    <price min="120.0" average="150" max="180" />
+  </replace>
+  <replace sel="//ware[@id='swampplant']/price">
+    <price min="67.0" average="84" max="100" />
+  </replace>
+  <replace sel="//ware[@id='turretcomponents']/price">
+    <price min="218.0" average="273" max="328" />
+  </replace>
+  <replace sel="//ware[@id='water']/price">
+    <price min="42.0" average="53" max="63" />
+  </replace>
+  <replace sel="//ware[@id='weaponcomponents']/price">
+    <price min="228.0" average="285" max="342" />
+  </replace>
+  <replace sel="//ware[@id='wheat']/price">
+    <price min="25.0" average="31" max="37" />
+  </replace>
+  <replace sel="//ware[@id='foodrations']/price">
+    <price min="16.0" average="21" max="25" />
+  </replace>
+  <replace sel="//ware[@id='meat']/price">
+    <price min="38.0" average="48" max="58" />
+  </replace>
+</diff>

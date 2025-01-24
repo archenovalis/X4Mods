@@ -1,0 +1,192 @@
+    <ware id="computronicsubstrate" name="{20201,6001}" description="{20201,6002}" factoryname="{20201,6004}" group="hightech" transport="container" volume="50" tags="container economy stationbuilding">
+      <price min="7452" average="8280" max="9108" />
+    <ware id="metallicmicrolattice" name="{20201,6101}" description="{20201,6102}" factoryname="{20201,6104}" group="hightech" transport="container" volume="1" tags="container economy stationbuilding">
+      <price min="42" average="50" max="57" />
+    <ware id="proteinpaste" name="{20201,6201}" description="{20201,6202}" factoryname="{20201,6204}" group="agricultural" transport="container" volume="4" tags="container economy">
+      <price min="57" average="96" max="134" />
+    <ware id="siliconcarbide" name="{20201,6301}" description="{20201,6302}" factoryname="{20201,6304}" group="hightech" transport="container" volume="20" tags="container economy stationbuilding">
+      <price min="1202" average="1414" max="1627" />
+    <ware id="stimulants" name="{20201,6401}" description="{20201,6402}" factoryname="{20201,6404}" group="pharmaceutical" transport="container" volume="12" tags="container economy">
+      <price min="153" average="340" max="527" />
+    <ware id="terranmre" name="{20201,6501}" description="{20201,6502}" factoryname="{20201,6504}" group="food" transport="container" volume="2" tags="container economy">
+      <price min="32" average="54" max="75" />
+    <ware id="cheltmeat" name="{20201,5001}" description="{20201,5002}" factoryname="{20201,5004}" group="agricultural" transport="container" volume="7" tags="container economy">
+      <price min="31" average="51" max="72" />
+    <ware id="scruffinfruits" name="{20201,5101}" description="{20201,5102}" factoryname="{20201,5104}" group="agricultural" transport="container" volume="6" tags="container economy">
+      <price min="17" average="28" max="40" />
+    <ware id="condensate" name="{20201,6701}" description="{20201,6702}" factoryname="{20201,6704}" transport="condensate" volume="10" tags="condensate economy">
+      <price min="22500" average="25000" max="27500" />
+    <ware id="bofu" name="{20201,7101}" description="{20201,7102}" factoryname="{20201,7104}" group="food" transport="container" volume="4" tags="container economy">
+      <price min="61" average="101" max="142" />
+    <ware id="bogas" name="{20201,7201}" description="{20201,7202}" factoryname="{20201,7204}" group="refined" transport="container" volume="4" tags="container economy">
+      <price min="44" average="73" max="102" />
+    <ware id="plankton" name="{20201,7301}" description="{20201,7302}" factoryname="{20201,7304}" group="agricultural" transport="container" volume="1" tags="container economy">
+      <price min="11" average="18" max="25" />
+  <ware id="advancedcomposites" name="{20201,401}" description="{20201,402}" factoryname="{20201,404}" group="hightech" transport="container" volume="32" tags="container economy">
+    <price min="432" average="540" max="648" />
+  <ware id="advancedelectronics" name="{20201,101}" description="{20201,102}" factoryname="{20201,104}" group="shiptech" transport="container" volume="30" tags="container economy stationbuilding">
+    <price min="710" average="1014" max="1318" />
+  <ware id="antimattercells" name="{20201,201}" description="{20201,202}" factoryname="{20201,204}" group="refined" transport="container" volume="18" tags="container economy">
+    <price min="121" average="202" max="282" />
+  <ware id="antimatterconverters" name="{20201,301}" description="{20201,302}" factoryname="{20201,304}" group="shiptech" transport="container" volume="10" tags="container economy">
+    <price min="248" average="354" max="461" />
+  <ware id="claytronics" name="{20201,501}" description="{20201,502}" factoryname="{20201,504}" group="shiptech" transport="container" volume="24" tags="container economy stationbuilding">
+    <price min="1734" average="2040" max="2346" />
+  <ware id="dronecomponents" name="{20201,601}" description="{20201,602}" factoryname="{20201,604}" group="shiptech" transport="container" volume="30" tags="container economy">
+    <price min="685" average="914" max="1142" />
+  <ware id="energycells" name="{20201,701}" description="{20201,702}" factoryname="{20201,704}" group="energy" transport="container" volume="1" tags="container economy stationbuilding">
+    <price min="10" average="16" max="22" />
+  <ware id="engineparts" name="{20201,801}" description="{20201,802}" factoryname="{20201,804}" group="hightech" transport="container" volume="15" tags="container economy">
+    <price min="128" average="182" max="237" />
+  <ware id="fieldcoils" name="{20201,901}" description="{20201,902}" factoryname="{20201,904}" group="shiptech" transport="container" volume="15" tags="container economy stationbuilding">
+    <price min="247" average="412" max="576" />
+  <ware id="foodrations" name="{20201,1101}" description="{20201,1102}" factoryname="{20201,1104}" group="food" transport="container" volume="1" licence="ceremonyally" tags="container economy">
+    <price min="12" average="21" max="29" />
+  <ware id="graphene" name="{20201,1501}" description="{20201,1502}" factoryname="{20201,1504}" group="refined" transport="container" volume="20" tags="container economy">
+    <price min="100" average="166" max="233" />
+  <ware id="helium" name="{20201,2801}" description="{20201,2802}" factoryname="{20201,2804}" group="gases" transport="liquid" volume="6" tags="economy gas liquid minable">
+    <price min="37" average="44" max="51" />
+  <ware id="hullparts" name="{20201,1201}" description="{20201,1202}" factoryname="{20201,1204}" group="hightech" transport="container" volume="12" tags="container economy stationbuilding">
+    <price min="146" average="209" max="272" />
+  <ware id="hydrogen" name="{20201,1301}" description="{20201,1302}" factoryname="{20201,1304}" group="gases" transport="liquid" volume="6" tags="economy gas liquid minable">
+    <price min="49" average="58" max="67" />
+  <ware id="ice" name="{20201,1401}" description="{20201,1402}" factoryname="{20201,1404}" group="ice" transport="solid" volume="8" licence="ceremonyally" tags="economy minable mineral solid">
+    <price min="26" average="30" max="35" />
+  <ware id="majadust" name="{20201,1801}" description="{20201,1802}" factoryname="{20201,1804}" group="pharmaceutical" transport="container" volume="6" illegal="holyorder paranid" tags="container economy">
+    <price min="94" average="208" max="323" />
+  <ware id="majasnails" name="{20201,1901}" description="{20201,1902}" factoryname="{20201,1904}" group="agricultural" transport="container" volume="6" tags="container economy">
+    <price min="35" average="58" max="81" />
+  <ware id="meat" name="{20201,2001}" description="{20201,2002}" factoryname="{20201,2004}" group="agricultural" transport="container" volume="6" tags="container economy">
+    <price min="29" average="48" max="68" />
+  <ware id="medicalsupplies" name="{20201,2101}" description="{20201,2102}" factoryname="{20201,2104}" group="pharmaceutical" transport="container" volume="2" tags="container economy">
+    <price min="43" average="66" max="89" />
+  <ware id="methane" name="{20201,1601}" description="{20201,1602}" factoryname="{20201,1604}" group="gases" transport="liquid" volume="6" tags="economy gas liquid minable">
+    <price min="41" average="48" max="55" />
+  <ware id="microchips" name="{20201,2201}" description="{20201,2202}" factoryname="{20201,2204}" group="hightech" transport="container" volume="22" tags="container economy">
+    <price min="805" average="948" max="1090" />
+  <ware id="missilecomponents" name="{20201,2301}" description="{20201,2302}" factoryname="{20201,2304}" group="shiptech" transport="container" volume="2" tags="container economy">
+    <price min="6" average="9" max="13" />
+  <ware id="nividium" name="{20201,2401}" description="{20201,2402}" factoryname="{20201,2404}" group="minerals" transport="solid" volume="10" tags="economy minable mineral solid">
+    <price min="434" average="510" max="587" />
+  <ware id="nostropoil" name="{20201,2601}" description="{20201,2602}" factoryname="{20201,2604}" group="food" transport="container" volume="1" tags="container economy">
+    <price min="20" average="34" max="47" />
+  <ware id="ore" name="{20201,2701}" description="{20201,2702}" factoryname="{20201,2704}" group="minerals" transport="solid" volume="10" tags="economy minable mineral solid">
+    <price min="43" average="50" max="58" />
+  <ware id="plasmaconductors" name="{20201,3001}" description="{20201,3002}" factoryname="{20201,3004}" group="hightech" transport="container" volume="32" tags="container economy">
+    <price min="769" average="1026" max="1282" />
+  <ware id="quantumtubes" name="{20201,3101}" description="{20201,3102}" factoryname="{20201,3104}" group="hightech" transport="container" volume="22" tags="container economy">
+    <price min="225" average="300" max="375" />
+  <ware id="refinedmetals" name="{20201,3201}" description="{20201,3202}" factoryname="{20201,3204}" group="refined" transport="container" volume="14" tags="container economy">
+    <price min="89" average="148" max="207" />
+  <ware id="scanningarrays" name="{20201,3301}" description="{20201,3302}" factoryname="{20201,3304}" group="hightech" transport="container" volume="38" tags="container economy">
+    <price min="842" average="1053" max="1264" />
+  <ware id="scrapmetal" name="{20201,6601}" description="{20201,6602}" factoryname="{20201,6604}" group="refined" transport="solid" volume="10" tags="economy recycling solid">
+    <price min="318" average="375" max="431" />
+  <ware id="shieldcomponents" name="{20201,3401}" description="{20201,3402}" factoryname="{20201,3404}" group="shiptech" transport="container" volume="10" tags="container economy stationbuilding">
+    <price min="113" average="188" max="264" />
+  <ware id="silicon" name="{20201,3501}" description="{20201,3502}" factoryname="{20201,3504}" group="minerals" transport="solid" volume="10" tags="economy minable mineral solid">
+    <price min="111" average="130" max="150" />
+  <ware id="siliconwafers" name="{20201,3601}" description="{20201,3602}" factoryname="{20201,3604}" group="refined" transport="container" volume="18" tags="container economy">
+    <price min="180" average="299" max="419" />
+  <ware id="smartchips" name="{20201,3701}" description="{20201,3702}" factoryname="{20201,3704}" group="shiptech" transport="container" volume="2" tags="container economy">
+    <price min="46" average="57" max="69" />
+  <ware id="software_economymk1" name="{20108,5001}" description="{20108,5002}" factoryname="{20108,171}" group="software" transport="software" volume="1" tags="noblueprint">
+    <price min="5000" average="7500" max="10000" />
+  <ware id="sojabeans" name="{20201,3801}" description="{20201,3802}" factoryname="{20201,3804}" group="agricultural" transport="container" volume="5" tags="container economy">
+    <price min="40" average="67" max="93" />
+  <ware id="sojahusk" name="{20201,3901}" description="{20201,3902}" factoryname="{20201,3904}" group="food" transport="container" volume="1" tags="container economy">
+    <price min="19" average="32" max="45" />
+  <ware id="spacefuel" name="{20201,4001}" description="{20201,4002}" factoryname="{20201,4004}" group="pharmaceutical" transport="container" volume="2" illegal="antigone argon" tags="container economy">
+    <price min="60" average="133" max="207" />
+  <ware id="spaceweed" name="{20201,4101}" description="{20201,4102}" factoryname="{20201,4104}" group="pharmaceutical" transport="container" volume="3" illegal="antigone argon holyorder paranid" tags="container economy">
+    <price min="75" average="166" max="257" />
+  <ware id="spices" name="{20201,4201}" description="{20201,4202}" factoryname="{20201,4204}" group="agricultural" transport="container" volume="3" tags="container economy">
+    <price min="12" average="20" max="28" />
+  <ware id="sunriseflowers" name="{20201,4301}" description="{20201,4302}" factoryname="{20201,4304}" group="agricultural" transport="container" volume="5" tags="container economy">
+    <price min="48" average="80" max="112" />
+  <ware id="superfluidcoolant" name="{20201,2901}" description="{20201,2902}" factoryname="{20201,2904}" group="refined" transport="container" volume="16" tags="container economy">
+    <price min="90" average="150" max="211" />
+  <ware id="swampplant" name="{20201,4401}" description="{20201,4402}" factoryname="{20201,4404}" group="agricultural" transport="container" volume="6" tags="container economy">
+    <price min="50" average="84" max="117" />
+  <ware id="teladianium" name="{20201,4501}" description="{20201,4502}" factoryname="{20201,4504}" group="refined" transport="container" volume="16" tags="container economy">
+    <price min="121" average="202" max="283" />
+  <ware id="turretcomponents" name="{20201,4601}" description="{20201,4602}" factoryname="{20201,4604}" group="shiptech" transport="container" volume="20" tags="container economy stationbuilding">
+    <price min="164" average="273" max="383" />
+  <ware id="water" name="{20201,4701}" description="{20201,4702}" factoryname="{20201,4704}" group="water" transport="container" volume="6" licence="ceremonyally" tags="container economy stationbuilding">
+    <price min="32" average="53" max="74" />
+  <ware id="weaponcomponents" name="{20201,4801}" description="{20201,4802}" factoryname="{20201,4804}" group="shiptech" transport="container" volume="20" tags="container economy">
+    <price min="171" average="285" max="399" />
+  <ware id="wheat" name="{20201,4901}" description="{20201,4902}" factoryname="{20201,4904}" group="agricultural" transport="container" volume="4" tags="container economy">
+    <price min="19" average="31" max="44" />
+    <ware id="shipsupplies" name="{999840,730010}" description="{999840,730011}" factoryname="{999840,730012}" group="refined" transport="container" volume="30" tags="container economy">
+      <price min="1700" average="1900" max="2100" />
+    <ware id="rhydoniumcell" name="{999840,720020}" description="{999840,720021}" factoryname="{999840,720022}" group="hightech" transport="container" volume="200" tags="container economy stationbuilding">
+      <price min="10390" average="12390" max="14390" />
+    <ware id="nividium" name="{999840,720010}" description="{999840,720011}" factoryname="{999840,700012}" group="minerals" transport="solid" volume="60" tags="economy minable mineral solid">
+      <price min="434" average="510" max="587" />
+    <ware id="hydrogen" name="{999840,720030}" description="{999840,720031}" factoryname="{999840,720032}" group="gases" transport="liquid" volume="6" tags="economy gas liquid minable">
+      <price min="98" average="116" max="134" />
+    <ware id="advancedcomposites" name="{20201,401}" description="{20201,402}" factoryname="{20201,404}" group="hightech" transport="container" volume="32" tags="container economy">
+      <price min="432" average="540" max="648" />
+    <ware id="advancedelectronics" name="{20201,101}" description="{20201,102}" factoryname="{20201,104}" group="shiptech" transport="container" volume="30" tags="container economy stationbuilding">
+      <price min="710" average="1014" max="1318" />
+    <ware id="antimattercells" name="{999840,720040}" description="{999840,720041}" factoryname="{999840,720042}" group="refined" transport="container" volume="18" tags="container economy">
+      <price min="350" average="450" max="550" />
+    <ware id="antimatterconverters" name="{20201,301}" description="{20201,302}" factoryname="{20201,304}" group="shiptech" transport="container" volume="10" tags="container economy">
+      <price min="248" average="354" max="461" />
+    <ware id="claytronics" name="{999840,720080}" description="{999840,720081}" factoryname="{999840,720082}" group="shiptech" transport="container" volume="24" tags="container economy stationbuilding">
+      <price min="1734" average="2040" max="2346" />
+    <ware id="dronecomponents" name="{999840,720130}" description="{999840,720131}" factoryname="{999840,720132}" group="shiptech" transport="container" volume="30" tags="container economy">
+      <price min="685" average="914" max="1142" />
+    <ware id="energycells" name="{20201,701}" description="{20201,702}" factoryname="{20201,704}" group="energy" transport="container" volume="1" tags="container economy stationbuilding">
+      <price min="10" average="16" max="22" />
+    <ware id="engineparts" name="{20201,801}" description="{20201,802}" factoryname="{20201,804}" group="hightech" transport="container" volume="15" tags="container economy">
+      <price min="128" average="182" max="237" />
+    <ware id="fieldcoils" name="{20201,901}" description="{20201,902}" factoryname="{20201,904}" group="shiptech" transport="container" volume="15" tags="container economy stationbuilding">
+      <price min="247" average="412" max="576" />
+    <ware id="graphene" name="{20201,1501}" description="{20201,1502}" factoryname="{20201,1504}" group="refined" transport="container" volume="20" tags="container economy">
+      <price min="100" average="166" max="233" />
+    <ware id="hullparts" name="{999840,720050}" description="{999840,720050}" factoryname="{999840,720052}" group="hightech" transport="container" volume="12" tags="container economy stationbuilding">
+      <price min="146" average="209" max="272" />
+    <ware id="medicalsupplies" name="{20201,2101}" description="{20201,2102}" factoryname="{20201,2104}" group="pharmaceutical" transport="container" volume="2" tags="container economy">
+      <price min="43" average="66" max="89" />
+    <ware id="microchips" name="{20201,2201}" description="{20201,2202}" factoryname="{20201,2204}" group="hightech" transport="container" volume="22" tags="container economy">
+      <price min="805" average="948" max="1090" />
+    <ware id="missilecomponents" name="{20201,2301}" description="{20201,2302}" factoryname="{20201,2304}" group="shiptech" transport="container" volume="2" tags="container economy">
+      <price min="6" average="9" max="13" />
+    <ware id="plasmaconductors" name="{20201,3001}" description="{20201,3002}" factoryname="{20201,3004}" group="hightech" transport="container" volume="32" tags="container economy">
+      <price min="769" average="1026" max="1282" />
+    <ware id="quantumtubes" name="{999840,720140}" description="{999840,720141}" factoryname="{999840,720142}" group="hightech" transport="container" volume="22" tags="container economy">
+      <price min="225" average="300" max="375" />
+    <ware id="refinedmetals" name="{20201,3201}" description="{20201,3202}" factoryname="{20201,3204}" group="refined" transport="container" volume="14" tags="container economy">
+      <price min="89" average="148" max="207" />
+    <ware id="scanningarrays" name="{999840,720110}" description="{999840,720111}" factoryname="{999840,720112}" group="hightech" transport="container" volume="38" tags="container economy">
+      <price min="842" average="1053" max="1264" />
+    <ware id="shieldcomponents" name="{20201,3401}" description="{20201,3402}" factoryname="{20201,3404}" group="shiptech" transport="container" volume="10" tags="container economy stationbuilding">
+      <price min="113" average="188" max="264" />
+    <ware id="siliconwafers" name="{20201,3601}" description="{20201,3602}" factoryname="{20201,3604}" group="refined" transport="container" volume="18" tags="container economy">
+      <price min="180" average="299" max="419" />
+    <ware id="smartchips" name="{20201,3701}" description="{20201,3702}" factoryname="{20201,3704}" group="shiptech" transport="container" volume="2" tags="container economy">
+      <price min="46" average="57" max="69" />
+    <ware id="spacefuel" name="{999840,720100}" description="{999840,720101}" factoryname="{999840,720102}" group="pharmaceutical" transport="container" volume="2" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw naboo kamino" tags="container economy">
+      <price min="60" average="133" max="207" />
+    <ware id="spaceweed" name="{999840,720090}" description="{999840,720091}" factoryname="{999840,720092}" group="pharmaceutical" transport="container" volume="3" illegal="newrepublic rebelalliance galempire ascendancy corporate commerceguild mandodw naboo kamino" tags="container economy">
+      <price min="75" average="166" max="257" />
+    <ware id="spices" name="{20201,4201}" description="{20201,4202}" factoryname="{20201,4204}" group="agricultural" transport="container" volume="3" tags="container economy">
+      <price min="12" average="20" max="28" />
+    <ware id="superfluidcoolant" name="{20201,2901}" description="{20201,2902}" factoryname="{20201,2904}" group="refined" transport="container" volume="16" tags="container economy">
+      <price min="90" average="150" max="211" />
+    <ware id="swampplant" name="{999840,720150}" description="{999840,720151}" factoryname="{999840,720152}" group="agricultural" transport="container" volume="6" tags="container economy">
+      <price min="50" average="84" max="117" />
+    <ware id="turretcomponents" name="{20201,4601}" description="{20201,4602}" factoryname="{20201,4604}" group="shiptech" transport="container" volume="20" tags="container economy stationbuilding">
+      <price min="164" average="273" max="383" />
+    <ware id="water" name="{20201,4701}" description="{20201,4702}" factoryname="{20201,4704}" group="water" transport="container" volume="6" tags="container economy">
+      <price min="32" average="53" max="74" />
+    <ware id="weaponcomponents" name="{20201,4801}" description="{20201,4802}" factoryname="{20201,4804}" group="shiptech" transport="container" volume="20" tags="container economy">
+      <price min="171" average="285" max="399" />
+    <ware id="wheat" name="{999840,720070}" description="{999840,720070}" factoryname="{999840,720072}" group="agricultural" transport="container" volume="4" tags="container economy">
+      <price min="19" average="31" max="44" />
+    <ware id="foodrations" name="{20201,1101}" description="{20201,1102}" factoryname="{20201,1104}" group="food" transport="container" volume="1" tags="container economy">
+      <price min="12" average="21" max="29" />
+    <ware id="meat" name="{20201,2001}" description="{20201,2002}" factoryname="{20201,2004}" group="agricultural" transport="container" volume="6" tags="container economy">
+      <price min="29" average="48" max="68" />

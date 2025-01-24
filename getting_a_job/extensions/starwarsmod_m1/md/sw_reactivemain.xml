@@ -152,10 +152,9 @@
                       <set_value name="$table.{$Asset}.$Pilot" exact="$Asset.assignedpilot" />
                       <set_value name="$table.{$Asset}.$Service" exact="$Asset.people.{entityrole.service}.list" />
                       <set_value name="$table.{$Asset}.$Marines" exact="$Asset.people.{entityrole.marine}.list" />
-                      <set_value name="$table.{$Asset}.$Crew" exact="$table.{$Asset}.$Marines.count + $table.{$Asset}.$Service.count" />
+                      <set_value name="$table.{$Asset}.$Crew" exact="[$table.{$Asset}.$Marines.count, $table.{$Asset}.$Service.count]" />
                       <set_value name="$table.{$Asset}.$Cargo" exact="$Asset.cargo.table" />
                       <set_value name="$table.{$Asset}.$Threatscore" exact="$Asset.threatscore" />
-                      <set_value name="$table.{$Asset}.$ShipUnits" exact="@$SupplyTable.{$Asset}" />
 
                       <set_value name="$Data.$totalPilots" operation="add" exact="1" />
                       <set_value name="$Data.$totalMarines" operation="add" exact="$table.{$Asset}.$Marines.count" />
