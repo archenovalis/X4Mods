@@ -20,7 +20,7 @@
         <actions>
           <set_value name="$DebugChance" exact="0" />
           <set_value name="$PlayerPower" exact="99" />
-          <set_value name="$CheckInterval" exact="30min" /><!-- NOT USED, but feeded into maintanance! sync with actual check interval for reactive cue -->
+          <set_value name="$CheckInterval" exact="30min" />
 
           <!-- <show_help duration="10s" custom="{2005311642,1}" /> -->
 
@@ -65,8 +65,7 @@
           <set_value name="global.$GlobalPlayerPower" exact="$PlayerPower" />
         </patch>
         <cues>
-          <!-- <cue name="ReactivePlayerPowerUpdate" instantiate="true" checkinterval="30min" checktime="player.age + 60s"> -->
-          <cue name="ReactivePlayerPowerUpdate" instantiate="true" checkinterval="60min" checktime="player.age + 60s">
+          <cue name="ReactivePlayerPowerUpdate" instantiate="true" checkinterval="$CheckInterval" checktime="player.age + 60s">
             <actions>
 
               <set_value name="$PlayerTotalAssetsCost" exact="0Cr" />

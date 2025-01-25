@@ -146,7 +146,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 borderBelow = false
             })
             GAJMaintenanceMenu.timeNextAssessmentRow = 2
-            row[1]:createText("Next Cycle")
+            row[1]:createText("Next Cycle: ")
             DebugError("timeNextAssessment", GAJMaintenanceMenu.data.timeNextAssessment)
             local timeLeft = GAJMaintenanceMenu.data.timeNextAssessment - C.GetCurrentGameTime()
             if timeLeft < 60 then
@@ -156,29 +156,6 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
             end
             GAJMaintenanceMenu.timeNextAssessmentCol = 2
 
-
-            if next(GAJMaintenanceMenu.empireData.LastCycle) then
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.defaultTitleBackgroundColor,
-                    borderBelow = false
-                })
-                row[1]:setColSpan(tableCols):createText("Last Cycle Stats:", Helper.titleTextProperties)
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
-                    bgColor = Helper.color.transparent,
-                    borderBelow = false
-                })
-            end
-            if next(GAJMaintenanceMenu.empireData.Current) then
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.defaultTitleBackgroundColor,
-                    borderBelow = false
-                })
-                row[1]:setColSpan(tableCols):createText("Current Stats:", Helper.titleTextProperties)
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
-                    bgColor = Helper.color.transparent,
-                    borderBelow = false
-                })
-            end
             --  create section showing:
             --    last cycle (5 rows)
             --    next cycle (5 rows)
@@ -198,250 +175,477 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
             --      total wear and tear
             --      total energy
             --      total supplies needed
+            if next(GAJMaintenanceMenu.empireData.Current) then
+                local current = GAJMaintenanceMenu.empireData.Current
 
-            if next(GAJMaintenanceMenu.data.supplyships) then
-                DebugError("gajMaintenance.menu.data.supplyships")
+                -- personnel data
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+                local labels = {
+                    "#Pilots",
+                    "#Marines",
+                    "#Service",
+                    "",
+                    "T.Salary",
+                    "T.Usage",
+                }
+                for i, label in ipairs(labels) do
+                    row[i]:createText(label, Helper.subHeaderTextProperties)
+                end
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+                local values = {
+                    current.TotalPilots,
+                    current.TotalMarines,
+                    current.TotalService,
+                    "",
+                    current.TotalSalary,
+                    current.TotalUse,
+                }
+                for i, value in ipairs(values) do
+                    row[i]:createText(value)
+                end
+
+                -- ship data
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+                labels = {
+                    "#Supply",
+                    "#Dedicated",
+                    "#Resupply",
+                    "#LowSupplies",
+                    "Set#Cycles",
+                    "",
+                    "T.Wear&Tear",
+                    "T.Energy",
+                    "T.Usage"
+                }
+                for i, label in ipairs(labels) do
+                    row[i]:createText(label, Helper.subHeaderTextProperties)
+                end
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+                values = {
+                    current.TotalSupply,
+                    current.TotalDedicated,
+                    current.TotalResupply,
+                    { current.NumLow,    "button", "ShowNumLow" },
+                    { current.CyclesLow, "button", "SetCyclesLow" },
+                    "",
+                    current.TotalWearTear,
+                    current.TotalEnergy,
+                    current.TotalSupplyUse
+                }
+                for i, value in ipairs(values) do
+                    if type(value) == "table" and value[2] == "button" then
+                        row[i]:createButton(GAJMaintenanceMenu.props[value[3]]):setText(value[1])
+                        row[i].handlers.onClick = function()
+                            AddUITriggeredEvent("GAJ_Maint", value[3])
+                        end
+                    else
+                        row[i]:createText(value)
+                    end
+                end
+            end
+
+            -- Display LastCycle Empire Data
+            if next(GAJMaintenanceMenu.empireData.LastCycle) then
                 row = GAJMaintenanceMenu.infotable:addRow(nil, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
                 row[1]:createText("")
-
                 row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.defaultTitleBackgroundColor,
+                    bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
-                row[1]:setColSpan(tableCols):createText("Supply Ships", Helper.titleTextProperties)
+                row[1]:createText("Last Cycle:", Helper.titleTextProperties)
+                local lastCycle = GAJMaintenanceMenu.empireData.LastCycle
+
+                -- personnel data
                 row = GAJMaintenanceMenu.infotable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
-                row[1]:createText("Size", Helper.subHeaderTextProperties)
-                row[2]:createText("Name", Helper.subHeaderTextProperties)
-                row[3]:createText("Sector", Helper.subHeaderTextProperties)
-                row[4]:createText("Supplies", Helper.subHeaderTextProperties)
-                row[5]:createText("Repair Complexity", Helper.subHeaderTextProperties)
-                row[6]:createText("Total Usage", Helper.subHeaderTextProperties)
-                row[7]:createText("Crew Usage", Helper.subHeaderTextProperties)
-                row[8]:createText("Energy Usage", Helper.subHeaderTextProperties)
-                row[9]:createText("Wear and Tear", Helper.subHeaderTextProperties)
-                row[10]:createText("Cargo Supplies", Helper.subHeaderTextProperties)
-                row[11]:createText("Remove Supply Ship", Helper.subHeaderTextProperties)
+                local labels = {
+                    "#Pilots",
+                    "#Marines",
+                    "#Service",
+                    "",
+                    "T.Salary",
+                    "T.Usage",
+                }
+                for i, label in ipairs(labels) do
+                    row[i]:createText(label, Helper.subHeaderTextProperties)
+                end
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+                local values = {
+                    lastCycle.TotalPilots,
+                    lastCycle.TotalMarines,
+                    lastCycle.TotalService,
+                    "",
+                    lastCycle.TotalSalary,
+                    lastCycle.TotalUse,
+                }
+                for i, value in ipairs(values) do
+                    row[i]:createText(value)
+                end
+
+                -- ship data
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+                labels = {
+                    "#Supply",
+                    "#Dedicated",
+                    "#Resupply",
+                    "#LowSupplies",
+                    "Set#Cycles",
+                    "",
+                    "T.Wear&Tear",
+                    "T.Energy",
+                    "T.Usage"
+                }
+                for i, label in ipairs(labels) do
+                    row[i]:createText(label, Helper.subHeaderTextProperties)
+                end
+                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    bgColor = Helper.color.transparent,
+                    borderBelow = false
+                })
+                values = {
+                    lastCycle.TotalSupply,
+                    lastCycle.TotalDedicated,
+                    lastCycle.TotalResupply,
+                    lastCycle.NumLow,
+                    lastCycle.CyclesLow,
+                    "",
+                    lastCycle.TotalWearTear,
+                    lastCycle.TotalEnergy,
+                    lastCycle.TotalSupplyUse
+                }
+                for i, value in ipairs(values) do
+                    row[i]:createText(value)
+                end
+            end
+
+            -- Supply Ships
+            if next(GAJMaintenanceMenu.data.supplyships) then
+                DebugError("gajMaintenance.menu.data.supplyships")
+
+                local initialRows = {
+                    { text = "",      bgColor = Helper.color.transparent },
+                    { isTitle = true, text = "Supply Ships",             bgColor = Helper.defaultTitleBackgroundColor, colspan = tableCols },
+                    {
+                        isHeader = true,
+                        labels = {
+                            "Size",
+                            "Name",
+                            "Sector",
+                            "Supplies",
+                            "RepairCost",
+                            "TotalUse",
+                            "CrewUse",
+                            "EnergyUse",
+                            "Wear&Tear",
+                            "CargoSupplies",
+                            "Remove"
+                        },
+                        bgColor = Helper.color.transparent
+                    }
+                }
+                for _, rowData in ipairs(initialRows) do
+                    row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                        bgColor = rowData.bgColor,
+                        borderBelow = false
+                    })
+                    if rowData.isTitle then
+                        row[1]:setColSpan(rowData.colspan):createText(rowData.text, Helper.titleTextProperties)
+                    elseif rowData.isHeader then
+                        for i, label in ipairs(rowData.labels) do
+                            row[i]:createText(label, Helper.subHeaderTextProperties)
+                        end
+                    else
+                        row[1]:createText(rowData.text)
+                    end
+                end
+
                 for shipid, ship in pairs(GAJMaintenanceMenu.data.supplyships) do
                     row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
-                    row[1]:createText(ship.Size)
-                    row[2]:createText(ship.Name)
-                    row[3]:createText(ship.Sector)
-                    row[4]:createButton(GAJMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
-                        ship.DesiredUnits)
-                    row[4].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "SetDesiredUnits", shipid)
-                    end
-                    row[5]:createText(ship.RepairComplexity)
-                    row[6]:createText(ship.TotalUsage)
-                    row[7]:createText(ship.CrewUsage)
-                    row[8]:createText(ship.EnergyUsage)
-                    row[9]:createText(ship.WearTear)
-                    row[10]:createButton(GAJMaintenanceMenu.props.SetDesiredSupplies):setText(
-                        ship.ShipSupplies + " / " + ship.DesiredSupplies)
-                    row[10].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "SetDesiredSupplies", shipid)
-                    end
-                    row[11]:createButton(GAJMaintenanceMenu.props.RemoveSupplyShip):setText("Remove")
-                    row[11].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "RemoveSupplyShip", shipid)
+                    local values = {
+                        ship.Size,
+                        ship.Name,
+                        ship.Sector,
+                        { ship.ShipUnits .. " / " .. ship.DesiredUnits .. " (" .. ship.NumCycles .. ")", "button", "SetDesiredUnits" },
+                        ship.RepairComplexity,
+                        ship.TotalUsage,
+                        ship.CrewUsage,
+                        ship.EnergyUsage,
+                        ship.WearTear,
+                        { ship.ShipSupplies .. " / " .. ship.DesiredSupplies,                        "button", "SetDesiredSupplies" },
+                        { "Remove",                                                                  "button", "RemoveSupplyShip" }
+                    }
+                    for i, value in ipairs(values) do
+                        if type(value) == "table" and value[2] == "button" then
+                            row[i]:createButton(GAJMaintenanceMenu.props[value[3]]):setText(value[1])
+                            row[i].handlers.onClick = function()
+                                AddUITriggeredEvent("GAJ_Maint", value[3], shipid)
+                            end
+                        else
+                            row[i]:createText(value)
+                        end
                     end
                 end
             end
-            --	-- dedicated resupply ship
-            -- 	size | name | sector | shields | hull | crew | cargo | personal supplies | expected supply usage | crew supply usage | ship supply usage | supply ship | change supply ship button | make range button
+
+            -- dedicated resupply ships
             if next(GAJMaintenanceMenu.data.dedicatedresupplyships) then
                 DebugError("gajMaintenance.menu.data.dedicatedresupplyships")
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.color.transparent,
-                    borderBelow = false
-                })
-                row[1]:createText("")
 
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.defaultTitleBackgroundColor,
-                    borderBelow = false
-                })
-                row[1]:setColSpan(tableCols):createText("Dedicated Resupply Ships", Helper.titleTextProperties)
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
-                    bgColor = Helper.color.transparent,
-                    borderBelow = false
-                })
-                row[1]:createText("Size", Helper.subHeaderTextProperties)
-                row[2]:createText("Name", Helper.subHeaderTextProperties)
-                row[3]:createText("Sector", Helper.subHeaderTextProperties)
-                row[4]:createText("Supplies", Helper.subHeaderTextProperties)
-                row[5]:createText("Repair Complexity", Helper.subHeaderTextProperties)
-                row[6]:createText("Total Usage", Helper.subHeaderTextProperties)
-                row[7]:createText("Crew Usage", Helper.subHeaderTextProperties)
-                row[8]:createText("Energy Usage", Helper.subHeaderTextProperties)
-                row[9]:createText("Wear and Tear", Helper.subHeaderTextProperties)
-                row[10]:createText("Cargo Supplies", Helper.subHeaderTextProperties)
-                row[11]:createText("Supply Ship", Helper.subHeaderTextProperties)
-                row[12]:createText("Make Range Resupply", Helper.subHeaderTextProperties)
+                local initialRows = {
+                    { text = "",      bgColor = Helper.color.transparent },
+                    { isTitle = true, text = "Dedicated Resupply Ships", bgColor = Helper.defaultTitleBackgroundColor, colspan = tableCols },
+                    {
+                        isHeader = true,
+                        labels = {
+                            "Size",
+                            "Name",
+                            "Sector",
+                            "Supplies",
+                            "RepairCost",
+                            "TotalUse",
+                            "CrewUse",
+                            "EnergyUse",
+                            "Wear&Tear",
+                            "SupplyShip",
+                            "Switch"
+                        },
+                        bgColor = Helper.color.transparent
+                    }
+                }
+
+                for _, rowData in ipairs(initialRows) do
+                    row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                        bgColor = rowData.bgColor,
+                        borderBelow = false
+                    })
+                    if rowData.isTitle then
+                        row[1]:setColSpan(rowData.colspan):createText(rowData.text, Helper.titleTextProperties)
+                    elseif rowData.isHeader then
+                        for i, label in ipairs(rowData.labels) do
+                            row[i]:createText(label, Helper.subHeaderTextProperties)
+                        end
+                    else
+                        row[1]:createText(rowData.text)
+                    end
+                end
+
                 for shipid, ship in pairs(GAJMaintenanceMenu.data.dedicatedresupplyships) do
                     row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
-                    row[1]:createText(ship.Size)
-                    row[2]:createText(ship.Name)
-                    row[3]:createText(ship.Sector)
-                    row[4]:createButton(GAJMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
-                        ship.DesiredUnits)
-                    row[4].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "SetDesiredUnits", shipid)
-                    end
-                    row[5]:createText(ship.RepairComplexity)
-                    row[6]:createText(ship.TotalUsage)
-                    row[7]:createText(ship.CrewUsage)
-                    row[8]:createText(ship.EnergyUsage)
-                    row[9]:createText(ship.WearTear)
-                    row[10]:createText(ship.ShipSupplies)
-                    row[11]:createButton(GAJMaintenanceMenu.props.AssignSupplyShip):setText(ship.SupplyShip)
-                    row[11].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "AssignSupplyShip", shipid)
-                    end
-                    row[12]:createButton(GAJMaintenanceMenu.props.MakeResupplyShip):setText("Switch")
-                    row[12].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "MakeResupplyShip", shipid)
+                    local values = {
+                        ship.Size,
+                        ship.Name,
+                        ship.Sector,
+                        { ship.ShipUnits .. " / " .. ship.DesiredUnits .. " (" .. ship.NumCycles .. ")", "button", "SetDesiredUnits" },
+                        ship.RepairComplexity,
+                        ship.TotalUsage,
+                        ship.CrewUsage,
+                        ship.EnergyUsage,
+                        ship.WearTear,
+                        { ship.SupplyShip,                                                           "button", "AssignSupplyShip" },
+                        { "Switch",                                                                  "button", "MakeResupplyShip" }
+                    }
+                    for i, value in ipairs(values) do
+                        if type(value) == "table" and value[2] == "button" then
+                            row[i]:createButton(GAJMaintenanceMenu.props[value[3]]):setText(value[1])
+                            row[i].handlers.onClick = function()
+                                AddUITriggeredEvent("GAJ_Maint", value[3], shipid)
+                            end
+                        else
+                            row[i]:createText(value)
+                        end
                     end
                 end
             end
-            --  -- resupply ships
-            --	size | name | sector | shields | hull | crew | cargo | personal supplies | expected supply usage | crew supply usage | ship supply usage | home sector | range | set home sector button | set range button | make dedicated button
+
+            -- resupply ships
             if next(GAJMaintenanceMenu.data.resupplyships) then
                 DebugError("gajMaintenance.menu.data.resupplyships")
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.color.transparent,
-                    borderBelow = false
-                })
-                row[1]:createText("")
 
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.defaultTitleBackgroundColor,
-                    borderBelow = false
-                })
-                row[1]:setColSpan(tableCols):createText("Resupply Ships", Helper.titleTextProperties)
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
-                    bgColor = Helper.color.transparent,
-                    borderBelow = false
-                })
-                row[1]:createText("Size", Helper.subHeaderTextProperties)
-                row[2]:createText("Name", Helper.subHeaderTextProperties)
-                row[3]:createText("Sector", Helper.subHeaderTextProperties)
-                row[4]:createText("Supplies", Helper.subHeaderTextProperties)
-                row[5]:createText("Repair Complexity", Helper.subHeaderTextProperties)
-                row[6]:createText("Total Usage", Helper.subHeaderTextProperties)
-                row[7]:createText("Crew Usage", Helper.subHeaderTextProperties)
-                row[8]:createText("Energy Usage", Helper.subHeaderTextProperties)
-                row[9]:createText("Wear and Tear", Helper.subHeaderTextProperties)
-                row[10]:createText("Cargo Supplies", Helper.subHeaderTextProperties)
-                -- home sector | range | set home sector button | set range button | make dedicated button
-                row[11]:createText("Home Sector", Helper.subHeaderTextProperties)
-                row[12]:createText("Gate Range", Helper.subHeaderTextProperties)
-                row[13]:createText("Make Dedicated", Helper.subHeaderTextProperties)
+                local initialRows = {
+                    { text = "",      bgColor = Helper.color.transparent },
+                    { isTitle = true, text = "Resupply Ships",           bgColor = Helper.defaultTitleBackgroundColor, colspan = tableCols },
+                    {
+                        isHeader = true,
+                        labels = {
+                            "Size",
+                            "Name",
+                            "Sector",
+                            "Supplies",
+                            "RepairCost",
+                            "TotalUse",
+                            "CrewUse",
+                            "EnergyUse",
+                            "Wear&Tear",
+                            "HomeSector",
+                            "GateRange",
+                            "Switch"
+                        },
+                        bgColor = Helper.color.transparent
+                    }
+                }
+
+                for _, rowData in ipairs(initialRows) do
+                    row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                        bgColor = rowData.bgColor,
+                        borderBelow = false
+                    })
+                    if rowData.isTitle then
+                        row[1]:setColSpan(rowData.colspan):createText(rowData.text, Helper.titleTextProperties)
+                    elseif rowData.isHeader then
+                        for i, label in ipairs(rowData.labels) do
+                            row[i]:createText(label, Helper.subHeaderTextProperties)
+                        end
+                    else
+                        row[1]:createText(rowData.text)
+                    end
+                end
+
                 for shipid, ship in pairs(GAJMaintenanceMenu.data.resupplyships) do
                     row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
-                    row[1]:createText(ship.Size)
-                    row[2]:createText(ship.Name)
-                    row[3]:createText(ship.Sector)
-                    row[4]:createButton(GAJMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
-                        ship.DesiredUnits)
-                    row[4].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "SetDesiredUnits", shipid)
-                    end
-                    row[5]:createText(ship.RepairComplexity)
-                    row[6]:createText(ship.TotalUsage)
-                    row[7]:createText(ship.CrewUsage)
-                    row[8]:createText(ship.EnergyUsage)
-                    row[9]:createText(ship.WearTear)
-                    row[10]:createText(ship.ShipSupplies)
-                    row[11]:createButton(GAJMaintenanceMenu.props.SetHomeSector):setText(ship.HomeSector)
-                    row[11].handlers.onClick = function() return GAJMaintenanceMenu.setHomeSector(shipid) end
-                    row[12]:createButton(GAJMaintenanceMenu.props.SetRange):setText(ship.GateRange)
-                    row[12].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "SetRange", ship)
-                    end
-                    row[13]:createButton(GAJMaintenanceMenu.props.AssignSupplyShip):setText("Switch")
-                    row[13].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "AssignSupplyShip", ship)
+
+                    local values = {
+                        ship.Size,
+                        ship.Name,
+                        ship.Sector,
+                        { ship.ShipUnits .. " / " .. ship.DesiredUnits .. " (" .. ship.NumCycles .. ")", "button", "SetDesiredUnits" },
+                        ship.RepairComplexity,
+                        ship.TotalUsage,
+                        ship.CrewUsage,
+                        ship.EnergyUsage,
+                        ship.WearTear,
+                        { ship.HomeSector,                                                           "button", "SetHomeSector" },
+                        { ship.GateRange,                                                            "button", "SetRange" },
+                        { "Switch",                                                                  "button", "AssignSupplyShip" }
+                    }
+
+                    for i, value in ipairs(values) do
+                        if type(value) == "table" and value[2] == "button" then
+                            row[i]:createButton(GAJMaintenanceMenu.props[value[3]]):setText(value[1])
+                            row[i].handlers.onClick = function()
+                                if value[3] == "SetHomeSector" then
+                                    return GAJMaintenanceMenu.setHomeSector(shipid)
+                                else
+                                    AddUITriggeredEvent("GAJ_Maint", value[3], value[3] == "SetRange" and ship or shipid)
+                                end
+                            end
+                        else
+                            row[i]:createText(value)
+                        end
                     end
                 end
             end
-            --  -- ships
-            --	size | name | sector | shields | hull | crew | cargo | personal supplies | expected supply usage | crew supply usage | ship supply usage | receive delivery checkbox | resupply self checkbox | make supply ship button
+
+            -- all other ships
             if next(GAJMaintenanceMenu.data.ships) then
                 DebugError("gajMaintenance.menu.data.ships")
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.color.transparent,
-                    borderBelow = false
-                })
-                row[1]:createText("")
 
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
-                    bgColor = Helper.defaultTitleBackgroundColor,
-                    borderBelow = false
-                })
-                row[1]:setColSpan(tableCols):createText("Ships", Helper.titleTextProperties)
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
-                    bgColor = Helper.color.transparent,
-                    borderBelow = false
-                })
-                row[1]:createText("Size", Helper.subHeaderTextProperties)
-                row[2]:createText("Name", Helper.subHeaderTextProperties)
-                row[3]:createText("Sector", Helper.subHeaderTextProperties)
-                row[4]:createText("Supplies", Helper.subHeaderTextProperties)
-                row[5]:createText("Repair Complexity", Helper.subHeaderTextProperties)
-                row[6]:createText("Total Usage", Helper.subHeaderTextProperties)
-                row[7]:createText("Crew Usage", Helper.subHeaderTextProperties)
-                row[8]:createText("Energy Usage", Helper.subHeaderTextProperties)
-                row[9]:createText("Wear and Tear", Helper.subHeaderTextProperties)
-                row[10]:createText("Make Resupply Ship", Helper.subHeaderTextProperties)
-                -- receive delivery checkbox | make supply ship button
-                row[11]:createText("Receive Deliveries", Helper.subHeaderTextProperties)
-                row[12]:createText("Make Supply Ship", Helper.subHeaderTextProperties)
-                for shipid, ship in pairs(GAJMaintenanceMenu.data.resupplyships) do
+                local initialRows = {
+                    { text = "",      bgColor = Helper.color.transparent },
+                    { isTitle = true, text = "Ships",                    bgColor = Helper.defaultTitleBackgroundColor, colspan = tableCols },
+                    {
+                        isHeader = true,
+                        labels = {
+                            "Size",
+                            "Name",
+                            "Sector",
+                            "Supplies",
+                            "RepairCost",
+                            "TotalUse",
+                            "CrewUse",
+                            "EnergyUse",
+                            "Wear&Tear",
+                            "SetResupply",
+                            "Deliveries",
+                            "SetSupplyShip"
+                        },
+                        bgColor = Helper.color.transparent
+                    }
+                }
+
+                for _, rowData in ipairs(initialRows) do
+                    row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                        bgColor = rowData.bgColor,
+                        borderBelow = false
+                    })
+                    if rowData.isTitle then
+                        row[1]:setColSpan(rowData.colspan):createText(rowData.text, Helper.titleTextProperties)
+                    elseif rowData.isHeader then
+                        for i, label in ipairs(rowData.labels) do
+                            row[i]:createText(label, Helper.subHeaderTextProperties)
+                        end
+                    else
+                        row[1]:createText(rowData.text)
+                    end
+                end
+
+                for shipid, ship in pairs(GAJMaintenanceMenu.data.ships) do
                     row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
-                    row[1]:createText(ship.Size)
-                    row[2]:createText(ship.Name)
-                    row[3]:createText(ship.Sector)
-                    row[4]:createButton(GAJMaintenanceMenu.props.SetDesiredUnits):setText(ship.ShipUnits + " / " +
-                        ship.DesiredUnits)
-                    row[4].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "SetDesiredUnits", shipid)
+                    local values = {
+                        ship.Size,
+                        ship.Name,
+                        ship.Sector,
+                        { ship.ShipUnits .. " / " .. ship.DesiredUnits .. " (" .. ship.NumCycles .. ")", "button", "SetDesiredUnits" },
+                        ship.RepairComplexity,
+                        ship.TotalUsage,
+                        ship.CrewUsage,
+                        ship.EnergyUsage,
+                        ship.WearTear,
+                        { "Switch",                                                                  "button", "MakeResupplyShip" },
+                    }
+                    for i, value in ipairs(values) do
+                        if type(value) == "table" and value[2] == "button" then
+                            row[i]:createButton(GAJMaintenanceMenu.props[value[3]]):setText(value[1])
+                            row[i].handlers.onClick = function()
+                                AddUITriggeredEvent("GAJ_Maint", value[3], shipid)
+                            end
+                        else
+                            row[i]:createText(value)
+                        end
                     end
-                    row[5]:createText(ship.RepairComplexity)
-                    row[6]:createText(ship.TotalUsage)
-                    row[7]:createText(ship.CrewUsage)
-                    row[8]:createText(ship.EnergyUsage)
-                    row[9]:createText(ship.WearTear)
-                    row[10]:createButton(GAJMaintenanceMenu.props.MakeResupplyShip):setText("Switch")
-                    row[10].handlers.onClick = function()
-                        AddUITriggeredEvent("GAJ_Maint", "MakeResupplyShip", shipid)
-                    if ship.ReceiveDeliveries then
-                        row[11]:createCheckBox(ship.ReceiveDeliveries.checked,
-                            GAJMaintenanceMenu.props.ReceiveDeliveries)
+                    if next(ship.ReceiveDeliveries) then
+                        row[11]:createCheckBox(ship.ReceiveDeliveries.checked, GAJMaintenanceMenu.props
+                            .ReceiveDeliveries)
                         row[11].handlers.onClick = function(_, checked)
-                            AddUITriggeredEvent("GAJ_Maint", "ReceiveDeliveries", { checked, ship })
+                            AddUITriggeredEvent("GAJ_Maint", "ReceiveDeliveries", { checked, shipid })
                         end
                         row[12]:createButton(GAJMaintenanceMenu.props.MakeSupplyShip):setText("Set")
                         row[12].handlers.onClick = function()
-                            AddUITriggeredEvent("GAJ_Maint", "MakeSupplyShip", ship)
+                            AddUITriggeredEvent("GAJ_Maint", "MakeSupplyShip", shipid)
                         end
                     end
                 end
@@ -455,11 +659,10 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
 end
 
 function GAJMaintenanceMenu.chooseSector()
-    local shipid = GetNPCBlackboard(GAJMaintenanceMenu.playerId, "$gajMaintenanceShipId")
-    GAJMaintenanceMenu.selectHomeSector(shipid)
+    GAJMaintenanceMenu.setHomeSector(GetNPCBlackboard(GAJMaintenanceMenu.playerId, "$gajMaintenanceShipId"))
 end
 
-function GAJMaintenanceMenu.selectHomeSector(shipid)
+function GAJMaintenanceMenu.setHomeSector(shipid)
     local mapMenu = Helper.getMenu("MapMenu")
     AddUITriggeredEvent("GAJ_Maint", "SetHomeSector", shipid)
     -- menu.setSelectComponentMode (returnsection, classlist, category, playerowned, customheading, screenname)local classList = {}

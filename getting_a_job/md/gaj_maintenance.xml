@@ -2,16 +2,7 @@
 <mdscript name="GAJ_Maintenance" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../xsd/md.xsd">
 
   <!-- todo:
-
-  lua menu
-    create section showing:
-      last cycle
-      next cycle
-      total salary
-      number of supply ships
-      number of dedicated resupply ships
-      number of resupply ships
-      number of ships with low supplies (button to set cycle remaining)
+  update variables and props
 
   aiscripts:
     size_s ships buy supplies by the unit instead of by the container
@@ -290,6 +281,9 @@
             ship.DesiredSupplies
             ship.HomeSector
             ship.GateRange
+            ship.NumCycles
+            ship.NumCyclesLow
+            ship.Low
             -->
             <set_value name="$Data" exact="event.param" />
             <!-- 
@@ -671,6 +665,7 @@
           <delay exact="1ms" />
           <actions>
             <set_value name="$value" exact="null" />
+            <set_value name="$value2" exact="null" />
             <set_value name="$mouseOverText" exact="''" />
 
             <do_if value="event.name == 'event_ui_triggered'">
@@ -813,6 +808,17 @@
                 $default = 0,
                 $onSliderCellChanged = Slider
               ]" />
+              <do_if value="$event == 'SetDesiredUnits'">
+                <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
+                <signal_cue_instantly cue="md.Simple_Menu_API.Make_Slider" param="table[
+                  $start = $State.$NumCyclesLow,
+                  $col = 1,
+                  $text = table[$text='Low Cycle Warning'],
+                  $min = 0, $max = 10, $step = 1,
+                  $default = 0,
+                  $onSliderCellChanged = Slider2
+                ]" />
+              </do_if>
               <signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[]" />
               <signal_cue_instantly cue="md.Simple_Menu_API.Make_Button" param="table[
                 $id = $event,
@@ -834,6 +840,15 @@
                 <cancel_cue cue="this" />
               </actions>
             </cue>
+            <cue name="Slider2" instantiate="true">
+              <conditions>
+                <event_cue_signalled />
+              </conditions>
+              <actions>
+                <set_value name="$value2" exact="event.param.$value" />
+                <cancel_cue cue="this" />
+              </actions>
+            </cue>
             <!-- buttons -->
             <cue name="Confirm">
               <conditions>
@@ -844,6 +859,7 @@
                 <set_value name="$id" exact="event.param.$id" />
                 <do_if value="$id == 'SetDesiredUnits'">
                   <set_value name="$State.$DesiredUnits" exact="$value" />
+                  <set_value name="$State.$CyclesLow" exact="$value2" />
                 </do_if>
                 <do_elseif value="$id == 'SetRange'">
                   <set_value name="$State.$GateRange" exact="$value" />
