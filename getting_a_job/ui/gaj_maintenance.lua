@@ -408,9 +408,10 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 row[7]:createText("Crew Usage", Helper.subHeaderTextProperties)
                 row[8]:createText("Energy Usage", Helper.subHeaderTextProperties)
                 row[9]:createText("Wear and Tear", Helper.subHeaderTextProperties)
+                row[10]:createText("Make Resupply Ship", Helper.subHeaderTextProperties)
                 -- receive delivery checkbox | make supply ship button
-                row[10]:createText("Receive Deliveries", Helper.subHeaderTextProperties)
-                row[11]:createText("Make Supply Ship", Helper.subHeaderTextProperties)
+                row[11]:createText("Receive Deliveries", Helper.subHeaderTextProperties)
+                row[12]:createText("Make Supply Ship", Helper.subHeaderTextProperties)
                 for shipid, ship in pairs(GAJMaintenanceMenu.data.resupplyships) do
                     row = GAJMaintenanceMenu.infotable:addRow(true, {
                         bgColor = Helper.color.transparent,
@@ -429,14 +430,17 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                     row[7]:createText(ship.CrewUsage)
                     row[8]:createText(ship.EnergyUsage)
                     row[9]:createText(ship.WearTear)
+                    row[10]:createButton(GAJMaintenanceMenu.props.MakeResupplyShip):setText("Switch")
+                    row[10].handlers.onClick = function()
+                        AddUITriggeredEvent("GAJ_Maint", "MakeResupplyShip", shipid)
                     if ship.ReceiveDeliveries then
-                        row[10]:createCheckBox(ship.ReceiveDeliveries.checked,
+                        row[11]:createCheckBox(ship.ReceiveDeliveries.checked,
                             GAJMaintenanceMenu.props.ReceiveDeliveries)
-                        row[10].handlers.onClick = function(_, checked)
+                        row[11].handlers.onClick = function(_, checked)
                             AddUITriggeredEvent("GAJ_Maint", "ReceiveDeliveries", { checked, ship })
                         end
-                        row[11]:createButton(GAJMaintenanceMenu.props.MakeSupplyShip):setText("Set")
-                        row[11].handlers.onClick = function()
+                        row[12]:createButton(GAJMaintenanceMenu.props.MakeSupplyShip):setText("Set")
+                        row[12].handlers.onClick = function()
                             AddUITriggeredEvent("GAJ_Maint", "MakeSupplyShip", ship)
                         end
                     end

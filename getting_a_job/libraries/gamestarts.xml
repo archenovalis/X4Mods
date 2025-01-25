@@ -40,7 +40,6 @@
   huttpirates
   -->
 
-
   <add pos="before" sel="//gamestart[@id='x4ep1_sw_emp_navypilot']">
     <!-- name = title -->
     <gamestart id="gaj_empire" name="{20777,2002}" description="{20777,2003}" image="gamestart_91" group="4">
@@ -63,8 +62,7 @@
               <shield macro="shield_s_p12_macro" path="../con_shield_01" optional="1" />
             </macros>
             <ammunition>
-              <ammunition macro="eq_arg_satellite_01_macro" exact="5" optional="true" />
-              <ammunition macro="env_deco_nav_beacon_t1_macro" exact="5" optional="true" />
+              <ammunition macro="countermeasure_flares_01_macro" exact="5" />
             </ammunition>
             <software>
               <software ware="software_flightassistmk1" />
@@ -148,9 +146,7 @@
               <shield macro="shield_s_p12_macro" path="../con_shield_01" optional="true" />
             </macros>
             <ammunition>
-              <ammunition macro="eq_arg_satellite_01_macro" exact="5" optional="true" />
-              <ammunition macro="env_deco_nav_beacon_t1_macro" exact="5" optional="true" />
-              <ammunition macro="eq_arg_resourceprobe_01_macro" exact="5" optional="true" />
+              <ammunition macro="countermeasure_flares_01_macro" exact="5" />
             </ammunition>
             <software>
               <software ware="software_flightassistmk1" />
@@ -231,16 +227,10 @@
               <engine macro="engine_incom_macro" path="../con_engine_01" />
               <weapon macro="weapon_gatling_macro" path="../con_weapon_01" />
               <weapon macro="weapon_gatling_macro" path="../con_weapon_02" />
-              <weapon macro="weapon_blaster_s_laser_macro" path="../con_weapon_03" />
-              <weapon macro="weapon_blaster_s_laser_macro" path="../con_weapon_04" />
-              <weapon macro="weapon_hm6launcher_macro" path="../con_weapon_05" />
-              <weapon macro="weapon_hm6launcher_macro" path="../con_weapon_06" />
               <shield macro="shield_s_p12_macro" path="../con_shield_01" />
               <shield macro="shield_s_p12_macro" path="../con_shield_02" />
             </macros>
             <ammunition>
-              <ammunition macro="missile_concussion_light_macro" exact="6" />
-              <ammunition macro="eq_arg_satellite_01_macro" exact="3" />
               <ammunition macro="countermeasure_flares_01_macro" exact="5" />
             </ammunition>
             <software>
@@ -250,7 +240,7 @@
               <software ware="software_targetmk1" />
             </software>
             <virtualmacros>
-              <thruster macro="thruster_gen_s_combat_01_mk1_macro" />
+              <thruster macro="thruster_gen_s_allround_01_mk1_macro" />
             </virtualmacros>
           </loadout>
         </ship>
@@ -326,9 +316,7 @@
               <shield macro="shield_s_cec1077_macro" path="../con_shield_03" optional="true" />
             </macros>
             <ammunition>
-              <ammunition macro="eq_arg_satellite_01_macro" exact="5" optional="true" />
-              <ammunition macro="env_deco_nav_beacon_t1_macro" exact="5" optional="true" />
-              <ammunition macro="eq_arg_resourceprobe_01_macro" exact="5" optional="true" />
+              <ammunition macro="countermeasure_flares_01_macro" exact="5" />
             </ammunition>
             <software>
               <software ware="software_flightassistmk1" />
@@ -408,16 +396,11 @@
               <engine macro="engine_arc170_macro" path="../con_engine_02" />
               <weapon macro="weapon_arx_s_laser_macro" path="../con_weapon_01" optional="true" />
               <weapon macro="weapon_arx_s_laser_macro" path="../con_weapon_02" optional="true" />
-              <turret macro="weapon_sw4_s_laser_macro" path="../con_weapon_03" optional="true" />
-              <weapon macro="weapon_krupx_s_guided_macro" path="../con_weapon_04" optional="true" />
-              <weapon macro="weapon_krupx_s_guided_macro" path="../con_weapon_05" optional="true" />
               <shield macro="shield_s_novaldex45_macro" path="../con_shield_01" optional="1" />
               <shield macro="shield_s_novaldex45_macro" path="../con_shield_02" optional="1" />
-              <shield macro="shield_s_r1astro_macro" path="../con_shield_03" optional="1" />
             </macros>
             <ammunition>
-              <ammunition macro="missile_proton_light_macro" exact="12" />
-              <ammunition macro="countermeasure_flares_01_macro" exact="6" />
+              <ammunition macro="countermeasure_flares_01_macro" exact="5" />
             </ammunition>
             <software>
               <software ware="software_flightassistmk1" />
@@ -426,7 +409,7 @@
               <software ware="software_targetmk1" />
             </software>
             <virtualmacros>
-              <thruster macro="thruster_gen_s_allround_01_mk2_macro" />
+              <thruster macro="thruster_gen_s_allround_01_mk1_macro" />
             </virtualmacros>
           </loadout>
         </ship>
@@ -497,24 +480,13 @@
               <engine macro="engine_s_ter12_macro" path="../con_engine_02" />
               <weapon macro="weapon_ix4_s_laser_macro" path="../con_weapon_01" optional="true" />
               <weapon macro="weapon_ix4_s_laser_macro" path="../con_weapon_02" optional="true" />
-              <weapon macro="weapon_blaster_s_laser_macro" path="../con_weapon_03" optional="true" />
-              <weapon macro="weapon_blaster_s_laser_macro" path="../con_weapon_04" optional="true" />
-              <weapon macro="weapon_blaster_s_laser_macro" path="../con_weapon_05" optional="true" />
-              <weapon macro="weapon_blaster_s_laser_macro" path="../con_weapon_06" optional="true" />
-              <weapon macro="weapon_krupx_s_guided_macro" path="../con_weapon_07" optional="true" />
 
               <shield macro="shield_s_tabsx_macro" path="../con_shield_01" optional="true" />
               <shield macro="shield_s_tabsx_macro" path="../con_shield_02" optional="true" />
-              <shield macro="shield_s_tabsx_macro" path="../con_shield_03" optional="true" />
-              <shield macro="shield_s_tabsx_macro" path="../con_shield_4" optional="true" />
-              <shield macro="shield_s_tabsx_macro" path="../con_shield_05" optional="true" />
 
             </macros>
             <ammunition>
-              <ammunition macro="missile_concussion_light_macro" exact="5" optional="true" />
-              <ammunition macro="eq_arg_satellite_01_macro" exact="5" optional="true" />
-              <ammunition macro="env_deco_nav_beacon_t1_macro" exact="5" optional="true" />
-              <ammunition macro="eq_arg_resourceprobe_01_macro" exact="5" optional="true" />
+              <ammunition macro="countermeasure_flares_01_macro" exact="5" />
             </ammunition>
             <software>
               <software ware="software_flightassistmk1" />
@@ -594,14 +566,11 @@
               <engine macro="engine_tiehd_macro" path="../con_engine_02" />
               <weapon macro="weapon_nk3_s_laser_macro" path="../con_weapon_01" optional="true" />
               <weapon macro="weapon_nk3_s_laser_macro" path="../con_weapon_02" optional="true" />
-              <weapon macro="weapon_ls7_s_laser_macro" path="../con_weapon_03" optional="true" />
-              <weapon macro="weapon_ls7_s_laser_macro" path="../con_weapon_04" optional="true" />
               <shield macro="shield_s_p12_macro" path="../con_shield_01" optional="1" />
               <shield macro="shield_s_p12_macro" path="../con_shield_02" optional="1" />
-              <shield macro="shield_s_p12_macro" path="../con_shield_03" optional="1" />
             </macros>
             <ammunition>
-              <ammunition macro="eq_arg_satellite_01_macro" exact="2" optional="true" />
+              <ammunition macro="countermeasure_flares_01_macro" exact="5" />
             </ammunition>
             <software>
               <software ware="software_flightassistmk1" />
@@ -665,30 +634,27 @@
       </universe>
     </gamestart>
 
-    <gamestart id="gaj_huttcartel" name="{20777,2012}" description="{20777,2014}" image="gamestart_yacht" group="4">
+    <gamestart id="gaj_huttcartel" name="{20777,2012}" description="{20777,2013}" image="gamestart_yacht" group="4">
       <info>
         <item name="{1021,8}" value="{999840,603030}" />
         <item name="{1021,1}" value="{999840,603040}" />
-        <item name="{1021,2}" value="{999840,602450}" />
+        <item name="{1021,2}" value="{999840,104710}" />
         <item name="{1021,3}" value="15000" />
       </info>
       <type name="{1021,94}" description="{1021,95}" />
       <location galaxy="swi_galaxy_macro" sector="swi_clusternarshadda_sector001_macro" />
       <player macro="character_player_pirate_gamestart2_male_macro" money="15000" name="{999840,603030}">
-        <ship macro="delta7_red_macro">
+        <ship macro="victor_wing_macro">
           <loadout>
             <macros>
-              <engine macro="engine_delta7_macro" path="../con_engine_01" />
-              <engine macro="engine_delta7_macro" path="../con_engine_02" />
+              <engine macro="engine_victor_macro" path="../con_engine_01" />
               <weapon macro="weapon_taim1_s_laser_macro" path="../con_weapon_01" optional="true" />
               <weapon macro="weapon_taim1_s_laser_macro" path="../con_weapon_02" optional="true" />
-              <weapon macro="weapon_taim1_s_laser_macro" path="../con_weapon_03" optional="true" />
-              <weapon macro="weapon_taim1_s_laser_macro" path="../con_weapon_04" optional="true" />
               <shield macro="shield_s_quintadq2_macro" path="../con_shield_01" optional="1" />
-              <shield macro="shield_s_r2astro_macro" path="../con_shield_02" optional="1" />
+              <shield macro="shield_s_quintadq2_macro" path="../con_shield_02" optional="1" />
             </macros>
             <ammunition>
-              <ammunition macro="countermeasure_flares_01_macro" exact="8" />
+              <ammunition macro="countermeasure_flares_01_macro" exact="5" />
             </ammunition>
             <software>
               <software ware="software_flightassistmk1" />
@@ -697,7 +663,7 @@
               <software ware="software_targetmk1" />
             </software>
             <virtualmacros>
-              <thruster macro="thruster_gen_s_allround_01_mk2_macro" />
+              <thruster macro="thruster_gen_s_allround_01_mk1_macro" />
             </virtualmacros>
           </loadout>
         </ship>
