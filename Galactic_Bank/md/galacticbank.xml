@@ -2,7 +2,7 @@
 <mdscript name="GalacticBankRC3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
-		<cue name="Vault" namespace="this" version="3">
+		<cue name="Vault" namespace="this" version="4">
 			<conditions>
 				<check_any>
 					<event_game_loaded />
@@ -16,7 +16,7 @@
 				<debug_text text="'Vault: '+event.name" />
 				<set_value name="global.$GB_Vault" exact="this" />
 
-				<set_value name="Vault.$debug" exact="0" />
+				<set_value name="Vault.$debug" exact="100" />
 				<set_value name="Vault.$BankStations" exact="table[]" />
 				<set_value name="Vault.$SetupComplete" exact="false" />
 				<set_value name="Vault.$ResetAccounts" exact="true" />
@@ -93,7 +93,7 @@
 				]" />
 
 			</actions>
-			<patch sinceversion="3">
+			<patch sinceversion="4">
 				<set_value name="Vault.$PaymentFees" exact="[0.20,0.15,0.10,0.05,0]" />
 				<do_for_each name="$faction" in="$Accounts">
 					<set_value name="$Account" exact="$Accounts.{$faction}" />
@@ -101,6 +101,7 @@
 				</do_for_each>
 				<set_value name="$SetupComplete" exact="false" />
 				<set_value name="$RemoveOld" exact="true" />
+				<set_value name="global.$GB_Vault.$debug" exact="100" />
 			</patch>
 			<cues>
 				<cue name="Init">
@@ -115,7 +116,6 @@
 					</conditions>
 					<delay exact="1s" />
 					<actions>
-						<set_value name="global.$GB_Vault.$debug" exact="0" />
 						<debug_text text="'Init: '+event.name" chance="global.$GB_Vault.$debug" />
 						<!-- disable npc reactions bank loans -->
 						<do_if value="@md.kuertee_npc_reactions.NPCReactions.exists">
@@ -151,7 +151,7 @@
 						<do_if value="not $SetupComplete">
 							<signal_cue_instantly cue="InitSetup" />
 						</do_if>
-						<reset_cue cue="Init" />
+						<reset_cue cue="this" />
 					</actions>
 				</cue>
 				<cue name="InitSetup">
