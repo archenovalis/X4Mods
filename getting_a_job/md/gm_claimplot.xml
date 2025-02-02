@@ -62,7 +62,7 @@
         <signal_cue_instantly cue="md.GettingAJobTest.LogWork" param="table[$faction = $ClientOwner, $RewardCr = $RewardCr]" />
       </do_if>
       <do_else>
-        <signal_cue_instantly cue="md.GalacticBankRC3.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
+        <signal_cue_instantly cue="md.GalacticBankRC4.Transfer" param="table[$faction = $ClientOwner, $money = $RewardCr]" />
       </do_else>
     </do_if>
   </replace>

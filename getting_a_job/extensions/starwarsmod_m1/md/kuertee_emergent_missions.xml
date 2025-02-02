@@ -77,7 +77,7 @@
       <do_if value="$GAJ_isWork">
         <signal_cue_instantly cue="md.GettingAJobTest.LogWork" param="table[$faction = $faction, $RewardCr = $Cue_Mission.$RewardCr]" />
       </do_if>
-      <signal_cue_instantly cue="md.GalacticBankRC3.Transfer" param="table[$faction = $faction, $money = $Cue_Mission.$RewardCr]" />
+      <signal_cue_instantly cue="md.GalacticBankRC4.Transfer" param="table[$faction = $faction, $money = $Cue_Mission.$RewardCr]" />
     </do_if>
   </replace>
 

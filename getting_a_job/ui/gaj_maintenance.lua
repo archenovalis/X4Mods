@@ -9,7 +9,7 @@ local ModLua = {}
 local playerInfoMenu = nil
 --[[ local encyclopediaMenu = nil ]]
 GAJMaintenanceMenu = {}
-GAJMaintenanceMenu.infotable = nil
+GAJMaintenanceMenu.infoTable = nil
 GAJMaintenanceMenu.timeNextAssessmentRow = nil
 GAJMaintenanceMenu.timeNextAssessmentCol = nil
 GAJMaintenanceMenu.data = nil
@@ -97,7 +97,7 @@ end
 
 function GAJMaintenanceMenu.cleanup()
     DebugError("gajMaintenance.cleanup")
-    GAJMaintenanceMenu.infotable = nil
+    GAJMaintenanceMenu.infoTable = nil
     GAJMaintenanceMenu.timeNextAssessmentRow = nil
     GAJMaintenanceMenu.timeNextAssessmentCol = nil
     GAJMaintenanceMenu.data = nil
@@ -114,7 +114,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
         DebugError("gajMaintenance.menu.mode")
         local tableCols = 13
         tableProperties.width = tableProperties.width * 5 / 4
-        GAJMaintenanceMenu.infotable = infoFrame:addTable(tableCols, {
+        GAJMaintenanceMenu.infoTable = infoFrame:addTable(tableCols, {
             tabOrder = 1,
             borderEnabled = true,
             width = tableProperties.width,
@@ -122,26 +122,26 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
             y = tableProperties.y
         })
         if menu.setdefaulttable then
-            GAJMaintenanceMenu.infotable.properties.defaultInteractiveObject = true
+            GAJMaintenanceMenu.infoTable.properties.defaultInteractiveObject = true
             menu.setdefaulttable = nil
         end
-        GAJMaintenanceMenu.infotable:setDefaultCellProperties("text", {
+        GAJMaintenanceMenu.infoTable:setDefaultCellProperties("text", {
             minRowHeight = config.rowHeight,
             fontsize = Helper.standardFontSize
         })
-        GAJMaintenanceMenu.infotable:setDefaultCellProperties("button", {
+        GAJMaintenanceMenu.infoTable:setDefaultCellProperties("button", {
             height = config.rowHeight
         })
         -- GAJMaintenanceMenu.infotable:setColWidth (1, Helper.scaleY (config.rowHeight), false)
         -- GAJMaintenanceMenu.infotable:setColWidth (tableCols, Helper.scaleY (config.rowHeight), false)
-        row = GAJMaintenanceMenu.infotable:addRow(nil, {
+        row = GAJMaintenanceMenu.infoTable:addRow(nil, {
             bgColor = Helper.defaultTitleBackgroundColor,
             borderBelow = false
         })
-        row[1]:setColSpan(tableCols):createText("Emergent Maintenance", Helper.titleTextProperties)
+        row[1]:setcolSpan(tableCols):createText("Emergent Maintenance", Helper.titleTextProperties)
         if GAJMaintenanceMenu.data then
             DebugError("gajMaintenance.menu.data")
-            row = GAJMaintenanceMenu.infotable:addRow(true, {
+            row = GAJMaintenanceMenu.infoTable:addRow(true, {
                 bgColor = Helper.color.transparent,
                 borderBelow = false
             })
@@ -179,7 +179,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 local current = GAJMaintenanceMenu.empireData.Current
 
                 -- personnel data
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infoTable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -194,7 +194,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 for i, label in ipairs(labels) do
                     row[i]:createText(label, Helper.subHeaderTextProperties)
                 end
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infoTable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -211,7 +211,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 end
 
                 -- ship data
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infoTable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -229,7 +229,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 for i, label in ipairs(labels) do
                     row[i]:createText(label, Helper.subHeaderTextProperties)
                 end
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infoTable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -258,12 +258,12 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
 
             -- Display LastCycle Empire Data
             if next(GAJMaintenanceMenu.empireData.LastCycle) then
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infoTable:addRow(nil, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
                 row[1]:createText("")
-                row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                row = GAJMaintenanceMenu.infoTable:addRow(nil, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -271,7 +271,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 local lastCycle = GAJMaintenanceMenu.empireData.LastCycle
 
                 -- personnel data
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infoTable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -286,7 +286,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 for i, label in ipairs(labels) do
                     row[i]:createText(label, Helper.subHeaderTextProperties)
                 end
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infoTable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -303,7 +303,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 end
 
                 -- ship data
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infoTable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -321,7 +321,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 for i, label in ipairs(labels) do
                     row[i]:createText(label, Helper.subHeaderTextProperties)
                 end
-                row = GAJMaintenanceMenu.infotable:addRow(true, {
+                row = GAJMaintenanceMenu.infoTable:addRow(true, {
                     bgColor = Helper.color.transparent,
                     borderBelow = false
                 })
@@ -347,7 +347,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
 
                 local initialRows = {
                     { text = "",      bgColor = Helper.color.transparent },
-                    { isTitle = true, text = "Supply Ships",             bgColor = Helper.defaultTitleBackgroundColor, colspan = tableCols },
+                    { isTitle = true, text = "Supply Ships",             bgColor = Helper.defaultTitleBackgroundColor, colSpan = tableCols },
                     {
                         isHeader = true,
                         labels = {
@@ -367,12 +367,12 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                     }
                 }
                 for _, rowData in ipairs(initialRows) do
-                    row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                    row = GAJMaintenanceMenu.infoTable:addRow(nil, {
                         bgColor = rowData.bgColor,
                         borderBelow = false
                     })
                     if rowData.isTitle then
-                        row[1]:setColSpan(rowData.colspan):createText(rowData.text, Helper.titleTextProperties)
+                        row[1]:setcolSpan(rowData.colSpan):createText(rowData.text, Helper.titleTextProperties)
                     elseif rowData.isHeader then
                         for i, label in ipairs(rowData.labels) do
                             row[i]:createText(label, Helper.subHeaderTextProperties)
@@ -383,7 +383,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 end
 
                 for shipid, ship in pairs(GAJMaintenanceMenu.data.supplyships) do
-                    row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    row = GAJMaintenanceMenu.infoTable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
@@ -419,7 +419,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
 
                 local initialRows = {
                     { text = "",      bgColor = Helper.color.transparent },
-                    { isTitle = true, text = "Dedicated Resupply Ships", bgColor = Helper.defaultTitleBackgroundColor, colspan = tableCols },
+                    { isTitle = true, text = "Dedicated Resupply Ships", bgColor = Helper.defaultTitleBackgroundColor, colSpan = tableCols },
                     {
                         isHeader = true,
                         labels = {
@@ -440,12 +440,12 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 }
 
                 for _, rowData in ipairs(initialRows) do
-                    row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                    row = GAJMaintenanceMenu.infoTable:addRow(nil, {
                         bgColor = rowData.bgColor,
                         borderBelow = false
                     })
                     if rowData.isTitle then
-                        row[1]:setColSpan(rowData.colspan):createText(rowData.text, Helper.titleTextProperties)
+                        row[1]:setcolSpan(rowData.colSpan):createText(rowData.text, Helper.titleTextProperties)
                     elseif rowData.isHeader then
                         for i, label in ipairs(rowData.labels) do
                             row[i]:createText(label, Helper.subHeaderTextProperties)
@@ -456,7 +456,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 end
 
                 for shipid, ship in pairs(GAJMaintenanceMenu.data.dedicatedresupplyships) do
-                    row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    row = GAJMaintenanceMenu.infoTable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
@@ -492,7 +492,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
 
                 local initialRows = {
                     { text = "",      bgColor = Helper.color.transparent },
-                    { isTitle = true, text = "Resupply Ships",           bgColor = Helper.defaultTitleBackgroundColor, colspan = tableCols },
+                    { isTitle = true, text = "Resupply Ships",           bgColor = Helper.defaultTitleBackgroundColor, colSpan = tableCols },
                     {
                         isHeader = true,
                         labels = {
@@ -514,12 +514,12 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 }
 
                 for _, rowData in ipairs(initialRows) do
-                    row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                    row = GAJMaintenanceMenu.infoTable:addRow(nil, {
                         bgColor = rowData.bgColor,
                         borderBelow = false
                     })
                     if rowData.isTitle then
-                        row[1]:setColSpan(rowData.colspan):createText(rowData.text, Helper.titleTextProperties)
+                        row[1]:setcolSpan(rowData.colSpan):createText(rowData.text, Helper.titleTextProperties)
                     elseif rowData.isHeader then
                         for i, label in ipairs(rowData.labels) do
                             row[i]:createText(label, Helper.subHeaderTextProperties)
@@ -530,7 +530,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 end
 
                 for shipid, ship in pairs(GAJMaintenanceMenu.data.resupplyships) do
-                    row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    row = GAJMaintenanceMenu.infoTable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
@@ -573,7 +573,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
 
                 local initialRows = {
                     { text = "",      bgColor = Helper.color.transparent },
-                    { isTitle = true, text = "Ships",                    bgColor = Helper.defaultTitleBackgroundColor, colspan = tableCols },
+                    { isTitle = true, text = "Ships",                    bgColor = Helper.defaultTitleBackgroundColor, colSpan = tableCols },
                     {
                         isHeader = true,
                         labels = {
@@ -595,12 +595,12 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 }
 
                 for _, rowData in ipairs(initialRows) do
-                    row = GAJMaintenanceMenu.infotable:addRow(nil, {
+                    row = GAJMaintenanceMenu.infoTable:addRow(nil, {
                         bgColor = rowData.bgColor,
                         borderBelow = false
                     })
                     if rowData.isTitle then
-                        row[1]:setColSpan(rowData.colspan):createText(rowData.text, Helper.titleTextProperties)
+                        row[1]:setcolSpan(rowData.colSpan):createText(rowData.text, Helper.titleTextProperties)
                     elseif rowData.isHeader then
                         for i, label in ipairs(rowData.labels) do
                             row[i]:createText(label, Helper.subHeaderTextProperties)
@@ -611,7 +611,7 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 end
 
                 for shipid, ship in pairs(GAJMaintenanceMenu.data.ships) do
-                    row = GAJMaintenanceMenu.infotable:addRow(true, {
+                    row = GAJMaintenanceMenu.infoTable:addRow(true, {
                         bgColor = Helper.color.transparent,
                         borderBelow = false
                     })
@@ -651,8 +651,8 @@ function GAJMaintenanceMenu.createInfoFrame_on_info_frame_mode(infoFrame, tableP
                 end
             end
         end
-        GAJMaintenanceMenu.infotable:setTopRow(menu.settoprow)
-        GAJMaintenanceMenu.infotable:setSelectedRow(menu.setselectedrow)
+        GAJMaintenanceMenu.infoTable:setTopRow(menu.settoprow)
+        GAJMaintenanceMenu.infoTable:setSelectedRow(menu.setselectedrow)
         menu.settoprow = nil
         menu.setselectedrow = nil
     end
@@ -685,9 +685,9 @@ function GAJMaintenanceMenu.togglePlayerInfoMenuRefresh()
                 else
                     timeLeft = tostring(math.floor(timeLeft / 60 * 100) / 100) .. ReadText(1001, 103) -- minutes
                 end
-                DebugError("GAJMaintenanceMenu.infotable.id", GAJMaintenanceMenu.infotable.id)
+                DebugError("GAJMaintenanceMenu.infotable.id", GAJMaintenanceMenu.infoTable.id)
                 DebugError("GAJMaintenanceMenu.timeNextAssessmentRow", GAJMaintenanceMenu.timeNextAssessmentRow)
-                Helper.updateCellText(GAJMaintenanceMenu.infotable.id, GAJMaintenanceMenu.timeNextAssessmentRow,
+                Helper.updateCellText(GAJMaintenanceMenu.infoTable.id, GAJMaintenanceMenu.timeNextAssessmentRow,
                     GAJMaintenanceMenu.timeNextAssessmentCol, timeLeft)
             else
                 menu.refresh = getElapsedTime()
