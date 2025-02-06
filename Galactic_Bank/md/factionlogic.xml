@@ -1,21 +1,4 @@
 <?xml version='1.0' encoding='utf-8'?>
-<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  <replace sel="//cue[@name='BankingclanFactionLogic']">
-    <cue name="BankingclanFactionLogic">
-      <cues>
-        <cue name="BankingclanFactionLogic_Manager" ref="Manager">
-          <param name="Faction" value="faction.bankingclan" />
-          <param name="BaseAggressionLevel" value="moodlevel.low" />
-          <param name="BaseAvariceLevel" value="moodlevel.high" />
-          <param name="BaseLawfulness" value="0.9" />
-          <param name="SatelliteNetworkGoal" value="0" />
-          <param name="LasertowerNetworkGoal" value="0" />
-          <param name="MinefieldGoalPerSector" value="0" comment="[MGPS * Sectors, 12].min is the maximum amount of Minefields for this faction" />
-          <param name="DebugChance" value="0" />
-          <param name="DebugChance2" value="0" />
-        </cue>
-      </cues>
-    </cue>
-  </replace>
+<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
+  <remove sel="//cue[@name='BankingclanFactionLogic']" />
 </diff>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="GalacticBankRC3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+<mdscript name="GalacticBankRC4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
 		<cue name="Vault" namespace="this" version="4">
 			<conditions>
@@ -157,7 +156,6 @@
 				<cue name="InitSetup">
 					<conditions>
 						<event_cue_signalled />
-						<check_value value="$SetupComplete == false" />
 					</conditions>
 					<actions>
 						<debug_text text="'Init: '+event.name" chance="global.$GB_Vault.$debug" />

@@ -13,9 +13,6 @@
       <explosiondamage value="1000" shield="5000" />
       <hull max="233000" />
       <secrecy level="4" />
-      <production wares="bank_large_lootbox">
-        <queue ware="bank_large_lootbox" />
-      </production>
     </properties>
   </macro>
 </macros>

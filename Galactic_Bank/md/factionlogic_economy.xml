@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
-  <add sel="//library[@name='Econ_Manager']/actions/set_value[@name='$DebugText']" pos="before">
-    <do_if value="$Faction == faction.bankingclan">
-      <cancel_cue cue="namespace" />
-    </do_if>
-  </add>
-</diff>

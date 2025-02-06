@@ -2,7 +2,7 @@
 <diff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="../../xsd/mddiff.xsd">
   <add sel="//cue[@name='PlayerOwnedShipAttacks']//do_if[@value=&quot;event.name == 'event_player_owned_attacked_object'&quot;]/set_value[@name='$attacker']" pos="after">
-    <do_if value="md.GalacticBankRC3.Vault.$BankTransports.indexof.{$target}">
+    <do_if value="md.GalacticBankRC4.Vault.$BankTransports.indexof.{$target}">
       <add_faction_relation faction="faction.bankingclan" otherfaction="faction.player" value="-0.0001" reason="relationchangereason.attackedobject" />
     </do_if>
   </add>

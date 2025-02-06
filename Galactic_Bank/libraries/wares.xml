@@ -10,14 +10,6 @@
     </ware>
     <ware id="bank_large_lootbox" name="{20777,1001} {20777,1005} {20777,1013} {20777,1009}" description="{20777,1010}" transport="container" volume="1450" tags="container missiononly">
       <price min="10000000" average="10000000" max="10000000" />
-      <production time="900" amount="1" method="default" name="{20206,101}">
-        <primary>
-          <ware ware="energycells" amount="5000" />
-        </primary>
-        <effects>
-          <effect type="work" product="0.53" />
-        </effects>
-      </production>
       <restriction licence="militaryequipment" />
       <icon active="ware_swi_credit" />
     </ware>

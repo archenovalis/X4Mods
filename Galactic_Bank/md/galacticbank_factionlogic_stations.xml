@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mdscript name="GalacticBank_FactionLogic_Stations" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+  <cues>
+    <cue name="Manage_Stations" instantiate="true" checktime="30s" checkinterval="30s">
+      <actions>
+        <!-- BEGIN Banking Clan's Vault -->
+        <set_value name="$Faction" exact="faction.bankingclan" />
+        <set_value name="$DebugChance" exact="global.$GB_Vault.$debug" />
+
+        <debug_text text="'begin bankingclan stations'" chance="$DebugChance" />
+        <set_value name="$set" exact="null" />
+        <set_value name="$StationDefinitions" exact="[]" />
+
+        <find_station_by_true_owner name="$hq"
+          macro="macro.station_bankingclan_mainvault_macro"
+          faction="faction.bankingclan" space="player.galaxy" />
+        <do_if value="$hq" chance="$DebugChance">
+          <debug_text text="'found operational hq: '+$hq.sector.name" />
+        </do_if>
+        <do_if value="$hq == null">
+          <find_station_by_true_owner name="$hq"
+            macro="macro.station_bankingclan_mainvault_macro" checkoperational="false"
+            faction="faction.bankingclan" space="player.galaxy" state="componentstate.construction" />
+          <do_if value="$hq" chance="$DebugChance">
+            <debug_text text="'found construction hq: '+$hq.sector.name" />
+          </do_if>
+          <do_else>
+            <debug_text text="'no hq found'" />
+          </do_else>
+        </do_if>
+        <do_if value="$hq == null">
+          <set_value name="$set" exact="'mainvault'" />
+          <set_value name="$tag" exact="tag.mainvault" />
+          <set_value name="$StationMacro" exact="[macro.station_bankingclan_mainvault_macro]" />
+          <find_sector name="$sector" macro="macro.swi_clusterscipio_sector001_macro" />
+          <do_if value="$sector.owner.relationto.{faction.bankingclan} ge 0.01">
+            <set_value name="$PreferredSectors" exact="[$sector]" />
+            <debug_text text="'found PreferredSector : '+$sector.name" chance="$DebugChance" />
+          </do_if>
+          <do_else>
+            <set_value name="$PreferredSectors" exact="[]" />
+          </do_else>
+          <!-- set relevant sectors -->
+          <find_sector name="$RelevantSectors" multiple="true"
+            owner="faction.galempire"
+            space="player.galaxy" />
+          <do_if value="$RelevantSectors.count == 0">
+            <find_sector name="$RelevantSectors" multiple="true"
+              owner="[faction.ascendancy, faction.newrepublic, faction.commerceguild, faction.corporate, faction.huttcartel, faction.anoat, faction.mandodw]"
+              space="player.galaxy" />
+          </do_if>
+          <debug_text text="'found RelevantSectors for faction: '+$RelevantSectors.{1}.owner" chance="$DebugChance" />
+        </do_if>
+        <do_else>
+          <find_station_by_true_owner name="$stations"
+            macro="macro.station_bankingclan_branchvault_macro"
+            faction="faction.bankingclan" space="player.galaxy" multiple="true" />
+          <do_if value="$stations.count gt 0">
+            <set_value name="$text" exact="''" />
+            <do_for_each name="$station" in="$stations" chance="$DebugChance">
+              <set_value name="$text" exact="$text+' | '+$station.sector.owner+': '+$station.name+' in '+$station.sector.name" />
+            </do_for_each>
+            <debug_text text="'found branches: '+$stations.count+' | '+$text" chance="$DebugChance" />
+          </do_if>
+          <do_else>
+            <debug_text text="'found branches: '+$stations.count" chance="$DebugChance" />
+          </do_else>
+          <find_station_by_true_owner name="$stationsC" checkoperational="false"
+            macro="macro.station_bankingclan_branchvault_macro" state="componentstate.construction"
+            faction="faction.bankingclan" space="player.galaxy" multiple="true" />
+          <do_if value="$stationsC.count gt 0">
+            <set_value name="$text" exact="''" />
+            <do_for_each name="$station" in="$stationsC" chance="$DebugChance">
+              <set_value name="$text" exact="$text+' | '+$station.sector.owner+': '+$station.name+' in '+$station.sector.name" />
+            </do_for_each>
+            <debug_text text="'found constructing branches: '+$stationsC.count+' | '+$text" chance="$DebugChance" />
+          </do_if>
+          <do_else>
+            <debug_text text="'found branches: '+$stationsC.count" chance="$DebugChance" />
+          </do_else>
+          <set_value name="$templist" exact="global.$GB_Vault.$MajorFactionList.keys.list" />
+          <set_value name="$factionlist" exact="$templist.clone" />
+          <do_for_each name="$faction" in="$templist">
+            <do_if value="not $faction.isactive">
+              <remove_from_list name="$factionlist" exact="$faction" />
+              <remove_value name="global.$GB_Vault.$MajorFactionList.{$faction}" />
+            </do_if>
+          </do_for_each>
+          <do_all exact="$stations.count" counter="$i">
+            <do_if value="$factionlist.indexof.{$stations.{$i}.sector.owner}">
+              <remove_from_list name="$factionlist" exact="$stations.{$i}.sector.owner" />
+            </do_if>
+            <do_if value="$factionlist.count == 0">
+              <break />
+            </do_if>
+          </do_all>
+          <do_if value="$factionlist.count gt 0">
+            <do_all exact="$stationsC.count" counter="$i">
+              <do_if value="$factionlist.indexof.{$stationsC.{$i}.sector.owner}">
+                <remove_from_list name="$factionlist" exact="$stationsC.{$i}.sector.owner" />
+              </do_if>
+              <do_if value="$factionlist.count == 0">
+                <break />
+              </do_if>
+            </do_all>
+          </do_if>
+          <debug_text text="'factionlist: '+$factionlist" chance="$DebugChance" />
+          <do_if value="$factionlist.count gt 0 and not ($factionlist == null)">
+            <set_value name="$set" exact="'branchvault'" />
+            <set_value name="$tag" exact="tag.branchvault" />
+            <set_value name="$StationMacro" exact="[macro.station_bankingclan_branchvault_macro]" />
+            <set_value name="$relevantFaction" exact="$factionlist.random" />
+            <do_if value="$relevantFaction">
+              <debug_text text="'factions missing branches: '+$factionlist+' | '+$relevantFaction" chance="$DebugChance" />
+              <!-- set preferred sector -->
+              <set_value name="$PreferredSectors" exact="[$relevantFaction.headquarters.sector]" />
+              <debug_text text="'found PreferredSector: '+$relevantFaction+': '+$PreferredSectors.{1}.name" chance="$DebugChance" />
+              <do_if value="not ($PreferredSectors.{1}.owner == $relevantFaction)">
+                <debug_text text="'PreferredSector not owned by faction. owner: '+$PreferredSectors.{1}.owner" chance="$DebugChance" />
+                <set_value name="$PreferredSectors" exact="[]" />
+              </do_if>
+              <!-- set relevant sectors, prefer non-border and not contested sectors -->
+              <find_sector name="$RelevantSectors" multiple="true"
+                owner="$relevantFaction"
+                space="player.galaxy">
+                <match locationtag="[tag.border]" negate="true" />
+                <match contested="false" />
+              </find_sector>
+              <!--
+              <do_if value="not $RelevantSectors? or $RelevantSectors == []">
+                <find_sector name="$RelevantSectors" multiple="true"
+                  owner="$relevantFaction"
+                  space="player.galaxy" />
+              </do_if>
+              -->
+              <debug_text text="'found RelevantSectors: '+$RelevantSectors" chance="$DebugChance" />
+            </do_if>
+          </do_if>
+        </do_else>
+
+        <do_if value="not ($set == null) and (not ($RelevantSectors == null) or $RelevantSectors.count gt 0)">
+          <get_module_set_macro set="$set" result="$ModuleSetMacro" />
+
+          <do_if value="$PastStationMaxScoreTableOverrides.$IsTradeStation?">
+            <set_value name="$PastStationMaxScoreTable"
+              exact="$PastStationMaxScoreTableOverrides.$IsTradeStation" />
+          </do_if>
+          <do_else>
+            <!--Default table-->
+            <set_value name="$PastStationMaxScoreTable"
+              exact="table[
+                               $WasTradeStation = 1.0f,
+                               $WasEquipmentDock = 0.25f,
+                               $WasShipyard = 0.25f,
+                               $WasWharf = 0.25f]" />
+          </do_else>
+
+          <debug_text text="'Macro '+$StationMacro.count" chance="$DebugChance" />
+
+          <do_if value="$StationMacro.count gt 0">
+            <debug_text text="'Building '+$StationMacro" chance="$DebugChance" />
+
+            <include_actions ref="Find_Location_And_Build_Station" />
+
+            <get_construction_plan result="$ConstructionPlan" rawname="$ConstructionPlanName" faction="$Faction" tags="$tag" />
+            <generate_loadout sequence="$ConstructionPlan" level="$LoadoutLevel" result="$Loadouts" faction="$Faction" />
+            <do_all exact="$Loadouts.count" counter="$l">
+              <apply_loadout sequence="$ConstructionPlan" index="$l" loadout="$Loadouts.{$l}" />
+            </do_all>
+            <add_build_to_expand_station object="$NewStation.buildstorage" buildobject="$NewStations.{1}" constructionplan="$ConstructionPlan" result="$BuildID" />
+          </do_if>
+        </do_if>
+      </actions>
+    </cue>
+
+
+    <!-- relecant portions pulled from md.FactionLogic_Stations.Find_Location_And_Build_Station-->
+    <library name="Find_Location_And_Build_Station">
+      <actions>
+        <set_value name="$RelevantSectors" exact="$RelevantSectors" />
+        <set_value name="$ClaimedSectors" exact="$RelevantSectors" />
+        <set_value name="$PreferredSectors" exact="$PreferredSectors" />
+
+        <set_value name="$NumStations" exact="1" />
+        <set_value name="$StationDefinitions" exact="$StationMacro" />
+        <set_value name="$ModuleSetMacro" exact="$ModuleSetMacro" />
+        <set_value name="$LoadoutLevel" exact="1" />
+        <set_value name="$Faction" exact="faction.bankingclan" />
+
+        <set_value name="$NewStations" exact="[]" />
+        <set_value name="$PotentialSectors" exact="table[]" />
+
+        <do_for_each name="$PreferredSector" in="$PreferredSectors">
+          <do_if value="@$PotentialSectors.{$PreferredSector} ge 0">
+            <set_value name="$PotentialSectors.{$PreferredSector}" operation="add" exact="100.0f" />
+          </do_if>
+        </do_for_each>
+
+        <do_all exact="$RelevantSectors.count" counter="$i">
+          <set_value name="$PotentialSector" exact="$RelevantSectors.{$i}" />
+          <do_if value="@$PotentialSectors.{$PotentialSector} ge 0">
+            <do_if value="$PotentialSector.owner == $Faction">
+              <set_value name="$PotentialSectors.{$PotentialSector}" operation="add" exact="$OwnedSectorScore" />
+              <debug_text text="$DebugText + 'Sector ' + $PotentialSector + ' ' + $PotentialSector.knownname + ' is an owned sector. Scoring ' + $OwnedSectorScore + ' for a total of ' + $PotentialSectors.{$PotentialSector}" chance="$DebugChance" context="false" />
+            </do_if>
+            <do_elseif value="$ClaimedSectors.indexof.{$PotentialSector}">
+              <set_value name="$PotentialSectors.{$PotentialSector}" operation="add" exact="$ClaimedSectorScore" />
+              <debug_text text="$DebugText + 'Sector ' + $PotentialSector + ' ' + $PotentialSector.knownname + ' is a claimed sector. Scoring ' + $ClaimedSectorScore + ' for a total of ' + $PotentialSectors.{$PotentialSector}" chance="$DebugChance" context="false" />
+            </do_elseif>
+            <do_else>
+              <set_value name="$PotentialSectors.{$PotentialSector}" operation="add" exact="$UnclaimedSectorScore" />
+              <debug_text text="$DebugText + 'Sector ' + $PotentialSector + ' ' + $PotentialSector.knownname + ' is not a claimed sector. Scoring ' + $UnclaimedSectorScore + ' for a total of ' + $PotentialSectors.{$PotentialSector}" chance="$DebugChance" context="false" />
+            </do_else>
+          </do_if>
+        </do_all>
+
+        <do_for_each name="$PotentialSector" valuename="$PotentialSectorScore" in="$PotentialSectors" reverse="true">
+          <do_if value="$PotentialSectorScore lt 0">
+            <debug_text text="'Potential sector ' + $PotentialSector + ' ' + $PotentialSector.knownname + ' had a negative score and will be skipped'" chance="$DebugChance" />
+            <remove_value name="$PotentialSectors.{$PotentialSector}" />
+          </do_if>
+        </do_for_each>
+
+        <do_all exact="$NumStations">
+          <!-- 
+            Select a suitable sector from a table of scored sectors
+            Required variables: $PotentialSectors (table. key = sector, value = score)
+            Result variables: $ChosenSector
+          -->
+          <include_actions ref="md.FactionLogic_Stations.SelectSuitableSector" />
+          <do_if value="$ChosenSector">
+            <do_if value="@$GodEntryIDTable.{$ChosenSector}.count">
+              <set_value name="$SelectedGodEntry" exact="$GodEntryIDTable.{$ChosenSector}.random" />
+              <remove_from_list name="$GodEntryIDTable.{$ChosenSector}" exact="$SelectedGodEntry" />
+              <create_god_station name="$NewStation" id="$SelectedGodEntry" state="componentstate.construction" />
+              <do_if value="$NewStation">
+                <debug_text text="$DebugText + 'Created new god station ' + $NewStation.knownname + ' ' + $NewStation + ' - God ID: ' + $SelectedGodEntry + ' in ' + $ChosenSector + ' ' + $ChosenSector.knownname" context="false" chance="$DebugChance" />
+                <append_to_list name="$NewStations" exact="$NewStation" />
+              </do_if>
+            </do_if>
+            <do_else>
+              <set_value name="$SelectedDefinition" exact="$StationDefinitions.random" />
+
+              <debug_text text="$DebugText + 'Selected ' + $ChosenSector + ' ' + $ChosenSector.knownname + ' to build new station'" context="false" chance="$DebugChance" />
+              <remove_value name="$PotentialSectors.{$ChosenSector}" />
+              <set_value name="$IsMacroStation" exact="false" />
+              <set_value name="$IsConstructionPlanStation" exact="false" />
+              <do_if value="typeof $SelectedDefinition == datatype.macro">
+                <set_value name="$IsMacroStation" exact="true" />
+                <!--TODO @Owen creating landmark stations currently results in them being instantly completed, not constructed.-->
+              </do_if>
+              <do_elseif value="$ModuleSetMacro and typeof $SelectedDefinition == datatype.list and typeof $SelectedDefinition.{1} == datatype.constructionsequence and (typeof $SelectedDefinition.{2}).isstring">
+                <set_value name="$IsConstructionPlanStation" exact="true" />
+              </do_elseif>
+
+              <do_if value="$IsMacroStation or $IsConstructionPlanStation">
+                <set_value name="$SpawnZone" exact="null" />
+                <set_value name="$NewStation" exact="null" />
+                <set_value name="$Position" exact="null" />
+                <do_if value="not $InGravidarObscuringRegion">
+                  <find_zone name="$SpawnZone" space="$ChosenSector" chance="50">
+                    <match_child class="class.station" owner="$Faction" min="1" max="2" checkoperational="false" />
+                    <match_distance space="$ChosenSector" value="$ChosenSector.coreposition" max="[$ChosenSector.coresize / 2.0f, 400km].min" />
+                  </find_zone>
+                </do_if>
+                <do_if value="$SpawnZone">
+                  <create_position name="$Position" max="40km" />
+                  <set_value name="$Y_Position" min="-5km" max="5km" />
+                  <set_value name="$Position" exact="position.[$Position.x, $Y_Position, $Position.z]" />
+                  <do_if value="$IsMacroStation">
+                    <create_station name="$NewStation" zone="$SpawnZone" owner="$Faction" macro="$SelectedDefinition" state="$InitialState">
+                      <safepos value="$Position" allowyaxis="false" includeplotbox="true" />
+                    </create_station>
+                    <debug_text text="$DebugText + 'Spawned new station ' + $NewStation.knownname + ' ' + $NewStation + ' in ' + $ChosenSector + ' ' + $ChosenSector.knownname" context="false" chance="$DebugChance" />
+                  </do_if>
+                  <do_elseif value="$IsConstructionPlanStation">
+                    <create_station name="$NewStation" zone="$SpawnZone" owner="$Faction" macro="$ModuleSetMacro" rawname="$SelectedDefinition.{2}" state="$InitialState">
+                      <safepos value="$Position" allowyaxis="false" includeplotbox="true" />
+                    </create_station>
+                  </do_elseif>
+                  <!--TODO @Owen #important init_station?-->
+                </do_if>
+                <do_else>
+                  <do_if value="$InGravidarObscuringRegion">
+                    <run_actions ref="md.LIB_Generic.GetGravidarObscuringSectorPosition" result="$Position">
+                      <param name="Sector" value="$ChosenSector" />
+                      <!--TODO @Owen get radius of construction plan?-->
+                      <param name="SafeposRadius" value="4km" />
+                      <param name="CoreSizeFactor" value="1.2f" />
+                      <param name="DebugChance" value="$DebugChance" />
+                    </run_actions>
+                  </do_if>
+                  <do_else>
+                    <include_actions ref="GetRandomCorePosition_1" comment="Sets $Position" />
+                  </do_else>
+
+                  <do_if value="$Position">
+                    <do_if value="$IsMacroStation">
+                      <create_station name="$NewStation" sector="$ChosenSector" owner="$Faction" macro="$SelectedDefinition" state="$InitialState">
+                        <safepos value="$Position" allowyaxis="false" includeplotbox="true" />
+                      </create_station>
+                      <debug_text text="$DebugText + 'Spawned new station ' + $NewStation.knownname + ' ' + $NewStation + ' in ' + $ChosenSector + ' ' + $ChosenSector.knownname" context="false" chance="$DebugChance" />
+                    </do_if>
+                    <do_elseif value="$IsConstructionPlanStation">
+                      <create_station name="$NewStation" sector="$ChosenSector" owner="$Faction" macro="$ModuleSetMacro" rawname="$SelectedDefinition.{2}" state="$InitialState">
+                        <safepos value="$Position" allowyaxis="false" includeplotbox="true" />
+                      </create_station>
+                    </do_elseif>
+                  </do_if>
+                </do_else>
+
+                <do_if value="$NewStation and $IsConstructionPlanStation">
+                  <generate_loadout sequence="$SelectedDefinition.{1}" level="$LoadoutLevel" result="$Loadouts" faction="$Faction" />
+                  <do_all exact="$Loadouts.count" counter="$l">
+                    <apply_loadout sequence="$SelectedDefinition.{1}" index="$l" loadout="$Loadouts.{$l}" />
+                  </do_all>
+                  <add_build_to_expand_station object="$NewStation.buildstorage" buildobject="$NewStation" constructionplan="$SelectedDefinition.{1}" result="$BuildID" />
+                  <debug_text text="$DebugText + 'Started construction of station ' + $NewStation.knownname + ' ' + $NewStation + ' - Build ID: ' + $BuildID + ' in ' + $ChosenSector + ' ' + $ChosenSector.knownname" context="false" chance="$DebugChance" />
+                </do_if>
+                <do_if value="$NewStation">
+                  <do_if value="$InitialState == componentstate.operational">
+                    <signal_objects object="player.galaxy" param="'init station'" param2="$NewStation" param3="false" />
+                  </do_if>
+                  <append_to_list name="$NewStations" exact="$NewStation" />
+                </do_if>
+              </do_if>
+            </do_else>
+
+          </do_if>
+        </do_all>
+      </actions>
+    </library>
+  </cues>
+</mdscript>

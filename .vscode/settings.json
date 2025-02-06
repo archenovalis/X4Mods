@@ -1,0 +1,16 @@
+{
+  "Lua.diagnostics.globals": [
+    "Helper",
+    "GetWareData",
+    "ConvertStringTo64Bit",
+    "AddUITriggeredEvent",
+    "RegisterEvent",
+    "DebugError",
+    "ReadText",
+    "GetNPCBlackboard",
+    "getElapsedTime",
+    "GetPlayerMoney",
+    "GetComponentData",
+    "ConvertStringToLuaID"
+  ]
+}
