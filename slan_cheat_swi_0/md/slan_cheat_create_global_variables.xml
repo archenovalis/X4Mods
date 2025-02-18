@@ -9,20 +9,18 @@
 				</check_any>
 			</conditions>
 			<actions>
-				<set_value name="global.$swi_slancheat" exact="table[]" />
-				<set_value name="global.$swi_slancheat.$slanjumpset" exact="false" />
-				<set_value name="global.$swi_slancheat.$slanjchainscanset" exact="false" />
-				<!-- <set_value name="global.$swi_slancheat.$conversation_mode_name" exact=""/> -->
-				<set_value name="global.$swi_slancheat.$conversation_list_temp" exact="[]" />
-				<set_value name="global.$swi_slancheat.$slanscan_running" exact="false" />
-				<set_value name="global.$swi_slancheat.$slancreate_ship_num" exact="1" />
-				<set_value name="global.$swi_slancheat.$slancreate_ship_set" exact="[faction.player,true,true,'player',null,null]" />
-				<set_value name="global.$swi_slancheat.$slancreate_ship_num" exact="1" />
-				<set_value name="global.$swi_slancheat.$slanscan_instant_stop" exact="false" />
-				<set_value name="global.$swi_slancheat.$slanscan_instant_arrive" exact="false" />
-
-				<!-- <set_value name="global.$swi_slancheat.$playertargetstation" /> -->
-				<!-- <set_value name="global.$swi_slancheat.$playertargetship" /> -->
+				<set_value name="global.$slanjumpset" exact="false"/>
+				<set_value name="global.$slanjchainscanset" exact="false"/>
+				<!-- <set_value name="global.$conversation_mode_name" exact=""/> -->
+				<create_list name="global.$conversation_list_temp"/>
+				<set_value name="global.$slanscan_running" exact="false"/>
+				<set_value name="global.$slancreate_ship_num" exact="1"/>
+				<set_value name="global.$slancreate_ship_set" exact="[faction.player,true,true,'player',null,null]"/>
+				<set_value name="global.$slanscan_instant_stop" exact="false"/>
+				<set_value name="global.$slanscan_instant_arrive" exact="false"/>
+				
+				<!-- <set_value name="global.$playertargetstation" /> -->
+				<!-- <set_value name="global.$playertargetship" /> -->
 			</actions>
 		</cue>
 	</cues>

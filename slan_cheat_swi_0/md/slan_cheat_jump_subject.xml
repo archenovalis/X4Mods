@@ -4,74 +4,74 @@
 		<cue name="slan_cheat_jump" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_started conversation="slan_cheat_jump" />
-					<event_conversation_next_section section="slan_cheat_jump" />
-				</check_any>
+					 <event_conversation_started conversation="slan_cheat_jump"/>
+					 <event_conversation_next_section section="slan_cheat_jump"/>
+				 </check_any>
 			</conditions>
 			<actions>
 				<!-- <add_conversation_view/> -->
 				<do_if value="event.param2.{1}?">
 					<do_if value="event.param2.{1} == 'instant_stop'">
-						<do_if value="global.$swi_slancheat.$slanscan_instant_stop">
-							<set_value name="global.$swi_slancheat.$slanscan_instant_stop" exact="false" />
+						<do_if value="global.$slanscan_instant_stop">
+							<set_value name="global.$slanscan_instant_stop" exact="false"/>
 						</do_if>
 						<do_else>
-							<set_value name="global.$swi_slancheat.$slanscan_instant_stop" exact="true" />
+							<set_value name="global.$slanscan_instant_stop" exact="true"/>
 						</do_else>
 					</do_if>
 					<do_elseif value="event.param2.{1} == 'instant_arrive'">
-						<do_if value="global.$swi_slancheat.$slanscan_instant_arrive">
-							<set_value name="global.$swi_slancheat.$slanscan_instant_arrive" exact="false" />
+						<do_if value="global.$slanscan_instant_arrive">
+							<set_value name="global.$slanscan_instant_arrive" exact="false"/>
 						</do_if>
 						<do_else>
-							<set_value name="global.$swi_slancheat.$slanscan_instant_arrive" exact="true" />
+							<set_value name="global.$slanscan_instant_arrive" exact="true"/>
 						</do_else>
 					</do_elseif>
 				</do_if>
-				<do_if value="global.$swi_slancheat.$slanscan_instant_stop">
-					<set_value name="$instant_stop" exact="{357423,9}" />
+				<do_if value="global.$slanscan_instant_stop">
+					<set_value name="$instant_stop" exact="{357423,9}"/>
 				</do_if>
 				<do_else>
-					<set_value name="$instant_stop" exact="{357423,8}" />
+					<set_value name="$instant_stop" exact="{357423,8}"/>
 				</do_else>
-				<do_if value="global.$swi_slancheat.$slanscan_instant_arrive">
-					<set_value name="$instant_arrive" exact="{357423,9}" />
+				<do_if value="global.$slanscan_instant_arrive">
+					<set_value name="$instant_arrive" exact="{357423,9}"/>
 				</do_if>
 				<do_else>
-					<set_value name="$instant_arrive" exact="{357423,8}" />
+					<set_value name="$instant_arrive" exact="{357423,8}"/>
 				</do_else>
-				<do_if value="not global.$swi_slancheat.$slanjumpset">
-					<add_player_choice_subconv text="{357423,8}" position="top_left" conversation="slan_cheat_jump_set" convparam="[true]" actor="player.computer" comment="open" />
-				</do_if>
+				<do_if value="not global.$slanjumpset">
+					<add_player_choice_subconv	text="{357423,8}"   					position="top_left" 	conversation="slan_cheat_jump_set" convparam="[true]"	actor="player.computer" comment="open"/>
+				</do_if>	
 				<do_else>
-					<add_player_choice_subconv text="{357423,9}" position="top_left" conversation="slan_cheat_jump_set" convparam="[false]" actor="player.computer" comment="Close" />
+					<add_player_choice_subconv	text="{357423,9}"   					position="top_left" 	conversation="slan_cheat_jump_set" convparam="[false]"	actor="player.computer" comment="Close"/>
 				</do_else>
-				<add_player_choice_sub text="{1014,102} + {1010,8}+{1025,35}" position="left" section="slan_cheat_menu_spawn_docked" comment="Dock" />
-				<add_player_choice_sub text="{357423,5002}" position="bottom_left" section="slan_cheat_menu_move_object" comment="Move Object" />
-				<add_player_choice_sub text="{357423,5003} + $instant_stop" position="top_right" section="slan_cheat_jump" choiceparam="['instant_stop']" comment="Move Player Npc" />
-				<add_player_choice_sub text="{357423,5004} + $instant_arrive" position="right" section="slan_cheat_jump" choiceparam="['instant_arrive']" comment="Dock Player Npc" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_sub 			text="{1014,102} + {1010,8}+{1025,35}"	position="left" 		section="slan_cheat_menu_spawn_docked" 											comment="Dock"/>
+				<add_player_choice_sub 			text="{357423,5002}"					position="bottom_left"	section="slan_cheat_menu_move_object" 											comment="Move Object"/>
+				<add_player_choice_sub 			text="{357423,5003} + $instant_stop"	position="top_right"	section="slan_cheat_jump" choiceparam="['instant_stop']"						comment="Move Player Npc"/>
+				<add_player_choice_sub 			text="{357423,5004} + $instant_arrive"	position="right"		section="slan_cheat_jump" choiceparam="['instant_arrive']"						comment="Dock Player Npc"/>
+				<add_player_choice_return  text="{1002,20}"    comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_jump_set" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_jump_set" />
+				 <event_conversation_started conversation="slan_cheat_jump_set"/>
 			</conditions>
 			<actions>
-				<set_value name="global.$swi_slancheat.$slanjumpset" exact="event.param2.{1}" />
-				<do_if value="global.$swi_slancheat.$slanjumpset">
+				<set_value name="global.$slanjumpset" exact="event.param2.{1}"/>
+				<do_if value="global.$slanjumpset">
 					<open_menu menu="MapMenu" param="[0, 0, true, null, null, 'infomode', [ 'info']]" />
-				</do_if>
+				</do_if>				
 			</actions>
 		</cue>
 		<cue name="slan_cheat_jump_run" instantiate="true" namespace="this">
 			<conditions>
-				<event_cue_signalled />
+				 <event_cue_signalled/>
 			</conditions>
 			<actions>
-				<do_if value="global.$swi_slancheat.$slanjumpset">
-					<warp object="player.ship" zone="global.$swi_slancheat.$slancreate_ship_set.{5}">
-						<position value="global.$swi_slancheat.$slancreate_ship_set.{6}" />
+				<do_if value="global.$slanjumpset">
+					<warp object="player.ship" zone="global.$slancreate_ship_set.{5}">
+						<position value="global.$slancreate_ship_set.{6}"/>
 					</warp>
 					<!-- <remove_value name="$Target"/> -->
 				</do_if>
@@ -79,62 +79,62 @@
 		</cue>
 		<cue name="slan_cheat_menu_move_object" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_menu_move_object" />
+				 <event_conversation_next_section section="slan_cheat_menu_move_object"/>
 			</conditions>
 			<actions>
-				<do_if value="global.$swi_slancheat.$slancreate_ship_set.{5}?">
-					<warp object="player.target" zone="global.$swi_slancheat.$slancreate_ship_set.{5}">
-						<position value="global.$swi_slancheat.$slancreate_ship_set.{6}" />
+				<do_if value="global.$slancreate_ship_set.{5}?">
+					<warp object="player.target" zone="global.$slancreate_ship_set.{5}">
+						<position value="global.$slancreate_ship_set.{6}"/>
 					</warp>
-					<show_notification text="player.target.name + {1001,6303} +global.$swi_slancheat.$swi_slancheat.$slancreate_ship_set.{5}.name + '(' + global.$swi_slancheat.$slancreate_ship_set.{6} + ')'" comment="" />
+					<show_notification text="player.target.name + {1001,6303} +global.$slancreate_ship_set.{5}.name + '(' + global.$slancreate_ship_set.{6} + ')'" comment=""/>
 				</do_if>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_quick_summoning_subordinates" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_quick_summoning_subordinates" />
+				 <event_conversation_started conversation="slan_cheat_quick_summoning_subordinates"/>
 			</conditions>
 			<actions>
-				<set_value name="$Thisship" exact="player.ship" />
-				<add_to_group groupname="$Subordinates" object="$Thisship" />
+				<set_value name="$Thisship" exact="player.ship"/>
+				<add_to_group groupname="$Subordinates" object="$Thisship"/>
 				<do_if value="$Thisship.allsubordinates">
 					<do_all exact="$Thisship.allsubordinates.count" counter="$j">
-						<add_to_group groupname="$Subordinates" object="$Thisship.subordinates.{$j}" />
+						<add_to_group groupname="$Subordinates" object="$Thisship.subordinates.{$j}"/>
 					</do_all>
 				</do_if>
 
 				<do_all exact="$Subordinates.count" counter="$i">
 					<warp object="$Subordinates.{$i}" zone="player.zone">
 						<!-- <position value="$JumpPosition"/> -->
-						<safepos object="$Thisship" radius="$Subordinates.{$i}.size/2" />
+						<safepos object="$Thisship" radius="$Subordinates.{$i}.size/2"/>
 					</warp>
 				</do_all>
-				<show_notification text="{1001,1503} + {1001,6303} + player.zone.name" comment="" />
+				<show_notification text="{1001,1503} + {1001,6303} + player.zone.name" comment=""/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_menu_spawn_docked" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_menu_spawn_docked" />
+				<event_conversation_next_section section="slan_cheat_menu_spawn_docked"/>
 			</conditions>
 			<actions>
-				<do_if value="global.$swi_slancheat.$MapTargetSelectedstation?">
-					<set_value name="$Factory" exact="global.$swi_slancheat.$MapTargetSelectedstation" />
-					<set_value name="$Ship" exact="player.ship" />
+				<do_if value="global.$MapTargetSelectedstation?">
+					<set_value name="$Factory" exact="global.$MapTargetSelectedstation"/>
+					<set_value name="$Ship" exact="player.ship"/>
 					<warp object="$Ship" zone="$Factory.zone">
-						<position value="global.$swi_slancheat.$slancreate_ship_set.{6}" />
+						<position value="global.$slancreate_ship_set.{6}"/>
 					</warp>
 					<find_dockingbay object="$Factory" name="$DockingBay" multiple="true">
-						<match_dock size="$Ship.docksize" free="true" />
-						<match_relation_to object="$Ship" comparison="not" relation="enemy" />
+						<match_dock size="$Ship.docksize" free="true"/>
+						<match_relation_to object="$Ship" comparison="not" relation="enemy"/>
 					</find_dockingbay>
 					<do_all exact="$DockingBay.count" counter="$i">
 						<do_if value="$DockingBay.{$i}.isdockingallowed">
-							<set_value name="$DockingBayUse" exact="$DockingBay.{$i}" />
+							<set_value name="$DockingBayUse" exact="$DockingBay.{$i}"/>
 						</do_if>
 					</do_all>
 					<do_if value="$DockingBayUse?">
-						<spawn_docked ship="$Ship" dock="$DockingBayUse" />
-						<show_notification text="$Ship + {1010,8} + $Factory.name" comment="" />
+						<spawn_docked ship="$Ship" dock="$DockingBayUse"/>
+						<show_notification text="$Ship + {1010,8} + $Factory.name" comment=""/>
 					</do_if>
 				</do_if>
 			</actions>

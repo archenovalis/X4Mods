@@ -3,89 +3,89 @@
 	<cues>
 		<cue name="aslan_cheat_modify_station_Initialization" instantiate="true" namespace="this">
 			<conditions>
-				<event_cue_signalled />
+				<event_cue_signalled/>
 			</conditions>
 			<actions>
 				<do_if value="md.$slanmodifystations?">
-					<remove_value name="md.$slanmodifystations" />
-				</do_if>
-				<do_if value="global.$swi_slancheat.$slanmodifystationchoicemode == 'Selected'">
-					<create_list name="md.$slanmodifystations" />
-					<do_if value="global.$swi_slancheat.$playertargetstation">
-						<do_if value="global.$swi_slancheat.$playertargetstation.isclass.station">
-							<append_to_list name="md.$slanmodifystations" exact="global.$swi_slancheat.$playertargetstation" />
+					<remove_value name="md.$slanmodifystations"/>
+				</do_if>	
+				<do_if value="global.$slanmodifystationchoicemode == 'Selected'">
+					<create_list name="md.$slanmodifystations"/>
+					<do_if value="global.$playertargetstation">					
+						<do_if value="global.$playertargetstation.isclass.station">
+							<append_to_list name="md.$slanmodifystations" exact="global.$playertargetstation"/>
 						</do_if>
 					</do_if>
 				</do_if>
-				<do_elseif value="global.$swi_slancheat.$slanmodifystationchoicemode == 'allowner'">
-					<find_station name="md.$slanmodifystations" owner="faction.player" space="player.galaxy" multiple="true" />
+				<do_elseif value="global.$slanmodifystationchoicemode == 'allowner'">
+					<find_station  name="md.$slanmodifystations" owner="faction.player" space="player.galaxy" multiple="true" />
 				</do_elseif>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_Invincible" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_modify_station_Invincible" />
+				<event_conversation_started conversation="slan_cheat_modify_station_Invincible"/>
 			</conditions>
 			<actions>
-				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization" />
-				<add_player_choice_sub text="{1001,2648}" position="top_left" section="slan_cheat_modify_station_Invincible_set" choiceparam="[100]" comment="" />
-				<add_player_choice_sub text="{1001,2649}" position="left" section="slan_cheat_modify_station_Invincible_set" choiceparam="[0]" comment="" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization"/>
+				<add_player_choice_sub   text="{1001,2648}"	position="top_left"   	section="slan_cheat_modify_station_Invincible_set"  choiceparam="[100]"  	comment=""/>
+				<add_player_choice_sub   text="{1001,2649}"  position="left"       	section="slan_cheat_modify_station_Invincible_set"  choiceparam="[0]" 		comment=""/>
+				<add_player_choice_return  text="{1002,20}"  comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_Invincible_set" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_modify_station_Invincible_set" />
+				<event_conversation_next_section section="slan_cheat_modify_station_Invincible_set"/>
 			</conditions>
 			<actions>
 				<do_all exact="md.$slanmodifystations.count" counter="$i">
-					<find_object_component name="$components" object="md.$slanmodifystations.{$i}" class="class.destructible" multiple="true" />
+					<find_object_component name="$components" object="md.$slanmodifystations.{$i}" class="class.destructible" multiple="true"/>
 					<do_all exact="$components.count" counter="$j">
 						<do_if value="$components.{$j} != null">
 							<restore_object object="$components.{$j}" hull="100" recursive="true" />
-							<set_object_min_hull object="$components.{$j}" exact="event.param2.{1}" />
-							<set_object_min_shield object="$components.{$j}" exact="event.param2.{1}" />
+							<set_object_min_hull object="$components.{$j}" exact="event.param2.{1}"/>
+							<set_object_min_shield object="$components.{$j}" exact="event.param2.{1}"/>
 						</do_if>
 					</do_all>
 					<restore_object object="md.$slanmodifystations.{$i}" hull="100" recursive="true" />
-					<set_object_min_hull object="md.$slanmodifystations.{$i}" exact="event.param2.{1}" />
-					<set_object_min_shield object="md.$slanmodifystations.{$i}" exact="event.param2.{1}" />
+					<set_object_min_hull object="md.$slanmodifystations.{$i}" exact="event.param2.{1}"/>
+					<set_object_min_shield object="md.$slanmodifystations.{$i}" exact="event.param2.{1}"/>
 				</do_all>
 			</actions>
 		</cue>
-
+		
 		<cue name="slan_cheat_modify_station_building_resource" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_modify_station_building_resource" />
+				<event_conversation_started conversation="slan_cheat_modify_station_building_resource"/>
 			</conditions>
 			<actions>
-				<find_object name="$BuildStorages" class="class.buildstorage" owner="faction.player" space="player.galaxy" multiple="true" />
+				<find_object name="$BuildStorages" class="class.buildstorage" owner="faction.player" space="player.galaxy" multiple="true"/>
 				<do_all exact="$BuildStorages.count" counter="$i">
-					<set_value name="$buildprocessor" exact="$BuildStorages.{$i}.buildmodule.buildprocessor" />
-					<set_value name="$BuildWares" exact="$buildprocessor.neededsequenceresources.list" />
+					<set_value name="$buildprocessor" exact="$BuildStorages.{$i}.buildmodule.buildprocessor"/>
+					<set_value name="$BuildWares" exact="$buildprocessor.neededsequenceresources.list"/>
 					<do_all exact="$BuildWares.count" counter="$k">
-						<remove_cargo object="$BuildStorages.{$i}" ware="$BuildWares.{$k}" />
-						<add_cargo object="$BuildStorages.{$i}" ware="$BuildWares.{$k}" exact="$buildprocessor.neededsequenceresources.{$BuildWares.{$k}}.count" />
-						<show_notification text="$BuildStorages.{$i}.name + {1025,51} +$BuildWares.{$k}.name + '(' + $buildprocessor.neededsequenceresources.{$BuildWares.{$k}}.count + ')'" comment="" />
+						<remove_cargo object="$BuildStorages.{$i}" ware="$BuildWares.{$k}"/>
+						<add_cargo object="$BuildStorages.{$i}" ware="$BuildWares.{$k}" exact="$buildprocessor.neededsequenceresources.{$BuildWares.{$k}}.count"/>
+						<show_notification text="$BuildStorages.{$i}.name + {1025,51} +$BuildWares.{$k}.name + '(' + $buildprocessor.neededsequenceresources.{$BuildWares.{$k}}.count + ')'" comment=""/>
 					</do_all>
 				</do_all>
 			</actions>
 		</cue>
-
+		
 		<cue name="slan_cheat_modify_station_equipment" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_menu_list_selection" />
-				<check_value value="global.$swi_slancheat.$conversation_mode_name == 'slan_cheat_modify_station_equipment'" />
+				<event_conversation_started conversation="slan_cheat_menu_list_selection"/>
+				<check_value value="global.$conversation_mode_name == 'slan_cheat_modify_station_equipment'"/>
 			</conditions>
 			<actions>
 				<!-- <set_conversation_return_section section="slan_cheat_modify_station_equipment" /> -->
-				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization" />
-				<do_if value="global.$swi_slancheat.$slanmodifystationchoicemode == 'Selected'">
-					<set_value name="$station" exact="global.$swi_slancheat.$playertargetstation" />
+				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization"/>
+				<do_if value="global.$slanmodifystationchoicemode == 'Selected'">
+					<set_value name="$station" exact="global.$playertargetstation" />
 					<do_if value="$station?">
 						<set_value name="$count" exact="$station.ammostorage.{event.param2.{1}.objectmacro}.count" />
 						<do_if value="event.param2.{1}.tags.indexof.{tag.drone}">
-							<set_value name="$max" exact="$station.units.maxcount" />
+						<set_value name="$max" exact="$station.units.maxcount" />
 						</do_if>
 						<do_elseif value="event.param2.{1}.tags.indexof.{tag.missile}">
 							<set_value name="$max" exact="$station.ammostorage.missile.capacity" />
@@ -97,28 +97,28 @@
 							<set_value name="$max" exact="$station.ammostorage.deployable.capacity" />
 						</do_elseif>
 					</do_if>
-					<add_player_choice_sub text="{1001,2679} + '10%' + {1001,7105} + '=' + ($max * 0.1)i" position="top_left" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 10]" comment="" />
-					<add_player_choice_sub text="{1001,2679} + '30%' + {1001,7105} + '=' + ($max * 0.3)i" position="left" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 30]" comment="" />
-					<add_player_choice_sub text="{1001,2679} + '50%' + {1001,7105} + '=' + ($max * 0.5)i" position="bottom_left" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 50]" comment="" />
-					<add_player_choice_sub text="{1001,2679} + '70%' + {1001,7105} + '=' + ($max * 0.7)i" position="top_right" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 70]" comment="" />
-					<add_player_choice_sub text="{1001,2679} + '100%' + {1001,7105} + '=' + ($max)" position="right" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 100]" comment="" />
-					<add_player_choice_sub text="{357423,2202} + '-' + $count" position="bottom_right" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, -100]" comment="" />
+					<add_player_choice_sub   text="{1001,2679} + '10%' + {1001,7105} + '=' + ($max * 0.1)i"		position="top_left"   	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 10]"  	comment=""/>
+					<add_player_choice_sub   text="{1001,2679} + '30%' + {1001,7105} + '=' + ($max * 0.3)i"		position="left"       	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 30]" 	comment=""/>
+					<add_player_choice_sub   text="{1001,2679} + '50%' + {1001,7105} + '=' + ($max * 0.5)i"		position="bottom_left"	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 50]"	comment=""/>
+					<add_player_choice_sub   text="{1001,2679} + '70%' + {1001,7105} + '=' + ($max * 0.7)i" 	position="top_right"	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 70]"	comment=""/>
+					<add_player_choice_sub   text="{1001,2679} + '100%' + {1001,7105} + '=' + ($max)" 			position="right"		section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 100]"	comment=""/>
+					<add_player_choice_sub   text="{357423,2202} + '-' + $count" 								position="bottom_right"	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, -100]"	comment=""/>
 					<!-- <add_player_choice_return  text="{1002,20}"  comment="(Back)"/> -->
 				</do_if>
 				<do_else>
-					<add_player_choice_sub text="{1001,2679} + '10%' + {1001,7105}" position="top_left" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 10]" comment="" />
-					<add_player_choice_sub text="{1001,2679} + '30%' + {1001,7105}" position="left" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 30]" comment="" />
-					<add_player_choice_sub text="{1001,2679} + '50%' + {1001,7105}" position="bottom_left" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 50]" comment="" />
-					<add_player_choice_sub text="{1001,2679} + '70%' + {1001,7105}" position="top_right" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 70]" comment="" />
-					<add_player_choice_sub text="{1001,2679} + '100%' + {1001,7105}" position="right" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, 100]" comment="" />
-					<add_player_choice_sub text="{357423,2202}" position="bottom_right" section="slan_cheat_modify_station_equipment_count" choiceparam="[event.param2.{1}, -100]" comment="" />
+					<add_player_choice_sub   text="{1001,2679} + '10%' + {1001,7105}"		position="top_left"   	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 10]"  	comment=""/>
+					<add_player_choice_sub   text="{1001,2679} + '30%' + {1001,7105}"		position="left"       	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 30]" 	comment=""/>
+					<add_player_choice_sub   text="{1001,2679} + '50%' + {1001,7105}"		position="bottom_left"	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 50]"	comment=""/>
+					<add_player_choice_sub   text="{1001,2679} + '70%' + {1001,7105}" 		position="top_right"	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 70]"	comment=""/>
+					<add_player_choice_sub   text="{1001,2679} + '100%' + {1001,7105}" 		position="right"		section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, 100]"	comment=""/>
+					<add_player_choice_sub   text="{357423,2202}" 							position="bottom_right"	section="slan_cheat_modify_station_equipment_count"  choiceparam="[event.param2.{1}, -100]"	comment=""/>
 					<!-- <add_player_choice_return  text="{1002,20}"  comment="(Back)"/> -->
 				</do_else>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_equipment_count" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_modify_station_equipment_count" />
+				<event_conversation_next_section section="slan_cheat_modify_station_equipment_count"/>
 			</conditions>
 			<actions>
 				<do_all exact="md.$slanmodifystations.count" counter="$i">
@@ -134,52 +134,52 @@
 					<do_elseif value="event.param2.{1}.objectmacro.isdeployable">
 						<set_value name="$max" exact="md.$slanmodifystations.{$i}.ammostorage.deployable.capacity" />
 					</do_elseif>
-
-					<deplete_ammo object="md.$slanmodifystations.{$i}" macro="event.param2.{1}.objectmacro" />
+					
+					<deplete_ammo object="md.$slanmodifystations.{$i}" macro="event.param2.{1}.objectmacro"/>
 					<do_if value="$max ge 0">
 						<add_ammo object="md.$slanmodifystations.{$i}" macro="event.param2.{1}.objectmacro" amount="$max * event.param2.{2} / 100" />
-						<show_notification text="md.$slanmodifystations.{$i}.name + {1025,51} +event.param2.{1}.name + '(' + ($max * event.param2.{2} / 100)i + ')'" comment="" />
+						<show_notification text="md.$slanmodifystations.{$i}.name + {1025,51} +event.param2.{1}.name + '(' + ($max * event.param2.{2} / 100)i + ')'" comment=""/>
 					</do_if>
 				</do_all>
 			</actions>
 		</cue>
-
+		
 		<cue name="slan_cheat_modify_station_people" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_modify_station_people" />
+				<event_conversation_started conversation="slan_cheat_modify_station_people"/>
 			</conditions>
 			<actions>
-				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization" />
+				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization"/>
 				<do_all exact="md.$slanmodifystations.count" counter="$i">
-					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}" />
-					<set_value name="$Crew" exact="$ThisStation.people.list" />
+					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}"/>
+					<set_value name="$Crew" exact="$ThisStation.people.list"/>
 					<do_all exact="$Crew.count" counter="$j">
-						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.boarding" exact="15" />
-						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.engineering" exact="15" />
-						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.management" exact="15" />
-						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.morale" exact="15" />
-						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.piloting" exact="15" />
+						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.boarding" exact="15"/>
+						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.engineering" exact="15"/>
+						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.management" exact="15"/>
+						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.morale" exact="15"/>
+						<set_skill object="$ThisStation" template="$Crew.{$j}" type="skilltype.piloting" exact="15"/>
 					</do_all>
-
-					<get_control_entities groupname="$controlCrew" object="$ThisStation" />
+					
+					<get_control_entities groupname="$controlCrew" object="$ThisStation"/> 
 					<do_all exact="$controlCrew.count" counter="$j">
-						<set_skill entity="$controlCrew.{$j}" type="skilltype.boarding" exact="15" />
-						<set_skill entity="$controlCrew.{$j}" type="skilltype.engineering" exact="15" />
-						<set_skill entity="$controlCrew.{$j}" type="skilltype.management" exact="15" />
-						<set_skill entity="$controlCrew.{$j}" type="skilltype.morale" exact="15" />
-						<set_skill entity="$controlCrew.{$j}" type="skilltype.piloting" exact="15" />
+						<set_skill entity="$controlCrew.{$j}" type="skilltype.boarding" exact="15"/>
+						<set_skill entity="$controlCrew.{$j}" type="skilltype.engineering" exact="15"/>
+						<set_skill entity="$controlCrew.{$j}" type="skilltype.management" exact="15"/>
+						<set_skill entity="$controlCrew.{$j}" type="skilltype.morale" exact="15"/>
+						<set_skill entity="$controlCrew.{$j}" type="skilltype.piloting" exact="15"/>
 					</do_all>
 				</do_all>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_delete" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_modify_station_delete" />
+				<event_conversation_started conversation="slan_cheat_modify_station_delete"/>
 			</conditions>
 			<actions>
-				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization" />
+				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization"/>
 				<do_all exact="md.$slanmodifystations.count" counter="$i">
-					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}" />
+					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}"/>
 					<destroy_object object="$ThisStation" explosion="true" />
 					<destroy_object object="$ThisStation" explosion="flase" />
 				</do_all>
@@ -187,25 +187,25 @@
 		</cue>
 		<cue name="slan_cheat_modify_station_faction" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_menu_list_selection" />
-				<check_value value="global.$swi_slancheat.$conversation_mode_name == 'slan_cheat_modify_station_faction'" />
+				<event_conversation_started conversation="slan_cheat_menu_list_selection"/>
+				<check_value value="global.$conversation_mode_name == 'slan_cheat_modify_station_faction'"/>
 			</conditions>
 			<actions>
-				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization" />
+				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization"/>
 				<do_all exact="md.$slanmodifystations.count" counter="$i">
-					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}" />
+					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}"/>
 					<do_if value="$ThisStation.allsubordinates">
 						<do_all exact="$ThisStation.allsubordinates.count" counter="$j">
 							<do_if value="$ThisStation.allsubordinates.{$j}.isclass.ship">
-								<add_to_group groupname="$Subordinates" object="$ThisStation.allsubordinates.{$j}" />
+								<add_to_group groupname="$Subordinates" object="$ThisStation.allsubordinates.{$j}"/>
 							</do_if>
 						</do_all>
 					</do_if>
 					<do_all exact="$Subordinates.count" counter="$j">
 						<do_if value="$Subordinates.{$j}?">
-							<set_owner object="$Subordinates.{$j}" faction="event.param2.{1}" overridenpc="true" />
-							<show_notification text="event.param2.{1}.name + {1025,51} +$Subordinates.{$j}.name + '(' + 1 + ')'" comment="" />
-							<cease_fire object="$Subordinates.{$j}" />
+							<set_owner object="$Subordinates.{$j}" faction="event.param2.{1}" overridenpc="true"/>
+							<show_notification text="event.param2.{1}.name + {1025,51} +$Subordinates.{$j}.name + '(' + 1 + ')'" comment=""/>
+							<cease_fire object="$Subordinates.{$j}"/>
 							<!-- <do_if value="$Subordinates.{$j}.isclass.ship_xs">
 								<remove_from_group group="$Subordinates" object="$Subordinates.{$j}"/>
 							</do_if>
@@ -226,18 +226,18 @@
 							</do_if> -->
 						</do_if>
 					</do_all>
-
-					<remove_object_commander object="$ThisStation" comment="" />
-					<set_owner object="$ThisStation" faction="event.param2.{1}" overridenpc="true" />
-					<cease_fire object="$ThisStation" />
-					<get_control_entities groupname="$StationCrew" object="$ThisStation" />
+					
+					<remove_object_commander object="$ThisStation" comment=""/>
+					<set_owner object="$ThisStation" faction="event.param2.{1}" overridenpc="true"/>
+					<cease_fire object="$ThisStation"/>
+					<get_control_entities groupname="$StationCrew" object="$ThisStation"/>
 					<do_all exact="$StationCrew.count" counter="$l">
-						<abort_scripts entity="$StationCrew.{$l}" />
-						<destroy_object object="$StationCrew.{$l}" />
+						<abort_scripts entity="$StationCrew.{$l}"/>
+						<destroy_object object="$StationCrew.{$l}"/>
 					</do_all>
 					<create_control_entity object="$ThisStation" post="controlpost.manager">
-						<select faction="[faction.argon, faction.paranid, faction.teladi]" tags="controlpost.manager.tag" />
-						<owner exact="$ThisStation.owner" />
+						<select faction="[faction.argon, faction.paranid, faction.teladi]" tags="controlpost.manager.tag"/>
+						<owner exact="$ThisStation.owner"/>
 					</create_control_entity>
 
 					<!-- <set_value name="$race" exact="$ThisStation.workforce.races"/>
@@ -249,121 +249,121 @@
 		</cue>
 		<cue name="slan_cheat_modify_station_add_cargotype" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_modify_station_add_cargotype" />
+				<event_conversation_started conversation="slan_cheat_modify_station_add_cargotype"/>
 			</conditions>
 			<actions>
-				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization" />
-				<add_player_choice_sub text="{357423,2201}" position="top_left" section="slan_cheat_modify_station_add_cargotype_count" choiceparam="[event.param2.{1}, 1000000]" comment="" />
-				<add_player_choice_sub text="{357423,2202}" position="left" section="slan_cheat_modify_station_add_cargotype_count" choiceparam="[event.param2.{1}, -100]" comment="" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization"/>
+				<add_player_choice_sub   text="{357423,2201}"	position="top_left"   	section="slan_cheat_modify_station_add_cargotype_count"  choiceparam="[event.param2.{1}, 1000000]"  comment=""/>
+				<add_player_choice_sub   text="{357423,2202}"	position="left"       	section="slan_cheat_modify_station_add_cargotype_count"  choiceparam="[event.param2.{1}, -100]" 	comment=""/>
+				<add_player_choice_return  text="{1002,20}"  comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_add_cargotype_count" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_modify_station_add_cargotype_count" />
+				<event_conversation_next_section section="slan_cheat_modify_station_add_cargotype_count"/>
 			</conditions>
 			<actions>
 				<do_all exact="md.$slanmodifystations.count" counter="$i">
-					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}" />
-					<create_list name="$WaresList" />
+					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}"/>
+					<create_list name="$WaresList"/>
 					<do_if value="event.param2.{1} == 'resources' or event.param2.{1} == 'allcargo'">
 						<set_value name="$resources" exact="$ThisStation.resources.list" />
 						<do_all exact="$resources.count" counter="$j">
-							<append_to_list name="$WaresList" exact="$resources.{$j}" />
+							<append_to_list name="$WaresList" exact="$resources.{$j}"/>
 						</do_all>
 					</do_if>
 					<do_if value="event.param2.{1} == 'products' or event.param2.{1} == 'allcargo'">
 						<set_value name="$products" exact="$ThisStation.products.list" />
 						<do_all exact="$products.count" counter="$j">
-							<append_to_list name="$WaresList" exact="$products.{$j}" />
+							<append_to_list name="$WaresList" exact="$products.{$j}"/>
 						</do_all>
 					</do_if>
 					<do_if value="event.param2.{1} == 'tradewares' or event.param2.{1} == 'allcargo'">
 						<set_value name="$tradewares" exact="$ThisStation.tradewares.list" />
 						<do_all exact="$tradewares.count" counter="$j">
-							<append_to_list name="$WaresList" exact="$tradewares.{$j}" />
+							<append_to_list name="$WaresList" exact="$tradewares.{$j}"/>
 						</do_all>
 					</do_if>
 					<do_if value="event.param2.{1} == 'allcargo'">
 						<set_value name="$cargo" exact="$ThisStation.cargo.list" />
 						<do_all exact="$cargo.count" counter="$j">
 							<do_if value="not $WaresList.indexof.{$cargo.{$j}}">
-								<append_to_list name="$WaresList" exact="$cargo.{$j}" />
+								<append_to_list name="$WaresList" exact="$cargo.{$j}"/>
 							</do_if>
 						</do_all>
 					</do_if>
 
 					<do_all exact="$WaresList.count" counter="$j">
-						<do_if value="event.param2.{2} ge 0">
+						<do_if value="event.param2.{2} ge 0">							
 							<add_cargo object="$ThisStation" ware="$WaresList.{$j}" exact="$ThisStation.cargo.{$WaresList.{$j}}.target - $ThisStation.cargo.{$WaresList.{$j}}.count" />
-							<show_notification text="$ThisStation.name + {1025,51} +$WaresList.{$j}.name + '(' + $ThisStation.cargo.{$WaresList.{$j}}.target - $ThisStation.cargo.{$WaresList.{$j}}.count + ')'" comment="" />
+							<show_notification text="$ThisStation.name + {1025,51} +$WaresList.{$j}.name + '(' + $ThisStation.cargo.{$WaresList.{$j}}.target - $ThisStation.cargo.{$WaresList.{$j}}.count + ')'" comment=""/>
 						</do_if>
 						<do_else>
 							<remove_cargo object="$ThisStation" ware="$WaresList.{$j}" exact="$ThisStation.cargo.{$WaresList.{$j}}.count" />
 						</do_else>
 					</do_all>
-					<remove_value name="$WaresList" />
+					<remove_value name="$WaresList"/>
 				</do_all>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_add_cargo_specified" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_menu_list_selection" />
-				<check_value value="global.$swi_slancheat.$conversation_mode_name == 'slan_cheat_modify_station_add_cargo_specified'" />
+				<event_conversation_started conversation="slan_cheat_menu_list_selection"/>
+				<check_value value="global.$conversation_mode_name == 'slan_cheat_modify_station_add_cargo_specified'"/>
 			</conditions>
 			<actions>
-				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization" />
+				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization"/>
 				<!-- <add_conversation_view/> -->
-				<set_value name="$max" exact="global.$swi_slancheat.$playertargetstation.cargo.{event.param2.{1}}.target" />
-				<set_value name="$count" exact="global.$swi_slancheat.$playertargetstation.cargo.{event.param2.{1}}.count" />
-				<add_player_choice_sub text="{1001,2679} + '10%' + {1001,6802} +	'=' +($max * 0.1)i" position="top_left" section="slan_cheat_modify_station_add_cargo_specified_count" choiceparam="[event.param2.{1}, 10]" comment="" />
-				<add_player_choice_sub text="{1001,2679} + '30%' + {1001,6802} +  '=' +($max * 0.3)i" position="left" section="slan_cheat_modify_station_add_cargo_specified_count" choiceparam="[event.param2.{1}, 30]" comment="" />
-				<add_player_choice_sub text="{1001,2679} + '50%' + {1001,6802} +  '=' +($max * 0.5)i" position="bottom_left" section="slan_cheat_modify_station_add_cargo_specified_count" choiceparam="[event.param2.{1}, 50]" comment="" />
-				<add_player_choice_sub text="{1001,2679} + '70%' + {1001,6802} +  '=' +($max * 0.7)i" position="top_right" section="slan_cheat_modify_station_add_cargo_specified_count" choiceparam="[event.param2.{1}, 70]" comment="" />
-				<add_player_choice_sub text="{1001,2679} + '100%' + {1001,6802} + '=' +($max )" position="right" section="slan_cheat_modify_station_add_cargo_specified_count" choiceparam="[event.param2.{1}, 100]" comment="" />
-				<add_player_choice_sub text="{357423,2202} + '-' + $count" position="bottom_right" section="slan_cheat_modify_station_add_cargo_specified_count" choiceparam="[event.param2.{1}, -100]" comment="" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<set_value name="$max" exact="global.$playertargetstation.cargo.{event.param2.{1}}.target" />
+				<set_value name="$count" exact="global.$playertargetstation.cargo.{event.param2.{1}}.count" />
+				<add_player_choice_sub   text="{1001,2679} + '10%' + {1001,6802} +	'=' +($max * 0.1)i"		position="top_left"   	section="slan_cheat_modify_station_add_cargo_specified_count"  choiceparam="[event.param2.{1}, 10]"  	comment=""/>
+				<add_player_choice_sub   text="{1001,2679} + '30%' + {1001,6802} +  '=' +($max * 0.3)i"		position="left"       	section="slan_cheat_modify_station_add_cargo_specified_count"  choiceparam="[event.param2.{1}, 30]" 	comment=""/>
+				<add_player_choice_sub   text="{1001,2679} + '50%' + {1001,6802} +  '=' +($max * 0.5)i"		position="bottom_left"  section="slan_cheat_modify_station_add_cargo_specified_count"  choiceparam="[event.param2.{1}, 50]" 	comment=""/>
+				<add_player_choice_sub   text="{1001,2679} + '70%' + {1001,6802} +  '=' +($max * 0.7)i"		position="top_right"  	section="slan_cheat_modify_station_add_cargo_specified_count"  choiceparam="[event.param2.{1}, 70]" 	comment=""/>
+				<add_player_choice_sub   text="{1001,2679} + '100%' + {1001,6802} + '=' +($max )"			position="right"  		section="slan_cheat_modify_station_add_cargo_specified_count"  choiceparam="[event.param2.{1}, 100]" 	comment=""/>
+				<add_player_choice_sub   text="{357423,2202} + '-' + $count"								position="bottom_right" section="slan_cheat_modify_station_add_cargo_specified_count"  choiceparam="[event.param2.{1}, -100]" 	comment=""/>
+				<add_player_choice_return  text="{1002,20}"  comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_add_cargo_specified_count" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_modify_station_add_cargo_specified_count" />
+				<event_conversation_next_section section="slan_cheat_modify_station_add_cargo_specified_count"/>
 			</conditions>
 			<actions>
-				<set_value name="$max" exact="global.$swi_slancheat.$playertargetstation.cargo.{event.param2.{1}}.target" />
+				<set_value name="$max" exact="global.$playertargetstation.cargo.{event.param2.{1}}.target" />
 				<do_if value="$max == 0">
-					<set_value name="$max" exact="global.$swi_slancheat.$playertargetstation.cargo.{event.param2.{1}}.max" />
+					<set_value name="$max" exact="global.$playertargetstation.cargo.{event.param2.{1}}.max" />
 				</do_if>
-				<remove_cargo object="global.$swi_slancheat.$playertargetstation" ware="event.param2.{1}" exact="global.$swi_slancheat.$playertargetstation.cargo.{event.param2.{1}}.count" />
+				<remove_cargo object="global.$playertargetstation" ware="event.param2.{1}" exact="global.$playertargetstation.cargo.{event.param2.{1}}.count" />
 				<do_if value="event.param2.{2} ge 0">
-					<add_cargo object="global.$swi_slancheat.$playertargetstation" ware="event.param2.{1}" exact="$max * event.param2.{2} / 100" />
-					<show_notification text="global.$swi_slancheat.$playertargetstation.name + {1025,51} +event.param2.{1}.name + '(' + ($max * event.param2.{2} / 100)i + ')'" comment="" />
+					<add_cargo object="global.$playertargetstation" ware="event.param2.{1}" exact="$max * event.param2.{2} / 100" />
+					<show_notification text="global.$playertargetstation.name + {1025,51} +event.param2.{1}.name + '(' + ($max * event.param2.{2} / 100)i + ')'" comment=""/>
 				</do_if>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_workforce" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_modify_station_workforce" />
+				<event_conversation_started conversation="slan_cheat_modify_station_workforce"/>
 			</conditions>
 			<actions>
-				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization" />
-				<add_player_choice_sub text="{357423,2201}" position="top_left" section="slan_cheat_modify_station_workforce_set" comment="" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<signal_cue_instantly cue="aslan_cheat_modify_station_Initialization"/>
+				<add_player_choice_sub   text="{357423,2201}"	position="top_left"   	section="slan_cheat_modify_station_workforce_set"  comment=""/>
+				<add_player_choice_return  text="{1002,20}"  comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_workforce_set" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_modify_station_workforce_set" />
+				<event_conversation_next_section section="slan_cheat_modify_station_workforce_set"/>
 			</conditions>
 			<actions>
 				<do_all exact="md.$slanmodifystations.count" counter="$i">
-					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}" />
+					<set_value name="$ThisStation" exact="md.$slanmodifystations.{$i}"/>
 					<create_control_entity object="$ThisStation" post="controlpost.manager">
-						<select faction="[faction.argon, faction.paranid, faction.teladi]" tags="controlpost.manager.tag" />
-						<owner exact="$ThisStation.owner" />
+						<select faction="[faction.argon, faction.paranid, faction.teladi]" tags="controlpost.manager.tag"/>
+						<owner exact="$ThisStation.owner"/>
 					</create_control_entity>
 
-					<set_value name="$race" exact="$ThisStation.workforce.races" />
+					<set_value name="$race" exact="$ThisStation.workforce.races"/>
 					<do_all exact="$race.count" counter="$j">
 						<add_workforce object="$ThisStation" race="$race.{$j}" min="$ThisStation.workforce.{$race.{$j}}.capacity" max="$ThisStation.workforce.{$race.{$j}}.capacity" />
 					</do_all>

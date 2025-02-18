@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mdscript name="slan_cheat_menu_quick_menu" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
 	<cues>
-		<cue name="slan_cheat_Backdoor" namespace="this" instantiate="true">
+		<cue name="slan_cheat_Backdoor" namespace="this" instantiate="true" >
 			<conditions>
 				<event_player_changed_activity />
 				<check_value value="player.ship" />
 			</conditions>
 			<actions>
 				<do_if value="event.param2 == activity.scan">
-					<start_conversation actor="player.computer" conversation="slan_cheat_menu_quick_menu" comment="" />
+					<start_conversation actor="player.computer" conversation="slan_cheat_menu_quick_menu" comment=""/>
 				</do_if>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_menu_quick_menu" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_menu_quick_menu" />
-					<event_conversation_returned_to_section section="slan_cheat_menu_quick_menu" />
-					<event_conversation_started conversation="slan_cheat_menu_quick_menu" />
+					<event_conversation_next_section section="slan_cheat_menu_quick_menu"/>
+					<event_conversation_returned_to_section section="slan_cheat_menu_quick_menu"/>
+					<event_conversation_started conversation="slan_cheat_menu_quick_menu"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_subconv text="{357423,2}" position="top_left" conversation="slan_cheat_jump" comment="jump" actor="player.computer" />
-				<add_player_choice_sub text="{357423,2011}" position="left" section="slan_cheat_modify_quick_ship_Invincible" comment="Invincible" />
-				<add_player_choice_sub text="{1025,51} + {1001,23}" position="bottom_left" section="slan_cheat_modify_quick_ship_faction" comment="ship_faction" />
-				<add_player_choice_subconv text="{1001,7830}" position="top_right" conversation="slan_cheat_quick_summoning_subordinates" comment="summoning_subordinates" actor="player.computer" />
-				<add_player_choice_sub text="{357423,1}" position="right" section="slan_cheat_menu" comment="Entrance" />
+				<add_player_choice_subconv		text="{357423,2}" 				position="top_left"		conversation="slan_cheat_jump" 							comment="jump" 						actor="player.computer"/>
+				<add_player_choice_sub 			text="{357423,2011}"			position="left"			section="slan_cheat_modify_quick_ship_Invincible"		comment="Invincible"  				/>
+				<add_player_choice_sub			text="{1025,51} + {1001,23}"	position="bottom_left"	section="slan_cheat_modify_quick_ship_faction"			comment="ship_faction"				/>
+				<add_player_choice_subconv 		text="{1001,7830}" 				position="top_right"	conversation="slan_cheat_quick_summoning_subordinates"	comment="summoning_subordinates"	actor="player.computer"/>
+				<add_player_choice_sub 			text="{357423,1}" 				position="right" 		section="slan_cheat_menu" 								comment="Entrance"/>
 				<!-- <add_player_choice_sub			text="{1002,8010}"				position="bottom_right"	section="slan_cheat_menu_list"	choiceparam="[0,'slan_cheat_menu_configureships']"	comment="modify_prestige"/> -->
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_return		text="{1002,20}"  comment="(Back)"/>
 			</actions>
 		</cue>
-
+		
 		<cue name="slan_cheat_modify_quick_ship_Invincible" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_modify_quick_ship_Invincible" />
+				<event_conversation_next_section section="slan_cheat_modify_quick_ship_Invincible"/>
 			</conditions>
 			<actions>
-				<do_if value="event.param == 'slan_cheat_modify_quick_ship_Invincible'">
-					<set_value name="global.$swi_slancheat.$slanmodifyshipchoicemode" exact="'player'" />
-					<start_conversation actor="player.computer" conversation="slan_cheat_modify_ship_Invincible" comment="" />
+				<do_if value="event.param == 'slan_cheat_modify_quick_ship_Invincible'"  >
+					<set_value name="global.$slanmodifyshipchoicemode" exact="'player'"/>
+					<start_conversation actor="player.computer" conversation="slan_cheat_modify_ship_Invincible" comment=""/>
 				</do_if>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_quick_ship_faction" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_next_section section="slan_cheat_modify_quick_ship_faction" />
+				<event_conversation_next_section section="slan_cheat_modify_quick_ship_faction"/>
 			</conditions>
 			<actions>
-				<set_value name="global.$swi_slancheat.$slanmodifyshipchoicemode" exact="'Selected'" />
-				<set_value name="global.$swi_slancheat.$playertargetship" exact="player.target" />
-				<start_conversation actor="player.computer" conversation="slan_cheat_modify_ship_faction" convparam="[faction.player]" comment="" />
+				<set_value name="global.$slanmodifyshipchoicemode" exact="'Selected'"/>
+				<set_value name="global.$playertargetship" exact="player.target" />
+				<start_conversation actor="player.computer" conversation="slan_cheat_modify_ship_faction"  convparam="[faction.player]" comment=""/>
 			</actions>
 		</cue>
-	</cues>
+  </cues>
 </mdscript>

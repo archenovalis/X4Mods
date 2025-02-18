@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language id="86">
-	<page id="357423" voice="no">
+    <page id="357423"  voice="no">
 		<t id="1">\033B作弊\033X</t>
 		<t id="2">跳跃</t>
 		<t id="3">添加飞船</t>
@@ -18,8 +18,8 @@
 		<t id="1006">添加图书馆</t>
 		<t id="1011">调整关系</t>
 		<t id="1012">获得许可证</t>
-		<t id="1021">手工材料</t>
-		<t id="1022">改造Mods</t>
+		<t id="1021">改造材料</t>
+		<t id="1022">手工材料</t>
 		<t id="1023">涂装</t>
 		<t id="1024">SETA</t>
 		<t id="2001">玩家自驾</t>

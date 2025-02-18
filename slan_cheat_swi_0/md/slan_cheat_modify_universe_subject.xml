@@ -3,82 +3,82 @@
 	<cues>
 		<cue name="slan_cheat_map_reveal" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_map_reveal" />
+				<event_conversation_started conversation="slan_cheat_map_reveal"/>
 			</conditions>
 			<actions>
-				<find_cluster groupname="$Clusters" multiple="true" />
-				<find_sector groupname="$Sectors" space="player.galaxy" multiple="true" />
-				<find_zone groupname="$Zones" space="player.galaxy" multiple="true" />
+				<find_cluster groupname="$Clusters" multiple="true"/>
+				<find_sector groupname="$Sectors" space="player.galaxy" multiple="true"/>
+				<find_zone groupname="$Zones" space="player.galaxy" multiple="true"/>
 				<do_all exact="$Clusters.count" counter="$Counter">
-					<set_known object="$Clusters.{$Counter}" known="true" />
+					<set_known object="$Clusters.{$Counter}" known="true"/>
 				</do_all>
 				<do_all exact="$Sectors.count" counter="$Counter">
-					<set_known object="$Sectors.{$Counter}" known="true" />
+					<set_known object="$Sectors.{$Counter}" known="true"/>
 				</do_all>
 				<do_all exact="$Zones.count" counter="$Counter">
-					<set_known object="$Zones.{$Counter}" known="true" />
+					<set_known object="$Zones.{$Counter}" known="true"/>
 				</do_all>
-				<find_gate name="$gates" space="player.galaxy" multiple="true" />
-				<do_all exact="$gates.count" counter="$i">
-					<set_known object="$gates.{$i}" known="true" />
+				<find_gate name="$gates" space="player.galaxy" multiple="true"/>
+				 <do_all exact="$gates.count" counter="$i">
+					<set_known object="$gates.{$i}" known="true"/>
 				</do_all>
-				<find_station name="$allstations" space="player.galaxy" multiple="true" />
-				<do_all exact="$allstations.count" counter="$i">
-					<set_known object="$allstations.{$i}" known="true" updatesnapshot="true" />
-				</do_all>
+                <find_station name="$allstations" space="player.galaxy" multiple="true" />
+                <do_all exact="$allstations.count" counter="$i">
+                    <set_known object="$allstations.{$i}" known="true" updatesnapshot="true"/>
+                </do_all>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_map_scan_all_stations" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_map_scan_all_stations" />
+				<event_conversation_started conversation="slan_cheat_map_scan_all_stations"/>
 			</conditions>
 			<actions>
-				<set_value name="global.$swi_slancheat.$slanjchainscanset" exact="false" />
+				<set_value name="global.$slanjchainscanset" exact="false"/>		
 				<find_station name="$allstations" space="player.galaxy" multiple="true" />
-				<do_all exact="$allstations.count" counter="$i">
-					<set_object_scanned object="$allstations.{$i}" />
-				</do_all>
+                <do_all exact="$allstations.count" counter="$i">
+                    <set_object_scanned object="$allstations.{$i}"/>
+                </do_all>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_map_chain_scan" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_map_chain_scan" />
+				<event_conversation_started conversation="slan_cheat_map_chain_scan"/>
 			</conditions>
 			<actions>
-				<add_conversation_view />
-				<do_if value="not global.$swi_slancheat.$slanjchainscanset">
-					<add_player_choice_subconv text="{357423,8}" position="top_left" conversation="slan_cheat_map_chain_scan_set" convparam="[true]" actor="player.computer" comment="open" />
-				</do_if>
+				<add_conversation_view/>
+				<do_if value="not global.$slanjchainscanset">
+					<add_player_choice_subconv   text="{357423,8}"   position="top_left" conversation="slan_cheat_map_chain_scan_set" convparam="[true]"	actor="player.computer" comment="open"/>
+				</do_if>	
 				<do_else>
-					<add_player_choice_subconv text="{357423,9}" position="top_left" conversation="slan_cheat_map_chain_scan_set" convparam="[false]" actor="player.computer" comment="Close" />
+					<add_player_choice_subconv   text="{357423,9}"   position="top_left" conversation="slan_cheat_map_chain_scan_set" convparam="[false]" actor="player.computer" comment="Close"/>
 				</do_else>
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_return  text="{1002,20}"    comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_map_chain_scan_set" instantiate="true" namespace="this">
 			<conditions>
-				<event_conversation_started conversation="slan_cheat_map_chain_scan_set" />
+				 <event_conversation_started conversation="slan_cheat_map_chain_scan_set"/>
 			</conditions>
 			<actions>
-				<set_value name="global.$swi_slancheat.$slanjchainscanset" exact="event.param2.{1}" />
+				<set_value name="global.$slanjchainscanset" exact="event.param2.{1}"/>			
 			</actions>
 		</cue>
-		<cue name="slan_cheat_map_chain_scan_run" instantiate="true" namespace="this">
+		<cue name="slan_cheat_map_chain_scan_run" instantiate="true" namespace="this" >
 			<conditions>
-				<event_player_discovered_object />
-				<check_value value="event.param.station and not global.$swi_slancheat.$slanscan_running" />
+				<event_player_discovered_object/>
+				<check_value value="event.param.station and not global.$slanscan_running"/>
 			</conditions>
-			<actions>
+            <actions>
 				<!-- <do_if value="event.param.container.isclass.station"> -->
-				<set_value name="global.$swi_slancheat.$slanscan_running" exact="true" />
-				<do_if value="global.$swi_slancheat.$slanjchainscanset">
-					<set_object_scanned object="event.param.station" />
-				</do_if>
-				<set_value name="global.$swi_slancheat.$slanscan_running" exact="false" />
+					<set_value name="global.$slanscan_running" exact="true"/>
+					<do_if value="global.$slanjchainscanset">
+						<set_object_scanned object="event.param.station"/>
+					</do_if>
+					<set_value name="global.$slanscan_running" exact="false"/>
 				<!-- </do_if> -->
-			</actions>
+            </actions>
 		</cue>
 
-
+		
 	</cues>
 </mdscript>

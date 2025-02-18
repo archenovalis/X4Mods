@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language id="44">
-	<page id="357423" voice="no">
+    <page id="357423"  voice="no">
 		<t id="1">\033BCHEAT\033X</t>
 		<t id="2">JUMP</t>
 		<t id="3">add ship</t>
@@ -19,7 +19,7 @@
 		<t id="1011">modify_prestige</t>
 		<t id="1012">add_licences</t>
 		<t id="1021">crafting_inventory</t>
-		<t id="1022">equipmentmods</t>
+		<t id="1022">crafting_equipmentmodpart</t>
 		<t id="1023">paintmod</t>
 		<t id="1024">SETA</t>
 		<t id="2001">player</t>
@@ -27,7 +27,7 @@
 		<t id="2003">Selected</t>
 		<t id="2004">all own</t>
 		<t id="2011">Invincible</t>
-		<t id="2021">modify ammo/deployables</t>
+		<t id="2021">modify_ship ammo</t>
 		<t id="2031">crew level</t>
 		<t id="2041">building resource</t>
 		<t id="2051">set faction</t>

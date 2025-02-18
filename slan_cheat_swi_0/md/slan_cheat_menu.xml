@@ -2,7 +2,7 @@
 <mdscript name="slan_cheat_menu" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
 	<cues>
 		<!-- ////  ======================  Main Menu  ======================  \\\\ -->
-		<cue name="slan_cheat_menu_entrance" instantiate="true">
+		<cue name="slan_cheat_menu_entrance" instantiate="true" >
 			<conditions>
 				<check_any>
 					<event_conversation_next_section section="g_mainmore" />
@@ -11,195 +11,195 @@
 				<check_value value="event.object.trueowner" exact="faction.player" />
 			</conditions>
 			<actions>
-				<add_player_choice_sub text="{357423,1}" position="top_right" section="slan_cheat_menu" comment="Entrance" />
+				<add_player_choice_sub text="{357423,1}" position="top_right" section="slan_cheat_menu" comment="Entrance"/>
 			</actions>
 		</cue>
-		<cue name="slan_cheat_Backdoor" namespace="this" instantiate="true">
+		<cue name="slan_cheat_Backdoor" namespace="this" instantiate="true" >
 			<conditions>
 				<event_player_changed_activity />
 				<check_value value="player.ship" />
 			</conditions>
 			<actions>
 				<do_if value="event.param2 == activity.scan_longrange">
-					<start_conversation actor="player.computer" conversation="slan_cheat_menu" comment="" />
+					<start_conversation actor="player.computer" conversation="slan_cheat_menu" comment=""/>
 					<!-- <signal_cue_instantly cue="slan_cheat_menu"/> -->
-
+					
 				</do_if>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_menu" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_menu" />
-					<event_conversation_returned_to_section section="slan_cheat_menu" />
-					<event_conversation_started conversation="slan_cheat_menu" />
-					<event_cue_signalled />
+					<event_conversation_next_section 			section="slan_cheat_menu"/>
+					<event_conversation_returned_to_section 	section="slan_cheat_menu"/>
+					<event_conversation_started 				conversation="slan_cheat_menu"/>
+					<event_cue_signalled/>
 				</check_any>
 			</conditions>
 			<actions>
 				<!-- <add_conversation_view/> -->
-				<add_player_choice_subconv text="{357423,2}" position="top_left" conversation="slan_cheat_jump" comment="jump" actor="player.computer" />
-				<add_player_choice_sub text="{357423,3}" position="left" section="slan_cheat_add_ship" comment="add_ship" />
-				<add_player_choice_sub text="{357423,4}" position="bottom_left" section="slan_cheat_modify_ship" comment="modify_ship" />
-				<add_player_choice_sub text="{357423,5}" position="top_right" section="slan_cheat_modify_station" comment="modify_station" />
-				<add_player_choice_sub text="{357423,6}" position="right" section="slan_cheat_modify_player" comment="modify_player" />
-				<add_player_choice_sub text="{357423,7}" position="bottom_right" section="slan_cheat_modify_universe" comment="modify_universe" />
+				<add_player_choice_subconv	text="{357423,2}" position="top_left"		conversation="slan_cheat_jump" 			comment="jump" 		actor="player.computer"/>
+				<add_player_choice_sub 		text="{357423,3}" position="left"			section="slan_cheat_add_ship"			comment="add_ship"/>
+				<add_player_choice_sub		text="{357423,4}" position="bottom_left"	section="slan_cheat_modify_ship"		comment="modify_ship"/>
+				<add_player_choice_sub 		text="{357423,5}" position="top_right"		section="slan_cheat_modify_station"		comment="modify_station"/>
+				<add_player_choice_sub 		text="{357423,6}" position="right"			section="slan_cheat_modify_player"		comment="modify_player"/>
+				<add_player_choice_sub 		text="{357423,7}" position="bottom_right"	section="slan_cheat_modify_universe"	comment="modify_universe"/>
 			</actions>
 		</cue>
 		<!-- ////  ======================  Player  ======================  \\\\ -->
 		<cue name="slan_cheat_modify_player" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_player" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_player" />
+					<event_conversation_next_section section="slan_cheat_modify_player"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_player"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_sub text="{357423,1001}" position="top_left" section="slan_cheat_add_money" comment="add_money" />
-				<add_player_choice_sub text="{357423,1002}" position="left" section="slan_cheat_modify_faction" comment="modify_faction" />
-				<add_player_choice_sub text="{357423,1003}" position="bottom_left" section="slan_cheat_add_inventory" comment="add_inventory" />
-				<add_player_choice_subconv text="{357423,1004}" position="top_right" conversation="slan_cheat_add_blueprints" comment="add_blueprints" actor="player.computer" />
-				<add_player_choice_subconv text="{357423,1005}" position="right" conversation="slan_cheat_add_research" comment="add_research" actor="player.computer" />
-				<add_player_choice_subconv text="{357423,1006}" position="bottom_right" conversation="slan_cheat_add_encyclopedia" comment="add_encyclopedia" actor="player.computer" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_sub 		text="{357423,1001}"		position="top_left"		section="slan_cheat_add_money" 				comment="add_money"/>
+				<add_player_choice_sub 		text="{357423,1002}"		position="left"			section="slan_cheat_modify_faction"			comment="modify_faction"/>
+				<add_player_choice_sub		text="{357423,1003}"		position="bottom_left"	section="slan_cheat_add_inventory"			comment="add_inventory"/>
+				<add_player_choice_subconv	text="{357423,1004}"		position="top_right"	conversation="slan_cheat_add_blueprints"	comment="add_blueprints" 	actor="player.computer"/>
+				<add_player_choice_subconv	text="{357423,1005}"		position="right"		conversation="slan_cheat_add_research"		comment="add_research" 		actor="player.computer"/>
+				<add_player_choice_subconv	text="{357423,1006}"		position="bottom_right"	conversation="slan_cheat_add_encyclopedia"	comment="add_encyclopedia"	actor="player.computer"/>
+				<add_player_choice_return	text="{1002,20}"     																			comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_add_money" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_add_money" />
-					<event_conversation_returned_to_section section="slan_cheat_add_money" />
+					<event_conversation_next_section section="slan_cheat_add_money"/>
+					<event_conversation_returned_to_section section="slan_cheat_add_money"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_subconv text="'10,000 ' + {1001,101}" position="top_left" conversation="slan_cheat_add_money" convparam="[10000Cr]" actor="player.computer" comment="" />
-				<add_player_choice_subconv text="'100,000  ' + {1001,101}" position="left" conversation="slan_cheat_add_money" convparam="[100000Cr]" actor="player.computer" comment="" />
-				<add_player_choice_subconv text="'1,000,000 ' + {1001,101}" position="bottom_left" conversation="slan_cheat_add_money" convparam="[1000000Cr]" actor="player.computer" comment="" />
-				<add_player_choice_subconv text="'10,000,000 ' + {1001,101}" position="top_right" conversation="slan_cheat_add_money" convparam="[10000000Cr]" actor="player.computer" comment="" />
-				<add_player_choice_subconv text="'100,000,000 ' + {1001,101}" position="right" conversation="slan_cheat_add_money" convparam="[100000000Cr]" actor="player.computer" comment="" />
-				<add_player_choice_subconv text="'500,000,000,000 ' + {1001,101}" position="bottom_right" conversation="slan_cheat_add_money" convparam="[500000000000Cr]" actor="player.computer" comment="" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_subconv	text="'10,000 ' + {1001,101}"			position="top_left"		conversation="slan_cheat_add_money" convparam="[10000Cr]"			actor="player.computer" comment=""/>
+				<add_player_choice_subconv	text="'100,000  ' + {1001,101}"			position="left"			conversation="slan_cheat_add_money" convparam="[100000Cr]"			actor="player.computer" comment=""/>
+				<add_player_choice_subconv	text="'1,000,000 ' + {1001,101}"		position="bottom_left"	conversation="slan_cheat_add_money" convparam="[1000000Cr]"			actor="player.computer" comment=""/>
+				<add_player_choice_subconv	text="'10,000,000 ' + {1001,101}"		position="top_right"	conversation="slan_cheat_add_money" convparam="[10000000Cr]"		actor="player.computer" comment=""/>
+				<add_player_choice_subconv	text="'100,000,000 ' + {1001,101}"		position="right"		conversation="slan_cheat_add_money" convparam="[100000000Cr]"		actor="player.computer" comment=""/>
+				<add_player_choice_subconv	text="'500,000,000,000 ' + {1001,101}"	position="bottom_right"	conversation="slan_cheat_add_money" convparam="[500000000000Cr]"	actor="player.computer" comment=""/>
+				<add_player_choice_return	text="{1002,20}"     																																		comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_faction" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_faction" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_faction" />
+					<event_conversation_next_section section="slan_cheat_modify_faction"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_faction"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_sub text="{357423,1011}" position="top_left" section="slan_cheat_menu_list" choiceparam="[0,'slan_cheat_modify_prestige']" comment="modify_prestige" />
-				<add_player_choice_sub text="{357423,1012}" position="left" section="slan_cheat_menu_list" choiceparam="[0,'slan_cheat_add_licences']" comment="add_licences" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_sub		text="{357423,1011}"	position="top_left"		section="slan_cheat_menu_list"	choiceparam="[0,'slan_cheat_modify_prestige']"	comment="modify_prestige"/>
+				<add_player_choice_sub		text="{357423,1012}"	position="left"			section="slan_cheat_menu_list"	choiceparam="[0,'slan_cheat_add_licences']"		comment="add_licences"/>
+				<add_player_choice_return	text="{1002,20}"     																											comment="(Back)"/>
 			</actions>
 		</cue>
 
 		<cue name="slan_cheat_add_inventory" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_add_inventory" />
-					<event_conversation_returned_to_section section="slan_cheat_add_inventory" />
+					<event_conversation_next_section section="slan_cheat_add_inventory"/>
+					<event_conversation_returned_to_section section="slan_cheat_add_inventory"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_subconv text="{357423,1021}" position="top_left" conversation="slan_cheat_add_inventory" convparam="['crafting_inventory']" actor="player.computer" comment="" />
-				<add_player_choice_subconv text="{357423,1022}" position="left" conversation="slan_cheat_add_inventory" convparam="[tag.equipmentmod]" actor="player.computer" comment="" />
-				<add_player_choice_subconv text="{357423,1023}" position="bottom_left" conversation="slan_cheat_add_inventory" convparam="[tag.paintmod]" actor="player.computer" comment="" />
-				<add_player_choice_subconv text="{357423,1024}" position="top_right" conversation="slan_cheat_add_inventory" convparam="[ware.inv_timewarp]" actor="player.computer" comment="" />
-				<add_player_choice_sub text="{1001,7716}" position="right" section="slan_cheat_menu_list" choiceparam="[0, 'slan_cheat_add_inventory_personal_upgrade']" comment="" />
-				<add_player_choice_sub text="{1001,9112}" position="bottom_right" section="slan_cheat_menu_list" choiceparam="[0,'slan_cheat_add_any_inventory']" comment="" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_subconv	text="{357423,1021}"	position="top_left"		conversation="slan_cheat_add_inventory" convparam="[tag.equipmentmodpart]" 		actor="player.computer" comment=""/>
+				<add_player_choice_subconv	text="{357423,1022}"	position="left"			conversation="slan_cheat_add_inventory" convparam="['crafting_inventory']" 		actor="player.computer" comment=""/>
+				<add_player_choice_subconv	text="{357423,1023}"	position="bottom_left"	conversation="slan_cheat_add_inventory" convparam="[tag.paintmod]"				actor="player.computer" comment=""/>
+				<add_player_choice_subconv	text="{357423,1024}"	position="top_right"	conversation="slan_cheat_add_inventory" convparam="[ware.inv_timewarp]"			actor="player.computer" comment=""/>
+				<add_player_choice_sub		text="{1001,7716}"		position="right"		section="slan_cheat_menu_list" 			choiceparam="[0, 'slan_cheat_add_inventory_personal_upgrade']"	comment=""/>
+				<add_player_choice_sub		text="{1001,9112}"		position="bottom_right"	section="slan_cheat_menu_list"			choiceparam="[0,'slan_cheat_add_any_inventory']"				comment=""/>
+				<add_player_choice_return	text="{1002,20}"     comment="(Back)"/>
 			</actions>
 		</cue>
 		<!-- ////  ======================   Modify Ship  ======================  \\\\ -->
 		<cue name="slan_cheat_modify_ship" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_ship" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_ship" />
+					<event_conversation_next_section section="slan_cheat_modify_ship"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_ship"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_sub text="{357423,2001}" section="slan_cheat_modify_ship_set" position="top_left" choiceparam="['player']" comment="player" />
-
-				<add_player_choice_sub text="{357423,2003}" section="slan_cheat_modify_ship_set" position="left" choiceparam="['Selected']" comment="Selected" />
-				<add_player_choice_sub text="{357423,2004}" section="slan_cheat_modify_ship_set" position="bottom_left" choiceparam="['allowner']" comment="allowner" />
-				<add_player_choice_sub text="{357423,2002} +'(' + {1025,35} + ')'" section="slan_cheat_modify_ship_set" position="top_right" choiceparam="['Choice']" comment="Choice" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_sub 		text="{357423,2001}"	section="slan_cheat_modify_ship_set"	position="top_left"		choiceparam="['player']" 	comment="player"/>
+				
+				<add_player_choice_sub		text="{357423,2003}"	section="slan_cheat_modify_ship_set"	position="left"			choiceparam="['Selected']"	comment="Selected"/>
+				<add_player_choice_sub		text="{357423,2004}"	section="slan_cheat_modify_ship_set"	position="bottom_left"	choiceparam="['allowner']"	comment="allowner"/>
+				<add_player_choice_sub 		text="{357423,2002} +'(' + {1025,35} + ')'"	section="slan_cheat_modify_ship_set"	position="top_right"	choiceparam="['Choice']"	comment="Choice"/>
+				<add_player_choice_return	text="{1002,20}"     comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_ship_set" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_ship_set" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_ship_set" />
+					<event_conversation_next_section section="slan_cheat_modify_ship_set"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_ship_set"/>
 				</check_any>
 			</conditions>
 			<actions>
 				<do_if value="event.param2.{1}?">
-					<set_value name="global.$swi_slancheat.$slanmodifyshipchoicemode" exact="event.param2.{1}" />
-					<do_if value="event.param2.{1} == 'Choice' and global.$swi_slancheat.$MapTargetSelectedship?">
-						<set_value name="global.$swi_slancheat.$playertargetship" exact="global.$swi_slancheat.$MapTargetSelectedship" />
-						<set_value name="global.$swi_slancheat.$slanmodifyshipchoicemode" exact="'Selected'" />
+					<set_value name="global.$slanmodifyshipchoicemode" exact="event.param2.{1}"/>
+					<do_if value="event.param2.{1} == 'Choice' and global.$MapTargetSelectedship?">
+						<set_value name="global.$playertargetship" exact="global.$MapTargetSelectedship" />
+						<set_value name="global.$slanmodifyshipchoicemode" exact="'Selected'"/>
 					</do_if>
 					<do_elseif value="event.param2.{1} == 'Selected'">
-						<set_value name="global.$swi_slancheat.$playertargetship" exact="player.target" />
+						<set_value name="global.$playertargetship" exact="player.target" />
 					</do_elseif>
 				</do_if>
-				<add_player_choice_subconv text="{357423,2011}" conversation="slan_cheat_modify_ship_Invincible" position="top_left" actor="player.computer" comment="Invincible" />
-				<add_player_choice_sub text="{20213,900}" section="slan_cheat_modify_ship_Storage" position="left" comment="Storage" />
-				<add_player_choice_subconv text="{357423,2031}" conversation="slan_cheat_modify_ship_people" position="bottom_left" actor="player.computer" comment="people" />
-				<do_if value="global.$swi_slancheat.$slanmodifyshipchoicemode == 'Selected'">
-					<do_if value="global.$swi_slancheat.$playertargetship">
-						<set_value name="$Targetname" exact="global.$swi_slancheat.$playertargetship.name" />
+				<add_player_choice_subconv 		text="{357423,2011}"	conversation="slan_cheat_modify_ship_Invincible"	position="top_left"			actor="player.computer"	comment="Invincible"/>
+				<add_player_choice_sub 			text="{20213,900}"		section="slan_cheat_modify_ship_Storage"			position="left"										comment="Storage"/>
+				<add_player_choice_subconv 		text="{357423,2031}"	conversation="slan_cheat_modify_ship_people"		position="bottom_left"		actor="player.computer"	comment="people"/>
+				<do_if value="global.$slanmodifyshipchoicemode == 'Selected'">
+					<do_if value="global.$playertargetship">	
+						<set_value name="$Targetname" exact="global.$playertargetship.name"/>
 					</do_if>
 					<do_if value="$Targetname?">
-						<add_player_choice_subconv text="{357423,2202} + $Targetname" conversation="slan_cheat_modify_ship_delete" position="top_right" actor="player.computer" comment="delete" />
+						<add_player_choice_subconv 	text="{357423,2202} + $Targetname"	conversation="slan_cheat_modify_ship_delete"	position="top_right"	actor="player.computer"	comment="delete"/>
 					</do_if>
 					<do_else>
-						<add_player_choice_subconv text="{357423,2202}" conversation="slan_cheat_modify_ship_delete" position="top_right" actor="player.computer" comment="delete" />
+						<add_player_choice_subconv 	text="{357423,2202}"				conversation="slan_cheat_modify_ship_delete"	position="top_right"	actor="player.computer"	comment="delete"/>
 					</do_else>
-					<add_player_choice_sub text="{357423,2051}" section="slan_cheat_menu_list" choiceparam="[0,'slan_cheat_modify_ship_faction']" position="right" comment="faction" />
+					<add_player_choice_sub 		text="{357423,2051}"		section="slan_cheat_menu_list" choiceparam="[0,'slan_cheat_modify_ship_faction']"	position="right"		comment="faction"/>
 				</do_if>
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_return	text="{1002,20}"   comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_ship_Storage" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_ship_Storage" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_ship_Storage" />
+					<event_conversation_next_section section="slan_cheat_modify_ship_Storage"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_ship_Storage"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_sub text="{357423,2021}" section="slan_cheat_modify_ship_equipment" position="top_left" comment="equipment" />
-				<add_player_choice_sub text="{357423,2061}" section="slan_cheat_menu_list" choiceparam="[0,'slan_cheat_modify_ship_set_cargo']" position="left" comment="cargo" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_sub 			text="{357423,2021}"	section="slan_cheat_modify_ship_equipment"											position="top_left"	comment="equipment"/>
+				<add_player_choice_sub 			text="{357423,2061}"	section="slan_cheat_menu_list" choiceparam="[0,'slan_cheat_modify_ship_set_cargo']"	position="left"		comment="cargo"/>
+				<add_player_choice_return		text="{1002,20}"     comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_ship_equipment" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section sectionprefix="slan_cheat_modify_ship_equipment" />
-					<event_conversation_returned_to_section sectionprefix="slan_cheat_modify_ship_equipment" />
+					<event_conversation_next_section sectionprefix="slan_cheat_modify_ship_equipment"/>
+					<event_conversation_returned_to_section sectionprefix="slan_cheat_modify_ship_equipment"/>
 				</check_any>
 			</conditions>
 			<actions>
 				<do_if value="event.param == 'slan_cheat_modify_ship_equipment'">
-					<add_player_choice_sub text="{1001,7}" position="top_left" section="slan_cheat_menu_list" choiceparam="[tag.drone, 'slan_cheat_modify_ship_equipment']" comment="" />
-					<add_player_choice_sub text="{1001,2800}" position="left" section="slan_cheat_menu_list" choiceparam="[tag.missile, 'slan_cheat_modify_ship_equipment']" comment="" />
-					<add_player_choice_sub text="{1001,1326}" position="bottom_left" section="slan_cheat_menu_list" choiceparam="[tag.mine, 'slan_cheat_modify_ship_equipment']" comment="" />
-					<add_player_choice_sub text="{1001,1327}" position="top_right" section="slan_cheat_menu_list" choiceparam="[tag.satellite, 'slan_cheat_modify_ship_equipment']" comment="" />
-					<add_player_choice_sub text="{1001,1328}" position="right" section="slan_cheat_menu_list" choiceparam="[tag.navbeacon, 'slan_cheat_modify_ship_equipment']" comment="" />
-					<add_player_choice_sub text="{1002,12025}" position="bottom_right" section="slan_cheat_modify_ship_equipment_p2" comment="More..." />
-					<add_player_choice_return text="{1002,20}" comment="(Back)" />
+					<add_player_choice_sub   text="{1001,7}"		position="top_left"		section="slan_cheat_menu_list"	choiceparam="[tag.drone, 'slan_cheat_modify_ship_equipment']"		comment=""/>
+					<add_player_choice_sub   text="{1001,2800}"		position="left"  		section="slan_cheat_menu_list"	choiceparam="[tag.missile, 'slan_cheat_modify_ship_equipment']" 	comment=""/>
+					<add_player_choice_sub   text="{1001,1326}"		position="bottom_left"	section="slan_cheat_menu_list"	choiceparam="[tag.mine, 'slan_cheat_modify_ship_equipment']" 		comment=""/>
+					<add_player_choice_sub   text="{1001,1327}"		position="top_right"	section="slan_cheat_menu_list"	choiceparam="[tag.satellite, 'slan_cheat_modify_ship_equipment']"	comment=""/>
+					<add_player_choice_sub   text="{1001,1328}"		position="right"		section="slan_cheat_menu_list"	choiceparam="[tag.navbeacon, 'slan_cheat_modify_ship_equipment']"	comment=""/>
+					<add_player_choice_sub   text="{1002,12025}"	position="bottom_right"	section="slan_cheat_modify_ship_equipment_p2"  														comment="More..."/>
+					<add_player_choice_return	text="{1002,20}"  comment="(Back)"/>
 				</do_if>
 				<do_elseif value="event.param == 'slan_cheat_modify_ship_equipment_p2'">
-					<add_player_choice_sub text="{1001,1333}" position="top_left" section="slan_cheat_menu_list" choiceparam="[tag.lasertower, 'slan_cheat_modify_ship_equipment']" comment="" />
-					<add_player_choice_sub text="{1001,8063}" position="left" section="slan_cheat_menu_list" choiceparam="[tag.countermeasure, 'slan_cheat_modify_ship_equipment']" comment="" />
-					<add_player_choice_sub text="{1001,8067}" position="bottom_left" section="slan_cheat_menu_list" choiceparam="[tag.resourceprobe, 'slan_cheat_modify_ship_equipment']" comment="" />
-					<add_player_choice_return text="{1002,20}" comment="(Back)" />
+					<add_player_choice_sub   text="{1001,1333}"   position="top_left"      section="slan_cheat_menu_list"	choiceparam="[tag.lasertower, 'slan_cheat_modify_ship_equipment']"		comment=""/>
+					<add_player_choice_sub   text="{1001,8063}"   position="left"          section="slan_cheat_menu_list"	choiceparam="[tag.countermeasure, 'slan_cheat_modify_ship_equipment']" 	comment=""/>
+					<add_player_choice_sub   text="{1001,8067}"   position="bottom_left"   section="slan_cheat_menu_list"	choiceparam="[tag.resourceprobe, 'slan_cheat_modify_ship_equipment']" 	comment=""/>
+					<add_player_choice_return	text="{1002,20}"  comment="(Back)"/>
 				</do_elseif>
 			</actions>
 		</cue>
@@ -207,131 +207,130 @@
 		<cue name="slan_cheat_modify_station" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_station" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_station" />
+					<event_conversation_next_section section="slan_cheat_modify_station"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_station"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_sub text="{357423,2003}" section="slan_cheat_modify_station_set" position="top_left" choiceparam="['Selected']" comment="Selected" />
-				<add_player_choice_sub text="{357423,2004}" section="slan_cheat_modify_station_set" position="left" choiceparam="['allowner']" comment="allowner" />
-				<add_player_choice_sub text="{357423,2002} + '(' + {1025,35} + ')'" section="slan_cheat_modify_station_set" position="bottom_left" choiceparam="['Choice']" comment="Choice" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_sub		text="{357423,2003}"	section="slan_cheat_modify_station_set"	position="top_left"		choiceparam="['Selected']"	comment="Selected"/>
+				<add_player_choice_sub		text="{357423,2004}"	section="slan_cheat_modify_station_set"	position="left"			choiceparam="['allowner']"	comment="allowner"/>
+				<add_player_choice_sub 		text="{357423,2002} + '(' + {1025,35} + ')'"	section="slan_cheat_modify_station_set"	position="bottom_left"	choiceparam="['Choice']"	comment="Choice"/>
+				<add_player_choice_return	text="{1002,20}"     comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_set" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_station_set" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_station_set" />
+					<event_conversation_next_section section="slan_cheat_modify_station_set"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_station_set"/>
 				</check_any>
 			</conditions>
 			<actions>
 				<do_if value="event.param2.{1}?">
-					<set_value name="global.$swi_slancheat.$slanmodifystationchoicemode" exact="event.param2.{1}" />
-					<do_if value="event.param2.{1} == 'Choice' and global.$swi_slancheat.$MapTargetSelectedstation?">
-						<set_value name="global.$swi_slancheat.$playertargetstation" exact="global.$swi_slancheat.$MapTargetSelectedstation" />
-						<set_value name="global.$swi_slancheat.$slanmodifystationchoicemode" exact="'Selected'" />
+					<set_value name="global.$slanmodifystationchoicemode" exact="event.param2.{1}"/>
+					<do_if value="event.param2.{1} == 'Choice' and global.$MapTargetSelectedstation?">
+						<set_value name="global.$playertargetstation" exact="global.$MapTargetSelectedstation" />
+						<set_value name="global.$slanmodifystationchoicemode" exact="'Selected'"/>
 					</do_if>
 					<do_elseif value="event.param2.{1} == 'Selected'">
-						<set_value name="global.$swi_slancheat.$playertargetstation" exact="player.target" />
+						<set_value name="global.$playertargetstation" exact="player.target" />
 					</do_elseif>
 				</do_if>
-				<add_player_choice_subconv text="{357423,2011}" conversation="slan_cheat_modify_station_Invincible" position="top_left" actor="player.computer" comment="Invincible" />
-				<add_player_choice_sub text="{20213,900}" section="slan_cheat_modify_station_Storage" position="left" comment="Storage" />
-				<add_player_choice_subconv text="{357423,2031}" conversation="slan_cheat_modify_station_people" position="bottom_left" actor="player.computer" comment="people" />
-				<add_player_choice_subconv text="{357423,2071}" conversation="slan_cheat_modify_station_workforce" position="top_right" actor="player.computer" comment="workforce" />
-				<do_if value="global.$swi_slancheat.$slanmodifystationchoicemode == 'Selected'">
-					<do_if value="global.$swi_slancheat.$playertargetstation">
-						<set_value name="$Targetname" exact="global.$swi_slancheat.$playertargetstation.name" />
+				<add_player_choice_subconv 		text="{357423,2011}"	conversation="slan_cheat_modify_station_Invincible"			position="top_left"		actor="player.computer"	comment="Invincible"/>
+				<add_player_choice_sub	 		text="{20213,900}"		section="slan_cheat_modify_station_Storage"					position="left"									comment="Storage"/>
+				<add_player_choice_subconv 		text="{357423,2031}"	conversation="slan_cheat_modify_station_people"				position="bottom_left"	actor="player.computer"	comment="people"/>
+				<add_player_choice_subconv 		text="{357423,2071}"	conversation="slan_cheat_modify_station_workforce"			position="top_right"	actor="player.computer"	comment="workforce"/>
+				<do_if value="global.$slanmodifystationchoicemode == 'Selected'">
+					<do_if value="global.$playertargetstation">	
+						<set_value name="$Targetname" exact="global.$playertargetstation.name"/>
 					</do_if>
 					<do_if value="$Targetname?">
-						<add_player_choice_subconv text="{357423,2202} + $Targetname" conversation="slan_cheat_modify_station_delete" position="right" actor="player.computer" comment="delete" />
+						<add_player_choice_subconv 	text="{357423,2202} + $Targetname"	conversation="slan_cheat_modify_station_delete"		position="right"	actor="player.computer"	comment="delete"/>
 					</do_if>
 					<do_else>
-						<add_player_choice_subconv text="{357423,2202}" conversation="slan_cheat_modify_station_delete" position="right" actor="player.computer" comment="faction" />
+						<add_player_choice_subconv 	text="{357423,2202}"				conversation="slan_cheat_modify_station_delete"		position="right"	actor="player.computer"	comment="faction"/>
 					</do_else>
-					<add_player_choice_sub text="{357423,2051}" section="slan_cheat_menu_list" choiceparam="[0, 'slan_cheat_modify_station_faction']" position="bottom_right" comment="faction" />
+					<add_player_choice_sub 		text="{357423,2051}"	section="slan_cheat_menu_list"	choiceparam="[0, 'slan_cheat_modify_station_faction']"		position="bottom_right"	comment="faction"/>
 				</do_if>
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_return	text="{1002,20}"  comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_Storage" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_station_Storage" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_station_Storage" />
+					<event_conversation_next_section section="slan_cheat_modify_station_Storage"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_station_Storage"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_subconv text="{357423,2041}" conversation="slan_cheat_modify_station_building_resource" position="top_left" actor="player.computer" comment="resource" />
-				<add_player_choice_sub text="{357423,2021}" section="slan_cheat_modify_station_equipment" position="left" comment="equipment" />
-				<add_player_choice_sub text="{357423,2061}" section="slan_cheat_modify_station_cargo" position="bottom_left" comment="cargo" />
-				<do_if value="global.$swi_slancheat.$playertargetstation.isclass.station and global.$swi_slancheat.$slanmodifystationchoicemode == 'Selected'">
-					<add_player_choice_sub text="{1001,2679} + global.$swi_slancheat.$playertargetstation.name" section="slan_cheat_menu_list" choiceparam="['0','slan_cheat_modify_station_add_cargo_specified']" position="top_right" comment="specifiedcargo" />
+				<add_player_choice_subconv 		text="{357423,2041}"	conversation="slan_cheat_modify_station_building_resource"	position="top_left"		actor="player.computer"	comment="resource"/>
+				<add_player_choice_sub 			text="{357423,2021}"	section="slan_cheat_modify_station_equipment"				position="left"									comment="equipment"/>
+				<add_player_choice_sub	 		text="{357423,2061}"	section="slan_cheat_modify_station_cargo"					position="bottom_left"									comment="cargo"/>
+				<do_if value="global.$playertargetstation.isclass.station and global.$slanmodifystationchoicemode == 'Selected'">
+					<add_player_choice_sub 		text="{1001,2679} + global.$playertargetstation.name"	section="slan_cheat_menu_list"	choiceparam="['0','slan_cheat_modify_station_add_cargo_specified']"	position="top_right" comment="specifiedcargo"/>
 				</do_if>
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_return		text="{1002,20}"     comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_equipment" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_station_equipment" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_station_equipment" />
+					<event_conversation_next_section section="slan_cheat_modify_station_equipment"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_station_equipment"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_sub text="{1001,7}" position="top_left" section="slan_cheat_menu_list" choiceparam="[tag.drone, 'slan_cheat_modify_station_equipment']" comment="" />
-				<add_player_choice_sub text="{1001,2800}" position="left" section="slan_cheat_menu_list" choiceparam="[tag.missile, 'slan_cheat_modify_station_equipment']" comment="" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_sub   text="{1001,7}"		position="top_left"		section="slan_cheat_menu_list"	choiceparam="[tag.drone, 'slan_cheat_modify_station_equipment']"	comment=""/>
+				<add_player_choice_sub   text="{1001,2800}"		position="left"  		section="slan_cheat_menu_list"	choiceparam="[tag.missile, 'slan_cheat_modify_station_equipment']" 	comment=""/>
+				<add_player_choice_return	text="{1002,20}"  comment="(Back)"/>
 			</actions>
 		</cue>
 		<cue name="slan_cheat_modify_station_cargo" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_station_cargo" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_station_cargo" />
+					<event_conversation_next_section section="slan_cheat_modify_station_cargo"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_station_cargo"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_subconv text="{357423,2301}" conversation="slan_cheat_modify_station_add_cargotype" convparam="['resources']" position="top_left" actor="player.computer" comment="resources" />
-				<add_player_choice_subconv text="{357423,2302}" conversation="slan_cheat_modify_station_add_cargotype" convparam="['products']" position="left" actor="player.computer" comment="products" />
-				<add_player_choice_subconv text="{357423,2303}" conversation="slan_cheat_modify_station_add_cargotype" convparam="['tradewares']" position="bottom_left" actor="player.computer" comment="tradewares" />
-				<add_player_choice_subconv text="{357423,2304}" conversation="slan_cheat_modify_station_add_cargotype" convparam="['allcargo']" position="top_right" actor="player.computer" comment="allcargo" />
-
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_subconv 		text="{357423,2301}"	conversation="slan_cheat_modify_station_add_cargotype"	convparam="['resources']" 	position="top_left"		actor="player.computer"	comment="resources"/>
+				<add_player_choice_subconv 		text="{357423,2302}"	conversation="slan_cheat_modify_station_add_cargotype"	convparam="['products']" 	position="left"			actor="player.computer"	comment="products"/>
+				<add_player_choice_subconv 		text="{357423,2303}"	conversation="slan_cheat_modify_station_add_cargotype"	convparam="['tradewares']" 	position="bottom_left"	actor="player.computer"	comment="tradewares"/>
+				<add_player_choice_subconv 		text="{357423,2304}"	conversation="slan_cheat_modify_station_add_cargotype"	convparam="['allcargo']" 	position="top_right"	actor="player.computer"	comment="allcargo"/>
+				
+				<add_player_choice_return	text="{1002,20}"  comment="(Back)"/>
 			</actions>
 		</cue>
 		<!-- ////  ======================   Universe  ======================  \\\\ -->
 		<cue name="slan_cheat_modify_universe" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_modify_universe" />
-					<event_conversation_returned_to_section section="slan_cheat_modify_universe" />
+					<event_conversation_next_section section="slan_cheat_modify_universe"/>
+					<event_conversation_returned_to_section section="slan_cheat_modify_universe"/>
 				</check_any>
 			</conditions>
 			<actions>
-				<add_player_choice_subconv text="{357423,3001}" position="top_left" conversation="slan_cheat_map_reveal" actor="player.computer" comment="map" />
-				<add_player_choice_subconv text="{357423,3002}" position="left" conversation="slan_cheat_map_scan_all_stations" actor="player.computer" comment="scan_all" />
-				<add_player_choice_subconv text="{357423,3003}" position="bottom_left" conversation="slan_cheat_map_chain_scan" actor="player.computer" comment="chain_scan" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+				<add_player_choice_subconv text="{357423,3001}"	position="top_left"		conversation="slan_cheat_map_reveal" 			actor="player.computer" comment="map"/>
+				<add_player_choice_subconv text="{357423,3002}"	position="left"			conversation="slan_cheat_map_scan_all_stations" actor="player.computer" comment="scan_all"/>
+				<add_player_choice_subconv text="{357423,3003}"	position="bottom_left"	conversation="slan_cheat_map_chain_scan" 		actor="player.computer" comment="chain_scan"/>
+				<add_player_choice_return  text="{1002,20}"     comment="(Back)"/>
 			</actions>
 		</cue>
 		<!-- ////  ======================  Add Ship  ======================  \\\\ -->
 		<cue name="slan_cheat_add_ship" instantiate="true" namespace="this">
 			<conditions>
 				<check_any>
-					<event_conversation_next_section section="slan_cheat_add_ship" />
-					<event_conversation_returned_to_section section="slan_cheat_add_ship" />
+					<event_conversation_next_section section="slan_cheat_add_ship"/>
+					<event_conversation_returned_to_section section="slan_cheat_add_ship"/>
 				</check_any>
 			</conditions>
-			<actions>
-				<add_player_choice_sub text="'XXL'" section="slan_cheat_menu_list" choiceparam="['XXL', 'slan_cheat_add_ship']" position="top_left" comment="shiptypes_xl" />
-				<add_player_choice_sub text="{357423,4001}" section="slan_cheat_menu_list" choiceparam="['XL', 'slan_cheat_add_ship']" position="left" comment="shiptypes_xl" />
-				<add_player_choice_sub text="{357423,4002}" section="slan_cheat_menu_list" choiceparam="[class.ship_l, 'slan_cheat_add_ship']" position="bottom_left" comment="shiptypes_l" />
-				<add_player_choice_sub text="{357423,4004}" section="slan_cheat_menu_list" choiceparam="[class.ship_m, 'slan_cheat_add_ship']" position="top_right" comment="shiptypes_m" />
-				<add_player_choice_sub text="{357423,4003}" section="slan_cheat_menu_list" choiceparam="[class.ship_s, 'slan_cheat_add_ship']" position="right" comment="shiptypes_s" />
-				<add_player_choice_return text="{1002,20}" comment="(Back)" />
+			<actions>				
+				<add_player_choice_sub 		text="{357423,4001}"	section="slan_cheat_menu_list"	choiceparam="[class.ship_xl, 'slan_cheat_add_ship']"	position="top_left"		comment="shiptypes_xl"/>
+				<add_player_choice_sub		text="{357423,4002}"	section="slan_cheat_menu_list"	choiceparam="[class.ship_l, 'slan_cheat_add_ship']"		position="left"			comment="shiptypes_l"/>
+				<add_player_choice_sub		text="{357423,4003}"	section="slan_cheat_menu_list"	choiceparam="[class.ship_s, 'slan_cheat_add_ship']"		position="bottom_left"	comment="shiptypes_s"/>
+				<add_player_choice_sub		text="{357423,4004}"	section="slan_cheat_menu_list"	choiceparam="[class.ship_m, 'slan_cheat_add_ship']"		position="top_right"	comment="shiptypes_m"/>
+				<add_player_choice_return	text="{1002,20}"     comment="(Back)"/>
 			</actions>
 		</cue>
-	</cues>
+  </cues>
 </mdscript>

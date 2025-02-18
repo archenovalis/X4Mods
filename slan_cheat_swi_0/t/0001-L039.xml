@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language id="39">
-	<!-- Thanks vagappc, for for providing Italian -->
-	<page id="357423" voice="no">
+<!-- Thanks vagappc, for for providing Italian -->
+    <page id="357423"  voice="no">
 		<t id="1">\033BCHEAT\033X</t>
 		<t id="2">JUMP</t>
 		<t id="3">Aggiungi nave </t>
@@ -20,7 +20,7 @@
 		<t id="1011">Modifica_relazioni</t>
 		<t id="1012">Aggiungi_licenza</t>
 		<t id="1021">Craft_inventario</t>
-		<t id="1022">EquipaggiamentoMod</t>
+		<t id="1022">Craft_EquipaggiamentoModPart</t>
 		<t id="1023">paintmod</t>
 		<t id="1024">SETA</t>
 		<t id="2001">player</t>

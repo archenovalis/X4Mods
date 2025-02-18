@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <language id="7">
-	<!-- Thanks deeperman, for for providing Russian -->
+<!-- Thanks deeperman, for for providing Russian -->
 	<page id="357423" voice="no">
 		<t id="1">\033RЧИТ\033X</t>
 		<t id="2">\033GПРЫЖОК\033X</t>
@@ -20,7 +20,7 @@
 		<t id="1011">Изменить репутацию</t>
 		<t id="1012">Добавить лицензии</t>
 		<t id="1021">Детали для крафта</t>
-		<t id="1022">ОборудованиеМод</t>
+		<t id="1022">Оборудование для крафта</t>
 		<t id="1023">Модификации окраски</t>
 		<t id="1024">C.У.B.</t>
 		<t id="2001">Игрок</t>
