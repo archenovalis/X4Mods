@@ -16,7 +16,7 @@ GAJMaintenanceMenu.data = nil
 GAJMaintenanceMenu.props = nil
 GAJMaintenanceMenu.empireData = nil
 
-function ModLua.init()
+function init()
     --[[ DebugError("gajMaintenance.init")
     DebugError("sw_maintenance: " .. tostring(sw_maintenance))
     for key, value in pairs(sw_maintenance.swiMaintenanceMenu) do
@@ -696,4 +696,4 @@ function GAJMaintenanceMenu.togglePlayerInfoMenuRefresh()
     end
 end
 
-return ModLua
+init()
