@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon name="gettingajob" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ui/core/addon.xsd">
+  <environment type="menus">
+    <file name="ui/gaj_gameoptions.lua" />
+    <file name="ui/gaj_interactmenu.lua" />
+    <file name="ui/gaj_maintenance.lua" />
+    <file name="ui/gaj_menu_interactmenu.lua" />
+    <file name="ui/gaj_menu_map.lua" />
+    <file name="ui/gaj_menu_playerinfo.lua" />
+    <file name="ui/gaj_menu_toplevel.lua" />
+    <file name="ui/gaj_menu_transporter.lua" />
+    <dependency name="ego_detailmonitor" />
+  </environment>
+</addon>
