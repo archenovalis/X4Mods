@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mdscript name="GalacticBankRC4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
+<mdscript name="GalacticBank" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../xsd/md.xsd">
 	<cues>
 		<cue name="Vault" namespace="this" version="4">
 			<conditions>
@@ -532,7 +532,7 @@
 									</do_if>
 									<do_if value="$Faction == faction.bankingclan">
 										<set_value name="$data" operation="add"
-											exact="'\n\n'+{20777, 1006}+' Withdrawal Fee: '+$Account.$fee*100+'%'" />
+											exact="'\n\n Withdrawal Fee: '+$Account.$fee*100+'%'" />
 									</do_if>
 									<do_if value="$changeAmount gt 0">
 										<do_if value="$open">
@@ -713,10 +713,10 @@
 													<set_value name="$bribe" exact="-0.0099-$Accounts.{$BankManager.trueowner}.$relation * $Accounts.{$BankManager.trueowner}.$bribefactor" />
 													<add_player_choice text="'Account Closed'" section="Banker_Account" selectable="false" />
 													<do_if value="player.money ge ($bribe)Cr">
-														<add_player_choice text="'Bribe %,s'.[$bribe]+'Cr'" section="Banker_Bride" choiceparam="$bribe" />
+														<add_player_choice text="'Bribe %,s'.[$bribe]+'Cr'" section="Banker_Bribe" choiceparam="$bribe" />
 													</do_if>
 													<do_else>
-														<add_player_choice text="'Bribe %,s'.[$bribe]+'Cr'" section="Banker_Bride" choiceparam="$bribe" selectable="false" />
+														<add_player_choice text="'Bribe %,s'.[$bribe]+'Cr'" section="Banker_Bribe" choiceparam="$bribe" selectable="false" />
 													</do_else>
 												</do_if>
 												<do_else>
@@ -983,7 +983,7 @@
 										$col=1,
 										$halign='center',
 										$color='Helper.color.red',
-										$text='('+{20777, 1006}+' Fee: '+ $Fee*100 + '%)'
+										$text='(Fee: '+ $Fee*100 + '%)'
 									]" />
 								</do_if>
 								<signal_cue_instantly cue="md.Simple_Menu_API.Add_Row" param="table[$interactive=false]" />
@@ -1030,7 +1030,7 @@
 								</do_if>
 								<do_if value="$AccountBalance ge 1">
 									<do_if value="$Fee gt 0">
-										<set_value name="$feetext" exact="'Avalable After '+{20777, 1006}+' Fee'" />
+										<set_value name="$feetext" exact="'Avalable After Fee'" />
 									</do_if>
 									<do_else>
 										<set_value name="$feetext" exact="''" />
@@ -1614,7 +1614,8 @@
 										<show_notification text="$Faction+' Loan Payment: %,s'.[$money]+'Cr\nLoan Balance: %,s'.[$Account.$loan_balance]+'Cr\nAccount Balance: %,s'.[$Account.$balance]+'Cr'" />
 									</do_else>
 								</do_else>
-								<!-- full gain at 10m Cr -->
+								<set_value name="$AccountBalance" exact="$Account.$balance" />
+								<!-- full gain at 100m Cr -->
 								<do_if value="$AccountBalance ge $Account.$maxRepCr*100">
 									<!-- max 30 -->
 									<do_if value="$Faction.relationto.{faction.player} lt 1">
@@ -1639,6 +1640,10 @@
 										<add_faction_relation faction="$Faction" otherfaction="faction.player" value="$Account.$paymentRepRate * $AccountBalance / $Account.$maxRepCr" reason="relationchangereason.missioncompleted" />
 									</do_if>
 								</do_elseif>
+							</do_if>
+							<!-- account balance rep increase -->
+							<do_if value="$Account.$balance gt 0">
+								<add_faction_relation faction="$Faction" otherfaction="faction.player" value="[$Account.$paymentRepRate * $AccountBalance / $Account.$maxRepCr * 10, 0.01].min" reason="relationchangereason.missioncompleted" />
 							</do_if>
 						</do_for_each>
 					</actions>
