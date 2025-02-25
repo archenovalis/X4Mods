@@ -1507,8 +1507,8 @@
 						">
 							<!-- Getting A Job: Inheritance tax -->
 							<do_if value="$inheritanceTax">
-								<do_for_each name="$account" in="md.GalacticBankRC4.Vault.$Accounts.keys.list">
-									<set_value name="md.GalacticBankRC4.Vault.$Accounts.{$account}.$balance" exact="md.GalacticBankRC4.Vault.$Accounts.{$account}.$balance * (1-md.GalacticBankRC4.Vault.$Accounts.{$account}.$inheritanceTax)" />
+								<do_for_each name="$account" in="md.GalacticBank.Vault.$Accounts.keys.list">
+									<set_value name="md.GalacticBank.Vault.$Accounts.{$account}.$balance" exact="md.GalacticBank.Vault.$Accounts.{$account}.$balance * (1-md.GalacticBank.Vault.$Accounts.{$account}.$inheritanceTax)" />
 								</do_for_each>
 							</do_if>
 							<do_if value="not @TrustExecutor.$npc">

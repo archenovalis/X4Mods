@@ -10,7 +10,7 @@
 	<dependency id="ws_2042901274" optional="false" name="SirNukes Mod Support APIs" />
 	<dependency id="kuerteeUIExtensionsAndHUD" optional="false" name="kuertee UI Extensions and HUD" />
 	<dependency id="SW Interworlds" optional="false" name="SW Interworlds" />
-	<dependency id="intergalactic_bank" optional="false" name="InterGalactic Bank" />
+	<dependency id="intergalactic_bank_rc4" optional="false" name="InterGalactic Bank" />
 	<dependency id="sov_dreadnaughts" optional="true" name="Dreadnaughts and Battlecruisers" />
 	<dependency id="swi_heroes_plus" optional="true" name="Heroes for SWI with Extras" />
 	<dependency id="swi_heroes" optional="true" name="Heroes for SWI" />

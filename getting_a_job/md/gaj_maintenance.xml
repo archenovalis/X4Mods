@@ -298,7 +298,7 @@
               <set_value name="$Data.$Tables" exact="['SupplyShips','DedicatedResupplyShips','ResupplyShips','Ships']" />
 
               <!-- salaries -->
-              <do_if value="md.GalacticBankRC4.Vault.exists">
+              <do_if value="@md.GalacticBank.Vault.exists">
                 <set_value name="$moneyEnd" exact="0" />
                 <do_for_each name="$faction" in="global.$GB_Vault.$Accounts">
                   <set_value name="$moneyEnd" operation="add" exact="global.$GB_Vault.$Accounts.{$faction}.$balance" />
@@ -347,7 +347,7 @@
                 <set_value name="$moneyEnd" exact="0" />
               </do_else>
 
-              <do_if value="md.GalacticBankRC4.Vault.exists">
+              <do_if value="@md.GalacticBank.Vault.exists">
                 <set_value name="$moneySpent" exact="$moneyBegin - $moneyEnd" />
                 <do_for_each name="$faction" in="global.$GB_Vault.$Accounts">
                   <set_value name="$account" exact="global.$GB_Vault.$Accounts.{$faction}" />

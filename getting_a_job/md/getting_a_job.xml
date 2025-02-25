@@ -579,12 +579,12 @@
                 </do_if>
                 <do_else>
                   <set_value name="$money" exact="$Factions.{$faction}.$paycheck * 100" />
-                  <signal_cue_instantly cue="md.GalacticBankRC4.Transfer" param="table[$faction= $faction, $money= $money, $message=$faction+' Paycheck: '+$money/100]" />
+                  <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction= $faction, $money= $money, $message=$faction+' Paycheck: '+$money/100]" />
                 </do_else>
               </do_if>
               <do_elseif value="@$Factions.{$faction}.$pension gt 0">
                 <set_value name="$money" exact="$Factions.{$faction}.$pension * 100" />
-                <signal_cue_instantly cue="md.GalacticBankRC4.Transfer" param="table[$faction= $faction, $money= $money, $message=$faction+' Pension: '+$money/100]" />
+                <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction= $faction, $money= $money, $message=$faction+' Pension: '+$money/100]" />
               </do_elseif>
             </do_for_each>
           </actions>
@@ -735,7 +735,7 @@
             <set_value name="$RewardCr" exact="$RewardCr + $workBonus" />
             <set_value name="$Factions.{$faction}.$missionTime" exact="player.age" />
             <set_value name="$Factions.{$faction}.$paycheck" operation="add" exact="($RewardCr)f/100 * $Factions.{$faction}.$paycheckFactor" />
-            <signal_cue_instantly cue="md.GalacticBankRC4.Transfer" param="table[$faction = $faction, $money = $RewardCr]" />
+            <signal_cue_instantly cue="md.GalacticBank.Transfer" param="table[$faction = $faction, $money = $RewardCr]" />
           </actions>
         </cue>
 
