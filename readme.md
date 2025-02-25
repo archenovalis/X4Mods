@@ -12,7 +12,7 @@
   - **Install Method**: In VSCode, click extensions tab, search for xml red hat, click install.
 
 - Extension 2: To enhance your development experience, you can manually install the **X4CodeComplete**:
-  - **Extension**: [X4CodeComplete.vsix](https://github.com/Cgettys/X4CodeComplete/releases)
+  - **Extension**: [X4CodeComplete.vsix](https://github.com/archenovalis/X4CodeComplete/releases)
   - **Install Method**: In VSCode, choose install from file. Press Ctrl+, paste this into the box 'x4CodeComplete.unpackedFileLocation' add path to the vanilla extracted files.
 
 ### Install Node.js and npm via VSCode terminal

@@ -8,3 +8,6 @@ releases*
 mods
 X4Mods*
 *-lock
+*.exe
+*settings.json
+xrwsunpack
