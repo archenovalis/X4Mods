@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <xs:simpleType name="idstring">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-zA-Z_][a-zA-Z0-9_]*" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="diplomacyaction">
+    <xs:annotation>
+      <xs:documentation>
+        Diplomacy action
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="id" type="idstring" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Action id
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="diplomacyactions">
+    <xs:annotation>
+      <xs:documentation>
+        Diplomacy action definitions
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="action" type="diplomacyaction" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="diplomacyevent">
+    <xs:annotation>
+      <xs:documentation>
+        Diplomacy event
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="id" type="idstring" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Event id
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="diplomacyevents">
+    <xs:annotation>
+      <xs:documentation>
+        Diplomacy event definitions
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="action" type="diplomacyevent" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="diplomacy">
+    <xs:annotation>
+      <xs:documentation>
+        Document element of diplomacy.xml
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="actions" type="diplomacyactions" minOccurs="0" maxOccurs="1" />
+        <xs:element name="events" type="diplomacyevents" minOccurs="0" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+    <xs:key name="diplomacy_action_id">
+      <xs:selector xpath="diplomacyaction" />
+      <xs:field xpath="@id" />
+    </xs:key>
+    <xs:key name="diplomacy_event_id">
+      <xs:selector xpath="diplomacyevent" />
+      <xs:field xpath="@id" />
+    </xs:key>
+  </xs:element>
+
+</xs:schema>

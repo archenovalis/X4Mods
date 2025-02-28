@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
   <xs:simpleType name="idname">
@@ -9,49 +9,67 @@
 
   <xs:simpleType name="comment">
     <xs:annotation>
-      <xs:documentation> Comment for documentation purposes only </xs:documentation>
+      <xs:documentation>
+        Comment for documentation purposes only
+      </xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string" />
   </xs:simpleType>
 
   <xs:complexType name="speak">
     <xs:annotation>
-      <xs:documentation> Voice sequence entry for speaking a TextDB line </xs:documentation>
+      <xs:documentation>
+        Voice sequence entry for speaking a TextDB line
+      </xs:documentation>
     </xs:annotation>
     <xs:attribute name="page" type="xs:positiveInteger">
       <xs:annotation>
-        <xs:documentation> TextDB page (optional if the voice sequence specifies a default page) </xs:documentation>
+        <xs:documentation>
+          TextDB page (optional if the voice sequence specifies a default page)
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="line" type="xs:positiveInteger" use="required">
       <xs:annotation>
-        <xs:documentation> Text line on the provided TextDB page </xs:documentation>
+        <xs:documentation>
+          Text line on the provided TextDB page
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="priority" type="xs:integer">
       <xs:annotation>
-        <xs:documentation> Speak priority (optional, falls back to the default priority specified by the voice sequence - note that a priority less than or equal to -50 suppresses subtitles) </xs:documentation>
+        <xs:documentation>
+          Speak priority (optional, falls back to the default priority specified by the voice sequence - note that a priority less than or equal to -50 suppresses subtitles)
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="nosubtitles" type="xs:boolean">
       <xs:annotation>
-        <xs:documentation> Whether subtitles should be disabled, defaults to false (NOTE: Subtitles are automatically disabled if priority is -50 or lower) </xs:documentation>
+        <xs:documentation>
+          Whether subtitles should be disabled, defaults to false (NOTE: Subtitles are automatically disabled if priority is -50 or lower)
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="filter" type="xs:string">
       <xs:annotation>
-        <xs:documentation> Voice filter override (optional if the voice sequence specifies a default filter override) </xs:documentation>
+        <xs:documentation>
+          Voice filter override (optional if the voice sequence specifies a default filter override)
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="delay">
     <xs:annotation>
-      <xs:documentation> Voice sequence entry for a delay between lines </xs:documentation>
+      <xs:documentation>
+        Voice sequence entry for a delay between lines
+      </xs:documentation>
     </xs:annotation>
     <xs:attribute name="time" use="required">
       <xs:annotation>
-        <xs:documentation> Length of the delay in seconds (fractions allowed) </xs:documentation>
+        <xs:documentation>
+          Length of the delay in seconds (fractions allowed)
+        </xs:documentation>
       </xs:annotation>
       <xs:simpleType>
         <xs:restriction base="xs:double">
@@ -63,7 +81,9 @@
 
   <xs:complexType name="voicesequence">
     <xs:annotation>
-      <xs:documentation> Voice sequence definition </xs:documentation>
+      <xs:documentation>
+        Voice sequence definition
+      </xs:documentation>
     </xs:annotation>
     <xs:sequence minOccurs="0" maxOccurs="unbounded">
       <xs:choice>
@@ -73,22 +93,30 @@
     </xs:sequence>
     <xs:attribute name="id" type="idname" use="required">
       <xs:annotation>
-        <xs:documentation> ID </xs:documentation>
+        <xs:documentation>
+          ID
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="page" type="xs:positiveInteger">
       <xs:annotation>
-        <xs:documentation> Default TextDB page for &lt;speak&gt; sub-elements (optional) </xs:documentation>
+        <xs:documentation>
+          Default TextDB page for &lt;speak&gt; sub-elements (optional)
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="priority" type="xs:integer">
       <xs:annotation>
-        <xs:documentation> Default priority for &lt;speak&gt; sub-elements (optional, default is conversation priority of 100 if omitted). </xs:documentation>
+        <xs:documentation>
+          Default priority for &lt;speak&gt; sub-elements (optional, default is conversation priority of 100 if omitted).
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="filter" type="xs:string">
       <xs:annotation>
-        <xs:documentation> Default voice filter override for &lt;speak&gt; sub-elements (optional) </xs:documentation>
+        <xs:documentation>
+          Default voice filter override for &lt;speak&gt; sub-elements (optional)
+        </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="comment" type="comment" />
@@ -96,7 +124,9 @@
 
   <xs:element name="voicesequences">
     <xs:annotation>
-      <xs:documentation> Voice sequence library document node </xs:documentation>
+      <xs:documentation>
+        Voice sequence library document node
+      </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>

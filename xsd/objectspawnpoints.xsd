@@ -1,28 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-
-
   <xs:element name="objectspawnpoints">
     <xs:annotation>
-      <xs:documentation> Object spawn point list root node </xs:documentation>
+      <xs:documentation>
+        Object spawn point list root node
+      </xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
         <xs:element name="space" minOccurs="0" maxOccurs="unbounded">
           <xs:annotation>
-            <xs:documentation> The space for which the spawn points are defined </xs:documentation>
+            <xs:documentation>
+              The space for which the spawn points are defined
+            </xs:documentation>
           </xs:annotation>
           <xs:complexType>
             <xs:sequence>
               <xs:element name="spawnpoint" minOccurs="1" maxOccurs="unbounded">
                 <xs:annotation>
-                  <xs:documentation> Object spawn point </xs:documentation>
+                  <xs:documentation>
+                    Object spawn point
+                  </xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element name="position" minOccurs="1" maxOccurs="1">
                       <xs:annotation>
-                        <xs:documentation> Spawn position in sector coordinates (unless space is overridden) </xs:documentation>
+                        <xs:documentation>
+                          Spawn position in sector coordinates (unless space is overridden)
+                        </xs:documentation>
                       </xs:annotation>
                       <xs:complexType>
                         <xs:attribute name="x" type="xs:float" />
@@ -33,7 +39,9 @@
                     <xs:choice minOccurs="0" maxOccurs="1">
                       <xs:element name="rotation">
                         <xs:annotation>
-                          <xs:documentation> Spawn rotation in sector coordinates (unless space is overridden) </xs:documentation>
+                          <xs:documentation>
+                            Spawn rotation in sector coordinates (unless space is overridden)
+                          </xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
                           <xs:attribute name="yaw" type="xs:float" />
@@ -43,7 +51,9 @@
                       </xs:element>
                       <xs:element name="quaternion">
                         <xs:annotation>
-                          <xs:documentation> Spawn rotation in sector coordinates (unless space is overridden) </xs:documentation>
+                          <xs:documentation>
+                            Spawn rotation in sector coordinates (unless space is overridden)
+                          </xs:documentation>
                         </xs:annotation>
                         <xs:complexType>
                           <xs:attribute name="qw" type="xs:float" />
@@ -56,32 +66,44 @@
                   </xs:sequence>
                   <xs:attribute name="id" type="xs:positiveInteger" use="required">
                     <xs:annotation>
-                      <xs:documentation> Unique (per sector) id </xs:documentation>
+                      <xs:documentation>
+                        Unique (per sector) id
+                      </xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="macro" use="required">
                     <xs:annotation>
-                      <xs:documentation> Macro name of the object to spawn </xs:documentation>
+                      <xs:documentation>
+                        Macro name of the object to spawn
+                      </xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="space" use="optional">
                     <xs:annotation>
-                      <xs:documentation> Macro path to another coordinate space to use instead of the sector (usually a station) </xs:documentation>
+                      <xs:documentation>
+                        Macro path to another coordinate space to use instead of the sector (usually a station)
+                      </xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="respawn" use="optional">
                     <xs:annotation>
-                      <xs:documentation> The minimum time after which the object may respawn (only happens out-of-sector) </xs:documentation>
+                      <xs:documentation>
+                        The minimum time after which the object may respawn (only happens out-of-sector)
+                      </xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="drop" use="optional">
                     <xs:annotation>
-                      <xs:documentation> The droplist id (from libraries/drops.xml) to use instead of the macro-defined one </xs:documentation>
+                      <xs:documentation>
+                        The droplist id (from libraries/drops.xml) to use instead of the macro-defined one
+                      </xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="comment" use="optional">
                     <xs:annotation>
-                      <xs:documentation> No in-game effect </xs:documentation>
+                      <xs:documentation>
+                        No in-game effect
+                      </xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                 </xs:complexType>
@@ -89,7 +111,9 @@
             </xs:sequence>
             <xs:attribute name="macro" use="required">
               <xs:annotation>
-                <xs:documentation> The macro name of the sector </xs:documentation>
+                <xs:documentation>
+                  The macro name of the sector
+                </xs:documentation>
               </xs:annotation>
             </xs:attribute>
           </xs:complexType>
