@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<content id="slan_cheat_menu_swi_0" name="sanitized slan_cheats" description="sanitized slim cheat mod" author="Slan, others, archie" version="103" save="0" date="2025-3-5" enabled="true">
+<content id="slan_cheat_menu_swi_0" name="sanitized slan_cheats" description="sanitized slim cheat mod" author="Slan, others, archie" version="110" save="0" date="2025-3-5" enabled="true">
   <text language="7" name="sanitized Читы" description="Мод X4 читы" />
   <text language="44" name="sanitized cheats" description="X4 cheat MOD" />
   <text language="86" name="sanitized 作弊脚本" description="X4修改MOD" />

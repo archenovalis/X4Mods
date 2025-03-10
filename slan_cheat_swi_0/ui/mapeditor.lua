@@ -999,7 +999,7 @@ function UixMenu.createComponentTable(frame)
       table.sort(clusterbackgroundoptions, function(a, b) return a.text < b.text end)
 
       local row = ftable:addRow(true, {})
-      row[1]:createText("Cluster Background:") -- TEMPTEXT Florian
+      row[1]:createText("Cluster Background (not for hardcoded cluster):") -- TEMPTEXT Florian
       row[2]:setColSpan(2):createDropDown(clusterbackgroundoptions,
         { height = Helper.standardTextHeight, startOption = clusterbackground }):setTextProperties({
         fontsize = EditorConfig
@@ -1008,7 +1008,7 @@ function UixMenu.createComponentTable(frame)
       row[2].handlers.onDropDownConfirmed = function(_, id)
         return C.SetClusterBackground(UixMenu.selectedComponentCluster,
           id)
-      end
+      end ]]
 
       ftable:addEmptyRow()
 

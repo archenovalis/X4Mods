@@ -1,11 +1,16 @@
+# sanitized slan cheat menu
+
+1.1.0: incorporates mapeditor
+
 # X4 7.14 Mod Development Setup
 
 ---
 
 ## 1. Install
-### Install [VSCode](https://code.visualstudio.com/download) and two extensions. It's amazing.
 
-#### Install VSCode Extensions.
+### Install [VSCode](https://code.visualstudio.com/download) and two extensions. It's amazing
+
+#### Install VSCode Extensions
 
 - Extension 1: Install your favorite xml extension
   - **Extension**: xml red hat
@@ -23,13 +28,16 @@ Ensure that Node.js and npm are installed on your system. Use the following comm
 node -v
 npm -v
 ```
+
 If Node.js and npm are not installed, follow these steps:
 
-#### Install Node.js and npm:
+#### Install Node.js and npm
+
 - Visit the [official Node.js website](https://nodejs.org/) and download the appropriate version for your operating system.
 - Follow the installation instructions on the website.
 
-#### Verify Installation:
+#### Verify Installation
+
 After installation, check the versions of Node.js and npm again to confirm the installation:
 
 ```bash
@@ -40,16 +48,19 @@ npm -v
 ---
 
 ## 2. Setup Environment
-### Install Project Dependencies:
+
+### Install Project Dependencies
 
 In your project folder, run the following command to install all the necessary dependencies specified in your `package.json` file:
 
 ```bash
 npm install
 ```
+
 This will ensure that all required libraries and packages are installed for your project to function correctly.
 
-### Setup 'package.json' Script:
+### Setup 'package.json' Script
+
 ```json
 {
   "scripts": {
@@ -57,6 +68,7 @@ This will ensure that all required libraries and packages are installed for your
   }
 }
 ```
+
 This script will allow you to compile your mod with a single command.
 
 ---
@@ -91,5 +103,3 @@ npm run {scriptname}
 ---
 
 ### 6. Profit
-
-
