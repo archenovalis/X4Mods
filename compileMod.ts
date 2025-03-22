@@ -7,19 +7,19 @@ import JSZip from 'jszip';
 
 const parser = new Parser();
 
-const getAllowedExtensions = (projectPath: string): string[] => {
+const getAllowedExtensions = (projectPath: string): [string[], string[]] => {
   const configPath = resolve(projectPath, 'allowedExtensions');
   
   if (existsSync(configPath)) {
     const config = JSON.parse(readFileSync(configPath, 'utf-8'));
-    if (config.filetypes) {
-      return config.filetypes || ['.xml'];
-    }
-    else {
+    try {
+      return [config.filetypes || ['.xml'], config.exclude || []];
+    } 
+    catch (error) {
       throw new Error('allowedExtensions file error');
     }
   } else {
-    return ['.xml'];
+    return [['.xml'], []];
   }
 };
 
@@ -48,7 +48,7 @@ const gzip = (buffer: Buffer): Promise<Buffer> => {
   });
 };
 
-const addFilesToZip = async (projectFolder: string, zip: JSZip, dir: string, baseDir: string, allowedExtensions: string[]) => {
+const addFilesToZip = async (projectFolder: string, zip: JSZip, dir: string, baseDir: string, allowedExtensions: string[], excludes: string[]) => {
   const items = readdirSync(dir);
 
   for (const item of items) {
@@ -58,8 +58,8 @@ const addFilesToZip = async (projectFolder: string, zip: JSZip, dir: string, bas
     
     if (stats.isDirectory()) {
       // Recursively add files from subdirectories
-      await addFilesToZip(projectFolder, zip, itemPath, baseDir, allowedExtensions);
-    } else if (stats.isFile() && allowedExtensions.includes(ext)) {
+      await addFilesToZip(projectFolder, zip, itemPath, baseDir, allowedExtensions, excludes);
+    } else if (stats.isFile() && allowedExtensions.includes(ext) && !excludes.some(exclude => item.includes(exclude))) {
       let relativePath = `${projectFolder}/${relative(baseDir, itemPath)}`;
       if (itemPath.endsWith('.xml')) {
         // Clean schema location
@@ -78,13 +78,13 @@ const addFilesToZip = async (projectFolder: string, zip: JSZip, dir: string, bas
 };
 
 // Main function to create the zip file
-const createZip = async (projectFolder: string, sourceDir: string, version: string, allowedExtensions: string[]) => {
+const createZip = async (projectFolder: string, sourceDir: string, version: string, allowedExtensions: string[], excludes: string[]) => {
   const dateTime = new Date().toISOString().replace(/[:.-]/g, '_');
   const outDir = resolve(__dirname, 'dist');
   const outputZip = `${outDir}/${projectFolder}-v${version}-${dateTime.split('T')[0]}.zip`;
 
   const zip = new JSZip();
-  await addFilesToZip(projectFolder, zip, sourceDir, sourceDir, allowedExtensions);
+  await addFilesToZip(projectFolder, zip, sourceDir, sourceDir, allowedExtensions, excludes);
 
   const zipData = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE', compressionOptions: { level: 9 } });
 
@@ -104,7 +104,7 @@ const run = async () => {
     const path = projectPath(projectFolder);
     const version = await getVersionFromContentXml(path);
     const allowedExtensions = getAllowedExtensions(path);
-    await createZip(projectFolder, path, version, allowedExtensions);
+    await createZip(projectFolder, path, version, allowedExtensions[0], allowedExtensions[1]);
   } catch (error) {
     console.error(`Error: ${error}`);
   }
